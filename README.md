@@ -61,6 +61,12 @@ Mod 的 `Mods\CMRE` 路径不能改名，否则本地文件依赖将无法解析
 
 作者包、整合包、突变因子包和威望包位于独立项目 `CMRE_Extensions`。安装扩展前应先安装本项目。
 
+## 来源与致谢
+
+CMRE 使用的原始基础代码与数据来自 Blizzard Entertainment（暴雪娱乐）官方《星际争霸 II》内容。项目初期以 Maguro 开发的 MM 系列合作地图作为开发模板，CMRE 贡献者在此基础上进行了后续修改、扩展与整合。
+
+感谢 Blizzard Entertainment 提供原始游戏内容，也感谢 Maguro 对《星际争霸 II》合作模式地图开发与社区创作所作的贡献。上述来源与致谢不表示 Blizzard Entertainment 或 Maguro 对 CMRE 的认可、赞助或背书。
+
 ## 开源协议
 
 本项目中由 CMRE 贡献者原创并有权授权的源代码、Galaxy 脚本和配置修改采用 [GNU General Public License v3.0](LICENSE) 发布。分发修改版本时，需要遵守 GPL-3.0 并提供相应源代码。
