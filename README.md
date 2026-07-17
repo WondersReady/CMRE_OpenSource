@@ -69,6 +69,8 @@ CMRE 使用的原始基础代码与数据来自 Blizzard Entertainment（暴雪�
 
 ## 开源协议
 
-本项目中由 CMRE 贡献者原创并有权授权的源代码、Galaxy 脚本和配置修改采用 [GNU General Public License v3.0](LICENSE) 发布。分发修改版本时，需要遵守 GPL-3.0 并提供相应源代码。
+本仓库及其内容的使用、开发与分发首先受适用的 [Blizzard End User License Agreement（EULA）](https://www.blizzard.com/en-us/legal/fba4d00f-c7e4-4883-b8b9-1b4500a402ea/blizzard-end-user-license-agreement) 和 [Custom Game Acceptable Use Policy](https://www.blizzard.com/en-us/legal/2749df07-2b53-4990-b75e-a7cb3610318b/custom-game-acceptable-use-policy) 约束。暴雪的自定义游戏政策明确纳入 EULA，并规定两者冲突时以自定义游戏政策为准。
 
-《星际争霸 II》、Blizzard Entertainment 的游戏内容，以及仓库内标明或可识别的第三方模型、贴图、音频和其他素材不因存放在本仓库中而转为 GPL-3.0。相关权利仍归各自权利人所有，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+[GNU General Public License v3.0](LICENSE) 及仓库中的其它许可声明，仅适用于未被上述暴雪条款覆盖、可以与相关游戏内容分离、且 CMRE 贡献者确实有权授权的原创部分。GPL-3.0 不对《星际争霸 II》、Custom Game、Blizzard Entertainment 的游戏内容或第三方材料作任何重新授权；如许可条款发生冲突，暴雪条款对其覆盖的内容优先适用。
+
+仓库内标明或可识别的第三方模型、贴图、音频和其他素材仍受各自权利人的条款约束，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。本节只是适用范围说明，不能替代暴雪官方条款或法律意见。
