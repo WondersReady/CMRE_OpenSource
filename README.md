@@ -60,3 +60,9 @@ Mod 的 `Mods\CMRE` 路径不能改名，否则本地文件依赖将无法解析
 ## 扩展内容
 
 作者包、整合包、突变因子包和威望包位于独立项目 `CMRE_Extensions`。安装扩展前应先安装本项目。
+
+## 开源协议
+
+本项目中由 CMRE 贡献者原创并有权授权的源代码、Galaxy 脚本和配置修改采用 [GNU General Public License v3.0](LICENSE) 发布。分发修改版本时，需要遵守 GPL-3.0 并提供相应源代码。
+
+《星际争霸 II》、Blizzard Entertainment 的游戏内容，以及仓库内标明或可识别的第三方模型、贴图、音频和其他素材不因存放在本仓库中而转为 GPL-3.0。相关权利仍归各自权利人所有，详见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
