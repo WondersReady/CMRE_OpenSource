@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="Height_PlayerBar" val="50"/>
+
+    <Frame type="ProductionCountFrame" name="Template_ProductionCountFrame">
+        <Height val="50"/>
+        <Width val="40"/>
+        <AcceptsMouse val="True"/>
+        <Visible val="False"/>
+        <CollapseLayout val="True"/>
+
+        <Frame type="Button" name="BackgroundButton">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            
+            <Frame type="Image" name="NormalImage">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="Assets/Textures/White.dds"/>
+                <TextureType val="Normal"/>
+                <Color val="{$ancestor[@name=PlayerData]/@Color}"/>
+                <IgnoreParentColor val="True"/>
+                <Alpha val="255"/>
+            </Frame>
+
+            <Frame type="Image" name="HoverImage">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="Assets/Textures/White.dds"/>
+                <TextureType val="Normal"/>
+                <Color val="255,255,255"/>
+                <IgnoreParentColor val="True"/>
+                <Alpha val="255"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="IconImageBackground">
+            <Anchor relative="$parent/IconImage"/>
+            <Texture val="Assets/Textures/White.dds"/>
+            <Color val="49,53,74"/>
+            <TextureType val="Normal"/>
+            <IgnoreParentColor val="true"/>
+        </Frame>
+
+        <Frame type="Image" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="36"/>
+            <Height val="36"/>
+            <TextureType val="Normal"/>
+            <IgnoreParentColor val="true"/>
+            <ScaleWithTexCoords val="True"/>
+            <PixelTextureCoords left="4" top="4" bottom="72" right="72"/>
+        </Frame>
+
+        <Frame type="Label" name="NumberLabel">
+            <Anchor side="Bottom" relative="$parent/IconImage" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/IconImage" pos="Max" offset="0"/>
+            <Style val="CM_ProductionPanelUnitCount"/>
+            <IgnoreParentColor val="true"/>
+        </Frame>
+        
+        <Frame type="ProgressBar" name="ProgressBar">
+            <Anchor side="Top" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="5"/>
+            <IgnoreParentColor val="true"/>
+            <Vertical val="False"/>
+            <UseFillContainer val="true"/>
+
+            <Frame type="Image" name="BorderImage">
+                <Anchor relative="$parent"/>
+                <Color val="34,37,49"/>
+            </Frame>
+
+            <Frame type="Frame" name="FillImageContainer">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+
+                <Frame type="Image" name="FillImage">
+                    <Anchor relative="$parent/$parent"/>
+                    <Texture val="Assets/Textures/White.dds"/>
+                    <Color val="255,255,255"/>
+                </Frame>
+            </Frame>
+        </Frame>
+
+    </Frame>
+
+    <Frame type="PlayerProductionFrame" name="ProductionPanelTemplete">
+        <Anchor side="Top" relative="$parent/$parent/$parent/TriggerWindowPanel" pos="Min" offset="8"/>
+        <Anchor side="Right" relative="$parent/$parent/$parent/TriggerWindowPanel" pos="Max" offset="-8"/>
+        <Width val="528"/>
+        <Height val="50"/>
+
+        <PlayerId val="{$ancestor[@name=PlayerData]/@PlayerId}"/>
+        <VisibleToOwner val="True"/>
+        <VisibleToEnemy val="False"/>
+        <VisibleToAlly val="False"/>
+
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame0" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame1" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame0" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame2" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame1" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame3" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame2" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame4" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame3" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame5" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame4" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame6" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame5" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame7" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame6" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame8" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame7" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame9" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame8" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame10" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame9" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame11" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame10" pos="Min" offset="-4"/>
+        </Frame>
+        <Frame type="ProductionCountFrame" name="ProductionCountFrame12" template="CM_ProductionPanel/Template_ProductionCountFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ProductionCountFrame11" pos="Min" offset="-4"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="GameUI/UIContainer/ConsoleUIContainer" file="GameUI">
+        <Frame type="Frame" name="PlayerBoxes_0">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="0"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_1">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="1"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_2">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="2"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_3">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="3"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_4">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="4"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_5">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="5"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_6">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="6"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_7">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="7"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_8">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="8"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_9">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="9"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_10">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="10"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_11">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="11"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_12">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="12"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_13">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="13"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_14">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="14"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="PlayerBoxes_15">
+            <Anchor relative="$parent"/>
+            <Frame type="PlayerFrame" name="PlayerData">
+                <Anchor relative="$parent"/>
+                <PlayerId val="15"/>
+                <Frame type="PlayerProductionFrame" name="ProductionPanel" template="CM_ProductionPanel/ProductionPanelTemplete"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

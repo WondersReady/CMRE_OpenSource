@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preload>
+<Actor id="SYSTEM_ActorConfig"/>
+<Actor id="LightOmniOrange"/>
+<Actor id="BattleStation_FloodLight" Variations="1,4"/>
+<Actor id="BattleStation_Number_Decals" Variations="0,2,4,5,7,8,9"/>
+<Actor id="BattleStation_Symbol_Decals" Variations="1"/>
+<Actor id="Blast_Craters" Variations="0,1,2"/>
+<Actor id="CompoundSewers_Fan" Variations="2,3"/>
+<Actor id="DefendersCity_Buildings_Industrial" Variations="1,2,3,4,5,6,7,8,9,10,12,13,15,16,17"/>
+<Actor id="DefendersCity_Buildings_Pipes_Tanks_Industrial" Variations="0,1,2,3,16,17"/>
+<Actor id="JarbanMinor_Crate" Variations="1,2,5"/>
+<Actor id="JarbanMinor_Grass" Variations="0,1,2,3,4,5,6,7"/>
+<Actor id="JarbanMinor_Large_Rock" Variations="1"/>
+<Actor id="JarbanMinor_MiningBot_Broken" Variations="1,2"/>
+<Actor id="JarbanMinor_Ramp"/>
+<Actor id="Korhal_Antenna" Variations="0"/>
+<Actor id="Korhal_Platform_LandingLights" Variations="0,2"/>
+<Actor id="Korhal_SiegeTank_Destroyed"/>
+<Actor id="Korhal_TarmacSplat" Variations="1"/>
+<Actor id="OilPuddle" Variations="0,1,2,3"/>
+<Actor id="PortCity_BuildingTrash"/>
+<Actor id="PortCity_Glass_Splat" Variations="4"/>
+<Actor id="RoadEndCap" Variations="1"/>
+<Actor id="RoadMetalCornerStraight" Variations="0,1,2,5,6"/>
+<Actor id="RoadMetalDiagonal" Variations="0,1,2,3,4"/>
+<Actor id="Shadow_Tarmac_Splat" Variations="5"/>
+<Actor id="SharpRidges" Variations="0,1,2,3"/>
+<Actor id="SmokeStack_Fire_Constant_Burst_2x2"/>
+<Actor id="SmokeStack_Fire_Constant_Burst_Sm"/>
+<Actor id="SmokeStack_Flame_Burst_Lg"/>
+<Actor id="SmokeStack_Flame_Burst_Sm"/>
+<Actor id="Tarsonis_Debris_Splat" Variations="3,4,6,7"/>
+<Actor id="BraxisAlphaBarrels" Variations="0,1"/>
+<Actor id="BraxisAlphaFloodLights" Variations="1,2,3"/>
+<Actor id="BunkerWrecked"/>
+<Actor id="CableLight"/>
+<Actor id="ColonistShipWrecked" Variations="2,3"/>
+<Actor id="Decal" Variations="5,8,9,10,11,12,20,21,28"/>
+<Actor id="Floodlight" Variations="1,3"/>
+<Actor id="LandingLights" Variations="0"/>
+<Actor id="MarSaraGroundProps" Variations="0,2,3"/>
+<Actor id="Rock" Variations="2,3,5,6"/>
+<Actor id="Searchlight" Variations="0"/>
+<Actor id="SpacePlatformBarrier" Variations="1,2,3"/>
+<Actor id="SpacePlatformFan" Variations="0"/>
+<Actor id="SpacePlatformFanLarge" Variations="1"/>
+<Actor id="SpacePlatformRadar" Variations="1"/>
+<Actor id="SpacePlatformSignLarge" Variations="9"/>
+<Actor id="SpacePlatformSignTowerLarge" Variations="0"/>
+<Actor id="WaterTank" Variations="1"/>
+<Actor id="WaterTankTall" Variations="0,1"/>
+<Actor id="WindRough"/>
+<Actor id="WindEmitterMedium"/>
+<Actor id="WindyAsh"/>
+<Actor id="WreckedJackal"/>
+<Actor id="CargoTruckCreep" Variations="0"/>
+<Actor id="ColonistSupplyCrate" Variations="0,1,2,3,4,5,6,7,8"/>
+<Actor id="HybridWarpInEffect"/>
+<Actor id="SpacePlatformRadarZerged" Variations="1"/>
+<Behavior id="BroodlingFate"/>
+<Behavior id="Conjoined"/>
+<Behavior id="SolarCombustion"/>
+<Behavior id="ColonyInfestation"/>
+<Behavior id="MercAirDrop"/>
+<Light id="MeinhoffCampaignNight"/>
+<Light id="MeinhoffCampaignDay"/>
+<Map id="AC_MeinhoffDayNight"/>
+<Model id="PingArrow"/>
+<Model id="PingBoss"/>
+<Model id="PingSimple"/>
+<Sound id="NydusWorm_Unload"/>
+<Sound id="UI_TerranReminderPing"/>
+<Sound id="Event_Nydus_Birth"/>
+<Sound id="Event_NightDay_Cue_RoosterCrow"/>
+<Sound id="Event_NydusGreater_Birth"/>
+<Sound id="Event_Stank_Intro_VxFx"/>
+<Sound id="Event_Night_Cue_ZombieHorde"/>
+<Sound id="Event_Night_Cue_WolfHowl"/>
+<Sound id="Left2Die_Choker_Amb_Trigger"/>
+<Sound id="Left2Die_Hunterling_Amb_Trigger"/>
+<Sound id="Left2Die_Kaboomer_Amb_Trigger"/>
+<Sound id="Left2Die_Spotter_Amb_Trigger"/>
+<Sound id="Left2Die_Stank_Amb_Trigger"/>
+<Sound id="Event_Quake_NydusBurrow"/>
+<Sound id="Event_Virophage_Emerge_VxFx"/>
+<Soundtrack id="Ambience_Meinhoff"/>
+<Soundtrack id="THanson01MusicMain"/>
+<Soundtrack id="THanson02MusicAlt"/>
+<Soundtrack id="THanson02MusicEventA"/>
+<Soundtrack id="THanson02MusicEventB"/>
+<Soundtrack id="Ambience_AiurInfested_Quad"/>
+<Terrain id="MeinhoffEx3"/>
+<Unit id="Colossus" UserTag="Prot"/>
+<Unit id="Baneling" UserTag="Zerg"/>
+<Unit id="CommandCenter" UserTag="Terr"/>
+<Unit id="Barracks" UserTag="Terr"/>
+<Unit id="EngineeringBay" UserTag="Terr"/>
+<Unit id="MissileTurret" UserTag="Terr"/>
+<Unit id="Bunker" UserTag="Terr"/>
+<Unit id="SensorTower"/>
+<Unit id="GhostAcademy" UserTag="Terr"/>
+<Unit id="Factory" UserTag="Terr"/>
+<Unit id="SiegeTank" UserTag="Terr"/>
+<Unit id="VikingFighter" UserTag="Terr"/>
+<Unit id="BarracksTechLab" UserTag="Terr"/>
+<Unit id="Marine" UserTag="Terr"/>
+<Unit id="Ghost" UserTag="Terr"/>
+<Unit id="Marauder" UserTag="Terr"/>
+<Unit id="Thor" UserTag="Terr"/>
+<Unit id="Banshee" UserTag="Terr"/>
+<Unit id="Raven" UserTag="Terr"/>
+<Unit id="Nexus" UserTag="Prot"/>
+<Unit id="Pylon" UserTag="Prot"/>
+<Unit id="Gateway" UserTag="Prot"/>
+<Unit id="Forge" UserTag="Prot"/>
+<Unit id="PhotonCannon" UserTag="Prot"/>
+<Unit id="RoboticsFacility" UserTag="Prot"/>
+<Unit id="Zealot" UserTag="Prot"/>
+<Unit id="Stalker" UserTag="Prot"/>
+<Unit id="HighTemplar" UserTag="Prot"/>
+<Unit id="DarkTemplar" Variations="0" UserTag="Prot"/>
+<Unit id="Sentry" UserTag="Prot"/>
+<Unit id="Phoenix" UserTag="Prot"/>
+<Unit id="VoidRay" UserTag="Prot"/>
+<Unit id="Observer" UserTag="Prot"/>
+<Unit id="Immortal" UserTag="Prot"/>
+<Unit id="Hatchery" UserTag="Zerg"/>
+<Unit id="SpawningPool" UserTag="Zerg"/>
+<Unit id="HydraliskDen" UserTag="Zerg"/>
+<Unit id="RoachWarren" UserTag="Zerg"/>
+<Unit id="SpineCrawler" UserTag="Zerg"/>
+<Unit id="SporeCrawler" UserTag="Zerg"/>
+<Unit id="Zergling" UserTag="Zerg"/>
+<Unit id="Hydralisk" UserTag="Zerg"/>
+<Unit id="Mutalisk" UserTag="Zerg"/>
+<Unit id="Roach" UserTag="Zerg"/>
+<Unit id="Overseer" UserTag="Zerg"/>
+<Unit id="NydusCanal"/>
+<Unit id="LurkerMPBurrowed" UserTag="Zerg"/>
+<Unit id="Broodling"/>
+<Unit id="HellionTank" UserTag="Terr"/>
+<Unit id="Cyclone" UserTag="Terr"/>
+<Unit id="SwarmHostMP" UserTag="Zerg"/>
+<Unit id="Viper" UserTag="Zerg"/>
+<Unit id="MineralField" Variations="1,2,4,8"/>
+<Unit id="SpacePlatformGeyser"/>
+<Unit id="InfestedCivilian" Variations="0,1,2"/>
+<Unit id="InfestedCivilianBurrowed"/>
+<Unit id="InfestedAbominationBurrowed"/>
+<Unit id="InfestedAbomination"/>
+<Unit id="InfestedTerranCampaignBurrowed"/>
+<Unit id="InfestedTerranCampaign"/>
+<Unit id="Goliath" UserTag="Terr"/>
+<Unit id="InfestedCocoon"/>
+<Unit id="Scourge"/>
+<Unit id="InfestedMercHaven"/>
+<Unit id="HybridDestroyer" UserTag="Terr"/>
+<Unit id="HybridReaver" UserTag="Prot"/>
+<Unit id="InfestableHut" Variations="1"/>
+<Unit id="InfestableBiodome" Variations="0,1,2,3,4"/>
+<Unit id="Medic" UserTag="Terr"/>
+<Unit id="DestructibleCityDebris6x6"/>
+<Unit id="DestructibleCityDebrisHugeDiagonalBLUR"/>
+<Unit id="DestructibleCityDebrisHugeDiagonalULBR"/>
+<Unit id="CreepTumorUsed" UserTag="Zerg"/>
+<Unit id="InfestedExploderBurrowed"/>
+<Unit id="JarbanInfestibleColonistHut" Variations="0,1,2,3,4,5"/>
+<Unit id="ACVirophage"/>
+<Unit id="ACHeroSpawnPlacement"/>
+</Preload>

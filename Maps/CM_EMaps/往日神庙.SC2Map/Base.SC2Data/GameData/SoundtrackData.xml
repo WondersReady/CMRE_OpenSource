@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSoundtrack id="EventStinger" parent="Music">
+        <CueArray>
+            <MasterLayer Sound="Music_Stinger_Event"/>
+        </CueArray>
+        <Flags index="Continuous" value="0"/>
+    </CSoundtrack>
+    <CSoundtrack id="VictoryStinger" parent="Music">
+        <CueArray>
+            <MasterLayer Sound="VictoryStinger"/>
+        </CueArray>
+        <Flags index="Continuous" value="0"/>
+    </CSoundtrack>
+    <CSoundtrack id="MusicIntro" parent="Music">
+        <CueArray>
+            <MasterLayer Sound="MusicIntro"/>
+        </CueArray>
+        <Flags index="Continuous" value="0"/>
+    </CSoundtrack>
+    <CSoundtrack id="MusicFinalWaves" parent="Music">
+        <CueArray>
+            <MasterLayer Sound="MusicFinalWaves"/>
+        </CueArray>
+        <Flags index="Continuous" value="0"/>
+    </CSoundtrack>
+</Catalog>

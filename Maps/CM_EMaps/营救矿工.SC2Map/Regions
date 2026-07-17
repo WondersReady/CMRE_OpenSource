@@ -1,0 +1,1734 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="2">
+        <name value="Intro Cine Zerg"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="166.0327,137.028"/>
+            <radius value="14.1604"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Initial Player Vision"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="30.9904,50.8991"/>
+            <radius value="15.7575"/>
+        </shape>
+        <shape type="circle">
+            <center value="63.697,47.2163"/>
+            <radius value="7.5427"/>
+        </shape>
+        <shape type="circle">
+            <center value="47.3254,33.6845"/>
+            <radius value="17.2885"/>
+        </shape>
+        <shape type="circle">
+            <center value="64.563,33.6003"/>
+            <radius value="13.0073"/>
+        </shape>
+        <shape type="circle">
+            <center value="23.6047,69.4467"/>
+            <radius value="9.784"/>
+        </shape>
+        <shape type="circle">
+            <center value="16.8054,59.2856"/>
+            <radius value="6.8186"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.5002,62.8115"/>
+            <radius value="6.182"/>
+        </shape>
+        <shape type="circle">
+            <center value="56.3767,47.4328"/>
+            <radius value="3.7504"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Something Terrible"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="12.1147,9.1511"/>
+            <radius value="11.7683"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Aberration Surprise"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="116.1801,59.659"/>
+            <radius value="6.594"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="ColonyShip 02"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="50.7238,101.1892"/>
+            <radius value="10.812"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="ColonyShip 03"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="78.5168,79.2316"/>
+            <radius value="9.3325"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="ColonyShip 04"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="53.4145,139.4106"/>
+            <radius value="9.1613"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="ColonyShip 05"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="108.6208,39.543"/>
+            <radius value="10.792"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="ColonyShip 06"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="120.4553,74.1274"/>
+            <radius value="11.0466"/>
+        </shape>
+    </region>
+    <region id="18">
+        <name value="ColonyShip 07"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.1542,133.782"/>
+            <radius value="9.227"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="ColonyShip 08"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="91.1896,140.4355"/>
+            <radius value="10.3225"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Never Take Me Alive"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="43.3981,93.7385"/>
+            <radius value="3.7124"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Siege Tank Alley"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="125.431,124.8176"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="114.1096,125.5227"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.9216,130.9387"/>
+            <radius value="4.2753"/>
+        </shape>
+        <shape type="circle">
+            <center value="118.1826,136.7651"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="118.893,145.604"/>
+            <radius value="13.3046"/>
+        </shape>
+        <shape type="circle">
+            <center value="125.0007,147.516"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.722,144.2067"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="124.8474,133.906"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.2775,128.8303"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="130.833,139.2158"/>
+            <radius value="10.0983"/>
+        </shape>
+        <shape type="circle">
+            <center value="117.1403,122.4284"/>
+            <radius value="7.679"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Reach Umojan Forces"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="86.1071,85.5502"/>
+            <radius value="13.3564"/>
+        </shape>
+    </region>
+    <region id="29">
+        <name value="Starport Landing"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="49.97,32.0437,52.956,35.0021"/>
+        </shape>
+    </region>
+    <region id="30">
+        <name value="Barracks Landing"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="47.9956,38.094,50.9455,41.1047"/>
+        </shape>
+    </region>
+    <region id="41">
+        <name value="ColonyShip Waves 01 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="80.0168,57.4538"/>
+            <radius value="1.6318"/>
+        </shape>
+        <shape type="circle">
+            <center value="77.3947,54.292"/>
+            <radius value="2.6352"/>
+        </shape>
+        <shape type="circle">
+            <center value="78.6887,56.315"/>
+            <radius value="2.4711"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.469,57.348"/>
+            <radius value="2.5402"/>
+        </shape>
+    </region>
+    <region id="42">
+        <name value="ColonyShip Waves 01 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="36.5825,78.8034"/>
+            <radius value="1.0844"/>
+        </shape>
+        <shape type="circle">
+            <center value="37.526,74.9101"/>
+            <radius value="1.7753"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.2524,75.2861"/>
+            <radius value="1.331"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.5244,75.696"/>
+            <radius value="2.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.3076,73.7543"/>
+            <radius value="2.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="37.6953,76.0446"/>
+            <radius value="1.331"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.7321,77.9924"/>
+            <radius value="1.331"/>
+        </shape>
+        <shape type="circle">
+            <center value="37.815,77.6633"/>
+            <radius value="1.331"/>
+        </shape>
+        <shape type="circle">
+            <center value="40.9841,76.4335"/>
+            <radius value="2.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="41.1462,74.5783"/>
+            <radius value="2.077"/>
+        </shape>
+    </region>
+    <region id="43">
+        <name value="ColonyShip Waves 02 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="33.0097,107.7331"/>
+            <radius value="4.8605"/>
+        </shape>
+        <shape type="circle">
+            <center value="20.977,143.1047"/>
+            <radius value="3.416"/>
+        </shape>
+    </region>
+    <region id="44">
+        <name value="ColonyShip Waves 02 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.3347,86.732"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="45">
+        <name value="ColonyShip Waves 03 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="86.2116,122.6362"/>
+            <radius value="5.359"/>
+        </shape>
+        <shape type="circle">
+            <center value="90.547,120.2302"/>
+            <radius value="5.359"/>
+        </shape>
+        <shape type="circle">
+            <center value="81.9821,118.828"/>
+            <radius value="6.4553"/>
+        </shape>
+    </region>
+    <region id="46">
+        <name value="ColonyShip Waves 03 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="71.0932,68.324"/>
+            <radius value="5.359"/>
+        </shape>
+        <shape type="circle">
+            <center value="97.4504,65.5312"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="47">
+        <name value="ColonyShip Waves 04 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="65.3215,125.2182"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="48">
+        <name value="ColonyShip Waves 04 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="21.5856,143.242"/>
+            <radius value="3.4594"/>
+        </shape>
+    </region>
+    <region id="50">
+        <name value="ColonyShip Waves 05 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="113.2167,55.1542"/>
+            <radius value="4.8366"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.7863,59.2236"/>
+            <radius value="6.3242"/>
+        </shape>
+    </region>
+    <region id="51">
+        <name value="ColonyShip Waves 06 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.065,65.2016"/>
+            <radius value="4.0598"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.7138,63.3271"/>
+            <radius value="5.1596"/>
+        </shape>
+    </region>
+    <region id="52">
+        <name value="ColonyShip Waves 06 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="139.286,97.4047"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="53">
+        <name value="ColonyShip Waves 07 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="123.8007,147.3481"/>
+            <radius value="1.1145"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.9487,145.6162"/>
+            <radius value="1.453"/>
+        </shape>
+    </region>
+    <region id="54">
+        <name value="ColonyShip Waves 07 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="119.1823,116.1723"/>
+            <radius value="3.458"/>
+        </shape>
+        <shape type="circle">
+            <center value="114.7551,115.5234"/>
+            <radius value="3.4252"/>
+        </shape>
+        <shape type="circle">
+            <center value="109.3918,115.6374"/>
+            <radius value="4.4721"/>
+        </shape>
+    </region>
+    <region id="55">
+        <name value="ColonyShip Waves 08 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="103.7434,112.7368"/>
+            <radius value="3.6372"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.4448,114.2961"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="56">
+        <name value="ColonyShip Waves 08 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="68.8415,125.8352"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Friendly Umojans Trigger"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="89.413,91.3874"/>
+            <radius value="18.0134"/>
+        </shape>
+        <shape type="circle">
+            <center value="78.3801,79.2385"/>
+            <radius value="9.9597"/>
+        </shape>
+        <shape type="circle">
+            <center value="90.0527,73.9414"/>
+            <radius value="8.0561"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="ColonyShip 09"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="172.8615,114.117"/>
+            <radius value="9.227"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="ColonyShip Waves 09 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="150.3801,95.8183"/>
+            <radius value="5.359"/>
+        </shape>
+        <shape type="circle">
+            <center value="146.5722,102.3105"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="ColonyShip Waves 09 - 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="181.2126,86.0444"/>
+            <radius value="5.359"/>
+        </shape>
+    </region>
+    <region id="37">
+        <name value="Infested Down Ramp"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="76.6843,74.5876"/>
+            <radius value="3.1364"/>
+        </shape>
+    </region>
+    <region id="38">
+        <name value="Infested Down Ramp Trigger"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="69.1484,67.4885"/>
+            <radius value="9.3503"/>
+        </shape>
+    </region>
+    <region id="40">
+        <name value="Bonus Objective Reveal - Science Facility"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="158.14,68.4738"/>
+            <radius value="19.0026"/>
+        </shape>
+        <shape type="circle">
+            <center value="173.244,70.8835"/>
+            <radius value="19.0026"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.743,44.6381"/>
+            <radius value="31.8288"/>
+        </shape>
+    </region>
+    <region id="58">
+        <name value="Special Wave Exploders"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="92.5134,42.5385"/>
+            <radius value="0.8024"/>
+        </shape>
+        <shape type="circle">
+            <center value="123.6032,46.2021"/>
+            <radius value="0.9274"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.6408,52.2961"/>
+            <radius value="0.9101"/>
+        </shape>
+        <shape type="circle">
+            <center value="101.4792,49.4477"/>
+            <radius value="0.9"/>
+        </shape>
+    </region>
+    <region id="49">
+        <name value="ColonyShip Waves 05 - 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="93.912,55.6086"/>
+            <radius value="5.6586"/>
+        </shape>
+    </region>
+    <region id="57">
+        <name value="Special Wave Egg Poppers"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="99.2055,144.1135"/>
+            <radius value="1.822"/>
+        </shape>
+        <shape type="circle">
+            <center value="93.642,133.5588"/>
+            <radius value="2.4895"/>
+        </shape>
+        <shape type="circle">
+            <center value="83.2612,135.0195"/>
+            <radius value="1.6555"/>
+        </shape>
+        <shape type="circle">
+            <center value="83.2658,133.09"/>
+            <radius value="1.936"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.0485,141.1872"/>
+            <radius value="1.4536"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.7182,138.896"/>
+            <radius value="1.4145"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.561,134.0864"/>
+            <radius value="1.5627"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.4035,123.43"/>
+            <radius value="1.6867"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.4758,129.0402"/>
+            <radius value="1.2336"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.4912,130.9514"/>
+            <radius value="1.465"/>
+        </shape>
+    </region>
+    <region id="59">
+        <name value="Special Wave Colonist Ship 1"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="62.3691,92.4675"/>
+            <radius value="2.5373"/>
+        </shape>
+    </region>
+    <region id="60">
+        <name value="Special Wave Nydus Worms 01"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="85.2968,72.6584"/>
+            <radius value="4.3127"/>
+        </shape>
+    </region>
+    <region id="61">
+        <name value="Special Wave Flyers"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="10.166,92.9257,13.4716,119.7307"/>
+        </shape>
+    </region>
+    <region id="62">
+        <name value="Special Wave Colonist Ship 2"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="134.4443,75.6577"/>
+            <radius value="2.0495"/>
+        </shape>
+    </region>
+    <region id="63">
+        <name value="Spedial Wave Siege Tank Drop Target 1"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117.4965,139.7392"/>
+            <radius value="3.2585"/>
+        </shape>
+    </region>
+    <region id="66">
+        <name value="Special Wave Nydus Worms 02"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.9687,59.398"/>
+            <radius value="3.9277"/>
+        </shape>
+    </region>
+    <region id="64">
+        <name value="Nydus Wander Target"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="87.701,88.9931"/>
+            <radius value="5.4448"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.782,95.38"/>
+            <radius value="5.4448"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.1535,86.287"/>
+            <radius value="5.4448"/>
+        </shape>
+        <shape type="circle">
+            <center value="95.4956,88.3488"/>
+            <radius value="5.4448"/>
+        </shape>
+    </region>
+    <region id="65">
+        <name value="Auto Revealer 01"/>
+        <color value="255,0,0,0"/>
+        <shape type="circle">
+            <center value="70.6323,139.4655"/>
+            <radius value="8.9523"/>
+        </shape>
+        <shape type="circle">
+            <center value="60.7116,148.759"/>
+            <radius value="13.2058"/>
+        </shape>
+        <shape type="circle">
+            <center value="46.7482,152.5903"/>
+            <radius value="12.671"/>
+        </shape>
+        <shape type="circle">
+            <center value="36.151,150.5588"/>
+            <radius value="8.825"/>
+        </shape>
+    </region>
+    <region id="67">
+        <name value="Banshee Run"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48.07,132.688"/>
+            <radius value="10.941"/>
+        </shape>
+        <shape type="circle">
+            <center value="54.9787,136.598"/>
+            <radius value="10.941"/>
+        </shape>
+        <shape type="circle">
+            <center value="56.0598,142.3747"/>
+            <radius value="10.941"/>
+        </shape>
+        <shape type="circle">
+            <center value="50.7687,144.127"/>
+            <radius value="10.941"/>
+        </shape>
+        <shape type="circle">
+            <center value="45.6755,144.7221"/>
+            <radius value="10.941"/>
+        </shape>
+        <shape type="circle">
+            <center value="42.2236,138.731"/>
+            <radius value="10.941"/>
+        </shape>
+    </region>
+    <region id="71">
+        <name value="Special Wave Siege Tank Drop Spawns"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="102.8806,160.9553,139.5534,163.7773"/>
+        </shape>
+    </region>
+    <region id="72">
+        <name value="Spedial Wave Siege Tank Drop Target 2"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="126.928,141.6145"/>
+            <radius value="3.2585"/>
+        </shape>
+    </region>
+    <region id="73">
+        <name value="Spedial Wave Siege Tank Drop Target 3"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="116.971,129.9201"/>
+            <radius value="3.2585"/>
+        </shape>
+    </region>
+    <region id="74">
+        <name value="Auto Revealer 02"/>
+        <color value="255,0,0,0"/>
+        <shape type="circle">
+            <center value="134.6894,143.4104"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.274,147.0776"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="122.4565,149.4897"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="116.066,149.221"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.562,148.0605"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.829,146.1037"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.2883,151.0607"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.662,155.73"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="104.6223,160.0095"/>
+            <radius value="5.8054"/>
+        </shape>
+        <shape type="circle">
+            <center value="124.1345,158.245"/>
+            <radius value="13.5117"/>
+        </shape>
+        <shape type="circle">
+            <center value="114.6066,158.3266"/>
+            <radius value="12.3112"/>
+        </shape>
+        <shape type="circle">
+            <center value="134.1193,156.8867"/>
+            <radius value="13.5117"/>
+        </shape>
+        <shape type="circle">
+            <center value="137.3142,150.3061"/>
+            <radius value="8.9895"/>
+        </shape>
+    </region>
+    <region id="75">
+        <name value="Zerg Base"/>
+        <color value="255,0,255,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="160.366,145.5781"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="159.0517,134.1108"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="157.973,125.6113"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.306,124.8117"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="176.2778,130.939"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="177.3542,140.5888"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="176.0297,147.568"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="169.7138,148.266"/>
+            <radius value="13.1762"/>
+        </shape>
+        <shape type="circle">
+            <center value="177.2851,124.7995"/>
+            <radius value="13.1762"/>
+        </shape>
+    </region>
+    <region id="76">
+        <name value="Map Area - Main"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="10.063,7.7167,189.963,163.963"/>
+        </shape>
+    </region>
+    <region id="78">
+        <name value="Map Area - BO Facility"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="166.7751,47.214"/>
+            <radius value="26.0456"/>
+        </shape>
+    </region>
+    <region id="79">
+        <name value="Map Area - BO Mines"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="27.1594,132.3142"/>
+            <radius value="19.8281"/>
+        </shape>
+    </region>
+    <region id="32">
+        <name value="BO Beacon Entrance 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="32.4865,126.505"/>
+            <radius value="1.125"/>
+        </shape>
+    </region>
+    <region id="80">
+        <name value="BO Beacon Entrance 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="162.4282,52.5983"/>
+            <radius value="1.125"/>
+        </shape>
+    </region>
+    <region id="84">
+        <name value="Protoss Base Attack Warp Prism 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="76.9543,41.0817"/>
+            <radius value="4.908"/>
+        </shape>
+    </region>
+    <region id="85">
+        <name value="Protoss Base Attack Warp Prism 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="75.3361,51.2854"/>
+            <radius value="4.908"/>
+        </shape>
+    </region>
+    <region id="89">
+        <name value="Worker Harvest"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="43.598,33.1584"/>
+            <radius value="4.0776"/>
+        </shape>
+    </region>
+    <region id="90">
+        <name value="BO Reveal 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="21.4326,143.8928"/>
+            <radius value="6.0507"/>
+        </shape>
+    </region>
+    <region id="92">
+        <name value="BO Reveal 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="163.4165,53.49"/>
+            <radius value="3.6054"/>
+        </shape>
+    </region>
+    <region id="31">
+        <name value="BO Blightbringer Eggs 05"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="32.2307,127.9257"/>
+            <radius value="1.4372"/>
+        </shape>
+        <shape type="circle">
+            <center value="33.761,129.587"/>
+            <radius value="1.7336"/>
+        </shape>
+        <shape type="circle">
+            <center value="30.8322,129.6142"/>
+            <radius value="2.028"/>
+        </shape>
+    </region>
+    <region id="97">
+        <name value="BO Blightbringer Eggs 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="26.992,142.1354"/>
+            <radius value="1.8867"/>
+        </shape>
+        <shape type="circle">
+            <center value="29.197,143.1408"/>
+            <radius value="1.868"/>
+        </shape>
+        <shape type="circle">
+            <center value="28.7048,142.605"/>
+            <radius value="2.2546"/>
+        </shape>
+    </region>
+    <region id="98">
+        <name value="BO Blightbringer Eggs 03"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="14.918,134.4243"/>
+            <radius value="1.7846"/>
+        </shape>
+        <shape type="circle">
+            <center value="15.7907,131.8754"/>
+            <radius value="2.1396"/>
+        </shape>
+        <shape type="circle">
+            <center value="16.1538,136.688"/>
+            <radius value="1.481"/>
+        </shape>
+    </region>
+    <region id="99">
+        <name value="BO Blightbringer Eggs 04"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="25.6186,121.214"/>
+            <radius value="2.3327"/>
+        </shape>
+    </region>
+    <region id="100">
+        <name value="BO Blightbringer Eggs 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="15.8371,140.358"/>
+            <radius value="1.5292"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.6364,140.2026"/>
+            <radius value="0.8608"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.7624,141.2641"/>
+            <radius value="0.8608"/>
+        </shape>
+        <shape type="circle">
+            <center value="16.4055,141.2868"/>
+            <radius value="0.8608"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.6728,139.0642"/>
+            <radius value="0.8608"/>
+        </shape>
+    </region>
+    <region id="87">
+        <name value="P03 Town 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="70.1076,65.2656"/>
+            <radius value="7.544"/>
+        </shape>
+    </region>
+    <region id="88">
+        <name value="P03 Town 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="89.3632,90.4152"/>
+            <radius value="19.5795"/>
+        </shape>
+    </region>
+    <region id="102">
+        <name value="P03 Town 03"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="102.7458,40.2204"/>
+            <radius value="8.9367"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.9145,42.6291"/>
+            <radius value="7.7541"/>
+        </shape>
+    </region>
+    <region id="103">
+        <name value="P03 Town 04"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="125.4345,67.9594"/>
+            <radius value="9.8188"/>
+        </shape>
+    </region>
+    <region id="104">
+        <name value="P03 Town 05"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="166.9416,111.053"/>
+            <radius value="12.5812"/>
+        </shape>
+    </region>
+    <region id="105">
+        <name value="P03 Town 06"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="92.797,134.4155"/>
+            <radius value="13.227"/>
+        </shape>
+    </region>
+    <region id="106">
+        <name value="P03 Town 07"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="119.5798,135.3408"/>
+            <radius value="13.8886"/>
+        </shape>
+    </region>
+    <region id="107">
+        <name value="P05 Town 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="35.4042,106.097"/>
+            <radius value="11.3952"/>
+        </shape>
+    </region>
+    <region id="108">
+        <name value="P05 Town 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48.2412,133.815"/>
+            <radius value="10.1296"/>
+        </shape>
+    </region>
+    <region id="109">
+        <name value="P03 Town 08"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.5246,127.124"/>
+            <radius value="7.3544"/>
+        </shape>
+    </region>
+    <region id="39">
+        <name value="Factory Landing"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="42.0383,40.0014,44.9882,43.0122"/>
+        </shape>
+    </region>
+    <region id="82">
+        <name value="Players Base"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47.5,35.5"/>
+            <radius value="13.3134"/>
+        </shape>
+    </region>
+    <region id="118">
+        <name value="BO Blightbringer Eggs 02 (Brutal)"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="30.7873,134.2458"/>
+            <radius value="1.8867"/>
+        </shape>
+        <shape type="circle">
+            <center value="31.49,138.7922"/>
+            <radius value="1.868"/>
+        </shape>
+        <shape type="circle">
+            <center value="30.653,136.8103"/>
+            <radius value="2.2546"/>
+        </shape>
+    </region>
+    <region id="119">
+        <name value="BO Blightbringer Eggs 04 (Brutal)"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="17.1191,124.264"/>
+            <radius value="2.3327"/>
+        </shape>
+    </region>
+    <region id="120">
+        <name value="BO Blightbringer Eggs 01 (Brutal)"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="24.617,144.087"/>
+            <radius value="1.5292"/>
+        </shape>
+        <shape type="circle">
+            <center value="23.0534,144.225"/>
+            <radius value="0.8608"/>
+        </shape>
+        <shape type="circle">
+            <center value="26.1484,145.0278"/>
+            <radius value="0.8608"/>
+        </shape>
+        <shape type="circle">
+            <center value="25.5063,145.6181"/>
+            <radius value="0.8608"/>
+        </shape>
+        <shape type="circle">
+            <center value="23.516,142.7224"/>
+            <radius value="0.8608"/>
+        </shape>
+    </region>
+    <region id="121">
+        <name value="BO Blightbringer Eggs 05 (Brutal)"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="31.9953,119.2011"/>
+            <radius value="1.4372"/>
+        </shape>
+        <shape type="circle">
+            <center value="32.2004,123.6755"/>
+            <radius value="1.7336"/>
+        </shape>
+        <shape type="circle">
+            <center value="33.0961,121.4597"/>
+            <radius value="2.028"/>
+        </shape>
+    </region>
+    <region id="122">
+        <name value="BO Blightbringer Eggs 03 (Brutal)"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="16.2478,126.8977"/>
+            <radius value="1.7846"/>
+        </shape>
+        <shape type="circle">
+            <center value="16.602,129.637"/>
+            <radius value="2.1396"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.4895,128.4782"/>
+            <radius value="1.481"/>
+        </shape>
+    </region>
+    <region id="123">
+        <name value="Reveal Region 001"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="68.8967,65.5754"/>
+            <radius value="20.5"/>
+        </shape>
+    </region>
+    <region id="124">
+        <name value="Pause Region 001"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="69.122,65.5461"/>
+            <width value="9.2634"/>
+            <height value="13.1337"/>
+        </shape>
+    </region>
+    <region id="125">
+        <name value="Reveal Region 002"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="58.1611,86.4028"/>
+            <radius value="21.5"/>
+        </shape>
+    </region>
+    <region id="126">
+        <name value="Pause Region 002"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="58.3864,86.3735"/>
+            <width value="9.2634"/>
+            <height value="13.1337"/>
+        </shape>
+    </region>
+    <region id="127">
+        <name value="Reveal Region 003"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="89.435,89.348"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="128">
+        <name value="Pause Region 003"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="97.7043,64.1491"/>
+            <width value="9.2634"/>
+            <height value="13.1337"/>
+        </shape>
+    </region>
+    <region id="129">
+        <name value="Reveal Region 004"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="100.793,43.2912"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="130">
+        <name value="Pause Region 004"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="101.0183,43.262"/>
+            <width value="9.2634"/>
+            <height value="13.1337"/>
+        </shape>
+    </region>
+    <region id="131">
+        <name value="Reveal Region 005"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="115.3142,43.7385"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="132">
+        <name value="Pause Region 005"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="115.5395,43.7092"/>
+            <width value="9.2634"/>
+            <height value="13.1337"/>
+        </shape>
+    </region>
+    <region id="133">
+        <name value="Reveal Region 006"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="122.787,67.7736"/>
+            <radius value="21.5"/>
+        </shape>
+    </region>
+    <region id="134">
+        <name value="Pause Region 006"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="122.473,67.4807"/>
+            <width value="14.6345"/>
+            <height value="15.7441"/>
+        </shape>
+    </region>
+    <region id="135">
+        <name value="Reveal Region 007"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="127.4226,101.5444"/>
+            <radius value="26"/>
+        </shape>
+    </region>
+    <region id="136">
+        <name value="Pause Region 007"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="127.5805,101.2875"/>
+            <width value="14.856"/>
+            <height value="20.7617"/>
+        </shape>
+    </region>
+    <region id="137">
+        <name value="Reveal Region 008"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="173.255,112.8356"/>
+            <radius value="22.5"/>
+        </shape>
+    </region>
+    <region id="138">
+        <name value="Pause Region 008"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="173.242,113.0917"/>
+            <width value="13.1337"/>
+            <height value="10.1896"/>
+        </shape>
+    </region>
+    <region id="139">
+        <name value="Reveal Region 009"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="39.305,103.109"/>
+            <radius value="26"/>
+        </shape>
+    </region>
+    <region id="140">
+        <name value="Pause Region 009"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="39.3908,103.1123"/>
+            <width value="11.8576"/>
+            <height value="15.9316"/>
+        </shape>
+    </region>
+    <region id="141">
+        <name value="Reveal Region 010"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="45.5495,132.0017"/>
+            <radius value="26"/>
+        </shape>
+    </region>
+    <region id="142">
+        <name value="Pause Region 010"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="45.6354,132.0051"/>
+            <width value="11.8576"/>
+            <height value="15.9316"/>
+        </shape>
+    </region>
+    <region id="143">
+        <name value="Reveal Region 011"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.423,127.546"/>
+            <radius value="26"/>
+        </shape>
+    </region>
+    <region id="144">
+        <name value="Pause Region 011"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="61.509,127.5493"/>
+            <width value="11.8576"/>
+            <height value="15.9316"/>
+        </shape>
+    </region>
+    <region id="145">
+        <name value="Reveal Region 012"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="115.403,130.9187"/>
+            <radius value="26"/>
+        </shape>
+    </region>
+    <region id="146">
+        <name value="Pause Region 012"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="115.4885,130.922"/>
+            <width value="15.9316"/>
+            <height value="11.8576"/>
+        </shape>
+    </region>
+    <region id="147">
+        <name value="Reveal Region 013"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="92.4594,132.8933"/>
+            <radius value="30"/>
+        </shape>
+    </region>
+    <region id="148">
+        <name value="Pause Region 013"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="92.5241,132.9926"/>
+            <width value="20.747"/>
+            <height value="18.005"/>
+        </shape>
+    </region>
+    <region id="149">
+        <name value="Reveal Region 014"/>
+        <color value="255,64,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="165.166,134.8063"/>
+            <radius value="30"/>
+        </shape>
+    </region>
+    <region id="150">
+        <name value="Pause Region 014"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="165.4433,134.8144"/>
+            <width value="32.964"/>
+            <height value="24.617"/>
+        </shape>
+    </region>
+    <region id="154">
+        <name value="Nydus Worm Camera Shake Check Initial"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="88.7148,115.7673"/>
+            <radius value="9.5341"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.9978,72.338"/>
+            <radius value="9.5341"/>
+        </shape>
+    </region>
+    <region id="68">
+        <name value="Auto Revealer 06"/>
+        <color value="255,0,0,0"/>
+        <shape type="circle">
+            <center value="66.0388,20.328"/>
+            <radius value="9.7983"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.897,25.38"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="76.1718,22.2587"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="62.0361,19.6237"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="57.9321,15.3581"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="65.1035,15.8686"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.015,16.7695"/>
+            <radius value="7.9775"/>
+        </shape>
+    </region>
+    <region id="69">
+        <name value="Auto Revealer 07"/>
+        <color value="255,0,0,0"/>
+        <shape type="circle">
+            <center value="79.8134,32.5317"/>
+            <radius value="8.7131"/>
+        </shape>
+        <shape type="circle">
+            <center value="83.9025,29.9348"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="85.922,27.8454"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="86.158,25.1394"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="80.8286,23.8894"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="76.2153,22.349"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.6757,24.135"/>
+            <radius value="7.9775"/>
+        </shape>
+        <shape type="circle">
+            <center value="73.7075,28.853"/>
+            <radius value="6.0507"/>
+        </shape>
+    </region>
+    <region id="70">
+        <name value="Auto Revealer 08"/>
+        <color value="255,0,0,0"/>
+        <shape type="circle">
+            <center value="49.348,17.014"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="44.3864,17.744"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.835,19.4736"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="32.0344,22.756"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="28.9387,25.228"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="35.2912,19.4182"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.7436,16.9916"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="22.4313,28.439"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="33.1613,28.9731"/>
+            <radius value="7.0151"/>
+        </shape>
+        <shape type="circle">
+            <center value="43.7375,23.4196"/>
+            <radius value="7.0151"/>
+        </shape>
+    </region>
+    <region id="155">
+        <name value="Auto Revealer 09"/>
+        <color value="255,0,0,0"/>
+        <shape type="circle">
+            <center value="12.2724,57.8085"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="20.6433,48.9526"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="15.593,52.213"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.5173,45.8334"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="16.6701,40.494"/>
+            <radius value="8.077"/>
+        </shape>
+        <shape type="circle">
+            <center value="19.4353,37.7856"/>
+            <radius value="8.077"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="ColonyShip 01"/>
+        <color value="255,64,0,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="51.321,55.556"/>
+            <radius value="9.738"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Friendly Umojan Reveal"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="84.6594,83.3803"/>
+            <radius value="9.0332"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Bonus Objective Reveal - Mines"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="21.8544,136.8691"/>
+            <radius value="12.3837"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Bonus Objective Reveal - Pustule"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="21.2404,142.7895"/>
+            <radius value="7.3952"/>
+        </shape>
+    </region>
+    <region id="34">
+        <name value="Expansion Reveal"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="79.1064,100.8796"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="77.2797,100.4382"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="76.1633,99.5451"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.4548,97.8002"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="74.826,96.381"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.3583,94.4743"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.1135,92.4755"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.1555,91.1606"/>
+            <radius value="1.6728"/>
+        </shape>
+        <shape type="circle">
+            <center value="104.5285,87.9157"/>
+            <radius value="1.6728"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Expansion"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="90.712,89.0383"/>
+            <radius value="20.2248"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Moving Equipment"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="52.8803,93.874"/>
+            <radius value="8.9191"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="ColonyShip Disabled 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="39.9013,101.521"/>
+            <radius value="20.7712"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="ColonyShip Disabled 6"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="123.911,71.0634"/>
+            <radius value="14.9682"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="30.8845,51.1384"/>
+            <radius value="17"/>
+        </shape>
+        <shape type="circle">
+            <center value="63.591,47.4555"/>
+            <radius value="7.5427"/>
+        </shape>
+        <shape type="circle">
+            <center value="47.2194,33.9238"/>
+            <radius value="22.5"/>
+        </shape>
+        <shape type="circle">
+            <center value="64.457,33.8395"/>
+            <radius value="13.0073"/>
+        </shape>
+        <shape type="circle">
+            <center value="23.4987,69.686"/>
+            <radius value="9.784"/>
+        </shape>
+        <shape type="circle">
+            <center value="16.6994,59.525"/>
+            <radius value="9"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.3942,63.0507"/>
+            <radius value="6.182"/>
+        </shape>
+        <shape type="circle">
+            <center value="56.2707,47.672"/>
+            <radius value="5"/>
+        </shape>
+        <shape type="circle">
+            <center value="101,93"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="79.955,93.8225"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

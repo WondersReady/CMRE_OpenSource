@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="18">
+        <name value="Death Beacon Ji&apos;nara"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.1994,120.9406"/>
+            <radius value="1.348"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="Death Beacon Amon&apos;s Champion"/>
+        <shape type="circle">
+            <center value="176.57,43.4248"/>
+            <radius value="5.389"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="BaseReveal"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="42.364,124.651"/>
+            <radius value="12.137"/>
+        </shape>
+        <shape type="circle">
+            <center value="35.1171,133.8474"/>
+            <radius value="15.2695"/>
+        </shape>
+        <shape type="circle">
+            <center value="56.8881,143.5883"/>
+            <radius value="15.2695"/>
+        </shape>
+        <shape type="circle">
+            <center value="41.623,147.2302"/>
+            <radius value="15.2695"/>
+        </shape>
+        <shape type="circle">
+            <center value="27.9394,127.7792"/>
+            <radius value="17.4494"/>
+        </shape>
+        <shape type="circle">
+            <center value="32.6513,112.4448"/>
+            <radius value="10.3757"/>
+        </shape>
+        <shape type="circle">
+            <center value="28.2714,152.7263"/>
+            <radius value="15.7634"/>
+        </shape>
+        <shape type="circle">
+            <center value="54.1672,153.529"/>
+            <radius value="18.0805"/>
+        </shape>
+        <shape type="circle">
+            <center value="50.8295,133.313"/>
+            <radius value="11.5336"/>
+        </shape>
+        <shape type="circle">
+            <center value="69.5424,155.928"/>
+            <radius value="14.4523"/>
+        </shape>
+        <shape type="circle">
+            <center value="21.941,109.7802"/>
+            <radius value="11.7336"/>
+        </shape>
+        <shape type="circle">
+            <center value="72.673,134.77"/>
+            <radius value="12.5537"/>
+        </shape>
+        <shape type="circle">
+            <center value="47.781,110.4433"/>
+            <radius value="12.5537"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="Reveal Final Base"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="156.2504,53.517"/>
+            <radius value="16.0588"/>
+        </shape>
+        <shape type="circle">
+            <center value="145.3828,60.337"/>
+            <radius value="16.7644"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Final Base Trigger"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="137.4714,65.5131"/>
+            <radius value="4.6496"/>
+        </shape>
+    </region>
+    <region id="30">
+        <name value="Trickle Base Spawn Region 02"/>
+        <shape type="circle">
+            <center value="164.5676,95.7595"/>
+            <radius value="7.9953"/>
+        </shape>
+        <shape type="circle">
+            <center value="159.5505,78.1601"/>
+            <radius value="7.2795"/>
+        </shape>
+    </region>
+    <region id="31">
+        <name value="Trickle Base Spawn Region 01"/>
+        <shape type="circle">
+            <center value="77.668,39.0173"/>
+            <radius value="9.8825"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Slayn Elemental Lair 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="35.81,37.7216"/>
+            <radius value="10.3923"/>
+        </shape>
+        <shape type="circle">
+            <center value="44.7622,34.3066"/>
+            <radius value="10.3923"/>
+        </shape>
+        <shape type="circle">
+            <center value="27.7365,43.686"/>
+            <radius value="10.3923"/>
+        </shape>
+        <shape type="circle">
+            <center value="31.8027,46.1313"/>
+            <radius value="10.3923"/>
+        </shape>
+        <shape type="circle">
+            <center value="27.8432,48.743"/>
+            <radius value="10.3923"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Slayn Elemental Lair 02a"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117.2832,37.0202"/>
+            <radius value="9.5964"/>
+        </shape>
+        <shape type="circle">
+            <center value="124.308,41.7932"/>
+            <radius value="9.4243"/>
+        </shape>
+        <shape type="circle">
+            <center value="123.6442,29.8935"/>
+            <radius value="13.57"/>
+        </shape>
+    </region>
+    <region id="33">
+        <name value="Slayn Elemental Lair 02b"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="135.7514,120.8234"/>
+            <radius value="4.9436"/>
+        </shape>
+        <shape type="circle">
+            <center value="141.031,117.4687"/>
+            <radius value="5.4975"/>
+        </shape>
+        <shape type="circle">
+            <center value="141.09,121.522"/>
+            <radius value="4.2666"/>
+        </shape>
+        <shape type="circle">
+            <center value="147.9196,120.481"/>
+            <radius value="4.9436"/>
+        </shape>
+        <shape type="circle">
+            <center value="147.3642,113.3073"/>
+            <radius value="4.9436"/>
+        </shape>
+        <shape type="circle">
+            <center value="153.3112,110.421"/>
+            <radius value="5.0734"/>
+        </shape>
+        <shape type="circle">
+            <center value="152.922,116.434"/>
+            <radius value="4.9436"/>
+        </shape>
+    </region>
+    <region id="34">
+        <name value="Tug Of War Defeat Imminent"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="66.3691,115.5742"/>
+            <radius value="3.3681"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Trickle Base Spawn Region 04"/>
+        <shape type="circle">
+            <center value="178.5266,25.578"/>
+            <radius value="6.4011"/>
+        </shape>
+        <shape type="circle">
+            <center value="195.302,42.6682"/>
+            <radius value="6.4011"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Inital Path Explored"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="57.835,121.5178"/>
+            <radius value="8.3393"/>
+        </shape>
+        <shape type="circle">
+            <center value="62.8403,114.8024"/>
+            <radius value="8.3393"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.3906,108.4455"/>
+            <radius value="8.3393"/>
+        </shape>
+        <shape type="circle">
+            <center value="74.2883,102.5986"/>
+            <radius value="8.3393"/>
+        </shape>
+        <shape type="circle">
+            <center value="179.4812,41.5905"/>
+            <radius value="9.3427"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Amon&apos;s Champion Final Words"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="160.064,55.8005"/>
+            <radius value="5.3366"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Slayn Critter Respawn 02a"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="113.6123,37.2065"/>
+            <radius value="2.77"/>
+        </shape>
+        <shape type="circle">
+            <center value="119.3015,45.1987"/>
+            <radius value="2.77"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.1237,28.3676"/>
+            <radius value="2.77"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.028,32.6281"/>
+            <radius value="2.77"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.4992,31.319"/>
+            <radius value="2.77"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.0166,40.0168"/>
+            <radius value="2.77"/>
+        </shape>
+        <shape type="circle">
+            <center value="116.5512,42.8742"/>
+            <radius value="2.77"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Slayn Critter Respawn 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="29.8286,40.0546"/>
+            <radius value="2.1198"/>
+        </shape>
+        <shape type="circle">
+            <center value="32.108,37.6022"/>
+            <radius value="1.6198"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.3203,35.7114"/>
+            <radius value="1.5617"/>
+        </shape>
+        <shape type="circle">
+            <center value="27.1506,43.8618"/>
+            <radius value="1.936"/>
+        </shape>
+        <shape type="circle">
+            <center value="28.405,46.4426"/>
+            <radius value="1.745"/>
+        </shape>
+        <shape type="circle">
+            <center value="45.714,46.7985"/>
+            <radius value="1.6604"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Slayn Critter Respawn 02b"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="158.8041,113.7207"/>
+            <radius value="2.2092"/>
+        </shape>
+        <shape type="circle">
+            <center value="143.7744,125.0556"/>
+            <radius value="2.0625"/>
+        </shape>
+        <shape type="circle">
+            <center value="157.0908,120.1828"/>
+            <radius value="1.6108"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.161,121.0634"/>
+            <radius value="2.9035"/>
+        </shape>
+        <shape type="circle">
+            <center value="135.296,121.5063"/>
+            <radius value="2.509"/>
+        </shape>
+        <shape type="circle">
+            <center value="159.2231,117.04"/>
+            <radius value="2.77"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Defeat Reveal"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="57.8762,123.8591"/>
+            <radius value="8.7504"/>
+        </shape>
+        <shape type="circle">
+            <center value="61.9487,119.5297"/>
+            <radius value="7.483"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Reveal Expansions"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="59.393,79.864"/>
+            <radius value="2.7666"/>
+        </shape>
+        <shape type="circle">
+            <center value="60.0095,76.486"/>
+            <radius value="2.0046"/>
+        </shape>
+        <shape type="circle">
+            <center value="59.9614,73.625"/>
+            <radius value="2.0046"/>
+        </shape>
+        <shape type="circle">
+            <center value="62.433,72.0151"/>
+            <radius value="2.0046"/>
+        </shape>
+        <shape type="circle">
+            <center value="65.6701,70.6667"/>
+            <radius value="2.0046"/>
+        </shape>
+        <shape type="circle">
+            <center value="69.388,70.631"/>
+            <radius value="1.9831"/>
+        </shape>
+        <shape type="circle">
+            <center value="101.6257,109.637"/>
+            <radius value="2.2687"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.262,109.5146"/>
+            <radius value="2.2573"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.0336,106.2751"/>
+            <radius value="2.602"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.6882,101.6723"/>
+            <radius value="1.9467"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Starting Tug Influence - Don&apos;t Put Bullies Here!"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="76.444,104.5373"/>
+            <radius value="11"/>
+        </shape>
+        <shape type="circle">
+            <center value="74.2341,107.701"/>
+            <radius value="11"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Hybrid Attack 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="81.2465,39.4445,180.6804,100.1406"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="Hybrid Attack 02"/>
+        <color value="255,168,168,168"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="89.3452,39.204,180.4638,82.5563"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Hybrid Attack 03"/>
+        <color value="255,139,139,139"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="119.798,39.6494,180.508,73.1291"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="Hybrid Attack 04"/>
+        <color value="255,75,75,75"/>
+        <shape type="rect">
+            <quad value="156.6552,39.9526,179.5412,59.5971"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="Hybrid 02 Defense Area"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="149.3,138.0488"/>
+            <width value="7.9218"/>
+            <height value="7.6767"/>
+        </shape>
+        <shape type="diamond">
+            <center value="123.7321,136.343"/>
+            <width value="8.3757"/>
+            <height value="14.8422"/>
+        </shape>
+        <shape type="diamond">
+            <center value="133.7814,139.4028"/>
+            <width value="7.9218"/>
+            <height value="7.5944"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Hybrid 03 Defense Area"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="75.1726,43.373"/>
+            <width value="19.5051"/>
+            <height value="30.7185"/>
+        </shape>
+        <shape type="diamond">
+            <center value="60.9062,44.481"/>
+            <width value="12.9077"/>
+            <height value="19.5107"/>
+        </shape>
+        <shape type="diamond">
+            <center value="58.0832,57.0095"/>
+            <width value="13.4033"/>
+            <height value="17.659"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="Hybrid 01 Defense Area"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="39.4892,80.1093"/>
+            <radius value="8.8901"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="Performance Sleep Area"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="55.036,56.3645"/>
+            <width value="27.2082"/>
+            <height value="34.9243"/>
+        </shape>
+        <shape type="diamond">
+            <center value="135.6472,49.5346"/>
+            <width value="131.6625"/>
+            <height value="87.7087"/>
+        </shape>
+        <shape type="diamond">
+            <center value="128.0744,132.663"/>
+            <width value="45.6022"/>
+            <height value="41.2458"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="rect">
+            <quad value="15.1682,108.4045,50.0532,146.8752"/>
+        </shape>
+        <shape type="rect">
+            <quad value="31.325,132.8452,73.3146,164.6347"/>
+        </shape>
+        <shape type="rect">
+            <quad value="8.325,111.14,49.7546,170.0197"/>
+        </shape>
+        <shape type="circle">
+            <center value="66,76.72"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.0798,104.72"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

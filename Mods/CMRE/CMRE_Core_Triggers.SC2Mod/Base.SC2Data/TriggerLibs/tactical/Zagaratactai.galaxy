@@ -1,0 +1,304 @@
+//--------------------------------------------------------------------------------------------------
+//  Zagara tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMZagara_AB_BanelingBarrage = "ZagaraVoidCoopBanelingBarrage";
+const string c_CMZagara_AB_SpawnHunterKillers = "ZagaraVoidCoopSpawnHunterKillers";
+const string c_CMZagara_AB_MassRoachDrop = "ZagaraVoidCoopMassRoachDrop";
+const string c_CMZagara_AB_MassRoachDropCooldown = "ZagaraVoidCoopInfestedPods";
+const string c_CMZagara_AB_MassFrenzy = "ZagaraVoidCoopMassFrenzy";
+const string c_CMZagara_AB_BileLauncherAttack = "BileLauncherZagaraAttack";
+const string c_CMZagara_EF_BileLauncherDamageSearch = "BileLauncherZagaraBombardmentDamageSearch";
+const string c_CMZagara_EF_BileLauncherDamage = "BileLauncherZagaraBombardmentDamage";
+const string c_CMZagara_WE_BileLauncher = "BileLauncherZagaraBombardment";
+const fixed c_CMZagara_BanelingBarrageRange = 10.0;
+const fixed c_CMZagara_BanelingBarrageLifeSort = 160.0;
+const fixed c_CMZagara_BanelingBarrageDistanceSort = 40.0;
+const fixed c_CMZagara_HunterKillerOffset = 5.0;
+const fixed c_CMZagara_MassRoachDropRange = 13.0;
+const fixed c_CMZagara_MassRoachDropAoE = 5.0;
+const int c_CMZagara_MassRoachDropDamage = 500;
+const int c_CMZagara_MassRoachDropMinHits = 2;
+const fixed c_CMZagara_MassRoachDropMinScore = 3.0;
+const fixed c_CMZagara_MassFrenzyRadius = 15.0;
+const int c_CMZagara_MassFrenzyMinTargets = 5;
+const fixed c_CMZagara_BileLauncherRange = 15.0;
+const fixed c_CMZagara_BileLauncherRadius = 2.0;
+const int c_CMZagara_BileLauncherDamage = 75;
+const int c_CMZagara_BileLauncherMinHits = 2;
+
+//--------------------------------------------------------------------------------------------------
+bool CMZagaraIsBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMZagara_AB_BanelingBarrage) == true) || (UnitOrderHasAbil(aiUnit, c_CMZagara_AB_SpawnHunterKillers) == true) || (UnitOrderHasAbil(aiUnit, c_CMZagara_AB_MassRoachDrop) == true) || (UnitOrderHasAbil(aiUnit, c_CMZagara_AB_MassFrenzy) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMZagaraNearbyEnemies (int player, unitgroup scanGroup) {
+    unitgroup enemies;
+    aifilter filter;
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    enemies = AIGetFilterGroup(filter, scanGroup);
+
+    return enemies;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMZagaraPositiveFixed (fixed value, fixed fallbackValue) {
+    if (value <= 0.0) {
+        return fallbackValue;
+    }
+
+    return value;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMZagaraGroundEnemiesInRange (int player, unit aiUnit, unitgroup scanGroup, fixed range) {
+    unitgroup enemies;
+    aifilter filter;
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterPlane(filter, c_planeGround);
+    AISetFilterRange(filter, aiUnit, range);
+    AISetFilterBits(filter, UnitFilterStr("Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"));
+    AISetFilterLifeSortReference(filter, 200.0, 30.0);
+    enemies = AIGetFilterGroup(filter, scanGroup);
+
+    return enemies;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraBileLauncherAttackAtPoint (int player, unit aiUnit, point targetPoint) {
+    order ord;
+
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMZagara_AB_BileLauncherAttack, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == true) {
+        return ord;
+    }
+
+    ord = OrderTargetingPoint(AbilityCommand(c_AB_Attack, 0), targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == true) {
+        return ord;
+    }
+
+    return null;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraBileLauncherAttackOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed damage;
+    fixed radius;
+    fixed range;
+    point targetPoint;
+    unit targetUnit;
+    unitgroup targetGroup;
+    order ord;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMZagara_AB_BileLauncherAttack) == true) || (UnitOrderHasAbil(aiUnit, c_AB_Attack) == true)) {
+        return null;
+    }
+
+    range = CMZagaraPositiveFixed(AIWeaponFixed(player, c_CMZagara_WE_BileLauncher, c_fieldRange), c_CMZagara_BileLauncherRange);
+    radius = CMZagaraPositiveFixed(AIEffectFixed(player, c_CMZagara_EF_BileLauncherDamageSearch, c_fieldAreaRadius0), c_CMZagara_BileLauncherRadius);
+    damage = CMZagaraPositiveFixed(AIEffectFixed(player, c_CMZagara_EF_BileLauncherDamage, c_fieldAmount), IntToFixed(c_CMZagara_BileLauncherDamage));
+    targetGroup = CMZagaraGroundEnemiesInRange(player, aiUnit, scanGroup, range + radius);
+    if (targetGroup == null) {
+        return null;
+    }
+    if (UnitGroupCount(targetGroup, c_unitCountAlive) <= 0) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, c_CMZagara_BileLauncherMinHits, FixedToInt(damage), 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    ord = CMZagaraBileLauncherAttackAtPoint(player, aiUnit, targetPoint);
+    if (ord != null) {
+        return ord;
+    }
+
+    targetUnit = UnitGroupUnit(targetGroup, UnitGroupCount(targetGroup, c_unitCountAlive));
+    if (targetUnit == null) {
+        return null;
+    }
+
+    ord = OrderTargetingUnit(AbilityCommand(c_AB_Attack, 0), targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraOrderBanelingBarrageAtGroup (int player, unit aiUnit, unitgroup targetGroup) {
+    int count;
+    unit targetUnit;
+    order ord;
+
+    count = UnitGroupCount(targetGroup, c_unitCountAlive);
+    targetUnit = UnitGroupUnit(targetGroup, count);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMZagara_AB_BanelingBarrage, 0);
+    OrderSetTargetPoint(ord, UnitGetPosition(targetUnit));
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraBanelingBarrage (int player, unit aiUnit, unitgroup scanGroup) {
+    unitgroup candidates;
+    unitgroup harmlessCandidates;
+    order ord;
+    aifilter targetFilter;
+
+    if (PlayerGetCooldown(player, c_CMZagara_AB_BanelingBarrage) > 0.0) {
+        return null;
+    }
+
+    targetFilter = AIFilter(player);
+    AISetFilterAlliance(targetFilter, c_playerGroupEnemy);
+    AISetFilterPlane(targetFilter, c_planeGround);
+    AISetFilterBits(targetFilter, UnitFilter((1 << c_targetFilterVisible), 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterBuried), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterHallucination - 32)) | (1 << (c_targetFilterInvulnerable - 32))));
+    AISetFilterRange(targetFilter, aiUnit, c_CMZagara_BanelingBarrageRange);
+    AISetFilterLifeSortReference(targetFilter, c_CMZagara_BanelingBarrageLifeSort, c_CMZagara_BanelingBarrageDistanceSort);
+    candidates = AIGetFilterGroup(targetFilter, scanGroup);
+
+    ord = CMZagaraOrderBanelingBarrageAtGroup(player, aiUnit, candidates);
+    if (ord != null) {
+        return ord;
+    }
+
+    AISetFilterBits(targetFilter, UnitFilter((1 << c_targetFilterVisible), 0, (1 << c_targetFilterMissile) | (1 << c_targetFilterBuried), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterHallucination - 32)) | (1 << (c_targetFilterInvulnerable - 32))));
+    harmlessCandidates = AIGetFilterGroup(targetFilter, scanGroup);
+
+    return CMZagaraOrderBanelingBarrageAtGroup(player, aiUnit, harmlessCandidates);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraSpawnHunterKillers (int player, unit aiUnit, unitgroup enemiesNearby) {
+    point targetPoint;
+    order ord;
+
+    if (PlayerGetCooldown(player, c_CMZagara_AB_SpawnHunterKillers) > 0.0) {
+        return null;
+    }
+
+    targetPoint = PointWithOffsetPolar(UnitGetPosition(aiUnit), c_CMZagara_HunterKillerOffset, AngleBetweenPoints(UnitGetPosition(aiUnit), UnitGroupCenterOfGroup(enemiesNearby)));
+    ord = AICreateOrder(player, c_CMZagara_AB_SpawnHunterKillers, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraMassRoachDrop (int player, unit aiUnit, unitgroup scanGroup) {
+    unitgroup roachCandidates;
+    point targetPoint;
+    order ord;
+    aifilter targetFilter;
+
+    targetFilter = AIFilter(player);
+    AISetFilterPlane(targetFilter, c_planeGround);
+    roachCandidates = AIGetFilterGroup(targetFilter, scanGroup);
+    if ((UnitAbilityGetCooldown(aiUnit, c_CMZagara_AB_MassRoachDrop, c_CMZagara_AB_MassRoachDropCooldown) > 0.0) || (UnitGroupCount(roachCandidates, c_unitCountAlive) <= 0)) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0), c_CMZagara_MassRoachDropMinHits, c_CMZagara_MassRoachDropDamage, c_CMZagara_MassRoachDropMinScore, c_CMZagara_MassRoachDropAoE, UnitGetPosition(aiUnit), c_CMZagara_MassRoachDropRange, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMZagara_AB_MassRoachDrop, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZagaraMassFrenzy (int player, unit aiUnit) {
+    unitgroup friendsNearby;
+    order ord;
+
+    friendsNearby = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), c_CMZagara_MassFrenzyRadius), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), c_CMZagara_MassFrenzyMinTargets);
+    if ((UnitGroupCount(friendsNearby, c_unitCountAlive) < c_CMZagara_MassFrenzyMinTargets) || (PlayerGetCooldown(player, c_CMZagara_AB_MassFrenzy) > 0.0)) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMZagara_AB_MassFrenzy, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZagaraVoidCoop (int player, unit aiUnit, unitgroup scanGroup) {
+    unitgroup enemiesNearby;
+    order ord;
+
+    if (CMZagaraIsBusy(aiUnit) == true) {
+        return;
+    }
+
+    enemiesNearby = CMZagaraNearbyEnemies(player, scanGroup);
+    if (UnitGroupCount(enemiesNearby, c_unitCountAlive) <= 0) {
+        return;
+    }
+
+    ord = CMZagaraBanelingBarrage(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMZagaraSpawnHunterKillers(player, aiUnit, enemiesNearby);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMZagaraMassRoachDrop(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMZagaraMassFrenzy(player, aiUnit);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZagaraBileLauncher (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMZagaraBileLauncherAttackOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}

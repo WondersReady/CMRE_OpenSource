@@ -1,0 +1,6 @@
+﻿Actor/Name/Choker=Choker
+Actor/Name/Hunterling=Hunterling
+Actor/Name/Kaboomer=Kaboomer
+Actor/Name/Spotter=Spotter
+Actor/Name/Stank=Stank
+Light/Name/EditorTestLight=default

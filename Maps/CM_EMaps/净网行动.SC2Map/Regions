@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="1">
+        <name value="InitialExplored"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="25.97,59.4895"/>
+            <radius value="14.1547"/>
+        </shape>
+        <shape type="circle">
+            <center value="43.116,67.3417"/>
+            <radius value="12.956"/>
+        </shape>
+        <shape type="circle">
+            <center value="36.8198,45.97"/>
+            <radius value="23.97"/>
+        </shape>
+        <shape type="circle">
+            <center value="49.8598,36.47"/>
+            <radius value="15.5097"/>
+        </shape>
+        <shape type="circle">
+            <center value="53.6308,48.519"/>
+            <radius value="12.2324"/>
+        </shape>
+        <shape type="circle">
+            <center value="64.4091,49.914"/>
+            <radius value="6.4533"/>
+        </shape>
+        <shape type="circle">
+            <center value="24.38,39.0922"/>
+            <radius value="19.4648"/>
+        </shape>
+        <shape type="circle">
+            <center value="55.105,62.4814"/>
+            <radius value="3.0817"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="ExpansionExplored"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="35.333,94.8642"/>
+            <radius value="12.759"/>
+        </shape>
+        <shape type="circle">
+            <center value="66.994,70.8488"/>
+            <radius value="11.5617"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="BonusStart1"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="89.927,127.942"/>
+            <width value="8.49"/>
+            <height value="12"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="BonusStart2"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="117.0256,50.0808"/>
+            <width value="11.2998"/>
+            <height value="9.2897"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Bonus1_ControlRegion"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="40.5947,141.9892"/>
+            <radius value="11.905"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Bonus2_ControlRegion"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="103.1345,25.7167"/>
+            <radius value="11.905"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Bonus1_SpawnRegions"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="32.121,134.2834"/>
+            <radius value="1.045"/>
+        </shape>
+        <shape type="circle">
+            <center value="53.5605,138.1381"/>
+            <radius value="1.285"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Lock1_Beacons"/>
+        <color value="255,255,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="26.922,136.4011"/>
+            <radius value="1.7985"/>
+        </shape>
+        <shape type="circle">
+            <center value="59.3886,122.7646"/>
+            <radius value="1.2932"/>
+        </shape>
+        <shape type="circle">
+            <center value="87.1677,135.58"/>
+            <radius value="1.1872"/>
+        </shape>
+        <shape type="circle">
+            <center value="85.75,106.3044"/>
+            <radius value="1.404"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Lock2_Beacons"/>
+        <color value="255,255,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="119.5261,118.6401"/>
+            <radius value="1.098"/>
+        </shape>
+        <shape type="circle">
+            <center value="109.5886,148.6091"/>
+            <radius value="1.1923"/>
+        </shape>
+        <shape type="circle">
+            <center value="125.5397,159.0263"/>
+            <radius value="1.3803"/>
+        </shape>
+        <shape type="circle">
+            <center value="160.0595,117.0852"/>
+            <radius value="1.4714"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Lock3_Beacons"/>
+        <color value="255,255,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="144.0537,95.8076"/>
+            <radius value="1.4042"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.6416,105.6945"/>
+            <radius value="1.808"/>
+        </shape>
+        <shape type="circle">
+            <center value="98.8872,73.4343"/>
+            <radius value="1.928"/>
+        </shape>
+        <shape type="circle">
+            <center value="137.8713,70.3117"/>
+            <radius value="1.2993"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.378,44.663"/>
+            <radius value="1.4062"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.2998,44.6733"/>
+            <radius value="1.529"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.8374,23.488"/>
+            <radius value="1.2795"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="Lock4_BeaconsTurnON"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="113.0546,45.0898"/>
+            <radius value="1.7712"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Bonus2_SpawnRegions"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="94.1525,46.9082"/>
+            <radius value="0.767"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.0781,42.1015"/>
+            <radius value="0.7412"/>
+        </shape>
+        <shape type="circle">
+            <center value="119.0541,38.5961"/>
+            <radius value="0.792"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="BaseAttackWave2"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="71.9018,114.4912"/>
+            <width value="2.7207"/>
+            <height value="12.4111"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="BaseAttackWave3"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="132.1147,96.3657"/>
+            <width value="2.7517"/>
+            <height value="7.7978"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="26.2365,59.582"/>
+            <radius value="14.1547"/>
+        </shape>
+        <shape type="circle">
+            <center value="43.3825,67.4343"/>
+            <radius value="12.956"/>
+        </shape>
+        <shape type="circle">
+            <center value="37.0864,46.0625"/>
+            <radius value="23.97"/>
+        </shape>
+        <shape type="circle">
+            <center value="50.1264,36.5625"/>
+            <radius value="15.5097"/>
+        </shape>
+        <shape type="circle">
+            <center value="53.8974,48.6115"/>
+            <radius value="12.2324"/>
+        </shape>
+        <shape type="circle">
+            <center value="64.6757,50.0065"/>
+            <radius value="6.4533"/>
+        </shape>
+        <shape type="circle">
+            <center value="24.6464,39.1848"/>
+            <radius value="19.4648"/>
+        </shape>
+        <shape type="circle">
+            <center value="55.3715,62.574"/>
+            <radius value="3.0817"/>
+        </shape>
+        <shape type="circle">
+            <center value="35.264,94.7551"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="66.9248,70.7397"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

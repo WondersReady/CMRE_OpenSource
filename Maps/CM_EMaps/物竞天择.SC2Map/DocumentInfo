@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocInfo>
+    <Icon>
+        <Value>CustomMapPreviewImage225x150.jpg</Value>
+    </Icon>
+    <Dependencies>
+        <Value>bnet:CM_Core_Extra/0.0/243340,file:Mods\CM\CM_Core_Extra.SC2Mod</Value>
+    </Dependencies>
+    <Screenshot>
+        <File>
+            <Value>PA\1.jpg</Value>
+            <Value>PA\2.jpg</Value>
+            <Value>PA\3.jpg</Value>
+            <Value>PA\4.jpg</Value>
+            <Value>PA\5.jpg</Value>
+        </File>
+        <CaptionId>
+            <Value>1</Value>
+            <Value>2</Value>
+            <Value>4</Value>
+            <Value>3</Value>
+            <Value>5</Value>
+        </CaptionId>
+        <Flags>
+            <Value> </Value>
+            <Value> </Value>
+            <Value> </Value>
+            <Value> </Value>
+            <Value> </Value>
+        </Flags>
+    </Screenshot>
+    <ScreenshotHowToPlay>
+        <File>
+            <Value>PA\1.jpg</Value>
+            <Value>PA\2.jpg</Value>
+            <Value>PA\3.jpg</Value>
+            <Value>PA\4.jpg</Value>
+            <Value>PA\5.jpg</Value>
+        </File>
+        <CaptionId>
+            <Value>1</Value>
+            <Value>2</Value>
+            <Value>3</Value>
+            <Value>5</Value>
+            <Value>4</Value>
+        </CaptionId>
+        <Flags>
+            <Value> </Value>
+            <Value> </Value>
+            <Value> </Value>
+            <Value> </Value>
+            <Value> </Value>
+        </Flags>
+    </ScreenshotHowToPlay>
+</DocInfo>

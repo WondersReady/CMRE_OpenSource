@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="DominionLab">
+        <HardTiles index="0" value="TarsonisRail"/>
+        <BlendTextures index="5" value="KorhalPlatform3"/>
+        <BlendTextures index="6" value="CastanarSmallTiles"/>
+        <Ambience value="Ambience_Moebius01_Quad"/>
+    </CTerrain>
+    <CTerrain id="KorhalCity">
+        <FogColor value="255,163,112,73"/>
+        <FogFalloff value="0.100000"/>
+        <FogNearPlane value="2.000000"/>
+        <FogFarPlane value="10.000000"/>
+        <HeightMapEnabled value="1"/>
+    </CTerrain>
+    <CTerrain id="UmojaEx3">
+        <HeightMapEnabled value="1"/>
+        <Ambience value="Ambience_Moebius01_Quad"/>
+    </CTerrain>
+</Catalog>

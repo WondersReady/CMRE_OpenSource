@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="ArchAngelCoopMissileDamage">
+        <Amount value="15"/>
+        <SearchFilters value="-;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectDamage id="ArchAngelCoopShootDamage">
+        <Amount value="2"/>
+    </CEffectDamage>
+    <CEffectDamage id="KaiserWormScourgeMissileDamage">
+        <Amount value="2"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="KaiserWormScourgeMissilePersistent">
+        <PeriodicPeriodArray index="0" value="0.4"/>
+    </CEffectCreatePersistent>
+</Catalog>

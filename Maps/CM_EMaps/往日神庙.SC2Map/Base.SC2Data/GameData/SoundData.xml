@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSound id="Ambience_PShakuras02_HighIntensity_Quad">
+        <Volume value="3.000000,3.000000"/>
+    </CSound>
+    <CSound id="ObjectiveStinger" parent="Spell">
+        <AssetArray File="Assets\Music\UI_Stinger_Complete05.ogg"/>
+        <Flags index="Purgable" value="0"/>
+        <Category value="Other"/>
+        <Mode value="2D"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="SmallHit" parent="Spell">
+        <AssetArray File="Assets\Music\UI_Stinger_Hit03.ogg"/>
+        <Flags index="Purgable" value="0"/>
+        <Category value="Other"/>
+        <Mode value="2D"/>
+    </CSound>
+    <CSound id="OverloadTempleButton" parent="Spell">
+        <AssetArray File="Assets\Music\UI_Stinger_Complete06.ogg"/>
+        <Flags index="Purgable" value="0"/>
+        <Category value="Other"/>
+        <Mode value="2D"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="StatueCrumble" parent="Other">
+        <AssetArray File="Assets\Sounds\Kraith_RockImpact_2.wav"/>
+        <Category value="Death"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="BricksCrumble" parent="Other">
+        <AssetArray File="Assets\Sounds\FX_HeavyRockCrumbles_08.wav"/>
+        <Category value="Death"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="VictoryNydus" parent="Other">
+        <AssetArray File="Assets\Sounds\Zerg\NydusWorm\NydusWorm_Birth0.wav"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="WallExplode" parent="Other">
+        <AssetArray File="Assets\Sounds\Zurvan_Appears.wav"/>
+        <Category value="Death"/>
+    </CSound>
+    <CSound id="MusicFinalWaves" parent="MUSIC">
+        <AssetArray File="Assets\Music\Cities_In_Ruin_FULL.ogg" FacialGroup="">
+            <SyncPoints value="0"/>
+            <SyncPoints value="2000000"/>
+        </AssetArray>
+        <AssetArray File="Assets\Music\Cities_In_Ruin_FULL.ogg" FacialGroup=""/>
+        <SustainFade index="1" Time="5000" Volume="-96.000000"/>
+        <Volume value="4.000000,4.000000"/>
+        <VolumeRolloffPoints Distance="10.000000"/>
+        <VolumeRolloffPoints Distance="30.042919" Volume="-96.000000"/>
+    </CSound>
+    <CSound id="Music_Stinger_Event" parent="MUSIC">
+        <AssetArray File="Assets\Music\ZI_MUSIC_Stinger_02.ogg"/>
+        <Volume value="4.000000,4.000000"/>
+    </CSound>
+    <CSound id="MusicIntro" parent="MUSIC">
+        <AssetArray File="Assets\Music\The_Rescue_FULL.ogg" Offset="441000,441000" FacialGroup="">
+            <SyncPoints value="0"/>
+            <SyncPoints value="441000"/>
+            <SyncPoints value="2000000"/>
+        </AssetArray>
+        <Category value="Other"/>
+        <SustainFade index="1" Time="5000" Volume="-96.000000"/>
+        <Volume value="0.000000,0.000000"/>
+        <VolumeRolloffPoints Distance="10.000000"/>
+        <VolumeRolloffPoints Distance="30.042919" Volume="-96.000000"/>
+    </CSound>
+    <CSound id="BigHit" parent="Spell">
+        <AssetArray File="Assets\Sounds\Slivan_BodyExplode_1.wav"/>
+        <Flags index="Purgable" value="0"/>
+        <Category value="Death"/>
+        <Mode value="2D"/>
+    </CSound>
+    <CSound id="VictoryStinger" parent="MUSIC">
+        <AssetArray File="Assets\Music\ZExpedition03MusicCutscene_ProtossWarriors.ogg"/>
+        <Volume value="0.000000,0.000000"/>
+        <Category value="Other"/>
+    </CSound>
+    <CSound id="WallCrumble" parent="Other">
+        <AssetArray File="Assets\Sounds\Zurvan_CS_Intro_QuakeLite.ogg"/>
+        <Category value="Death"/>
+    </CSound>
+</Catalog>

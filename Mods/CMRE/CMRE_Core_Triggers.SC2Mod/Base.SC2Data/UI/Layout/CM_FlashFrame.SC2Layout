@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <!-- Flash Hack --> 
+    <Frame type="Frame" name="FlashHack" template="HotS_GasGauge/HotSGasGaugeFrameTemplate">
+        <Anchor relative="$parent"/> 
+        <Frame type="FlashFrame" name="FlashFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <File val="Assets/Animations/ui_victory_autoplay_protoss_cn_noname.swf"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="FlashContainer">
+         <Anchor relative="$parent" /> 
+         <Visible val="False" />
+         <!-- Handle -->
+         <Frame type="Frame" name="Flash" template="CM_FlashFrame/FlashHack">
+            <Frame type="FlashFrame" name="FlashFrame">
+                 <File val="Assets/Animations/ui_victory_autoplay_protoss_cn_noname.swf"/>
+            </Frame>
+         </Frame>
+    </Frame>
+</Desc>
+

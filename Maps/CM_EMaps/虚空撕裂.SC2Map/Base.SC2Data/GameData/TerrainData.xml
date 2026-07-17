@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="Char2">
+        <Lighting value="CustomLight"/>
+        <CreepEdgeNormalMap value="Assets\Textures\CreepEdgeNormal_ex2.dds"/>
+        <CreepSettingsArray index="Low">
+            <CreepOpaqueAlphaThreshold value="0.200000"/>
+            <CreepTranslucentMinThreshold value="0.000000"/>
+            <CreepTranslucentMaxThreshold value="0.200000"/>
+            <CreepTranslucentPassTint value="1.100000,1.000000,1.100000"/>
+        </CreepSettingsArray>
+        <CreepSettingsArray index="Medium">
+            <CreepOpaqueAlphaThreshold value="0.200000"/>
+            <CreepTranslucentMinThreshold value="0.000000"/>
+            <CreepTranslucentMaxThreshold value="0.200000"/>
+            <CreepTranslucentPassTint value="1.100000,1.000000,1.100000"/>
+        </CreepSettingsArray>
+        <CreepSettingsArray index="High">
+            <CreepOpaqueAlphaThreshold value="0.200000"/>
+            <CreepTranslucentMinThreshold value="0.000000"/>
+            <CreepTranslucentMaxThreshold value="0.200000"/>
+            <CreepTranslucentPassTint value="1.100000,1.000000,1.100000"/>
+        </CreepSettingsArray>
+        <CreepSettingsArray index="Ultra">
+            <CreepOpaqueAlphaThreshold value="0.200000"/>
+            <CreepTranslucentMinThreshold value="0.000000"/>
+            <CreepTranslucentMaxThreshold value="0.200000"/>
+            <CreepTranslucentPassTint value="1.100000,1.000000,1.100000"/>
+        </CreepSettingsArray>
+        <CreepSettingsArray index="Extreme">
+            <CreepOpaqueAlphaThreshold value="0.200000"/>
+            <CreepTranslucentMinThreshold value="0.000000"/>
+            <CreepTranslucentMaxThreshold value="0.200000"/>
+            <CreepTranslucentPassTint value="1.100000,1.000000,1.100000"/>
+        </CreepSettingsArray>
+    </CTerrain>
+    <CTerrain id="CharEx2_Fortress">
+        <BlendTextures index="2" value="Char2_7"/>
+        <BlendTextures index="4" value="Char2_2"/>
+        <BlendTextures index="6" value="KorhalPlatformEx2_6"/>
+        <BlendTextures index="7" value="KorhalPlatformEx2_8"/>
+        <CliffSets index="0" value="Char2Cliff0"/>
+        <CliffSets index="1" value="Char2Cliff1"/>
+        <Lighting value="CustomLight"/>
+        <MinimapBrightenFactor value="1.600000"/>
+    </CTerrain>
+</Catalog>

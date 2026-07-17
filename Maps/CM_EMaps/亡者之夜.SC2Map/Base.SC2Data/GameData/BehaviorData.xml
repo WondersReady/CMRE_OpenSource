@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <!--Properly Implemented by Data, hanging onto temporarily
+    <CBehaviorBuff id="LeapStun">
+        <Duration value="0.25"/>
+    </CBehaviorBuff>
+-->
+    <CBehaviorBuff id="SensorTowerRadar">
+        <Modification Radar="40"/>
+    </CBehaviorBuff>
+</Catalog>

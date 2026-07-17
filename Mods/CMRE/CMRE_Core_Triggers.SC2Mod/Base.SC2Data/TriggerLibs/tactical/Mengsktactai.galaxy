@@ -1,0 +1,1043 @@
+//--------------------------------------------------------------------------------------------------
+//  Mengsk tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMMengsk_TU_Trooper = "TrooperMengsk";
+const string c_CMMengsk_TU_Ghost = "GhostMengsk";
+const string c_CMMengsk_TU_SiegeTank = "SiegeTankMengsk";
+const string c_CMMengsk_TU_SiegeTankSieged = "SiegeTankMengskSieged";
+const string c_CMMengsk_TU_Thor = "ThorMengsk";
+const string c_CMMengsk_TU_ThorSieged = "ThorMengskSieged";
+const string c_CMMengsk_TU_VikingFighter = "VikingMengskFighter";
+const string c_CMMengsk_TU_VikingAssault = "VikingMengskAssault";
+const string c_CMMengsk_TU_Battlecruiser = "BattlecruiserMengsk";
+const string c_CMMengsk_TU_Artillery = "ArtilleryMengsk";
+const string c_CMMengsk_TU_Witness = "RavenMengsk";
+const string c_CMMengsk_TU_WitnessSieged = "RavenMengskSieged";
+const string c_CMMengsk_AB_TrooperAA = "TrooperMengskSpecializeAA";
+const string c_CMMengsk_AB_TrooperFlamethrower = "TrooperMengskSpecializeFlamethrower";
+const string c_CMMengsk_AB_TrooperImproved = "TrooperMengskSpecializeImproved";
+const string c_CMMengsk_AB_GhostNuke = "GhostMengskNuke";
+const string c_CMMengsk_AB_GhostEMPShort = "GhostMengskEMPShortStun";
+const string c_CMMengsk_AB_GhostEMPLong = "GhostMengskEMPLongStun";
+const string c_CMMengsk_AB_GhostIrradiateSmall = "GhostMengskIrradiateSmallDamage";
+const string c_CMMengsk_AB_GhostIrradiateBig = "GhostMengskIrradiateBigDamage";
+const string c_CMMengsk_AB_GhostSuperCloak = "GhostMengskSuperCloak";
+const string c_CMMengsk_AB_SiegeMode = "SiegeModeMengsk";
+const string c_CMMengsk_AB_Unsiege = "UnsiegeMengsk";
+const string c_CMMengsk_AB_ThorSiege = "ThorMengskSiege";
+const string c_CMMengsk_AB_ThorUnsiege = "ThorMengskUnsiege";
+const string c_CMMengsk_AB_ThorTargeted = "ThorMengskSiegeTargeted";
+const string c_CMMengsk_AB_ThorTargetedRange = "ThorMengskSiegeTargetedIncreasedRange";
+const string c_CMMengsk_AB_ThorTargetedLarge = "ThorMengskSiegeTargetedLargeAoE";
+const string c_CMMengsk_AB_AssaultMode = "AssaultModeMengsk";
+const string c_CMMengsk_AB_FighterMode = "FighterModeMengsk";
+const string c_CMMengsk_AB_Yamato = "BattlecruiserMengskYamato";
+const string c_CMMengsk_AB_YamatoTwoCharges = "BattlecruiserMengskYamatoTwoCharges";
+const string c_CMMengsk_AB_ArtilleryAttack = "ArtilleryMengskAttack";
+const string c_CMMengsk_AB_WitnessSiege = "RavenMengskMorphtoRavenMengskSieged";
+const string c_CMMengsk_AB_WitnessUnsiege = "RavenMengskSiegedMorphtoRavenMengsk";
+const string c_CMMengsk_EF_GhostEMPSmallSearch = "GhostMengskEMPSmallSearch";
+const string c_CMMengsk_EF_GhostIrradiateSmallSearch = "GhostMengskIrradiateSmallSearch";
+const string c_CMMengsk_EF_GhostIrradiateBigSearch = "GhostMengskIrradiateBigSearch";
+const string c_CMMengsk_EF_GhostNukeDamage = "GhostMengskNukeDamage";
+const string c_CMMengsk_EF_ThorTargetedSearch = "ThorMengskSiegeTargetSearch";
+const string c_CMMengsk_EF_ThorTargetedLargeSearch = "ThorMengskSiegeTargetLargeAoESearch";
+const string c_CMMengsk_EF_YamatoDamage = "BattlecruiserMengskYamatoDamage";
+const string c_CMMengsk_EF_ArtilleryDamageSearch = "ArtilleryMengskBombardmentDamageSearch";
+const string c_CMMengsk_EF_ArtilleryDamage = "ArtilleryMengskBombardmentDamage";
+const string c_CMMengsk_WE_SiegeTankSieged = "SiegeTankMengskSieged";
+const string c_CMMengsk_WE_Artillery = "ArtilleryMengskBombardment";
+const fixed c_CMMengsk_TrooperScanRange = 9.0;
+const fixed c_CMMengsk_TrooperCloseRange = 3.5;
+const fixed c_CMMengsk_GhostCloseRange = 8.0;
+const fixed c_CMMengsk_GhostNukeRange = 12.0;
+const fixed c_CMMengsk_GhostNukeMinScore = 240.0;
+const fixed c_CMMengsk_SiegeTankScanRange = 13.5;
+const fixed c_CMMengsk_SiegeTankUnsiegeEnemyRange = 14.0;
+const fixed c_CMMengsk_ThorSiegeRange = 12.0;
+const fixed c_CMMengsk_ThorAirRange = 18.0;
+const fixed c_CMMengsk_VikingAirScanRange = 10.0;
+const fixed c_CMMengsk_VikingGroundScanRange = 8.0;
+const fixed c_CMMengsk_VikingLowVitality = 35.0;
+const fixed c_CMMengsk_BattlecruiserRange = 10.0;
+const fixed c_CMMengsk_ArtilleryRange = 50.0;
+const fixed c_CMMengsk_ArtilleryMinRange = 7.0;
+const fixed c_CMMengsk_WitnessAuraRange = 15.0;
+const int c_CMMengsk_GhostEMPMinHits = 3;
+const int c_CMMengsk_GhostIrradiateMinHits = 2;
+const int c_CMMengsk_ThorAirMinHits = 2;
+const int c_CMMengsk_ArtilleryMinHits = 3;
+
+//--------------------------------------------------------------------------------------------------
+bool CMMengskAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMMengskAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMMengskEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = AIEffectFixed(player, effectLink, c_fieldRadius);
+    }
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMMengskEffectFilters (int player, string effectLink, string fallbackFilters) {
+    string filters;
+
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    if (StringEqual(filters, "", true) == true) {
+        filters = fallbackFilters;
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMMengskAbilityTargetFilters (int player, string abilityLink, string fallbackFilters) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+    if (StringEqual(filters, "", true) == true) {
+        filters = fallbackFilters;
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMMengskDamageBase (fixed damage, int defaultDamage) {
+    int damageBase;
+
+    damageBase = FixedToInt(damage);
+    if (damageBase <= 0) {
+        damageBase = defaultDamage;
+    }
+
+    return damageBase;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMMengskFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMMengskEnemyPlaneGroup (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterPlane(filter, plane);
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMMengskEnemyCountInRange (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMMengskFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    return UnitGroupCount(enemyGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMMengskEnemyPlaneCountInRange (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMMengskEnemyPlaneGroup(player, aiUnit, scanGroup, plane, range);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    return UnitGroupCount(enemyGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMMengskTargetScore (unit targetUnit, bool preferStructure, bool preferMassive, bool preferAir, bool preferBiological) {
+    fixed score;
+    string unitType;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    unitType = UnitGetType(targetUnit);
+    score = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if ((preferStructure == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeStructure) == true)) {
+        score = score + 220.0;
+    }
+    if ((preferMassive == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true)) {
+        score = score + 180.0;
+    }
+    if ((preferAir == true) && (UnitTestPlane(targetUnit, c_planeAir) == true)) {
+        score = score + 140.0;
+    }
+    if ((preferBiological == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeBiological) == true)) {
+        score = score + 120.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeHeroic) == true) {
+        score = score + 220.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeArmored) == true) {
+        score = score + 80.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMMengskBestEnemyByScore (unitgroup targetGroup, bool preferStructure, bool preferMassive, bool preferAir, bool preferBiological) {
+    fixed targetScore;
+    fixed bestScore;
+    int count;
+    unit targetUnit;
+    unit bestUnit;
+
+    bestScore = 0.0;
+    bestUnit = null;
+    if (targetGroup == null) {
+        return null;
+    }
+
+    count = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, count);
+        count = count - 1;
+        targetScore = CMMengskTargetScore(targetUnit, preferStructure, preferMassive, preferAir, preferBiological);
+        if (targetScore > bestScore) {
+            bestScore = targetScore;
+            bestUnit = targetUnit;
+        }
+    }
+
+    return bestUnit;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskInstantOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (CMMengskAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskPointOrderAt (int player, unit aiUnit, string abilityLink, point targetPoint) {
+    order ord;
+
+    if (targetPoint == null) {
+        return null;
+    }
+    if (CMMengskAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskBestPointOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed defaultRange, fixed defaultRadius, int minHits, int defaultDamage, string fallbackFilters) {
+    fixed range;
+    fixed radius;
+    fixed damage;
+    point targetPoint;
+    string filters;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMMengskAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMMengskAbilityRange(player, abilityLink, defaultRange);
+    radius = CMMengskEffectRadius(player, effectLink, defaultRadius);
+    damage = AIEffectFixed(player, effectLink, c_fieldAmount);
+    filters = CMMengskEffectFilters(player, effectLink, fallbackFilters);
+    targetGroup = CMMengskFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, CMMengskDamageBase(damage, defaultDamage), 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = CMMengskPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskBestUnitOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed defaultRange, bool preferStructure, bool preferMassive, bool preferAir, bool preferBiological) {
+    fixed range;
+    fixed targetScore;
+    fixed bestScore;
+    int count;
+    string filters;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+    if (CMMengskAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMMengskAbilityRange(player, abilityLink, defaultRange);
+    filters = CMMengskAbilityTargetFilters(player, abilityLink, "Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable");
+    targetGroup = CMMengskFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, abilityLink, 0);
+    count = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, count);
+        count = count - 1;
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMMengskTargetScore(targetUnit, preferStructure, preferMassive, preferAir, preferBiological);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if (bestTarget == null) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(bestOrder, bestTarget);
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMMengskAllyCombatUnitCount (int player, unit aiUnit, fixed range) {
+    int count;
+    int result;
+    unit allyUnit;
+    unitgroup allyGroup;
+
+    result = 0;
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), range), null, c_noMaxCount);
+    count = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (count > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, count);
+        count = count - 1;
+        if ((allyUnit != aiUnit) && (UnitTypeTestAttribute(UnitGetType(allyUnit), c_unitAttributeStructure) == false)) {
+            result = result + 1;
+        }
+    }
+
+    return result;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMMengskGhostIsBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_GhostNuke) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_GhostEMPShort) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_GhostEMPLong) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_GhostIrradiateSmall) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_GhostIrradiateBig) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_GhostSuperCloak) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskTrooperWeaponOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    int airCount;
+    int closeGroundCount;
+    int groundCount;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_TrooperAA) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_TrooperFlamethrower) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_TrooperImproved) == true)) {
+        return null;
+    }
+
+    airCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, c_CMMengsk_TrooperScanRange);
+    groundCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_TrooperScanRange);
+    closeGroundCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_TrooperCloseRange);
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+
+    if (airCount > 0) {
+        return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_TrooperAA);
+    }
+    if (closeGroundCount >= 2) {
+        return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_TrooperFlamethrower);
+    }
+    if (groundCount > 0) {
+        return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_TrooperImproved);
+    }
+    if (vitality < 99.0) {
+        return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_TrooperFlamethrower);
+    }
+
+    return null;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMMengskGhostSuperCloak (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    int enemyCount;
+    order ord;
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    enemyCount = CMMengskEnemyCountInRange(player, aiUnit, scanGroup, "", c_CMMengsk_GhostCloseRange);
+    if ((vitality > 70.0) && (enemyCount <= 0)) {
+        return false;
+    }
+
+    ord = CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_GhostSuperCloak);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskGhostEMPOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskBestPointOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_GhostEMPLong, c_CMMengsk_EF_GhostEMPSmallSearch, 10.0, 3.0, c_CMMengsk_GhostEMPMinHits, 100, "-;Player,Ally,User1,Hidden,Invulnerable");
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMMengskBestPointOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_GhostEMPShort, c_CMMengsk_EF_GhostEMPSmallSearch, 10.0, 3.0, c_CMMengsk_GhostEMPMinHits, 100, "-;Player,Ally,User1,Hidden,Invulnerable");
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskGhostIrradiateOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskBestUnitOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_GhostIrradiateBig, 10.0, false, true, false, true);
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMMengskBestUnitOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_GhostIrradiateSmall, 10.0, false, true, false, true);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMMengskGhostNukeUnitScore (unit targetUnit, point targetPoint, fixed baseDamage, fixed structureBonus, fixed closeRadius, fixed mediumRadius) {
+    fixed damage;
+    fixed distance;
+    fixed vitality;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (targetPoint == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    distance = DistanceBetweenPoints(UnitGetPosition(targetUnit), targetPoint);
+    if (distance > mediumRadius) {
+        return 0.0;
+    }
+
+    damage = baseDamage;
+    if (UnitTypeTestAttribute(UnitGetType(targetUnit), c_unitAttributeStructure) == true) {
+        damage = damage + structureBonus;
+    }
+    if (distance > closeRadius) {
+        damage = damage * 0.5;
+    }
+
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if (vitality < damage) {
+        return vitality;
+    }
+
+    return damage;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMMengskGhostNukePointScore (unitgroup targetGroup, point targetPoint, fixed baseDamage, fixed structureBonus, fixed closeRadius, fixed mediumRadius) {
+    fixed score;
+    int count;
+    unit targetUnit;
+
+    score = 0.0;
+    if (targetGroup == null) {
+        return 0.0;
+    }
+
+    count = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, count);
+        count = count - 1;
+        score = score + CMMengskGhostNukeUnitScore(targetUnit, targetPoint, baseDamage, structureBonus, closeRadius, mediumRadius);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+point CMMengskGhostNukeBestPoint (unitgroup targetGroup, fixed baseDamage, fixed structureBonus, fixed closeRadius, fixed mediumRadius) {
+    fixed score;
+    fixed bestScore;
+    int count;
+    point targetPoint;
+    point bestPoint;
+    unit targetUnit;
+
+    bestScore = 0.0;
+    bestPoint = null;
+    if (targetGroup == null) {
+        return null;
+    }
+
+    count = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, count);
+        count = count - 1;
+        targetPoint = UnitGetPosition(targetUnit);
+        score = CMMengskGhostNukePointScore(targetGroup, targetPoint, baseDamage, structureBonus, closeRadius, mediumRadius);
+        if (score > bestScore) {
+            bestScore = score;
+            bestPoint = targetPoint;
+        }
+    }
+
+    if (bestScore < c_CMMengsk_GhostNukeMinScore) {
+        return null;
+    }
+
+    return bestPoint;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskGhostNukeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed baseDamage;
+    fixed closeRadius;
+    fixed mediumRadius;
+    fixed range;
+    fixed structureBonus;
+    point targetPoint;
+    string filters;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMMengskAbilityExists(aiUnit, c_CMMengsk_AB_GhostNuke) == false) {
+        return null;
+    }
+
+    range = CMMengskAbilityRange(player, c_CMMengsk_AB_GhostNuke, c_CMMengsk_GhostNukeRange);
+    baseDamage = AIEffectFixed(player, c_CMMengsk_EF_GhostNukeDamage, c_fieldAmount);
+    if (baseDamage <= 0.0) {
+        baseDamage = 150.0;
+    }
+    structureBonus = AIEffectFixed(player, c_CMMengsk_EF_GhostNukeDamage, c_fieldAttrStructure);
+    if (structureBonus <= 0.0) {
+        structureBonus = 100.0;
+    }
+    closeRadius = CMMengskEffectRadius(player, c_CMMengsk_EF_GhostNukeDamage, 1.5);
+    mediumRadius = AIEffectFixed(player, c_CMMengsk_EF_GhostNukeDamage, c_fieldAreaRadius1);
+    if (mediumRadius < closeRadius) {
+        mediumRadius = closeRadius;
+    }
+
+    filters = CMMengskEffectFilters(player, c_CMMengsk_EF_GhostNukeDamage, "-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable");
+    targetGroup = CMMengskFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + mediumRadius);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = CMMengskGhostNukeBestPoint(targetGroup, baseDamage, structureBonus, closeRadius, mediumRadius);
+    ord = CMMengskPointOrderAt(player, aiUnit, c_CMMengsk_AB_GhostNuke, targetPoint);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskSiegeTankOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int groundCount;
+
+    groundCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_SiegeTankScanRange);
+    if (groundCount <= 0) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_SiegeMode);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskSiegeTankSiegedOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int groundCount;
+
+    groundCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_SiegeTankUnsiegeEnemyRange);
+    if (groundCount > 0) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_Unsiege);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskThorSiegeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int airCount;
+    int enemyCount;
+
+    airCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, c_CMMengsk_ThorAirRange);
+    enemyCount = CMMengskEnemyCountInRange(player, aiUnit, scanGroup, "", c_CMMengsk_ThorSiegeRange);
+    if ((airCount <= 0) && (enemyCount <= 0)) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_ThorSiege);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskThorAirOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskBestPointOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_ThorTargetedLarge, c_CMMengsk_EF_ThorTargetedLargeSearch, 9.0, 4.0, c_CMMengsk_ThorAirMinHits, 80, "Air,Visible;Ally,Worker,Missile,Stasis,Dead,Hidden,Invulnerable");
+    if (ord != null) {
+        return ord;
+    }
+
+    ord = CMMengskBestPointOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_ThorTargetedRange, c_CMMengsk_EF_ThorTargetedSearch, 9.0, 2.5, c_CMMengsk_ThorAirMinHits, 60, "Air,Visible;Ally,Worker,Missile,Stasis,Dead,Hidden,Invulnerable");
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMMengskBestPointOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_ThorTargeted, c_CMMengsk_EF_ThorTargetedSearch, 7.0, 2.5, c_CMMengsk_ThorAirMinHits, 60, "Air,Visible;Ally,Worker,Missile,Stasis,Dead,Hidden,Invulnerable");
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskThorUnsiegeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int airCount;
+    int enemyCount;
+
+    airCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, c_CMMengsk_ThorAirRange + 2.0);
+    enemyCount = CMMengskEnemyCountInRange(player, aiUnit, scanGroup, "", c_CMMengsk_ThorSiegeRange);
+    if ((airCount > 0) || (enemyCount > 0)) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_ThorUnsiege);
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMMengskBestMassiveEnemy (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    fixed targetScore;
+    fixed bestScore;
+    int count;
+    string unitType;
+    unit enemyUnit;
+    unit bestUnit;
+    unitgroup enemyGroup;
+
+    bestScore = 0.0;
+    bestUnit = null;
+    enemyGroup = CMMengskEnemyPlaneGroup(player, aiUnit, scanGroup, plane, range);
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    count = UnitGroupCount(enemyGroup, c_unitCountAlive);
+    while (count > 0) {
+        enemyUnit = UnitGroupUnit(enemyGroup, count);
+        count = count - 1;
+        unitType = UnitGetType(enemyUnit);
+        if (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true) {
+            targetScore = CMMengskTargetScore(enemyUnit, false, true, false, false);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestUnit = enemyUnit;
+            }
+        }
+    }
+
+    return bestUnit;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskVikingFighterOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    unit targetUnit;
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (vitality <= c_CMMengsk_VikingLowVitality) {
+        return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_AssaultMode);
+    }
+
+    targetUnit = CMMengskBestMassiveEnemy(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_VikingGroundScanRange);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_AssaultMode);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskVikingAssaultOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    int airCount;
+    int groundCount;
+    unit targetUnit;
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (vitality <= c_CMMengsk_VikingLowVitality) {
+        return null;
+    }
+
+    targetUnit = CMMengskBestMassiveEnemy(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_VikingGroundScanRange + 2.0);
+    if (targetUnit != null) {
+        return null;
+    }
+
+    groundCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, c_CMMengsk_VikingGroundScanRange);
+    airCount = CMMengskEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, c_CMMengsk_VikingAirScanRange);
+    if ((airCount <= 0) || (groundCount > airCount)) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_FighterMode);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskBattlecruiserYamatoOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_Yamato) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_YamatoTwoCharges) == true)) {
+        return null;
+    }
+
+    ord = CMMengskBestUnitOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_YamatoTwoCharges, c_CMMengsk_BattlecruiserRange, true, true, false, false);
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMMengskBestUnitOrder(player, aiUnit, scanGroup, c_CMMengsk_AB_Yamato, c_CMMengsk_BattlecruiserRange, true, true, false, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMMengskArtilleryTargetIsInDeadZone (unit aiUnit, point targetPoint) {
+    if (targetPoint == null) {
+        return true;
+    }
+    if (DistanceBetweenPoints(UnitGetPosition(aiUnit), targetPoint) < c_CMMengsk_ArtilleryMinRange) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskArtilleryAttackOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed radius;
+    fixed range;
+    point targetPoint;
+    unit targetUnit;
+    unitgroup targetGroup;
+    order ord;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_ArtilleryAttack) == true) || (UnitOrderHasAbil(aiUnit, c_AB_Attack) == true)) {
+        return null;
+    }
+
+    range = AIWeaponFixed(player, c_CMMengsk_WE_Artillery, c_fieldRange);
+    if (range <= 0.0) {
+        range = c_CMMengsk_ArtilleryRange;
+    }
+    radius = CMMengskEffectRadius(player, c_CMMengsk_EF_ArtilleryDamageSearch, 3.0);
+    targetGroup = CMMengskFilteredEnemyGroup(player, aiUnit, scanGroup, "Ground,Visible;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable", range + radius);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, c_CMMengsk_ArtilleryMinHits, CMMengskDamageBase(AIEffectFixed(player, c_CMMengsk_EF_ArtilleryDamage, c_fieldAmount), 100), 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (CMMengskArtilleryTargetIsInDeadZone(aiUnit, targetPoint) == false) {
+        ord = CMMengskPointOrderAt(player, aiUnit, c_CMMengsk_AB_ArtilleryAttack, targetPoint);
+        if (ord != null) {
+            return ord;
+        }
+        ord = OrderTargetingPoint(AbilityCommand(c_AB_Attack, 0), targetPoint);
+        if (UnitOrderIsValid(aiUnit, ord) == true) {
+            return ord;
+        }
+    }
+
+    targetUnit = CMMengskBestEnemyByScore(targetGroup, true, true, false, false);
+    if (targetUnit == null) {
+        return null;
+    }
+    if (DistanceBetweenPoints(UnitGetPosition(aiUnit), UnitGetPosition(targetUnit)) < c_CMMengsk_ArtilleryMinRange) {
+        return null;
+    }
+
+    ord = OrderTargetingUnit(AbilityCommand(c_AB_Attack, 0), targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskWitnessSiegeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int allyCount;
+    int enemyCount;
+
+    allyCount = CMMengskAllyCombatUnitCount(player, aiUnit, c_CMMengsk_WitnessAuraRange);
+    enemyCount = CMMengskEnemyCountInRange(player, aiUnit, scanGroup, "", c_CMMengsk_WitnessAuraRange);
+    if ((allyCount < 3) && (enemyCount <= 0)) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_WitnessSiege);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMMengskWitnessUnsiegeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int allyCount;
+    int enemyCount;
+
+    allyCount = CMMengskAllyCombatUnitCount(player, aiUnit, c_CMMengsk_WitnessAuraRange);
+    enemyCount = CMMengskEnemyCountInRange(player, aiUnit, scanGroup, "", c_CMMengsk_WitnessAuraRange);
+    if ((allyCount >= 2) || (enemyCount > 0)) {
+        return null;
+    }
+
+    return CMMengskInstantOrder(player, aiUnit, c_CMMengsk_AB_WitnessUnsiege);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskTrooper (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskTrooperWeaponOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskGhost (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (AITacticalAutoCastOffForUnit(aiUnit) == true) {
+        return;
+    }
+    if (CMMengskGhostIsBusy(aiUnit) == true) {
+        return;
+    }
+    if (CMMengskGhostSuperCloak(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    ord = CMMengskGhostNukeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMMengskGhostEMPOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMMengskGhostIrradiateOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskSiegeTank (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskSiegeTankOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskSiegeTankSieged (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskSiegeTankSiegedOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskThor (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskThorSiegeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskThorSieged (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_ThorTargeted) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_ThorTargetedRange) == true) || (UnitOrderHasAbil(aiUnit, c_CMMengsk_AB_ThorTargetedLarge) == true)) {
+        return;
+    }
+
+    ord = CMMengskThorAirOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMMengskThorUnsiegeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskVikingFighter (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskVikingFighterOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskVikingAssault (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskVikingAssaultOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskBattlecruiser (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskBattlecruiserYamatoOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskArtillery (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskArtilleryAttackOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskWitness (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskWitnessSiegeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkMengskWitnessSieged (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMMengskWitnessUnsiegeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}

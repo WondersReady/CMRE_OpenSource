@@ -1,0 +1,1408 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSound id="AscendantAttackedMultiple1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedMultiple1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantAttackedMultiple2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedMultiple2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantAttackedMultiple3" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedMultiple3.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantAttackedOneCrystal2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedOneCrystal2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantAttackedOneCrystal3" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedOneCrystal3.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantAttackedOneCrystal4" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedOneCrystal4.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantKilledCarnozor2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantKilledCarnozor.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantKilledMothmamKhailu" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantKilledMothmamKhailu.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantKilledUldra" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantKilledUldra.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakenedCarnozor" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakenedCarnozor.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakenedMothmamKhailu" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakenedMothmamKhailu.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakenedUldra" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakenedUldra.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakensSoonSkiver" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakensSoonSkiver.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakenedDevastatorSkiver" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakenedDevastatorSkiver.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusComplete2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusComplete2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="IncomingAshWorm1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\IncomingAshWorm1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusFailed1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusFailed1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusFailed2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusFailed2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusComplete1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusComplete1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusFinalWarning2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusFinalWarning2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusFirstWarning1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusFirstWarning1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusFinalWarning1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusFinalWarning1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusFirstWarning2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusFirstWarning2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="IncomingAshWorm2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\IncomingAshWorm2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="IncomingAshWorm3" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\IncomingAshWorm3.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="IncomingAshWorm4" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\IncomingAshWorm4.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="LostEggs10" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\LostEggs10.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="LostEggs15" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\LostEggs15.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="LostEggs20Loss" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\LostEggs20Loss.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="BonusStart" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\BonusStart.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="Victory" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\Victory.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="LostEggs5" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\LostEggs5_b.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="VoidCrystalsDestroyedMothmamKhailu" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\VoidCrystalsDestroyedMothmamKhailu.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="VoidCrystalsDestroyedDevastatorSkiver" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\VoidCrystalsDestroyedDevastatorSkiver.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakensSoonUldra" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakensSoonUldra.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantAttackedOneCrystal1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantAttackedOneCrystal.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="Introduction1" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\Introduction1.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="Explosion_Distant_2D" parent="Combat">
+        <AssetArray File="Assets\Sounds\Explosion_Distant_BGv2_03.wav" FacialGroup=""/>
+        <Category value="Other"/>
+        <Mode value="2D"/>
+        <Pitch value="-4.000000,-4.000000"/>
+        <SpeakerMix index="Center" value="0.000000"/>
+        <SpeakerMix index="LFE" value="0.250000"/>
+        <SpeakerMix index="BackLeft" value="0.500000"/>
+        <SpeakerMix index="BackRight" value="0.500000"/>
+        <SpeakerMix index="SideLeft" value="0.125000"/>
+        <SpeakerMix index="SideRight" value="0.125000"/>
+        <Volume value="2.000000,2.000000"/>
+        <VolumeRolloffFadeIn Volume="-96.000000"/>
+        <VolumeRolloffFadeIn Time="7"/>
+        <VolumeRolloffPoints Distance="8.702532"/>
+        <VolumeRolloffPoints Distance="15.189873" Volume="-2.370000"/>
+        <VolumeRolloffPoints Distance="21.202532" Volume="-96.000000"/>
+    </CSound>
+    <CSound id="Introduction2" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\Introduction2.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantsLieDormant" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantsLieDormant.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakensSoonMothmamKhailu" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakensSoonMothmamKhailu.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakensSoonCarnozor" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakensSoonCarnozor.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AwakensSoonDevastator" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AwakensSoonDevastator.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SporeRayBeamLoop" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\Protoss\VoidRay\VoidRay_WeaponLoop.wav" FacialGroup=""/>
+        <LoopCount value="-1"/>
+        <Volume value="-10.000000,-10.000000"/>
+    </CSound>
+    <CSound id="Purifier_PrePlanetCrackerEnergySwirl"/>
+    <CSound id="DehakaPlaceholderSound" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\PlaceholderDialog.wav"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="-50.000000,-50.000000"/>
+    </CSound>
+    <CSound id="VoidCrystalsDestroyedCarnozor" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\VoidCrystalsDestroyedCarnozor.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="VoidCrystalsDestroyedUldra" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\VoidCrystalsDestroyedUldra.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AscendantKilledDevastatorSkiver" Portrait="DehakaPortrait" Subtitle="zBriefing_Korhal02" Speaker="PrimalZergAdvisor" Actor="DehakaPortrait" Line="00005">
+        <AssetArray>
+            <File value="Assets\Sounds\Uni\AscendantKilledDevastatorSkiver.ogg"/>
+            <FacialAnim value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialGroup value="zBriefing_Korhal02_PrimalZergAdvisor_005"/>
+            <FacialFile value="LocalizedData\Sounds\VO\zBriefing_Korhal02_PrimalZergAdvisor_005.fxe"/>
+            <PortraitModel value="DehakaPortrait"/>
+            <PortraitActor value="DehakaPortrait"/>
+            <Speaker value="Character/Name/PrimalZergAdvisor"/>
+            <Subtitle value="Conversation/zBriefing_Korhal02/Line00005"/>
+        </AssetArray>
+        <Flags index="AutoUnload" value="1"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="Wait" value="1"/>
+        <Flags index="HideSubtitle" value="1"/>
+        <Category value="Mission"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="-1000"/>
+        <ReverbRolloffBlend value="Linear"/>
+        <ReverbRolloffPoints Direct="1.000000" Room="0.250000"/>
+        <ReverbRolloffPoints Distance="15.000000" Direct="1.000000" Room="0.250000"/>
+        <SpeakerMix index="FrontLeft" value="0.700000"/>
+        <SpeakerMix index="FrontRight" value="0.700000"/>
+        <SpeakerMix index="BackLeft" value="0.000000"/>
+        <SpeakerMix index="BackRight" value="0.000000"/>
+        <SpeakerMix index="SideLeft" value="0.000000"/>
+        <SpeakerMix index="SideRight" value="0.000000"/>
+        <SustainFade index="1" Time="250" Volume="-96.000000"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+</Catalog>

@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CModel id="salamanderAshWormHeal" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Zerg\ZergTransfusionCast\ZergTransfusionCast.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CModel>
+    <CModel id="SpagotCloud" parent="BlindingCloud">
+        <ScaleMax value="0.300000,0.300000,1.200000"/>
+        <ScaleMin value="0.350000,0.350000,1.200000"/>
+    </CModel>
+    <CModel id="KhailuBombImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\ParasiticBombAOE\ParasiticBombAOE.m3"/>
+        <Lighting value="CarnozorBombMissileImpact"/>
+        <ScaleMax value="0.250000,0.250000,0.250000"/>
+        <ScaleMin value="0.250000,0.250000,0.250000"/>
+    </CModel>
+    <CModel id="MothmamAuraRangeIndicator" parent="OneShotSpellFX">
+        <Model value="Assets\UI\Feedback\TargetingReticle02\TargetingReticle02.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value="GehennaCruiserRangeIndicator"/>
+    </CModel>
+    <CModel id="Hive2" parent="Hive">
+        <Model value="Assets\Buildings\Zerg\NydusWormCreeper\NydusWormCreeper.m3"/>
+        <ScaleMax value="1.500000,1.500000,1.200000"/>
+        <ScaleMin value="1.500000,1.500000,1.200000"/>
+    </CModel>
+    <CModel id="KhailuBombRangeIndicator" parent="OneShotSpellFX">
+        <Model value="Assets\UI\Cursors\ZergGenericAOECursorGrey\ZergGenericAOECursorGrey.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value="GehennaCruiserRangeIndicator"/>
+    </CModel>
+    <CModel id="Khailu" parent="Unit">
+        <Model value="Assets\Units\Zerg\PrimalZergGuardian\PrimalZergGuardian.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraLow08"/>
+        <Radius value="0.600000"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+        <SelectionOffset value="0.000000,0.000000,-0.400000"/>
+        <SelectionRadius value="0.857100"/>
+        <ShadowRadius value="0.857100"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="Star2CameraLow08"/>
+        <UnitGlossaryCamera value="Star2CameraLow08"/>
+    </CModel>
+    <CModel id="VoidCrystalAuraRangeIndicator" parent="OneShotSpellFX">
+        <Model value="Assets\UI\Feedback\PingCampaignTarget\PingCampaignTarget.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value="GehennaCruiserRangeIndicator"/>
+        <ScaleMax value="25.000000,25.000000,25.000000"/>
+        <ScaleMin value="25.000000,25.000000,25.000000"/>
+    </CModel>
+    <CModel id="Secret" parent="Unit" Race="Terran">
+        <Model value="Assets\Doodads\PickupChronoRiftDevice\PickupChronoRiftDevice.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <SelectionLayer value="100"/>
+        <SelectionOffset value="0.000000,0.000000,0.100000"/>
+    </CModel>
+    <CModel id="MutatedColonyAttackImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\PrimalSunkenColonyAttackImpact\PrimalSunkenColonyAttackImpact.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <ScaleMax value="1.500000,1.500000,1.000000"/>
+        <ScaleMin value="1.500000,1.500000,1.000000"/>
+    </CModel>
+    <CModel id="Skiver" parent="Unit" Race="Zerg">
+        <Model value="Assets\Units\Zerg\LurkerEx1A\LurkerEx1A.m3"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid08"/>
+        <Radius value="0.750000"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+        <SelectionRadius value="0.750000"/>
+        <ShadowRadius value="0.750000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="Star2CameraMid08"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.800000"/>
+        <TipabilityWidth value="0.800000"/>
+        <UnitGlossaryCamera value="Star2CameraMid08"/>
+    </CModel>
+    <CModel id="SunkenColonyAttackTargetSplat" parent="OneShotSpellFX">
+        <Model value="Assets\UI\BossTargetCursorSplat\BossTargetCursorSplat.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CModel>
+    <CModel id="MothmamAuraModel" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Zerg\Infested_Liberator_Cloud\Infested_Liberator_Cloud.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Lighting value="ArtanisVoidPsiStormModel"/>
+        <RadiusLoose value="1.000000"/>
+        <ScaleMax value="1.800000,1.800000,1.800000"/>
+        <ScaleMin value="1.800000,1.800000,1.800000"/>
+    </CModel>
+    <CModel id="VoidCrystalSlowAuraImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\PhysicsImpactSnowLight\PhysicsImpactSnowLight.m3"/>
+        <Lighting value="CarnozorBombMissileImpact"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="VoidCrystalPsiStormAuraModel" parent="PersistentSpellFX">
+        <Model value="Assets\Doodads\TheVoid_DeathCloud_Intense\TheVoid_DeathCloud_Intense.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Lighting value="ArtanisVoidPsiStormModel"/>
+        <RadiusLoose value="1.000000"/>
+        <ScaleMax value="0.400000,0.400000,0.400000"/>
+        <ScaleMin value="0.400000,0.400000,0.400000"/>
+    </CModel>
+    <CModel id="AshWorm">
+        <Radius value="1.400000"/>
+        <SelectionOffset value="0.000000,0.000000,0.400000"/>
+    </CModel>
+    <CModel id="Devastator" parent="Unit" Race="Zerg">
+        <Model value="Assets\Units\Zerg\Ravager_CollectionSkin_Bone\Ravager_CollectionSkin_Bone.m3"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.750000"/>
+        <ScaleMax value="2.200000,2.200000,2.500000"/>
+        <ScaleMin value="2.200000,2.200000,2.500000"/>
+        <SelectionRadius value="0.750000"/>
+        <ShadowRadius value="0.750000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <UnitGlossaryCamera value="Star2CameraMid08"/>
+    </CModel>
+    <CModel id="PrimalColony" parent="Building" Race="Zerg">
+        <Model value="Assets\Buildings\Zerg\NydusWormCreeper\NydusWormCreeper.m3"/>
+        <Events>
+            <Anim value="Birth,00"/>
+            <Name value="CreepTower_Unburrow"/>
+            <Type value="Sound"/>
+            <Time value="0.010000"/>
+            <Payload value="Uni_RockExplosionLarge"/>
+        </Events>
+        <Events>
+            <Anim value="Birth,01"/>
+            <Name value="CreepTower_Unburrow2"/>
+            <Type value="Sound"/>
+            <Time value="0.010000"/>
+            <Payload value="Uni_RockExplosionLarge"/>
+        </Events>
+        <PlanetPanelCamera value="Star2CameraMid15"/>
+        <Radius value="1.200000"/>
+        <ScaleMax value="0.850000,0.850000,0.850000"/>
+        <ScaleMin value="0.850000,0.850000,0.850000"/>
+        <SelectionLayer value="2"/>
+        <SelectionOffset value="0.000000,0.000000,-1.000000"/>
+        <SelectionRadius value="1.500000"/>
+        <ShadowRadius value="2.000000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="Star2CameraMid15"/>
+        <UnitGlossaryCamera value="Star2CameraMid15"/>
+    </CModel>
+    <CModel id="Carnozor" parent="Building" Race="Terran">
+        <Model value="Assets\Buildings\Zerg\PrimalTownHall\PrimalTownHall.m3"/>
+        <Lighting value="PrimalTownHall"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraHigher16"/>
+        <Radius value="2.000000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.500000"/>
+        <ShadowRadius value="2.000000"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseCommandCenter"/>
+        <UnitGlossaryCamera value="Star2CameraHigher16"/>
+    </CModel>
+    <CModel id="VoidCrystal" parent="Unit">
+        <Model value="Assets\Units\Protoss\Void_Amon_CrystalCatalystFloating\Void_Amon_CrystalCatalystFloating.m3"/>
+        <Radius value="2.500000"/>
+        <SelectionOffset value="0.000000,0.000000,-5.000000"/>
+        <SelectionRadius value="2.500000"/>
+        <ShadowRadius value="2.500000"/>
+    </CModel>
+    <CModel id="CarnozorBombMissileImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\BileLauncherMissileImpact\BileLauncherMissileImpact.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="CarnozorWeaponAttack" parent="MissileFX">
+        <Model value="Assets\Effects\Zerg\PrimalTownHallMissile\PrimalTownHallMissile.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <Events>
+            <Anim value="Stand,00"/>
+            <Name value="PrimalTownHall_Attk"/>
+            <Type value="Sound"/>
+            <Time value="0.010000"/>
+            <Payload value="PrimalTownHall_Attk"/>
+        </Events>
+        <ScaleMax value="1.800000,1.800000,1.800000"/>
+        <ScaleMin value="1.800000,1.800000,1.800000"/>
+    </CModel>
+    <CModel id="CarnozorWeaponAttackImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\PrimalTownHallMissileImpact\PrimalTownHallMissileImpact.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <Events>
+            <Anim value="Death,00"/>
+            <Name value="PrimalTownHall_Attk_Impact"/>
+            <Type value="Sound"/>
+            <Time value="0.010000"/>
+            <Payload value="PrimalTownHall_Attk_Impact"/>
+        </Events>
+        <ScaleMax value="1.800000,1.800000,1.800000"/>
+        <ScaleMin value="1.800000,1.800000,1.800000"/>
+    </CModel>
+    <CModel id="DevastatorBurrowShockwaveTargetCursorSplat" parent="OneShotSpellFX">
+        <Model value="Assets\UI\BossTargetCursorSplat\BossTargetCursorSplat.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="CarnozorBombPrecursor" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\AmonShards_Orange_AnimaShower_Cursor\AmonShards_Orange_AnimaShower_Cursor.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <Lighting value="RavagerCorrosiveBileAoePrecursor"/>
+        <RadiusLoose value="0.500000"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+    </CModel>
+    <CModel id="CollectEssenceWeaponImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\Alarak_COOP_Sacrifice_Missile_Impact\Alarak_COOP_Sacrifice_Missile_Impact.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CModel>
+    <CModel id="CollectEssenceWeaponMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Protoss\Alarak_COOP_Sacrifice_Missile\Alarak_COOP_Sacrifice_Missile.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CModel>
+    <CModel id="CaveEntrance2" parent="Building" Race="Zerg">
+        <Model value="Assets\Doodads\ZerusCave\ZerusCave.m3"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="3.000000"/>
+        <ShadowRadius value="2.000000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <VariationCount value="2"/>
+    </CModel>
+    <CModel id="MothmamAuraImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\DisablingCloudImpact\DisablingCloudImpact.m3"/>
+        <Lighting value="CarnozorBombMissileImpact"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="VoidCrystalSlowAuraModel" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\XelNaga_PsionicStormCloud\XelNaga_PsionicStormCloud.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Lighting value="ArtanisVoidPsiStormModel"/>
+        <RadiusLoose value="1.000000"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+    </CModel>
+    <CModel id="KhailuBomb" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Neutral\BlackDeath_Shockwave_Coop\BlackDeath_Shockwave_Coop.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Lighting value="ZHybridPsionicShockwave"/>
+    </CModel>
+    <CModel id="VoidRayAttackBeam2" parent="MissileFX">
+        <Model value="Assets\Effects\Protoss\WarpRayMissile\WarpRayMissile.m3"/>
+        <LowQualityModel value="VoidRayAttackBeamLow"/>
+        <EditorCategories value="Race:Protoss"/>
+        <RadiusLoose value="1.000000"/>
+    </CModel>
+    <CModel id="VoidRayChargeBase2" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\WarpRayBeam\WarpRayBeam.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CModel id="PrimalBossFrenzy" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Zerg\Zagara_MassFrenzy_State\Zagara_MassFrenzy_State.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+    <CModel id="Zerus02Chrysalis2" parent="Unit" Race="Zerg">
+        <Model value="Assets\Units\Zerg\ZerusChrysalisEgg\ZerusChrysalisEgg.m3"/>
+        <Events>
+            <Anim value="Birth"/>
+            <Name value="Birth"/>
+            <Type value="Custom"/>
+            <Time value="0.100000"/>
+        </Events>
+        <Events>
+            <Anim value="Stand,00"/>
+            <Name value="Stand"/>
+            <Type value="Custom"/>
+            <Time value="0.010000"/>
+        </Events>
+        <Events>
+            <Anim value="Stand,Morph,Start"/>
+            <Name value="MorphStart"/>
+            <Type value="Custom"/>
+            <Time value="0.010000"/>
+        </Events>
+        <Events>
+            <Anim value="Stand,Morph,00"/>
+            <Name value="StandMorph"/>
+            <Type value="Custom"/>
+            <Time value="0.010000"/>
+        </Events>
+        <Events>
+            <Anim value="Stand,Victory,00"/>
+            <Name value="StandVictory"/>
+            <Type value="Custom"/>
+            <Time value="0.010000"/>
+        </Events>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid04"/>
+        <Radius value="1.500000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.500000"/>
+        <ShadowRadius value="1.500000"/>
+        <TechPurchaseCamera value="Star2CameraMid04"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.600000"/>
+        <TipabilityWidth value="0.600000"/>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+</Catalog>

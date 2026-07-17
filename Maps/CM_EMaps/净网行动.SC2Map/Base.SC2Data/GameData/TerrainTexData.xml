@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrainTex id="Purification_Desert_1">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapScale value="2.000000"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_2">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapScale value="3.000000"/>
+        <PhysicsMaterial value="Sand"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_3">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapScale value="3.000000"/>
+        <PhysicsMaterial value="Rock"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_4">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapScale value="3.000000"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_5">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapScale value="3.000000"/>
+        <PhysicsMaterial value="Sand"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_6">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapScale value="2.000000"/>
+        <PhysicsMaterial value="Rock"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_7">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <PhysicsMaterial value="Rock"/-->
+    </CTerrainTex>
+    <CTerrainTex id="Purification_Desert_8">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+        <!--PhysicsMaterial value="MetalHeavy"/>
+        <HeightMapScale value="3.000000"/-->
+    </CTerrainTex>
+</Catalog>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CModel id="GlazeConstructInvulnerability"/>
+    <CModel id="PayloadDeathImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\FireWorkEX3\FireWorkEX3_01.m3"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+</Catalog>

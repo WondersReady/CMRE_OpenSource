@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <DescFlags val="Locked"/>
+
+    <Frame type="Button" name="CoopMutatorAdvertisement">
+        <Width val="500"/>
+        <Height val="77"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <HoverSound val="@UI_HoverTick"/>
+
+        <Frame type="BlurFrame" name="BlurEffect">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-2"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-2"/>
+            <BlurAmount val=".3"/>
+
+            <Frame type="Image" name="LowImage">
+                <Anchor relative="$parent"/>
+                <Color val="0,0,0"/>
+                <Alpha val="150"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="BackgroundImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-3"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-3"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_NewsPanel_WidgetItem_Normal"/>
+            <TextureType val="NineSlice"/>
+
+            <StateGroup name="DisplayState">
+                <DefaultState val="Normal"/>
+
+                <State name="Hovered">
+                    <When type="Property" frame="$parent" Hovering="True"/>
+                    <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_PageAssets_NewsPanel_WidgetItem_Hover"/>
+                </State>
+
+                <State name="Normal">
+                    <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_PageAssets_NewsPanel_WidgetItem_Normal"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Image" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Width val="84"/>
+            <Height val="87"/>
+            <Texture val="Assets/Textures/UI_Battlenet_Glue_Coop_NewUser_SplashIcon.dds"/>
+            <TextureType val="Normal"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="3"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="90"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Style val="Tournament_PortalAdText"/>
+            <AcceptsMouseTooltip val="True"/>
+            <Options val="Ellipsis|TooltipIfTruncated"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionSubLabel">
+            <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/DescriptionLabel" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Style val="Tournament_PortalAdSubText"/>
+            <Options val="Ellipsis|TooltipIfTruncated"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="LatestUpdateAdvertisementFrame">
+        <Width val="500"/>
+        <Height val="77"/>
+
+        <Frame type="BlurFrame" name="BlurEffect">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-2"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-2"/>
+            <BlurAmount val=".3"/>
+
+            <Frame type="Image" name="LowImage">
+                <Anchor relative="$parent"/>
+                <Color val="0,0,0"/>
+                <Alpha val="150"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="BackgroundImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-3"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-3"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_NewsPanel_WidgetItem_Normal"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="-5"/>
+            <Width val="100"/>
+            <Height val="110"/>
+            <Texture val="Assets/Textures/UI_Battlenet_Glue_Tournament_TrophyIcon.dds"/>
+            <TextureType val="Normal"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="3"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="90"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Style val="Tournament_PortalAdText"/>
+            <AcceptsMouseTooltip val="True"/>
+            <Options val="Ellipsis|TooltipIfTruncated"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionSubLabel">
+            <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/DescriptionLabel" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Style val="Tournament_PortalAdSubText"/>
+            <Options val="Ellipsis|TooltipIfTruncated"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="CM_ScreenHomeTemplate">
+        <Anchor relative="$parent"/>
+        <Handle val="CM_ScreenHome"/>
+
+        <Frame type="CutsceneFrame" name="BackgroundCutsceneFrame">
+            <Anchor relative="$parent"/>
+            <RenderType val="HDR"/>
+            <File val="Cutscenes/MainMenuHyperion.SC2Cutscene"/>
+            <AutoPlay val="true"/>
+        </Frame>
+
+        <Frame type="Image" name="Vignette">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/SC2_UI_Coop_Vignette"/>
+            <Alpha val="160"/>
+        </Frame>
+
+        <Frame type="Frame" name="HomeContent">
+            <Anchor relative="$parent"/>
+            <Alpha val="0"/>
+            <VisibilityOnFade val="true"/>
+
+            <Frame type="Frame" name="HomeLogo" template="StandardBattlenetTemplates/HomeScreenLogo">
+                <Anchor side="Bottom" relative="$parent/LandingScreen" pos="Min" offset="40"/>
+                <Anchor side="Left" relative="$parent/LandingScreen" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/LandingScreen" pos="Mid" offset="0"/>
+                <Width val="625"/>
+                <Height val="315"/>
+                <Alpha val="{$parent/LandingScreen/@Alpha}"/>
+                <Visible val="{$parent/LandingScreen/@Visible}"/>
+            </Frame>
+
+            <Frame type="Frame" name="LandingScreen">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="335"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="112"/>
+                <Width val="516"/>
+                <Height val="700"/>
+
+                <Frame type="Frame" name="WidgetFrame">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Bottom" relative="$this/Item5" pos="Max" offset="0"/>
+
+                    <Frame type="Button" name="Item0" template="CM_ScreenHome/CoopMutatorAdvertisement">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                        <CollapseLayout val="true"/>
+
+                        <Frame type="Label" name="DescriptionLabel">
+                            <Text val="@CMUI/ScreenHome/WeeklyMutationTitle"/>
+                        </Frame>
+
+                        <Frame type="Label" name="DescriptionSubLabel">
+                            <Text val="@CMUI/ScreenHome/WeeklyMutationSubtitle"/>
+                        </Frame>
+                    </Frame>
+
+                    <Frame type="Button" name="Item1" template="CM_ScreenHome/CoopMutatorAdvertisement">
+                        <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                        <CollapseLayout val="true"/>
+
+                        <Frame type="Label" name="DescriptionLabel">
+                            <Text val="@CMUI/ScreenHome/CMMutationTitle"/>
+                        </Frame>
+
+                        <Frame type="Label" name="DescriptionSubLabel">
+                            <Text val="@CMUI/ScreenHome/CMMutationSubtitle"/>
+                        </Frame>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item2" template="CM_ScreenHome/LatestUpdateAdvertisementFrame">
+                        <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                        <Visible val="false"/>
+                        <CollapseLayout val="true"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item3" template="CM_ScreenHome/LatestUpdateAdvertisementFrame">
+                        <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                        <Visible val="false"/>
+                        <CollapseLayout val="true"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item4" template="CM_ScreenHome/LatestUpdateAdvertisementFrame">
+                        <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                        <Visible val="false"/>
+                        <CollapseLayout val="true"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item5" template="CM_ScreenHome/LatestUpdateAdvertisementFrame">
+                        <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                        <Visible val="false"/>
+                        <CollapseLayout val="true"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Animation name="ShowHome">
+            <Event event="OnShown" action="Reset,Play"/>
+
+            <Controller type="Event" end="Stop" frame="$this">
+                <Key type="Event" time="0" event="ShowLandingScreen"/>
+            </Controller>
+        </Animation>
+
+        <Animation name="LandingScreenFadeIn">
+            <Event event="ShowLandingScreen" action="DirectionForward,Play" frame="$this"/>
+            <Event event="HideLandingScreen" action="DirectionReverse,Play" frame="$this"/>
+            <Event event="OnHidden" action="Reset" frame="$this"/>
+
+            <Controller type="Fade" end="Pause" frame="HomeContent">
+                <Key type="Curve" time="0" value="0" out="Linear"/>
+                <Key type="Curve" time="0.2" value="255" out="Linear"/>
+            </Controller>
+
+            <Controller type="Anchor" end="Pause" side="Left" relative="true" frame="HomeContent/LandingScreen">
+                <Key type="Curve" time="0" value="-28" out="Fast"/>
+                <Key type="Curve" time="0.2" value="0" in="Linear"/>
+            </Controller>
+        </Animation>
+    </Frame>
+</Desc>

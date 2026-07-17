@@ -1,0 +1,2252 @@
+//==================================================================================================
+// 
+// Generated AI Script
+// 
+// AI Name: Protoss P03 (Orange)
+// 
+//==================================================================================================
+include "TriggerLibs/natives"
+include "TriggerLibs/AI"
+include "TriggerLibs/Computer"
+
+//--------------------------------------------------------------------------------------------------
+// Globals
+//--------------------------------------------------------------------------------------------------
+point[17] ai3E812353_defGather;
+string[17] ai3E812353_customData;
+wave[17] ai3E812353_lastWave;
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 01
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave9_enabled;
+wave[17] ai3E812353_wave9_lastWave;
+trigger ai3E812353_wave9_trigger = null;
+int ai3E812353_wave9_runPlayer;
+playergroup ai3E812353_wave9_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave9_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave9_enabled[init_i] = true;
+        ai3E812353_wave9_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave9_trigger = TriggerCreate("ai3E812353_wave9_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave9_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave9_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave9_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave9_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave9_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave9_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave9_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave9_runPlayer;
+    playergroup target = ai3E812353_wave9_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave9_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 180; }
+    if (d == 2) { ta = 180; }
+    if (d == 3) { ta = 180; }
+    if (d == 4) { ta = 180; }
+    if (d == 5) { ta = 180; }
+    if (d == 6) { ta = 180; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave01_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave9_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave9_runPlayer = p;
+    ai3E812353_wave9_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave9_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 02
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave10_enabled;
+wave[17] ai3E812353_wave10_lastWave;
+trigger ai3E812353_wave10_trigger = null;
+int ai3E812353_wave10_runPlayer;
+playergroup ai3E812353_wave10_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave10_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave10_enabled[init_i] = true;
+        ai3E812353_wave10_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave10_trigger = TriggerCreate("ai3E812353_wave10_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave10_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave10_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave10_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave10_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave10_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave10_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave10_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave10_runPlayer;
+    playergroup target = ai3E812353_wave10_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave10_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 120; }
+    if (d == 2) { ta = 120; }
+    if (d == 3) { ta = 120; }
+    if (d == 4) { ta = 120; }
+    if (d == 5) { ta = 120; }
+    if (d == 6) { ta = 120; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave02_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave10_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave10_runPlayer = p;
+    ai3E812353_wave10_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave10_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 1
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave2_enabled;
+wave[17] ai3E812353_wave2_lastWave;
+trigger ai3E812353_wave2_trigger = null;
+int ai3E812353_wave2_runPlayer;
+playergroup ai3E812353_wave2_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave2_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave2_enabled[init_i] = true;
+        ai3E812353_wave2_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave2_trigger = TriggerCreate("ai3E812353_wave2_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave2_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave2_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave2_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave2_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave2_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave2_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave2_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave2_runPlayer;
+    playergroup target = ai3E812353_wave2_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave2_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 75; }
+    if (d == 2) { ta = 75; }
+    if (d == 3) { ta = 75; }
+    if (d == 4) { ta = 75; }
+    if (d == 5) { ta = 75; }
+    if (d == 6) { ta = 75; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave01_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave2_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave2_runPlayer = p;
+    ai3E812353_wave2_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave2_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle/AttackWave Buffer
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave19_enabled;
+wave[17] ai3E812353_wave19_lastWave;
+trigger ai3E812353_wave19_trigger = null;
+int ai3E812353_wave19_runPlayer;
+playergroup ai3E812353_wave19_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave19_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave19_enabled[init_i] = true;
+        ai3E812353_wave19_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave19_trigger = TriggerCreate("ai3E812353_wave19_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave19_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave19_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave19_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave19_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave19_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave19_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave19_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave19_runPlayer;
+    playergroup target = ai3E812353_wave19_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave19_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 30; }
+    if (d == 2) { ta = 30; }
+    if (d == 3) { ta = 30; }
+    if (d == 4) { ta = 30; }
+    if (d == 5) { ta = 30; }
+    if (d == 6) { ta = 30; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave19_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave19_runPlayer = p;
+    ai3E812353_wave19_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave19_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 03
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave11_enabled;
+wave[17] ai3E812353_wave11_lastWave;
+trigger ai3E812353_wave11_trigger = null;
+int ai3E812353_wave11_runPlayer;
+playergroup ai3E812353_wave11_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave11_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave11_enabled[init_i] = true;
+        ai3E812353_wave11_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave11_trigger = TriggerCreate("ai3E812353_wave11_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave11_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave11_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave11_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave11_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave11_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave11_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave11_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave11_runPlayer;
+    playergroup target = ai3E812353_wave11_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave11_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 45; }
+    if (d == 2) { ta = 45; }
+    if (d == 3) { ta = 45; }
+    if (d == 4) { ta = 45; }
+    if (d == 5) { ta = 45; }
+    if (d == 6) { ta = 45; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave03_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave11_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave11_runPlayer = p;
+    ai3E812353_wave11_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave11_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 2
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave1_enabled;
+wave[17] ai3E812353_wave1_lastWave;
+trigger ai3E812353_wave1_trigger = null;
+int ai3E812353_wave1_runPlayer;
+playergroup ai3E812353_wave1_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave1_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave1_enabled[init_i] = true;
+        ai3E812353_wave1_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave1_trigger = TriggerCreate("ai3E812353_wave1_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave1_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave1_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave1_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave1_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave1_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave1_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave1_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave1_runPlayer;
+    playergroup target = ai3E812353_wave1_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave1_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 90; }
+    if (d == 2) { ta = 90; }
+    if (d == 3) { ta = 90; }
+    if (d == 4) { ta = 90; }
+    if (d == 5) { ta = 90; }
+    if (d == 6) { ta = 90; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave02_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave1_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave1_runPlayer = p;
+    ai3E812353_wave1_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave1_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 04
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave12_enabled;
+wave[17] ai3E812353_wave12_lastWave;
+trigger ai3E812353_wave12_trigger = null;
+int ai3E812353_wave12_runPlayer;
+playergroup ai3E812353_wave12_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave12_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave12_enabled[init_i] = true;
+        ai3E812353_wave12_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave12_trigger = TriggerCreate("ai3E812353_wave12_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave12_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave12_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave12_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave12_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave12_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave12_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave12_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave12_runPlayer;
+    playergroup target = ai3E812353_wave12_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave12_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 30; }
+    if (d == 2) { ta = 30; }
+    if (d == 3) { ta = 30; }
+    if (d == 4) { ta = 30; }
+    if (d == 5) { ta = 30; }
+    if (d == 6) { ta = 30; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave04_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave12_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave12_runPlayer = p;
+    ai3E812353_wave12_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave12_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 05
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave13_enabled;
+wave[17] ai3E812353_wave13_lastWave;
+trigger ai3E812353_wave13_trigger = null;
+int ai3E812353_wave13_runPlayer;
+playergroup ai3E812353_wave13_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave13_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave13_enabled[init_i] = true;
+        ai3E812353_wave13_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave13_trigger = TriggerCreate("ai3E812353_wave13_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave13_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave13_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave13_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave13_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave13_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave13_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave13_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave13_runPlayer;
+    playergroup target = ai3E812353_wave13_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave13_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 60; }
+    if (d == 2) { ta = 60; }
+    if (d == 3) { ta = 60; }
+    if (d == 4) { ta = 60; }
+    if (d == 5) { ta = 60; }
+    if (d == 6) { ta = 60; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave05_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave13_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave13_runPlayer = p;
+    ai3E812353_wave13_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave13_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 3
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave3_enabled;
+wave[17] ai3E812353_wave3_lastWave;
+trigger ai3E812353_wave3_trigger = null;
+int ai3E812353_wave3_runPlayer;
+playergroup ai3E812353_wave3_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave3_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave3_enabled[init_i] = true;
+        ai3E812353_wave3_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave3_trigger = TriggerCreate("ai3E812353_wave3_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave3_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave3_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave3_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave3_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave3_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave3_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave3_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave3_runPlayer;
+    playergroup target = ai3E812353_wave3_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave3_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 90; }
+    if (d == 2) { ta = 90; }
+    if (d == 3) { ta = 90; }
+    if (d == 4) { ta = 90; }
+    if (d == 5) { ta = 90; }
+    if (d == 6) { ta = 90; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave03_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave3_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave3_runPlayer = p;
+    ai3E812353_wave3_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave3_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 06
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave14_enabled;
+wave[17] ai3E812353_wave14_lastWave;
+trigger ai3E812353_wave14_trigger = null;
+int ai3E812353_wave14_runPlayer;
+playergroup ai3E812353_wave14_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave14_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave14_enabled[init_i] = true;
+        ai3E812353_wave14_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave14_trigger = TriggerCreate("ai3E812353_wave14_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave14_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave14_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave14_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave14_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave14_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave14_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave14_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave14_runPlayer;
+    playergroup target = ai3E812353_wave14_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave14_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 60; }
+    if (d == 2) { ta = 60; }
+    if (d == 3) { ta = 60; }
+    if (d == 4) { ta = 60; }
+    if (d == 5) { ta = 60; }
+    if (d == 6) { ta = 60; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave06_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave14_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave14_runPlayer = p;
+    ai3E812353_wave14_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave14_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 4
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave4_enabled;
+wave[17] ai3E812353_wave4_lastWave;
+trigger ai3E812353_wave4_trigger = null;
+int ai3E812353_wave4_runPlayer;
+playergroup ai3E812353_wave4_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave4_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave4_enabled[init_i] = true;
+        ai3E812353_wave4_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave4_trigger = TriggerCreate("ai3E812353_wave4_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave4_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave4_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave4_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave4_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave4_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave4_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave4_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave4_runPlayer;
+    playergroup target = ai3E812353_wave4_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave4_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 90; }
+    if (d == 2) { ta = 90; }
+    if (d == 3) { ta = 90; }
+    if (d == 4) { ta = 90; }
+    if (d == 5) { ta = 90; }
+    if (d == 6) { ta = 90; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave04_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave4_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave4_runPlayer = p;
+    ai3E812353_wave4_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave4_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 07
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave15_enabled;
+wave[17] ai3E812353_wave15_lastWave;
+trigger ai3E812353_wave15_trigger = null;
+int ai3E812353_wave15_runPlayer;
+playergroup ai3E812353_wave15_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave15_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave15_enabled[init_i] = true;
+        ai3E812353_wave15_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave15_trigger = TriggerCreate("ai3E812353_wave15_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave15_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave15_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave15_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave15_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave15_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave15_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave15_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave15_runPlayer;
+    playergroup target = ai3E812353_wave15_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave15_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 45; }
+    if (d == 2) { ta = 45; }
+    if (d == 3) { ta = 45; }
+    if (d == 4) { ta = 45; }
+    if (d == 5) { ta = 45; }
+    if (d == 6) { ta = 45; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave07_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave15_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave15_runPlayer = p;
+    ai3E812353_wave15_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave15_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 5
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave5_enabled;
+wave[17] ai3E812353_wave5_lastWave;
+trigger ai3E812353_wave5_trigger = null;
+int ai3E812353_wave5_runPlayer;
+playergroup ai3E812353_wave5_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave5_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave5_enabled[init_i] = true;
+        ai3E812353_wave5_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave5_trigger = TriggerCreate("ai3E812353_wave5_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave5_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave5_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave5_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave5_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave5_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave5_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave5_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave5_runPlayer;
+    playergroup target = ai3E812353_wave5_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave5_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 75; }
+    if (d == 2) { ta = 75; }
+    if (d == 3) { ta = 75; }
+    if (d == 4) { ta = 75; }
+    if (d == 5) { ta = 75; }
+    if (d == 6) { ta = 75; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave05_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave5_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave5_runPlayer = p;
+    ai3E812353_wave5_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave5_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 08
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave16_enabled;
+wave[17] ai3E812353_wave16_lastWave;
+trigger ai3E812353_wave16_trigger = null;
+int ai3E812353_wave16_runPlayer;
+playergroup ai3E812353_wave16_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave16_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave16_enabled[init_i] = true;
+        ai3E812353_wave16_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave16_trigger = TriggerCreate("ai3E812353_wave16_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave16_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave16_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave16_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave16_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave16_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave16_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave16_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave16_runPlayer;
+    playergroup target = ai3E812353_wave16_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave16_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 45; }
+    if (d == 2) { ta = 45; }
+    if (d == 3) { ta = 45; }
+    if (d == 4) { ta = 45; }
+    if (d == 5) { ta = 45; }
+    if (d == 6) { ta = 45; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave08_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave16_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave16_runPlayer = p;
+    ai3E812353_wave16_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave16_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 6
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave6_enabled;
+wave[17] ai3E812353_wave6_lastWave;
+trigger ai3E812353_wave6_trigger = null;
+int ai3E812353_wave6_runPlayer;
+playergroup ai3E812353_wave6_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave6_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave6_enabled[init_i] = true;
+        ai3E812353_wave6_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave6_trigger = TriggerCreate("ai3E812353_wave6_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave6_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave6_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave6_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave6_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave6_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave6_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave6_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave6_runPlayer;
+    playergroup target = ai3E812353_wave6_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave6_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 75; }
+    if (d == 2) { ta = 75; }
+    if (d == 3) { ta = 75; }
+    if (d == 4) { ta = 75; }
+    if (d == 5) { ta = 75; }
+    if (d == 6) { ta = 75; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave06_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave6_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave6_runPlayer = p;
+    ai3E812353_wave6_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave6_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 09
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave17_enabled;
+wave[17] ai3E812353_wave17_lastWave;
+trigger ai3E812353_wave17_trigger = null;
+int ai3E812353_wave17_runPlayer;
+playergroup ai3E812353_wave17_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave17_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave17_enabled[init_i] = true;
+        ai3E812353_wave17_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave17_trigger = TriggerCreate("ai3E812353_wave17_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave17_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave17_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave17_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave17_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave17_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave17_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave17_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave17_runPlayer;
+    playergroup target = ai3E812353_wave17_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave17_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 45; }
+    if (d == 2) { ta = 45; }
+    if (d == 3) { ta = 45; }
+    if (d == 4) { ta = 45; }
+    if (d == 5) { ta = 45; }
+    if (d == 6) { ta = 45; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave09_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave17_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave17_runPlayer = p;
+    ai3E812353_wave17_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave17_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Shuttle Wave 7
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave7_enabled;
+wave[17] ai3E812353_wave7_lastWave;
+trigger ai3E812353_wave7_trigger = null;
+int ai3E812353_wave7_runPlayer;
+playergroup ai3E812353_wave7_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave7_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave7_enabled[init_i] = true;
+        ai3E812353_wave7_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave7_trigger = TriggerCreate("ai3E812353_wave7_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave7_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave7_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave7_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave7_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave7_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave7_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave7_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave7_runPlayer;
+    playergroup target = ai3E812353_wave7_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave7_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 75; }
+    if (d == 2) { ta = 75; }
+    if (d == 3) { ta = 75; }
+    if (d == 4) { ta = 75; }
+    if (d == 5) { ta = 75; }
+    if (d == 6) { ta = 75; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_ShuttleSendWave07_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave7_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave7_runPlayer = p;
+    ai3E812353_wave7_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave7_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave: Attack Wave 10
+//--------------------------------------------------------------------------------------------------
+bool[17] ai3E812353_wave18_enabled;
+wave[17] ai3E812353_wave18_lastWave;
+trigger ai3E812353_wave18_trigger = null;
+int ai3E812353_wave18_runPlayer;
+playergroup ai3E812353_wave18_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave18_init () {
+    int init_i;
+
+    for (init_i = 0; init_i <= 16; init_i += 1) {
+        ai3E812353_wave18_enabled[init_i] = true;
+        ai3E812353_wave18_lastWave[init_i] = null;
+    }
+
+    ai3E812353_wave18_trigger = TriggerCreate("ai3E812353_wave18_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave18_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_wave18_enabled[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave18_isEnabled (int p) {
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    return ai3E812353_wave18_enabled[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave18_createdWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_wave18_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave18_runFunc (bool c, bool a) {
+    int p = ai3E812353_wave18_runPlayer;
+    playergroup target = ai3E812353_wave18_runTarget;
+    int d;
+    point gatherPoint = null;
+    int ta = 0;
+    int tg = 0;
+    int ts = 0;
+    int tf = 0;
+    int td = 0;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+    d = PlayerDifficulty(p);
+    if (!ai3E812353_wave18_enabled[p]) {
+        td = 0;
+        if (td > 0) {
+            Wait(td, c_timeAI);
+        }
+        return true;
+    }
+
+    ai3E812353_customData[p] = "";
+
+    ta = 0;
+    if (d == 1) { ta = 45; }
+    if (d == 2) { ta = 45; }
+    if (d == 3) { ta = 45; }
+    if (d == 4) { ta = 45; }
+    if (d == 5) { ta = 45; }
+    if (d == 6) { ta = 45; }
+    tg = 0;
+    ts = ta;
+    if (tg > 0 && tg < ta) {
+        Wait(ta - tg, c_timeAI);
+        ts = tg;
+    }
+    AIAttackWaveSetTargetPlayer(p, target);
+
+    gatherPoint = ai3E812353_defGather[p];
+    AIAttackWaveSetGatherPoint(p, gatherPoint);
+
+    AIAttackWaveClearWaypoints(p);
+
+    Wait(ts, c_timeAI);
+    TriggerExecute(TriggerFind("gt_AttackWave10_Func"), true, false);
+    tf = 0;
+    if (tf > 0) {
+        Wait(tf, c_timeAI);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave18_run (int p, playergroup target, bool wait) {
+    ai3E812353_wave18_runPlayer = p;
+    ai3E812353_wave18_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_wave18_trigger, false, wait);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave Wrappers
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave_enable (int w, int p, bool val) {
+    if (w == 9) { ai3E812353_wave9_enable(p, val); }
+    if (w == 10) { ai3E812353_wave10_enable(p, val); }
+    if (w == 2) { ai3E812353_wave2_enable(p, val); }
+    if (w == 19) { ai3E812353_wave19_enable(p, val); }
+    if (w == 11) { ai3E812353_wave11_enable(p, val); }
+    if (w == 1) { ai3E812353_wave1_enable(p, val); }
+    if (w == 12) { ai3E812353_wave12_enable(p, val); }
+    if (w == 13) { ai3E812353_wave13_enable(p, val); }
+    if (w == 3) { ai3E812353_wave3_enable(p, val); }
+    if (w == 14) { ai3E812353_wave14_enable(p, val); }
+    if (w == 4) { ai3E812353_wave4_enable(p, val); }
+    if (w == 15) { ai3E812353_wave15_enable(p, val); }
+    if (w == 5) { ai3E812353_wave5_enable(p, val); }
+    if (w == 16) { ai3E812353_wave16_enable(p, val); }
+    if (w == 6) { ai3E812353_wave6_enable(p, val); }
+    if (w == 17) { ai3E812353_wave17_enable(p, val); }
+    if (w == 7) { ai3E812353_wave7_enable(p, val); }
+    if (w == 18) { ai3E812353_wave18_enable(p, val); }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_wave_isEnabled (int w, int p) {
+    if (w == 9) { return ai3E812353_wave9_isEnabled(p); }
+    if (w == 10) { return ai3E812353_wave10_isEnabled(p); }
+    if (w == 2) { return ai3E812353_wave2_isEnabled(p); }
+    if (w == 19) { return ai3E812353_wave19_isEnabled(p); }
+    if (w == 11) { return ai3E812353_wave11_isEnabled(p); }
+    if (w == 1) { return ai3E812353_wave1_isEnabled(p); }
+    if (w == 12) { return ai3E812353_wave12_isEnabled(p); }
+    if (w == 13) { return ai3E812353_wave13_isEnabled(p); }
+    if (w == 3) { return ai3E812353_wave3_isEnabled(p); }
+    if (w == 14) { return ai3E812353_wave14_isEnabled(p); }
+    if (w == 4) { return ai3E812353_wave4_isEnabled(p); }
+    if (w == 15) { return ai3E812353_wave15_isEnabled(p); }
+    if (w == 5) { return ai3E812353_wave5_isEnabled(p); }
+    if (w == 16) { return ai3E812353_wave16_isEnabled(p); }
+    if (w == 6) { return ai3E812353_wave6_isEnabled(p); }
+    if (w == 17) { return ai3E812353_wave17_isEnabled(p); }
+    if (w == 7) { return ai3E812353_wave7_isEnabled(p); }
+    if (w == 18) { return ai3E812353_wave18_isEnabled(p); }
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup ai3E812353_wave_createdUnits (int w, int p) {
+    return null;
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_wave_createdWave (int w, int p) {
+    if (w == 9) { return ai3E812353_wave9_createdWave(p); }
+    if (w == 10) { return ai3E812353_wave10_createdWave(p); }
+    if (w == 2) { return ai3E812353_wave2_createdWave(p); }
+    if (w == 19) { return ai3E812353_wave19_createdWave(p); }
+    if (w == 11) { return ai3E812353_wave11_createdWave(p); }
+    if (w == 1) { return ai3E812353_wave1_createdWave(p); }
+    if (w == 12) { return ai3E812353_wave12_createdWave(p); }
+    if (w == 13) { return ai3E812353_wave13_createdWave(p); }
+    if (w == 3) { return ai3E812353_wave3_createdWave(p); }
+    if (w == 14) { return ai3E812353_wave14_createdWave(p); }
+    if (w == 4) { return ai3E812353_wave4_createdWave(p); }
+    if (w == 15) { return ai3E812353_wave15_createdWave(p); }
+    if (w == 5) { return ai3E812353_wave5_createdWave(p); }
+    if (w == 16) { return ai3E812353_wave16_createdWave(p); }
+    if (w == 6) { return ai3E812353_wave6_createdWave(p); }
+    if (w == 17) { return ai3E812353_wave17_createdWave(p); }
+    if (w == 7) { return ai3E812353_wave7_createdWave(p); }
+    if (w == 18) { return ai3E812353_wave18_createdWave(p); }
+    return null;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_wave_run (int w, int p, playergroup target, bool wait) {
+    if (w == 9) { ai3E812353_wave9_run(p, target, wait); }
+    if (w == 10) { ai3E812353_wave10_run(p, target, wait); }
+    if (w == 2) { ai3E812353_wave2_run(p, target, wait); }
+    if (w == 19) { ai3E812353_wave19_run(p, target, wait); }
+    if (w == 11) { ai3E812353_wave11_run(p, target, wait); }
+    if (w == 1) { ai3E812353_wave1_run(p, target, wait); }
+    if (w == 12) { ai3E812353_wave12_run(p, target, wait); }
+    if (w == 13) { ai3E812353_wave13_run(p, target, wait); }
+    if (w == 3) { ai3E812353_wave3_run(p, target, wait); }
+    if (w == 14) { ai3E812353_wave14_run(p, target, wait); }
+    if (w == 4) { ai3E812353_wave4_run(p, target, wait); }
+    if (w == 15) { ai3E812353_wave15_run(p, target, wait); }
+    if (w == 5) { ai3E812353_wave5_run(p, target, wait); }
+    if (w == 16) { ai3E812353_wave16_run(p, target, wait); }
+    if (w == 6) { ai3E812353_wave6_run(p, target, wait); }
+    if (w == 17) { ai3E812353_wave17_run(p, target, wait); }
+    if (w == 7) { ai3E812353_wave7_run(p, target, wait); }
+    if (w == 18) { ai3E812353_wave18_run(p, target, wait); }
+}
+
+//--------------------------------------------------------------------------------------------------
+// Attack Wave Sequence
+//--------------------------------------------------------------------------------------------------
+trigger ai3E812353_waves_trigger = null;
+int ai3E812353_waves_runPlayer;
+playergroup ai3E812353_waves_runTarget;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_waves_init () {
+    ai3E812353_waves_trigger = TriggerCreate("ai3E812353_waves_runFunc");
+}
+
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_waves_runFunc (bool c, bool a) {
+    int p = ai3E812353_waves_runPlayer;
+    playergroup target = ai3E812353_waves_runTarget;
+
+    if (p < 0 || p >= 16) {
+        return false;
+    }
+
+    // Reminder: Shuttle Launches at "Arrival" time
+    ai3E812353_wave9_run(p, target, true);
+    ai3E812353_wave10_run(p, target, true);
+    ai3E812353_wave2_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave11_run(p, target, true);
+    ai3E812353_wave1_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave12_run(p, target, true);
+    ai3E812353_wave13_run(p, target, true);
+    ai3E812353_wave3_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave14_run(p, target, true);
+    ai3E812353_wave4_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave15_run(p, target, true);
+    ai3E812353_wave5_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave16_run(p, target, true);
+    ai3E812353_wave6_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave17_run(p, target, true);
+    ai3E812353_wave7_run(p, target, true);
+    ai3E812353_wave19_run(p, target, true);
+    ai3E812353_wave18_run(p, target, true);
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_waves_run (int p, playergroup target) {
+    ai3E812353_waves_runPlayer = p;
+    ai3E812353_waves_runTarget = PlayerGroupCopy(target);
+
+    TriggerExecute(ai3E812353_waves_trigger, false, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_waves_enable (int p, bool val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+
+    ai3E812353_wave9_enable(p, val);
+    ai3E812353_wave10_enable(p, val);
+    ai3E812353_wave2_enable(p, val);
+    ai3E812353_wave19_enable(p, val);
+    ai3E812353_wave11_enable(p, val);
+    ai3E812353_wave1_enable(p, val);
+    ai3E812353_wave12_enable(p, val);
+    ai3E812353_wave13_enable(p, val);
+    ai3E812353_wave3_enable(p, val);
+    ai3E812353_wave14_enable(p, val);
+    ai3E812353_wave4_enable(p, val);
+    ai3E812353_wave15_enable(p, val);
+    ai3E812353_wave5_enable(p, val);
+    ai3E812353_wave16_enable(p, val);
+    ai3E812353_wave6_enable(p, val);
+    ai3E812353_wave17_enable(p, val);
+    ai3E812353_wave7_enable(p, val);
+    ai3E812353_wave18_enable(p, val);
+}
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_waves_stop () {
+    TriggerStop(ai3E812353_waves_trigger);
+
+    TriggerStop(ai3E812353_wave9_trigger);
+    TriggerStop(ai3E812353_wave10_trigger);
+    TriggerStop(ai3E812353_wave2_trigger);
+    TriggerStop(ai3E812353_wave19_trigger);
+    TriggerStop(ai3E812353_wave11_trigger);
+    TriggerStop(ai3E812353_wave1_trigger);
+    TriggerStop(ai3E812353_wave12_trigger);
+    TriggerStop(ai3E812353_wave13_trigger);
+    TriggerStop(ai3E812353_wave3_trigger);
+    TriggerStop(ai3E812353_wave14_trigger);
+    TriggerStop(ai3E812353_wave4_trigger);
+    TriggerStop(ai3E812353_wave15_trigger);
+    TriggerStop(ai3E812353_wave5_trigger);
+    TriggerStop(ai3E812353_wave16_trigger);
+    TriggerStop(ai3E812353_wave6_trigger);
+    TriggerStop(ai3E812353_wave17_trigger);
+    TriggerStop(ai3E812353_wave7_trigger);
+    TriggerStop(ai3E812353_wave18_trigger);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Configuration
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_setDefGather (int p, point val) {
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    ai3E812353_defGather[p] = val;
+}
+
+//--------------------------------------------------------------------------------------------------
+string ai3E812353_getCustomData (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_customData[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+wave ai3E812353_getLastWave (int p) {
+    if (p < 0 || p >= 16) {
+        return null;
+    }
+    return ai3E812353_lastWave[p];
+}
+
+//--------------------------------------------------------------------------------------------------
+// Start
+//--------------------------------------------------------------------------------------------------
+bool ai3E812353_initialized = false;
+
+//--------------------------------------------------------------------------------------------------
+void ai3E812353_start (int p) {
+    int init_i;
+
+    if (p < 0 || p >= 16) {
+        return;
+    }
+    if (!ai3E812353_initialized) {
+        ai3E812353_wave9_init();
+        ai3E812353_wave10_init();
+        ai3E812353_wave2_init();
+        ai3E812353_wave19_init();
+        ai3E812353_wave11_init();
+        ai3E812353_wave1_init();
+        ai3E812353_wave12_init();
+        ai3E812353_wave13_init();
+        ai3E812353_wave3_init();
+        ai3E812353_wave14_init();
+        ai3E812353_wave4_init();
+        ai3E812353_wave15_init();
+        ai3E812353_wave5_init();
+        ai3E812353_wave16_init();
+        ai3E812353_wave6_init();
+        ai3E812353_wave17_init();
+        ai3E812353_wave7_init();
+        ai3E812353_wave18_init();
+        ai3E812353_waves_init();
+
+        for (init_i = 0; init_i <= 16; init_i += 1) {
+            ai3E812353_defGather[init_i] = PointFromId(0);
+        }
+
+        ai3E812353_initialized = true;
+    }
+
+    AICampaignStart(p);
+}

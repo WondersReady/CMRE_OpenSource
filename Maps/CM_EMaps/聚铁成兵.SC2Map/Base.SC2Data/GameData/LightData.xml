@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CLight id="UmojaEx3">
+        <ToDInfoArray index="0">
+            <Id value="UmojaEx3"/>
+            <AmbientColor value="0.388235,0.423529,0.533333"/>
+            <Colorize value="1"/>
+            <UseSeparateDetailSSAO value="0"/>
+            <Param index="HDRExposure" value="1.550000"/>
+            <Param index="HDRWhitePoint" value="1.850000"/>
+            <Param index="TerrainSpecularExp" value="11.210000"/>
+            <Param index="TerrainHDRSpecular" value="3.000000"/>
+            <Param index="CreepSpecularExp" value="30.000000"/>
+            <Param index="CreepHDRSpecMultiplier" value="3.000000"/>
+            <Param index="ColorizationOutputLow" value="0.022000"/>
+            <Param index="ColorizationContrast" value="1.170000"/>
+            <Param index="ColorizationHue" value="0.132000"/>
+            <Param index="ColorizationSaturation" value="0.100000"/>
+            <Param index="ColorizationLightness" value="0.160000"/>
+            <Param index="ColorizationBlend" value="0.200000"/>
+            <Param index="AOOcclusionRadius" value="0.600000"/>
+            <Param index="AONoOcclusion" value="0.600000"/>
+            <Param index="AOFullOcclusion" value="0.050000"/>
+            <Param index="AOOcclusionPower" value="2.000000"/>
+            <Param index="AODetailOcclusionRadius" value="0.020000"/>
+            <Param index="AODetailNoOcclusion" value="0.030000"/>
+            <Param index="AODetailOcclusionPower" value="16.000000"/>
+            <LightRegions index="1">
+                <UseDefault value="0"/>
+                <AmbientColor value="0.384314,0.419608,0.529412"/>
+                <AmbientEnvironmentMultiplier value="0.030000"/>
+                <SpecularColor value="0.611765,0.811765,0.807843"/>
+                <SpecularMultiplier value="1.778000"/>
+                <FogColor value="0.474510,0.839216,1.000000"/>
+                <DiffuseColor index="Key" value="0.023529,0.396078,0.666667"/>
+                <DiffuseColor index="Fill" value="0.615686,0.443137,0.266667"/>
+                <DiffuseColor index="Back" value="0.337255,0.439216,0.611765"/>
+                <DiffuseMultiplier index="Key" value="0.027000"/>
+                <DiffuseMultiplier index="Fill" value="0.569000"/>
+                <DiffuseMultiplier index="Back" value="1.148000"/>
+            </LightRegions>
+            <LightRegions index="2">
+                <UseDefault value="0"/>
+                <AmbientColor value="0.568627,0.513726,0.349020"/>
+                <AmbientEnvironmentMultiplier value="1.000000"/>
+                <SpecularColor value="0.886275,0.713726,0.541176"/>
+                <SpecularMultiplier value="1.000000"/>
+                <FogColor value="0.474510,0.839216,0.956863"/>
+                <DiffuseColor index="Key" value="1.000000,1.000000,0.941176"/>
+                <DiffuseColor index="Fill" value="0.803922,0.674510,0.549020"/>
+                <DiffuseColor index="Back" value="0.337255,0.439216,0.611765"/>
+                <DiffuseMultiplier index="Key" value="2.089000"/>
+                <DiffuseMultiplier index="Fill" value="1.000000"/>
+                <DiffuseMultiplier index="Back" value="0.400000"/>
+            </LightRegions>
+        </ToDInfoArray>
+    </CLight>
+</Catalog>

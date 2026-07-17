@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="BossTargetFlying">
+        <FlagArray index="NoDraw" value="0"/>
+    </CUnit>
+    <CUnit id="DuelBubbleUnitBlocker">
+        <Radius value="2.5"/>
+    </CUnit>
+    <CUnit id="InvisibleEscortFlying">
+        <FlagArray index="Invulnerable" value="1"/>
+    </CUnit>
+</Catalog>

@@ -1,0 +1,8 @@
+﻿Button/Hotkey/AshWorm=C
+Button/Hotkey/CarnozorTower=C
+Button/Hotkey/CaveEntranceLoad=L
+Button/Hotkey/CaveEntranceUnloadAll=D
+Button/Hotkey/CorrosiveBile2=C
+Button/Hotkey/SpagotBomb=V
+Button/Hotkey/SpagotCloud=B
+Button/Hotkey/SporeRay=R

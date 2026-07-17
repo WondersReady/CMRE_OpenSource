@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="IceWorld">
+        <FogColor value="255,112,165,252"/>
+        <FogFalloff value="0.150000"/>
+        <FogStartingHeight value="1.000000"/>
+        <FogDensity value="0.150000"/>
+        <HeightMapEnabled value="1"/>
+    </CTerrain>
+    <CTerrain id="IceWorldEx2">
+        <BlendTextures index="5" value="IceWorld1"/>
+        <BlendTextures index="7" value="Endion3"/>
+    </CTerrain>
+</Catalog>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CObjective id="AC_ZerusAscendants_Bonus01" parent="AC_DefaultObjective">
+        <RequiredCount value="1"/>
+    </CObjective>
+    <CObjective id="AC_ZerusAscendants_Primary02" parent="AC_DefaultObjective">
+        <Type value="Primary"/>
+        <RequiredCount value="20"/>
+    </CObjective>
+    <CObjective id="AC_ZerusAscendants_Primary01" parent="AC_DefaultObjective">
+        <Type value="Primary"/>
+        <RequiredCount value="4"/>
+        <UserReference value="MissionObjective;AC_Zerus&#195;&#130;scendants_Primary01"/>
+    </CObjective>
+</Catalog>

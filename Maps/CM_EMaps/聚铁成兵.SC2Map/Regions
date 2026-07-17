@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="49">
+        <name value="Reveal Players Base"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="62.8598,27.68"/>
+            <radius value="20.8498"/>
+        </shape>
+        <shape type="circle">
+            <center value="42.16,47.95"/>
+            <radius value="20.44"/>
+        </shape>
+        <shape type="circle">
+            <center value="37.7512,24.4404"/>
+            <radius value="26.44"/>
+        </shape>
+        <shape type="circle">
+            <center value="57.72,41.2797"/>
+            <radius value="16.5068"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Left Expand"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="97.451,105.8952"/>
+            <radius value="11.4348"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Right Expand"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="99.8146,81.6362"/>
+            <radius value="11.89"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Specimen Pens 01 Revealer"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="38.9335,138.466"/>
+            <width value="20"/>
+            <height value="9"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Boss 0 Revealer"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="85.341,141.9355"/>
+            <radius value="14"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Boss 1 Revealer"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="164.5634,68.7827"/>
+            <radius value="15.1503"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Boss 2 Revealer"/>
+        <color value="255,255,128,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="164.7001,149.4594"/>
+            <radius value="15.7756"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Left Enemy Base 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="65.3288,122.805"/>
+            <radius value="9.7336"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Left Enemy Base 3"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="39.8288,135.0817"/>
+            <radius value="4.8452"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="Left Enemy Base 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="67.8493,91.5422"/>
+            <radius value="6.2937"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Left Enemy Base 4"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="62.7707,155.5498"/>
+            <radius value="8.0065"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Left Enemy Base 5"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="110.9584,146.357"/>
+            <radius value="8.424"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="Right Enemy Base 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="121.678,66.8552"/>
+            <radius value="7.751"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Right Enemy Base 3"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="139.3732,49.8757"/>
+            <width value="7.9616"/>
+            <height value="15.4147"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="Right Enemy Base 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="147.3151,20.5603"/>
+            <radius value="7.0913"/>
+        </shape>
+        <shape type="diamond">
+            <center value="159.2495,18.788"/>
+            <width value="5.0136"/>
+            <height value="13.3691"/>
+        </shape>
+    </region>
+    <region id="18">
+        <name value="Right Enemy Base 4"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="167.9182,42.665"/>
+            <radius value="6.795"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.4785,33.77"/>
+            <radius value="5.8105"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="Right Enemy Base 5"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="133.4782,84.9377"/>
+            <radius value="7.9797"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Back Base"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="144.0317,127.863"/>
+            <width value="9.3471"/>
+            <height value="14.9855"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="DebugTrainAreaRevealer"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="55.794,151.997"/>
+            <radius value="50"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="Train Despawner Top"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="171.833,101.1547"/>
+            <radius value="3.3581"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="DebugTrainDespawnRevealer"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="155.9855,97.933"/>
+            <radius value="13.143"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Escort Despawner"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="154.5405,97.0788"/>
+            <radius value="5.375"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Parts Area 4"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="110.0002,52.0002"/>
+            <radius value="15.9963"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="Parts Area 3"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="33.6164,96.223"/>
+            <radius value="28.4111"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Parts Area 2"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="94.288,95.049"/>
+            <radius value="22.3696"/>
+        </shape>
+        <shape type="circle">
+            <center value="114.84,107.7016"/>
+            <radius value="6.4333"/>
+        </shape>
+        <shape type="circle">
+            <center value="96.9963,73.5236"/>
+            <radius value="8.3935"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.9956,78.5104"/>
+            <radius value="7.5437"/>
+        </shape>
+    </region>
+    <region id="28">
+        <name value="Parts Area 7"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="139.7265,95.108"/>
+            <radius value="22.9504"/>
+        </shape>
+    </region>
+    <region id="29">
+        <name value="Parts Area 6"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="171.8493,28.4025"/>
+            <radius value="35.19"/>
+        </shape>
+    </region>
+    <region id="30">
+        <name value="Beacon 0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="59.4177,117.3422"/>
+            <radius value="1.6206"/>
+        </shape>
+    </region>
+    <region id="31">
+        <name value="Beacon 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="141.2653,46.456"/>
+            <radius value="1.6206"/>
+        </shape>
+    </region>
+    <region id="32">
+        <name value="Beacon 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="148.5588,133.2565"/>
+            <radius value="1.6206"/>
+        </shape>
+    </region>
+    <region id="34">
+        <name value="Reveal Mechanic"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="52.2307,36.681"/>
+            <radius value="9.6081"/>
+        </shape>
+        <shape type="circle">
+            <center value="59.5498,44.8698"/>
+            <radius value="10.9797"/>
+        </shape>
+        <shape type="circle">
+            <center value="45.2802,29.7622"/>
+            <radius value="6.2697"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Reveal Expo Minerals"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="96.88,112.38"/>
+            <radius value="10.011"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.0598,75.99"/>
+            <radius value="10.024"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="InitialParts"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48.2973,33.2297"/>
+            <radius value="9.1713"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Parts Area 5"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="108.5002,21.0002"/>
+            <radius value="14.19"/>
+        </shape>
+        <shape type="circle">
+            <center value="121.5,12.5"/>
+            <radius value="4.272"/>
+        </shape>
+    </region>
+    <region id="36">
+        <name value="Parts Area 9"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="111.6533,131.8981"/>
+            <radius value="16.4196"/>
+        </shape>
+    </region>
+    <region id="37">
+        <name value="Parts Area 8"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="189.3298,92.9702"/>
+            <radius value="23.1206"/>
+        </shape>
+    </region>
+    <region id="35">
+        <name value="Train Despawner Mid"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="35.8234,182.521"/>
+            <radius value="5.221"/>
+        </shape>
+    </region>
+    <region id="39">
+        <name value="Hybrid Boss Fight Area 0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="68.5,129"/>
+            <radius value="23.28"/>
+        </shape>
+        <shape type="circle">
+            <negative/>
+            <center value="90,128.5"/>
+            <radius value="10.4042"/>
+        </shape>
+        <shape type="diamond">
+            <negative/>
+            <center value="61,149.5"/>
+            <width value="24.3974"/>
+            <height value="10.2504"/>
+        </shape>
+    </region>
+    <region id="40">
+        <name value="Hybrid Boss Fight Area 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="147.5,63.5"/>
+            <radius value="22.7392"/>
+        </shape>
+        <shape type="circle">
+            <negative/>
+            <center value="170.5,56"/>
+            <radius value="10"/>
+        </shape>
+        <shape type="diamond">
+            <negative/>
+            <center value="162.0725,45.5725"/>
+            <width value="9.6943"/>
+            <height value="6.2558"/>
+        </shape>
+    </region>
+    <region id="41">
+        <name value="Hybrid Boss Fight Area 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="144.0002,129.0002"/>
+            <radius value="21.227"/>
+        </shape>
+    </region>
+    <region id="42">
+        <name value="Parts Area 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="50.9162,34.5981"/>
+            <radius value="7.733"/>
+        </shape>
+        <shape type="circle">
+            <center value="44.166,36.098"/>
+            <radius value="3.0102"/>
+        </shape>
+        <shape type="circle">
+            <center value="52.916,27.598"/>
+            <radius value="2.5"/>
+        </shape>
+    </region>
+    <region id="38">
+        <name value="Parts Area 10"/>
+        <color value="255,128,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="66.7998,159.9177"/>
+            <radius value="15.9726"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.3046,167.0087"/>
+            <radius value="24.0002"/>
+        </shape>
+    </region>
+    <region id="33">
+        <name value="Sleepy Region"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="38.75,120.5"/>
+            <width value="13.08"/>
+            <height value="10.959"/>
+        </shape>
+        <shape type="diamond">
+            <center value="38.5,135"/>
+            <width value="10.6054"/>
+            <height value="13.4335"/>
+        </shape>
+        <shape type="diamond">
+            <center value="47.5,149.5"/>
+            <width value="14.8476"/>
+            <height value="19.0898"/>
+        </shape>
+        <shape type="diamond">
+            <center value="66.5,120"/>
+            <width value="14.1406"/>
+            <height value="28.2812"/>
+        </shape>
+        <shape type="diamond">
+            <center value="62,113.75"/>
+            <width value="9.545"/>
+            <height value="13.08"/>
+        </shape>
+        <shape type="diamond">
+            <center value="62,96"/>
+            <width value="19.0898"/>
+            <height value="6.3632"/>
+        </shape>
+        <shape type="diamond">
+            <center value="66.5,91.25"/>
+            <width value="20.1503"/>
+            <height value="9.545"/>
+        </shape>
+        <shape type="diamond">
+            <center value="73.75,89.5"/>
+            <width value="10.959"/>
+            <height value="11.666"/>
+        </shape>
+        <shape type="diamond">
+            <center value="103.25,105.5"/>
+            <width value="39.9472"/>
+            <height value="39.9472"/>
+        </shape>
+        <shape type="diamond">
+            <center value="96.75,89.5"/>
+            <width value="20.1503"/>
+            <height value="31.463"/>
+        </shape>
+        <shape type="diamond">
+            <center value="94.5,80.25"/>
+            <width value="10.252"/>
+            <height value="18.0292"/>
+        </shape>
+        <shape type="diamond">
+            <center value="71.5,166"/>
+            <width value="33.9375"/>
+            <height value="25.4531"/>
+        </shape>
+        <shape type="diamond">
+            <center value="91.75,166.75"/>
+            <width value="20.504"/>
+            <height value="36.7656"/>
+        </shape>
+        <shape type="diamond">
+            <center value="108.25,166"/>
+            <width value="26.5136"/>
+            <height value="31.463"/>
+        </shape>
+        <shape type="diamond">
+            <center value="112,136"/>
+            <width value="21.918"/>
+            <height value="23.332"/>
+        </shape>
+        <shape type="diamond">
+            <center value="134,148.75"/>
+            <width value="23.6855"/>
+            <height value="28.6347"/>
+        </shape>
+        <shape type="diamond">
+            <center value="144.75,132.75"/>
+            <width value="20.504"/>
+            <height value="14.1406"/>
+        </shape>
+        <shape type="diamond">
+            <center value="154.25,121"/>
+            <width value="13.787"/>
+            <height value="22.2714"/>
+        </shape>
+        <shape type="diamond">
+            <center value="163,129.75"/>
+            <width value="13.787"/>
+            <height value="20.1503"/>
+        </shape>
+        <shape type="diamond">
+            <center value="155.5,136.5"/>
+            <width value="2.8281"/>
+            <height value="1.414"/>
+        </shape>
+        <shape type="diamond">
+            <center value="176.5,122.5"/>
+            <width value="31.8164"/>
+            <height value="20.504"/>
+        </shape>
+        <shape type="diamond">
+            <center value="144,113.25"/>
+            <width value="13.08"/>
+            <height value="19.4433"/>
+        </shape>
+        <shape type="diamond">
+            <center value="141.25,106.5"/>
+            <width value="6.0097"/>
+            <height value="15.9082"/>
+        </shape>
+        <shape type="diamond">
+            <center value="135.5,89.75"/>
+            <width value="22.2714"/>
+            <height value="21.5644"/>
+        </shape>
+        <shape type="diamond">
+            <center value="133,82.5"/>
+            <width value="14.8476"/>
+            <height value="20.504"/>
+        </shape>
+        <shape type="diamond">
+            <center value="187.75,88.5"/>
+            <width value="25.0996"/>
+            <height value="32.17"/>
+        </shape>
+        <shape type="diamond">
+            <center value="180.25,79.75"/>
+            <width value="13.4335"/>
+            <height value="21.211"/>
+        </shape>
+        <shape type="diamond">
+            <center value="187.5,83.25"/>
+            <width value="8.1308"/>
+            <height value="14.4941"/>
+        </shape>
+        <shape type="diamond">
+            <center value="128.75,64.75"/>
+            <width value="17.6757"/>
+            <height value="16.9687"/>
+        </shape>
+        <shape type="diamond">
+            <center value="126.75,59.25"/>
+            <width value="9.8984"/>
+            <height value="13.4335"/>
+        </shape>
+        <shape type="diamond">
+            <center value="142.5,52.5"/>
+            <width value="14.1406"/>
+            <height value="18.3828"/>
+        </shape>
+        <shape type="diamond">
+            <center value="149.25,71.25"/>
+            <width value="14.8476"/>
+            <height value="12.7265"/>
+        </shape>
+        <shape type="diamond">
+            <center value="154,63.5"/>
+            <width value="17.6757"/>
+            <height value="24.746"/>
+        </shape>
+        <shape type="diamond">
+            <center value="159.75,69.75"/>
+            <width value="2.8281"/>
+            <height value="2.121"/>
+        </shape>
+        <shape type="diamond">
+            <center value="181.25,32.75"/>
+            <width value="50.9062"/>
+            <height value="40.3007"/>
+        </shape>
+        <shape type="diamond">
+            <center value="155,21"/>
+            <width value="21.918"/>
+            <height value="40.3007"/>
+        </shape>
+        <shape type="diamond">
+            <center value="147.5,14.75"/>
+            <width value="15.2011"/>
+            <height value="34.291"/>
+        </shape>
+        <shape type="diamond">
+            <center value="113.5,20.25"/>
+            <width value="32.877"/>
+            <height value="32.17"/>
+        </shape>
+        <shape type="diamond">
+            <center value="98.5,14.5"/>
+            <width value="10.6054"/>
+            <height value="12.0195"/>
+        </shape>
+        <shape type="diamond">
+            <center value="114.25,52.75"/>
+            <width value="26.8671"/>
+            <height value="33.2304"/>
+        </shape>
+        <shape type="diamond">
+            <center value="108.5,40.75"/>
+            <width value="4.5957"/>
+            <height value="9.545"/>
+        </shape>
+        <shape type="diamond">
+            <center value="99.25,49.25"/>
+            <width value="3.5351"/>
+            <height value="8.4843"/>
+        </shape>
+        <shape type="diamond">
+            <center value="98.5,47.5"/>
+            <width value="2.8281"/>
+            <height value="4.2421"/>
+        </shape>
+    </region>
+    <region id="43">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="64.5112,29.6887"/>
+            <radius value="20.8498"/>
+        </shape>
+        <shape type="circle">
+            <center value="43.8112,49.9587"/>
+            <radius value="20.44"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.4025,26.4492"/>
+            <radius value="26.44"/>
+        </shape>
+        <shape type="circle">
+            <center value="59.3713,43.2885"/>
+            <radius value="16.5068"/>
+        </shape>
+        <shape type="circle">
+            <center value="97.0332,107.2924"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="100.002,80.9187"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

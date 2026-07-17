@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="GameUI/UIContainer/FullscreenUpperContainer" file="GameUI">
+
+        <Frame type="MenuBar" name="MenuBar">
+        
+            <Frame type="Image" name="MouseBlocker">
+                <Anchor relative="$parent"/>
+                <Alpha val="0"/>
+                <AcceptsMouse val="True"/>
+                <Visible val="False"/>
+            </Frame>
+        </Frame>
+        
+        <Frame type="AspectRatioFrame" name="MutatorAspectRatio5x4">
+            <Anchor relative="$parent"/>
+            <MinVisibleAspectRatio val="1"/>
+            <MaxVisibleAspectRatio val="1.25"/>
+        </Frame>
+        
+        <Frame type="ChatBar" name="ChatBar">
+            
+            <Animation name="CustomMutatorAnchoring">
+                <Event event="CustomMutatorActive" action="Reset,Play" frame="$parent"/>
+                <Event event="CustomMutatorInactive" action="Reset,Stop" frame="$parent"/>
+                 
+                <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                    <Key type="Curve" time="0" value="-408" out="Fast"/>
+                </Controller>
+                
+                <Controller type="Anchor" end="Pause" side="Right" relative="true">
+                    <Key type="Curve" time="0" value="-80" out="Fast"/>
+                </Controller>
+                
+                <Controller type="Anchor" end="Pause" side="Bottom" relative="true">
+                    <Key type="Curve" time="0" value="210" out="Fast"/>
+                </Controller>
+            </Animation>
+            
+            <Animation name="CustomMutatorAnchoring5x4">
+                <Event event="CustomMutatorActive5x4" action="Reset,Play" frame="$parent"/>
+                <Event event="CustomMutatorInactive" action="Reset,Stop" frame="$parent"/>
+                 
+                <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                    <Key type="Curve" time="0" value="-408" out="Fast"/>
+                </Controller>
+                
+                <Controller type="Anchor" end="Pause" side="Right" relative="true">
+                    <Key type="Curve" time="0" value="-80" out="Fast"/>
+                </Controller>
+                
+                <Controller type="Anchor" end="Pause" side="Bottom" relative="true">
+                    <Key type="Curve" time="0" value="170" out="Fast"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <StateGroup name="MutatorSelectionState">
+            <DefaultState val="Inactive"/>
+        
+            <State name="Active">
+                <When type="AnimationState" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this/ChatBar/BackgroundImage" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientImage" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientLabel" visible="true"/>
+                <Action type="SetProperty" frame="$this/ChatBar/HelpLabel" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatHelpLabel" alpha="0"/>
+                <Action type="SetProperty" frame="$this/MenuBar" alpha="0"/>
+                <Action type="SetProperty" frame="$this/MenuBar/MouseBlocker" visible="True"/>
+                <Action type="SetState" frame="$this/ChatBar" group="MutatorSelectionState" state="Active"/>
+                <Action type="SetState" frame="$this/EmoticonPanel" group="MutatorSelectionState" state="Active"/>
+            </State>
+            
+            <State name="Inactive">
+                <When type="AnimationState" MutatorSelectionState="Inactive"/>
+                <Action type="SetProperty" frame="$this/ChatBar/BackgroundImage" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientImage" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientLabel" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/HelpLabel" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatHelpLabel" alpha="255"/>
+                <Action type="SetProperty" frame="$this/MenuBar" alpha="255"/>
+                <Action type="SetProperty" frame="$this/MenuBar/MouseBlocker" visible="False"/>
+                <Action type="SetState" frame="$this/ChatBar" group="MutatorSelectionState" state="Inactive"/>
+                <Action type="SetState" frame="$this/EmoticonPanel" group="MutatorSelectionState" state="Inactive"/>
+            </State>
+        </StateGroup>
+
+        <StateGroup name="MutatorSelectionAndAspectRatioState">
+            <DefaultState val="Inactive"/>
+        
+            <State name="Active">
+                <When type="AnimationState" MutatorSelectionState="Active"/>
+                <When type="Property" frame="$this/MutatorAspectRatio5x4" Visible="false"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorActive"/>
+            </State>
+        
+            <State name="Active5x4">
+                <When type="AnimationState" MutatorSelectionState="Active"/>
+                <When type="Property" frame="$this/MutatorAspectRatio5x4" Visible="true"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorActive5x4"/>
+            </State>
+            
+            <State name="Inactive">
+                <When type="AnimationState" MutatorSelectionState="Inactive"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorInactive"/>
+            </State>
+        </StateGroup>
+    </Frame>
+    <Frame type="Frame" name="MutatorPanelTemplate">
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+        <Frame type="Button" name="MutatorButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Width val="260"/>
+        </Frame>
+        
+        <Frame type="Frame" name="CustomMutatorFullsreenTemplate">
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset,Stop" frame="$parent"/>
+                <Event event="OnClick" action="Reset,Play" frame="$parent/MutatorButton"/>
+                <Event event="OnClick" action="DirectionReverse,Play" frame="CustomMutatorMenuContainer/AcceptButton"/>
+                <Event event="OnClick" action="DirectionReverse,Play" frame="CustomMutatorMenuContainer/CancelButton"/>
+                <Event event="OnDisabled" action="Reset,Stop" frame="$parent/MutatorButton"/>
+                <Event event="UISlideOut" action="Reset,Stop" frame="$parent/$parent"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Slow"/>
+                    <Key type="Curve" time=".175" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0" value="false"/>
+                    <Key type="Bool" time=".001" value="true"/>
+                    <Key type="Bool" time=".175" value="true"/>
+                </Controller>
+            </Animation>
+
+            <Frame type="Frame" name="ExtendedExperienceBG" template="StandardExtendedExperienceTemplates/StandardSizeExtendedExperienceTemplate">
+                
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Width val="1559"/>
+                    <Height val="1072"/>
+                </Frame>
+                
+                <Frame type="Frame" name="BackgroundContainer">
+                    <Frame type="Image" name="Corner_TopRight">
+                        <Texture val="@UI/Glues_ExtendedXP_Scaleable_Background_Corner_Standard"/>
+                        <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="CustomMutatorMenuContainer">
+                <Anchor side="Top" relative="$parent/ExtendedExperienceBG/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$this/AcceptButton" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/ExtendedExperienceBG/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ExtendedExperienceBG/AnchorFrame" pos="Max" offset="0"/>
+
+                <Frame type="Label" name="Title">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="44"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Style val="@Coop_CustomMutator_Title"/>
+                    <Text val="@UI/CustomMutators/MutatorSelection"/>
+                </Frame>
+
+                <Frame type="Label" name="Description">
+                    <Anchor side="Top" relative="$parent/Title" pos="Max" offset="1"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Style val="@Coop_CustomMutator_Subtitle"/>
+                    <Text val="@UI/CustomMutators/MutatorSelectionDescription"/>
+                </Frame>
+
+                <Frame type="Frame" name="SelectionContainer" template="Menu_CustomMutatorTemplates/SelectionContainerTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="128"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="65"/>
+                </Frame>
+                
+                <Frame type="Frame" name="SelectedContainer" template="Menu_CustomMutatorTemplates/SelectedContainerTemplate">
+                    <Anchor side="Top" relative="$parent/SelectionContainer" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-65"/>
+                </Frame>
+
+                <Frame type="Frame" name="HeaderPanel">
+                    <Anchor side="Top" relative="$parent/AcceptButton" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/SelectionContainer" pos="Min" offset="4"/>
+                    <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
+                    
+                    <Height val="36"/>
+                    <Frame type="EditBox" name="SearchEditBoxTemplate" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
+                        <Tooltip val="@UI/MutatorSearch/SearchTooltip"/>
+                        <MaxCharacters val="80"/>
+
+                        <Animation name="RequestSearch">
+                            <Event event="OnEnterPressed" frame="$this" action="Reset,Play"/>
+                        </Animation>
+
+                        <Frame type="Label" name="SearchTextLabel">
+                            <Text val="@UI/MutatorSearch/SearchText"/>
+                        </Frame>
+
+                        <Frame type="Button" name="ClearTextButton">
+                            <Animation name="ClearLobbyList">
+                                <Event event="OnClick" frame="$this" action="Reset,Play"/>
+                            </Animation>
+                        </Frame>
+
+                        <Frame type="Frame" name="AnchorFrame">
+                            <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="0"/>
+                        </Frame>
+
+                        <!-- Doing the edit box animation this way because apparently you lose focus on the edit box otherwise -->
+                        <Animation name="ListEmptyFilterPrep">
+                            <Event event="EmptyFilter" action="DirectionForward,Play" frame="$parent"/>
+                            <Event event="NotEmpty" action="DirectionForward,Play" frame="$parent"/>
+                            <Event event="Empty" action="DirectionReverse,Play" frame="$parent"/>
+                            <Event event="Loading" action="DirectionReverse,Play" frame="$parent"/>
+
+                            <Controller type="Visibility" end="Pause">
+                                <Key type="Bool" time="0.00" value="False"/>
+                                <Key type="Bool" time="0.01" value="True"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                    <Anchor side="Top" relative="$parent/CancelButton" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/CancelButton" pos="Min" offset="-6"/>
+                    <Tooltip val=""/>
+                    <TooltipFrame val="BattleNetTooltip"/>
+                    <Style val="@StandardButtonAlternate"/>
+                    <Text val="@UI/StandardDialog_Ok_Control"/>
+                    
+                    <Frame type="StandardTooltip" name="BattleNetTooltip" template="Menu_CustomMutatorTemplates/StandardBattlenetTooltipTemplate"/>
+                </Frame>
+                
+                <Frame type="Button" name="CancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                    <Anchor side="Top" relative="$parent/SelectionContainer" pos="Max" offset="7"/>
+                    <Anchor side="Right" relative="$parent/SelectedContainer" pos="Max" offset="-4"/>
+                    <Tooltip val=""/>
+                    <TooltipFrame val="BattleNetTooltip"/>
+                    <Text val="@UI/StandardDialog_Cancel_Control"/>
+                    
+                    <Frame type="StandardTooltip" name="BattleNetTooltip" template="Menu_CustomMutatorTemplates/StandardBattlenetTooltipTemplate"/>
+                </Frame>
+                
+            </Frame>
+            
+            <Frame type="Frame" name="CustomMutatorChatContainer">
+                <Anchor side="Top" relative="$parent/CustomMutatorMenuContainer" pos="Max" offset="9"/>
+                <Anchor side="Left" relative="$parent/CustomMutatorMenuContainer" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/CustomMutatorMenuContainer/SelectedContainer" pos="Max" offset="0"/>
+                <Height val="300"/>
+
+                <Frame type="Image" name="ChatBackground">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-91"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="65"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <TextureType val="NineSlice"/>
+                    <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+                </Frame>
+                
+                <Frame type="Image" name="ChatEntryBackground">
+                    <Anchor side="Top" relative="$parent/ChatBackground" pos="Max" offset="5"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-40"/>
+                    <Anchor side="Left" relative="$parent/ChatBackground" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/ChatBackground" pos="Max" offset="0"/>
+                    <TextureType val="NineSlice"/>
+                    <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+                </Frame>
+                
+                <Frame type="Label" name="ChatLabel">
+                    <Anchor side="Top" relative="$parent/ChatEntryBackground" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/ChatEntryBackground" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/ChatEntryBackground" pos="Min" offset="10"/>
+                    <Anchor side="Right" relative="$parent/ChatEntryBackground" pos="Max" offset="0"/>
+                    <Style val="@Coop_CustomMutator_ChatDisplay"/>
+                    <Text val="@UI/CustomMutators/InactiveChat"/>
+                    
+                    <StateGroup name="ChatLabelVisibleState">
+                    
+                        <State name="Active">
+                            <When type="Property" frame="$GameUI_ChatBar" visible="False"/>
+                            <Action type="SetProperty" frame="$this" visible="True"/>
+                        </State>
+                        
+                        <State name="Inactive">
+                            <When type="Property" frame="$GameUI_ChatBar" visible="True"/>
+                            <Action type="SetProperty" frame="$this" visible="False"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+                
+                <Frame type="GameMessageDisplay" name="ChatDisplay">
+                    <MessageArea val="Chat"/>
+                    <Anchor side="Top" relative="$parent/ChatBackground" pos="Min" offset="13"/>
+                    <Anchor side="Bottom" relative="$parent/ChatBackground" pos="Max" offset="-10"/>
+                    <Anchor side="Left" relative="$parent/ChatBackground" pos="Min" offset="10"/>
+                    <Anchor side="Right" relative="$parent/ChatBackground" pos="Max" offset="-10"/>
+                    <Style val="@Coop_CustomMutator_ChatDisplay"/>
+                    <MaxMessages val="16"/>
+                    <BatchText val="true"/>
+                </Frame>
+            </Frame>
+            
+            <Frame type="Image" name="MouseBlocker">
+                <Anchor relative="$parent"/>
+                <AcceptsMouse val="True"/>
+                <Color val="0,0,0"/>
+                <Alpha val="0"/>
+                <Visible val="False"/>
+                
+                <Animation name="Show">
+                    <Event event="CountdownStart" action="Reset,Play" frame="$parent"/>
+                    
+                    <Controller type="Visibility" end="Pause">
+                        <Key type="Bool" time="0" value="True"/>
+                    </Controller>
+                    
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Fast"/>
+                        <Key type="Curve" time=".5" value="170" in="Slow"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+            
+        </Frame>
+    </Frame>
+
+</Desc>

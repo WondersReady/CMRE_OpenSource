@@ -1,0 +1,1216 @@
+// CMUI account-bound offline authorization code support.
+//
+// Code format:
+//   DDDDD-YYYYMMDD-XXXXX-XXXXX
+//
+// DDDDD is the authorization duration in days. 00001..99998 are fixed-term
+// licenses; 99999 is permanent. The authorization tier is included in the
+// check part, so the visible code format stays compact.
+
+const int CMUIX_AUTH_STRING_INDEX_BASE = 1;
+const int CMUIX_AUTH_HASH_MOD = 1000003;
+const int CMUIX_AUTH_DURATION_MAX_DAYS = 99998;
+const int CMUIX_AUTH_DURATION_PERMANENT = 99999;
+const int CMUIX_AUTH_TIER_NONE = 0;
+const int CMUIX_AUTH_TIER_DEVELOPER = 1;
+const int CMUIX_AUTH_TIER_TESTDEMO = 2;
+const string CMUIX_AUTH_DEFAULT_SECRET_SALT = "SC2-LUNAR-AUTH-CMUI-2026-v1";
+const string CMUIX_AUTH_SALT_USER_TYPE = "GlobalOptions";
+const string CMUIX_AUTH_SALT_INSTANCE = "AuthLicenseSalt";
+const string CMUIX_AUTH_SALT_FIELD = "TriggerString";
+
+int CMUIX_AuthTempYear;
+int CMUIX_AuthTempMonth;
+int CMUIX_AuthTempDay;
+bool CMUIX_AuthTempDateValid;
+string CMUIX_AuthLastLicenseCode;
+bool CMUIX_AuthLastLicenseValid;
+int CMUIX_AuthLastLicenseStartDate;
+int CMUIX_AuthLastLicenseExpireDate;
+int CMUIX_AuthLastLicenseTier;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_AuthRuntimeTiers;
+
+void CMUIX_AuthSetLastLicenseInfo(string code, int tier);
+
+string CMUIX_AuthGetSecretSalt() {
+    string lv_salt;
+
+    lv_salt = UserDataGetString(CMUIX_AUTH_SALT_USER_TYPE, CMUIX_AUTH_SALT_INSTANCE, CMUIX_AUTH_SALT_FIELD, 1);
+    if ((lv_salt == "") || (lv_salt == null)) {
+        return CMUIX_AUTH_DEFAULT_SECRET_SALT;
+    }
+
+    return lv_salt;
+}
+
+string CMUIX_AuthGetAlphabet() {
+    return "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+}
+
+string CMUIX_AuthTierName(int tier) {
+    if (tier == CMUIX_AUTH_TIER_DEVELOPER) {
+        return "Developer";
+    }
+    if (tier == CMUIX_AUTH_TIER_TESTDEMO) {
+        return "TestDemo";
+    }
+    return "";
+}
+
+int CMUIX_AuthTierId(string tier) {
+    if ((StringEqual(tier, "Developer", c_stringNoCase) == true) || (StringEqual(tier, "Develope", c_stringNoCase) == true)) {
+        return CMUIX_AUTH_TIER_DEVELOPER;
+    }
+    if (StringEqual(tier, "TestDemo", c_stringNoCase) == true) {
+        return CMUIX_AUTH_TIER_TESTDEMO;
+    }
+    return CMUIX_AUTH_TIER_NONE;
+}
+
+string CMUIX_AuthNormalizeTier(string tier) {
+    return CMUIX_AuthTierName(CMUIX_AuthTierId(tier));
+}
+
+bool CMUIX_AuthTierIsValid(int tier) {
+    if ((tier == CMUIX_AUTH_TIER_DEVELOPER) || (tier == CMUIX_AUTH_TIER_TESTDEMO)) {
+        return true;
+    }
+    return false;
+}
+
+int CMUIX_AuthTierRuntimeUserType(int tier) {
+    if (tier == CMUIX_AUTH_TIER_DEVELOPER) {
+        return libCOTF_ge_RT_UserTypes_DEV;
+    }
+    if (tier == CMUIX_AUTH_TIER_TESTDEMO) {
+        return libCOTF_ge_RT_UserTypes_TEST;
+    }
+    return libCOTF_ge_RT_UserTypes_COMMAND;
+}
+
+int CMUIX_AuthTierRank(int tier) {
+    if (tier == CMUIX_AUTH_TIER_DEVELOPER) {
+        return 2;
+    }
+    if (tier == CMUIX_AUTH_TIER_TESTDEMO) {
+        return 1;
+    }
+    return 0;
+}
+
+int CMUIX_AuthRuntimeTierForPlayer(int player) {
+    if ((player < 1) || (player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return CMUIX_AUTH_TIER_NONE;
+    }
+
+    return CMUIX_AuthRuntimeTiers[player];
+}
+
+bool CMUIX_AuthPlayerHasTier(int player, int tier) {
+    if ((player < 1) || (player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+
+    if (CMUIX_AuthTierRank(CMUIX_AuthRuntimeTiers[player]) >= CMUIX_AuthTierRank(tier)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool CMUIX_AuthPlayerHasDeveloperAccess(int player) {
+    return CMUIX_AuthPlayerHasTier(player, CMUIX_AUTH_TIER_DEVELOPER);
+}
+
+bool CMUIX_AuthPlayerHasTestDemoAccess(int player) {
+    return CMUIX_AuthPlayerHasTier(player, CMUIX_AUTH_TIER_TESTDEMO);
+}
+
+bool CMUIX_AuthSetRuntimeTierForPlayer(int player, int tier) {
+    int runtimeType;
+
+    runtimeType = libCOTF_ge_RT_UserTypes_COMMAND;
+    if ((player < 1) || (player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+    if (CMUIX_AuthTierIsValid(tier) == false) {
+        return false;
+    }
+
+    if (CMUIX_AuthTierRank(tier) < CMUIX_AuthTierRank(CMUIX_AuthRuntimeTiers[player])) {
+        return true;
+    }
+
+    CMUIX_AuthRuntimeTiers[player] = tier;
+    runtimeType = CMUIX_AuthTierRuntimeUserType(tier);
+    if (runtimeType < libCOTF_gv_rT_UserTypes[player]) {
+        libCOTF_gv_rT_UserTypes[player] = runtimeType;
+    }
+
+    return true;
+}
+
+bool CMUIX_AuthShareRuntimeTier(int sourcePlayer, int targetPlayer, int tier) {
+    if ((sourcePlayer < 1) || (sourcePlayer > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+    if ((targetPlayer < 1) || (targetPlayer > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+    if (sourcePlayer == targetPlayer) {
+        return false;
+    }
+    if (CMUIX_AuthTierIsValid(tier) == false) {
+        return false;
+    }
+    if (CMUIX_AuthTierRank(CMUIX_AuthRuntimeTiers[sourcePlayer]) < CMUIX_AuthTierRank(tier)) {
+        return false;
+    }
+
+    return CMUIX_AuthSetRuntimeTierForPlayer(targetPlayer, tier);
+}
+
+bool CMUIX_AuthPermissionStatus(int permissionType, int player) {
+    if ((player < 1) || (player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+
+    if (permissionType == libCOTF_ge_RT_UserTypes_DEV) {
+        return CMUIX_AuthPlayerHasDeveloperAccess(player);
+    }
+
+    if (permissionType == libCOTF_ge_RT_UserTypes_TEST) {
+        return CMUIX_AuthPlayerHasTestDemoAccess(player);
+    }
+
+    if (permissionType == libCOTF_ge_RT_UserTypes_COMMAND) {
+        return true;
+    }
+
+    if (permissionType == libCOTF_ge_RT_UserTypes_VISU) {
+        return true;
+    }
+
+    return false;
+}
+
+string CMUIX_AuthCharAt(string s, int index) {
+    if ((index < 0) || (index >= StringLength(s))) {
+        return "";
+    }
+    return StringSub(s, index + CMUIX_AUTH_STRING_INDEX_BASE, index + CMUIX_AUTH_STRING_INDEX_BASE);
+}
+
+string CMUIX_AuthSubString(string s, int startIndex, int length) {
+    int sourceLength;
+    int endIndex;
+
+    sourceLength = StringLength(s);
+    if ((startIndex < 0) || (length <= 0) || (startIndex >= sourceLength)) {
+        return "";
+    }
+    endIndex = startIndex + length;
+    if (endIndex > sourceLength) {
+        endIndex = sourceLength;
+    }
+    return StringSub(s, startIndex + CMUIX_AUTH_STRING_INDEX_BASE, endIndex);
+}
+
+bool CMUIX_AuthStringIsDigitChar(string ch) {
+    if (StringEqual(ch, "0", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "1", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "2", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "3", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "4", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "5", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "6", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "7", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "8", c_stringCase) == true) {
+        return true;
+    }
+    if (StringEqual(ch, "9", c_stringCase) == true) {
+        return true;
+    }
+    return false;
+}
+
+bool CMUIX_AuthStringIsDigitString(string s) {
+    int i;
+    int len;
+    string ch;
+
+    len = StringLength(s);
+    if (len <= 0) {
+        return false;
+    }
+    i = 0;
+    while (i < len) {
+        ch = CMUIX_AuthCharAt(s, i);
+        if (CMUIX_AuthStringIsDigitChar(ch) == false) {
+            return false;
+        }
+        i += 1;
+    }
+    return true;
+}
+
+int CMUIX_AuthCharValue(string ch) {
+    if (StringEqual(ch, "0", c_stringCase) == true) {
+        return 0;
+    }
+    if (StringEqual(ch, "1", c_stringCase) == true) {
+        return 1;
+    }
+    if (StringEqual(ch, "2", c_stringCase) == true) {
+        return 2;
+    }
+    if (StringEqual(ch, "3", c_stringCase) == true) {
+        return 3;
+    }
+    if (StringEqual(ch, "4", c_stringCase) == true) {
+        return 4;
+    }
+    if (StringEqual(ch, "5", c_stringCase) == true) {
+        return 5;
+    }
+    if (StringEqual(ch, "6", c_stringCase) == true) {
+        return 6;
+    }
+    if (StringEqual(ch, "7", c_stringCase) == true) {
+        return 7;
+    }
+    if (StringEqual(ch, "8", c_stringCase) == true) {
+        return 8;
+    }
+    if (StringEqual(ch, "9", c_stringCase) == true) {
+        return 9;
+    }
+    if ((StringEqual(ch, "A", c_stringCase) == true) || (StringEqual(ch, "a", c_stringCase) == true)) {
+        return 10;
+    }
+    if ((StringEqual(ch, "B", c_stringCase) == true) || (StringEqual(ch, "b", c_stringCase) == true)) {
+        return 11;
+    }
+    if ((StringEqual(ch, "C", c_stringCase) == true) || (StringEqual(ch, "c", c_stringCase) == true)) {
+        return 12;
+    }
+    if ((StringEqual(ch, "D", c_stringCase) == true) || (StringEqual(ch, "d", c_stringCase) == true)) {
+        return 13;
+    }
+    if ((StringEqual(ch, "E", c_stringCase) == true) || (StringEqual(ch, "e", c_stringCase) == true)) {
+        return 14;
+    }
+    if ((StringEqual(ch, "F", c_stringCase) == true) || (StringEqual(ch, "f", c_stringCase) == true)) {
+        return 15;
+    }
+    if ((StringEqual(ch, "G", c_stringCase) == true) || (StringEqual(ch, "g", c_stringCase) == true)) {
+        return 16;
+    }
+    if ((StringEqual(ch, "H", c_stringCase) == true) || (StringEqual(ch, "h", c_stringCase) == true)) {
+        return 17;
+    }
+    if ((StringEqual(ch, "I", c_stringCase) == true) || (StringEqual(ch, "i", c_stringCase) == true)) {
+        return 18;
+    }
+    if ((StringEqual(ch, "J", c_stringCase) == true) || (StringEqual(ch, "j", c_stringCase) == true)) {
+        return 19;
+    }
+    if ((StringEqual(ch, "K", c_stringCase) == true) || (StringEqual(ch, "k", c_stringCase) == true)) {
+        return 20;
+    }
+    if ((StringEqual(ch, "L", c_stringCase) == true) || (StringEqual(ch, "l", c_stringCase) == true)) {
+        return 21;
+    }
+    if ((StringEqual(ch, "M", c_stringCase) == true) || (StringEqual(ch, "m", c_stringCase) == true)) {
+        return 22;
+    }
+    if ((StringEqual(ch, "N", c_stringCase) == true) || (StringEqual(ch, "n", c_stringCase) == true)) {
+        return 23;
+    }
+    if ((StringEqual(ch, "O", c_stringCase) == true) || (StringEqual(ch, "o", c_stringCase) == true)) {
+        return 24;
+    }
+    if ((StringEqual(ch, "P", c_stringCase) == true) || (StringEqual(ch, "p", c_stringCase) == true)) {
+        return 25;
+    }
+    if ((StringEqual(ch, "Q", c_stringCase) == true) || (StringEqual(ch, "q", c_stringCase) == true)) {
+        return 26;
+    }
+    if ((StringEqual(ch, "R", c_stringCase) == true) || (StringEqual(ch, "r", c_stringCase) == true)) {
+        return 27;
+    }
+    if ((StringEqual(ch, "S", c_stringCase) == true) || (StringEqual(ch, "s", c_stringCase) == true)) {
+        return 28;
+    }
+    if ((StringEqual(ch, "T", c_stringCase) == true) || (StringEqual(ch, "t", c_stringCase) == true)) {
+        return 29;
+    }
+    if ((StringEqual(ch, "U", c_stringCase) == true) || (StringEqual(ch, "u", c_stringCase) == true)) {
+        return 30;
+    }
+    if ((StringEqual(ch, "V", c_stringCase) == true) || (StringEqual(ch, "v", c_stringCase) == true)) {
+        return 31;
+    }
+    if ((StringEqual(ch, "W", c_stringCase) == true) || (StringEqual(ch, "w", c_stringCase) == true)) {
+        return 32;
+    }
+    if ((StringEqual(ch, "X", c_stringCase) == true) || (StringEqual(ch, "x", c_stringCase) == true)) {
+        return 33;
+    }
+    if ((StringEqual(ch, "Y", c_stringCase) == true) || (StringEqual(ch, "y", c_stringCase) == true)) {
+        return 34;
+    }
+    if ((StringEqual(ch, "Z", c_stringCase) == true) || (StringEqual(ch, "z", c_stringCase) == true)) {
+        return 35;
+    }
+    if (StringEqual(ch, "-", c_stringCase) == true) {
+        return 36;
+    }
+    if (StringEqual(ch, "|", c_stringCase) == true) {
+        return 37;
+    }
+    if (StringEqual(ch, ":", c_stringCase) == true) {
+        return 38;
+    }
+    if (StringEqual(ch, "_", c_stringCase) == true) {
+        return 39;
+    }
+    return 0;
+}
+
+string CMUIX_AuthDurationDaysToKind(int durationDays) {
+    string result;
+
+    if (durationDays == CMUIX_AUTH_DURATION_PERMANENT) {
+        return "99999";
+    }
+    if ((durationDays < 1) || (durationDays > CMUIX_AUTH_DURATION_MAX_DAYS)) {
+        return "";
+    }
+    result = IntToString(durationDays);
+    while (StringLength(result) < 5) {
+        result = "0" + result;
+    }
+    return result;
+}
+
+bool CMUIX_AuthIsCodeKind(string kind) {
+    int days;
+
+    if (StringLength(kind) != 5) {
+        return false;
+    }
+    if (CMUIX_AuthStringIsDigitString(kind) == false) {
+        return false;
+    }
+    days = StringToInt(kind);
+    if (days == CMUIX_AUTH_DURATION_PERMANENT) {
+        return true;
+    }
+    if ((days < 1) || (days > CMUIX_AUTH_DURATION_MAX_DAYS)) {
+        return false;
+    }
+    return true;
+}
+
+string CMUIX_AuthNormalizeKind(string kind) {
+    int days;
+
+    if (CMUIX_AuthStringIsDigitString(kind) == false) {
+        return kind;
+    }
+    days = StringToInt(kind);
+    return CMUIX_AuthDurationDaysToKind(days);
+}
+
+bool CMUIX_AuthIsAlphabetChar(string ch) {
+    int i;
+    string alphabet;
+    string test;
+
+    alphabet = CMUIX_AuthGetAlphabet();
+    i = 0;
+    while (i < 32) {
+        test = CMUIX_AuthCharAt(alphabet, i);
+        if (StringEqual(ch, test, c_stringCase) == true) {
+            return true;
+        }
+        i += 1;
+    }
+    return false;
+}
+
+bool CMUIX_AuthIsCheckPartValid(string s) {
+    int i;
+    int len;
+    string ch;
+
+    len = StringLength(s);
+    if (len != 10) {
+        return false;
+    }
+    i = 0;
+    while (i < len) {
+        ch = CMUIX_AuthCharAt(s, i);
+        if (CMUIX_AuthIsAlphabetChar(ch) == false) {
+            return false;
+        }
+        i += 1;
+    }
+    return true;
+}
+
+string CMUIX_AuthCodeKind(string code) {
+    if (StringLength(code) != 26) {
+        return "";
+    }
+    return CMUIX_AuthNormalizeKind(CMUIX_AuthSubString(code, 0, 5));
+}
+
+string CMUIX_AuthCodeExpireDateString(string code) {
+    if (StringLength(code) != 26) {
+        return "";
+    }
+    return CMUIX_AuthSubString(code, 6, 8);
+}
+
+int CMUIX_AuthCodeExpireDateInt(string code) {
+    string dateText;
+
+    dateText = CMUIX_AuthCodeExpireDateString(code);
+    if (CMUIX_AuthStringIsDigitString(dateText) == false) {
+        return 0;
+    }
+    return StringToInt(dateText);
+}
+
+string CMUIX_AuthCodeCheckPart(string code) {
+    string partA;
+    string partB;
+
+    if (StringLength(code) != 26) {
+        return "";
+    }
+    partA = CMUIX_AuthSubString(code, 15, 5);
+    partB = CMUIX_AuthSubString(code, 21, 5);
+    return partA + partB;
+}
+
+bool CMUIX_AuthIsLicenseFormatValid(string code) {
+    string kind;
+    string dateText;
+    string checkPart;
+
+    if (StringLength(code) != 26) {
+        return false;
+    }
+    if (StringEqual(CMUIX_AuthCharAt(code, 5), "-", c_stringCase) == false) {
+        return false;
+    }
+    if (StringEqual(CMUIX_AuthCharAt(code, 14), "-", c_stringCase) == false) {
+        return false;
+    }
+    if (StringEqual(CMUIX_AuthCharAt(code, 20), "-", c_stringCase) == false) {
+        return false;
+    }
+    kind = CMUIX_AuthCodeKind(code);
+    if (CMUIX_AuthIsCodeKind(kind) == false) {
+        return false;
+    }
+    dateText = CMUIX_AuthCodeExpireDateString(code);
+    if (CMUIX_AuthStringIsDigitString(dateText) == false) {
+        return false;
+    }
+    checkPart = CMUIX_AuthCodeCheckPart(code);
+    if (CMUIX_AuthIsCheckPartValid(checkPart) == false) {
+        return false;
+    }
+    return true;
+}
+
+int CMUIX_AuthDateTimeToYmdInt(datetime dt) {
+    int y;
+    int m;
+    int d;
+
+    y = GetDateTimeYear(dt);
+    m = GetDateTimeMonth(dt);
+    d = GetDateTimeDay(dt);
+    return y * 10000 + m * 100 + d;
+}
+
+bool CMUIX_AuthIsExpireDatePassed(int expireDate, datetime now) {
+    int today;
+
+    today = CMUIX_AuthDateTimeToYmdInt(now);
+    if (today > expireDate) {
+        return true;
+    }
+    return false;
+}
+
+int CMUIX_AuthBasicHash(string payload) {
+    int i;
+    int len;
+    int h1;
+    int h2;
+    int v;
+    string ch;
+
+    h1 = 739391;
+    h2 = 192608;
+    len = StringLength(payload);
+    i = 0;
+    while (i < len) {
+        ch = CMUIX_AuthCharAt(payload, i);
+        v = CMUIX_AuthCharValue(ch);
+        h1 = (h1 * 97 + v * 31 + (i + 1) * 17 + 104729) % CMUIX_AUTH_HASH_MOD;
+        h2 = (h2 * 53 + v * 19 + h1 + (i + 1) * 23) % CMUIX_AUTH_HASH_MOD;
+        i += 1;
+    }
+    return (h1 + h2 * 7 + len * 131) % CMUIX_AUTH_HASH_MOD;
+}
+
+string CMUIX_AuthMakeCheckPart(string uid, int tier, string kind, int expireDate) {
+    string payload;
+    string payload2;
+    string tierName;
+    string alphabet;
+    string result;
+    int h1;
+    int h2;
+    int i;
+    int idx;
+    int mixed;
+
+    tierName = CMUIX_AuthTierName(tier);
+    if (StringEqual(tierName, "", c_stringCase) == true) {
+        return "";
+    }
+    kind = CMUIX_AuthNormalizeKind(kind);
+    payload = uid + "|" + tierName + "|" + kind + "|" + IntToString(expireDate) + "|" + CMUIX_AuthGetSecretSalt();
+    payload2 = CMUIX_AuthGetSecretSalt() + "|" + IntToString(expireDate) + "|" + kind + "|" + tierName + "|" + uid;
+    h1 = CMUIX_AuthBasicHash(payload);
+    h2 = CMUIX_AuthBasicHash(payload2);
+    alphabet = CMUIX_AuthGetAlphabet();
+    result = "";
+    i = 0;
+    while (i < 10) {
+        mixed = (h1 + h2 * 3 + (i + 1) * 7919) % CMUIX_AUTH_HASH_MOD;
+        idx = mixed % 32;
+        result = result + CMUIX_AuthCharAt(alphabet, idx);
+        h1 = (h1 * 37 + mixed + i * 101) % CMUIX_AUTH_HASH_MOD;
+        h2 = (h2 * 41 + h1 + i * 211) % CMUIX_AUTH_HASH_MOD;
+        i += 1;
+    }
+    return result;
+}
+
+string CMUIX_AuthMakeLicenseCodeDebug(string uid, string tier, int durationDays, int expireDate) {
+    string kind;
+    string checkPart;
+    string partA;
+    string partB;
+    int tierId;
+
+    tierId = CMUIX_AuthTierId(tier);
+    kind = CMUIX_AuthDurationDaysToKind(durationDays);
+    if (CMUIX_AuthTierIsValid(tierId) == false) {
+        return "";
+    }
+    if (CMUIX_AuthIsCodeKind(kind) == false) {
+        return "";
+    }
+    checkPart = CMUIX_AuthMakeCheckPart(uid, tierId, kind, expireDate);
+    if (StringLength(checkPart) != 10) {
+        return "";
+    }
+    partA = CMUIX_AuthSubString(checkPart, 0, 5);
+    partB = CMUIX_AuthSubString(checkPart, 5, 5);
+    return kind + "-" + IntToString(expireDate) + "-" + partA + "-" + partB;
+}
+
+int CMUIX_AuthCodeDurationDays(string code) {
+    string kind;
+    int days;
+
+    if (CMUIX_AuthIsLicenseFormatValid(code) == false) {
+        return 0;
+    }
+    kind = CMUIX_AuthCodeKind(code);
+    days = StringToInt(kind);
+    if (days == CMUIX_AUTH_DURATION_PERMANENT) {
+        return CMUIX_AUTH_DURATION_PERMANENT;
+    }
+    if ((days < 1) || (days > CMUIX_AUTH_DURATION_MAX_DAYS)) {
+        return 0;
+    }
+    return days;
+}
+
+bool CMUIX_AuthIsPermanentLicenseCode(string code) {
+    if (CMUIX_AuthIsLicenseFormatValid(code) == false) {
+        return false;
+    }
+    if (CMUIX_AuthCodeDurationDays(code) == CMUIX_AUTH_DURATION_PERMANENT) {
+        return true;
+    }
+    return false;
+}
+
+bool CMUIX_AuthVerifyUidLicenseForTier(string uid, string code, datetime now, int tier) {
+    string kind;
+    string inputCheck;
+    string expectedCheck;
+    int expireDate;
+
+    if (CMUIX_AuthTierIsValid(tier) == false) {
+        return false;
+    }
+    if (CMUIX_AuthIsLicenseFormatValid(code) == false) {
+        return false;
+    }
+    kind = CMUIX_AuthCodeKind(code);
+    expireDate = CMUIX_AuthCodeExpireDateInt(code);
+    if (expireDate <= 0) {
+        return false;
+    }
+    if (CMUIX_AuthIsPermanentLicenseCode(code) == false) {
+        if (CMUIX_AuthIsExpireDatePassed(expireDate, now) == true) {
+            return false;
+        }
+    }
+    inputCheck = CMUIX_AuthCodeCheckPart(code);
+    expectedCheck = CMUIX_AuthMakeCheckPart(uid, tier, kind, expireDate);
+    if (StringEqual(inputCheck, expectedCheck, c_stringCase) == true) {
+        return true;
+    }
+    return false;
+}
+
+bool CMUIX_AuthVerifyUidLicense(string uid, string code, datetime now) {
+    if (CMUIX_AuthVerifyUidLicenseForTier(uid, code, now, CMUIX_AUTH_TIER_DEVELOPER) == true) {
+        CMUIX_AuthSetLastLicenseInfo(code, CMUIX_AUTH_TIER_DEVELOPER);
+        return true;
+    }
+    if (CMUIX_AuthVerifyUidLicenseForTier(uid, code, now, CMUIX_AUTH_TIER_TESTDEMO) == true) {
+        CMUIX_AuthSetLastLicenseInfo(code, CMUIX_AUTH_TIER_TESTDEMO);
+        return true;
+    }
+    return false;
+}
+
+string CMUIX_AuthBankName() {
+    return CMUIX_PROFILE_BANK;
+}
+
+string CMUIX_AuthLegacyBankName() {
+    return "CMUIAuthLicense";
+}
+
+string CMUIX_AuthBankSection() {
+    return "CMUI|AuthLicense";
+}
+
+string CMUIX_AuthLegacyBankSection() {
+    return "License";
+}
+
+string CMUIX_AuthBankKeyCode() {
+    return "Code";
+}
+
+bool CMUIX_AuthIsGregorianLeapYear(int y) {
+    if ((y % 400) == 0) {
+        return true;
+    }
+    if ((y % 100) == 0) {
+        return false;
+    }
+    if ((y % 4) == 0) {
+        return true;
+    }
+    return false;
+}
+
+int CMUIX_AuthGregorianMonthDays(int y, int m) {
+    if (m == 1) {
+        return 31;
+    }
+    if (m == 2) {
+        if (CMUIX_AuthIsGregorianLeapYear(y) == true) {
+            return 29;
+        }
+        return 28;
+    }
+    if (m == 3) {
+        return 31;
+    }
+    if (m == 4) {
+        return 30;
+    }
+    if (m == 5) {
+        return 31;
+    }
+    if (m == 6) {
+        return 30;
+    }
+    if (m == 7) {
+        return 31;
+    }
+    if (m == 8) {
+        return 31;
+    }
+    if (m == 9) {
+        return 30;
+    }
+    if (m == 10) {
+        return 31;
+    }
+    if (m == 11) {
+        return 30;
+    }
+    if (m == 12) {
+        return 31;
+    }
+    return 0;
+}
+
+bool CMUIX_AuthIsValidYmd(int y, int m, int d) {
+    int mdays;
+
+    if ((y < 1970) || (y > 2170)) {
+        return false;
+    }
+    if ((m < 1) || (m > 12)) {
+        return false;
+    }
+    mdays = CMUIX_AuthGregorianMonthDays(y, m);
+    if ((d < 1) || (d > mdays)) {
+        return false;
+    }
+    return true;
+}
+
+int CMUIX_AuthYmdToEpochDay(int y, int m, int d) {
+    int days;
+    int cy;
+    int cm;
+
+    if (CMUIX_AuthIsValidYmd(y, m, d) == false) {
+        return -1;
+    }
+    days = 0;
+    cy = 1970;
+    while (cy < y) {
+        if (CMUIX_AuthIsGregorianLeapYear(cy) == true) {
+            days += 366;
+        }
+        else {
+            days += 365;
+        }
+        cy += 1;
+    }
+    cm = 1;
+    while (cm < m) {
+        days += CMUIX_AuthGregorianMonthDays(y, cm);
+        cm += 1;
+    }
+    days += d - 1;
+    return days;
+}
+
+void CMUIX_AuthEpochDayToYmd(int epochDay) {
+    int y;
+    int m;
+    int d;
+    int yearDays;
+    int monthDays;
+
+    CMUIX_AuthTempYear = 0;
+    CMUIX_AuthTempMonth = 0;
+    CMUIX_AuthTempDay = 0;
+    CMUIX_AuthTempDateValid = false;
+    if (epochDay < 0) {
+        return;
+    }
+    y = 1970;
+    while (y <= 2170) {
+        if (CMUIX_AuthIsGregorianLeapYear(y) == true) {
+            yearDays = 366;
+        }
+        else {
+            yearDays = 365;
+        }
+        if (epochDay < yearDays) {
+            break;
+        }
+        epochDay -= yearDays;
+        y += 1;
+    }
+    if (y > 2170) {
+        return;
+    }
+    m = 1;
+    while (m <= 12) {
+        monthDays = CMUIX_AuthGregorianMonthDays(y, m);
+        if (epochDay < monthDays) {
+            break;
+        }
+        epochDay -= monthDays;
+        m += 1;
+    }
+    if (m > 12) {
+        return;
+    }
+    d = epochDay + 1;
+    CMUIX_AuthTempYear = y;
+    CMUIX_AuthTempMonth = m;
+    CMUIX_AuthTempDay = d;
+    CMUIX_AuthTempDateValid = true;
+}
+
+int CMUIX_AuthYmdIntToYear(int ymd) {
+    return ymd / 10000;
+}
+
+int CMUIX_AuthYmdIntToMonth(int ymd) {
+    return (ymd % 10000) / 100;
+}
+
+int CMUIX_AuthYmdIntToDay(int ymd) {
+    return ymd % 100;
+}
+
+int CMUIX_AuthYmdIntToEpochDay(int ymd) {
+    int y;
+    int m;
+    int d;
+
+    y = CMUIX_AuthYmdIntToYear(ymd);
+    m = CMUIX_AuthYmdIntToMonth(ymd);
+    d = CMUIX_AuthYmdIntToDay(ymd);
+    return CMUIX_AuthYmdToEpochDay(y, m, d);
+}
+
+int CMUIX_AuthAddDaysToYmdInt(int ymd, int daysDelta) {
+    int epochDay;
+
+    epochDay = CMUIX_AuthYmdIntToEpochDay(ymd);
+    if (epochDay < 0) {
+        return 0;
+    }
+    epochDay += daysDelta;
+    CMUIX_AuthEpochDayToYmd(epochDay);
+    if (CMUIX_AuthTempDateValid == false) {
+        return 0;
+    }
+    return CMUIX_AuthTempYear * 10000 + CMUIX_AuthTempMonth * 100 + CMUIX_AuthTempDay;
+}
+
+int CMUIX_AuthCodeStartDateInt(string code) {
+    int expireDate;
+    int durationDays;
+
+    if (CMUIX_AuthIsLicenseFormatValid(code) == false) {
+        return 0;
+    }
+    expireDate = CMUIX_AuthCodeExpireDateInt(code);
+    durationDays = CMUIX_AuthCodeDurationDays(code);
+    if (expireDate <= 0) {
+        return 0;
+    }
+    if (durationDays <= 0) {
+        return 0;
+    }
+    if (durationDays == CMUIX_AUTH_DURATION_PERMANENT) {
+        return expireDate;
+    }
+    return CMUIX_AuthAddDaysToYmdInt(expireDate, 1 - durationDays);
+}
+
+string CMUIX_AuthIntTo2DigitString(int value) {
+    if (value < 0) {
+        return "00";
+    }
+    if (value < 10) {
+        return "0" + IntToString(value);
+    }
+    return IntToString(value);
+}
+
+string CMUIX_AuthIntTo4DigitString(int value) {
+    if (value < 0) {
+        return "0000";
+    }
+    if (value < 10) {
+        return "000" + IntToString(value);
+    }
+    if (value < 100) {
+        return "00" + IntToString(value);
+    }
+    if (value < 1000) {
+        return "0" + IntToString(value);
+    }
+    return IntToString(value);
+}
+
+string CMUIX_AuthFormatYmdInt(int ymd) {
+    int y;
+    int m;
+    int d;
+
+    if (ymd <= 0) {
+        return "";
+    }
+    y = CMUIX_AuthYmdIntToYear(ymd);
+    m = CMUIX_AuthYmdIntToMonth(ymd);
+    d = CMUIX_AuthYmdIntToDay(ymd);
+    if (CMUIX_AuthIsValidYmd(y, m, d) == false) {
+        return "";
+    }
+    return CMUIX_AuthIntTo4DigitString(y) + "-" + CMUIX_AuthIntTo2DigitString(m) + "-" + CMUIX_AuthIntTo2DigitString(d);
+}
+
+string CMUIX_AuthCodeStartDateString(string code) {
+    return CMUIX_AuthFormatYmdInt(CMUIX_AuthCodeStartDateInt(code));
+}
+
+string CMUIX_AuthCodeExpireDateFormattedString(string code) {
+    if (CMUIX_AuthIsPermanentLicenseCode(code) == true) {
+        return "PERMANENT";
+    }
+    return CMUIX_AuthFormatYmdInt(CMUIX_AuthCodeExpireDateInt(code));
+}
+
+void CMUIX_AuthClearLastLicenseInfo() {
+    CMUIX_AuthLastLicenseCode = "";
+    CMUIX_AuthLastLicenseValid = false;
+    CMUIX_AuthLastLicenseStartDate = 0;
+    CMUIX_AuthLastLicenseExpireDate = 0;
+    CMUIX_AuthLastLicenseTier = CMUIX_AUTH_TIER_NONE;
+}
+
+void CMUIX_AuthSetLastLicenseInfo(string code, int tier) {
+    CMUIX_AuthLastLicenseCode = code;
+    CMUIX_AuthLastLicenseValid = true;
+    CMUIX_AuthLastLicenseStartDate = CMUIX_AuthCodeStartDateInt(code);
+    CMUIX_AuthLastLicenseTier = tier;
+    if (CMUIX_AuthIsPermanentLicenseCode(code) == true) {
+        CMUIX_AuthLastLicenseExpireDate = 99991231;
+    }
+    else {
+        CMUIX_AuthLastLicenseExpireDate = CMUIX_AuthCodeExpireDateInt(code);
+    }
+}
+
+bool CMUIX_AuthSaveLicenseCode(int player, string code) {
+    bank b;
+
+    if (CMUIX_AuthIsLicenseFormatValid(code) == false) {
+        return false;
+    }
+    b = CMUIX_PlayerProfileOpenBank(player);
+    if (b == null) {
+        return false;
+    }
+    BankValueSetFromString(b, CMUIX_AuthBankSection(), CMUIX_AuthBankKeyCode(), code);
+    CMUIX_PlayerProfileSaveBank(player);
+    return true;
+}
+
+string CMUIX_AuthLoadLegacyLicenseCode(int player) {
+    bank b;
+
+    BankLoad(CMUIX_AuthLegacyBankName(), player);
+    b = BankLastCreated();
+    if (b == null) {
+        return "";
+    }
+    BankWait(b);
+    if (BankKeyExists(b, CMUIX_AuthLegacyBankSection(), CMUIX_AuthBankKeyCode()) == false) {
+        return "";
+    }
+    return BankValueGetAsString(b, CMUIX_AuthLegacyBankSection(), CMUIX_AuthBankKeyCode());
+}
+
+void CMUIX_AuthClearLegacyLicenseCode(int player) {
+    bank b;
+
+    BankLoad(CMUIX_AuthLegacyBankName(), player);
+    b = BankLastCreated();
+    if (b == null) {
+        return;
+    }
+    BankWait(b);
+    if (BankKeyExists(b, CMUIX_AuthLegacyBankSection(), CMUIX_AuthBankKeyCode()) == true) {
+        BankKeyRemove(b, CMUIX_AuthLegacyBankSection(), CMUIX_AuthBankKeyCode());
+        BankSave(b);
+    }
+}
+
+string CMUIX_AuthLoadSavedLicenseCode(int player) {
+    bank b;
+    string code;
+
+    b = CMUIX_PlayerProfileOpenBank(player);
+    code = "";
+    if (b == null) {
+        return "";
+    }
+    if (BankKeyExists(b, CMUIX_AuthBankSection(), CMUIX_AuthBankKeyCode()) == true) {
+        return BankValueGetAsString(b, CMUIX_AuthBankSection(), CMUIX_AuthBankKeyCode());
+    }
+
+    code = CMUIX_AuthLoadLegacyLicenseCode(player);
+    if (CMUIX_AuthIsLicenseFormatValid(code) == true) {
+        BankValueSetFromString(b, CMUIX_AuthBankSection(), CMUIX_AuthBankKeyCode(), code);
+        CMUIX_PlayerProfileSaveBank(player);
+    }
+    return code;
+}
+
+void CMUIX_AuthClearSavedLicenseCode(int player) {
+    bank b;
+
+    b = CMUIX_PlayerProfileOpenBank(player);
+    if (b != null) {
+        if (BankKeyExists(b, CMUIX_AuthBankSection(), CMUIX_AuthBankKeyCode()) == true) {
+            BankKeyRemove(b, CMUIX_AuthBankSection(), CMUIX_AuthBankKeyCode());
+            CMUIX_PlayerProfileSaveBank(player);
+        }
+    }
+
+    CMUIX_AuthClearLegacyLicenseCode(player);
+}
+
+bool CMUIX_AuthApplyLastLicenseToRuntimeUserType(int player) {
+    if (CMUIX_AuthLastLicenseValid == false) {
+        return false;
+    }
+    if (CMUIX_AuthTierIsValid(CMUIX_AuthLastLicenseTier) == false) {
+        return false;
+    }
+
+    return CMUIX_AuthSetRuntimeTierForPlayer(player, CMUIX_AuthLastLicenseTier);
+}
+
+bool CMUIX_AuthVerifyUidLicenseAndSave(int player, string uid, string code, datetime now) {
+    bool ok;
+
+    CMUIX_AuthClearLastLicenseInfo();
+    ok = CMUIX_AuthVerifyUidLicense(uid, code, now);
+    if (ok == false) {
+        return false;
+    }
+    CMUIX_AuthSaveLicenseCode(player, code);
+    return true;
+}
+
+bool CMUIX_AuthVerifyUidLicenseSaveAndApply(int player, string uid, string code, datetime now) {
+    bool ok;
+
+    ok = CMUIX_AuthVerifyUidLicenseAndSave(player, uid, code, now);
+    if (ok == false) {
+        return false;
+    }
+    return CMUIX_AuthApplyLastLicenseToRuntimeUserType(player);
+}
+
+bool CMUIX_AuthVerifySavedUidLicense(int player, string uid, datetime now) {
+    string code;
+    bool ok;
+
+    CMUIX_AuthClearLastLicenseInfo();
+    code = CMUIX_AuthLoadSavedLicenseCode(player);
+    if (StringEqual(code, "", c_stringCase) == true) {
+        return false;
+    }
+    ok = CMUIX_AuthVerifyUidLicense(uid, code, now);
+    if (ok == false) {
+        return false;
+    }
+    return true;
+}
+
+bool CMUIX_AuthVerifySavedUidLicenseAndApply(int player, string uid, datetime now) {
+    bool ok;
+
+    ok = CMUIX_AuthVerifySavedUidLicense(player, uid, now);
+    if (ok == false) {
+        return false;
+    }
+    return CMUIX_AuthApplyLastLicenseToRuntimeUserType(player);
+}
+
+void CMUIX_AuthApplySavedLicensesForAllPlayers(datetime now) {
+    playergroup players;
+    int player;
+
+    players = PlayerGroupAll();
+    player = -1;
+    while (player >= -1) {
+        player = PlayerGroupNextPlayer(players, player);
+        if (player < 0) {
+            break;
+        }
+        if (PlayerType(player) == c_playerTypeUser) {
+            CMUIX_AuthVerifySavedUidLicenseAndApply(player, PlayerHandle(player), now);
+        }
+    }
+}
+
+bool CMUIX_AuthHasLastValidLicense() {
+    return CMUIX_AuthLastLicenseValid;
+}
+
+string CMUIX_AuthGetLastLicenseCode() {
+    return CMUIX_AuthLastLicenseCode;
+}
+
+int CMUIX_AuthGetLastLicenseStartDateInt() {
+    return CMUIX_AuthLastLicenseStartDate;
+}
+
+int CMUIX_AuthGetLastLicenseExpireDateInt() {
+    return CMUIX_AuthLastLicenseExpireDate;
+}
+
+string CMUIX_AuthGetLastLicenseStartDateString() {
+    return CMUIX_AuthFormatYmdInt(CMUIX_AuthLastLicenseStartDate);
+}
+
+string CMUIX_AuthGetLastLicenseExpireDateString() {
+    if (CMUIX_AuthIsPermanentLicenseCode(CMUIX_AuthLastLicenseCode) == true) {
+        return "PERMANENT";
+    }
+    return CMUIX_AuthFormatYmdInt(CMUIX_AuthLastLicenseExpireDate);
+}
+
+int CMUIX_AuthGetLastLicenseTier() {
+    return CMUIX_AuthLastLicenseTier;
+}
+
+string CMUIX_AuthGetLastLicenseTierName() {
+    return CMUIX_AuthTierName(CMUIX_AuthLastLicenseTier);
+}
+
+bool CMUIX_AuthLastLicenseIsPermanent() {
+    return CMUIX_AuthIsPermanentLicenseCode(CMUIX_AuthLastLicenseCode);
+}

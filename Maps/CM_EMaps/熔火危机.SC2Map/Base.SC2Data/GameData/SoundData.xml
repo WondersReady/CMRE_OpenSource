@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSound id="AC_Crowd_PanicRun_3D_P1_Event">
+        <PlayDelay value="8000,8000"/>
+    </CSound>
+    <CSound id="AC_Crowd_PanicRun_3D_P2_Event">
+        <PlayDelay value="8000,8000"/>
+    </CSound>
+</Catalog>

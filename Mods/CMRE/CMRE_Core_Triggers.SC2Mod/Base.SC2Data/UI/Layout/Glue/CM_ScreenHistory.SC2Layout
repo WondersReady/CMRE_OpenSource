@@ -1,0 +1,1762 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <DescFlags val="Locked"/>
+    
+    <Constant name="ButtonOffset" val="-42"/>
+    <Constant name="ButtonOffsetLeft" val="-84"/>
+    <Frame type="Frame" name="HistoryProfileURLButtonTemplate">
+        <Width val="180"/>
+        <Height val="54"/>
+        <Frame type="Frame" name="URLFrame" template="ScreenCustomFeatured/CTABannerTemplate">
+            <Anchor relative="$parent"/>
+            <Width val="180"/>
+            <Height val="54"/>
+            <Frame type="LaunchURLButton" name="WebsiteButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Anchor relative="$parent"/>
+                <Width val="180"/>
+                <Height val="54"/>
+                <Text val=""/>
+            </Frame>
+            <Frame type="Label" name="URLLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                <Style val="BattlenetStandardButton"/>
+                <AcceptsMouse val="false"/>
+            </Frame>
+            <Frame type="Frame" name="BannerImage">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+            <Frame type="Frame" name="BorderInner">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+            <Frame type="Frame" name="BorderOuter">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+            <Frame type="Frame" name="BannerVignette">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+            <Frame type="Frame" name="DescriptionLabel">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+            <Frame type="Frame" name="HeaderLabel">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+            <Frame type="Frame" name="MoreInfoLabel">
+                <DescFlags val="CreationDeferred"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="BattlenetFilePanelBaseTemplate">
+        <Frame type="Frame" name="MainContainerBorderFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-81"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        </Frame>
+
+        <Frame type="Image" name="DetailersContainerOuterBorderImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-96"/>
+            <Anchor side="Left" relative="$parent/MainContainerBorderFrame" pos="Max" offset="-10"/>
+            <Width val="552"/>
+            <Texture val="@@UI/Glues_Battlenet_PageAssets_MainContainer"/>
+            <TextureType val="NineSlice"/>
+            <RenderPriority val="499"/>
+        </Frame>
+
+        <Frame type="Label" name="DetailsContainerTitleLabel">
+            <Anchor side="Top" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="20"/>
+            <Anchor side="Left" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="28"/>
+            <Text val="@CMUI/ScreenHistory/DetailsHeader"/>
+            <Style val="Arcade_Subtitle"/>
+        </Frame>
+
+        <Frame type="Frame" name="DetailsContainer">
+            <Anchor side="Top" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="45"/>
+            <Anchor side="Bottom" relative="$parent/DetailersContainerOuterBorderImage" pos="Max" offset="-8"/>
+            <Anchor side="Left" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="8"/>
+            <Anchor side="Right" relative="$parent/DetailersContainerOuterBorderImage" pos="Max" offset="-8"/>
+        </Frame>
+        
+        <Frame type="Frame" name="EditBoxContainer">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-22"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="20"/>
+            <Anchor side="Right" relative="$parent/FileManagementContainer" pos="Min" offset="-10"/>
+            <Height val ="63"/>
+            <CollapseLayout val="true"/>
+            <Visible val="false"/>
+
+            <Frame type="Image" name="BorderImage">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="@@UI/FileLocationBackgroundBnet"/>
+                <TextureType val="Nineslice"/>
+            </Frame>
+
+            <Frame type="EditBox" name="FileEditBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent" pos="Min" offset="15"/>
+                    <Anchor side="Bottom" relative="$parent/$parent" pos="Max" offset="-15"/>
+                    <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="20"/>
+                    <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="-20"/>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="FileLocationContainer">
+            <Anchor side="Top" relative="$parent/MainContainerBorderFrame" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/MainContainerBorderFrame" pos="Min" offset="9"/>
+            <Anchor side="Right" relative="$parent/MainContainerBorderFrame" pos="Max" offset="0"/>
+            <Height val ="44"/>
+
+            <Frame type="Button" name="FolderUpButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                <Handle val="CM_HistoryPreviousPageButton"/>
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+                <Tooltip val="@CMUI/ScreenHistory/PagePrevious"/>
+                <NormalImage val="NormalImage"/>
+                <HoverImage val="HoverImage"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Icons_SingleArrow"/>
+                    <DesaturateOnDisable val="false"/>
+                    
+                    <Animation name="ShowDisabled">
+                        <Event event="OnDisabled" action="Reset" frame="$parent"/>
+                        <Event event="OnDisabled" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Texture" end="Pause">
+                            <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrowDisabled"/>
+                        </Controller>
+                    </Animation>
+                    
+                    <Animation name="ShowEnabled">
+                        <Event event="OnEnabled" action="Reset" frame="$parent"/>
+                        <Event event="OnEnabled" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Texture" end="Pause">
+                            <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrow"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+
+            <Frame type="Image" name="ThumbnailBorderImage">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+                <Anchor side="Left" relative="$parent/FolderUpButton" pos="Max" offset="3"/>
+                <Anchor side="Right" relative="$parent/NewFolderButton" pos="Min" offset="-3"/>
+                <Texture val="@@UI/FileLocationBackgroundBnet"/>
+                <TextureType val="Nineslice"/>
+                <Visible val="false"/>
+            </Frame>
+
+            <Frame type="Label" name="FileLocationLabel">
+                <Handle val="CM_HistoryPageLabel"/>
+                <Anchor side="Top" relative="$parent/FolderUpButton" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/FolderUpButton" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/FolderUpButton" pos="Max" offset="5"/>
+                <Anchor side="Right" relative="$parent/ExploreFileButton" pos="Min" offset="-5"/>
+                <Style val="@@FilePanelFileLocationLabel_Bnet"/>
+                <Height val ="35"/>
+                <Text val="@CMUI/ScreenHistory/PageIndicator"/>
+                <Options val="NoWrapping|ScaleToPreventTruncation"/>
+                <Visible val="true"/>
+            </Frame>
+
+            <Frame type="Button" name="NewFolderButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                <Anchor side="Top" relative="$parent/FolderUpButton" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/FolderUpButton" pos="Max" offset="0"/>
+                <Width val="110"/>
+                <Visible val="false"/>
+                <NormalImage val="NormalImage"/>
+                <HoverImage val="HoverImage"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+                <Tooltip val="@CMUI/ScreenHistory/PageIndicator"/>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_SocialPanel_DropdownArrow"/>
+                    
+                    <DesaturateOnDisable val="false"/>
+                    
+                    <Animation name="ShowDisabled">
+                        <Event event="OnDisabled" action="Reset" frame="$parent"/>
+                        <Event event="OnDisabled" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Texture" end="Pause">
+                            <Key type="Image" time="0" image="@UI/Glues_SocialPanel_DropdownArrow"/>
+                        </Controller>
+                    </Animation>
+                    
+                    <Animation name="ShowEnabled">
+                        <Event event="OnEnabled" action="Reset" frame="$parent"/>
+                        <Event event="OnEnabled" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Texture" end="Pause">
+                            <Key type="Image" time="0" image="@UI/Glues_SocialPanel_DropdownArrow"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="ExploreFileButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                <Handle val="CM_HistoryNextPageButton"/>
+                <Anchor side="Top" relative="$parent/NewFolderButton" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/NewFolderButton" pos="Max" offset="0"/>
+                <NormalImage val="NormalImage"/>
+                <HoverImage val="HoverImage"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+                <Tooltip val="@CMUI/ScreenHistory/PageNext"/>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Icons_SingleArrow"/>
+                    <TextureCoords top="0.0" left="1.0" bottom="1.0" right="0.0"/>
+                    <DesaturateOnDisable val="false"/>
+                    <DisabledAlpha val="255"/>
+
+                    <Animation name="ShowDisabled">
+                        <Event event="OnDisabled" action="Reset" frame="$parent"/>
+                        <Event event="OnDisabled" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Texture" end="Pause">
+                            <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrowDisabled"/>
+                        </Controller>
+                    </Animation>
+                    
+                    <Animation name="ShowEnabled">
+                        <Event event="OnEnabled" action="Reset" frame="$parent"/>
+                        <Event event="OnEnabled" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Texture" end="Pause">
+                            <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrow"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="FileListContainer">
+            <Anchor side="Top" relative="$parent/FileLocationContainer" pos="Max" offset="15"/>
+            <Anchor side="Bottom" relative="$parent/MainContainerBorderFrame" pos="Max" offset="-31"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/MainContainerBorderFrame" pos="Mid" offset="128"/>
+            
+            <Frame type="Image" name="ListContainerOuterBorder">
+                <Anchor relative="$parent" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_MainContainer"/>
+                <TextureType val="NineSlice"/>
+            </Frame>
+            
+            <Frame type="Image" name="ListContainerBorder">
+                <Anchor side="Top" relative="$parent/ListContainerOuterBorder" pos="Min" offset="42"/>
+                <Anchor side="Bottom" relative="$parent/ListContainerOuterBorder" pos="Max" offset="-8"/>
+                <Anchor side="Left" relative="$parent/ListContainerOuterBorder" pos="Min" offset="8"/>
+                <Anchor side="Right" relative="$parent/ListContainerOuterBorder" pos="Max" offset="-8"/>
+                <Texture val="@@UI/StandardBattlenetLightContainerBorder"/>
+                <TextureType val="NineSlice"/>
+                <Alpha val="0"/>
+            </Frame>
+
+            <Frame type="Label" name="NameButtonLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="24"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="39"/>
+                <Style val="Profile_MatchHistory_ColumnHeader"/>
+                <Text val="@CMUI/ScreenHistory/Column/Map"/>
+            </Frame>
+
+            <Frame type="Label" name="ModeButtonLabel">
+                <Anchor side="Top" relative="$parent/NameButtonLabel" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="423"/>
+                <Style val="Profile_MatchHistory_ColumnHeader"/>
+                <Text val="@CMUI/ScreenHistory/Column/Mode"/>
+            </Frame>
+
+            <Frame type="Label" name="ResultButtonLabel">
+                <Anchor side="Top" relative="$parent/NameButtonLabel" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="646"/>
+                <Style val="Profile_MatchHistory_ColumnHeader"/>
+                <Text val="@CMUI/ScreenHistory/Column/Result"/>
+            </Frame>
+
+            <Frame type="Label" name="AttemptsButtonLabel">
+                <Anchor side="Top" relative="$parent/NameButtonLabel" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="690"/>
+                <Style val="Profile_MatchHistory_ColumnHeader"/>
+                <Text val="@CMUI/ScreenHistory/Column/Attempts"/>
+                <Visible val="false"/>
+                <CollapseLayout val="true"/>
+            </Frame>
+
+            <Frame type="Label" name="DateButtonLabel">
+                <Anchor side="Top" relative="$parent/NameButtonLabel" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="843"/>
+                <Style val="Profile_MatchHistory_ColumnHeader"/>
+                <Text val="@CMUI/ScreenHistory/Column/Date"/>
+            </Frame>
+
+            <Frame type="Frame" name="FileContextMenu">
+                <Anchor side="Top" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="FileManagementContainer">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10"/>
+            <Anchor side="Left" relative="$parent/FileListContainer" pos="Max" offset="0"/>
+            <Height val ="75"/>
+            <Width val ="565"/>
+
+            <Frame type="Button" name="DeleteFileButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Width val ="315"/>
+
+                <Frame type="Label" name="Label">
+                    <Text val="@CMUI/ScreenHistory/Action/Delete"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="SaveFileButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Width val ="315"/>
+                
+                <Frame type="Label" name="Label">
+                    <Text val="@CMUI/ScreenHistory/Action/New"/>
+                </Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="HistoryMutatorInfoItemTemplate">
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        <Anchor side="Bottom" relative="$this/DescriptionLabel" pos="Max" offset="0"/>
+        <Visible val="False"/>
+        <CollapseLayout val="true"/>
+
+        <Frame type="Frame" name="MutatorIconBox">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Width val="44"/>
+            <Height val="44"/>
+
+            <Frame type="Image" name="IconImage">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Width val="36"/>
+                <Height val="36"/>
+                <TextureType val="Normal"/>
+                <AlphaMaskTexture val="@UI/SC2_UI_Coop_AbilityFrame_Mask"/>
+            </Frame>
+
+            <Frame type="Image" name="BorderImage">
+                <Anchor relative="$parent"/>
+                <Texture val="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                <TextureType val="Normal"/>
+            </Frame>
+
+            <StateGroup name="SourceState">
+                <DefaultState val="Official"/>
+                <State name="Official">
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                </State>
+                <State name="Plus">
+                    <When type="AnimationState" SourceState="Plus"/>
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                </State>
+                <State name="Maguro">
+                    <When type="AnimationState" SourceState="Maguro"/>
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                </State>
+                <State name="ThirdParty">
+                    <When type="AnimationState" SourceState="ThirdParty"/>
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Label" name="TitleLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="28"/>
+            <Style val="BattlenetListItemSelected"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="1"/>
+            <Anchor side="Left" relative="$parent/TitleLabel" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="Tournament_MapVetoDetails"/>
+            <AutoSizeClamps minHeight="20"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="GameLaunchFilePanelBaseTemplate" template="CM_ScreenHistory/BattlenetFilePanelBaseTemplate">
+
+        <Frame type="Image" name="DetailersContainerOuterBorderImage">
+            <Anchor side="Top" relative="$parent/FileListContainer" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/FileListContainer" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/FileListContainer" pos="Max" offset="24"/>
+            <Width val="552"/>
+            <Texture val="@@UI/Glues_Battlenet_PageAssets_MainContainer"/>
+            <TextureType val="NineSlice"/>
+            <RenderPriority val="499"/>
+        </Frame>
+
+        <Frame type="Label" name="DetailsContainerTitleLabel">
+            <Anchor side="Top" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="21"/>
+            <Anchor side="Left" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="28"/>
+            <Text val="@CMUI/ScreenHistory/DetailsHeader"/>
+            <Style val="Arcade_Subtitle"/>
+        </Frame>
+
+        <Frame type="Frame" name="DetailsContainer">
+            <Anchor side="Top" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="50"/>
+            <Anchor side="Bottom" relative="$parent/DetailersContainerOuterBorderImage" pos="Max" offset="-8"/>
+            <Anchor side="Left" relative="$parent/DetailersContainerOuterBorderImage" pos="Min" offset="22"/>
+            <Anchor side="Right" relative="$parent/DetailersContainerOuterBorderImage" pos="Max" offset="-22"/>
+            
+            <Frame type="Image" name="ThumbnailBgImage">
+                <Anchor side="Top" relative="$parent/ThumbnailBorderImage2" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/ThumbnailBorderImage2" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/ThumbnailBorderImage2" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ThumbnailBorderImage2" pos="Max" offset="0"/>
+                <LayerColor val="02060b"/>
+                <Alpha val="190"/>
+            </Frame>
+                
+            <Frame type="Frame" name="ThumbnailContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="6"/>
+                <Anchor side="Left" relative="$parent/$parent/DetailersContainerOuterBorderImage" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent/$parent/DetailersContainerOuterBorderImage" pos="Max" offset="-16"/>
+                <Height val="200"/>
+
+                        <Frame type="Image" name="ThumbnailImage">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <TextureType val="Normal"/>
+                            <TextureCoords top="0.147" left="0" bottom="0.853" right="1"/>
+                            <Visible val="false"/>
+                        </Frame>
+            </Frame>
+
+            <Frame type="Image" name="ThumbnailBorderImage2">
+                <Anchor side="Top" relative="$parent/ThumbnailContainerFrame" pos="Min" offset="-2"/>
+                <Anchor side="Bottom" relative="$parent/ThumbnailContainerFrame" pos="Max" offset="2"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_ImageBorder"/>
+                <TextureType val="Nineslice"/>
+            </Frame>
+
+            <Frame type="Image" name="ThumbnailBorderImage">
+                <Anchor relative="$parent" offset="0"/>
+                <Alpha val="0"/>
+            </Frame>
+
+            <Frame type="ScrollableFrame" name="DetailsScrollFrame">
+                <Anchor side="Top" relative="$parent/ThumbnailContainerFrame" pos="Max" offset="10"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-260"/>
+                <Anchor side="Left" relative="$parent/ThumbnailContainerFrame" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ThumbnailContainerFrame" pos="Max" offset="0"/>
+                <AcceptsMouse val="true"/>
+                <RenderPriority val="505"/>
+
+                <Frame type="Frame" name="ContainerFrame">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="16"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="19"/>
+                    <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="-8"/>
+                    <Anchor side="Bottom" relative="$this/DetailsPadding" pos="Max" offset="0"/>
+                    <RenderPriority val="510"/>
+
+                        <Frame type="Label" name="NameLabel">
+                            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="155"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="23"/>
+                            <Options val=""/>
+                            <Text val="@CMUI/ScreenHistory/Details/SelectionPlaceholder"/>
+                        </Frame>
+
+                        <Frame type="Label" name="MapHeadingLabel">
+                            <Anchor side="Top" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/TaskMap"/>
+                        </Frame>
+
+                        <Frame type="Label" name="DurationLabel">
+                            <Anchor side="Top" relative="$parent/NameLabel" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="23"/>
+                            <Options val=""/>
+                            <Text val="@CMUI/ScreenHistory/Details/Unset"/>
+                        </Frame>
+
+                        <Frame type="Label" name="DurationHeadingLabel">
+                            <Anchor side="Top" relative="$parent/DurationLabel" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/MissionName"/>
+                        </Frame>
+
+                        <Frame type="Label" name="VersionLabel">
+                            <Anchor side="Top" relative="$parent/DurationLabel" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="23"/>
+                            <Options val=""/>
+                            <Text val="@CMUI/ScreenHistory/Details/Unset"/>
+                        </Frame>
+
+                        <Frame type="Label" name="VersionHeadingLabel">
+                            <Anchor side="Top" relative="$parent/VersionLabel" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/GameDate"/>
+                        </Frame>
+
+                        <Frame type="Label" name="DifficultyLabel">
+                            <Anchor side="Top" relative="$parent/VersionLabel" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="24"/>
+                            <Options val=""/>
+                            <Text val="@CMUI/ScreenHistory/Details/Unset"/>
+                            <CollapseLayout val="false"/>
+                        </Frame>
+
+                        <Frame type="Label" name="DifficultyHeadingLabel">
+                            <Anchor side="Top" relative="$parent/DifficultyLabel" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/CommanderConfig"/>
+                            <CollapseLayout val="false"/>
+                        </Frame>
+
+                        <Frame type="Label" name="ConfigurationLabel">
+                            <Anchor side="Top" relative="$parent/DifficultyLabel" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="24"/>
+                            <Options val=""/>
+                            <Text val="@CMUI/ScreenHistory/Details/Unset"/>
+                            <Visible val="false"/>
+                            <CollapseLayout val="true"/>
+                        </Frame>
+
+                        <Frame type="Frame" name="ConfigurationMutatorList">
+                            <Anchor side="Top" relative="$parent/DifficultyLabel" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Anchor side="Bottom" relative="$this/ContentsBottom" pos="Max" offset="0"/>
+
+                            <Frame type="Label" name="EmptyLabel">
+                                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                                <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                                <AutoSizeClamps minHeight="24"/>
+                                <Options val=""/>
+                                <Text val="@CMUI/ScreenHistory/Details/Unset"/>
+                                <CollapseLayout val="true"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem0" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/EmptyLabel" pos="Max" offset="0"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem1" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem0" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem2" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem1" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem3" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem2" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem4" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem3" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem5" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem4" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem6" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem5" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem7" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem6" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem8" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem7" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem9" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem8" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem10" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem9" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem11" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem10" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem12" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem11" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem13" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem12" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem14" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem13" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem15" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem14" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem16" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem15" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem17" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem16" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem18" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem17" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="MutatorItem19" template="CM_ScreenHistory/HistoryMutatorInfoItemTemplate">
+                                <Anchor side="Top" relative="$parent/MutatorItem18" pos="Max" offset="8"/>
+                            </Frame>
+
+                            <Frame type="Frame" name="ContentsBottom">
+                                <Anchor side="Top" relative="$parent/MutatorItem19" pos="Max" offset="0"/>
+                                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                                <Height val="0"/>
+                            </Frame>
+                        </Frame>
+
+                        <Frame type="Label" name="ConfigurationHeadingLabel">
+                            <Anchor side="Top" relative="$parent/ConfigurationMutatorList" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/Mutators"/>
+                        </Frame>
+
+                        <Frame type="Label" name="CompatibilityLabel">
+                            <Anchor side="Top" relative="$parent/ConfigurationMutatorList" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="24"/>
+                            <Options val=""/>
+                            <Text val="@CMUI/ScreenHistory/Details/Unset"/>
+                        </Frame>
+
+                        <Frame type="Label" name="CompatibilityHeadingLabel">
+                            <Anchor side="Top" relative="$parent/CompatibilityLabel" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/Rating"/>
+                        </Frame>
+
+                        <Frame type="Label" name="NoteLabel">
+                            <Anchor side="Top" relative="$parent/CompatibilityLabel" pos="Max" offset="8"/>
+                            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Style val="FilePanelDetailsPlayerName_Bnet"/>
+                            <AutoSizeClamps minHeight="28"/>
+                            <Options val=""/>
+                            <Text val=""/>
+                        </Frame>
+
+                        <Frame type="Label" name="NoteHeadingLabel">
+                            <Anchor side="Top" relative="$parent/NoteLabel" pos="Min" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Width val="145"/>
+                            <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                            <Text val="@CMUI/ScreenHistory/Details/Note"/>
+                        </Frame>
+
+                        <Frame type="Frame" name="DetailsPadding">
+                            <Anchor side="Top" relative="$parent/NoteLabel" pos="Max" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                            <Height val="10"/>
+                        </Frame>
+                    </Frame>
+
+                <Frame type="ScrollBar" name="ScrollBar">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="12"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-12"/>
+                    <Image val="$root/StandardBattlenetTemplates/GluesSocialScrollBarBackgroundImage"/>
+                    <Button val="$root/StandardBattlenetTemplates/GluesSocialScrollBarButtonTemplate"/>
+                    <Orientation val="Vertical"/>
+                    <Width val="16"/>
+                    <RenderPriority val="512"/>
+                    <StepValue val="40"/>
+                    <Continuous val="true"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Pulldown" name="UserPulldown" template="StandardTemplates/StandardPulldownTemplate">
+                <Anchor side="Top" relative="$parent/DetailsScrollFrame" pos="Max" offset="7"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="20"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+
+                <CollapseLayout val="true"/>
+                <Visible val="false"/>
+            </Frame>
+
+            <Frame type="Image" name="ProfileCodeBorderFrame">
+                <Anchor side="Top" relative="$parent/DetailsScrollFrame" pos="Max" offset="12"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-15"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_MainInnerContainer"/>
+                <TextureType val="Nineslice"/>
+
+                <Frame type="Label" name="ProfileCodeHeadingLabel">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="12"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-15"/>
+                    <Height val="28"/>
+                    <Style val="@@FilePanelDetailsHeading_Bnet"/>
+                    <Text val="@CMUI/ScreenHistory/Details/ProfileCode"/>
+                </Frame>
+
+                <Frame type="EditBox" name="ProfileCodeEditBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                    <Handle val="CM_HistoryProfileCodeEditBox"/>
+                    <Frame type="Frame" name="AnchorFrame">
+                        <Anchor side="Top" relative="$parent/$parent/ProfileCodeHeadingLabel" pos="Max" offset="8"/>
+                        <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="15"/>
+                        <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="-15"/>
+                        <Height val="48"/>
+                    </Frame>
+                    <Text val="@CMUI/ScreenHistory/Details/ProfileCodePlaceholder"/>
+                </Frame>
+
+                <Frame type="Label" name="ProfileCodeHintLabel">
+                    <Anchor side="Top" relative="$parent/ProfileCodeEditBox" pos="Max" offset="8"/>
+                    <Anchor side="Left" relative="$parent/ProfileCodeEditBox" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/ProfileCodeEditBox" pos="Max" offset="0"/>
+                    <Style val="StoryModeTooltip"/>
+                    <Text val="@CMUI/ScreenHistory/Details/ProfileCodeHint"/>
+                    <Options val="NoWrapping"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Image" name="PlayerListBorderFrame">
+                <Anchor side="Top" relative="$parent/UserPulldown" pos="Max" offset="8"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-15"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_MainInnerContainer"/>
+                <TextureType val="Nineslice"/>
+                <CollapseLayout val="true"/>
+                <Visible val="false"/>
+            </Frame>
+
+            <Frame type="Frame" name="PlayerListContainer">
+                <Anchor side="Top" relative="$parent/PlayerListBorderFrame" pos="Min" offset="10"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-15"/>
+                <Anchor side="Left" relative="$parent/PlayerListBorderFrame" pos="Min" offset="15"/>
+                <Anchor side="Right" relative="$parent/PlayerListBorderFrame" pos="Max" offset="-15"/>
+                <CollapseLayout val="true"/>
+                <Visible val="false"/>
+
+                <Frame type="Frame" name="PlayerFrame0" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame1" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame0" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame0" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame0" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame2" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame1" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame1" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame1" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame3" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame2" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame2" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame2" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame4" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame3" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame3" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame3" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame5" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame4" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame4" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame4" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame6" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame5" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame5" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame5" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Frame" name="PlayerFrame7" template="StandardBattlenetTemplates/BattlenetPlayerDataTemplate">
+                    <Anchor side="Top" relative="$parent/PlayerFrame6" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PlayerFrame6" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PlayerFrame6" pos="Max" offset="0"/>
+                </Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Button" name="HistoryListItemTemplate">
+        <Height val="39"/>
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <Toggleable val="true"/>
+        <Toggled val="false"/>
+        <AcceptsMouse val="true"/>
+        <CollapseLayout val="true"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+
+        <StateGroup name="DisplayState">
+            <DefaultState val="Normal"/>
+
+            <State name="Normal">
+                <Action type="SetProperty" frame="SelectedImage" Visible="False"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Base"/>
+            </State>
+
+            <State name="NormalVictory">
+                <Action type="SetProperty" frame="SelectedImage" Visible="False"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Win"/>
+            </State>
+
+            <State name="NormalDefeat">
+                <Action type="SetProperty" frame="SelectedImage" Visible="False"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Loss"/>
+            </State>
+
+            <State name="NormalDraw">
+                <Action type="SetProperty" frame="SelectedImage" Visible="False"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Base"/>
+            </State>
+
+            <State name="Selected">
+                <Action type="SetProperty" frame="SelectedImage" Visible="True"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Base"/>
+            </State>
+
+            <State name="SelectedVictory">
+                <Action type="SetProperty" frame="SelectedImage" Visible="True"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Win"/>
+            </State>
+
+            <State name="SelectedDefeat">
+                <Action type="SetProperty" frame="SelectedImage" Visible="True"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Loss"/>
+            </State>
+
+            <State name="SelectedDraw">
+                <Action type="SetProperty" frame="SelectedImage" Visible="True"/>
+                <Action type="SetProperty" frame="ResultLabel" Style="Profile_MatchHistory_ListItem_Base"/>
+            </State>
+        </StateGroup>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_MainListItem_Normal"/>
+            <TextureType val="NineSlice"/>
+            <AcceptsMouse val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_MainListItem_Over"/>
+            <TextureType val="NineSlice"/>
+            <AcceptsMouse val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="SelectedImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_MainListItem_Selected"/>
+            <TextureType val="NineSlice"/>
+            <Visible val="false"/>
+            <AcceptsMouse val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="MapFrame">
+            <Anchor relative="$parent"/>
+        </Frame>
+
+        <Frame type="Frame" name="ModFrame0">
+            <Anchor relative="$parent"/>
+        </Frame>
+
+        <Frame type="Frame" name="ModFrame1">
+            <Anchor relative="$parent"/>
+        </Frame>
+
+        <Frame type="Frame" name="ModFrame2">
+            <Anchor relative="$parent"/>
+        </Frame>
+
+        <Frame type="Frame" name="ModFrame3">
+            <Anchor relative="$parent"/>
+        </Frame>
+
+        <Frame type="Label" name="ModNameLabel">
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Options val="IgnoreFormatTags"/>
+        </Frame>
+
+        <Frame type="TextFormatFrame" name="NameFormatFrame">
+            <Anchor relative="$parent"/>
+            <FormatText val="%0%"/>
+            <Replacement index="0" val=""/>
+        </Frame>
+
+        <Frame type="TextFormatFrame" name="PointsFormatFrame">
+            <Anchor relative="$parent"/>
+            <FormatText val=""/>
+            <Replacement index="0" val=""/>
+        </Frame>
+
+        <Frame type="TextFormatFrame" name="ResultFormatFrame">
+            <Anchor relative="$parent"/>
+            <FormatText val="%0%"/>
+            <Replacement index="0" val=""/>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="2"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="2"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+            <Anchor side="Right" relative="$parent/ModeLabel" pos="Min" offset="-10"/>
+            <Style val="Profile_MatchHistory_ListItem_Title"/>
+            <AcceptsMouseTooltip val="false"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping | IgnoreFormatTags"/>
+        </Frame>
+
+        <Frame type="Label" name="ModeLabel">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="400"/>
+            <Anchor side="Right" relative="$parent/ResultLabel" pos="Min" offset="-10"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="1"/>
+            <Style val="Profile_MatchHistory_ListItem_Base"/>
+            <AcceptsMouseTooltip val="false"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+        </Frame>
+
+        <Frame type="Label" name="ResultLabel">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="623"/>
+            <Anchor side="Right" relative="$parent/AttemptLabel" pos="Min" offset="-10"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="1"/>
+            <Style val="Profile_MatchHistory_ListItem_Win"/>
+            <AcceptsMouseTooltip val="false"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+        </Frame>
+
+        <Frame type="Label" name="AttemptLabel">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="700"/>
+            <Anchor side="Right" relative="$parent/TimeLabel" pos="Min" offset="-10"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="1"/>
+            <Style val="Profile_MatchHistory_ListItem_Base"/>
+            <AcceptsMouseTooltip val="false"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+        </Frame>
+
+        <Frame type="Label" name="TimeLabel">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="820"/>
+            <Anchor side="Right" relative="$parent/TournamentButton" pos="Min" offset="-10"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="1"/>
+            <Style val="Profile_MatchHistory_ListItem_Base"/>
+            <AcceptsMouseTooltip val="false"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+        </Frame>
+
+        <Frame type="Button" name="TournamentButton">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Width val="34"/>
+            <Height val="34"/>
+            <CollapseLayout val="true"/>
+            <Visible val="false"/>
+
+            <Frame type="Image" name="NormalImage">
+                <Anchor relative="$parent"/>
+                <Texture val="@UI/SC2_UI_Tournament_Alert_Icon_Blue"/>
+            </Frame>
+
+            <Frame type="Image" name="HoverImage">
+                <Anchor relative="$parent"/>
+                <Texture val="@UI/SC2_UI_Tournament_Alert_Icon_Blue"/>
+            </Frame>
+
+            <Frame type="Image" name="ImageAdd">
+                <Anchor relative="$parent/NormalImage"/>
+                <Texture val="{$parent/NormalImage/@Texture}"/>
+                <BlendMode val="Add"/>
+                <Alpha val="70"/>
+                <Visible val="{$parent/@Hovering}"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="BattlenetReplayPanel" template="CM_ScreenHistory/GameLaunchFilePanelBaseTemplate">
+        <Frame type="Frame" name="FileListContainer">
+            <Frame type="Frame" name="SaveListBox">
+                <Anchor side="Top" relative="$parent/ListContainerOuterBorder" pos="Min" offset="55"/>
+                <Anchor side="Bottom" relative="$parent/ListContainerOuterBorder" pos="Max" offset="-23"/>
+                <Anchor side="Left" relative="$parent/ListContainerOuterBorder" pos="Min" offset="23"/>
+                <Anchor side="Right" relative="$parent/ListContainerOuterBorder" pos="Max" offset="-23"/>
+
+                <Frame type="Frame" name="ItemsContainer">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+                    <Frame type="Button" name="Item0" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item1" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item2" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item3" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item4" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item5" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item6" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item7" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item8" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Item9" template="CM_ScreenHistory/HistoryListItemTemplate">
+                        <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="3"/>
+                        <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Label" name="ContentsLabel">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-5"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                <Style val="FilePanelFileListItemDateTime_Bnet"/>
+                <Height val="30"/>
+                <Alpha val="175"/>
+            </Frame>
+        </Frame>
+        
+        <Frame type="Frame" name="EditBoxContainer">
+            <Anchor side="Top" relative="$parent/FileManagementContainer" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/FileManagementContainer" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="18"/>
+            <Anchor side="Right" relative="$parent/FileManagementContainer" pos="Min" offset="-10"/>
+            <Height val ="63"/>
+        </Frame>
+    </Frame>
+
+
+
+    <Frame type="Frame" name="CM_ScreenHistoryTemplate">
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        <Handle val="CM_ScreenHistory"/>
+        
+        <Frame type="CutsceneFrame" name="BackgroundCutsceneFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <RenderType val="HDR"/>
+            <File val="Cutscenes/UI_Screens_Default_Background.SC2Cutscene"/>
+            <AutoPlay val="true"/>
+        </Frame>
+        
+        <Frame type="Image" name="Vignette">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/SC2_UI_Coop_Vignette"/>
+            <Alpha val="0"/>
+        </Frame>
+
+        <Frame type="Frame" name="AnchorFrame">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-120"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="112"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        </Frame>
+        
+        <Frame type="AspectRatioFrame" name="Anchor4x3">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="224"/>
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="0"/>
+            <Width val="920"/>
+            <Height val="50"/>
+            <CollapseLayout val="true"/>
+            <MaxVisibleAspectRatio val="1.51"/>
+        </Frame>
+        
+        <Frame type="AspectRatioFrame" name="Anchor16x10">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="224"/>
+            <Anchor side="Left" relative="$parent/Anchor4x3" pos="Max" offset="0"/>
+            <Width val="1031"/>
+            <Height val="50"/>
+            <CollapseLayout val="true"/>
+            <MinVisibleAspectRatio val="1.51001"/>
+        </Frame>
+        
+        <Frame type="AspectRatioFrame" name="DetailsAnchor4x3">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="224"/>
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="0"/>
+            <Width val="938"/>
+            <Height val="50"/>
+            <CollapseLayout val="true"/>
+            <MaxVisibleAspectRatio val="1.51"/>
+        </Frame>
+        
+        <Frame type="AspectRatioFrame" name="DetailsAnchor16x10">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="224"/>
+            <Anchor side="Left" relative="$parent/DetailsAnchor4x3" pos="Max" offset="0"/>
+            <Width val="1055"/>
+            <Height val="50"/>
+            <CollapseLayout val="true"/>
+            <MinVisibleAspectRatio val="1.51001"/>
+        </Frame>
+         
+        <Frame type="Label" name="TitleLabel">
+            <Anchor side="Top" relative="$Anchor_Header" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$Anchor_Header" pos="Max" offset="0"/>
+            <Style val="@Arcade_Title"/>
+            <Text val="@CMUI/ScreenHistory/Title"/>
+        </Frame>
+
+        <Frame type="Frame" name="NavigationContainer">
+            <Handle val="CM_HistoryNavigationContainer"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="72"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+            <Frame type="BlurFrame" name="BlurEffect">
+                <Anchor relative="$parent/Background"/>
+                <BlurAmount val=".3"/>
+
+                <Frame type="Image" name="LowImage">
+                    <Anchor relative="$parent"/>
+                    <Color val="0,0,0"/>
+                    <Alpha val="150"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Image" name="Background">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="52"/>
+                <Texture val="@UI/Glues_Battlenet_SubNav_Bg"/>
+                <TextureType val="Nineslice"/>
+                <Tiled val="true"/>
+                <Alpha val="0"/>
+
+                <Animation name="FadeNav">
+                    <Event event="OnShown" action="Reset"/>
+                    <Event event="OnShown" action="Play"/>
+
+                    <Controller name="FadeIn" type="Fade" end="Pause">
+                        <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                        <Key type="Curve" time="0.95" value="255" out="Linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="BottomLineHighlightAnim">
+                <Anchor side="Bottom" relative="$parent/Background" pos="Max" offset="2"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_BottomHighlightAnim"/>
+                <Alpha val="150"/>
+
+                <Animation name="Highlight">
+                    <Event event="OnShown" action="DirectionForward" frame="$parent"/>
+                    <Event event="OnShown" action="Play" frame="$parent"/>
+
+                    <Controller type="Fade" end="Loop">
+                        <Key type="Curve" time="0" value="0"/>
+                        <Key type="Curve" time="2" value="100"/>
+                        <Key type="Curve" time="4.5" value="175"/>
+                        <Key type="Curve" time="6" value="150"/>
+                        <Key type="Curve" time="10" value="0"/>
+                    </Controller>
+
+                    <Controller type="Anchor" end="Loop" side="Left" relative="true">
+                        <Key type="Curve" time="0" value="0" out="linear"/>
+                        <Key type="Curve" time="2" value="0" out="linear"/>
+                        <Key type="Curve" time="10" value="1920" out="linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="ButtonDivider1">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                <Anchor side="Right" relative="$parent/GameHistoryButton" pos="Max" offset="#SubNavigationButtonDividerOffset"/>
+                <Texture val="@UI/Glues_Battlenet_SubNav_ButtonDivider"/>
+                <Alpha val="0"/>
+
+                <Animation name="FadeNav">
+                    <Event event="OnShown" action="Reset"/>
+                    <Event event="OnShown" action="Play"/>
+
+                    <Controller name="FadeIn" type="Fade" end="Pause">
+                        <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                        <Key type="Curve" time="0.5" value="255" out="Linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="ButtonDivider2">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                <Anchor side="Right" relative="$parent/ProfileTemplatesButton" pos="Max" offset="#SubNavigationButtonDividerOffset"/>
+                <Texture val="@UI/Glues_Battlenet_SubNav_ButtonDivider"/>
+                <Alpha val="0"/>
+
+                <Animation name="FadeNav">
+                    <Event event="OnShown" action="Reset"/>
+                    <Event event="OnShown" action="Play"/>
+
+                    <Controller name="FadeIn" type="Fade" end="Pause">
+                        <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                        <Key type="Curve" time="0.5" value="255" out="Linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Button" name="GameHistoryButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                <Handle val="CM_HistoryGameHistoryButton"/>
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$Anchor_SubNav" pos="Max" offset="0"/>
+                <Text val="@CMUI/ScreenHistory/GameHistoryButton"/>
+                <Toggled val="True"/>
+                <Alpha val="0"/>
+
+                <Animation name="FadeNav">
+                    <Event event="OnShown" action="Reset"/>
+                    <Event event="OnShown" action="Play"/>
+
+                    <Controller name="FadeIn" type="Fade" end="Pause">
+                        <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                        <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                        <Key type="Curve" time="0.45" value="255" out="Auto"/>
+                    </Controller>
+
+                    <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                        <Key type="Curve" time="0" value="-40" out="Linear"/>
+                        <Key type="Curve" time="0.3" value="-40" out="Linear"/>
+                        <Key type="Curve" time="0.45" value="0" out="Linear"/>
+                    </Controller>
+                </Animation>
+
+                <Animation name="SelectTab">
+                    <Event event="OnClick" action="Reset,Play"/>
+
+                    <Controller type="Property" property="Toggled" frame="$parent/GameHistoryButton" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Toggled" frame="$parent/ProfileTemplatesButton" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Button" name="ProfileTemplatesButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                <Handle val="CM_HistoryProfileTemplatesButton"/>
+                <Anchor side="Top" relative="$parent/GameHistoryButton" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/GameHistoryButton" pos="Max" offset="#SubNavigationButtonOverlapOffset"/>
+                <Text val="@CMUI/ScreenHistory/ProfileTemplatesButton"/>
+                <Toggled val="False"/>
+                <Alpha val="0"/>
+
+                <Animation name="FadeNav">
+                    <Event event="OnShown" action="Reset"/>
+                    <Event event="OnShown" action="Play"/>
+
+                    <Controller name="FadeIn" type="Fade" end="Pause">
+                        <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                        <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                        <Key type="Curve" time="0.47" value="255" out="Auto"/>
+                    </Controller>
+
+                    <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                        <Key type="Curve" time="0" value="-10" out="Linear"/>
+                        <Key type="Curve" time="0.3" value="-10" out="Linear"/>
+                        <Key type="Curve" time="0.47" value="0" out="Linear"/>
+                    </Controller>
+                </Animation>
+
+                <Animation name="SelectTab">
+                    <Event event="OnClick" action="Reset,Play"/>
+
+                    <Controller type="Property" property="Toggled" frame="$parent/GameHistoryButton" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Toggled" frame="$parent/ProfileTemplatesButton" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+        </Frame>
+        
+        <Frame type="BlurFrame" name="DetailContainerBlurEffect">
+            <Anchor side="Top" relative="$parent/ReplayPanel/DetailersContainerOuterBorderImage" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent/ReplayPanel/DetailersContainerOuterBorderImage" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent/ReplayPanel/DetailersContainerOuterBorderImage" pos="Min" offset="5"/>
+            <Anchor side="Right" relative="$parent/ReplayPanel/DetailersContainerOuterBorderImage" pos="Max" offset="-5"/>
+            <BlurAmount val=".3"/>
+            
+            <Frame type="Image" name="LowImage">
+                <Anchor relative="$parent"/>
+                <Color val="0,0,0"/>
+                <Alpha val="150"/>
+            </Frame>
+        </Frame>
+        
+        <Frame type="BlurFrame" name="ListContainerBlurEffect">
+            <Anchor side="Top" relative="$parent/ReplayPanel/FileListContainer/ListContainerOuterBorder" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent/ReplayPanel/FileListContainer/ListContainerOuterBorder" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent/ReplayPanel/FileListContainer/ListContainerOuterBorder" pos="Min" offset="5"/>
+            <Anchor side="Right" relative="$parent/ReplayPanel/FileListContainer/ListContainerOuterBorder" pos="Max" offset="-5"/>
+            <BlurAmount val=".3"/>
+            
+            <Frame type="Image" name="LowImage">
+                <Anchor relative="$parent"/>
+                <Color val="0,0,0"/>
+                <Alpha val="150"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="ReplayPanel" template="CM_ScreenHistory/BattlenetReplayPanel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="110"/>
+            <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$Anchor_Standard_Left" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="0"/>
+
+            <Frame type="Frame" name="FileLocationContainer">
+                <Anchor side="Top" relative="$parent/$parent/TitleLabel" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/$parent/TitleLabel" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/$parent/TitleLabel" pos="Max" offset="9"/>
+            </Frame>
+
+            <Frame type="Frame" name="FileManagementContainer">
+                <Anchor side="Left" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+
+                <Frame type="Button" name="DeleteFileButton">
+                    <Visible val="false"/>
+                </Frame>
+
+                <Frame type="Button" name="SaveFileButton">
+                    <Visible val="false"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="FileListContainer">
+                <Anchor side="Top" relative="$Anchor_OldContentContainer_Top" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$Anchor_StandardContentContainer_Left" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$Anchor_OldContentContainer_Right" pos="Max" offset="0"/>
+                <Height val="744"/>
+            </Frame>
+            
+            <Frame type="Image" name="DetailersContainerOuterBorderImage">
+                <Anchor side="Left" relative="$Anchor_OldContentSidebar_Left" pos="Max" offset="0"/>
+            </Frame>
+
+            <Frame type="Label" name="ListEmptyLabel">
+                <Anchor side="Top" relative="$parent/FileListContainer" pos="Mid" offset="-100"/>
+                <Anchor side="Left" relative="$parent/FileListContainer" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/FileListContainer" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/FileListContainer" pos="Mid" offset="-100"/>
+                <Width val="400"/>
+                <Text val="@CMUI/ScreenHistory/NoRecords"/>
+                <Style val="@Arcade_ListError"/>
+                <Visible val="false"/>
+            </Frame>
+
+            <Animation name="FileListEmpty">
+                <Event event="FileListEmpty" action="Reset,Play" frame="FileListContainer/SaveListBox"/>
+
+                <Controller type="Visibility" end="Pause" frame="ListEmptyLabel">
+                    <Key type="Bool" time="0" value="true"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="DetailsContainerTitleLabel">
+                    <Key type="Bool" time="0" value="false"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="FileListContainer/DateButtonLabel">
+                    <Key type="Bool" time="0" value="false"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="FileListContainer/NameButtonLabel">
+                    <Key type="Bool" time="0" value="false"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="FileListContainer/ContentsLabel">
+                    <Key type="Bool" time="0" value="false"/>
+                </Controller>
+            </Animation>
+
+            <Animation name="FileListNotEmpty">
+                <Event event="FileListNotEmpty" action="Reset,Play" frame="FileListContainer/SaveListBox"/>
+
+                <Controller type="Visibility" end="Pause" frame="ListEmptyLabel">
+                    <Key type="Bool" time="0" value="false"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="DetailsContainerTitleLabel">
+                    <Key type="Bool" time="0" value="true"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="FileListContainer/DateButtonLabel">
+                    <Key type="Bool" time="0" value="true"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="FileListContainer/NameButtonLabel">
+                    <Key type="Bool" time="0" value="true"/>
+                </Controller>
+                
+                <Controller type="Visibility" end="Pause" frame="FileListContainer/ContentsLabel">
+                    <Key type="Bool" time="0" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+            <Anchor side="Bottom" relative="$Anchor_ActionButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$Anchor_ActionButton" pos="Max" offset="0"/>
+            <Width val="315"/>
+            <Text val="@CMUI/ScreenHistory/ApplySelected"/>
+            <Visible val="true"/>
+        </Frame>
+
+        <Frame type="Button" name="DeleteButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Handle val="CM_HistoryDeleteButton"/>
+            <Anchor side="Top" relative="$parent/AcceptButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/AcceptButton" pos="Max" offset="6"/>
+            <Width val="315"/>
+            <Text val="@CMUI/ScreenHistory/Action/Delete"/>
+            <Visible val="true"/>
+        </Frame>
+
+        <Frame type="Button" name="NewProfileButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Handle val="CM_HistoryNewProfileButton"/>
+            <Anchor side="Top" relative="$parent/DeleteButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/DeleteButton" pos="Max" offset="6"/>
+            <Width val="315"/>
+            <Text val="@CMUI/ScreenHistory/Action/New"/>
+            <Visible val="true"/>
+        </Frame>
+
+        <Frame type="Button" name="SaveRecordTemplateButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Handle val="CM_HistorySaveRecordTemplateButton"/>
+            <Anchor side="Top" relative="$parent/DeleteButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/DeleteButton" pos="Max" offset="6"/>
+            <Width val="315"/>
+            <Text val="@CMUI/ScreenHistory/Action/SaveAsTemplate"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Button" name="SuggestTemplateButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Handle val="CM_HistorySuggestTemplateButton"/>
+            <Anchor side="Top" relative="$parent/NewProfileButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/NewProfileButton" pos="Max" offset="6"/>
+            <Width val="315"/>
+            <Text val="@CMUI/ScreenHistory/Action/SuggestTemplate"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="NewProfilePopup">
+            <Handle val="CM_HistoryNewProfilePopup"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Frame type="Image" name="DimBackground">
+                <Anchor relative="$parent"/>
+                <Color val="000000"/>
+                <Alpha val="150"/>
+            </Frame>
+
+            <Frame type="Image" name="PopupBackground">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="-170"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="170"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="-360"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="360"/>
+                <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_MainContainer"/>
+                <TextureType val="NineSlice"/>
+            </Frame>
+
+            <Frame type="Label" name="TitleLabel">
+                <Anchor side="Top" relative="$parent/PopupBackground" pos="Min" offset="24"/>
+                <Anchor side="Left" relative="$parent/PopupBackground" pos="Min" offset="32"/>
+                <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-32"/>
+                <Height val="38"/>
+                <Style val="@Arcade_Subtitle"/>
+                <Text val="@CMUI/ScreenHistory/NewProfile/Title"/>
+            </Frame>
+
+            <Frame type="Label" name="DescriptionLabel">
+                <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent/PopupBackground" pos="Min" offset="32"/>
+                <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-32"/>
+                <Height val="52"/>
+                <Style val="StoryModeTooltip"/>
+                <Text val="@CMUI/ScreenHistory/NewProfile/Description"/>
+            </Frame>
+
+            <Frame type="EditBox" name="ProfileCodeEditBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                <Handle val="CM_HistoryNewProfileCodeEditBox"/>
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/DescriptionLabel" pos="Max" offset="14"/>
+                    <Anchor side="Left" relative="$parent/$parent/PopupBackground" pos="Min" offset="32"/>
+                    <Anchor side="Right" relative="$parent/$parent/PopupBackground" pos="Max" offset="-32"/>
+                    <Height val="54"/>
+                </Frame>
+                <Text val="@CMUI/ScreenHistory/NewProfile/ProfileCodePlaceholder"/>
+            </Frame>
+
+            <Frame type="Label" name="StatusLabel">
+                <Handle val="CM_HistoryNewProfileStatusLabel"/>
+                <Anchor side="Top" relative="$parent/ProfileCodeEditBox" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/ProfileCodeEditBox" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ProfileCodeEditBox" pos="Max" offset="0"/>
+                <Height val="44"/>
+                <Style val="StoryModeTooltip"/>
+                <Text val="@CMUI/ScreenHistory/NewProfile/StatusIdle"/>
+            </Frame>
+
+            <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                <Handle val="CM_HistoryNewProfileAcceptButton"/>
+                <Anchor side="Bottom" relative="$parent/PopupBackground" pos="Max" offset="-24"/>
+                <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-32"/>
+                <Width val="180"/>
+                <Height val="54"/>
+                <Text val="@CMUI/ScreenHistory/NewProfile/Import"/>
+            </Frame>
+
+            <Frame type="Button" name="CancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Handle val="CM_HistoryNewProfileCancelButton"/>
+                <Anchor side="Top" relative="$parent/AcceptButton" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
+                <Width val="180"/>
+                <Height val="54"/>
+                <Text val="@CMUI/ScreenHistory/NewProfile/Cancel"/>
+            </Frame>
+
+            <Frame type="Frame" name="ProfileToolButton" template="CM_ScreenHistory/HistoryProfileURLButtonTemplate">
+                <Anchor side="Top" relative="$parent/CancelButton" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/CancelButton" pos="Min" offset="-10"/>
+                <Width val="180"/>
+                <Height val="54"/>
+                <Frame type="Frame" name="URLFrame">
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                        <Tooltip val="@CMUI/ScreenHistory/NewProfile/ProfileToolTooltip"/>
+                        <URL val="https://qm.qq.com/q/eJRHkNjg3e"/>
+                    </Frame>
+                    <Frame type="Label" name="URLLabel">
+                        <Text val="@CMUI/ScreenHistory/NewProfile/ProfileTool"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="SaveRecordTemplatePopup">
+            <Handle val="CM_HistorySaveRecordTemplatePopup"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Frame type="Image" name="DimBackground">
+                <Anchor relative="$parent"/>
+                <Color val="000000"/>
+                <Alpha val="150"/>
+            </Frame>
+
+            <Frame type="Image" name="PopupBackground">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="-170"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="170"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="-360"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="360"/>
+                <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_MainContainer"/>
+                <TextureType val="NineSlice"/>
+            </Frame>
+
+            <Frame type="Label" name="TitleLabel">
+                <Anchor side="Top" relative="$parent/PopupBackground" pos="Min" offset="24"/>
+                <Anchor side="Left" relative="$parent/PopupBackground" pos="Min" offset="32"/>
+                <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-32"/>
+                <Height val="38"/>
+                <Style val="@Arcade_Subtitle"/>
+                <Text val="@CMUI/ScreenHistory/SaveRecordTemplate/Title"/>
+            </Frame>
+
+            <Frame type="Label" name="DescriptionLabel">
+                <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent/PopupBackground" pos="Min" offset="32"/>
+                <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-32"/>
+                <Height val="52"/>
+                <Style val="StoryModeTooltip"/>
+                <Text val="@CMUI/ScreenHistory/SaveRecordTemplate/Description"/>
+            </Frame>
+
+            <Frame type="EditBox" name="TemplateNameEditBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                <Handle val="CM_HistorySaveRecordTemplateNameEditBox"/>
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/DescriptionLabel" pos="Max" offset="14"/>
+                    <Anchor side="Left" relative="$parent/$parent/PopupBackground" pos="Min" offset="32"/>
+                    <Anchor side="Right" relative="$parent/$parent/PopupBackground" pos="Max" offset="-32"/>
+                    <Height val="54"/>
+                </Frame>
+                <Text val="@CMUI/ScreenHistory/SaveRecordTemplate/NamePlaceholder"/>
+            </Frame>
+
+            <Frame type="Label" name="StatusLabel">
+                <Handle val="CM_HistorySaveRecordTemplateStatusLabel"/>
+                <Anchor side="Top" relative="$parent/TemplateNameEditBox" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/TemplateNameEditBox" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/TemplateNameEditBox" pos="Max" offset="0"/>
+                <Height val="44"/>
+                <Style val="StoryModeTooltip"/>
+                <Text val="@CMUI/ScreenHistory/SaveRecordTemplate/StatusIdle"/>
+            </Frame>
+
+            <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                <Handle val="CM_HistorySaveRecordTemplateAcceptButton"/>
+                <Anchor side="Bottom" relative="$parent/PopupBackground" pos="Max" offset="-24"/>
+                <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-32"/>
+                <Width val="180"/>
+                <Height val="54"/>
+                <Text val="@CMUI/ScreenHistory/SaveRecordTemplate/Save"/>
+            </Frame>
+
+            <Frame type="Button" name="CancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Handle val="CM_HistorySaveRecordTemplateCancelButton"/>
+                <Anchor side="Top" relative="$parent/AcceptButton" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
+                <Width val="180"/>
+                <Height val="54"/>
+                <Text val="@CMUI/ScreenHistory/NewProfile/Cancel"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

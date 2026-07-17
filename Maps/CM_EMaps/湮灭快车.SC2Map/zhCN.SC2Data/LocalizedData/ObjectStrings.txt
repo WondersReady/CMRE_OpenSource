@@ -1,0 +1,3 @@
+﻿Light/EditorPrefix/CoopTHorner01=(Coop) ///Auto - Copied from enUS Locale
+Light/Name/CoopTHorner01=THorner01 ///Auto - Copied from enUS Locale
+Light/Name/EditorTestLight=Default ///Auto - Copied from enUS Locale

@@ -1,0 +1,1914 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Button" name="CM_ConsoleSpawnResultTemplate">
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <Height val="48"/>
+        <CollapseLayout val="true"/>
+        <DisplayType val="ImageLayer"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <Text val=""/>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Normal"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Hover"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="SelectedImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Toggled"/>
+            <TextureType val="NineSlice"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="4"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Height val="20"/>
+            <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+            <Options val="Ellipsis"/>
+        </Frame>
+
+        <Frame type="Label" name="IdLabel">
+            <Anchor side="Top" relative="$parent/NameLabel" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Height val="18"/>
+            <Style val="Coop_Dev_MutatorDescription"/>
+            <Options val="Ellipsis"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Button" name="CM_ConsoleToggleButtonTemplate">
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <Toggleable val="True"/>
+        <Toggled val="False"/>
+        <Text val="@CMUI/Console/Toggle"/>
+        <DisplayType val="ImageLayer"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleTopButton_Normal.tga"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleTopButton_Hover.tga"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="ToggledImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleTopButton_Toggled.tga"/>
+            <TextureType val="NineSlice"/>
+            <Alpha val="0"/>
+            <AcceptsMouse val="False"/>
+
+            <StateGroup name="ToggleState">
+                <DefaultState val="Off"/>
+                <State name="On">
+                    <When type="Property" frame="$parent" Toggled="True"/>
+                    <Action type="SetProperty" frame="$this" Alpha="255"/>
+                </State>
+                <State name="Off">
+                    <Action type="SetProperty" frame="$this" Alpha="0"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="4"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-2"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+            <Style val="BattlenetStandardButton"/>
+            <Text val="@CMUI/Console/Toggle"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Button" name="CM_ConsoleTopButtonTemplate">
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <DisplayType val="ImageLayer"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <HoverSound val="@UI_HoverTick"/>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleTopButton_Normal.tga"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleTopButton_Hover.tga"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="6"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-6"/>
+            <Style val="BattlenetStandardButton"/>
+        </Frame>
+
+        <Frame type="Frame" name="HitTestFrame">
+            <Anchor relative="$parent"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Button" name="CM_ConsoleMinButtonTemplate">
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <DisplayType val="ImageLayer"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <HoverSound val="@UI_HoverTick"/>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleMinButton_Normal.tga"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_ConsoleMinButton_Hover.tga"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="2"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-2"/>
+            <Style val="BattlenetStandardButton"/>
+        </Frame>
+
+        <Frame type="Frame" name="HitTestFrame">
+            <Anchor relative="$parent"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="CM_ConsoleCommandRowTemplate">
+        <Anchor side="Bottom" relative="$this/DescriptionLabel" pos="Max" offset="10"/>
+        <AcceptsMouse val="True"/>
+        <CollapseLayout val="true"/>
+
+        <Frame type="Image" name="Background">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Normal"/>
+            <TextureType val="NineSlice"/>
+            <Alpha val="235"/>
+            <AcceptsMouse val="False"/>
+        </Frame>
+
+        <Frame type="Button" name="ToggleButton" template="CM_ConsoleDebugPanel/CM_ConsoleToggleButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="8"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-5"/>
+            <Width val="72"/>
+            <Height val="40"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="16"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+            <Width val="124"/>
+            <Height val="23"/>
+            <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+        </Frame>
+
+        <Frame type="EditBox" name="Arg1" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+            <Visible val="False"/>
+            <Frame type="Frame" name="AnchorFrame">
+                <Anchor side="Top" relative="$parent/$parent" pos="Min" offset="6"/>
+                <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="164"/>
+                <Width val="110"/>
+                <Height val="38"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="EditBox" name="Arg2" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+            <Visible val="False"/>
+            <Frame type="Frame" name="AnchorFrame">
+                <Anchor side="Top" relative="$parent/$parent" pos="Min" offset="6"/>
+                <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="280"/>
+                <Width val="110"/>
+                <Height val="38"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="EditBox" name="Arg3" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+            <Visible val="False"/>
+            <Frame type="Frame" name="AnchorFrame">
+                <Anchor side="Top" relative="$parent/$parent" pos="Min" offset="6"/>
+                <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="396"/>
+                <Width val="110"/>
+                <Height val="38"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Button" name="ExecuteButton" template="CM_ConsoleDebugPanel/CM_ConsoleToggleButtonTemplate">
+            <Toggleable val="False"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="8"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-5"/>
+            <Width val="72"/>
+            <Height val="40"/>
+            <Text val="@CMUI/Console/Execute"/>
+            <Frame type="Label" name="Label">
+                <Text val="@CMUI/Console/Execute"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="56"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+            <Style val="Coop_Dev_MutatorDescription"/>
+            <AutoSizeClamps minHeight="20"/>
+            <Options val=""/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Control" name="ChatDebugPanelTemplate">
+            <Handle val="CM_ChatDebugPanel"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="36"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="24"/>
+            <Width val="620"/>
+            <Height val="720"/>
+            <Visible val="False"/>
+            <Alpha val="255"/>
+            <RenderPriority val="940"/>
+            <AcceptsMouse val="True"/>
+            <Draggable val="true"/>
+            <DragConstraintFrame val="$parent"/>
+            <DragCursor val="GripClosed"/>
+            <DragHoverCursor val="GripOpen"/>
+
+            <Frame type="Image" name="Background">
+                <Anchor relative="$parent"/>
+                <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Alpha val="245"/>
+            </Frame>
+
+            <Frame type="Image" name="InnerBackground">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="51"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Alpha val="235"/>
+            </Frame>
+
+            <Frame type="Image" name="Header">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                <Height val="44"/>
+                <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_02"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Color val="255,255,255"/>
+                <Alpha val="240"/>
+                <AcceptsMouse val="False"/>
+            </Frame>
+
+            <Frame type="Label" name="TitleLabel">
+                <Anchor side="Top" relative="$parent/Header" pos="Min" offset="6"/>
+                <Anchor side="Bottom" relative="$parent/Header" pos="Max" offset="-2"/>
+                <Anchor side="Left" relative="$parent/Header" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent/AuthButton" pos="Min" offset="-8"/>
+                <Style val="@Coop_CustomMutator_MutatorSectionTitle"/>
+                <Text val="@CMUI/ChatDebugMenu/Title"/>
+            </Frame>
+
+            <Frame type="Button" name="AuthButton" template="CM_ConsoleDebugPanel/CM_ConsoleTopButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/SpawnButton" pos="Min" offset="-6"/>
+                <Width val="62"/>
+                <Height val="30"/>
+                <Text val="@CMUI/Console/ShortcutAuth"/>
+            </Frame>
+
+            <Frame type="Button" name="SpawnButton" template="CM_ConsoleDebugPanel/CM_ConsoleTopButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/TeleportButton" pos="Min" offset="-6"/>
+                <Width val="62"/>
+                <Height val="30"/>
+                <Text val="@CMUI/Console/ShortcutSpawn"/>
+            </Frame>
+
+            <Frame type="Button" name="TeleportButton" template="CM_ConsoleDebugPanel/CM_ConsoleTopButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/CopyButton" pos="Min" offset="-6"/>
+                <Width val="62"/>
+                <Height val="30"/>
+                <Text val="@CMUI/Console/ShortcutTeleport"/>
+            </Frame>
+
+            <Frame type="Button" name="CopyButton" template="CM_ConsoleDebugPanel/CM_ConsoleTopButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/PasteButton" pos="Min" offset="-6"/>
+                <Width val="62"/>
+                <Height val="30"/>
+                <Text val="@CMUI/Console/ShortcutCopy"/>
+            </Frame>
+
+            <Frame type="Button" name="PasteButton" template="CM_ConsoleDebugPanel/CM_ConsoleTopButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/MinimizeButton" pos="Min" offset="-6"/>
+                <Width val="62"/>
+                <Height val="30"/>
+                <Text val="@CMUI/Console/ShortcutPaste"/>
+            </Frame>
+
+            <Frame type="Button" name="MinimizeButton" template="CM_ConsoleDebugPanel/CM_ConsoleMinButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/CloseButton" pos="Min" offset="-6"/>
+                <Width val="30"/>
+                <Height val="30"/>
+                <Text val="-"/>
+            </Frame>
+
+            <Frame type="Button" name="CloseButton" template="StandardTemplates/StandardCloseButtonTemplate">
+                <Handle val="CM_ChatDebugCloseButton"/>
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-14"/>
+                <Anchor side="Right" relative="$parent/Header" pos="Max" offset="-2"/>
+            </Frame>
+
+            <Frame type="Label" name="OpacityLabel">
+                <Anchor side="Top" relative="$parent/Header" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Width val="76"/>
+                <Height val="28"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Text val="@CMUI/Console/OpacityLabel"/>
+            </Frame>
+
+            <Frame type="Label" name="OpacityValueLabel">
+                <Anchor side="Top" relative="$parent/OpacityLabel" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/OpacityLabel" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Width val="50"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Text val="100%"/>
+            </Frame>
+
+            <Frame type="Slider" name="OpacitySlider" template="StandardTemplates/StandardSliderTemplate">
+                <Anchor side="Top" relative="$parent/OpacityLabel" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/OpacityLabel" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/OpacityLabel" pos="Max" offset="8"/>
+                <Anchor side="Right" relative="$parent/OpacityValueLabel" pos="Min" offset="-8"/>
+                <MinValue val="15.000000"/>
+                <MaxValue val="100.000000"/>
+                <Value val="100.000000"/>
+                <StepValue val="1.000000"/>
+                <Continuous val="true"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Label" name="HintLabel">
+                <Anchor side="Top" relative="$parent/HandleLabel" pos="Max" offset="2"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Style val="StoryModeTooltip"/>
+                <Text val="@CMUI/ChatDebugMenu/Hint"/>
+                <AutoSizeClamps minHeight="20"/>
+            </Frame>
+
+            <Frame type="Label" name="HandleLabel">
+                <Anchor side="Top" relative="$parent/OpacitySlider" pos="Max" offset="2"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Height val="22"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Options val="Ellipsis"/>
+                <Text val="@CMUI/Console/HandlePrefix"/>
+            </Frame>
+
+            <Frame type="ScrollableFrame" name="CommandScrollFrame">
+                <Anchor side="Top" relative="$parent/HintLabel" pos="Max" offset="6"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-14"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                <AcceptsMouse val="True"/>
+
+                <Frame type="Frame" name="ContainerFrame">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+                    <Anchor side="Bottom" relative="$this/ContentBottom" pos="Max" offset="8"/>
+
+                    <Frame type="Frame" name="Item1" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item2" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item3" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item4" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item5" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item6" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item7" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item8" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item9" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item10" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item11" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item10" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item12" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item13" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item14" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item13" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item15" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item14" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item16" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item15" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item17" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item16" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item18" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item17" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item19" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item18" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item20" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item19" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item21" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item20" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item22" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item21" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item23" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item22" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item24" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item23" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item25" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item24" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item26" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item25" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item27" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item26" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item28" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item27" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item29" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item28" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item30" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item29" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item31" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item30" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item32" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item31" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item33" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item32" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item34" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item33" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item35" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item34" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item36" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item35" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item37" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item36" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item38" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item37" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item39" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item38" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item40" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item39" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item41" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item40" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item42" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item41" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item43" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item42" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item44" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item43" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item45" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item44" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item46" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item45" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item47" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item46" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item48" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item47" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item49" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item48" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item50" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item49" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item51" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item50" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item52" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item51" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item53" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item52" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item54" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item53" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item55" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item54" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item56" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item55" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item57" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item56" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item58" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item57" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item59" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item58" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item60" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item59" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item61" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item60" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item62" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item61" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item63" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item62" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item64" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item63" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item65" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item64" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item66" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item65" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item67" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item66" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item68" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item67" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item69" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item68" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item70" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item69" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item71" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item70" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item72" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item71" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item73" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item72" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item74" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item73" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item75" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item74" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item76" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item75" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item77" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item76" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item78" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item77" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item79" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item78" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item80" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item79" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item81" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item80" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item82" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item81" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item83" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item82" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item84" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item83" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item85" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item84" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item86" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item85" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item87" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item86" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item88" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item87" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item89" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item88" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item90" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item89" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item91" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item90" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item92" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item91" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item93" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item92" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item94" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item93" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item95" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item94" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item96" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item95" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item97" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item96" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item98" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item97" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item99" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item98" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item100" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item99" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item101" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item100" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item102" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item101" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item103" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item102" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item104" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item103" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item105" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item104" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item106" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item105" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item107" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item106" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item108" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item107" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item109" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item108" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item110" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item109" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item111" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item110" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item112" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item111" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item113" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item112" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item114" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item113" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item115" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item114" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item116" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item115" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item117" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item116" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item118" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item117" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item119" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item118" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item120" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item119" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item121" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item120" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item122" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item121" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item123" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item122" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item124" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item123" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item125" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item124" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item126" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item125" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item127" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item126" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item128" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item127" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item129" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item128" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item130" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item129" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item131" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item130" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item132" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item131" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item133" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item132" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item134" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item133" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item135" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item134" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item136" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item135" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item137" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item136" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item138" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item137" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item139" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item138" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item140" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item139" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item141" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item140" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item142" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item141" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item143" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item142" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item144" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item143" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item145" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item144" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item146" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item145" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item147" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item146" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item148" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item147" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item149" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item148" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item150" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item149" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item151" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item150" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item152" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item151" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item153" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item152" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item154" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item153" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item155" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item154" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item156" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item155" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item157" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item156" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item158" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item157" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item159" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item158" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="Item160" template="CM_ConsoleDebugPanel/CM_ConsoleCommandRowTemplate">
+                        <Anchor side="Top" relative="$parent/Item159" pos="Max" offset="4"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="ContentBottom">
+                        <Anchor side="Top" relative="$parent/Item160" pos="Max" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Width val="1"/>
+                        <Height val="1"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="ScrollBar" name="ScrollBar">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Orientation val="Vertical"/>
+                    <Width val="18"/>
+                    <StepValue val="50.000000"/>
+                    <Continuous val="True"/>
+
+                    <Frame type="Image" name="Image">
+                        <Anchor relative="$parent"/>
+                        <Texture val="Assets/Textures/UI_Battlenet_Glue_ChatPanelScrollBarLine.dds"/>
+                        <TextureType val="Nineslice"/>
+                        <Tiled val="True"/>
+                        <Alpha val="0"/>
+                    </Frame>
+
+                    <Frame type="Button" name="Button">
+                        <Frame type="Image" name="NormalImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/ChatPanelScrollBarGrabber_Normal"/>
+                            <TextureType val="Nineslice"/>
+                            <Tiled val="True"/>
+                        </Frame>
+
+                        <Frame type="Image" name="HoverImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/ChatPanelScrollBarGrabber_Hover"/>
+                            <TextureType val="Nineslice"/>
+                            <Tiled val="True"/>
+                        </Frame>
+                    </Frame>
+                </Frame>
+
+            </Frame>
+        </Frame>
+
+<Frame type="Control" name="ChatDebugSpawnPanelTemplate">
+            <Handle val="CM_ChatDebugSpawnPanel"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="96"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="36"/>
+            <Width val="430"/>
+            <Height val="620"/>
+            <Visible val="False"/>
+            <Alpha val="255"/>
+            <RenderPriority val="945"/>
+            <AcceptsMouse val="True"/>
+            <Draggable val="true"/>
+            <DragConstraintFrame val="$parent"/>
+            <DragCursor val="GripClosed"/>
+            <DragHoverCursor val="GripOpen"/>
+
+            <Frame type="Image" name="Background">
+                <Anchor relative="$parent"/>
+                <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Alpha val="245"/>
+            </Frame>
+
+            <Frame type="Image" name="Header">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                <Height val="34"/>
+                <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_02"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Alpha val="240"/>
+                <AcceptsMouse val="False"/>
+            </Frame>
+
+            <Frame type="Label" name="TitleLabel">
+                <Anchor side="Top" relative="$parent/Header" pos="Min" offset="4"/>
+                <Anchor side="Bottom" relative="$parent/Header" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/Header" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent/MinimizeButton" pos="Min" offset="-8"/>
+                <Style val="@Coop_CustomMutator_MutatorSectionTitle"/>
+                <Text val="@CMUI/Console/SpawnPanel/Title"/>
+            </Frame>
+
+            <Frame type="Button" name="MinimizeButton" template="CM_ConsoleDebugPanel/CM_ConsoleMinButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/CloseButton" pos="Min" offset="-6"/>
+                <Width val="30"/>
+                <Height val="30"/>
+                <Text val="-"/>
+            </Frame>
+
+            <Frame type="Button" name="CloseButton" template="StandardTemplates/StandardCloseButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-14"/>
+                <Anchor side="Right" relative="$parent/Header" pos="Max" offset="-2"/>
+            </Frame>
+
+            <Frame type="Label" name="SearchLabel">
+                <Anchor side="Top" relative="$parent/Header" pos="Max" offset="12"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Width val="80"/>
+                <Height val="28"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Text val="@CMUI/Console/SpawnPanel/SearchLabel"/>
+            </Frame>
+
+            <Frame type="EditBox" name="SearchBox" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
+                <AcceptsMouse val="True"/>
+                <Frame type="Label" name="SearchTextLabel">
+                    <Text val=""/>
+                </Frame>
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/Header" pos="Max" offset="6"/>
+                    <Anchor side="Left" relative="$parent/$parent/SearchLabel" pos="Max" offset="8"/>
+                    <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="-16"/>
+                    <Height val="38"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="ResultsContainer">
+                <Anchor side="Top" relative="$parent/SearchBox" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Height val="412"/>
+
+                <Frame type="Button" name="Item1" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item2" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item3" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item4" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item5" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item6" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item7" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Button" name="Item8" template="CM_ConsoleDebugPanel/CM_ConsoleSpawnResultTemplate">
+                    <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Visible val="False"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Label" name="SelectedLabel">
+                <Anchor side="Top" relative="$parent/ResultsContainer" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Height val="24"/>
+                <Style val="StoryModeTooltip"/>
+                <Options val="Ellipsis"/>
+                <Text val="@CMUI/Console/SpawnPanel/SelectedNone"/>
+            </Frame>
+
+            <Frame type="Label" name="AmountLabel">
+                <Anchor side="Top" relative="$parent/SelectedLabel" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Width val="46"/>
+                <Height val="32"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Text val="@CMUI/Console/SpawnPanel/AmountLabel"/>
+            </Frame>
+
+            <Frame type="EditBox" name="AmountBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/SelectedLabel" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent/$parent/AmountLabel" pos="Max" offset="6"/>
+                    <Width val="70"/>
+                    <Height val="38"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Label" name="PlayerLabel">
+                <Anchor side="Top" relative="$parent/SelectedLabel" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent/AmountBox" pos="Max" offset="12"/>
+                <Width val="46"/>
+                <Height val="32"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Text val="@CMUI/Console/SpawnPanel/PlayerLabel"/>
+            </Frame>
+
+            <Frame type="EditBox" name="PlayerBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/SelectedLabel" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent/$parent/PlayerLabel" pos="Max" offset="6"/>
+                    <Width val="70"/>
+                    <Height val="38"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="ExecuteButton" template="CM_ConsoleDebugPanel/CM_ConsoleTopButtonTemplate">
+                <Anchor side="Top" relative="$parent/SelectedLabel" pos="Max" offset="2"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Width val="92"/>
+                <Height val="42"/>
+                <Text val="@CMUI/Console/SpawnPanel/Execute"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Control" name="ChatDebugAuthPanelTemplate">
+            <Handle val="CM_ChatDebugAuthPanel"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="96"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="36"/>
+            <Width val="430"/>
+            <Height val="300"/>
+            <Visible val="False"/>
+            <Alpha val="255"/>
+            <RenderPriority val="946"/>
+            <AcceptsMouse val="True"/>
+            <Draggable val="true"/>
+            <DragConstraintFrame val="$parent"/>
+            <DragCursor val="GripClosed"/>
+            <DragHoverCursor val="GripOpen"/>
+
+            <Frame type="Image" name="Background">
+                <Anchor relative="$parent"/>
+                <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Alpha val="245"/>
+            </Frame>
+
+            <Frame type="Image" name="Header">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                <Height val="34"/>
+                <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_02"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="False"/>
+                <Alpha val="240"/>
+                <AcceptsMouse val="False"/>
+            </Frame>
+
+            <Frame type="Label" name="TitleLabel">
+                <Anchor side="Top" relative="$parent/Header" pos="Min" offset="4"/>
+                <Anchor side="Bottom" relative="$parent/Header" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/Header" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent/MinimizeButton" pos="Min" offset="-8"/>
+                <Style val="@Coop_CustomMutator_MutatorSectionTitle"/>
+                <Text val="@CMUI/Console/AuthPanel/Title"/>
+            </Frame>
+
+            <Frame type="Button" name="MinimizeButton" template="CM_ConsoleDebugPanel/CM_ConsoleMinButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-15"/>
+                <Anchor side="Right" relative="$parent/CloseButton" pos="Min" offset="-6"/>
+                <Width val="30"/>
+                <Height val="30"/>
+                <Text val="-"/>
+            </Frame>
+
+            <Frame type="Button" name="CloseButton" template="StandardTemplates/StandardCloseButtonTemplate">
+                <Anchor side="Top" relative="$parent/Header" pos="Mid" offset="-14"/>
+                <Anchor side="Right" relative="$parent/Header" pos="Max" offset="-2"/>
+            </Frame>
+
+            <Frame type="Label" name="HandleLabel">
+                <Anchor side="Top" relative="$parent/Header" pos="Max" offset="12"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Height val="30"/>
+                <Style val="StoryModeTooltip"/>
+                <Options val="Ellipsis"/>
+                <Text val="@CMUI/Console/AuthPanel/HandleUnknown"/>
+            </Frame>
+
+            <Frame type="Label" name="CodeLabel">
+                <Anchor side="Top" relative="$parent/HandleLabel" pos="Max" offset="12"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Width val="88"/>
+                <Height val="30"/>
+                <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Text val="@CMUI/Console/AuthPanel/CodeLabel"/>
+            </Frame>
+
+            <Frame type="EditBox" name="CodeBox" template="StandardSmallButtonTemplates/StandardSmallEditBoxTemplate">
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/CodeLabel" pos="Min" offset="-4"/>
+                    <Anchor side="Left" relative="$parent/$parent/CodeLabel" pos="Max" offset="8"/>
+                    <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="-16"/>
+                    <Height val="38"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="ApplyButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                <Anchor side="Top" relative="$parent/CodeBox" pos="Max" offset="12"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Width val="92"/>
+                <Height val="42"/>
+                <Text val="@CMUI/Console/AuthPanel/Apply"/>
+            </Frame>
+
+            <Frame type="Button" name="ClearButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Anchor side="Top" relative="$parent/CodeBox" pos="Max" offset="12"/>
+                <Anchor side="Right" relative="$parent/ApplyButton" pos="Min" offset="-8"/>
+                <Width val="92"/>
+                <Height val="42"/>
+                <Text val="@CMUI/Console/AuthPanel/Clear"/>
+            </Frame>
+
+            <Frame type="Label" name="StatusLabel">
+                <Anchor side="Top" relative="$parent/ApplyButton" pos="Max" offset="12"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Style val="StoryModeTooltip"/>
+                <AutoSizeClamps minHeight="44"/>
+                <Text val="@CMUI/Console/AuthPanel/StatusNoSaved"/>
+            </Frame>
+
+            <Frame type="Label" name="HelpLabel">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-12"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-16"/>
+                <Height val="44"/>
+                <Style val="Coop_Dev_MutatorDescription"/>
+                <Text val="@CMUI/Console/AuthPanel/Help"/>
+            </Frame>
+        </Frame>
+
+    <Frame type="Frame" name="GameUI/UIContainer/FullscreenUpperContainer" file="GameUI">
+        <Frame type="Control" name="ChatDebugPanel" template="CM_ConsoleDebugPanel/ChatDebugPanelTemplate"/>
+        <Frame type="Control" name="ChatDebugSpawnPanel" template="CM_ConsoleDebugPanel/ChatDebugSpawnPanelTemplate"/>
+        <Frame type="Control" name="ChatDebugAuthPanel" template="CM_ConsoleDebugPanel/ChatDebugAuthPanelTemplate"/>
+    </Frame>
+</Desc>

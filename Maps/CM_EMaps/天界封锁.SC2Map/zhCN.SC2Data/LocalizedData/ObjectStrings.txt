@@ -1,0 +1,11 @@
+﻿Light/Name/EditorTestLight=Default ///Auto - Copied from enUS Locale
+Sound/Name/IntroMusic=Intro Music ///Auto - Copied from enUS Locale
+Sound/Name/IntroStinger=Intro Stinger ///Auto - Copied from enUS Locale
+Sound/Name/VictoryDoorOpen=Victory Door Open ///Auto - Copied from enUS Locale
+Sound/Name/VictoryDoorOpenStinger=Victory Door Open Stinger ///Auto - Copied from enUS Locale
+Sound/Name/VictoryDoorOpenStoneSound=Victory Door Open Stone Sound 1 ///Auto - Copied from enUS Locale
+Sound/Name/VictoryDoorOpenStoneSound2=Victory Door Open Stone Sound 2 ///Auto - Copied from enUS Locale
+Sound/Name/VictoryDoorOpenWhoosh=Victory Door Open Whoosh ///Auto - Copied from enUS Locale
+Sound/Name/VictoryMusic=Victory Music ///Auto - Copied from enUS Locale
+Soundtrack/Name/IntroMusic=Intro Music ///Auto - Copied from enUS Locale
+Soundtrack/Name/VictoryMusic=Victory Music ///Auto - Copied from enUS Locale

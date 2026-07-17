@@ -1,0 +1,414 @@
+//--------------------------------------------------------------------------------------------------
+//  Swann tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMSwann_TR_WraithImprovedBurstLaser = "WraithImprovedBurstLaser";
+const string c_CMSwann_WE_WraithA = "WraithA";
+const string c_CMSwann_WE_WraithG = "WraithG";
+const fixed c_CMSwann_WraithReadyWindow = 0.05;
+const fixed c_CMSwann_WraithMoveRefreshDistance = 1.0;
+const string c_CMSwann_TU_Thor = "Thor";
+const string c_CMSwann_AB_330mmBarrageCannons = "330mmBarrageCannons";
+const string c_CMSwann_EF_330mmBarrageCannonsPersistent = "330mmBarrageCannonsPersistent";
+const string c_CMSwann_EF_330mmBarrageCannonsDamage = "330mmBarrageCannonsDamage";
+const string c_CMSwann_AB_SiegeTankReborn = "SiegeTankReborn";
+const string c_CMSwann_AB_SiegeTankRebornCheap = "SiegeTankRebornCheap";
+const string c_CMSwann_AB_ThorRebornSwann = "ThorRebornSwann";
+const string c_CMSwann_AB_ThorRebornSwannCheap = "ThorRebornSwannCheap";
+const int c_CMSwann_Thor330mmMinHits = 3;
+const fixed c_CMSwann_Thor330mmMinScore = 3.0;
+const fixed c_CMSwann_Thor330mmRangePadding = 3.0;
+const fixed c_CMSwann_Thor330mmMinConflictDistance = 4.0;
+
+//--------------------------------------------------------------------------------------------------
+bool CMSwannWraithCloak (int player, unit aiUnit) {
+    bool isCloaked;
+    order ord;
+
+    ord = AICreateOrder(player, c_AB_WraithCloak, 0);
+    isCloaked = false;
+
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        ord = AICreateOrder(player, c_AB_WraithCloak, 1);
+        if (UnitOrderIsValid(aiUnit, ord) == false) {
+            return false;
+        }
+        isCloaked = true;
+    }
+
+    if (AIAlliedCommandWeakerHumanDifficulty() < c_campAdvanced) {
+        if (isCloaked == false) {
+            return false;
+        }
+    }
+    else {
+        if (isCloaked == AICloakEvaluate(aiUnit, 50, 120, 10)) {
+            return false;
+        }
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMSwannWraithWeaponIndex (unit aiUnit, string weaponLink) {
+    int index;
+    int count;
+
+    index = 0;
+    count = UnitWeaponCount(aiUnit);
+    while (index < count) {
+        if ((UnitWeaponIsEnabled(aiUnit, index) == true) && (StringEqual(UnitWeaponGet(aiUnit, index), weaponLink, true) == true)) {
+            return index;
+        }
+        index = index + 1;
+    }
+
+    return -1;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMSwannWraithWeaponIndexForTarget (unit aiUnit, unit targetUnit) {
+    if (UnitTestPlane(targetUnit, c_planeAir) == true) {
+        return CMSwannWraithWeaponIndex(aiUnit, c_CMSwann_WE_WraithA);
+    }
+
+    return CMSwannWraithWeaponIndex(aiUnit, c_CMSwann_WE_WraithG);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMSwannWraithWeaponRange (unit aiUnit, int weaponIndex) {
+    if (weaponIndex < 0) {
+        return 5.0;
+    }
+
+    return UnitWeaponRange(aiUnit, weaponIndex);
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMSwannWraithCurrentAttackTarget (unit aiUnit) {
+    order curOrder;
+
+    curOrder = UnitOrder(aiUnit, 0);
+    if (curOrder == null) {
+        return null;
+    }
+
+    if (AIIsAttackOrder(curOrder) == false) {
+        return null;
+    }
+
+    if (OrderGetTargetType(curOrder) != c_orderTargetUnit) {
+        return null;
+    }
+
+    return OrderGetTargetUnit(curOrder);
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMSwannWraithFindTarget (int player, unit aiUnit, unitgroup scanGroup, bool airOnly) {
+    fixed range;
+    int weaponIndex;
+    unitgroup targetGroup;
+    order ord;
+    aifilter filter;
+
+    if (airOnly == true) {
+        weaponIndex = CMSwannWraithWeaponIndex(aiUnit, c_CMSwann_WE_WraithA);
+    }
+    else {
+        weaponIndex = CMSwannWraithWeaponIndex(aiUnit, c_CMSwann_WE_WraithG);
+    }
+
+    range = CMSwannWraithWeaponRange(aiUnit, weaponIndex);
+    ord = AICreateOrder(player, c_AB_Attack, 0);
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterRange(filter, aiUnit, range + 1.0);
+    if (airOnly == true) {
+        AISetFilterPlane(filter, c_planeAir);
+    }
+    else {
+        AISetFilterPlane(filter, c_planeGround);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    ord = AIUnitGroupGetValidOrder(targetGroup, ord, aiUnit, c_forwards);
+    if (ord == null) {
+        return null;
+    }
+
+    return OrderGetTargetUnit(ord);
+}
+
+//--------------------------------------------------------------------------------------------------
+point CMSwannWraithMovePoint (unit aiUnit, unit targetUnit, fixed weaponRange) {
+    point here;
+    point targetPoint;
+    fixed distance;
+    fixed angle;
+    fixed desiredDistance;
+
+    here = UnitGetPosition(aiUnit);
+    targetPoint = UnitGetPosition(targetUnit);
+    distance = DistanceBetweenPoints(here, targetPoint);
+    angle = AngleBetweenPoints(targetPoint, here);
+    desiredDistance = distance;
+
+    if (desiredDistance > (weaponRange - 0.5)) {
+        desiredDistance = weaponRange - 0.5;
+    }
+    if (desiredDistance < 3.0) {
+        desiredDistance = 3.0;
+    }
+
+    return PointWithOffsetPolar(targetPoint, desiredDistance, angle + 45.0);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMSwannWraithMoveOrderIsFresh (unit aiUnit) {
+    fixed distance;
+    order curOrder;
+
+    curOrder = UnitOrder(aiUnit, 0);
+    if (curOrder == null) {
+        return false;
+    }
+
+    if (AIIsMoveOrder(curOrder) == false) {
+        return false;
+    }
+
+    distance = DistanceBetweenPoints(UnitGetPosition(aiUnit), OrderGetTargetPosition(curOrder));
+    if (distance <= c_CMSwann_WraithMoveRefreshDistance) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkSwannWraith (int player, unit aiUnit, unitgroup scanGroup) {
+    unit targetUnit;
+    int weaponIndex;
+    fixed cooldown;
+    fixed weaponRange;
+    point movePoint;
+    order curOrder;
+    order ord;
+
+    if (CMSwannWraithCloak(player, aiUnit) == true) {
+        return;
+    }
+
+    if (AITechCount(player, c_CMSwann_TR_WraithImprovedBurstLaser, c_techCountCompleteOnly) != 1) {
+        return;
+    }
+
+    targetUnit = CMSwannWraithCurrentAttackTarget(aiUnit);
+    if (targetUnit == null) {
+        targetUnit = CMSwannWraithFindTarget(player, aiUnit, scanGroup, true);
+    }
+    if (targetUnit == null) {
+        targetUnit = CMSwannWraithFindTarget(player, aiUnit, scanGroup, false);
+    }
+    if (targetUnit == null) {
+        return;
+    }
+
+    weaponIndex = CMSwannWraithWeaponIndexForTarget(aiUnit, targetUnit);
+    if (weaponIndex < 0) {
+        return;
+    }
+
+    cooldown = UnitWeaponPeriodRemaining(aiUnit, weaponIndex);
+    if (cooldown <= c_CMSwann_WraithReadyWindow) {
+        curOrder = UnitOrder(aiUnit, 0);
+        if ((curOrder != null) && (AIIsAttackOrder(curOrder) == true) && (OrderGetTargetType(curOrder) == c_orderTargetUnit) && (OrderGetTargetUnit(curOrder) == targetUnit)) {
+            return;
+        }
+
+        ord = OrderTargetingUnit(AbilityCommand(c_AB_Attack, 0), targetUnit);
+        if (UnitOrderIsValid(aiUnit, ord) == true) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+        }
+        return;
+    }
+
+    if (CMSwannWraithMoveOrderIsFresh(aiUnit) == true) {
+        return;
+    }
+
+    weaponRange = UnitWeaponRange(aiUnit, weaponIndex);
+    movePoint = CMSwannWraithMovePoint(aiUnit, targetUnit, weaponRange);
+    ord = OrderTargetingPoint(AbilityCommand(c_AB_Move, 0), movePoint);
+    if (UnitOrderIsValid(aiUnit, ord) == true) {
+        UnitIssueOrder(aiUnit, ord, c_orderQueueReplace);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMSwannThor330mmDamageRadius (int player) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, c_CMSwann_EF_330mmBarrageCannonsDamage, c_fieldAreaRadius2);
+    if (radius <= 0.0) {
+        radius = 2.0;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMSwannThor330mmDamageBase (int player) {
+    fixed damage;
+
+    damage = AIEffectFixed(player, c_CMSwann_EF_330mmBarrageCannonsPersistent, c_fieldPeriodCount) * AIEffectFixed(player, c_CMSwann_EF_330mmBarrageCannonsDamage, c_fieldAmount);
+    if (damage <= 0.0) {
+        return 200;
+    }
+
+    return FixedToInt(damage);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMSwannThor330mmHasNearbyCast (int player, unit aiUnit, point targetPoint, fixed damageRadius) {
+    fixed conflictDistance;
+    fixed allyScanRange;
+    int allyCount;
+    unit allyUnit;
+    point allyTargetPoint;
+    unitgroup allyGroup;
+    order curOrder;
+
+    conflictDistance = damageRadius + damageRadius;
+    if (conflictDistance < c_CMSwann_Thor330mmMinConflictDistance) {
+        conflictDistance = c_CMSwann_Thor330mmMinConflictDistance;
+    }
+
+    allyScanRange = AIAbilityFixed(player, c_CMSwann_AB_330mmBarrageCannons, c_fieldRange0) + c_CMSwann_Thor330mmRangePadding + conflictDistance;
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(targetPoint, allyScanRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMSwann_TU_Thor) && (UnitOrderHasAbil(allyUnit, c_CMSwann_AB_330mmBarrageCannons) == true)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if (curOrder != null) {
+                allyTargetPoint = OrderGetTargetPoint(curOrder);
+                if (allyTargetPoint != null) {
+                    if (DistanceBetweenPoints(allyTargetPoint, targetPoint) <= conflictDistance) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMSwannThorOrder330mmBarrageCannons (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed damageRadius;
+    int damageBase;
+    point targetPoint;
+    order ord;
+
+    ord = AICreateOrder(player, c_CMSwann_AB_330mmBarrageCannons, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    damageRadius = CMSwannThor330mmDamageRadius(player);
+    damageBase = CMSwannThor330mmDamageBase(player);
+    targetPoint = AIBestTargetPoint(
+        AIEffectGroup(player, c_CMSwann_EF_330mmBarrageCannonsDamage, scanGroup),
+        c_CMSwann_Thor330mmMinHits,
+        damageBase,
+        c_CMSwann_Thor330mmMinScore,
+        damageRadius,
+        UnitGetPosition(aiUnit),
+        AIAbilityFixed(player, c_CMSwann_AB_330mmBarrageCannons, c_fieldRange0) + c_CMSwann_Thor330mmRangePadding,
+        c_unitAttributeNone
+    );
+    if (targetPoint == null) {
+        return null;
+    }
+
+    if (CMSwannThor330mmHasNearbyCast(player, aiUnit, targetPoint, damageRadius) == true) {
+        return null;
+    }
+
+    OrderSetTargetPoint(ord, targetPoint);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkSwannThor (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (AIPlayerDifficulty(player) < c_campAdvanced) {
+        return;
+    }
+
+    if (UnitOrderHasAbil(aiUnit, c_CMSwann_AB_330mmBarrageCannons) == true) {
+        return;
+    }
+
+    ord = CMSwannThorOrder330mmBarrageCannons(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMSwannWreckageTryRebuild (int player, unit aiUnit, string abilLink) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, abilLink) == true) {
+        return true;
+    }
+
+    ord = AICreateOrder(player, abilLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void CMSwannWreckageAIThink (int player, unit aiUnit, string cheapAbil, string normalAbil) {
+    if (AIPlayerDifficulty(player) < c_campAdvanced) {
+        return;
+    }
+
+    if ((UnitOrderHasAbil(aiUnit, cheapAbil) == true) || (UnitOrderHasAbil(aiUnit, normalAbil) == true)) {
+        return;
+    }
+
+    if (CMSwannWreckageTryRebuild(player, aiUnit, cheapAbil) == true) {
+        return;
+    }
+
+    CMSwannWreckageTryRebuild(player, aiUnit, normalAbil);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkSwannSiegeTankWreckage (int player, unit aiUnit, unitgroup scanGroup) {
+    CMSwannWreckageAIThink(player, aiUnit, c_CMSwann_AB_SiegeTankRebornCheap, c_CMSwann_AB_SiegeTankReborn);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkSwannThorWreckage (int player, unit aiUnit, unitgroup scanGroup) {
+    CMSwannWreckageAIThink(player, aiUnit, c_CMSwann_AB_ThorRebornSwannCheap, c_CMSwann_AB_ThorRebornSwann);
+}

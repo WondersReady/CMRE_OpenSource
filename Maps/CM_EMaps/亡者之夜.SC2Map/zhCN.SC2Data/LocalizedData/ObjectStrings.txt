@@ -1,0 +1,6 @@
+﻿Actor/Name/Choker=Choker ///Auto - Copied from enUS Locale
+Actor/Name/Hunterling=Hunterling ///Auto - Copied from enUS Locale
+Actor/Name/Kaboomer=Kaboomer ///Auto - Copied from enUS Locale
+Actor/Name/Spotter=Spotter ///Auto - Copied from enUS Locale
+Actor/Name/Stank=Stank ///Auto - Copied from enUS Locale
+Light/Name/EditorTestLight=default ///Auto - Copied from enUS Locale

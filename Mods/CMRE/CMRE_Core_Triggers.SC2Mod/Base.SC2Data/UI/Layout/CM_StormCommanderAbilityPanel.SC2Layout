@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+
+    <Constant name="StormCommanderAbilityWidth" val="50"/>
+    <Constant name="StormCommanderAbilityHeight" val="51"/>
+    <Constant name="StormCommanderAbilitySpacing" val="2"/>
+
+    <Frame type="Frame" name="StormCommanderAbilitySlotTemplate">
+        <Width val="#StormCommanderAbilityWidth"/>
+        <Height val="#StormCommanderAbilityHeight"/>
+        <CollapseLayout val="true"/>
+        <Visible val="false"/>
+        <AcceptsMouse val="true"/>
+
+        <Frame type="Image" name="BorderImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets\Textures\ui_console_commandbutton_normal_forged.dds"/>
+            <TextureType val="Normal"/>
+            <RenderPriority val="510"/>
+        </Frame>
+
+        <Frame type="Image" name="Icon">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="6"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-6"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="6"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-6"/>
+            <TextureType val="Normal"/>
+            <RenderPriority val="512"/>
+        </Frame>
+
+        <Frame type="Image" name="CooldownMask">
+            <Anchor relative="$parent/Icon"/>
+            <TextureCoords top="0.0" left="0.0" bottom="0.125" right="0.0625"/>
+            <Texture val="@UI/ButtonCooldown"/>
+            <AnimColumns val="16"/>
+            <AnimCount val="128"/>
+            <Animating val="true"/>
+            <ManagedAnim val="false"/>
+            <RenderPriority val="514"/>
+            <Visible val="true"/>
+        </Frame>
+
+        <Frame type="Label" name="ChargeLabel">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-6"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-6"/>
+            <Style val="GameButtonCharge"/>
+            <RenderPriority val="516"/>
+            <Text val=""/>
+        </Frame>
+
+        <Frame type="Image" name="CooldownFinishedImage">
+            <Anchor relative="$parent"/>
+            <TextureCoords top="0.0" left="0.0" bottom="1" right="0.125"/>
+            <Texture val="@UI/ButtonCoolDownBurst"/>
+            <AnimDuration val="250"/>
+            <AnimColumns val="8"/>
+            <AnimCount val="8"/>
+            <Animating val="true"/>
+            <ManagedAnim val="true"/>
+            <LoopingAnim val="false"/>
+            <RenderPriority val="518"/>
+            <BlendMode val="Add"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <StateGroup name="AbilityState">
+            <DefaultState val="Locked"/>
+            <State name="Locked">
+                <Action type="SetProperty" frame="Icon" Desaturated="True"/>
+                <Action type="SetProperty" frame="CooldownMask" Visible="True"/>
+            </State>
+            <State name="Cooling">
+                <When type="AnimationState" AbilityState="Cooling"/>
+                <Action type="SetProperty" frame="Icon" Desaturated="True"/>
+                <Action type="SetProperty" frame="CooldownMask" Visible="True"/>
+            </State>
+            <State name="Ready">
+                <When type="AnimationState" AbilityState="Ready"/>
+                <Action type="SetProperty" frame="Icon" Desaturated="False"/>
+                <Action type="SetProperty" frame="CooldownMask" Visible="False"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="Frame" name="StormCommanderAbilityPanelTemplate">
+        <Width val="206"/>
+        <Height val="51"/>
+        <CollapseLayout val="true"/>
+        <Visible val="false"/>
+
+        <Frame type="Frame" name="Ability1" template="CM_StormCommanderAbilityPanel/StormCommanderAbilitySlotTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="Ability2" template="CM_StormCommanderAbilityPanel/StormCommanderAbilitySlotTemplate">
+            <Anchor side="Top" relative="$parent/Ability1" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/Ability1" pos="Max" offset="#StormCommanderAbilitySpacing"/>
+        </Frame>
+        <Frame type="Frame" name="Ability3" template="CM_StormCommanderAbilityPanel/StormCommanderAbilitySlotTemplate">
+            <Anchor side="Top" relative="$parent/Ability2" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/Ability2" pos="Max" offset="#StormCommanderAbilitySpacing"/>
+        </Frame>
+        <Frame type="Frame" name="Ability4" template="CM_StormCommanderAbilityPanel/StormCommanderAbilitySlotTemplate">
+            <Anchor side="Top" relative="$parent/Ability3" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/Ability3" pos="Max" offset="#StormCommanderAbilitySpacing"/>
+        </Frame>
+    </Frame>
+
+</Desc>

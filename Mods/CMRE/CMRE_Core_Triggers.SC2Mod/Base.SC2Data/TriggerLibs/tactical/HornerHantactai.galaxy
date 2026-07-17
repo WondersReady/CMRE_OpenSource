@@ -1,0 +1,948 @@
+//--------------------------------------------------------------------------------------------------
+//  Horner and Han tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMHH_TU_Starport = "HHMercStarportUpgraded";
+const string c_CMHH_TU_Reaper = "HHReaper";
+const string c_CMHH_TU_ReaperFlying = "HHReaperFlying";
+const string c_CMHH_TU_Hellion = "HHHellion";
+const string c_CMHH_TU_Hellbat = "HHHellionTank";
+const string c_CMHH_TU_WidowMine = "HHWidowMine";
+const string c_CMHH_TU_WidowMineBurrowed = "HHWidowMineBurrowed";
+const string c_CMHH_TU_BomberPlatform = "HHBomberPlatform";
+const string c_CMHH_TU_VikingFighter = "HHVikingFighter";
+const string c_CMHH_TU_VikingAssault = "HHVikingAssault";
+const string c_CMHH_TU_Battlecruiser = "HHBattlecruiser";
+const string c_CMHH_AB_SummonMercenaries = "SummonHornerMercenaries";
+const string c_CMHH_AB_D8SingleCharge = "HHD8SingleCharge";
+const string c_CMHH_AB_ReaperFly = "HHReaperFly";
+const string c_CMHH_AB_ReaperLand = "HHReaperLand";
+const string c_CMHH_AB_HellionBomb = "HHHellionBomb";
+const string c_CMHH_AB_WidowMineAttack = "HHWidowMineAttack";
+const string c_CMHH_AB_WidowMineBurrowedAttack = "HHWidowMineBurrowedAttack";
+const string c_CMHH_AB_WidowMineBurrow = "HHWidowMineBurrow";
+const string c_CMHH_AB_WidowMineUnburrow = "HHWidowMineUnburrow";
+const string c_CMHH_AB_BomberPlatformBomb = "HHBomberPlatformAreaBombOrder";
+const string c_CMHH_AB_VikingFighterMode = "HHFighterMode";
+const string c_CMHH_AB_VikingAssaultMode = "HHAssaultMode";
+const string c_CMHH_AB_VikingRockets = "HHVikingRockets";
+const string c_CMHH_AB_YamatoShots = "HHYamatoShots";
+const string c_CMHH_BE_YamatoShots = "HHYamatoShots";
+const string c_CMHH_EF_HellionBombSearch = "HHHellionBombSearch";
+const string c_CMHH_EF_HellionBombDamage = "HHHellionBombDamage";
+const string c_CMHH_EF_BomberSearch = "HHBomberAreaBombSearchArea";
+const string c_CMHH_EF_BomberDamage = "HHBomberAreaBombDamage";
+const string c_CMHH_UP_BattlecruiserYamato = "HHBattlecruiserYamatoAttacks";
+const int c_CMHH_CMD_TrainWidowMine = 1;
+const int c_CMHH_CMD_TrainReaper = 3;
+const int c_CMHH_CMD_TrainHellion = 4;
+const int c_CMHH_CMD_TrainHellbat = 5;
+const int c_CMHH_CMD_YamatoOn = 0;
+const int c_CMHH_CMD_YamatoOff = 1;
+const int c_CMHH_CV_StarportTrainCursor = 70;
+const fixed c_CMHH_DeathrattleLowVitality = 55.0;
+const fixed c_CMHH_DeathrattleCloseRange = 4.0;
+const fixed c_CMHH_DeathrattleDiveRange = 9.0;
+const fixed c_CMHH_HellionBombRadius = 1.5;
+const fixed c_CMHH_BomberRadius = 1.5;
+const fixed c_CMHH_BomberConflictRange = 3.0;
+const fixed c_CMHH_BomberMinScore = 170.0;
+const fixed c_CMHH_VikingGroundRange = 8.0;
+const fixed c_CMHH_VikingAirRange = 11.0;
+const fixed c_CMHH_BattlecruiserRange = 7.0;
+const fixed c_CMHH_BattlecruiserYamatoVitality = 450.0;
+const int c_CMHH_HellionBombMinHits = 2;
+const int c_CMHH_BattlecruiserLaserMin = 5;
+
+unitgroup gv_CMHH_BomberPlatforms;
+unitgroup gv_CMHH_BomberRecentTargets;
+int gv_CMHH_BomberRecentCasts;
+
+//--------------------------------------------------------------------------------------------------
+void CMHHBomberEnsureGroups () {
+    if (gv_CMHH_BomberPlatforms == null) {
+        gv_CMHH_BomberPlatforms = UnitGroupEmpty();
+    }
+    if (gv_CMHH_BomberRecentTargets == null) {
+        gv_CMHH_BomberRecentTargets = UnitGroupEmpty();
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMHHAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMHHEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMHHAbilityTargetFilters (int player, string abilityLink) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMHHFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup targetGroup;
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    return targetGroup;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMHHEnemyGroup (int player, unitgroup scanGroup) {
+    if (scanGroup == null) {
+        return null;
+    }
+
+    return UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMHHEnemyPlaneGroup (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterPlane(filter, plane);
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMHHEnemyCountInRange (int player, unit aiUnit, unitgroup scanGroup, fixed range) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, "", range);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    return UnitGroupCount(enemyGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMHHEnemyPlaneCount (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMHHEnemyPlaneGroup(player, aiUnit, scanGroup, plane, range);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    return UnitGroupCount(enemyGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMHHTargetVitalityScore (unit targetUnit, fixed damage) {
+    fixed vitality;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if ((damage > 0.0) && (vitality > damage)) {
+        return damage;
+    }
+
+    return vitality;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMHHStrategicTargetScore (unit targetUnit) {
+    fixed score;
+    string unitType;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    unitType = UnitGetType(targetUnit);
+    score = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeStructure) == true) {
+        score = score + 180.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeHeroic) == true) {
+        score = score + 250.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true) {
+        score = score + 150.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMHHClusterScore (unitgroup enemyGroup, point targetPoint, fixed radius, fixed damage) {
+    fixed score;
+    int count;
+    unit targetUnit;
+    unitgroup clusterGroup;
+
+    score = 0.0;
+    if ((enemyGroup == null) || (targetPoint == null)) {
+        return 0.0;
+    }
+
+    clusterGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(targetPoint, radius), 0);
+    count = UnitGroupCount(clusterGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(clusterGroup, count);
+        count = count - 1;
+        score = score + CMHHTargetVitalityScore(targetUnit, damage);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMHHInstantOrder (int player, unit aiUnit, string abilityLink, int abilityIndex) {
+    order ord;
+
+    if (CMHHAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, abilityIndex);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMHHBestUnitOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed damage, fixed defaultRange) {
+    string filters;
+    fixed range;
+    fixed targetScore;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+
+    if (CMHHAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMHHAbilityRange(player, abilityLink, defaultRange);
+    filters = CMHHAbilityTargetFilters(player, abilityLink);
+    targetGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, abilityLink, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMHHTargetVitalityScore(targetUnit, damage);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if (bestTarget == null) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(bestOrder, bestTarget);
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHPushIntoEnemyCluster (int player, unit aiUnit, unitgroup scanGroup, fixed range, fixed radius, int minHits) {
+    point targetPoint;
+    unitgroup enemyGroup;
+
+    enemyGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, "Ground;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable", range);
+    if (enemyGroup == null) {
+        return false;
+    }
+
+    targetPoint = AIBestTargetPoint(enemyGroup, minHits, 40, 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return false;
+    }
+
+    AISetTacticalAttackTargetPoint(aiUnit, targetPoint);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHDeathrattleDive (int player, unit aiUnit, unitgroup scanGroup, fixed radius, int minHits) {
+    fixed vitality;
+    int closeEnemies;
+
+    closeEnemies = CMHHEnemyCountInRange(player, aiUnit, scanGroup, c_CMHH_DeathrattleCloseRange);
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if ((vitality <= c_CMHH_DeathrattleLowVitality) || (closeEnemies >= minHits)) {
+        if (CMHHPushIntoEnemyCluster(player, aiUnit, scanGroup, c_CMHH_DeathrattleDiveRange, radius, minHits) == true) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMHHStarportNextCommand (int cursor) {
+    if (cursor == 0) {
+        return c_CMHH_CMD_TrainReaper;
+    }
+    if (cursor == 1) {
+        return c_CMHH_CMD_TrainWidowMine;
+    }
+    if (cursor == 2) {
+        return c_CMHH_CMD_TrainHellion;
+    }
+
+    return c_CMHH_CMD_TrainHellbat;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHMercStarport (int player, unit aiUnit, unitgroup scanGroup) {
+    int cursor;
+    int attempts;
+    int commandIndex;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMHH_AB_SummonMercenaries) == true) {
+        return;
+    }
+
+    cursor = FixedToInt(UnitGetCustomValue(aiUnit, c_CMHH_CV_StarportTrainCursor));
+    if ((cursor < 0) || (cursor > 3)) {
+        cursor = 0;
+    }
+
+    attempts = 0;
+    while (attempts < 4) {
+        commandIndex = CMHHStarportNextCommand(cursor);
+        ord = AICreateOrder(player, c_CMHH_AB_SummonMercenaries, commandIndex);
+        if (UnitOrderIsValid(aiUnit, ord) == true) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            cursor = cursor + 1;
+            if (cursor > 3) {
+                cursor = 0;
+            }
+            UnitSetCustomValue(aiUnit, c_CMHH_CV_StarportTrainCursor, IntToFixed(cursor));
+            return;
+        }
+
+        cursor = cursor + 1;
+        if (cursor > 3) {
+            cursor = 0;
+        }
+        attempts = attempts + 1;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHReaperCastD8 (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMHH_AB_D8SingleCharge) == true) {
+        return true;
+    }
+
+    ord = CMHHBestUnitOrder(player, aiUnit, scanGroup, c_CMHH_AB_D8SingleCharge, 70.0, 5.0);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHReaper (int player, unit aiUnit, unitgroup scanGroup) {
+    int airEnemies;
+    order ord;
+
+    airEnemies = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeAir, 9.0);
+    if (airEnemies > 0) {
+        ord = CMHHInstantOrder(player, aiUnit, c_CMHH_AB_ReaperFly, 0);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    if (CMHHReaperCastD8(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    if (CMHHDeathrattleDive(player, aiUnit, scanGroup, 2.0, 2) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHReaperFlying (int player, unit aiUnit, unitgroup scanGroup) {
+    int airEnemies;
+    int groundEnemies;
+    order ord;
+
+    airEnemies = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeAir, 9.0);
+    groundEnemies = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeGround, 7.0);
+
+    if ((airEnemies == 0) && (groundEnemies > 0)) {
+        ord = CMHHBestUnitOrder(player, aiUnit, scanGroup, c_CMHH_AB_ReaperLand, 1.0, 4.0);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    if (CMHHDeathrattleDive(player, aiUnit, scanGroup, 2.0, 2) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHHellionCastBomb (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed range;
+    fixed radius;
+    int damageBase;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMHH_AB_HellionBomb) == true) {
+        return true;
+    }
+    if (CMHHAbilityExists(aiUnit, c_CMHH_AB_HellionBomb) == false) {
+        return false;
+    }
+
+    range = CMHHAbilityRange(player, c_CMHH_AB_HellionBomb, 6.0);
+    radius = CMHHEffectRadius(player, c_CMHH_EF_HellionBombSearch, c_CMHH_HellionBombRadius);
+    damageBase = FixedToInt(AIEffectFixed(player, c_CMHH_EF_HellionBombDamage, c_fieldAmount));
+    if (damageBase <= 0) {
+        damageBase = 20;
+    }
+
+    targetGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, CMHHAbilityTargetFilters(player, c_CMHH_AB_HellionBomb), range + radius + 1.0);
+    if (targetGroup == null) {
+        return false;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, c_CMHH_HellionBombMinHits, damageBase, 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return false;
+    }
+
+    ord = AICreateOrder(player, c_CMHH_AB_HellionBomb, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHHellion (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMHHHellionCastBomb(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    if (CMHHDeathrattleDive(player, aiUnit, scanGroup, 3.5, 2) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHHellionTank (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMHHDeathrattleDive(player, aiUnit, scanGroup, 4.0, 2) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHWidowMine (int player, unit aiUnit, unitgroup scanGroup) {
+    string bullyType;
+    int nearbyEnemies;
+    order current;
+    order ord;
+
+    ord = AICreateOrder(player, c_CMHH_AB_WidowMineBurrow, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return;
+    }
+
+    if (AIControlWantsToMove(aiUnit) == true) {
+        if (UnitGroupCount(scanGroup, c_unitCountAlive) == 0) {
+            return;
+        }
+    }
+
+    nearbyEnemies = CMHHEnemyCountInRange(player, aiUnit, scanGroup, 7.0);
+    if (nearbyEnemies > 0) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    current = UnitOrder(aiUnit, 0);
+    if (current != null) {
+        if (AIIsAttackOrder(current) == false) {
+            return;
+        }
+    }
+
+    bullyType = AIGetBullyType(aiUnit);
+    if ((bullyType != null) && (bullyType == UnitGetType(aiUnit))) {
+        return;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHWidowMineBurrowed (int player, unit aiUnit, unitgroup scanGroup) {
+    int nearbyEnemies;
+    order ord;
+
+    ord = AICreateOrder(player, c_CMHH_AB_WidowMineUnburrow, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return;
+    }
+
+    nearbyEnemies = CMHHEnemyCountInRange(player, aiUnit, scanGroup, 6.5);
+    if ((AIControlForceToMove(aiUnit) == true) && (nearbyEnemies == 0)) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    if (AIControlWantsToMove(aiUnit) == true) {
+        if (nearbyEnemies == 0) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void CMHHBomberRegister (unit aiUnit) {
+    CMHHBomberEnsureGroups();
+    if (UnitGroupHasUnit(gv_CMHH_BomberPlatforms, aiUnit) == false) {
+        UnitGroupAdd(gv_CMHH_BomberPlatforms, aiUnit);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHBomberTargetRecentlyUsed (unit targetUnit) {
+    CMHHBomberEnsureGroups();
+    if (UnitGroupHasUnit(gv_CMHH_BomberRecentTargets, targetUnit) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void CMHHBomberRememberTarget (unit targetUnit) {
+    int platformCount;
+
+    CMHHBomberEnsureGroups();
+    if (UnitGroupHasUnit(gv_CMHH_BomberRecentTargets, targetUnit) == false) {
+        UnitGroupAdd(gv_CMHH_BomberRecentTargets, targetUnit);
+    }
+
+    gv_CMHH_BomberRecentCasts = gv_CMHH_BomberRecentCasts + 1;
+    platformCount = UnitGroupCount(gv_CMHH_BomberPlatforms, c_unitCountAlive);
+    if (platformCount < 1) {
+        platformCount = 1;
+    }
+    if (gv_CMHH_BomberRecentCasts >= platformCount) {
+        UnitGroupClear(gv_CMHH_BomberRecentTargets);
+        gv_CMHH_BomberRecentCasts = 0;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHBomberTargetHasConflict (int player, unit aiUnit, unit targetUnit) {
+    int allyCount;
+    unit allyUnit;
+    unit orderTarget;
+    unitgroup allyGroup;
+    order curOrder;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(targetUnit), 500.0), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMHH_TU_BomberPlatform) && (UnitOrderHasAbil(allyUnit, c_CMHH_AB_BomberPlatformBomb) == true)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if ((curOrder != null) && (OrderGetTargetType(curOrder) == c_orderTargetUnit)) {
+                orderTarget = OrderGetTargetUnit(curOrder);
+                if ((orderTarget != null) && (DistanceBetweenPoints(UnitGetPosition(orderTarget), UnitGetPosition(targetUnit)) <= c_CMHH_BomberConflictRange)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHBomberCastStrike (int player, unit aiUnit, unitgroup scanGroup, bool allowRecentTargets) {
+    fixed radius;
+    fixed damage;
+    fixed score;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMHH_AB_BomberPlatformBomb) == true) {
+        return true;
+    }
+    if (CMHHAbilityExists(aiUnit, c_CMHH_AB_BomberPlatformBomb) == false) {
+        return false;
+    }
+
+    radius = CMHHEffectRadius(player, c_CMHH_EF_BomberSearch, c_CMHH_BomberRadius);
+    damage = AIEffectFixed(player, c_CMHH_EF_BomberDamage, c_fieldAmount);
+    if (damage <= 0.0) {
+        damage = 175.0;
+    }
+
+    targetGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, CMHHAbilityTargetFilters(player, c_CMHH_AB_BomberPlatformBomb), 500.0);
+    if (targetGroup == null) {
+        return false;
+    }
+
+    bestScore = 0.0;
+    bestTarget = null;
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+
+        ord = AICreateOrder(player, c_CMHH_AB_BomberPlatformBomb, 0);
+        OrderSetTargetUnit(ord, targetUnit);
+        if (UnitOrderIsValid(aiUnit, ord) == true) {
+            if ((allowRecentTargets == true) || (CMHHBomberTargetRecentlyUsed(targetUnit) == false)) {
+                if (CMHHBomberTargetHasConflict(player, aiUnit, targetUnit) == false) {
+                    score = CMHHClusterScore(targetGroup, UnitGetPosition(targetUnit), radius, damage);
+                    score = score + (CMHHStrategicTargetScore(targetUnit) * 0.35);
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestTarget = targetUnit;
+                    }
+                }
+            }
+        }
+    }
+
+    if ((bestTarget == null) || (bestScore < c_CMHH_BomberMinScore)) {
+        return false;
+    }
+
+    ord = AICreateOrder(player, c_CMHH_AB_BomberPlatformBomb, 0);
+    OrderSetTargetUnit(ord, bestTarget);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    CMHHBomberRememberTarget(bestTarget);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHBomberPlatform (int player, unit aiUnit, unitgroup scanGroup) {
+    CMHHBomberRegister(aiUnit);
+
+    if (CMHHBomberCastStrike(player, aiUnit, scanGroup, false) == true) {
+        return;
+    }
+    if (CMHHBomberCastStrike(player, aiUnit, scanGroup, true) == true) {
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHVikingCastRockets (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMHH_AB_VikingRockets) == true) {
+        return true;
+    }
+
+    ord = CMHHBestUnitOrder(player, aiUnit, scanGroup, c_CMHH_AB_VikingRockets, 200.0, 10.0);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHVikingFighter (int player, unit aiUnit, unitgroup scanGroup) {
+    int airCount;
+    int groundCount;
+    order ord;
+
+    airCount = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeAir, c_CMHH_VikingAirRange);
+    groundCount = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeGround, c_CMHH_VikingGroundRange);
+
+    if ((groundCount >= 2) || ((groundCount > 0) && (groundCount >= airCount))) {
+        ord = CMHHInstantOrder(player, aiUnit, c_CMHH_AB_VikingAssaultMode, 0);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    if (CMHHVikingCastRockets(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHVikingAssault (int player, unit aiUnit, unitgroup scanGroup) {
+    int airCount;
+    int groundCount;
+    order ord;
+
+    airCount = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeAir, c_CMHH_VikingAirRange);
+    groundCount = CMHHEnemyPlaneCount(player, aiUnit, scanGroup, c_planeGround, c_CMHH_VikingGroundRange);
+
+    if ((groundCount == 0) && (airCount > 0)) {
+        ord = CMHHInstantOrder(player, aiUnit, c_CMHH_AB_VikingFighterMode, 0);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+    if ((airCount >= (groundCount + 3)) && (airCount > 0)) {
+        ord = CMHHInstantOrder(player, aiUnit, c_CMHH_AB_VikingFighterMode, 0);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMHHBattlecruiserBestHighTarget (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed score;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+
+    bestScore = 0.0;
+    bestTarget = null;
+    targetGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, "Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable", c_CMHH_BattlecruiserRange);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+
+        score = CMHHStrategicTargetScore(targetUnit);
+        if (score > bestScore) {
+            bestScore = score;
+            bestTarget = targetUnit;
+        }
+    }
+
+    if (bestScore < c_CMHH_BattlecruiserYamatoVitality) {
+        return null;
+    }
+
+    return bestTarget;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMHHBattlecruiserLowMassCount (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    int count;
+    int lowCount;
+    unit targetUnit;
+    unitgroup targetGroup;
+
+    lowCount = 0;
+    targetGroup = CMHHFilteredEnemyGroup(player, aiUnit, scanGroup, "Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable", c_CMHH_BattlecruiserRange);
+    if (targetGroup == null) {
+        return 0;
+    }
+
+    count = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, count);
+        count = count - 1;
+        vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+        if (vitality <= 180.0) {
+            lowCount = lowCount + 1;
+        }
+    }
+
+    return lowCount;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMHHBattlecruiserSwitchWeapon (int player, unit aiUnit, bool wantYamato) {
+    int commandIndex;
+    order ord;
+
+    if (CMHHAbilityExists(aiUnit, c_CMHH_AB_YamatoShots) == false) {
+        return false;
+    }
+
+    commandIndex = c_CMHH_CMD_YamatoOff;
+    if (wantYamato == true) {
+        commandIndex = c_CMHH_CMD_YamatoOn;
+    }
+
+    ord = CMHHInstantOrder(player, aiUnit, c_CMHH_AB_YamatoShots, commandIndex);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkHHBattlecruiser (int player, unit aiUnit, unitgroup scanGroup) {
+    bool hasYamato;
+    bool wantYamato;
+    int lowMassCount;
+    unit highTarget;
+
+    if (AITechCount(player, c_CMHH_UP_BattlecruiserYamato, c_techCountCompleteOnly) <= 0) {
+        AIEvalTacticalData(aiUnit, null);
+        return;
+    }
+
+    hasYamato = UnitHasBehavior2(aiUnit, c_CMHH_BE_YamatoShots);
+    highTarget = CMHHBattlecruiserBestHighTarget(player, aiUnit, scanGroup);
+    lowMassCount = CMHHBattlecruiserLowMassCount(player, aiUnit, scanGroup);
+    wantYamato = false;
+    if (highTarget != null) {
+        wantYamato = true;
+    }
+    if (lowMassCount >= c_CMHH_BattlecruiserLaserMin) {
+        wantYamato = false;
+    }
+
+    if ((wantYamato == true) && (hasYamato == false)) {
+        if (CMHHBattlecruiserSwitchWeapon(player, aiUnit, true) == true) {
+            return;
+        }
+    }
+    if ((wantYamato == false) && (hasYamato == true)) {
+        if (CMHHBattlecruiserSwitchWeapon(player, aiUnit, false) == true) {
+            return;
+        }
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}

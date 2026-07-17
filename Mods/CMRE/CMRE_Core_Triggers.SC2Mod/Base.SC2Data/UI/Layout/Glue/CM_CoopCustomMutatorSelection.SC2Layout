@@ -1,0 +1,1094 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+
+    <Frame type="Frame" name="CM_CustomMutatorSettingsPopupTemplate">
+        <Anchor relative="$parent"/>
+        <Handle val="CM_CustomMutatorSettingsPopup"/>
+        <Visible val="False"/>
+        <Alpha val="0"/>
+        <RenderPriority val="950"/>
+
+        <Animation name="Show">
+            <Event event="Show" action="Reset,Play"/>
+
+            <Controller type="Visibility" end="Pause">
+                <Key type="Bool" time="0" value="True"/>
+            </Controller>
+
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0" out="Fast"/>
+                <Key type="Curve" time=".12" value="255" in="Slow"/>
+            </Controller>
+        </Animation>
+
+        <Animation name="Hide">
+            <Event event="Hide" action="Reset,Play"/>
+            <Event event="OnClick" action="Reset,Play" frame="CloseButton"/>
+
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0"/>
+            </Controller>
+
+            <Controller type="Visibility" end="Pause">
+                <Key type="Bool" time="0" value="False"/>
+            </Controller>
+        </Animation>
+
+        <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+            <Frame type="Label" name="Label">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="FullscreenBlackoutImage">
+            <Anchor relative="$parent"/>
+            <Color val="0,0,0"/>
+            <Alpha val="180"/>
+            <AcceptsMouse val="True"/>
+            <TooltipFrame val="CoopCampaignTooltip"/>
+        </Frame>
+
+        <Frame type="Image" name="LeftBGGlowPattern">
+            <Anchor side="Top" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/PopupBackground" pos="Min" offset="40"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+        </Frame>
+
+        <Frame type="Image" name="RightBGGlowPattern">
+            <Anchor side="Top" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/PopupBackground" pos="Max" offset="-40"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+            <TextureCoords top="0.0" left="1.0" bottom="1.0" right="0.0"/>
+        </Frame>
+
+        <Frame type="Image" name="PopupBackground">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="760"/>
+            <Height val="520"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+            <TextureType val="NineSlice"/>
+            <Tiled val="False"/>
+        </Frame>
+
+        <Frame type="Image" name="TopHexPattern">
+            <Anchor side="Top" relative="$parent/PopupBackground" pos="Min" offset="11"/>
+            <Anchor side="Left" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+        </Frame>
+
+        <Frame type="Image" name="BottomHexPattern">
+            <Anchor side="Bottom" relative="$parent/PopupBackground" pos="Max" offset="-11"/>
+            <Anchor side="Left" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/PopupBackground" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+            <TextureCoords top="1.0" left="1.0" bottom="0.0" right="0.0"/>
+        </Frame>
+
+        <Frame type="Label" name="TitleLabel">
+            <Anchor side="Top" relative="$parent/PopupBackground" pos="Min" offset="31"/>
+            <Anchor side="Left" relative="$parent/PopupBackground" pos="Min" offset="40"/>
+            <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-40"/>
+            <Style val="@Coop_CustomMutator_MutatorSectionTitle"/>
+            <Text val="@CMUI/Options"/>
+        </Frame>
+
+        <Frame type="Image" name="ContentBackground">
+            <Anchor side="Top" relative="$parent/PopupBackground" pos="Min" offset="72"/>
+            <Anchor side="Left" relative="$parent/PopupBackground" pos="Min" offset="40"/>
+            <Anchor side="Right" relative="$parent/PopupBackground" pos="Max" offset="-40"/>
+            <Anchor side="Bottom" relative="$parent/CloseButton" pos="Min" offset="-18"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_MainInnerContainer"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Frame" name="ContentPanel">
+            <Anchor side="Top" relative="$parent/ContentBackground" pos="Min" offset="16"/>
+            <Anchor side="Left" relative="$parent/ContentBackground" pos="Min" offset="16"/>
+            <Anchor side="Right" relative="$parent/ContentBackground" pos="Max" offset="-16"/>
+            <Anchor side="Bottom" relative="$parent/ContentBackground" pos="Max" offset="-16"/>
+            <Handle val="CM_CustomMutatorSettingsContentPanel"/>
+        </Frame>
+
+        <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Anchor side="Bottom" relative="$parent/PopupBackground" pos="Max" offset="-40"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Text val="@CMUI/Close"/>
+            <Shortcut val="@UI/ScreenNavigationBack_Hotkey"/>
+            <HoverSound val="@UI_HoverTick"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="CustomMutatorFullscreenTemplate">
+
+            <Frame type="Frame" name="ExtendedExperienceBG" template="StandardExtendedExperienceTemplates/StandardSizeExtendedExperienceTemplate">
+
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Width val="1559"/>
+                    <Height val="1072"/>
+                </Frame>
+
+                <Frame type="Frame" name="BackgroundContainer">
+                    <Frame type="Image" name="Corner_TopRight">
+                        <Texture val="@UI/Glues_ExtendedXP_Scaleable_Background_Corner_Standard"/>
+                        <TextureCoords top="0" left="1" bottom="1" right="0"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="CustomMutatorMenuContainer">
+                <Handle val="CM_CustomMutatorMenuContainer"/>
+                <Anchor side="Top" relative="$parent/ExtendedExperienceBG/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$this/AcceptButton" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/ExtendedExperienceBG/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ExtendedExperienceBG/AnchorFrame" pos="Max" offset="0"/>
+
+                <Frame type="Label" name="Title">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="44"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Style val="@Coop_CustomMutator_Title"/>
+                    <Text val="@CMUI/CustomMutators/MutatorSelection"/>
+                </Frame>
+
+                <Frame type="Label" name="Description">
+                    <Anchor side="Top" relative="$parent/Title" pos="Max" offset="1"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Style val="@Coop_CustomMutator_Subtitle"/>
+                    <Text val="@CMUI/CustomMutators/MutatorSelectionDescription"/>
+                </Frame>
+
+                <Frame type="Frame" name="SelectionContainer" template="CM_CoopCustomMutatorTemplates/SelectionContainerTemplate">
+                    <Handle val="CM_CustomMutatorSelectionContainer"/>
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="128"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="65"/>
+                </Frame>
+
+                <Frame type="Frame" name="SelectedContainer" template="CM_CoopCustomMutatorTemplates/SelectedContainerTemplate">
+                    <Handle val="CM_CustomMutatorSelectedContainer"/>
+                    <Anchor side="Top" relative="$parent/SelectionContainer" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-65"/>
+                </Frame>
+
+                <Frame type="Frame" name="HeaderPanel">
+                    <Anchor side="Top" relative="$parent/AcceptButton" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/SelectionContainer" pos="Min" offset="4"/>
+                    <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
+
+                    <Height val="36"/>
+                    <Frame type="EditBox" name="SearchEditBoxTemplate" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
+                        <Tooltip val="@CMUI/MutatorSearch/SearchTooltip"/>
+                        <TooltipFrame val="BattleNetTooltip"/>
+                        <MaxCharacters val="80"/>
+
+                        <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+
+                        <Animation name="RequestSearch">
+                            <Event event="OnEnterPressed" frame="$this" action="Reset,Play"/>
+                        </Animation>
+
+                        <Frame type="Label" name="SearchTextLabel">
+                            <Text val="@CMUI/MutatorSearch/SearchText"/>
+                        </Frame>
+
+                        <Frame type="Button" name="ClearTextButton">
+                            <Animation name="ClearLobbyList">
+                                <Event event="OnClick" frame="$this" action="Reset,Play"/>
+                            </Animation>
+                        </Frame>
+
+                        <Frame type="Frame" name="AnchorFrame">
+                            <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="0"/>
+                            <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="0"/>
+                        </Frame>
+
+                        <!-- Doing the edit box animation this way because apparently you lose focus on the edit box otherwise -->
+                        <Animation name="ListEmptyFilterPrep">
+                            <Event event="EmptyFilter" action="DirectionForward,Play" frame="$parent"/>
+                            <Event event="NotEmpty" action="DirectionForward,Play" frame="$parent"/>
+                            <Event event="Empty" action="DirectionReverse,Play" frame="$parent"/>
+                            <Event event="Loading" action="DirectionReverse,Play" frame="$parent"/>
+
+                            <Controller type="Visibility" end="Pause">
+                                <Key type="Bool" time="0.00" value="False"/>
+                                <Key type="Bool" time="0.01" value="True"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                    <Anchor side="Top" relative="$parent/CancelButton" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/CancelButton" pos="Min" offset="-6"/>
+                    <Style val="@StandardButtonAlternate"/>
+                    <Text val="@CMUI/StandardDialog_Ok_Control"/>
+                </Frame>
+
+                <Frame type="Button" name="CancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                    <Anchor side="Top" relative="$parent/SelectionContainer" pos="Max" offset="7"/>
+                    <Anchor side="Right" relative="$parent/SelectedContainer" pos="Max" offset="-4"/>
+                    <Text val="@CMUI/StandardDialog_Cancel_Control"/>
+                    <Shortcut val="@UI/ScreenNavigationBack_Hotkey"/>
+                </Frame>
+
+            </Frame>
+
+            <Frame type="Frame" name="CustomMutatorChatContainer">
+                <Anchor side="Top" relative="$parent/CustomMutatorMenuContainer" pos="Max" offset="9"/>
+                <Anchor side="Left" relative="$parent/CustomMutatorMenuContainer" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/CustomMutatorMenuContainer/SelectedContainer" pos="Max" offset="0"/>
+                <Height val="300"/>
+
+                <Frame type="Image" name="ChatBackground">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-91"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="65"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <TextureType val="NineSlice"/>
+                    <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+                </Frame>
+
+                <Frame type="Image" name="ChatEntryBackground">
+                    <Anchor side="Top" relative="$parent/ChatBackground" pos="Max" offset="5"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-40"/>
+                    <Anchor side="Left" relative="$parent/ChatBackground" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/ChatBackground" pos="Max" offset="0"/>
+                    <TextureType val="NineSlice"/>
+                    <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+                </Frame>
+
+                <Frame type="Label" name="ChatLabel">
+                    <Anchor side="Top" relative="$parent/ChatEntryBackground" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/ChatEntryBackground" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/ChatEntryBackground" pos="Min" offset="10"/>
+                    <Anchor side="Right" relative="$parent/ChatEntryBackground" pos="Max" offset="0"/>
+                    <Style val="@Coop_CustomMutator_ChatDisplay"/>
+                    <Text val="@CMUI/CustomMutators/InactiveChat"/>
+
+                    <StateGroup name="ChatLabelVisibleState">
+
+                        <State name="Active">
+                            <When type="Property" frame="$GameUI_ChatBar" visible="False"/>
+                            <Action type="SetProperty" frame="$this" visible="True"/>
+                        </State>
+
+                        <State name="Inactive">
+                            <When type="Property" frame="$GameUI_ChatBar" visible="True"/>
+                            <Action type="SetProperty" frame="$this" visible="False"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+
+                <Frame type="GameMessageDisplay" name="ChatDisplay">
+                    <MessageArea val="Chat"/>
+                    <Anchor side="Top" relative="$parent/ChatBackground" pos="Min" offset="13"/>
+                    <Anchor side="Bottom" relative="$parent/ChatBackground" pos="Max" offset="-10"/>
+                    <Anchor side="Left" relative="$parent/ChatBackground" pos="Min" offset="10"/>
+                    <Anchor side="Right" relative="$parent/ChatBackground" pos="Max" offset="-10"/>
+                    <Style val="@Coop_CustomMutator_ChatDisplay"/>
+                    <MaxMessages val="16"/>
+                    <BatchText val="true"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Image" name="MouseBlocker">
+                <Anchor relative="$parent"/>
+                <AcceptsMouse val="True"/>
+                <Color val="0,0,0"/>
+                <Alpha val="0"/>
+                <Visible val="False"/>
+
+                <Animation name="Show">
+                    <Event event="CountdownStart" action="Reset,Play" frame="$parent"/>
+
+                    <Controller type="Visibility" end="Pause">
+                        <Key type="Bool" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Fast"/>
+                        <Key type="Curve" time=".5" value="170" in="Slow"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Frame" name="CM_CustomMutatorSettingsPopup" template="CM_CoopCustomMutatorSelection/CM_CustomMutatorSettingsPopupTemplate"/>
+
+        </Frame>
+
+
+    <Frame type="Frame" name="MutatorPanelTemplate">
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+        <Frame type="Button" name="CustomMutatorButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Width val="260"/>
+            <Text val="@CMUI/CustomMutators/MutatorButton"/>
+        </Frame>
+
+        </Frame>
+
+    <Frame type="Button" name="PageSelectorInGameButtonTemplate" template="EmoticonSelectionPanel/PageSelectorButtonTemplate">
+        <StateGroup name="MutatorSelectionState">
+            <State name="Inactive">
+                <When type="StateGroup" frame="$parent/$parent/$parent" MutatorSelectionState="Inactive"/>
+            </State>
+
+            <State name="Active">
+                <When type="StateGroup" frame="$parent/$parent/$parent" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this" width="31"/>
+                <Action type="SetProperty" frame="$this" height="20"/>
+                <Action type="SetProperty" frame="$this/NormalImage" texture="@UI/Glues_Battlenet_PageAssets_PageButtonUp"/>
+                <Action type="SetProperty" frame="$this/HoverImage" texture="@UI/Glues_Battlenet_PageAssets_PageButtonSelected"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" texture="@UI/Glues_Battlenet_PageAssets_PageButtonSelected"/>
+                <Action type="SetProperty" frame="$this/NormalImage" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="$this/HoverImage" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" ColorAdjustMode="None"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="StateGroup" frame="$parent/$parent/$parent" MutatorSelectionState="Launcher"/>
+                <Action type="SetProperty" frame="$this" width="31"/>
+                <Action type="SetProperty" frame="$this" height="20"/>
+                <Action type="SetProperty" frame="$this/NormalImage" texture="@UI/Glues_Battlenet_PageAssets_PageButtonUp"/>
+                <Action type="SetProperty" frame="$this/HoverImage" texture="@UI/Glues_Battlenet_PageAssets_PageButtonSelected"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" texture="@UI/Glues_Battlenet_PageAssets_PageButtonSelected"/>
+                <Action type="SetProperty" frame="$this/NormalImage" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="$this/HoverImage" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" ColorAdjustMode="None"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="PageSelectorButtonList" name="PageSelectorInGameTemplate">
+        <StateGroup name="MutatorSelectionState">
+            <State name="Inactive">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Inactive"/>
+                <Action type="SetProperty" frame="$this/DecrementButton/Icon" visible="true"/>
+                <Action type="SetProperty" frame="$this/DecrementButton/GlueIcon" visible="false"/>
+                <Action type="SetProperty" frame="$this/IncrementButton/Icon" visible="true"/>
+                <Action type="SetProperty" frame="$this/IncrementButton/GlueIcon" visible="false"/>
+                <Action type="SetAnchor" frame="$this/PageButton0" side="Right" relative="$parent/PageButton1" pos="Min" offset="0"/>
+                <Action type="SetAnchor" frame="$this/PageButton1" side="Right" relative="$parent/PageButton2" pos="Min" offset="0"/>
+                <Action type="SetAnchor" frame="$this/PageButton2" side="Top" relative="$parent" pos="Min" offset="7"/>
+                <Action type="SetAnchor" frame="$this/PageButton2" side="Left" relative="$parent" pos="Min" offset="165"/>
+                <Action type="SetAnchor" frame="$this/PageButton3" side="Left" relative="$parent/PageButton2" pos="Max" offset="0"/>
+                <Action type="SetAnchor" frame="$this/PageButton4" side="Left" relative="$parent/PageButton3" pos="Max" offset="0"/>
+            </State>
+
+            <State name="Active">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this/DecrementButton/Icon" visible="false"/>
+                <Action type="SetProperty" frame="$this/DecrementButton/GlueIcon" visible="true"/>
+                <Action type="SetProperty" frame="$this/IncrementButton/Icon" visible="false"/>
+                <Action type="SetProperty" frame="$this/IncrementButton/GlueIcon" visible="true"/>
+                <Action type="SetAnchor" frame="$this/PageButton0" side="Right" relative="$parent/PageButton1" pos="Min" offset="12"/>
+                <Action type="SetAnchor" frame="$this/PageButton1" side="Right" relative="$parent/PageButton2" pos="Min" offset="12"/>
+                <Action type="SetAnchor" frame="$this/PageButton2" side="Top" relative="$parent" pos="Min" offset="8"/>
+                <Action type="SetAnchor" frame="$this/PageButton2" side="Left" relative="$parent" pos="Min" offset="158"/>
+                <Action type="SetAnchor" frame="$this/PageButton3" side="Left" relative="$parent/PageButton2" pos="Max" offset="-12"/>
+                <Action type="SetAnchor" frame="$this/PageButton4" side="Left" relative="$parent/PageButton3" pos="Max" offset="-12"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Launcher"/>
+                <Action type="SetProperty" frame="$this/DecrementButton/Icon" visible="false"/>
+                <Action type="SetProperty" frame="$this/DecrementButton/GlueIcon" visible="true"/>
+                <Action type="SetProperty" frame="$this/IncrementButton/Icon" visible="false"/>
+                <Action type="SetProperty" frame="$this/IncrementButton/GlueIcon" visible="true"/>
+                <Action type="SetAnchor" frame="$this/PageButton0" side="Right" relative="$parent/PageButton1" pos="Min" offset="12"/>
+                <Action type="SetAnchor" frame="$this/PageButton1" side="Right" relative="$parent/PageButton2" pos="Min" offset="12"/>
+                <Action type="SetAnchor" frame="$this/PageButton2" side="Top" relative="$parent" pos="Min" offset="8"/>
+                <Action type="SetAnchor" frame="$this/PageButton2" side="Left" relative="$parent" pos="Min" offset="158"/>
+                <Action type="SetAnchor" frame="$this/PageButton3" side="Left" relative="$parent/PageButton2" pos="Max" offset="-12"/>
+                <Action type="SetAnchor" frame="$this/PageButton4" side="Left" relative="$parent/PageButton3" pos="Max" offset="-12"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="StandardTooltip" name="MutableEmoticonTooltip" template="StandardTooltip/StandardTooltip">
+        <StateGroup name="MutatorSelectionState">
+            <State name="Inactive">
+                <When type="StateGroup" frame="$parent/GameUI/UIContainer/FullscreenUpperContainer/EmoticonPanel" MutatorSelectionState="Inactive"/>
+            </State>
+
+            <State name="Active">
+                <When type="StateGroup" frame="$parent/GameUI/UIContainer/FullscreenUpperContainer/EmoticonPanel" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this/BackgroundImage" texture="@UI/StandardGameTooltip"/>
+                <Action type="SetProperty" frame="$this/Label" style="StoryModeTooltip"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="StateGroup" frame="$parent/GameUI/UIContainer/FullscreenUpperContainer/EmoticonPanel" MutatorSelectionState="Launcher"/>
+                <Action type="SetProperty" frame="$this/BackgroundImage" texture="@UI/StandardGameTooltip"/>
+                <Action type="SetProperty" frame="$this/Label" style="StoryModeTooltip"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="EmoticonTileListItem" name="EmoticonInGameTileListItemTemplate">
+        <StateGroup name="MutatorSelectionState">
+            <State name="Inactive">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Inactive"/>
+                <Action type="SetProperty" frame="$this/Background" visible="true"/>
+                <Action type="SetProperty" frame="$this/GlueBackground" visible="false"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" ColorAdjustMode="Colorize"/>
+            </State>
+
+            <State name="Active">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this/Background" visible="false"/>
+                <Action type="SetProperty" frame="$this/GlueBackground" visible="true"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" ColorAdjustMode="None"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Launcher"/>
+                <Action type="SetProperty" frame="$this/Background" visible="false"/>
+                <Action type="SetProperty" frame="$this/GlueBackground" visible="true"/>
+                <Action type="SetProperty" frame="$this/SelectedImage" ColorAdjustMode="None"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="Image" name="MutablePagePipDummyDisabled">
+        <StateGroup name="MutatorSelectionState">
+            <State name="Inactive">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Inactive"/>
+            </State>
+
+            <State name="Active">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="$this" texture="@UI/Glues_Battlenet_PageAssets_PageButtonUp"/>
+                <Action type="SetProperty" frame="$this" TextureType="Normal"/>
+                <Action type="SetProperty" frame="$this" Width="31"/>
+                <Action type="SetProperty" frame="$this" Height="20"/>
+                <Action type="SetProperty" frame="$this" Alpha="80"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="StateGroup" frame="$parent/$parent" MutatorSelectionState="Launcher"/>
+                <Action type="SetProperty" frame="$this" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="$this" texture="@UI/Glues_Battlenet_PageAssets_PageButtonUp"/>
+                <Action type="SetProperty" frame="$this" TextureType="Normal"/>
+                <Action type="SetProperty" frame="$this" Width="31"/>
+                <Action type="SetProperty" frame="$this" Height="20"/>
+                <Action type="SetProperty" frame="$this" Alpha="80"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="Frame" name="GameUI/UIContainer/FullscreenUpperContainer" file="GameUI">
+
+        <Frame type="MenuBar" name="MenuBar">
+
+            <Frame type="Image" name="MouseBlocker">
+                <Anchor relative="$parent"/>
+                <Alpha val="0"/>
+                <AcceptsMouse val="True"/>
+                <Visible val="False"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="AspectRatioFrame" name="MutatorAspectRatio5x4">
+            <Anchor relative="$parent"/>
+            <MinVisibleAspectRatio val="1"/>
+            <MaxVisibleAspectRatio val="1.25"/>
+        </Frame>
+
+        <Frame type="Frame" name="LauncherChatPanel">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Width val="800"/>
+            <Height val="550"/>
+            <RenderPriority val="700"/>
+            <Visible val="False"/>
+            <Alpha val="0"/>
+            <AcceptsMouse val="False"/>
+
+            <StateGroup name="LauncherChatPanelVisibleState">
+                <State name="Visible">
+                    <When type="AnimationState" frame="$parent" MutatorSelectionState="Launcher"/>
+                    <Action type="SetProperty" frame="$this" visible="True"/>
+                    <Action type="SetProperty" frame="$this" alpha="255"/>
+                </State>
+
+                <State name="HiddenByInactive">
+                    <When type="AnimationState" frame="$parent" MutatorSelectionState="Inactive"/>
+                    <Action type="SetProperty" frame="$this" visible="False"/>
+                    <Action type="SetProperty" frame="$this" alpha="0"/>
+                </State>
+
+                <State name="HiddenByActive">
+                    <When type="AnimationState" frame="$parent" MutatorSelectionState="Active"/>
+                    <Action type="SetProperty" frame="$this" visible="False"/>
+                    <Action type="SetProperty" frame="$this" alpha="0"/>
+                </State>
+            </StateGroup>
+
+            <Frame type="Image" name="DisplayOuterBackground">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-56"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_MainContainer"/>
+                <TextureType val="Nineslice"/>
+                <Tiled val="False"/>
+                <StateGroup name="LauncherBackgroundVisibleState">
+                    <State name="Visible">
+                        <When type="Property" frame="$GameUI_ChatBar" visible="True"/>
+                        <Action type="SetProperty" frame="$this" visible="True"/>
+                        <Action type="SetProperty" frame="$this" alpha="255"/>
+                    </State>
+
+                    <State name="Hidden">
+                        <When type="Property" frame="$GameUI_ChatBar" visible="False"/>
+                        <Action type="SetProperty" frame="$this" visible="False"/>
+                        <Action type="SetProperty" frame="$this" alpha="0"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="Image" name="DisplayInnerBackground">
+                <Anchor side="Top" relative="$parent/DisplayOuterBackground" pos="Min" offset="12"/>
+                <Anchor side="Left" relative="$parent/DisplayOuterBackground" pos="Min" offset="12"/>
+                <Anchor side="Bottom" relative="$parent/DisplayOuterBackground" pos="Max" offset="-12"/>
+                <Anchor side="Right" relative="$parent/DisplayOuterBackground" pos="Max" offset="-12"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_MainInnerContainer"/>
+                <TextureType val="Nineslice"/>
+                <Tiled val="False"/>
+                <StateGroup name="LauncherBackgroundVisibleState">
+                    <State name="Visible">
+                        <When type="Property" frame="$GameUI_ChatBar" visible="True"/>
+                        <Action type="SetProperty" frame="$this" visible="True"/>
+                        <Action type="SetProperty" frame="$this" alpha="255"/>
+                    </State>
+
+                    <State name="Hidden">
+                        <When type="Property" frame="$GameUI_ChatBar" visible="False"/>
+                        <Action type="SetProperty" frame="$this" visible="False"/>
+                        <Action type="SetProperty" frame="$this" alpha="0"/>
+                    </State>
+                </StateGroup>
+
+                <Frame type="Image" name="ScrollbarDivider">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="11"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-24"/>
+                    <Texture val="@UI/ChatPanelScrollBarLine"/>
+                    <TextureType val="Nineslice"/>
+                    <Width val="5"/>
+                    <Visible val="False"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="GameMessageDisplay" name="LauncherChatDisplay">
+                <MessageArea val="Chat"/>
+                <RenderPriority val="710"/>
+                <Anchor side="Top" relative="$parent/DisplayInnerBackground" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/DisplayInnerBackground" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/DisplayInnerBackground" pos="Min" offset="6"/>
+                <Anchor side="Right" relative="$parent/DisplayInnerBackground" pos="Max" offset="0"/>
+                <Style val="CM_LauncherChatDisplay"/>
+                <MaxMessages val="24"/>
+                <MessageDuration val="0"/>
+                <FadeDuration val="0"/>
+                <AcceptsMouse val="false"/>
+                <LabelsWithHyperlinksAcceptMouseTarget val="false"/>
+                <BatchText val="true"/>
+
+                <StateGroup name="LauncherChatDisplayFadeState">
+                    <State name="Visible">
+                        <When type="Property" frame="$GameUI_ChatBar" visible="True"/>
+                        <Action type="SetProperty" frame="$this" MessageDuration="0"/>
+                        <Action type="SetProperty" frame="$this" FadeDuration="0"/>
+                    </State>
+
+                    <State name="Hidden">
+                        <When type="Property" frame="$GameUI_ChatBar" visible="False"/>
+                        <Action type="SetProperty" frame="$this" MessageDuration="10000"/>
+                        <Action type="SetProperty" frame="$this" FadeDuration="5000"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+        </Frame>
+
+        <Frame type="GameMessageDisplay" name="ChatDisplay">
+            <StateGroup name="CM_OriginalChatDisplayVisibleState">
+                <State name="Launcher">
+                    <When type="AnimationState" frame="$parent" MutatorSelectionState="Launcher"/>
+                    <Action type="SetProperty" frame="$this" visible="False"/>
+                </State>
+
+                <State name="Inactive">
+                    <When type="AnimationState" frame="$parent" MutatorSelectionState="Inactive"/>
+                    <Action type="SetProperty" frame="$this" visible="True"/>
+                </State>
+
+                <State name="Active">
+                    <When type="AnimationState" frame="$parent" MutatorSelectionState="Active"/>
+                    <Action type="SetProperty" frame="$this" visible="False"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="ChatBar" name="ChatBar">
+            <RenderPriority val="910"/>
+
+            <Frame type="Button" name="ChatDebugButton" template="StandardBattlenetTemplates/OptionsButton">
+                <Handle val="CM_ChatDebugButton"/>
+                <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Min" offset="53"/>
+                <Anchor side="Left" relative="$parent/EmojiBorderLine" pos="Max" offset="8"/>
+                <Width val="32"/>
+                <Height val="32"/>
+                <Tooltip val="@CMUI/ChatDebugMenu/Tooltip"/>
+
+                <Frame type="Image" name="DropShadowImage">
+                    <Anchor side="Top" relative="$parent/NormalImage" pos="Min" offset="2"/>
+                    <Anchor side="Left" relative="$parent/NormalImage" pos="Min" offset="1"/>
+                    <Texture val="@@UI/CM_ChatDebugGear"/>
+                    <Height val="26"/>
+                    <Width val="26"/>
+                    <ColorAdjustMode val="Fill"/>
+                    <AdjustmentColor val="255,0,0,0"/>
+                    <Alpha val="96"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Image" name="NormalImage">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-1"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="-1"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="1"/>
+                    <Height val="26"/>
+                    <Width val="26"/>
+                    <Color val="###ColorChatIconColor"/>
+                    <LayerCount val="1"/>
+                    <Texture val="@@UI/CM_ChatDebugGear" layer="0"/>
+                </Frame>
+
+                <Frame type="Image" name="HoverImage">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-1"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="-1"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="1"/>
+                    <Height val="26"/>
+                    <Width val="26"/>
+                    <Color val="###ColorChatIconColor"/>
+                    <LayerCount val="1"/>
+                    <Texture val="@@UI/CM_ChatDebugGear" layer="0"/>
+                    <ColorAdjustMode val="AddSelf"/>
+                    <AdjustmentColor val="96,96,96,96"/>
+                </Frame>
+
+                <Frame type="Image" name="HoverAdd">
+                    <Anchor relative="$parent/HoverImage"/>
+                    <Texture val="@@UI/CM_ChatDebugGear"/>
+                    <Alpha val="0"/>
+                    <Visible val="False"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Image" name="ChatDebugDivider">
+                <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                <Anchor side="Left" relative="$parent/ChatDebugButton" pos="Max" offset="8"/>
+                <Width val="2"/>
+                <Height val="32"/>
+                <Texture val="@UI/ChatEmojiBorder"/>
+                <ColorAdjustMode val="Colorize"/>
+                <AdjustmentColor val="###ColorChatDividerColor"/>
+
+                <StateGroup name="FadeStates">
+                    <DefaultState val="Unfocused"/>
+
+                    <State name="Unfocused">
+                        <When type="Property" frame="$parent/ChatEditBox" Focused="false"/>
+                        <Action type="SetProperty" frame="$this" Alpha="64"/>
+                    </State>
+
+                    <State name="Focused">
+                        <When type="Property" frame="$parent/ChatEditBox" Focused="true"/>
+                        <Action type="SetProperty" frame="$this" Alpha="255"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="Image" name="RecipientImage">
+                <Anchor side="Left" relative="$parent/ChatDebugDivider" pos="Max" offset="8"/>
+            </Frame>
+
+            <Frame type="Label" name="RecipientLabel">
+                <Anchor side="Left" relative="$parent/RecipientImage" pos="Max" offset="5"/>
+            </Frame>
+
+            <Frame type="EditBox" name="ChatEditBox">
+                <Frame type="Image" name="Image">
+                    <Visible val="False"/>
+                </Frame>
+            </Frame>
+
+            <Animation name="CustomMutatorAnchoring">
+                <Event event="CustomMutatorActive" action="Reset,Play" frame="$parent"/>
+                <Event event="CustomMutatorInactive" action="Reset,Stop" frame="$parent"/>
+
+                <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                    <Key type="Curve" time="0" value="-408" out="Fast"/>
+                </Controller>
+
+                <Controller type="Anchor" end="Pause" side="Right" relative="true">
+                    <Key type="Curve" time="0" value="-80" out="Fast"/>
+                </Controller>
+
+                <Controller type="Anchor" end="Pause" side="Bottom" relative="true">
+                    <Key type="Curve" time="0" value="210" out="Fast"/>
+                </Controller>
+            </Animation>
+
+            <Animation name="CustomMutatorAnchoring5x4">
+                <Event event="CustomMutatorActive5x4" action="Reset,Play" frame="$parent"/>
+                <Event event="CustomMutatorInactive" action="Reset,Stop" frame="$parent"/>
+
+                <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                    <Key type="Curve" time="0" value="-408" out="Fast"/>
+                </Controller>
+
+                <Controller type="Anchor" end="Pause" side="Right" relative="true">
+                    <Key type="Curve" time="0" value="-80" out="Fast"/>
+                </Controller>
+
+                <Controller type="Anchor" end="Pause" side="Bottom" relative="true">
+                    <Key type="Curve" time="0" value="170" out="Fast"/>
+                </Controller>
+            </Animation>
+
+            <StateGroup name="MutatorSelectionState">
+                <DefaultState val="Inactive"/>
+
+                <State name="Inactive">
+                    <Action type="SetAnchor" frame="$this" side="Bottom" relative="$parent" pos="Max" offset="-280"/>
+                    <Action type="SetAnchor" frame="$this" side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Action type="SetAnchor" frame="$this" side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Action type="SetProperty" frame="$this" Height="105"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" Height="85"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Top" relative="$parent/RecipientImage" pos="Min" offset="1"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Right" relative="$parent/EmojiBorderLine" pos="Min" offset="-6"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" Height="32"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Left" relative="$parent/BackgroundImage" pos="Min" offset="58"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Bottom" relative="$parent/BackgroundImage" pos="Min" offset="53"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Left" relative="$parent/EmojiBorderLine" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" Height="32"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Left" relative="$parent/ChatDebugButton" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/RecipientImage" side="Left" relative="$parent/ChatDebugDivider" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="10"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-20"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Left" relative="$parent/RecipientImage" pos="Max" offset="5"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="18"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-28"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Left" relative="$parent/RecipientLabel" pos="Max" offset="-5"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox" Height="39"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox/Image" visible="False"/>
+                    <Action type="SetProperty" frame="$this/RecipientLabel" Style="CM_InGameChatRecipient"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox" Style="StandardEditBox"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox/LabelContainerFrame/Label" Style="CM_InGameChatInput"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" texture="@@@UI/Game_Console_Chat_Background"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" TextureType="Border"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" Tiled="true"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" texture="@UI/ChatEmojiBorder"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" ColorAdjustMode="Colorize"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" texture="@UI/ChatEmojiBorder"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" ColorAdjustMode="Colorize"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/DropShadowImage" visible="false"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/NormalImage" texture="@UI/ChatEmojiIcon"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/HoverImage" texture="@UI/ChatEmojiIcon"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/NormalImage" color="###ColorChatIconColor"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/HoverImage" color="###ColorChatIconColor"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/DropShadowImage" visible="False"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/NormalImage" texture="@@UI/CM_ChatDebugGear"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/HoverImage" texture="@@UI/CM_ChatDebugGear"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/NormalImage" color="###ColorChatIconColor"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/HoverImage" color="###ColorChatIconColor"/>
+                </State>
+
+                <State name="Active">
+                    <Action type="SetAnchor" frame="$this" side="Bottom" relative="$parent" pos="Mid" offset="320"/>
+                    <Action type="SetAnchor" frame="$this" side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Action type="SetAnchor" frame="$this" side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Action type="SetProperty" frame="$this" Height="105"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" Height="85"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Top" relative="$parent/RecipientImage" pos="Min" offset="1"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Right" relative="$parent/EmojiBorderLine" pos="Min" offset="-6"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" Height="32"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Left" relative="$parent" pos="Min" offset="99"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Bottom" relative="$parent/BackgroundImage" pos="Min" offset="53"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Left" relative="$parent/EmojiBorderLine" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="21"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" Height="32"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Left" relative="$parent/ChatDebugButton" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="10"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-20"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Left" relative="$parent/ChatDebugDivider" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="18"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-28"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Left" relative="$parent/RecipientLabel" pos="Max" offset="-5"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox" Height="39"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox/Image" visible="False"/>
+                    <Action type="SetProperty" frame="$this/RecipientLabel" Style="CM_InGameChatRecipient"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox" Style="StandardEditBox"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox/LabelContainerFrame/Label" Style="CM_InGameChatInput"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" texture="Assets/Textures/white.dds"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" ColorAdjustMode="None"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" color="25,41,58"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" texture="Assets/Textures/white.dds"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" ColorAdjustMode="None"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" color="25,41,58"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/DropShadowImage" visible="true"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/NormalImage" texture="@UI/Glues_Icons_Emojis"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/HoverImage" texture="@UI/Glues_Icons_Emojis"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/NormalImage" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/HoverImage" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/DropShadowImage" visible="False"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/NormalImage" texture="@@UI/CM_ChatDebugGear_Glues"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/HoverImage" texture="@@UI/CM_ChatDebugGear_Glues"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/NormalImage" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/HoverImage" color="255,255,255"/>
+                </State>
+
+                <State name="Launcher">
+                    <Action type="SetAnchor" frame="$this" side="Bottom" relative="$parent/LauncherChatPanel" pos="Max" offset="0"/>
+                    <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/LauncherChatPanel" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this" side="Right" relative="$parent/LauncherChatPanel" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this" Height="61"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" Height="61"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="-16"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="16"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonButton" side="Right" relative="$parent/EmojiBorderLine" pos="Min" offset="-6"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="-16"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="17"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" Height="33"/>
+                    <Action type="SetAnchor" frame="$this/EmojiBorderLine" side="Left" relative="$parent/BackgroundImage" pos="Min" offset="54"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="-16"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="16"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugButton" side="Left" relative="$parent/EmojiBorderLine" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="-16"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="17"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" Height="33"/>
+                    <Action type="SetAnchor" frame="$this/ChatDebugDivider" side="Left" relative="$parent/ChatDebugButton" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/RecipientImage" side="Left" relative="$parent/ChatDebugDivider" pos="Max" offset="8"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Top" relative="$parent/BackgroundImage" pos="Min" offset="6"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-7"/>
+                    <Action type="SetAnchor" frame="$this/RecipientLabel" side="Left" relative="$parent/ChatDebugDivider" pos="Max" offset="9"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="-14"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="14"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox" side="Left" relative="$parent/RecipientLabel" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox" Height="28"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/ChatEditBox/LabelContainerFrame" side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox/Image" visible="False"/>
+                    <Action type="SetProperty" frame="$this/RecipientLabel" Style="CM_LauncherChatActive"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox" Style="CM_LauncherChatInput"/>
+                    <Action type="SetProperty" frame="$this/ChatEditBox/LabelContainerFrame/Label" Style="CM_LauncherChatInput"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" texture="@UI/ChatPanelBg"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" TextureType="Nineslice"/>
+                    <Action type="SetProperty" frame="$this/BackgroundImage" Tiled="false"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" texture="Assets/Textures/white.dds"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" ColorAdjustMode="None"/>
+                    <Action type="SetProperty" frame="$this/EmojiBorderLine" color="25,41,58"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" texture="Assets/Textures/white.dds"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" ColorAdjustMode="None"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugDivider" color="25,41,58"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/DropShadowImage" visible="true"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/NormalImage" texture="@UI/Glues_Icons_Emojis"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/HoverImage" texture="@UI/Glues_Icons_Emojis"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/NormalImage" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/EmoticonButton/HoverImage" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/DropShadowImage" visible="False"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/NormalImage" texture="@@UI/CM_ChatDebugGear_Glues"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/HoverImage" texture="@@UI/CM_ChatDebugGear_Glues"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/NormalImage" color="255,255,255"/>
+                    <Action type="SetProperty" frame="$this/ChatDebugButton/HoverImage" color="255,255,255"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <StateGroup name="MutatorSelectionState">
+            <DefaultState val="Inactive"/>
+
+            <State name="Active">
+                <When type="AnimationState" MutatorSelectionState="Active"/>
+                <Action type="SetProperty" frame="$this/ChatBar/BackgroundImage" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientImage" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientLabel" visible="true"/>
+                <Action type="SetProperty" frame="$this/ChatBar/HelpLabel" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatHelpLabel" alpha="0"/>
+                <Action type="SetProperty" frame="$this/MenuBar" alpha="0"/>
+                <Action type="SetProperty" frame="$this/MenuBar/MouseBlocker" visible="True"/>
+                <Action type="SetState" frame="$this/ChatBar" group="MutatorSelectionState" state="Active"/>
+                <Action type="SetState" frame="$this/EmoticonPanel" group="MutatorSelectionState" state="Active"/>
+            </State>
+
+            <State name="Inactive">
+                <When type="AnimationState" MutatorSelectionState="Inactive"/>
+                <Action type="SetProperty" frame="$this/ChatBar/BackgroundImage" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientImage" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientLabel" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/HelpLabel" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatHelpLabel" alpha="255"/>
+                <Action type="SetProperty" frame="$this/MenuBar" alpha="255"/>
+                <Action type="SetProperty" frame="$this/MenuBar/MouseBlocker" visible="False"/>
+                <Action type="SetState" frame="$this/ChatBar" group="MutatorSelectionState" state="Inactive"/>
+                <Action type="SetState" frame="$this/EmoticonPanel" group="MutatorSelectionState" state="Inactive"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="AnimationState" MutatorSelectionState="Launcher"/>
+                <Action type="SetProperty" frame="$this/ChatBar/BackgroundImage" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientImage" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatBar/RecipientLabel" visible="True"/>
+                <Action type="SetProperty" frame="$this/ChatBar/HelpLabel" visible="False"/>
+                <Action type="SetProperty" frame="$this/ChatHelpLabel" alpha="0"/>
+                <Action type="SetProperty" frame="$this/MenuBar" alpha="255"/>
+                <Action type="SetProperty" frame="$this/MenuBar/MouseBlocker" visible="False"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorInactive"/>
+                <Action type="SetState" frame="$this/ChatBar" group="MutatorSelectionState" state="Launcher"/>
+                <Action type="SetState" frame="$this/EmoticonPanel" group="MutatorSelectionState" state="Launcher"/>
+            </State>
+        </StateGroup>
+
+        <Frame type="EmoticonSelectionPanel" name="EmoticonPanel">
+            <StateGroup name="MutatorSelectionState">
+                <DefaultState val="Inactive"/>
+
+                <State name="Inactive">
+                    <Action type="SetAnchor" frame="$this" side="Top" relative="$this" pos="Max" offset="-563"/>
+                    <Action type="SetAnchor" frame="$this" side="Bottom" relative="$parent/ChatBar/BackgroundImage" pos="Max" offset="0"/>
+                    <Action type="SetAnchor" frame="$this" side="Left" relative="$this" pos="Max" offset="-383"/>
+                    <Action type="SetAnchor" frame="$this" side="Right" relative="$parent/ChatBar/BackgroundImage" pos="Min" offset="0"/>
+                    <Action type="SetProperty" frame="$this/Background" texture="@@@UI/Game_Console_Chat_Background"/>
+                    <Action type="SetProperty" frame="$this/Background" TextureType="Border"/>
+                    <Action type="SetProperty" frame="$this/BackgroundDimmer" visible="false"/>
+                    <Action type="SetProperty" frame="$this/BackgroundInner" visible="false"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Top" relative="$parent" pos="Min" offset="27"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Bottom" relative="$parent" pos="Min" offset="52"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Left" relative="$parent" pos="Min" offset="27"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Right" relative="$parent" pos="Max" offset="-20"/>
+                    <Action type="SetProperty" frame="$this/EmoticonTitleLabel" style="@@@StandardTooltipHeader"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Bottom" relative="$parent" pos="Max" offset="-35"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Left" relative="$parent/$parent/BackgroundInner" pos="Min" offset="-2"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Right" relative="$parent/$parent/BackgroundInner" pos="Max" offset="2"/>
+                    <Action type="SetProperty" frame="$this" RenderPriority="600"/>
+                </State>
+
+                <State name="Active">
+                    <Action type="SetAnchor" frame="$this" side="Top" relative="$this" pos="Max" offset="-550"/>
+                    <Action type="SetAnchor" frame="$this" side="Bottom" relative="$parent/ChatBar" pos="Min" offset="14"/>
+                    <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/ChatBar" pos="Min" offset="47"/>
+                    <Action type="SetAnchor" frame="$this" side="Right" relative="$this" pos="Min" offset="371"/>
+                    <Action type="SetProperty" frame="$this/Background" texture="@UI/Glues_Battlenet_PageAssets_MainContainer"/>
+                    <Action type="SetProperty" frame="$this/Background" TextureType="Nineslice"/>
+                    <Action type="SetProperty" frame="$this/BackgroundDimmer" visible="true"/>
+                    <Action type="SetProperty" frame="$this/BackgroundInner" visible="true"/>
+                    <Action type="SetAnchor" frame="$this/BackgroundInner" side="Top" relative="$parent/Background" pos="Min" offset="50"/>
+                    <Action type="SetAnchor" frame="$this/BackgroundInner" side="Left" relative="$parent/Background" pos="Min" offset="12"/>
+                    <Action type="SetAnchor" frame="$this/BackgroundInner" side="Right" relative="$parent/Background" pos="Max" offset="-12"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Top" relative="$parent" pos="Min" offset="15"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Bottom" relative="$parent/BackgroundInner" pos="Min" offset="-5"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Left" relative="$parent" pos="Min" offset="20"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Right" relative="$parent" pos="Max" offset="-20"/>
+                    <Action type="SetProperty" frame="$this/EmoticonTitleLabel" style="@EmoticonTitleText"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Bottom" relative="$parent" pos="Max" offset="-11"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Left" relative="$parent/$parent/BackgroundInner" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Right" relative="$parent/$parent/BackgroundInner" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this" RenderPriority="600"/>
+                </State>
+
+                <State name="Launcher">
+                    <Action type="SetAnchor" frame="$this" side="Top" relative="$this" pos="Max" offset="-550"/>
+                    <Action type="SetAnchor" frame="$this" side="Bottom" relative="$parent/LauncherChatPanel" pos="Max" offset="0"/>
+                    <Action type="SetAnchor" frame="$this" side="Left" relative="$this" pos="Max" offset="-371"/>
+                    <Action type="SetAnchor" frame="$this" side="Right" relative="$parent/LauncherChatPanel" pos="Min" offset="-10"/>
+                    <Action type="SetProperty" frame="$this/Background" texture="@UI/Glues_Battlenet_PageAssets_MainContainer"/>
+                    <Action type="SetProperty" frame="$this/Background" TextureType="Nineslice"/>
+                    <Action type="SetProperty" frame="$this/BackgroundDimmer" visible="true"/>
+                    <Action type="SetProperty" frame="$this/BackgroundInner" visible="true"/>
+                    <Action type="SetAnchor" frame="$this/BackgroundInner" side="Top" relative="$parent/Background" pos="Min" offset="50"/>
+                    <Action type="SetAnchor" frame="$this/BackgroundInner" side="Left" relative="$parent/Background" pos="Min" offset="12"/>
+                    <Action type="SetAnchor" frame="$this/BackgroundInner" side="Right" relative="$parent/Background" pos="Max" offset="-12"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Top" relative="$parent" pos="Min" offset="15"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Bottom" relative="$parent/BackgroundInner" pos="Min" offset="-5"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Left" relative="$parent" pos="Min" offset="20"/>
+                    <Action type="SetAnchor" frame="$this/EmoticonTitleLabel" side="Right" relative="$parent" pos="Max" offset="-20"/>
+                    <Action type="SetProperty" frame="$this/EmoticonTitleLabel" style="@EmoticonTitleText"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Bottom" relative="$parent" pos="Max" offset="-11"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Left" relative="$parent/$parent/BackgroundInner" pos="Min" offset="0"/>
+                    <Action type="SetAnchor" frame="$this/TileList/PageSelectorAnchor" side="Right" relative="$parent/$parent/BackgroundInner" pos="Max" offset="0"/>
+                    <Action type="SetProperty" frame="$this" RenderPriority="920"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <StateGroup name="MutatorSelectionAndAspectRatioState">
+            <DefaultState val="Inactive"/>
+
+            <State name="Active">
+                <When type="AnimationState" MutatorSelectionState="Active"/>
+                <When type="Property" frame="$this/MutatorAspectRatio5x4" Visible="false"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorActive"/>
+            </State>
+
+            <State name="Active5x4">
+                <When type="AnimationState" MutatorSelectionState="Active"/>
+                <When type="Property" frame="$this/MutatorAspectRatio5x4" Visible="true"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorActive5x4"/>
+            </State>
+
+            <State name="Inactive">
+                <When type="AnimationState" MutatorSelectionState="Inactive"/>
+                <Action type="SendEvent" frame="$this" event="CustomMutatorInactive"/>
+            </State>
+
+            <State name="Launcher">
+                <When type="AnimationState" MutatorSelectionState="Launcher"/>
+                <Action type="SetState" frame="$this/ChatBar" group="MutatorSelectionState" state="Launcher"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+</Desc>
+

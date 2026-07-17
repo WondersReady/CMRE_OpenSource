@@ -1,0 +1,880 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="9">
+        <name value="Area Revealer 1"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="34.6657,127.7844"/>
+            <radius value="9.133"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.8203,136.6171"/>
+            <radius value="9.133"/>
+        </shape>
+        <shape type="circle">
+            <center value="42.9416,144.853"/>
+            <radius value="9.6347"/>
+        </shape>
+        <shape type="circle">
+            <center value="34.8874,143.775"/>
+            <radius value="4.7023"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="Area Revealer 2"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="59.9863,157.123"/>
+            <radius value="11.0554"/>
+        </shape>
+        <shape type="circle">
+            <center value="73.0017,161.537"/>
+            <radius value="7.7048"/>
+        </shape>
+        <shape type="circle">
+            <center value="49.2243,155.1938"/>
+            <radius value="7.7048"/>
+        </shape>
+        <shape type="circle">
+            <center value="56.3793,149.4133"/>
+            <radius value="6.7043"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Area Revealer 4"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="127.5146,153.961"/>
+            <radius value="15.795"/>
+        </shape>
+        <shape type="circle">
+            <center value="114.5495,160.3212"/>
+            <radius value="3.5825"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Area Revealer 9"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="69.2902,25.2683"/>
+            <radius value="13.5974"/>
+        </shape>
+        <shape type="circle">
+            <center value="53.4775,41.2985"/>
+            <radius value="4.9"/>
+        </shape>
+        <shape type="circle">
+            <center value="58.0275,36.059"/>
+            <radius value="6.1867"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Barricade SW - Destroyers Spawn"/>
+        <shape type="circle">
+            <center value="61.078,76.7968"/>
+            <radius value="2.9494"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="Area Revealer 10"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="49.132,18.9311"/>
+            <radius value="5.7348"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.772,23.4946"/>
+            <radius value="5.3625"/>
+        </shape>
+        <shape type="circle">
+            <center value="34.9304,31.2856"/>
+            <radius value="5.6828"/>
+        </shape>
+        <shape type="circle">
+            <center value="39.791,40.9296"/>
+            <radius value="5.634"/>
+        </shape>
+        <shape type="circle">
+            <center value="45.7282,32.066"/>
+            <radius value="8.886"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="Area Revealer 8"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="142.682,69.1835"/>
+            <radius value="11.3862"/>
+        </shape>
+        <shape type="circle">
+            <center value="151.6208,61.8593"/>
+            <radius value="11.3625"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="Area Revealer 5"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="155.8828,134.8557"/>
+            <radius value="14.5383"/>
+        </shape>
+        <shape type="circle">
+            <center value="160.386,149.5236"/>
+            <radius value="6.095"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Area Revealer 7"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="118.2478,50.0561"/>
+            <radius value="12.7741"/>
+        </shape>
+        <shape type="circle">
+            <center value="125.5363,57.5585"/>
+            <radius value="9.5532"/>
+        </shape>
+        <shape type="circle">
+            <center value="134.7766,48.0976"/>
+            <radius value="9.5532"/>
+        </shape>
+        <shape type="circle">
+            <center value="127.5571,42.9863"/>
+            <radius value="9.5532"/>
+        </shape>
+        <shape type="circle">
+            <center value="146.3183,43.8977"/>
+            <radius value="5.5434"/>
+        </shape>
+        <shape type="circle">
+            <center value="141.2185,36.0515"/>
+            <radius value="5.5434"/>
+        </shape>
+        <shape type="circle">
+            <center value="133.1618,31.8627"/>
+            <radius value="5.5434"/>
+        </shape>
+        <shape type="circle">
+            <center value="126.0642,30.7016"/>
+            <radius value="6.545"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.4277,33.2624"/>
+            <radius value="6.545"/>
+        </shape>
+        <shape type="circle">
+            <center value="134.6843,37.6218"/>
+            <radius value="2.82"/>
+        </shape>
+    </region>
+    <region id="39">
+        <name value="Area Revealer 6"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="158.1557,81.2687"/>
+            <radius value="9.5927"/>
+        </shape>
+        <shape type="circle">
+            <center value="152.365,96.6142"/>
+            <radius value="10.7553"/>
+        </shape>
+        <shape type="circle">
+            <center value="159.1281,100.2968"/>
+            <radius value="9.5927"/>
+        </shape>
+        <shape type="circle">
+            <center value="162.9152,112.2043"/>
+            <radius value="5.3625"/>
+        </shape>
+        <shape type="circle">
+            <center value="149.4714,84.4565"/>
+            <radius value="5.3625"/>
+        </shape>
+        <shape type="circle">
+            <center value="149.3457,105.0783"/>
+            <radius value="4.859"/>
+        </shape>
+        <shape type="circle">
+            <center value="156.705,107.2761"/>
+            <radius value="4.859"/>
+        </shape>
+        <shape type="circle">
+            <center value="163.4965,108.889"/>
+            <radius value="4.859"/>
+        </shape>
+        <shape type="circle">
+            <center value="163.1904,89.7587"/>
+            <radius value="4.859"/>
+        </shape>
+    </region>
+    <region id="43">
+        <name value="Area Revealer 11"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="86.4697,35.056"/>
+            <radius value="10.0783"/>
+        </shape>
+        <shape type="circle">
+            <center value="94.2065,26.5695"/>
+            <radius value="9.5761"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.5083,24.5844"/>
+            <radius value="3.7797"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.62,45.0041"/>
+            <radius value="7.0837"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.1347,45.5996"/>
+            <radius value="8.1103"/>
+        </shape>
+    </region>
+    <region id="49">
+        <name value="Expansion Check - North"/>
+        <color value="255,0,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="102.1682,156.0036"/>
+            <radius value="10.2"/>
+        </shape>
+        <shape type="circle">
+            <center value="128.0852,156.836"/>
+            <radius value="10.4912"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Barricade SW"/>
+        <shape type="circle">
+            <center value="69.6945,85.9616"/>
+            <radius value="9.0876"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Barricade NE"/>
+        <shape type="circle">
+            <center value="107.6171,120.4001"/>
+            <radius value="7.663"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Barricade NE - Destroyers Spawn"/>
+        <shape type="circle">
+            <center value="113.4841,128.4638"/>
+            <radius value="2.9494"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Special Infested Spawn - NW"/>
+        <color value="255,255,0,0"/>
+        <shape type="circle">
+            <center value="67.1445,156.277"/>
+            <radius value="5.0598"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Special Infested Spawn - NE"/>
+        <color value="255,255,0,0"/>
+        <shape type="circle">
+            <center value="118.2973,134.2634"/>
+            <radius value="4.42"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Special Infested Spawn - SE"/>
+        <color value="255,255,0,0"/>
+        <shape type="circle">
+            <center value="148.1672,63.7067"/>
+            <radius value="4.0661"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Suicide Zombies - NW"/>
+        <color value="255,255,128,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="70.782,138.126"/>
+            <radius value="8.2744"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="Suicide Zombies - SE"/>
+        <color value="255,255,128,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.0832,82.6596"/>
+            <radius value="8.2744"/>
+        </shape>
+    </region>
+    <region id="18">
+        <name value="Suicide Zombies - NE"/>
+        <color value="255,255,128,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="118.4362,133.3435"/>
+            <radius value="8.775"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="Suicide Zombies - SW"/>
+        <color value="255,255,128,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="58.9196,75.2778"/>
+            <radius value="8.275"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Initial Visibility"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.504,93.1748"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="55.477,100.8227"/>
+            <radius value="4.3713"/>
+        </shape>
+        <shape type="circle">
+            <center value="61.033,108.6994"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="64.0842,113.176"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.1345,117.788"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.1276,123.3635"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="83.9921,127.7045"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="91.0825,126.9206"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.3286,126.6074"/>
+            <radius value="4.758"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.8427,114.546"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.6962,109.1545"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="116.674,110.986"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="120.772,105.1196"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="124.8117,111.8818"/>
+            <radius value="1.9421"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.824,97.4797"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.1193,86.9467"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="95.548,81.8967"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="88.0004,79.1313"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.9313,85.3967"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.026,88.6066"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="87.982,113.1157"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.5561,103.196"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="80.5576,98.3952"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.368,105.811"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.5502,95.4025"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="97.6005,103.7138"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.56,99.191"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="74.0168,80.7343"/>
+            <radius value="2.2563"/>
+        </shape>
+        <shape type="circle">
+            <center value="76.8071,78.4887"/>
+            <radius value="2.2563"/>
+        </shape>
+        <shape type="circle">
+            <center value="79.5058,76.7824"/>
+            <radius value="2.2563"/>
+        </shape>
+        <shape type="circle">
+            <center value="55.066,97.4868"/>
+            <radius value="4.3713"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.3613,122.1147"/>
+            <radius value="4.9687"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.7387,92.2768"/>
+            <radius value="4.628"/>
+        </shape>
+        <shape type="circle">
+            <center value="78.912,129.3151"/>
+            <radius value="5.328"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Area Revealer 12"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="28.6586,88.5683"/>
+            <radius value="7.9748"/>
+        </shape>
+        <shape type="circle">
+            <center value="30.0434,100.9248"/>
+            <radius value="6.691"/>
+        </shape>
+        <shape type="circle">
+            <center value="35.619,106.3576"/>
+            <radius value="5.8967"/>
+        </shape>
+        <shape type="circle">
+            <center value="33.5922,95.1054"/>
+            <radius value="4.5078"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="Cinematic iMarine Spawns"/>
+        <color value="255,0,128,0"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="77.3654,134.5397,109.2592,147.2016"/>
+        </shape>
+        <shape type="rect">
+            <quad value="82.0012,144.6091,105.7238,160.6157"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Special Infested Spawn - SW"/>
+        <color value="255,255,0,0"/>
+        <shape type="circle">
+            <center value="40.038,74.2062"/>
+            <radius value="4.5646"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="Special Infested Spawn - NW Raid"/>
+        <color value="255,255,0,0"/>
+        <shape type="circle">
+            <center value="43.342,111.2978"/>
+            <radius value="4.8098"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="Special Infested Spawn - SE Raid"/>
+        <color value="255,255,0,0"/>
+        <shape type="circle">
+            <center value="99.3007,60.144"/>
+            <radius value="4.224"/>
+        </shape>
+    </region>
+    <region id="33">
+        <name value="Expansion Check - South"/>
+        <color value="255,0,128,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="41.015,22.7534"/>
+            <radius value="19.0036"/>
+        </shape>
+        <shape type="circle">
+            <center value="40.3945,43.4506"/>
+            <radius value="20.3332"/>
+        </shape>
+    </region>
+    <region id="32">
+        <name value="Nydus Worm Spawn 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="49.6884,84.0947"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="34">
+        <name value="Nydus Worm Spawn 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="74.5063,70.0065"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="35">
+        <name value="Nydus Worm Spawn 3"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="103.0698,137.994"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="36">
+        <name value="Nydus Worm Spawn 4"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="123.248,123.81"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Nydus Worm Spawn Central"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="82.7434,100.5522"/>
+            <radius value="9.125"/>
+        </shape>
+        <shape type="circle">
+            <center value="91.755,108.5781"/>
+            <radius value="9.125"/>
+        </shape>
+    </region>
+    <region id="44">
+        <name value="Area 12 Extra"/>
+        <shape type="circle">
+            <center value="34.308,74.251"/>
+            <radius value="10.0498"/>
+        </shape>
+    </region>
+    <region id="45">
+        <name value="Outbreak3_1"/>
+        <shape type="circle">
+            <center value="43.2138,52.8645"/>
+            <radius value="6.6032"/>
+        </shape>
+    </region>
+    <region id="47">
+        <name value="Outbreak4_1"/>
+        <shape type="circle">
+            <center value="53.6372,134.4194"/>
+            <radius value="4.8618"/>
+        </shape>
+        <shape type="circle">
+            <center value="59.1962,139.3876"/>
+            <radius value="4.126"/>
+        </shape>
+        <shape type="circle">
+            <center value="62.1142,142.203"/>
+            <radius value="3.3063"/>
+        </shape>
+        <shape type="circle">
+            <center value="65.5993,142.349"/>
+            <radius value="2.743"/>
+        </shape>
+    </region>
+    <region id="48">
+        <name value="Outbreak5_1"/>
+        <shape type="circle">
+            <center value="125.021,130.0375"/>
+            <radius value="7.8916"/>
+        </shape>
+        <shape type="circle">
+            <center value="131.2448,126.437"/>
+            <radius value="7.3344"/>
+        </shape>
+    </region>
+    <region id="30">
+        <name value="Barricade NW"/>
+        <shape type="circle">
+            <center value="78.0993,126.9768"/>
+            <radius value="7.7595"/>
+        </shape>
+    </region>
+    <region id="50">
+        <name value="Barricade SE"/>
+        <shape type="circle">
+            <center value="115.3767,95.122"/>
+            <radius value="7.585"/>
+        </shape>
+    </region>
+    <region id="51">
+        <name value="Area Revealer 3"/>
+        <color value="255,128,255,128"/>
+        <shape type="circle">
+            <center value="84.0605,153.6813"/>
+            <radius value="6.2148"/>
+        </shape>
+        <shape type="circle">
+            <center value="100.4597,149.9543"/>
+            <radius value="6.689"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.6447,153.7333"/>
+            <radius value="5.93"/>
+        </shape>
+    </region>
+    <region id="46">
+        <name value="Outbreak3_2"/>
+        <shape type="circle">
+            <center value="65.4885,55.987"/>
+            <radius value="9.7626"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.7792,54.884"/>
+            <radius value="5.345"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.274,44.0781"/>
+            <radius value="6.4448"/>
+        </shape>
+    </region>
+    <region id="28">
+        <name value="Nydus Worm Spawn 5"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="95.4956,66.8684"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="37">
+        <name value="Nydus Worm Spawn 6"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="112.4382,75.7941"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="38">
+        <name value="Nydus Worm Spawn 7"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="45.4235,100.3344"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="40">
+        <name value="Nydus Worm Spawn 8"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="49.9377,118.6262"/>
+            <radius value="3.6733"/>
+        </shape>
+    </region>
+    <region id="41">
+        <name value="Nydus Worm Spawn 9"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="85.776,141.4338"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="52">
+        <name value="Nydus Worm Spawn 10"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="133.2812,106.923"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="53">
+        <name value="Nydus Worm Spawn 11"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="147.861,62.9636"/>
+            <radius value="3.815"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Barricade NW - Destroyers Spawn"/>
+        <shape type="circle">
+            <center value="69.7583,135.1503"/>
+            <radius value="2.9494"/>
+        </shape>
+    </region>
+    <region id="29">
+        <name value="Barricade SE - Destroyers Spawn"/>
+        <shape type="circle">
+            <center value="123.448,85.7275"/>
+            <radius value="2.9494"/>
+        </shape>
+    </region>
+    <region id="31">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.5361,92.8586"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="55.5092,100.5065"/>
+            <radius value="4.3713"/>
+        </shape>
+        <shape type="circle">
+            <center value="61.0651,108.3833"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="64.1164,112.8598"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.1667,117.472"/>
+            <radius value="9"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.16,123.0473"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.0244,127.3884"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="91.1147,126.6044"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.3608,126.2912"/>
+            <radius value="4.758"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.875,114.2297"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.7285,108.8383"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="116.7062,110.67"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="120.8041,104.8034"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="124.844,111.5656"/>
+            <radius value="1.9421"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.8562,97.1635"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.1516,86.6306"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="95.5803,81.5805"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="88.0327,78.8151"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.9636,85.0805"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.058,88.2905"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="88.0141,112.7995"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.5883,102.88"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="80.5898,98.079"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.4001,105.4948"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.5825,95.0864"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="97.6328,103.3977"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.5922,98.8747"/>
+            <radius value="8.1535"/>
+        </shape>
+        <shape type="circle">
+            <center value="74.049,80.4182"/>
+            <radius value="2.2563"/>
+        </shape>
+        <shape type="circle">
+            <center value="76.8393,78.1726"/>
+            <radius value="2.2563"/>
+        </shape>
+        <shape type="circle">
+            <center value="79.538,76.4663"/>
+            <radius value="2.2563"/>
+        </shape>
+        <shape type="circle">
+            <center value="55.0981,97.1706"/>
+            <radius value="4.3713"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.3935,121.7985"/>
+            <radius value="4.9687"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.771,91.9606"/>
+            <radius value="4.628"/>
+        </shape>
+        <shape type="circle">
+            <center value="78.9443,128.999"/>
+            <radius value="5.328"/>
+        </shape>
+    </region>
+</Regions>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUser id="MissionTransmission">
+        <Instances index="46" Id="TugofWarNearlyLost">
+            <Int>
+                <Field Id="ResponseChance"/>
+            </Int>
+        </Instances>
+    </CUser>
+</Catalog>

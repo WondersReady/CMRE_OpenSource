@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CAbilEffectTarget id="MapObjectInteract">
+        <TargetFilters index="0" value="Visible;Self,Missile,Stasis,Dead"/>
+    </CAbilEffectTarget>
+</Catalog>

@@ -1,0 +1,487 @@
+//--------------------------------------------------------------------------------------------------
+//  Fenix tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMFenix_TU_Dragoon = "FenixDragoon";
+const string c_CMFenix_TU_Arbiter = "FenixArbiter";
+const string c_CMFenix_TU_Disruptor = "Disruptor";
+const string c_CMFenix_AB_ChargedBuster = "ChargedBuster";
+const string c_CMFenix_AB_DragoonAirBomb = "FenixDragoonAirBomb";
+const string c_CMFenix_AB_DragoonOvercharge = "FenixDragoonArsenalOvercharge";
+const string c_CMFenix_AB_ArbiterStasis = "FenixArbiterStasisField";
+const string c_CMFenix_AB_ArbiterCloak = "FenixArbiterCloakingField";
+const string c_CMFenix_AB_PurificationNova = "FenixPurificationNova";
+const string c_CMFenix_BE_ChargeBuster = "ChargeBuster";
+const string c_CMFenix_BE_ArbiterCloak = "FenixArbiterCloakingFieldCaster";
+const string c_CMFenix_EF_ChargedBusterSearch = "ChargedBusterSearch";
+const string c_CMFenix_EF_DragoonAirBombSearch = "FenixDragoonAirBombSearch";
+const string c_CMFenix_EF_ArbiterStasisSearch = "FenixArbiterStasisFieldSearch";
+const string c_CMFenix_EF_PurificationNovaSearch = "FenixPurificationNovaSearch";
+const string c_CMFenix_UP_DisruptorSecondExplosion = "DisruptorSecondExplosion";
+const fixed c_CMFenix_DragoonChargedBusterRadius = 1.5;
+const fixed c_CMFenix_DragoonAirBombRadius = 2.5;
+const fixed c_CMFenix_DragoonRangePadding = 2.0;
+const fixed c_CMFenix_ArbiterStasisRadius = 1.5;
+const fixed c_CMFenix_ArbiterCloakSupportRange = 8.0;
+const fixed c_CMFenix_ArbiterCloakLowEnergy = 30.0;
+const fixed c_CMFenix_DisruptorNovaBaseRadius = 1.5;
+const fixed c_CMFenix_DisruptorNovaUpgradeRadius = 2.5;
+const fixed c_CMFenix_DisruptorNovaRangePadding = 2.0;
+const fixed c_CMFenix_DisruptorNovaConflictMin = 4.0;
+const fixed c_CMFenix_DisruptorNovaMinScore = 2.0;
+const int c_CMFenix_DragoonChargedBusterDamage = 100;
+const int c_CMFenix_DragoonAirBombDamage = 100;
+const int c_CMFenix_DisruptorNovaDamage = 150;
+const int c_CMFenix_DisruptorNovaUpgradeDamage = 225;
+const int c_CMFenix_DragoonAirBombMinHits = 2;
+const int c_CMFenix_DragoonChargedBusterMinHits = 1;
+const int c_CMFenix_ArbiterStasisMinHits = 3;
+const int c_CMFenix_DisruptorNovaHighMinHits = 3;
+const int c_CMFenix_DisruptorNovaLowMinHits = 2;
+
+//--------------------------------------------------------------------------------------------------
+bool CMFenixAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMFenixAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMFenixEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMFenixFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup targetGroup;
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    return targetGroup;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMFenixEnemyPlaneGroup (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterPlane(filter, plane);
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixInstantOrder (int player, unit aiUnit, string abilityLink, int abilityIndex) {
+    order ord;
+
+    if (CMFenixAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, abilityIndex);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMFenixDragoonBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMFenix_AB_ChargedBuster) == true) || (UnitOrderHasAbil(aiUnit, c_CMFenix_AB_DragoonAirBomb) == true) || (UnitOrderHasAbil(aiUnit, c_CMFenix_AB_DragoonOvercharge) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMFenixArbiterBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMFenix_AB_ArbiterStasis) == true) || (UnitOrderHasAbil(aiUnit, c_CMFenix_AB_ArbiterCloak) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixBestPointOrder (int player, unit aiUnit, unitgroup targetGroup, string abilityLink, fixed range, fixed radius, int minHits, int damageBase, fixed minScore) {
+    point targetPoint;
+    order ord;
+
+    if (CMFenixAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, damageBase, minScore, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixDragoonAirBombOrder (int player, unit aiUnit, unitgroup scanGroup, int minHits) {
+    fixed range;
+    fixed radius;
+    unitgroup targetGroup;
+
+    range = CMFenixAbilityRange(player, c_CMFenix_AB_DragoonAirBomb, 11.0);
+    radius = CMFenixEffectRadius(player, c_CMFenix_EF_DragoonAirBombSearch, c_CMFenix_DragoonAirBombRadius);
+    targetGroup = CMFenixEnemyPlaneGroup(player, aiUnit, scanGroup, c_planeAir, range + radius + c_CMFenix_DragoonRangePadding);
+
+    return CMFenixBestPointOrder(player, aiUnit, targetGroup, c_CMFenix_AB_DragoonAirBomb, range, radius, minHits, c_CMFenix_DragoonAirBombDamage, IntToFixed(minHits));
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixDragoonChargedBusterOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed range;
+    unitgroup targetGroup;
+
+    range = CMFenixAbilityRange(player, c_CMFenix_AB_ChargedBuster, 500.0);
+    targetGroup = CMFenixFilteredEnemyGroup(player, aiUnit, scanGroup, AIEffectStr(player, c_CMFenix_EF_ChargedBusterSearch, c_fieldFilters), range);
+
+    return CMFenixBestPointOrder(player, aiUnit, targetGroup, c_CMFenix_AB_ChargedBuster, range, c_CMFenix_DragoonChargedBusterRadius, c_CMFenix_DragoonChargedBusterMinHits, c_CMFenix_DragoonChargedBusterDamage, 1.0);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMFenixHasEnemies (int player, unit aiUnit, unitgroup scanGroup, fixed range) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMFenixFilteredEnemyGroup(player, aiUnit, scanGroup, "", range);
+    if (enemyGroup == null) {
+        return false;
+    }
+
+    if (UnitGroupCount(enemyGroup, c_unitCountAlive) > 0) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixDragoonOverchargeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitHasBehavior2(aiUnit, c_CMFenix_BE_ChargeBuster) == true) {
+        return null;
+    }
+
+    if (CMFenixHasEnemies(player, aiUnit, scanGroup, 12.0) == false) {
+        return null;
+    }
+
+    ord = CMFenixInstantOrder(player, aiUnit, c_CMFenix_AB_DragoonOvercharge, 0);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkFenixDragoon (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (CMFenixDragoonBusy(aiUnit) == true) {
+        return;
+    }
+
+    ord = CMFenixDragoonOverchargeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMFenixDragoonAirBombOrder(player, aiUnit, scanGroup, c_CMFenix_DragoonAirBombMinHits);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMFenixDragoonChargedBusterOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMFenixDragoonAirBombOrder(player, aiUnit, scanGroup, 1);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMFenixArbiterNearbySupportCount (int player, unit aiUnit) {
+    int allyCount;
+    int supportCount;
+    unit allyUnit;
+    unitgroup allyGroup;
+
+    supportCount = 0;
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), c_CMFenix_ArbiterCloakSupportRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if ((allyUnit != aiUnit) && (UnitTypeTestAttribute(UnitGetType(allyUnit), c_unitAttributeStructure) == false)) {
+            supportCount = supportCount + 1;
+        }
+    }
+
+    return supportCount;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixArbiterCloakOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed energy;
+    bool isActive;
+
+    energy = UnitGetPropertyFixed(aiUnit, c_unitPropEnergy, c_unitPropCurrent);
+    isActive = UnitHasBehavior2(aiUnit, c_CMFenix_BE_ArbiterCloak);
+
+    if (isActive == true) {
+        if (energy <= c_CMFenix_ArbiterCloakLowEnergy) {
+            return CMFenixInstantOrder(player, aiUnit, c_CMFenix_AB_ArbiterCloak, 1);
+        }
+        if (CMFenixHasEnemies(player, aiUnit, scanGroup, c_CMFenix_ArbiterCloakSupportRange + 4.0) == false) {
+            return CMFenixInstantOrder(player, aiUnit, c_CMFenix_AB_ArbiterCloak, 1);
+        }
+        return null;
+    }
+
+    if (energy <= c_CMFenix_ArbiterCloakLowEnergy) {
+        return null;
+    }
+
+    if (CMFenixArbiterNearbySupportCount(player, aiUnit) <= 0) {
+        return null;
+    }
+
+    if (CMFenixHasEnemies(player, aiUnit, scanGroup, c_CMFenix_ArbiterCloakSupportRange + 4.0) == false) {
+        return null;
+    }
+
+    return CMFenixInstantOrder(player, aiUnit, c_CMFenix_AB_ArbiterCloak, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixArbiterStasisOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed range;
+    fixed radius;
+    unitgroup targetGroup;
+
+    range = CMFenixAbilityRange(player, c_CMFenix_AB_ArbiterStasis, 13.0);
+    radius = CMFenixEffectRadius(player, c_CMFenix_EF_ArbiterStasisSearch, c_CMFenix_ArbiterStasisRadius);
+    targetGroup = CMFenixFilteredEnemyGroup(player, aiUnit, scanGroup, AIEffectStr(player, c_CMFenix_EF_ArbiterStasisSearch, c_fieldFilters), range + radius + 1.0);
+
+    return CMFenixBestPointOrder(player, aiUnit, targetGroup, c_CMFenix_AB_ArbiterStasis, range, radius, c_CMFenix_ArbiterStasisMinHits, 1, IntToFixed(c_CMFenix_ArbiterStasisMinHits));
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkFenixArbiter (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (CMFenixArbiterBusy(aiUnit) == true) {
+        return;
+    }
+
+    ord = CMFenixArbiterCloakOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMFenixArbiterStasisOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMFenixDisruptorNovaRadius (int player) {
+    fixed radius;
+
+    radius = CMFenixEffectRadius(player, c_CMFenix_EF_PurificationNovaSearch, c_CMFenix_DisruptorNovaBaseRadius);
+    if (AITechCount(player, c_CMFenix_UP_DisruptorSecondExplosion, c_techCountCompleteOnly) > 0) {
+        if (radius < c_CMFenix_DisruptorNovaUpgradeRadius) {
+            radius = c_CMFenix_DisruptorNovaUpgradeRadius;
+        }
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMFenixDisruptorNovaDamage (int player) {
+    if (AITechCount(player, c_CMFenix_UP_DisruptorSecondExplosion, c_techCountCompleteOnly) > 0) {
+        return c_CMFenix_DisruptorNovaUpgradeDamage;
+    }
+
+    return c_CMFenix_DisruptorNovaDamage;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMFenixDisruptorHasNearbyNovaCast (int player, unit aiUnit, point targetPoint, fixed radius) {
+    fixed conflictDistance;
+    fixed scanRange;
+    int allyCount;
+    unit allyUnit;
+    point allyTargetPoint;
+    unitgroup allyGroup;
+    order curOrder;
+
+    conflictDistance = radius + radius;
+    if (conflictDistance < c_CMFenix_DisruptorNovaConflictMin) {
+        conflictDistance = c_CMFenix_DisruptorNovaConflictMin;
+    }
+
+    scanRange = CMFenixAbilityRange(player, c_CMFenix_AB_PurificationNova, 12.0) + conflictDistance + c_CMFenix_DisruptorNovaRangePadding;
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(targetPoint, scanRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMFenix_TU_Disruptor) && (UnitOrderHasAbil(allyUnit, c_CMFenix_AB_PurificationNova) == true)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if (curOrder != null) {
+                allyTargetPoint = OrderGetTargetPoint(curOrder);
+                if (allyTargetPoint != null) {
+                    if (DistanceBetweenPoints(allyTargetPoint, targetPoint) <= conflictDistance) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixDisruptorNovaOrderForHits (int player, unit aiUnit, unitgroup scanGroup, int minHits) {
+    fixed range;
+    fixed radius;
+    int damageBase;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMFenixAbilityExists(aiUnit, c_CMFenix_AB_PurificationNova) == false) {
+        return null;
+    }
+
+    range = CMFenixAbilityRange(player, c_CMFenix_AB_PurificationNova, 12.0);
+    radius = CMFenixDisruptorNovaRadius(player);
+    damageBase = CMFenixDisruptorNovaDamage(player);
+    targetGroup = CMFenixFilteredEnemyGroup(player, aiUnit, scanGroup, AIEffectStr(player, c_CMFenix_EF_PurificationNovaSearch, c_fieldFilters), range + radius + c_CMFenix_DisruptorNovaRangePadding);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, damageBase, c_CMFenix_DisruptorNovaMinScore, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    if (CMFenixDisruptorHasNearbyNovaCast(player, aiUnit, targetPoint, radius) == true) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMFenix_AB_PurificationNova, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMFenixDisruptorNovaOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMFenixDisruptorNovaOrderForHits(player, aiUnit, scanGroup, c_CMFenix_DisruptorNovaHighMinHits);
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMFenixDisruptorNovaOrderForHits(player, aiUnit, scanGroup, c_CMFenix_DisruptorNovaLowMinHits);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkFenixDisruptor (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMFenix_AB_PurificationNova) == true) {
+        return;
+    }
+
+    ord = CMFenixDisruptorNovaOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}

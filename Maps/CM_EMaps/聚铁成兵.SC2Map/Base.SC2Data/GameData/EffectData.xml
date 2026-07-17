@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectCreateUnit id="CreatePartsonDeath">
+        <EditorCategories value=""/>
+        <WhichLocation Value="SourceUnit"/>
+        <SpawnUnit value="PartsPickup"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="CreatePartsonDeath2">
+        <EditorCategories value=""/>
+        <WhichLocation Value="SourceUnit"/>
+        <SpawnUnit value="PartsPickup2"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="CreatePartsonDeath3">
+        <EditorCategories value=""/>
+        <WhichLocation Value="SourceUnit"/>
+        <SpawnUnit value="PartsPickup3"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="ReanimateCleanupTargetBehaviorsSet">
+        <EffectArray value="ScrappableRB"/>
+        <EffectArray value="Scrappable2RB"/>
+        <EffectArray value="Scrappable3RB"/>
+    </CEffectSet>
+    <CEffectRemoveBehavior id="Scrappable2RB">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="Scrappable2"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="ScrappableRB">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="Scrappable"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="Scrappable3RB">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="Scrappable3"/>
+    </CEffectRemoveBehavior>
+</Catalog>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="4">
+        <name value="Terrazine Node 3"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="53.8652,74.4025"/>
+            <radius value="4.7692"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Terrazine Node 7"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="45.5002,111.0002"/>
+            <radius value="4.2668"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Terrazine Node 9"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="103.1804,119.5354"/>
+            <radius value="4.8383"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Terrazine Node 10"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="144.5583,125.7878"/>
+            <radius value="4.73"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Terrazine Node 8"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="86.0002,116.5002"/>
+            <radius value="4.1206"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="Terrazine Node 13"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="170.9523,125.583"/>
+            <radius value="4.8532"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="Terrazine Node 11"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="132.314,99.391"/>
+            <radius value="5.039"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="Terrazine Node 12"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="170.9514,129.9311"/>
+            <radius value="5.0424"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Terrazine Node 6"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="17.2036,93.5917"/>
+            <radius value="4.523"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Terrazine Node 5"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="152.849,75.708"/>
+            <radius value="4.6916"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Terrazine Node 4"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="99.0502,78.6645"/>
+            <radius value="4.812"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Terrazine Node 2"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="45.5534,49.8862"/>
+            <radius value="4.3041"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Player01_Start"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="100.3808,14.297"/>
+            <radius value="16.0617"/>
+        </shape>
+        <shape type="circle">
+            <center value="114.9204,13.76"/>
+            <radius value="7.7531"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Player02_Start"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="115.6655,27.1706"/>
+            <radius value="14.4716"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="Terrazine Node 1"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="80.3383,68.3896"/>
+            <radius value="4.6584"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Mechanic_GatherPoint"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="90.498,38.3112"/>
+            <radius value="17.7636"/>
+        </shape>
+        <shape type="circle">
+            <center value="82.304,48.4482"/>
+            <radius value="7.0771"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Terrazine Node 14"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="170.7795,120.6591"/>
+            <radius value="5.0888"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Player01_Expac"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="60.2468,19.7692"/>
+            <radius value="10.4792"/>
+        </shape>
+        <shape type="circle">
+            <center value="133.3603,54.9006"/>
+            <radius value="10.5202"/>
+        </shape>
+        <shape type="circle">
+            <center value="107.6821,20.6657"/>
+            <radius value="23.0656"/>
+        </shape>
+        <shape type="circle">
+            <center value="112.4123,45.3833"/>
+            <radius value="18.256"/>
+        </shape>
+        <shape type="circle">
+            <center value="80.485,22.509"/>
+            <radius value="21.7475"/>
+        </shape>
+        <shape type="circle">
+            <center value="85.7268,45.7856"/>
+            <radius value="13.8032"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.9382,20.3952"/>
+            <radius value="26.5478"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="BonusObj_Whale2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="20.2922,146.3215"/>
+            <radius value="19.7687"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="BonusObj_Whale1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="19.5002,52"/>
+            <radius value="17.792"/>
+        </shape>
+    </region>
+    <region id="18">
+        <name value="Expo Left"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="61.2832,22.1574"/>
+            <radius value="15.4023"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Expo Right"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="135.2514,53.5285"/>
+            <radius value="15.4023"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="BonusObj_Whale2Reveal"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="20.5,150.5"/>
+            <radius value="7.9055"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="BonusObj_Whale1Reveal"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="17.5,49.5"/>
+            <radius value="7.9055"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Performance Sleep Area"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="23.9018,57.57"/>
+            <width value="42.1572"/>
+            <height value="30.6481"/>
+        </shape>
+        <shape type="diamond">
+            <center value="34.7954,105.928"/>
+            <width value="42.1572"/>
+            <height value="41.9501"/>
+        </shape>
+        <shape type="diamond">
+            <center value="20.9291,145.8464"/>
+            <width value="20.775"/>
+            <height value="21.6591"/>
+        </shape>
+        <shape type="rect">
+            <quad value="34.162,131.3286,104.3933,164.521"/>
+        </shape>
+        <shape type="rect">
+            <quad value="70.2434,72.084,152.1271,129.214"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="91.8706,23.9316"/>
+            <radius value="21.5273"/>
+        </shape>
+        <shape type="circle">
+            <center value="101.7297,29.0268"/>
+            <radius value="27.5"/>
+        </shape>
+        <shape type="circle">
+            <center value="120.7268,28.4128"/>
+            <radius value="17.5"/>
+        </shape>
+        <shape type="circle">
+            <center value="132.6218,54.1137"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="59.941,18.3364"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

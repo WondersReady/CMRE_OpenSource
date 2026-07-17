@@ -1,0 +1,64 @@
+﻿DOCSTR_0000=插入文本
+DocInfo/Author=暴雪娱乐
+DocInfo/DescLong=莫比斯军团将巨型天基武器站对准了帝国的移民地。帮助斯通把萨尔那加神器运送到目标地点，摧毁武器站，拯救无辜的生命。<n/><n/>摇滚盒子地图大赛2017入围作品<n/>概念设计：TheSkunk<n/><n/>
+DocInfo/Name=[CM] 死亡摇篮
+LoadingScreen/Help00=
+MapInfo/Player00/Name=
+MapInfo/Player01/Name=玩家1
+MapInfo/Player02/Name=玩家2
+MapInfo/Player03/Name=埃蒙的部队
+MapInfo/Player04/Name=埃蒙的部队
+MapInfo/Player05/Name=埃蒙的特战队
+MapInfo/Player06/Name=埃蒙的特战队
+MapInfo/Player07/Name=玩家7
+MapInfo/Player08/Name=玩家8
+MapInfo/Player09/Name=玩家9
+MapInfo/Player10/Name=玩家10
+P1Target=<s val="AAAAToolTip">玩家1</s>运载目标目的地
+Param/Expression/16392BB4=该调试功能仅能在指挥官选择界面使用
+Param/Expression/2144AFBF=<s val="WorldTooltip">选择这个<n/>~PayloadUnit~</s>
+Param/Expression/21D1ABB3=<s val="WorldTooltip">移动~TruckUnit~到这里</s>
+Param/Expression/234D280C=把~UnitName~带到这里
+Param/Expression/289BEFE3=<s val="@@ObjectivePanelProgress">(剩余~Time~)</s>
+Param/Expression/41080356=<s val="WorldTooltip">指挥它前往<n/>被标记的目标</s>
+Param/Expression/4EEA9C96=<s val="@@ObjectivePanelProgress">(剩余~Time~)</s>
+Param/Expression/666D16B1=<s val="@@ObjectivePanelProgress">(剩余~coloredTime~)</s>
+Param/Expression/73E12E5D=<s val="@@ObjectivePanelProgress">(剩余~Time~)</s>
+Param/Expression/74E8B959=~ObjectiveText~
+Param/Expression/75383A19=~ObjectiveText~
+Param/Expression/8A3EC7BB=摧毁~UnitName~
+Param/Expression/8C05AE78=<s val="@@ObjectivePanelProgress">(剩余~coloredTime~)</s>
+Param/Expression/9081F4B8=Commander Select Screen Debug Cheats:<n/>- SetBranch One|Two Left|Right<n/>----> One|Two chooses base to set. One is for bases 2 and 3. Two is the final enemy base.<n/>----> Left|Right determines which branch is chosen.<n/><n/>In Game Cheats:<n/>- PauseTimer|UnpauseTimer<n/>----> Controls the countdown to fail timer.
+Param/Expression/A2F68F40=<s val="WorldTooltip">移动~TruckUnit~到这里</s>
+Param/Expression/A75BD0F7=<s val="@@ObjectivePanelProgress">(剩余~coloredTime~)</s>
+Param/Expression/C297B335=摧毁~UnitName~
+Param/Expression/D70B02F6=最终：~PlayerScore~<n/>~OriginalText~
+Param/Expression/D9858E44=摧毁~UnitName~
+Param/Expression/DCBB75DA=盟友的~PayloadUnit~
+Param/Expression/DFBF0F03=把~UnitName~带到这里
+Param/Expression/E9B43D35=<c val="FF8000">奖励：<n/> ~B~<n/>目标生命：<n/> ~C~</n>目标时间：</n>~D~</c>
+Param/Expression/E9D1A568=<s val="~Style~">~A~</s>
+Param/Expression/ED143356=该调试功能仅能在指挥官选择界面使用
+Param/Value/01D497B5=错误：炸弹安置功能区出现未知运载目标
+Param/Value/32DE194F=虚空碎片
+Param/Value/34C0C616=你盟友的所有建筑都被摧毁了。
+Param/Value/476D2390=
+Param/Value/55308C48=殖民地摧毁倒计时
+Param/Value/716DC1F5=降低波次规模
+Param/Value/7CF37F24=你所有的建筑物都被摧毁了。
+Param/Value/93AD7D90=海盗船
+Param/Value/BC98FE04=<s val="WorldTooltip">清理两个目标地点</s>
+Param/Value/C3CE73A5=你所有的建筑物都被摧毁了。
+Param/Value/D1A7B207=莫比斯武器站已摧毁。
+Param/Value/D1C95563=调试：主计时器暂停
+Param/Value/D64B931D=你盟友的所有建筑都被摧毁了。
+Param/Value/DFCA726B=战败序列
+Param/Value/E251DD9F=<s val="BombWarning">警告！撤出爆炸范围！</s>
+Param/Value/E498ABC8=调试：主计时器暂停
+Param/Value/E7433337=Attack Wave Waypoint returning "No Point"!
+Param/Value/F554B7BF=莫比斯武器站正在朝帝国殖民地开火。
+PayloadContructor=为玩家生成运载目标。
+PayloadTarget2=<s val="WorldTooltip">把运载目标送到这里</s>
+Player2PLTg=<s val="AAAAToolTip">玩家2</s>运载目标目的地
+Variant001/ModeDesc=请手动修改玩家难度来实现不同难度敌人的挑战。
+Variant001/ModeName=合作模式

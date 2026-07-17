@@ -1,0 +1,89 @@
+﻿Button/Tooltip/InfestedMercHaven=当地民众常去的一处休闲场所。若被感染，必须将其摧毁。
+DocInfo/Author=暴雪娱乐
+DocInfo/DescLong=帝国的一颗边缘星球爆发了一场蔓延迅猛的感染危机。在其造成更大范围的破坏之前，焚烧掉所有被感染的建筑。
+DocInfo/Name=[CM] 亡者之夜
+DocInfo/PatchNote001=游戏大厅v.1.0
+DocInfo/ScreenshotHowToPlay01=建造大量SCV采集资源。他们也很擅长修理建筑。
+DocInfo/ScreenshotHowToPlay02=防守你的基地，抵御夜间感染体进攻。
+DocInfo/ScreenshotHowToPlay03=一旦太阳升起，感染体就会死亡。
+DocInfo/ScreenshotHowToPlay04=在日落之前摧毁基地外的被感染的建筑。
+LoadingScreen/Subtitle= <sp/>
+LoadingScreen/TextBody= <sp/>
+LoadingScreen/Tip= <sp/>
+LoadingScreen/TipRestart= <sp/>
+LoadingScreen/Title= <sp/>
+MapInfo/Player00/Name=中立
+MapInfo/Player01/Name=玩家1
+MapInfo/Player02/Name=玩家2
+MapInfo/Player03/Name=埃蒙的部队
+MapInfo/Player04/Name=埃蒙的部队
+MapInfo/Player05/Name=感染体
+MapInfo/Player06/Name=感应塔
+MapInfo/Player07/Name=特殊感染体
+MapInfo/Player08/Name=路障
+MapInfo/Player09/Name=路障
+Param/Expression/56E0679C=Final:~D~<n/>~OriginalText~
+Param/Expression/6B1F1453=<c val="FF8000">奖励：<n/>~A~<n/>时间：<n/>~C~</c>
+Param/Expression/A45600F5=Cheat Success - ~A~ set as Infested01, ~B~ set as Infested02
+Param/Expression/CBF122A5=~A~
+Param/Expression/F1AFF5A3=~A~
+Param/Value/172B7992=
+Param/Value/21DC07EF=
+Param/Value/23FA7FD1=摧毁所有被感染的建筑<n/>(
+Param/Value/2C189408=被感染的建筑
+Param/Value/2D861FBC=<s val="ModCenterSize32Bold">
+Param/Value/339F5D1A=
+Param/Value/3463BA2A=
+Param/Value/357EB904=
+Param/Value/35BE33A9=大量感染体正在接近中
+Param/Value/3864DD68=%number%
+Param/Value/3A23A342=感染等级设为：
+Param/Value/3F5FF9CA=<c val="00FF00">第1天</c>
+Param/Value/43FE14C8=
+Param/Value/443FEF98=
+Param/Value/45957CC1=
+Param/Value/4FE95072=)
+Param/Value/5D8B3048=噬毒体
+Param/Value/61F50687=被感染的建筑
+Param/Value/6680A09B=
+Param/Value/6B0A5E41=第%Day%天
+Param/Value/705F7F74=净化感染
+Param/Value/737970CB=
+Param/Value/739A4DB7=
+Param/Value/749F57BE=第%Night%晚
+Param/Value/7E7BF9AB=%Night%
+Param/Value/80E39C4E=夜间时间
+Param/Value/8834E902=
+Param/Value/90CA80A0=<s val="ModLeftSize16Bold">即将涌出：</s>
+Param/Value/9157EE9B=
+Param/Value/93300B2F=)
+Param/Value/9393EFD3=你所有的建筑都被摧毁了。
+Param/Value/98ABBC38=<c val="FF0000">
+Param/Value/9A91124E=铲除感染失败。
+Param/Value/9AD412AF=
+Param/Value/9DD1B439=
+Param/Value/A5663CA0=
+Param/Value/A583A361=摧毁所有被感染的建筑<n/>(
+Param/Value/AA496DD0=噬毒体
+Param/Value/ABC24AF7=
+Param/Value/ABC7557C=剩余：<c val="FFFF00">%number%</c>处建筑
+Param/Value/AEDC9672=</c></s>
+Param/Value/B1AC76B4=
+Param/Value/BAC06A4B=<c val="FF0000">
+Param/Value/BC78E2D7=
+Param/Value/C051CE95=白天时间
+Param/Value/C2295745=
+Param/Value/C3A5EF7D=%Day%
+Param/Value/C687F236=感染疫情成功控制住了。
+Param/Value/C8226A12=你所有的建筑都被摧毁了。
+Param/Value/C8FF8F0F=你盟友的所有建筑都被摧毁了。
+Param/Value/D3CF96A8=已用总人口 = 
+Param/Value/DAC42F23=<c val="FF0000">
+Param/Value/DDDA8C18=剩余：<c val="FFFF00">%number%</c>处建筑
+Param/Value/E567A0B3=已用总人口 = 
+Param/Value/F10F8990=%number%
+Param/Value/F26AD201=你盟友的所有建筑都被摧毁了。
+Param/Value/FB70620B=<c val="00FF00">
+Param/Value/FF43AB66=
+Variant001/ModeDesc=请手动修改玩家难度来实现不同难度敌人的挑战。
+Variant001/ModeName=合作模式

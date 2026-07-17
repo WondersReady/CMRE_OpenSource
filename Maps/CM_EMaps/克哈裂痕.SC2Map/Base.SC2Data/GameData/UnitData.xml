@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CUnit id="DestructibleSpacePlatformBarrier">
+        <LifeStart value="15"/>
+        <LifeMax value="15"/>
+        <LifeArmor value="0"/>
+    </CUnit>
+    <CUnit id="NydusBeast">
+        <LifeStart value="4000"/>
+        <LifeMax value="4000"/>
+        <ShieldsStart value="2000"/>
+        <ShieldsMax value="2000"/>
+    </CUnit>
+    <CUnit id="SJGriffon">
+        <Height value="4"/>
+    </CUnit>
+    <CUnit id="SJPirateCapitalShip">
+        <Height value="3.75"/>
+    </CUnit>
+    <CUnit id="Slivan">
+        <LifeStart value="6000"/>
+        <LifeMax value="6000"/>
+    </CUnit>
+    <CUnit id="SlivanCreep">
+        <LifeStart value="60"/>
+        <LifeMax value="60"/>
+    </CUnit>
+</Catalog>

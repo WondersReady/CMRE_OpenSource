@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CModel id="PartsCrate" parent="Unit">
+        <Model value="Assets\Doodads\HybridLab_Crate\HybridLab_Crate.m3"/>
+        <Flags index="VariationPreload" value="0"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CModel id="PartsPickupBehaviorModel" parent="Unit" Race="Terran">
+        <Model value="Assets\Units\Neutral\Pickup_PartParcel\Pickup_PartParcel.m3"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+        <SelectionOffset value="0.000000,0.000000,0.100000"/>
+    </CModel>
+    <CModel id="PartsPickupBehaviorModel2" parent="Unit" Race="Terran">
+        <Model value="Assets\Units\Neutral\Pickup_PartParcel\Pickup_PartParcel.m3"/>
+        <ScaleMax value="2.500000,2.500000,2.500000"/>
+        <ScaleMin value="2.500000,2.500000,2.500000"/>
+        <SelectionOffset value="0.000000,0.000000,0.100000"/>
+    </CModel>
+    <CModel id="PartsPickupBehaviorModel22" parent="Unit" Race="Terran">
+        <Model value="Assets\Units\Neutral\Pickup_PartParcel\Pickup_PartParcel.m3"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+        <SelectionOffset value="0.000000,0.000000,0.100000"/>
+    </CModel>
+</Catalog>

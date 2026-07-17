@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preload>
+<Actor id="SYSTEM_ActorConfig"/>
+<Actor id="Aiur_Zerg_GlowingPods" Variations="0,1,2,3,4,5"/>
+<Actor id="Aiur_Zerg_Horn" Variations="0,1,2,3"/>
+<Actor id="Aiur_Zerg_Intestines" Variations="0,1,2"/>
+<Actor id="Aiur_Zerg_Ribs" Variations="0,2"/>
+<Actor id="Blast_Craters" Variations="0,1,2,3"/>
+<Actor id="Decal_Baked" Variations="3"/>
+<Actor id="GenericBuildingRubble" Variations="1,2,3,5,6,7"/>
+<Actor id="KorhalBuildingsMedium" Variations="0,1,3"/>
+<Actor id="KorhalDestroyedBuilding" Variations="0,1,2"/>
+<Actor id="KorhalMengskSymbol" Variations="0,1,2"/>
+<Actor id="KorhalMengskSymbolSplat"/>
+<Actor id="KorhalRedCarpet"/>
+<Actor id="KorhalSkyScrapers" Variations="0,1,2,3,4,5,6"/>
+<Actor id="KorhalSkyScrapersLarge" Variations="1"/>
+<Actor id="KorhalSkyScrapersMedium" Variations="0,1,2,3,4,5,6,7"/>
+<Actor id="KorhalSkyScrapersSmall" Variations="0,1,2,3,4,5,6,7"/>
+<Actor id="KorhalStreet_Props" Variations="0"/>
+<Actor id="KorhalTopiary" Variations="0,1,2,3"/>
+<Actor id="Korhal_AirportTower_Destroyed" Variations="0"/>
+<Actor id="Korhal_BuildingsMedium_Destroyed" Variations="0,1,2,3,4"/>
+<Actor id="Korhal_CorporateSignage" Variations="2,5,6,7"/>
+<Actor id="Korhal_CorporateSignage_Destroyed" Variations="2"/>
+<Actor id="Korhal_FuelTank" Variations="0,1"/>
+<Actor id="Korhal_Manhole" Variations="0,1"/>
+<Actor id="Korhal_Mart_Destroyed" Variations="1,2"/>
+<Actor id="Korhal_MengskBuildingsDestroyed" Variations="2"/>
+<Actor id="Korhal_Platform_Debris" Variations="0,1,2,3,4,5"/>
+<Actor id="Korhal_Platform_GrimeSplats" Variations="0,1"/>
+<Actor id="Korhal_Platform_LandingLights" Variations="2"/>
+<Actor id="Korhal_Residential_Building_Destroyed" Variations="0"/>
+<Actor id="Korhal_SiegeTank_Destroyed"/>
+<Actor id="Korhal_Skyscrapers_Cliff" Variations="0,1,2,3"/>
+<Actor id="Korhal_Skyscrapers_Cliff_Destroyed" Variations="0,1,2"/>
+<Actor id="Korhal_SpacePort_Cone" Variations="0,3"/>
+<Actor id="Korhal_TarmacSplat" Variations="0,1"/>
+<Actor id="MengskBuildingFront"/>
+<Actor id="MengskBuildingSide"/>
+<Actor id="MilitaryFenceCorner"/>
+<Actor id="MilitaryFenceDiagonal" Variations="0,1"/>
+<Actor id="MilitaryFenceDiagonalShort" Variations="0,1"/>
+<Actor id="RoadCornerDiagonal" Variations="1,2"/>
+<Actor id="RoadCornerStraight" Variations="0,1,2,3,5,6"/>
+<Actor id="RoadDestroyedCornerDiagonal" Variations="1,2"/>
+<Actor id="RoadDestroyedCornerStraight" Variations="0"/>
+<Actor id="RoadDestroyedDiagonal" Variations="0,1,2"/>
+<Actor id="RoadDestroyedEndCap" Variations="1,3"/>
+<Actor id="RoadDiagonal" Variations="0,1,2,3,4"/>
+<Actor id="RoadEndCap" Variations="0,1"/>
+<Actor id="RoadStraight" Variations="1,2,3,4"/>
+<Actor id="SnowBlizzard"/>
+<Actor id="TerranHalfWall"/>
+<Actor id="MengskPalace"/>
+<Actor id="CreepBlocker1x1Doodad"/>
+<Actor id="BarracksWrecked"/>
+<Actor id="BelShirTree" Variations="0,1,2,3,7"/>
+<Actor id="BillboardDestroyed" Variations="0"/>
+<Actor id="BraxisAlphaFloodLights" Variations="0"/>
+<Actor id="ChainLinkFenceDiagonal" Variations="0,1,2"/>
+<Actor id="CityBillboards" Variations="5,7,21,23,27"/>
+<Actor id="CityBuilding" Variations="0,9,10"/>
+<Actor id="Crate" Variations="0,1,2,3,4,5"/>
+<Actor id="FanVentCliff" Variations="0"/>
+<Actor id="FireMedium"/>
+<Actor id="Floodlight" Variations="1"/>
+<Actor id="KorhalBuilding" Variations="0,1,2,3,4,5,6,7,8,9"/>
+<Actor id="KorhalBuildingWrecked" Variations="0,1,2,4,5"/>
+<Actor id="MarSaraCrack" Variations="4"/>
+<Actor id="MarSaraGroundProps" Variations="0,1,2"/>
+<Actor id="MonoCar" Variations="2"/>
+<Actor id="MonoRailEngine" Variations="0,1"/>
+<Actor id="MonoTrackDiagonalULDR"/>
+<Actor id="MonoTrackDiagonalURDL"/>
+<Actor id="MonoTrackBendRight45"/>
+<Actor id="MonoTrackBendRight45_90"/>
+<Actor id="MonoTrackBendLeft45_180"/>
+<Actor id="MonoTrackBendLeft45_270"/>
+<Actor id="MonoTrackBend90_180"/>
+<Actor id="MonoTrackDestroyed180" Variations="0"/>
+<Actor id="MonoTrackDestroyed270" Variations="1"/>
+<Actor id="PortZionGroundMix" Variations="2,3,7"/>
+<Actor id="PortZionTowerDestroyed" Variations="7"/>
+<Actor id="Searchlight" Variations="1,2"/>
+<Actor id="SecurityFenceDiagonal" Variations="0,1"/>
+<Actor id="SecurityFenceStraight"/>
+<Actor id="SmokePillarsTall"/>
+<Actor id="SpacePlatformCliffDoodadMedium" Variations="13,14"/>
+<Actor id="SpacePlatformWallDebris" Variations="5"/>
+<Actor id="Streetlight" Variations="1,3"/>
+<Actor id="TrafficSignalBroken" Variations="2"/>
+<Actor id="WreckedCargoTruckCorpse" Variations="0,2"/>
+<Actor id="WreckedJackal"/>
+<Actor id="WreckedMule" Variations="0"/>
+<Actor id="ZergThornSpire" Variations="0,2,3,4,7"/>
+<Actor id="ColonistVehicleWrecked" Variations="1"/>
+<Actor id="WreckedCargoTruck" Variations="2"/>
+<Actor id="KorhalBuildingDebris" Variations="0,1,2,3,4,5,6,7"/>
+<Actor id="KorhalFlag" Variations="1,2"/>
+<Actor id="MengskStatueAloneCreep"/>
+<Behavior id="ProgressBar"/>
+<Behavior id="ExpansionRocks"/>
+<Effect id="HeroNukeDamage"/>
+<Light id="KorhalNight"/>
+<Light id="KorhalCity"/>
+<Map id="AC_KorhalRift"/>
+<Model id="PingObjective"/>
+<Model id="PingCircle"/>
+<Objective id="AC_KorhalRift_Bonus01"/>
+<Objective id="AC_KorhalRift_Bonus02"/>
+<Objective id="AC_KorhalRift_Bonus03"/>
+<Race id="Terr"/>
+<Sound id="VoidTendril_Shockwave_FXFire"/>
+<Sound id="Mission_End_2D_Nuke_Explosion"/>
+<Sound id="pAiur02_Cine_Amon_Quake"/>
+<Sound id="Explosion_Distant_2D"/>
+<Terrain id="KorhalCityEx2"/>
+<Unit id="Colossus" UserTag="Prot"/>
+<Unit id="Baneling" UserTag="Zerg"/>
+<Unit id="Mothership" UserTag="Prot"/>
+<Unit id="Barracks" UserTag="Terr"/>
+<Unit id="MissileTurret" UserTag="Terr"/>
+<Unit id="Bunker" UserTag="Terr"/>
+<Unit id="GhostAcademy" UserTag="Terr"/>
+<Unit id="Factory" UserTag="Terr"/>
+<Unit id="Starport" UserTag="Terr"/>
+<Unit id="Armory" UserTag="Terr"/>
+<Unit id="FusionCore" UserTag="Terr"/>
+<Unit id="SiegeTank" UserTag="Terr"/>
+<Unit id="VikingAssault" UserTag="Terr"/>
+<Unit id="VikingFighter" UserTag="Terr"/>
+<Unit id="SCV" UserTag="Terr"/>
+<Unit id="Marine" UserTag="Terr"/>
+<Unit id="Reaper" UserTag="Terr"/>
+<Unit id="Ghost" UserTag="Terr"/>
+<Unit id="Marauder" UserTag="Terr"/>
+<Unit id="Thor" UserTag="Terr"/>
+<Unit id="Medivac" UserTag="Terr"/>
+<Unit id="Banshee" UserTag="Terr"/>
+<Unit id="Raven" UserTag="Terr"/>
+<Unit id="Battlecruiser" UserTag="Terr"/>
+<Unit id="Nexus" UserTag="Prot"/>
+<Unit id="Pylon" UserTag="Prot"/>
+<Unit id="FleetBeacon" UserTag="Prot"/>
+<Unit id="PhotonCannon" UserTag="Prot"/>
+<Unit id="Stargate" UserTag="Prot"/>
+<Unit id="TemplarArchive" UserTag="Prot"/>
+<Unit id="DarkShrine" UserTag="Prot"/>
+<Unit id="RoboticsFacility" UserTag="Prot"/>
+<Unit id="CyberneticsCore" UserTag="Prot"/>
+<Unit id="Zealot" UserTag="Prot"/>
+<Unit id="Stalker" UserTag="Prot"/>
+<Unit id="HighTemplar" UserTag="Prot"/>
+<Unit id="DarkTemplar" Variations="0" UserTag="Prot"/>
+<Unit id="Sentry" UserTag="Prot"/>
+<Unit id="Phoenix" UserTag="Prot"/>
+<Unit id="Carrier" UserTag="Prot"/>
+<Unit id="VoidRay" UserTag="Prot"/>
+<Unit id="Immortal" UserTag="Prot"/>
+<Unit id="Hatchery" UserTag="Zerg"/>
+<Unit id="SpawningPool" UserTag="Zerg"/>
+<Unit id="EvolutionChamber" UserTag="Zerg"/>
+<Unit id="HydraliskDen" UserTag="Zerg"/>
+<Unit id="InfestationPit" UserTag="Zerg"/>
+<Unit id="NydusNetwork" UserTag="Zerg"/>
+<Unit id="BanelingNest" UserTag="Zerg"/>
+<Unit id="RoachWarren" UserTag="Zerg"/>
+<Unit id="SpineCrawler" UserTag="Zerg"/>
+<Unit id="SporeCrawler" UserTag="Zerg"/>
+<Unit id="Hive" UserTag="Zerg"/>
+<Unit id="GreaterSpire" UserTag="Zerg"/>
+<Unit id="Zergling" UserTag="Zerg"/>
+<Unit id="Overlord" UserTag="Zerg"/>
+<Unit id="Hydralisk" UserTag="Zerg"/>
+<Unit id="Mutalisk" UserTag="Zerg"/>
+<Unit id="Ultralisk" UserTag="Zerg"/>
+<Unit id="Roach" UserTag="Zerg"/>
+<Unit id="Infestor" UserTag="Zerg"/>
+<Unit id="Corruptor" UserTag="Zerg"/>
+<Unit id="BroodLord" UserTag="Zerg"/>
+<Unit id="Queen" UserTag="Zerg"/>
+<Unit id="Overseer" UserTag="Zerg"/>
+<Unit id="PlanetaryFortress" UserTag="Terr"/>
+<Unit id="WarpGate" UserTag="Prot"/>
+<Unit id="Archon" UserTag="Prot"/>
+<Unit id="LurkerMPBurrowed" UserTag="Zerg"/>
+<Unit id="SwarmHostMP" UserTag="Zerg"/>
+<Unit id="Viper" UserTag="Zerg"/>
+<Unit id="MineralField" Variations="0,1,2,3,4,5,6,8"/>
+<Unit id="SpacePlatformGeyser"/>
+<Unit id="DestructibleStreetlight" Variations="1"/>
+<Unit id="DestructibleDebris4x4"/>
+<Unit id="DestructibleDebris6x6"/>
+<Unit id="MengskStatueAlone"/>
+<Unit id="WolfStatue" Variations="0,1"/>
+<Unit id="InfestedAbomination" UserTag="Zerg"/>
+<Unit id="BarracksTechReactor" UserTag="Terr"/>
+<Unit id="FactoryTechReactor" UserTag="Terr"/>
+<Unit id="StarportTechReactor" UserTag="Terr"/>
+<Unit id="Firebat" UserTag="Terr"/>
+<Unit id="Obelisk" UserTag="Prot"/>
+<Unit id="Goliath" UserTag="Terr"/>
+<Unit id="InfestedCocoon" UserTag="Zerg"/>
+<Unit id="ScienceVessel" UserTag="Terr"/>
+<Unit id="DestructibleKorhalFlag" Variations="0"/>
+<Unit id="Brutalisk" UserTag="Zerg"/>
+<Unit id="DataCore" Variations="0"/>
+<Unit id="HybridDestroyer"/>
+<Unit id="HybridReaver"/>
+<Unit id="InfestationSpire" Variations="0,1,2,3,4" UserTag="Zerg"/>
+<Unit id="Leviathan" UserTag="Zerg"/>
+<Unit id="ProtossCrates" Variations="0,1,2,3,4,5,6" UserTag="Prot"/>
+<Unit id="InvisibleTargetDummy"/>
+<Unit id="DestructibleCityDebris4x4"/>
+<Unit id="DestructibleCityDebris6x6"/>
+<Unit id="DefensiveWall45GateLargeEastLowered"/>
+<Unit id="CreepTumorUsed" UserTag="Zerg"/>
+<Unit id="StarshipVentdoorUnit" Variations="0" UserTag="Prot"/>
+<Unit id="MengskPalaceGate"/>
+<Unit id="HybridNemesis"/>
+<Unit id="HybridBehemoth"/>
+<Unit id="ACHeroSpawnPlacement"/>
+</Preload>

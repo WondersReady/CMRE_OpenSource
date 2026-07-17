@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocInfo>
+    <Dependencies>
+        <Value>bnet:CM_Core_Base/0.0/177683,file:Mods\CMRE\CMRE_Core_Base.SC2Mod</Value>
+    </Dependencies>
+</DocInfo>

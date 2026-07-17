@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AIData>
+    <RepeatShow Value="1800"/>
+    <Definition Id="F917F4D7">
+        <SourcePlayer Value="7"/>
+        <RepeatWaves Value="1"/>
+        <Step Type="Wave" Id="1">
+            <Time Type="Arrival" Trigger="09DDC0EB">
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="2">
+            <Time Type="Arrival" Trigger="BC9A9047">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="3">
+            <Time Type="Arrival" Trigger="ED9F68F2">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="4">
+            <Time Type="Arrival" Trigger="DA125E6A">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="5">
+            <Time Type="Arrival" Trigger="9A014A55">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="6">
+            <Time Type="Arrival" Trigger="1567815A">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="7">
+            <Time Type="Arrival" Trigger="C3BDDD52">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+    </Definition>
+</AIData>

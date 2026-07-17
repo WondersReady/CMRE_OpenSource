@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CRequirement id="AutoCreepOn">
+        <NodeArray index="Show" Link="CountUpgradeAutoCreepCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="AutoCreepOff">
+        <NodeArray index="Show" Link="NotCountUpgradeAutoCreepCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="AutoCreepEnabled">
+        <NodeArray index="Use" Link="CountUpgradeAutoCreepCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="CMUIXQuickLoadOverlord">
+        <NodeArray index="Show" Link="CountUpgradeoverlordtransportCompleteOnly2398587713TechTreeCheat"/>
+        <NodeArray index="Use" Link="CountUpgradeoverlordtransportCompleteOnly2398587713TechTreeCheat"/>
+    </CRequirement>
+    <CRequirement id="CMUIXQuickLoadOverlordStetmann">
+        <NodeArray index="Show" Link="CountUpgradeOverlordStetmannTransportCompleteOnly3286254285"/>
+        <NodeArray index="Use" Link="CountUpgradeOverlordStetmannTransportCompleteOnly3286254285"/>
+    </CRequirement>
+    <CRequirement id="CMUIXQuickLoadZeratulWarpPrism">
+        <NodeArray index="Show" Link="Not3360504378CountBehaviorZeratulWarpPrismAutoUnloadCompleteOnlyAtUnit"/>
+        <NodeArray index="Use" Link="Not3360504378CountBehaviorZeratulWarpPrismAutoUnloadCompleteOnlyAtUnit"/>
+    </CRequirement>
+    <CRequirement id="KerriganNydusTopbar">
+        <NodeArray index="Show" Link="AndCountUpgradeKerriganCommanderCompleteOnlyGT8CountUpgradeCommanderLevelCompleteOnlyNot1087874511CountBehaviorUnderConstructionCompleteOnlyAtUnitNotCountUpgradeCommanderPrestigeKerriganCreepCompleteOnly"/>
+    </CRequirement>
+</Catalog>

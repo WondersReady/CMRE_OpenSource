@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="COOPTerrazineTank">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="DesertEnergyCannon">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Acceleration value="1000"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="CoopTurnToAbility"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="DestructibleUmojanLabTestTube">
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+    </CUnit>
+    <CUnit id="GateControlUnit">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="HybridHoldingCellSmallUnit">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+    </CUnit>
+    <CUnit id="JoriumStockpile">
+        <FlagArray index="Turnable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="KorhalCannon">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="KorhalGateControl">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="LogisticsHeadquarters">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="NuclearMissileSilo">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="PlatformConnector">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+    </CUnit>
+    <CUnit id="PlatformPowerCore">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="PreventDefeat" value="0"/>
+        <FlagArray index="PreventDestroy" value="0"/>
+        <FlagArray index="PenaltyRevealed" value="0"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="PsiDisintegratorPowerLink">
+        <FlagArray index="Turnable" value="1"/>
+        <FlagArray index="Untooltipable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="PsiIndoctrinator">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+    <CUnit id="TerrazineTank">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncloakable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <MinimapRadius value="0"/>
+        <BehaviorArray Link="TimeStopImmune"/>
+        <Footprint value=""/>
+        <DeadFootprint value=""/>
+        <PlacementFootprint value=""/>
+    </CUnit>
+</Catalog>

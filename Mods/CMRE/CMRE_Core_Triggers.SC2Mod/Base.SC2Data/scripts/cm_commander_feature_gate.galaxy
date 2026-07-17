@@ -1,0 +1,582 @@
+// CM per-player commander feature gates.
+// Feature state is lazy and order-independent: player flags may be set before
+// the owning trigger is registered.
+
+include "scripts/cm_commander_feature_gate_h"
+
+const int CMCT_FEATURE_TRIGGER_SLOT_MAX = 64;
+const int CMCT_FEATURE_TRIGGER_RECORD_MAX = 512;
+
+int CMCT_FeatureTriggerRecordCount = 0;
+trigger[513] CMCT_FeatureTriggerRecordTrigger;
+string[513] CMCT_FeatureTriggerRecordFeature;
+int[513] CMCT_FeatureTriggerRecordSlot;
+
+string CMCT_FeaturePlayerKey(string lp_feature, int lp_player) {
+    return ("CMCT_Feature:" + lp_feature + ":Player:" + IntToString(lp_player));
+}
+
+string CMCT_FeatureCountKey(string lp_feature) {
+    return ("CMCT_Feature:" + lp_feature + ":Count");
+}
+
+string CMCT_FeatureTriggerKey(string lp_feature) {
+    return ("CMCT_Feature:" + lp_feature + ":Trigger");
+}
+
+string CMCT_FeatureTriggerSlotKey(string lp_feature, int lp_slot) {
+    if ((lp_slot <= 1)) {
+        return CMCT_FeatureTriggerKey(lp_feature);
+    }
+
+    return ("CMCT_Feature:" + lp_feature + ":Trigger:" + IntToString(lp_slot));
+}
+
+bool CMCT_FeatureValid(string lp_feature) {
+    if ((lp_feature == "") || (lp_feature == null)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool CMCT_PlayerValid(int lp_player) {
+    if ((lp_player < 1)) {
+        return false;
+    }
+
+    if ((lp_player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+
+    return true;
+}
+
+int CMCT_FeatureTriggerSlotValid(int lp_slot) {
+    if ((lp_slot < 1)) {
+        return 0;
+    }
+
+    if ((lp_slot > CMCT_FEATURE_TRIGGER_SLOT_MAX)) {
+        return 0;
+    }
+
+    return lp_slot;
+}
+
+int CMCT_FindTriggerRecord(trigger lp_trigger) {
+    int lv_index;
+
+    if ((lp_trigger == null)) {
+        return 0;
+    }
+
+    lv_index = 1;
+    while ((lv_index <= CMCT_FeatureTriggerRecordCount)) {
+        if ((CMCT_FeatureTriggerRecordTrigger[lv_index] == lp_trigger)) {
+            return lv_index;
+        }
+        lv_index = lv_index + 1;
+    }
+
+    return 0;
+}
+
+int CMCT_FindFeatureTriggerRecord(string lp_feature, int lp_slot) {
+    int lv_index;
+    int lv_slot;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return 0;
+    }
+
+    lv_slot = CMCT_FeatureTriggerSlotValid(lp_slot);
+    if ((lv_slot == 0)) {
+        return 0;
+    }
+
+    lv_index = 1;
+    while ((lv_index <= CMCT_FeatureTriggerRecordCount)) {
+        if ((CMCT_FeatureTriggerRecordFeature[lv_index] == lp_feature) && (CMCT_FeatureTriggerRecordSlot[lv_index] == lv_slot)) {
+            return lv_index;
+        }
+        lv_index = lv_index + 1;
+    }
+
+    return 0;
+}
+
+void CMCT_ClearTriggerRecord(int lp_index) {
+    if ((lp_index < 1)) {
+        return;
+    }
+
+    if ((lp_index > CMCT_FeatureTriggerRecordCount)) {
+        return;
+    }
+
+    CMCT_FeatureTriggerRecordTrigger[lp_index] = CMCT_FeatureTriggerRecordTrigger[CMCT_FeatureTriggerRecordCount];
+    CMCT_FeatureTriggerRecordFeature[lp_index] = CMCT_FeatureTriggerRecordFeature[CMCT_FeatureTriggerRecordCount];
+    CMCT_FeatureTriggerRecordSlot[lp_index] = CMCT_FeatureTriggerRecordSlot[CMCT_FeatureTriggerRecordCount];
+    CMCT_FeatureTriggerRecordTrigger[CMCT_FeatureTriggerRecordCount] = null;
+    CMCT_FeatureTriggerRecordFeature[CMCT_FeatureTriggerRecordCount] = "";
+    CMCT_FeatureTriggerRecordSlot[CMCT_FeatureTriggerRecordCount] = 0;
+    CMCT_FeatureTriggerRecordCount = CMCT_FeatureTriggerRecordCount - 1;
+}
+
+void CMCT_SetTriggerRecord(string lp_feature, int lp_slot, trigger lp_trigger) {
+    int lv_featureRecord;
+    int lv_triggerRecord;
+    int lv_slot;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return;
+    }
+
+    lv_slot = CMCT_FeatureTriggerSlotValid(lp_slot);
+    if ((lv_slot == 0)) {
+        return;
+    }
+
+    lv_featureRecord = CMCT_FindFeatureTriggerRecord(lp_feature, lv_slot);
+    if ((lp_trigger == null)) {
+        if ((lv_featureRecord != 0)) {
+            CMCT_ClearTriggerRecord(lv_featureRecord);
+        }
+        return;
+    }
+
+    if ((lv_featureRecord != 0)) {
+        CMCT_FeatureTriggerRecordTrigger[lv_featureRecord] = lp_trigger;
+        CMCT_FeatureTriggerRecordFeature[lv_featureRecord] = lp_feature;
+        CMCT_FeatureTriggerRecordSlot[lv_featureRecord] = lv_slot;
+        return;
+    }
+
+    lv_triggerRecord = CMCT_FindTriggerRecord(lp_trigger);
+    if ((lv_triggerRecord != 0)) {
+        DataTableValueRemove(true, CMCT_FeatureTriggerSlotKey(CMCT_FeatureTriggerRecordFeature[lv_triggerRecord], CMCT_FeatureTriggerRecordSlot[lv_triggerRecord]));
+        CMCT_FeatureTriggerRecordFeature[lv_triggerRecord] = lp_feature;
+        CMCT_FeatureTriggerRecordSlot[lv_triggerRecord] = lv_slot;
+        return;
+    }
+
+    if ((CMCT_FeatureTriggerRecordCount >= CMCT_FEATURE_TRIGGER_RECORD_MAX)) {
+        return;
+    }
+
+    CMCT_FeatureTriggerRecordCount = CMCT_FeatureTriggerRecordCount + 1;
+    CMCT_FeatureTriggerRecordTrigger[CMCT_FeatureTriggerRecordCount] = lp_trigger;
+    CMCT_FeatureTriggerRecordFeature[CMCT_FeatureTriggerRecordCount] = lp_feature;
+    CMCT_FeatureTriggerRecordSlot[CMCT_FeatureTriggerRecordCount] = lv_slot;
+}
+
+bool CMCT_FeaturePlayerValid(string lp_feature, int lp_player) {
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return false;
+    }
+
+    if ((CMCT_PlayerValid(lp_player) == false)) {
+        return false;
+    }
+
+    return true;
+}
+
+int CMCT_FeatureActiveCount(string lp_feature) {
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return 0;
+    }
+
+    if ((DataTableValueExists(true, CMCT_FeatureCountKey(lp_feature)) == false)) {
+        return 0;
+    }
+
+    return DataTableGetInt(true, CMCT_FeatureCountKey(lp_feature));
+}
+
+void CMCT_SetFeatureActiveCount(string lp_feature, int lp_count) {
+    int lv_count;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return;
+    }
+
+    lv_count = lp_count;
+    if ((lv_count < 0)) {
+        lv_count = 0;
+    }
+
+    if ((lv_count == 0)) {
+        DataTableValueRemove(true, CMCT_FeatureCountKey(lp_feature));
+        return;
+    }
+
+    DataTableSetInt(true, CMCT_FeatureCountKey(lp_feature), lv_count);
+}
+
+bool CMCT_FeatureTriggerRegistered(string lp_feature) {
+    int lv_index;
+
+    lv_index = 1;
+    while ((lv_index <= CMCT_FeatureTriggerRecordCount)) {
+        if ((CMCT_FeatureTriggerRecordFeature[lv_index] == lp_feature)) {
+            return true;
+        }
+        lv_index = lv_index + 1;
+    }
+
+    return DataTableValueExists(true, CMCT_FeatureTriggerKey(lp_feature));
+}
+
+trigger CMCT_FeatureTrigger(string lp_feature) {
+    return CMCT_FeatureTriggerAt(lp_feature, 1);
+}
+
+trigger CMCT_FeatureTriggerAt(string lp_feature, int lp_slot) {
+    int lv_slot;
+    int lv_record;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return null;
+    }
+
+    lv_slot = CMCT_FeatureTriggerSlotValid(lp_slot);
+    if ((lv_slot == 0)) {
+        return null;
+    }
+
+    lv_record = CMCT_FindFeatureTriggerRecord(lp_feature, lv_slot);
+    if ((lv_record != 0)) {
+        return CMCT_FeatureTriggerRecordTrigger[lv_record];
+    }
+
+    if ((DataTableValueExists(true, CMCT_FeatureTriggerSlotKey(lp_feature, lv_slot)) == false)) {
+        return null;
+    }
+
+    return DataTableGetTrigger(true, CMCT_FeatureTriggerSlotKey(lp_feature, lv_slot));
+}
+
+string CMCT_FeatureForTrigger(trigger lp_trigger) {
+    int lv_record;
+
+    lv_record = CMCT_FindTriggerRecord(lp_trigger);
+    if ((lv_record == 0)) {
+        return "";
+    }
+
+    return CMCT_FeatureTriggerRecordFeature[lv_record];
+}
+
+int CMCT_FeatureSlotForTrigger(trigger lp_trigger) {
+    int lv_record;
+
+    lv_record = CMCT_FindTriggerRecord(lp_trigger);
+    if ((lv_record == 0)) {
+        return 0;
+    }
+
+    return CMCT_FeatureTriggerRecordSlot[lv_record];
+}
+
+int CMCT_FeatureNextTriggerSlot(string lp_feature) {
+    int lv_slot;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return 0;
+    }
+
+    lv_slot = 1;
+    while ((lv_slot <= CMCT_FEATURE_TRIGGER_SLOT_MAX)) {
+        if ((CMCT_FindFeatureTriggerRecord(lp_feature, lv_slot) == 0) && (DataTableValueExists(true, CMCT_FeatureTriggerSlotKey(lp_feature, lv_slot)) == false)) {
+            return lv_slot;
+        }
+        lv_slot = lv_slot + 1;
+    }
+
+    return 0;
+}
+
+int CMCT_FeatureTriggerSlotForRegistration(string lp_feature, trigger lp_trigger) {
+    int lv_record;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return 0;
+    }
+
+    if ((lp_trigger == null)) {
+        return CMCT_FeatureNextTriggerSlot(lp_feature);
+    }
+
+    lv_record = CMCT_FindTriggerRecord(lp_trigger);
+    if ((lv_record != 0) && (CMCT_FeatureTriggerRecordFeature[lv_record] == lp_feature)) {
+        return CMCT_FeatureTriggerRecordSlot[lv_record];
+    }
+
+    return CMCT_FeatureNextTriggerSlot(lp_feature);
+}
+
+void CMCT_RefreshFeatureTrigger(string lp_feature) {
+    trigger lv_trigger;
+    bool lv_enabled;
+    bool lv_found;
+    int lv_index;
+
+    if ((CMCT_FeatureTriggerRegistered(lp_feature) == false)) {
+        return;
+    }
+
+    lv_enabled = false;
+    if ((CMCT_FeatureActiveCount(lp_feature) > 0)) {
+        lv_enabled = true;
+    }
+
+    lv_found = false;
+    lv_index = 1;
+    while ((lv_index <= CMCT_FeatureTriggerRecordCount)) {
+        if ((CMCT_FeatureTriggerRecordFeature[lv_index] == lp_feature)) {
+            lv_found = true;
+            lv_trigger = CMCT_FeatureTriggerRecordTrigger[lv_index];
+            if ((lv_trigger != null)) {
+                TriggerEnable(lv_trigger, lv_enabled);
+            }
+        }
+        lv_index = lv_index + 1;
+    }
+
+    if ((lv_found == false)) {
+        lv_trigger = CMCT_FeatureTriggerAt(lp_feature, 1);
+        if ((lv_trigger != null)) {
+            TriggerEnable(lv_trigger, lv_enabled);
+        }
+    }
+}
+
+void CMCT_RegisterFeatureTrigger(string lp_feature, trigger lp_trigger) {
+    int lv_slot;
+
+    if ((lp_trigger == null)) {
+        CMCT_RegisterFeatureTriggerAt(lp_feature, 1, null);
+        return;
+    }
+
+    lv_slot = CMCT_FeatureTriggerSlotForRegistration(lp_feature, lp_trigger);
+    if ((lv_slot == 0)) {
+        return;
+    }
+
+    CMCT_RegisterFeatureTriggerAt(lp_feature, lv_slot, lp_trigger);
+}
+
+void CMCT_RegisterFeatureTriggerAt(string lp_feature, int lp_slot, trigger lp_trigger) {
+    trigger lv_oldTrigger;
+    int lv_slot;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return;
+    }
+
+    lv_slot = CMCT_FeatureTriggerSlotValid(lp_slot);
+    if ((lv_slot == 0)) {
+        return;
+    }
+
+    lv_oldTrigger = CMCT_FeatureTriggerAt(lp_feature, lv_slot);
+    if ((lp_trigger == null)) {
+        if ((lv_oldTrigger != null)) {
+            TriggerEnable(lv_oldTrigger, false);
+        }
+        DataTableValueRemove(true, CMCT_FeatureTriggerSlotKey(lp_feature, lv_slot));
+        CMCT_SetTriggerRecord(lp_feature, lv_slot, null);
+        return;
+    }
+
+    if ((lv_oldTrigger != null) && (lv_oldTrigger != lp_trigger)) {
+        TriggerEnable(lv_oldTrigger, false);
+    }
+
+    DataTableSetTrigger(true, CMCT_FeatureTriggerSlotKey(lp_feature, lv_slot), lp_trigger);
+    CMCT_SetTriggerRecord(lp_feature, lv_slot, lp_trigger);
+    CMCT_RefreshFeatureTrigger(lp_feature);
+}
+
+void CMCT_RecountFeature(string lp_feature) {
+    int lv_player;
+    int lv_count;
+
+    if ((CMCT_FeatureValid(lp_feature) == false)) {
+        return;
+    }
+
+    lv_count = 0;
+    lv_player = 1;
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        if ((DataTableValueExists(true, CMCT_FeaturePlayerKey(lp_feature, lv_player)) == true) && (DataTableGetBool(true, CMCT_FeaturePlayerKey(lp_feature, lv_player)) == true)) {
+            lv_count = lv_count + 1;
+        }
+        lv_player = lv_player + 1;
+    }
+
+    CMCT_SetFeatureActiveCount(lp_feature, lv_count);
+    CMCT_RefreshFeatureTrigger(lp_feature);
+}
+
+bool CMCT_FeatureCanRun(string lp_feature, int lp_player) {
+    if ((CMCT_FeaturePlayerValid(lp_feature, lp_player) == false)) {
+        return false;
+    }
+
+    if ((DataTableValueExists(true, CMCT_FeaturePlayerKey(lp_feature, lp_player)) == false)) {
+        return false;
+    }
+
+    return DataTableGetBool(true, CMCT_FeaturePlayerKey(lp_feature, lp_player));
+}
+
+bool CMCT_FeatureCanRunForUnit(string lp_feature, unit lp_unit) {
+    if ((lp_unit == null)) {
+        return false;
+    }
+
+    if ((UnitIsValid(lp_unit) == false)) {
+        return false;
+    }
+
+    return CMCT_FeatureCanRun(lp_feature, UnitGetOwner(lp_unit));
+}
+
+bool CMCT_FeatureCanRunForEventUnit(string lp_feature) {
+    return CMCT_FeatureCanRunForUnit(lp_feature, EventUnit());
+}
+
+bool CMCT_SetFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player, bool lp_enabled) {
+    string lv_feature;
+
+    lv_feature = CMCT_FeatureForTrigger(lp_trigger);
+    if ((CMCT_FeatureValid(lv_feature) == false)) {
+        return false;
+    }
+
+    CMCT_SetFeatureForPlayer(lv_feature, lp_player, lp_enabled);
+    return true;
+}
+
+bool CMCT_DisableFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player) {
+    return CMCT_SetFeatureForPlayerByTrigger(lp_trigger, lp_player, false);
+}
+
+void CMCT_SetFeatureForPlayer(string lp_feature, int lp_player, bool lp_enabled) {
+    string lv_playerKey;
+    bool lv_wasEnabled;
+    int lv_count;
+
+    if ((CMCT_FeaturePlayerValid(lp_feature, lp_player) == false)) {
+        return;
+    }
+
+    lv_playerKey = CMCT_FeaturePlayerKey(lp_feature, lp_player);
+    lv_wasEnabled = false;
+    if ((DataTableValueExists(true, lv_playerKey) == true)) {
+        lv_wasEnabled = DataTableGetBool(true, lv_playerKey);
+    }
+
+    if ((lv_wasEnabled == lp_enabled)) {
+        return;
+    }
+
+    lv_count = CMCT_FeatureActiveCount(lp_feature);
+    if ((lp_enabled == true)) {
+        DataTableSetBool(true, lv_playerKey, true);
+        lv_count = lv_count + 1;
+    }
+    else {
+        DataTableValueRemove(true, lv_playerKey);
+        lv_count = lv_count - 1;
+    }
+
+    CMCT_SetFeatureActiveCount(lp_feature, lv_count);
+    CMCT_RefreshFeatureTrigger(lp_feature);
+}
+
+void CMCT_EnableFeatureForPlayer(string lp_feature, int lp_player) {
+    CMCT_SetFeatureForPlayer(lp_feature, lp_player, true);
+}
+
+void CMCT_DisableFeatureForPlayer(string lp_feature, int lp_player) {
+    CMCT_SetFeatureForPlayer(lp_feature, lp_player, false);
+}
+
+void CMCT_SetFeatureForPlayerGroup(string lp_feature, playergroup lp_players, bool lp_enabled) {
+    int lv_player;
+
+    if ((lp_players == null)) {
+        return;
+    }
+
+    lv_player = PlayerGroupNextPlayer(lp_players, -1);
+    while ((lv_player >= 0)) {
+        CMCT_SetFeatureForPlayer(lp_feature, lv_player, lp_enabled);
+        lv_player = PlayerGroupNextPlayer(lp_players, lv_player);
+    }
+}
+
+void CMCT_EnableFeatureForPlayerGroup(string lp_feature, playergroup lp_players) {
+    CMCT_SetFeatureForPlayerGroup(lp_feature, lp_players, true);
+}
+
+void CMCT_DisableFeatureForPlayerGroup(string lp_feature, playergroup lp_players) {
+    CMCT_SetFeatureForPlayerGroup(lp_feature, lp_players, false);
+}
+
+void CMCT_RegisterCommanderFeatureTrigger(string lp_feature, trigger lp_trigger) {
+    CMCT_RegisterFeatureTrigger(lp_feature, lp_trigger);
+}
+
+void CMCT_RegisterCommanderFeatureTriggerAt(string lp_feature, int lp_slot, trigger lp_trigger) {
+    CMCT_RegisterFeatureTriggerAt(lp_feature, lp_slot, lp_trigger);
+}
+
+void CMCT_RefreshCommanderFeatureTrigger(string lp_feature) {
+    CMCT_RefreshFeatureTrigger(lp_feature);
+}
+
+bool CMCT_CommanderFeatureCanRun(string lp_feature, int lp_player) {
+    return CMCT_FeatureCanRun(lp_feature, lp_player);
+}
+
+bool CMCT_SetCommanderFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player, bool lp_enabled) {
+    return CMCT_SetFeatureForPlayerByTrigger(lp_trigger, lp_player, lp_enabled);
+}
+
+bool CMCT_DisableCommanderFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player) {
+    return CMCT_DisableFeatureForPlayerByTrigger(lp_trigger, lp_player);
+}
+
+void CMCT_DisableCommanderFeatureForPlayerTrigger(trigger lp_trigger, int lp_player) {
+    CMCT_DisableFeatureForPlayerByTrigger(lp_trigger, lp_player);
+}
+
+void CMCT_SetCommanderFeatureForPlayer(string lp_feature, int lp_player, bool lp_enabled) {
+    CMCT_SetFeatureForPlayer(lp_feature, lp_player, lp_enabled);
+}
+
+void CMCT_EnableCommanderFeatureForPlayer(string lp_feature, int lp_player) {
+    CMCT_EnableFeatureForPlayer(lp_feature, lp_player);
+}
+
+void CMCT_DisableCommanderFeatureForPlayer(string lp_feature, int lp_player) {
+    CMCT_DisableFeatureForPlayer(lp_feature, lp_player);
+}
+
+void CMCT_SetCommanderFeatureForPlayerGroup(string lp_feature, playergroup lp_players, bool lp_enabled) {
+    CMCT_SetFeatureForPlayerGroup(lp_feature, lp_players, lp_enabled);
+}
+
+void CMCT_EnableCommanderFeatureForPlayerGroup(string lp_feature, playergroup lp_players) {
+    CMCT_EnableFeatureForPlayerGroup(lp_feature, lp_players);
+}
+
+void CMCT_DisableCommanderFeatureForPlayerGroup(string lp_feature, playergroup lp_players) {
+    CMCT_DisableFeatureForPlayerGroup(lp_feature, lp_players);
+}

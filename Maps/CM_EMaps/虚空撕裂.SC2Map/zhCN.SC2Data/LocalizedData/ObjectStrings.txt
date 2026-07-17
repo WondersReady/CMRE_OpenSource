@@ -1,0 +1,8 @@
+﻿Light/EditorSuffix/Char2= ///Auto - Copied from enUS Locale
+Light/EditorSuffix/CustomLight= ///Auto - Copied from enUS Locale
+Light/Name/CLight=CustomLight ///Auto - Copied from enUS Locale
+Light/Name/EditorTestLight=CustomLight ///Auto - Copied from enUS Locale
+Sound/Name/IntroMusic=IntroMusic ///Auto - Copied from enUS Locale
+Sound/Name/VictoryMusic=VictoryMusic ///Auto - Copied from enUS Locale
+Soundtrack/Name/IntroMusic=IntroMusic ///Auto - Copied from enUS Locale
+Soundtrack/Name/VictoryMusic=VictoryMusic ///Auto - Copied from enUS Locale

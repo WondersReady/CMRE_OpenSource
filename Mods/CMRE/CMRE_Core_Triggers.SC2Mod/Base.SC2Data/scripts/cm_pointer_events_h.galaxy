@@ -1,0 +1,106 @@
+// Public declarations for the CM pointer event registry.
+
+void CMPE_PlayerEvent_Proto(int lp_player);
+typedef funcref<CMPE_PlayerEvent_Proto> CMPE_PlayerEventFunc;
+
+void CMPE_Init();
+void CMPE_Reset();
+
+string CMPE_EventCommanderInitial();
+string CMPE_EventCommanderInitialBefore();
+string CMPE_EventCommanderInitialAfter();
+string CMPE_EventCommanderPrestige();
+string CMPE_EventCommanderPrestigeBefore();
+string CMPE_EventCommanderPrestigeAfter();
+string CMPE_EventCommanderTech();
+string CMPE_EventCommanderTechBefore();
+string CMPE_EventCommanderTechAfter();
+string CMPE_EventCommanderMastery();
+string CMPE_EventCommanderMasteryBefore();
+string CMPE_EventCommanderMasteryAfter();
+string CMPE_EventCommanderGlobalPowerUI();
+string CMPE_EventCommanderGlobalPowerUIBefore();
+string CMPE_EventCommanderGlobalPowerUIAfter();
+string CMPE_EventAIInitial();
+string CMPE_EventAIInitialBefore();
+string CMPE_EventAIInitialAfter();
+string CMPE_EventCommanderHeroAfterSpawn();
+string CMPE_EventCommanderHeroSpawnBefore();
+string CMPE_EventCommanderHeroSpawnAfter();
+string CMPE_EventCommanderHeroDeathToggle();
+string CMPE_EventCommanderHeroDeathAfter();
+string CMPE_EventCommanderHeroReviveAfter();
+string CMPE_EventCommanderHeroFirstBornAfter();
+string CMPE_EventCommanderHeroStructureAfterSpawn();
+string CMPE_EventCommanderHeroStructureSpawnBefore();
+string CMPE_EventCommanderHeroStructureSpawnAfter();
+string CMPE_EventCommanderHeroStructureFirstBornAfter();
+string CMPE_EventCommanderGlobalPowerAfterSpawn();
+string CMPE_EventCommanderGlobalCasterSpawnBefore();
+string CMPE_EventCommanderGlobalCasterSpawnAfter();
+
+void CMPE_RegisterPlayerEvent(string lp_eventType, string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_RegisterAIEvent(string lp_eventType, string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_RegisterPrestigeEvent(string lp_eventType, string lp_prestige, CMPE_PlayerEventFunc lp_func);
+void CMPE_RegisterComponentEvent(int lp_component, string lp_eventType, string lp_instance, CMPE_PlayerEventFunc lp_func);
+
+void CMPE_InvokePlayerEvent(string lp_eventType, string lp_commander, int lp_player);
+void CMPE_InvokeAIEvent(string lp_eventType, string lp_commander, int lp_player);
+void CMPE_InvokePrestigeEvent(string lp_eventType, string lp_prestige, int lp_player);
+void CMPE_InvokeComponentEvent(int lp_component, string lp_eventType, string lp_instance, int lp_player);
+void CMPE_InvokePlayerComponentEvent(int lp_component, string lp_eventType, int lp_player);
+
+void CMPE_SetCommanderEvent(string lp_commander, string lp_eventType, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetAIEvent(string lp_commander, string lp_eventType, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetPrestigeEvent(string lp_prestige, string lp_eventType, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetHeroEvent(string lp_hero, string lp_eventType, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetHeroStructureEvent(string lp_heroStructure, string lp_eventType, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetGlobalPowerEvent(string lp_globalPower, string lp_eventType, CMPE_PlayerEventFunc lp_func);
+
+void CMPE_RunCommanderEvent(string lp_commander, string lp_eventType, int lp_player);
+void CMPE_RunAIEvent(string lp_commander, string lp_eventType, int lp_player);
+void CMPE_RunPrestigeEvent(string lp_prestige, string lp_eventType, int lp_player);
+void CMPE_RunHeroEvent(string lp_hero, string lp_eventType, int lp_player);
+void CMPE_RunHeroStructureEvent(string lp_heroStructure, string lp_eventType, int lp_player);
+void CMPE_RunGlobalPowerEvent(string lp_globalPower, string lp_eventType, int lp_player);
+void CMPE_RunCommanderEventForPlayer(string lp_eventType, int lp_player);
+void CMPE_RunPrestigeEventForPlayer(string lp_eventType, int lp_player);
+void CMPE_RunHeroEventForPlayer(string lp_eventType, int lp_player);
+void CMPE_RunHeroStructureEventForPlayer(string lp_eventType, int lp_player);
+void CMPE_RunGlobalPowerEventForPlayer(string lp_eventType, int lp_player);
+
+void CMPE_SetCommanderInitial(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderPrestige(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetPrestigeBefore(string lp_prestige, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetPrestige(string lp_prestige, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetPrestigeAfter(string lp_prestige, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderMastery(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderGlobalPowerUI(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetAIInitial(string lp_commander, CMPE_PlayerEventFunc lp_func);
+
+void CMPE_SetCommanderHeroAfterSpawn(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderHeroDeathToggle(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderHeroDeathAfter(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderHeroReviveAfter(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderHeroFirstBornAfter(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderHeroStructureAfterSpawn(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderHeroStructureFirstBornAfter(string lp_commander, CMPE_PlayerEventFunc lp_func);
+void CMPE_SetCommanderGlobalPowerAfterSpawn(string lp_commander, CMPE_PlayerEventFunc lp_func);
+
+void CMPE_RunCommanderInitial(string lp_commander, int lp_player);
+void CMPE_RunCommanderPrestige(string lp_commander, int lp_player);
+void CMPE_RunPrestigeBefore(string lp_prestige, int lp_player);
+void CMPE_RunPrestige(string lp_prestige, int lp_player);
+void CMPE_RunPrestigeAfter(string lp_prestige, int lp_player);
+void CMPE_RunCommanderMastery(string lp_commander, int lp_player);
+void CMPE_RunCommanderGlobalPowerUI(string lp_commander, int lp_player);
+void CMPE_RunAIInitial(string lp_commander, int lp_player);
+
+void CMPE_RunCommanderHeroAfterSpawn(string lp_commander, int lp_player);
+void CMPE_RunCommanderHeroDeathToggle(string lp_commander, int lp_player);
+void CMPE_RunCommanderHeroDeathAfter(string lp_commander, int lp_player);
+void CMPE_RunCommanderHeroReviveAfter(string lp_commander, int lp_player);
+void CMPE_RunCommanderHeroFirstBornAfter(string lp_commander, int lp_player);
+void CMPE_RunCommanderHeroStructureAfterSpawn(string lp_commander, int lp_player);
+void CMPE_RunCommanderHeroStructureFirstBornAfter(string lp_commander, int lp_player);
+void CMPE_RunCommanderGlobalPowerAfterSpawn(string lp_commander, int lp_player);

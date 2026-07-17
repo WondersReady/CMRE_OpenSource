@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="DifficultyListItemVerticalGap" val="5"/>
+
+    <Frame type="Frame" name="SpecialDifficultyContainerTemplate">
+        <Anchor relative="$parent"/>
+        <Visible val="false"/>
+        <Batch val="False"/>
+
+        <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+            <Frame type="Label" name="Label">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="FullscreenBlackoutImage">
+            <Anchor relative="$parent"/>
+            <Color val="0,0,0"/>
+            <Alpha val="180"/>
+            <AcceptsMouse val="true"/>
+            <TooltipFrame val="CoopCampaignTooltip"/>
+        </Frame>
+
+        <Frame type="Image" name="LeftBGGlowPattern">
+            <Anchor side="Top" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Min" offset="40"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+        </Frame>
+
+        <Frame type="Image" name="RightBGGlowPattern">
+            <Anchor side="Top" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/SpecialBackgroundImage" pos="Max" offset="-40"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+            <TextureCoords top="0.0" left="1.0" bottom="1.0" right="0.0"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialBackgroundImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+            <TextureType val="NineSlice"/>
+            <Tiled val="false"/>
+            <Width val="860"/>
+            <Height val="764"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialTopHexPattern">
+            <Anchor side="Top" relative="$parent/SpecialBackgroundImage" pos="Min" offset="11"/>
+            <Anchor side="Left" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialBottomHexPattern">
+            <Anchor side="Bottom" relative="$parent/SpecialBackgroundImage" pos="Max" offset="-11"/>
+            <Anchor side="Left" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+            <TextureCoords top="1.0" left="1.0" bottom="0.0" right="0.0"/>
+        </Frame>
+
+        <Frame type="Label" name="SpecialTitleLabel">
+            <Anchor side="Top" relative="$parent/SpecialBackgroundImage" pos="Min" offset="50"/>
+            <Anchor side="Left" relative="$parent/SpecialBackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Max" offset="-30"/>
+            <Style val="@BattlenetDialogTitle"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Difficulty/Title"/>
+        </Frame>
+
+        <Frame type="Label" name="SpecialDescriptionLabel">
+            <Anchor side="Top" relative="$parent/SpecialTitleLabel" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/SpecialBackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Max" offset="-30"/>
+            <Style val="@Coop_SelectMissionDescription"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Difficulty/Description"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialBaseTileListBg">
+            <Anchor side="Top" relative="$parent/SpecialDescriptionLabel" pos="Max" offset="20"/>
+            <Anchor side="Left" relative="$parent/SpecialBackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Bottom" relative="$parent/SpecialAcceptButton" pos="Min" offset="-10"/>
+            <Width val="300"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialBaseTileListHeaderBg">
+            <Anchor side="Top" relative="$parent/SpecialBaseTileListBg" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/SpecialBaseTileListBg" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialBaseTileListBg" pos="Max" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+            <TextureType val="NineSlice"/>
+            <Height val="40"/>
+        </Frame>
+
+        <Frame type="Label" name="SpecialBaseDifficultyTileListHeader">
+            <Anchor side="Top" relative="$parent/SpecialBaseTileListHeaderBg" pos="Min" offset="3"/>
+            <Anchor side="Left" relative="$parent/SpecialBaseTileListHeaderBg" pos="Min" offset="25"/>
+            <Anchor side="Bottom" relative="$parent/SpecialBaseTileListHeaderBg" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialBaseTileListHeaderBg" pos="Max" offset="-10"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Difficulty/BaseHeader"/>
+            <Style val="BattlenetListHeader"/>
+        </Frame>
+
+        <Frame type="Frame" name="SpecialBaseDifficultyTileList">
+            <Anchor side="Top" relative="$parent/SpecialBaseTileListHeaderBg" pos="Max" offset="3"/>
+            <Anchor side="Left" relative="$parent/SpecialBaseTileListBg" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent/SpecialBaseTileListBg" pos="Max" offset="-5"/>
+            <Anchor side="Right" relative="$parent/SpecialBaseTileListBg" pos="Max" offset="-5"/>
+            <AcceptsMouse val="true"/>
+
+            <Frame type="Frame" name="SpecialContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$this/SpecialItem5" pos="Max" offset="0"/>
+
+                <Frame type="Button" name="SpecialItem0" template="CM_CoopCampaignDifficultySelectionPanel/CommanderDifficultyTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Button" name="SpecialItem1" template="CM_CoopCampaignDifficultySelectionPanel/CommanderDifficultyTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/SpecialItem0" pos="Max" offset="#DifficultyListItemVerticalGap"/>
+                    <Anchor side="Left" relative="$parent/SpecialItem0" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Button" name="SpecialItem2" template="CM_CoopCampaignDifficultySelectionPanel/CommanderDifficultyTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/SpecialItem1" pos="Max" offset="#DifficultyListItemVerticalGap"/>
+                    <Anchor side="Left" relative="$parent/SpecialItem1" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Button" name="SpecialItem3" template="CM_CoopCampaignDifficultySelectionPanel/CommanderDifficultyTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/SpecialItem2" pos="Max" offset="#DifficultyListItemVerticalGap"/>
+                    <Anchor side="Left" relative="$parent/SpecialItem2" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Button" name="SpecialItem4" template="CM_CoopCampaignDifficultySelectionPanel/CommanderDifficultyTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/SpecialItem3" pos="Max" offset="#DifficultyListItemVerticalGap"/>
+                    <Anchor side="Left" relative="$parent/SpecialItem3" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+
+                <Frame type="Button" name="SpecialItem5" template="CM_CoopCampaignDifficultySelectionPanel/CommanderDifficultyTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/SpecialItem4" pos="Max" offset="#DifficultyListItemVerticalGap"/>
+                    <Anchor side="Left" relative="$parent/SpecialItem4" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="SpecialDetailsBg">
+            <Anchor side="Top" relative="$parent/SpecialDescriptionLabel" pos="Max" offset="20"/>
+            <Anchor side="Bottom" relative="$parent/SpecialAcceptButton" pos="Min" offset="-10"/>
+            <Anchor side="Left" relative="$parent/SpecialBaseTileListBg" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Max" offset="-30"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialDifficultyBackground">
+            <Anchor side="Top" relative="$parent/SpecialDetailsBg" pos="Min" offset="11"/>
+            <Anchor side="Left" relative="$parent/SpecialDetailsBg" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialDetailsBg" pos="Mid" offset="0"/>
+            <Width val="316"/>
+            <Height val="184"/>
+            <TextureType val="Normal"/>
+            <CollapseLayout val="true"/>
+            <Visible val="True"/>
+            <Texture val="@UI/SC2_UI_Coop_DifficultySelection_Background"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialDifficultyMeter">
+            <Anchor side="Top" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="0"/>
+            <Width val="316"/>
+            <Height val="184"/>
+            <TextureType val="Normal"/>
+            <CollapseLayout val="true"/>
+            <Texture val="@UI/SC2_UI_Coop_DifficultySelection_Meter"/>
+            <Alpha val="255"/>
+            <Visible val="True"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialImageBorder">
+            <Anchor side="Top" relative="$parent/SpecialDetailsBg" pos="Min" offset="10"/>
+            <Anchor side="Left" relative="$parent/SpecialDetailsBg" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialDetailsBg" pos="Mid" offset="0"/>
+            <Width val="318"/>
+            <Height val="186"/>
+            <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_ImageBorder"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Label" name="SpecialDifficultyNameLabel">
+            <Anchor side="Top" relative="$parent/SpecialImageBorder" pos="Max" offset="20"/>
+            <Anchor side="Left" relative="$parent/SpecialDetailsBg" pos="Min" offset="15"/>
+            <Anchor side="Right" relative="$parent/SpecialDetailsBg" pos="Max" offset="-15"/>
+            <Style val="@MatchmakingLeaguePanel_Title"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Difficulty/NameLabel"/>
+        </Frame>
+
+        <Frame type="Label" name="SpecialDifficultyRatingLabel">
+            <Anchor side="Top" relative="$parent/SpecialDifficultyNameLabel" pos="Max" offset="8"/>
+            <Anchor side="Left" relative="$parent/SpecialDetailsBg" pos="Min" offset="15"/>
+            <Anchor side="Right" relative="$parent/SpecialDetailsBg" pos="Max" offset="-15"/>
+            <Style val="@MatchmakingLeaguePanel_Subtitle"/>
+            <Text val=""/>
+            <Visible val="False"/>
+            <CollapseLayout val="true"/>
+        </Frame>
+
+        <Frame type="Label" name="SpecialDifficultyDescriptionLabel">
+            <Anchor side="Top" relative="$parent/SpecialDifficultyNameLabel" pos="Max" offset="16"/>
+            <Anchor side="Left" relative="$parent/SpecialDetailsBg" pos="Min" offset="15"/>
+            <Anchor side="Right" relative="$parent/SpecialDetailsBg" pos="Max" offset="-15"/>
+            <PreserveAnchorOffset val="True"/>
+            <Style val="Tournament_MapVetoDetails"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Difficulty/DescriptionLabel"/>
+        </Frame>
+
+        <Frame type="Image" name="SpecialDifficultyNeedle">
+            <Anchor side="Top" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="54"/>
+            <Anchor side="Bottom" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="54"/>
+            <Anchor side="Left" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/SpecialDifficultyBackground" pos="Mid" offset="0"/>
+            <Width val="60"/>
+            <Height val="284"/>
+            <TextureType val="Normal"/>
+            <Visible val="True"/>
+            <Texture val="@UI/SC2_UI_Coop_DifficultySelection_Needle"/>
+        </Frame>
+
+        <Frame type="Button" name="SpecialAcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+            <Anchor side="Bottom" relative="$parent/SpecialBackgroundImage" pos="Max" offset="-40"/>
+            <Anchor side="Right" relative="$parent/SpecialBackgroundImage" pos="Mid" offset="-3"/>
+            <Text val="@CMUI/StandardDialog_Ok_Control"/>
+        </Frame>
+
+        <Frame type="Button" name="SpecialCancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Anchor side="Bottom" relative="$parent/SpecialAcceptButton" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="3"/>
+            <Text val="@CMUI/StandardDialog_Cancel_Control"/>
+            <Shortcut val="@UI/ScreenNavigationBack_Hotkey"/>
+        </Frame>
+    </Frame>
+</Desc>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectModifyPlayer id="AutoCreepDowngrade">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichPlayer Value="Caster"/>
+        <Upgrades Upgrade="AutoCreep" Count="-1"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyUnit id="AutoCreepTumorSpread"/>
+    <CEffectModifyPlayer id="AutoCreepUpgrade">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichPlayer Value="Caster"/>
+        <Upgrades Upgrade="AutoCreep" Count="1"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyUnit id="AutoCreepTumorSpreadRB">
+        <EditorCategories value=""/>
+    </CEffectModifyUnit>
+    <CEffectApplyBehavior id="KerriganNydusNetworkReadyAB">
+        <Behavior value="KerriganNydusNetworkReady"/>
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="KerriganNydusNetworkReadySet">
+        <EffectArray value="NydusAlertDummy"/>
+        <EffectArray value="KerriganNydusNetworkReadyAB"/>
+    </CEffectSet>
+    <CEffectSet id="NydusNetworkUnloadKerriganDummy">
+        <ValidatorArray value="IsNydusCombine"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CEffectSet>
+    <CEffectSet id="KerriganNydusNetworkReadyDummy"/>
+    <CEffectSet id="NydusBirth">
+        <EditorCategories value=""/>
+    </CEffectSet>
+    <CEffectSet id="NydusNetworkBirth">
+        <EditorCategories value=""/>
+    </CEffectSet>
+    <CEffectDamage id="NydusNetworkCount">
+        <EditorCategories value=""/>
+    </CEffectDamage>
+    <CEffectSet id="NydusNetworkDeath">
+        <EditorCategories value=""/>
+    </CEffectSet>
+    <CEffectCreateHealer id="SOARepairBeamHeal">
+        <Flags index="Channeled" value="0"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriod value="1"/>
+    </CEffectCreateHealer>
+    <CEffectCreateHealer id="SOARepairBeamHealStructure">
+        <Flags index="Channeled" value="0"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriod value="1"/>
+    </CEffectCreateHealer>
+    <CEffectApplyBehavior id="ZeratulTopBarWarpingOutExpireAB">
+        <WhichUnit Value="Source"/>
+        <Behavior value="ZeratulTopBarWarpingOutExpire"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="ZeratulTopBarWarpingOutTimedLifeFate">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="SourceUnit"/>
+        <Flags index="Kill" value="1"/>
+        <Flags index="NoKillCredit" value="1"/>
+        <Death value="Remove"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="CMREZeratulConstructTimedLifeExpireAB">
+        <WhichUnit Value="Source"/>
+        <Behavior value="CMREZeratulConstructTimedLifeExpire"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="CMREZeratulConstructTimedLifeRemove">
+        <EditorCategories value="Race:Protoss"/>
+        <ImpactLocation Value="SourceUnit"/>
+        <Flags index="Kill" value="1"/>
+        <Flags index="NoKillCredit" value="1"/>
+        <Death value="Remove"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="TychusGhostConfusionSearch"/>
+    <CEffectUseMagazine id="StukovInfestedSiegeTankDisplayAmmoUse">
+        <EditorCategories value="Race:InfestedTerran"/>
+        <MagazineAbil value="StukovInfestedSiegeTankDisplayAmmoMagazine"/>
+    </CEffectUseMagazine>
+    <CEffectIssueOrder id="StukovInfestedSiegeTankDisplayAmmoIssueOrder">
+        <EditorCategories value="Race:InfestedTerran"/>
+        <Abil value="StukovInfestedSiegeTankDisplayAmmoMagazine"/>
+        <WhichUnit Value="Caster"/>
+    </CEffectIssueOrder>
+    <CEffectSet id="StukovInfestedSiegeTankRestoreAmmoDisplaySet">
+        <EditorCategories value="Race:InfestedTerran"/>
+        <EffectArray value="StukovInfestedSiegeTankRestoreAmmo"/>
+        <EffectArray value="StukovInfestedSiegeTankDisplayAmmoIssueOrder"/>
+    </CEffectSet>
+    <CEffectSet id="StukovInfestedSiegeTankHunterVolatileBurstCreationSet">
+        <EffectArray index="4" value="StukovInfestedSiegeTankDisplayAmmoUse"/>
+    </CEffectSet>
+    <CEffectSet id="StukovInfestedSiegeTankAmmoRestockSet">
+        <EffectArray index="2" value="StukovInfestedSiegeTankRestoreAmmoDisplaySet"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="CMStukovSpreadPlaguePulse">
+        <ImpactUnit Value="Caster"/>
+        <EditorCategories value="Race:InfestedTerran"/>
+    </CEffectModifyUnit>
+    <CEffectCreateUnit id="CMSCStukovSummonApocaliskCU">
+        <CreateFlags index="DropOff" value="0"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+        <CreateFlags index="SelectControlGroups" value="1"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnEffect value="StukovSummonApocaliskSet"/>
+        <SpawnUnit value="StukovApocalisk"/>
+        <WhichLocation Value="TargetPoint"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="CMSCStukovSummonAleksanderCU">
+        <CreateFlags index="DropOff" value="0"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="Placement" value="0"/>
+        <CreateFlags index="SelectControlGroups" value="1"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnUnit value="StukovAleksander"/>
+        <WhichLocation Value="TargetPoint"/>
+    </CEffectCreateUnit>
+</Catalog>

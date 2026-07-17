@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="CharEx2">
+        <BlendTextures index="1" value="CharDirtCrackedEx2"/>
+        <BlendTextures index="2" value="CharSpongeEx2"/>
+        <BlendTextures index="3" value="CharRockEx2"/>
+        <BlendTextures index="4" value="CharLavaCracksEx2"/>
+        <BlendTextures index="5" value="KorhalCityEx2_2"/>
+        <BlendTextures index="6" value="KorhalCityEx2_4"/>
+        <BlendTextures index="7" value="KorhalCityEx2_6"/>
+        <FogColor value="255,198,0,0"/>
+        <FogFalloff value="0.250000"/>
+        <FogStartingHeight value="-0.500000"/>
+    </CTerrain>
+    <CTerrain id="RedstoneEx1">
+        <Lighting value="TTosh01Normal"/>
+        <FogColor value="255,255,0,0"/>
+        <FogStartingHeight value="1.000000"/>
+    </CTerrain>
+</Catalog>

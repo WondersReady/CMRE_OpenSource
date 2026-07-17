@@ -1,0 +1,979 @@
+//--------------------------------------------------------------------------------------------------
+//  Dehaka tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMDehaka_TU_Dehaka = "DehakaCoop";
+const string c_CMDehaka_TU_DehakaClone = "DehakaCoopClone";
+const string c_CMDehaka_TU_SwarmHost = "DehakaSwarmHost";
+const string c_CMDehaka_TU_SwarmHostBurrowed = "DehakaSwarmHostBurrowed";
+const string c_CMDehaka_TU_PrimalSwarmHost = "DehakaPrimalSwarmHost";
+const string c_CMDehaka_TU_PrimalSwarmHostBurrowed = "DehakaPrimalSwarmHostBurrowed";
+const string c_CMDehaka_TU_Ultralisk = "DehakaUltraliskLevel2";
+const string c_CMDehaka_TU_Glevig = "DehakaGlevig";
+const string c_CMDehaka_TU_Dakrun = "DehakaDakrun";
+const string c_CMDehaka_TU_NydusDestroyer = "DehakaNydusDestroyer";
+const string c_CMDehaka_TU_NydusDestroyerTimed = "DehakaNydusDestroyerTimedNoFood";
+const string c_CMDehaka_AB_Learn = "DehakaLearn";
+const string c_CMDehaka_AB_LeapStomp = "DehakaLeapStomp";
+const string c_CMDehaka_AB_Consume = "DehakaConsume";
+const string c_CMDehaka_AB_Roar = "DehakaIntimidatingRoar";
+const string c_CMDehaka_AB_MammothBreath = "MammothBreath";
+const string c_CMDehaka_AB_SpawnLocust = "DehakaSpawnLocustsTargeted";
+const string c_CMDehaka_AB_SpawnCreeper = "DehakaSpawnCreeperTargeted";
+const string c_CMDehaka_AB_BurrowSwarmHost = "DehakaMorphToSwarmHostBurrowed";
+const string c_CMDehaka_AB_UnburrowSwarmHost = "DehakaMorphToSwarmHost";
+const string c_CMDehaka_AB_BurrowPrimalHost = "DehakaMorphToPrimalSwarmHostBurrowed";
+const string c_CMDehaka_AB_UnburrowPrimalHost = "DehakaMorphToPrimalSwarmHost";
+const string c_CMDehaka_AB_SwarmHostMerge = "PrimalSwarmHostMerge";
+const string c_CMDehaka_AB_UltraliskCharge = "DehakaUltraliskCrashingCharge";
+const string c_CMDehaka_AB_GlevigFire = "DehakaGlevigFirebreath";
+const string c_CMDehaka_AB_GlevigTunnel = "GlevigDeepTunnel";
+const string c_CMDehaka_AB_DakrunCharge = "KraithCrashingCharge";
+const string c_CMDehaka_AB_NydusBeam = "NydusDestroyerBeam";
+const string c_CMDehaka_AB_NydusTimedBeam = "DehakaNydusDestroyerTimedNoFoodBeam";
+const string c_CMDehaka_BE_Tenderize = "ImpalerDehakaTenderize";
+const string c_CMDehaka_BE_ConsumePsionic = "DehakaConsumeEffectPsionic";
+const string c_CMDehaka_EF_LeapSearch = "DehakaStompSearchC";
+const string c_CMDehaka_EF_RoarSearch = "DehakaIntimidatingRoarSearch";
+const string c_CMDehaka_EF_MammothBreathSearch = "MammothBreathSearch";
+const string c_CMDehaka_EF_UltraliskChargeSearch = "DehakaUltraliskCrashingChargeTargetSearch";
+const string c_CMDehaka_EF_DakrunChargeSearch = "DehakaDakrunCrashingChargeTargetSearch";
+const string c_CMDehaka_EF_GlevigFireSearch = "DehakaGlevigFirebreathSearch";
+const string c_CMDehaka_EF_NydusBeamDamage = "NydusDestroyerBeamDamage";
+const string c_CMDehaka_EF_NydusTimedBeamDamage = "DehakaNydusDestroyerTimedNoFoodBeamDamage";
+const int c_CMDehaka_LearnLeapStomp = 1;
+const int c_CMDehaka_LearnConsume = 2;
+const int c_CMDehaka_LearnMammothBreath = 3;
+const int c_CMDehaka_LearnMendingAura = 4;
+const int c_CMDehaka_LearnArmor = 5;
+const int c_CMDehaka_LearnRoar = 7;
+const int c_CMDehaka_LearnDetector = 8;
+const int c_CMDehaka_LearnAirAttack = 10;
+const int c_CMDehaka_CV_HostSpawned = 59;
+const fixed c_CMDehaka_HostSpawnReady = 0.0;
+const fixed c_CMDehaka_HostSpawned = 1.0;
+const fixed c_CMDehaka_DefaultHeroRange = 12.0;
+const fixed c_CMDehaka_LeapRadius = 3.0;
+const fixed c_CMDehaka_MammothRadius = 3.0;
+const fixed c_CMDehaka_GlevigFireRadius = 4.0;
+const fixed c_CMDehaka_HostMergeRange = 7.0;
+const fixed c_CMDehaka_HostCombatRange = 14.0;
+const fixed c_CMDehaka_NydusTargetMinScore = 150.0;
+const fixed c_CMDehaka_ConsumeCooldownVitalityCap = 600.0;
+const fixed c_CMDehaka_ConsumeMinScore = 420.0;
+const fixed c_CMDehaka_ConsumePsiClusterRadius = 3.0;
+const fixed c_CMDehaka_ConsumeLowDehakaVitality = 55.0;
+const int c_CMDehaka_LeapDamage = 100;
+const int c_CMDehaka_MammothDamage = 120;
+const int c_CMDehaka_GlevigFireDamage = 200;
+const int c_CMDehaka_ChargeMinHits = 2;
+const int c_CMDehaka_LeapMinHits = 2;
+const int c_CMDehaka_MammothMinHits = 3;
+const int c_CMDehaka_RoarMinHits = 3;
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMDehakaAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMDehakaEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMDehakaAbilityTargetFilters (int player, string abilityLink) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMDehakaEnemyGroup (int player, unitgroup scanGroup) {
+    if (scanGroup == null) {
+        return null;
+    }
+
+    return UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMDehakaEnemyPlaneGroup (int player, unitgroup scanGroup, int plane) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMDehakaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    return UnitGroupFilterPlane(enemyGroup, plane, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMDehakaFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMDehakaTargetValueScore (unit targetUnit, fixed damageCap, bool preferStructure) {
+    fixed score;
+    fixed vitality;
+    string unitType;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    unitType = UnitGetType(targetUnit);
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    score = vitality;
+    if ((damageCap > 0.0) && (score > damageCap)) {
+        score = damageCap;
+    }
+
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeHeroic) == true) {
+        score = score + 350.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true) {
+        score = score + 250.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeArmored) == true) {
+        score = score + 90.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeMechanical) == true) {
+        score = score + 90.0;
+    }
+    if ((preferStructure == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeStructure) == true)) {
+        score = score + 300.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMDehakaEnemyCountAroundUnit (int player, unit targetUnit, unitgroup scanGroup, fixed range) {
+    unitgroup enemyGroup;
+    unitgroup rangeGroup;
+
+    if (targetUnit == null) {
+        return 0;
+    }
+    if (scanGroup == null) {
+        return 0;
+    }
+
+    enemyGroup = CMDehakaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    rangeGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(UnitGetPosition(targetUnit), range), 0);
+    return UnitGroupCount(rangeGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMDehakaConsumeTargetScore (int player, unit aiUnit, unit targetUnit, unitgroup scanGroup) {
+    fixed score;
+    fixed vitality;
+    fixed vitalityMax;
+    fixed vitalityPercent;
+    fixed dehakaVitalityPercent;
+    fixed effectiveCooldownLife;
+    fixed psionicRadius;
+    int clusterCount;
+    string unitType;
+    bool targetIsPsionic;
+    bool dehakaHasPsionic;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    unitType = UnitGetType(targetUnit);
+    targetIsPsionic = UnitTypeTestAttribute(unitType, c_unitAttributePsionic);
+    dehakaHasPsionic = UnitHasBehavior2(aiUnit, c_CMDehaka_BE_ConsumePsionic);
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    vitalityMax = UnitGetPropertyFixed(targetUnit, c_unitPropVitalityMax, c_unitPropCurrent);
+    vitalityPercent = UnitGetPropertyFixed(targetUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    dehakaVitalityPercent = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    effectiveCooldownLife = vitality;
+    if (effectiveCooldownLife > c_CMDehaka_ConsumeCooldownVitalityCap) {
+        effectiveCooldownLife = c_CMDehaka_ConsumeCooldownVitalityCap;
+    }
+    if (UnitHasBehavior2(targetUnit, c_CMDehaka_BE_Tenderize) == true) {
+        effectiveCooldownLife = effectiveCooldownLife * 0.25;
+    }
+
+    score = c_CMDehaka_ConsumeCooldownVitalityCap - effectiveCooldownLife;
+    if (score < 0.0) {
+        score = 0.0;
+    }
+
+    if (vitality <= 100.0) {
+        score = score + 350.0;
+    }
+    else {
+        if (vitality <= 250.0) {
+            score = score + 175.0;
+        }
+    }
+
+    if (vitalityPercent <= 25.0) {
+        score = score + 350.0;
+    }
+    else {
+        if (vitalityPercent <= 50.0) {
+            score = score + 175.0;
+        }
+    }
+
+    if (vitalityPercent <= 75.0) {
+        if (vitalityMax >= 600.0) {
+            score = score + 220.0;
+        }
+        else {
+            if (vitalityMax >= 300.0) {
+                score = score + 120.0;
+            }
+        }
+    }
+
+    if (UnitHasBehavior2(targetUnit, c_CMDehaka_BE_Tenderize) == true) {
+        score = score + 650.0;
+    }
+    if (targetIsPsionic == true) {
+        psionicRadius = c_CMDehaka_ConsumePsiClusterRadius + UnitGetPropertyFixed(targetUnit, c_unitPropRadius, c_unitPropCurrent);
+        clusterCount = CMDehakaEnemyCountAroundUnit(player, targetUnit, scanGroup, psionicRadius);
+        if (clusterCount > 5) {
+            clusterCount = 5;
+        }
+        if (dehakaHasPsionic == false) {
+            score = score + 4000.0;
+        }
+        else {
+            score = score + 700.0;
+        }
+        score = score + (IntToFixed(clusterCount) * 120.0);
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeBiological) == true) {
+        if (dehakaVitalityPercent <= c_CMDehaka_ConsumeLowDehakaVitality) {
+            score = score + 450.0;
+            if (vitality <= 250.0) {
+                score = score + 360.0;
+            }
+            else {
+                if (vitalityPercent <= 50.0) {
+                    score = score + 220.0;
+                }
+            }
+        }
+        else {
+            if (dehakaVitalityPercent <= 85.0) {
+                score = score + 250.0;
+                if (vitality <= 250.0) {
+                    score = score + 160.0;
+                }
+            }
+            else {
+                score = score + 120.0;
+            }
+        }
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true) {
+        score = score + 260.0;
+        if (dehakaVitalityPercent <= 60.0) {
+            score = score + 120.0;
+        }
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeMechanical) == true) {
+        score = score + 240.0;
+    }
+    if (UnitTestPlane(targetUnit, c_planeAir) == true) {
+        score = score + 280.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeArmored) == true) {
+        score = score + 150.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeLight) == true) {
+        score = score + 80.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeHeroic) == true) {
+        score = score + 250.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMDehakaBestConsumeTarget (int player, unit aiUnit, unitgroup targetGroup, unitgroup scanGroup) {
+    fixed bestScore;
+    fixed targetScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    order testOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, c_CMDehaka_AB_Consume, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMDehakaConsumeTargetScore(player, aiUnit, targetUnit, scanGroup);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    return bestTarget;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMDehakaBestValidTarget (int player, unit aiUnit, unitgroup targetGroup, string abilityLink, fixed damageCap, bool preferStructure) {
+    fixed bestScore;
+    fixed targetScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    order testOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, abilityLink, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMDehakaTargetValueScore(targetUnit, damageCap, preferStructure);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    return bestTarget;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaBestUnitOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed defaultRange, fixed damageCap, bool preferStructure, fixed minScore) {
+    string filters;
+    fixed range;
+    unit targetUnit;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMDehakaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMDehakaAbilityRange(player, abilityLink, defaultRange);
+    filters = CMDehakaAbilityTargetFilters(player, abilityLink);
+    targetGroup = CMDehakaFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    targetUnit = CMDehakaBestValidTarget(player, aiUnit, targetGroup, abilityLink, damageCap, preferStructure);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    if (CMDehakaTargetValueScore(targetUnit, damageCap, preferStructure) < minScore) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(ord, targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaBestPointOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed defaultRange, fixed defaultRadius, int minHits, int damageBase, fixed minScore) {
+    string filters;
+    fixed range;
+    fixed radius;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMDehakaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMDehakaAbilityRange(player, abilityLink, defaultRange);
+    radius = CMDehakaEffectRadius(player, effectLink, defaultRadius);
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    targetGroup = CMDehakaFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, damageBase, minScore, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaIssueLearn (unit aiUnit, int commandIndex) {
+    order ord;
+
+    ord = Order(AbilityCommand(c_CMDehaka_AB_Learn, commandIndex));
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    UnitLearnAbilAddLevel(aiUnit, c_CMDehaka_AB_Learn, commandIndex, 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaTryLearn (unit aiUnit) {
+    if (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_Learn) == true) {
+        return true;
+    }
+
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnConsume) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnLeapStomp) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnRoar) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnMammothBreath) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnMendingAura) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnArmor) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnDetector) == true) {
+        return true;
+    }
+    if (CMDehakaIssueLearn(aiUnit, c_CMDehaka_LearnAirAttack) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaHeroBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_LeapStomp) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_Consume) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_Roar) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_MammothBreath) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMDehakaEnemyCountInRange (int player, unit aiUnit, unitgroup scanGroup, fixed range) {
+    unitgroup enemyGroup;
+    unitgroup rangeGroup;
+
+    enemyGroup = CMDehakaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    rangeGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(UnitGetPosition(aiUnit), range), 0);
+    return UnitGroupCount(rangeGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaRoarOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed radius;
+    int enemyCount;
+    order ord;
+
+    if (CMDehakaAbilityExists(aiUnit, c_CMDehaka_AB_Roar) == false) {
+        return null;
+    }
+
+    radius = CMDehakaEffectRadius(player, c_CMDehaka_EF_RoarSearch, 10.0);
+    enemyCount = CMDehakaEnemyCountInRange(player, aiUnit, scanGroup, radius + 1.0);
+    if ((enemyCount < c_CMDehaka_RoarMinHits) && (UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent) > 45.0)) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMDehaka_AB_Roar, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaConsumeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+    fixed range;
+    fixed targetScore;
+    unit targetUnit;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMDehakaAbilityExists(aiUnit, c_CMDehaka_AB_Consume) == false) {
+        return null;
+    }
+
+    range = CMDehakaAbilityRange(player, c_CMDehaka_AB_Consume, 12.0);
+    filters = CMDehakaAbilityTargetFilters(player, c_CMDehaka_AB_Consume);
+    targetGroup = CMDehakaFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    targetUnit = CMDehakaBestConsumeTarget(player, aiUnit, targetGroup, scanGroup);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    targetScore = CMDehakaConsumeTargetScore(player, aiUnit, targetUnit, scanGroup);
+    if (targetScore < c_CMDehaka_ConsumeMinScore) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMDehaka_AB_Consume, 0);
+    OrderSetTargetUnit(ord, targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaLeapOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    return CMDehakaBestPointOrder(player, aiUnit, scanGroup, c_CMDehaka_AB_LeapStomp, c_CMDehaka_EF_LeapSearch, c_CMDehaka_DefaultHeroRange, c_CMDehaka_LeapRadius, c_CMDehaka_LeapMinHits, c_CMDehaka_LeapDamage, IntToFixed(c_CMDehaka_LeapMinHits));
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaMammothBreathOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    return CMDehakaBestPointOrder(player, aiUnit, scanGroup, c_CMDehaka_AB_MammothBreath, c_CMDehaka_EF_MammothBreathSearch, 11.0, c_CMDehaka_MammothRadius, c_CMDehaka_MammothMinHits, c_CMDehaka_MammothDamage, IntToFixed(c_CMDehaka_MammothMinHits));
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaCoop (int player, unit aiUnit, unitgroup scanGroup) {
+    unitgroup enemyGroup;
+    order ord;
+
+    if (CMDehakaHeroBusy(aiUnit) == true) {
+        return;
+    }
+
+    enemyGroup = CMDehakaEnemyGroup(player, scanGroup);
+    if ((enemyGroup != null) && (UnitGroupCount(enemyGroup, c_unitCountAlive) > 0)) {
+        ord = CMDehakaConsumeOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    if (CMDehakaTryLearn(aiUnit) == true) {
+        return;
+    }
+
+    if (enemyGroup == null) {
+        return;
+    }
+    if (UnitGroupCount(enemyGroup, c_unitCountAlive) <= 0) {
+        return;
+    }
+
+    ord = CMDehakaLeapOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMDehakaMammothBreathOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMDehakaRoarOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaHostBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_SpawnLocust) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_SpawnCreeper) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_BurrowSwarmHost) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_BurrowPrimalHost) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_SwarmHostMerge) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaHostSpawnOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, int plane) {
+    unitgroup targetGroup;
+    unit targetUnit;
+    order ord;
+
+    if (CMDehakaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    if (plane == c_planeGround) {
+        targetGroup = CMDehakaEnemyPlaneGroup(player, scanGroup, c_planeGround);
+    }
+    else {
+        targetGroup = CMDehakaEnemyGroup(player, scanGroup);
+    }
+    targetUnit = CMDehakaBestValidTarget(player, aiUnit, targetGroup, abilityLink, 0.0, false);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(ord, targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaMergeWithHostGroup (int player, unit aiUnit, unitgroup targetGroup) {
+    unit targetUnit;
+    order testOrder;
+    order sourceOrder;
+    order targetOrder;
+
+    if (targetGroup == null) {
+        return false;
+    }
+
+    testOrder = AICreateOrder(player, c_CMDehaka_AB_SwarmHostMerge, 1);
+    targetUnit = OrderGetTargetUnit(AIUnitGroupGetValidOrder(targetGroup, testOrder, aiUnit, c_forwards));
+    if (targetUnit == null) {
+        return false;
+    }
+
+    sourceOrder = OrderTargetingUnit(AbilityCommand(c_CMDehaka_AB_SwarmHostMerge, 1), targetUnit);
+    if (UnitOrderIsValid(aiUnit, sourceOrder) == false) {
+        return false;
+    }
+
+    UnitIssueOrder(aiUnit, sourceOrder, c_orderQueueReplace);
+    targetOrder = OrderTargetingUnit(AbilityCommand(c_CMDehaka_AB_SwarmHostMerge, 1), aiUnit);
+    if (UnitOrderIsValid(targetUnit, targetOrder) == true) {
+        UnitIssueOrder(targetUnit, targetOrder, c_orderQueueReplace);
+        AISetUnitScriptControlled(targetUnit, false);
+    }
+    AISetUnitScriptControlled(aiUnit, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMDehakaTrySwarmHostMerge (int player, unit aiUnit) {
+    unitgroup targetGroup;
+
+    if (CMDehakaAbilityExists(aiUnit, c_CMDehaka_AB_SwarmHostMerge) == false) {
+        return false;
+    }
+
+    targetGroup = UnitGroupSearch(c_CMDehaka_TU_SwarmHost, player, UnitGetPosition(aiUnit), c_CMDehaka_HostMergeRange, UnitFilter((1 << c_targetFilterSelf), 0, 0, 0), c_noMaxCount);
+    if (CMDehakaMergeWithHostGroup(player, aiUnit, targetGroup) == true) {
+        return true;
+    }
+
+    targetGroup = UnitGroupSearch(c_CMDehaka_TU_PrimalSwarmHost, player, UnitGetPosition(aiUnit), c_CMDehaka_HostMergeRange, UnitFilter((1 << c_targetFilterSelf), 0, 0, 0), c_noMaxCount);
+    if (CMDehakaMergeWithHostGroup(player, aiUnit, targetGroup) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaMorphOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (CMDehakaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+void CMDehakaHostThink (int player, unit aiUnit, unitgroup scanGroup, string spawnAbility, string burrowAbility, string unburrowAbility, bool allowMerge, int plane) {
+    order ord;
+
+    if (AITacticalAutoCastOffForUnit(aiUnit) == true) {
+        return;
+    }
+
+    if (CMDehakaHostBusy(aiUnit) == true) {
+        return;
+    }
+
+    ord = CMDehakaHostSpawnOrder(player, aiUnit, scanGroup, spawnAbility, plane);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        UnitSetCustomValue(aiUnit, c_CMDehaka_CV_HostSpawned, c_CMDehaka_HostSpawned);
+        return;
+    }
+
+    if ((allowMerge == true) && (UnitGetCustomValue(aiUnit, c_CMDehaka_CV_HostSpawned) == c_CMDehaka_HostSpawned)) {
+        if (CMDehakaTrySwarmHostMerge(player, aiUnit) == true) {
+            return;
+        }
+    }
+
+    if (CMDehakaEnemyCountInRange(player, aiUnit, scanGroup, c_CMDehaka_HostCombatRange) > 0) {
+        ord = CMDehakaMorphOrder(player, aiUnit, burrowAbility);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+    else {
+        if ((AIControlForceToMove(aiUnit) == true) || (AIControlWantsToMove(aiUnit) == true)) {
+            ord = CMDehakaMorphOrder(player, aiUnit, unburrowAbility);
+            if (ord != null) {
+                AICast(aiUnit, ord, c_noMarker, c_castHold);
+                return;
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaSwarmHost (int player, unit aiUnit, unitgroup scanGroup) {
+    CMDehakaHostThink(player, aiUnit, scanGroup, c_CMDehaka_AB_SpawnLocust, c_CMDehaka_AB_BurrowSwarmHost, c_CMDehaka_AB_UnburrowSwarmHost, true, c_planeGround);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaSwarmHostBurrowed (int player, unit aiUnit, unitgroup scanGroup) {
+    CMDehakaHostThink(player, aiUnit, scanGroup, c_CMDehaka_AB_SpawnLocust, c_CMDehaka_AB_BurrowSwarmHost, c_CMDehaka_AB_UnburrowSwarmHost, false, c_planeGround);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaPrimalSwarmHost (int player, unit aiUnit, unitgroup scanGroup) {
+    CMDehakaHostThink(player, aiUnit, scanGroup, c_CMDehaka_AB_SpawnCreeper, c_CMDehaka_AB_BurrowPrimalHost, c_CMDehaka_AB_UnburrowPrimalHost, false, c_planeAir);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaPrimalSwarmHostBurrowed (int player, unit aiUnit, unitgroup scanGroup) {
+    CMDehakaHostThink(player, aiUnit, scanGroup, c_CMDehaka_AB_SpawnCreeper, c_CMDehaka_AB_BurrowPrimalHost, c_CMDehaka_AB_UnburrowPrimalHost, false, c_planeAir);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaChargeOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed defaultRange, fixed defaultRadius, int damageBase) {
+    return CMDehakaBestPointOrder(player, aiUnit, scanGroup, abilityLink, effectLink, defaultRange, defaultRadius, c_CMDehaka_ChargeMinHits, damageBase, IntToFixed(c_CMDehaka_ChargeMinHits));
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaUltralisk (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (AITacticalAutoCastOffForUnit(aiUnit) == true) {
+        return;
+    }
+    if (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_UltraliskCharge) == true) {
+        return;
+    }
+
+    ord = CMDehakaChargeOrder(player, aiUnit, scanGroup, c_CMDehaka_AB_UltraliskCharge, c_CMDehaka_EF_UltraliskChargeSearch, 9.0, 2.0, 25);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaDakrun (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_DakrunCharge) == true) {
+        return;
+    }
+
+    ord = CMDehakaChargeOrder(player, aiUnit, scanGroup, c_CMDehaka_AB_DakrunCharge, c_CMDehaka_EF_DakrunChargeSearch, 14.0, 3.0, 200);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaGlevigFireOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    return CMDehakaBestUnitOrder(player, aiUnit, scanGroup, c_CMDehaka_AB_GlevigFire, 9.0, 0.0, true, 150.0);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMDehakaGlevigTunnelOrder (int player, unit aiUnit) {
+    unitgroup waveGroup;
+    wave unitWave;
+    point targetPoint;
+    order ord;
+    fixed offset;
+
+    if (CMDehakaAbilityExists(aiUnit, c_CMDehaka_AB_GlevigTunnel) == false) {
+        return null;
+    }
+    if (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_GlevigTunnel) == true) {
+        return null;
+    }
+
+    unitWave = AIUnitGetWave(aiUnit);
+    if (unitWave == null) {
+        return null;
+    }
+
+    waveGroup = AIWaveGetUnits(unitWave);
+    if (UnitGroupCount(waveGroup, c_unitCountAlive) <= 1) {
+        return null;
+    }
+
+    offset = -7.0;
+    targetPoint = libNtve_gf_PointOffsetTowardsPoint(UnitGroupCenterOfGroup(waveGroup), offset, UnitGetPosition(aiUnit));
+    ord = AICreateOrder(player, c_CMDehaka_AB_GlevigTunnel, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaGlevig (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (AITacticalAutoCastOffForUnit(aiUnit) == true) {
+        return;
+    }
+    if ((UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_GlevigFire) == true) || (UnitOrderHasAbil(aiUnit, c_CMDehaka_AB_GlevigTunnel) == true)) {
+        return;
+    }
+
+    ord = CMDehakaGlevigFireOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMDehakaGlevigTunnelOrder(player, aiUnit);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void CMDehakaNydusThink (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string damageEffect, fixed damageCap) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, abilityLink) == true) {
+        return;
+    }
+
+    ord = CMDehakaBestUnitOrder(player, aiUnit, scanGroup, abilityLink, 9.0, damageCap, true, c_CMDehaka_NydusTargetMinScore);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaNydusDestroyer (int player, unit aiUnit, unitgroup scanGroup) {
+    CMDehakaNydusThink(player, aiUnit, scanGroup, c_CMDehaka_AB_NydusBeam, c_CMDehaka_EF_NydusBeamDamage, 250.0);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkDehakaNydusDestroyerTimed (int player, unit aiUnit, unitgroup scanGroup) {
+    CMDehakaNydusThink(player, aiUnit, scanGroup, c_CMDehaka_AB_NydusTimedBeam, c_CMDehaka_EF_NydusTimedBeamDamage, 350.0);
+}

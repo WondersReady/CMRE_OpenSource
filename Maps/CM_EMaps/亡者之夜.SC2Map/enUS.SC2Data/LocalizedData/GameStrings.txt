@@ -1,0 +1,92 @@
+﻿Button/Tooltip/InfestedMercHaven=A favorite hangout among the local civilian populace. Must be destroyed if Infested.
+DocInfo/Author=Blizzard Entertainment
+DocInfo/DescLong=A rapid infestation has been discovered on one of the Dominion's fringe worlds. Burn down all of the infested structures before it has a chance to spread.
+DocInfo/Name=[CM] Dead of Night
+DocInfo/PatchNote001=Arcade v.1.0
+DocInfo/ScreenshotHowToPlay01=Build lots of SCVs to harvest resources. They're great for repairing structures, too.
+DocInfo/ScreenshotHowToPlay02=Defend your base against the Infested at night.
+DocInfo/ScreenshotHowToPlay03=Once the sun rises, the Infested will die.
+DocInfo/ScreenshotHowToPlay04=Head out and destroy the Infested structures before the sun sets.
+LoadingScreen/TextBody= 
+LoadingScreen/Tip= 
+LoadingScreen/TipRestart= 
+LoadingScreen/Title= 
+MapInfo/Player00/Name=Neutral
+MapInfo/Player01/Name=Player 1
+MapInfo/Player02/Name=Player 2
+MapInfo/Player03/Name=Amon's Forces
+MapInfo/Player04/Name=Amon's Forces
+MapInfo/Player05/Name=Infested
+MapInfo/Player06/Name=Sensor Tower
+MapInfo/Player07/Name=Special Infested
+MapInfo/Player08/Name=Barricade
+MapInfo/Player09/Name=Barricade
+Param/Expression/0A89A6C1=Cheat Success - Nydus set as Boss
+Param/Expression/23DED067=Cheat Success - Stank set as Boss
+Param/Expression/56E0679C=Final:~D~<n/>~OriginalText~
+Param/Expression/6B1F1453=<c val="FF8000">Bonus:<n/> ~A~<n/>Time:<n/> ~C~</c>
+Param/Expression/A45600F5=Cheat Success - ~A~ set as Infested01, ~B~ set as Infested02
+Param/Expression/CBF122A5=~A~
+Param/Expression/F1AFF5A3=~A~
+Param/Value/172B7992=
+Param/Value/21DC07EF=DEBUG - Checking Food
+Param/Value/23FA7FD1=Destroy all Infested Structures<n/>(
+Param/Value/2C189408=Infested Structures
+Param/Value/2D861FBC=<s val="ModCenterSize32Bold">
+Param/Value/339F5D1A=Stopped Day/Night Cycle
+Param/Value/3463BA2A=Cheat Error - Cheat must be used at commander select screen
+Param/Value/357EB904=DEBUG - Testing Spawn Routes
+Param/Value/35BE33A9=A HORDE OF INFESTED APPROACHES
+Param/Value/3864DD68=%number%
+Param/Value/3A23A342=Infestation Level Set To: 
+Param/Value/3F5FF9CA=<c val="00FF00">Day 1</c>
+Param/Value/43FE14C8=
+Param/Value/443FEF98=Day/Night advanced to 3
+Param/Value/45957CC1=Cheat Error - Cheat must be used at commander select screen
+Param/Value/4FE95072=)
+Param/Value/52B9BCDD=Cheat Error - Usage -pick Infested01 Infested02 - where Infested01/02 is a combination of Hunterling Spotter Choker Kaboomer (e.g., Hunterling Choker)
+Param/Value/5D8B3048=Virophage
+Param/Value/61F50687=Infested Structures
+Param/Value/6680A09B=
+Param/Value/6B0A5E41=Day %Day%
+Param/Value/705F7F74=Cleanse the Infestation
+Param/Value/737970CB=Stopped Fiery Death
+Param/Value/739A4DB7=
+Param/Value/749F57BE=Night %Night%
+Param/Value/7E7BF9AB=%Night%
+Param/Value/80E39C4E=IT IS NIGHTTIME
+Param/Value/8834E902=DEBUG - Massive Flank Attack
+Param/Value/90CA80A0=<s val="ModLeftSize16Bold">Unloads In:</s>
+Param/Value/9157EE9B=Cheat Error - Invalid Infested
+Param/Value/93300B2F=)
+Param/Value/9393EFD3=All of your structures have been destroyed.
+Param/Value/98ABBC38=<c val="FF0000">
+Param/Value/9A91124E=Failed to eradicate the infestation. 
+Param/Value/9AD412AF=Stopped Start Game trigger
+Param/Value/9DD1B439=<c val="FF0000">!</c>
+Param/Value/A5663CA0=DEBUG - Spawn Stank
+Param/Value/A583A361=Destroy all Infested Structures<n/>(
+Param/Value/AA496DD0=Virophage
+Param/Value/ABC24AF7=Enter Text Here
+Param/Value/ABC7557C=Remaining: <c val="FFFF00">%number%</c> Structures
+Param/Value/AEDC9672=</c></s>
+Param/Value/B1AC76B4=
+Param/Value/BAC06A4B=<c val="FF0000">
+Param/Value/BC78E2D7=Cheat Error - Usage -pick Infested01 Infested02 - where Infested01/02 is a combination of Hunterling Spotter Choker Kaboomer (e.g., Hunterling Choker)
+Param/Value/C051CE95=IT IS DAYTIME
+Param/Value/C2295745=DEBUG - Enabling Resource Trading
+Param/Value/C3A5EF7D=%Day%
+Param/Value/C687F236=Infestation successfully contained. 
+Param/Value/C8226A12=All of your structures have been destroyed.
+Param/Value/C8FF8F0F=All of your ally's structures have been destroyed.
+Param/Value/D3CF96A8=Total Food Used = 
+Param/Value/DAC42F23=<c val="FF0000">
+Param/Value/DDDA8C18=Remaining: <c val="FFFF00">%number%</c> Structures
+Param/Value/E567A0B3=Total Food Used = 
+Param/Value/E71BBF67=Cheat Error - Invalid Boss
+Param/Value/F10F8990=%number%
+Param/Value/F26AD201=All of your ally's structures have been destroyed.
+Param/Value/FB70620B=<c val="00FF00">
+Param/Value/FF43AB66=DEBUG - Spawn Nydus Worm
+Variant001/ModeDesc=Please manually select the player difficulty as needed.
+Variant001/ModeName=Co-op

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CButton id="KerriganTopBarLocked" parent="AbilLocked">
+        <Tooltip value="Button/Tooltip/AbilLockedLevel02"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CButton>
+    <CButton id="NydusNetworkUnloadKerrigan">
+        <Icon value="Assets\Textures\ui_btn_aicommand_commandcard_rally.dds"/>
+        <AlertIcon value="Assets\Textures\ui_btn_aicommand_commandcard_rally.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <TintRacially value="1"/>
+    </CButton>
+    <CButton id="TurnOnAutoCreep">
+        <Icon value="Assets\Textures\btn-ability-zerg-creepspread.dds"/>
+        <AlertIcon value="Assets\Textures\btn-ability-zerg-generatecreep-color.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <HotkeySet value="AutoCreep"/>
+    </CButton>
+    <CButton id="TurnOffAutoCreep">
+        <Icon value="Assets\Textures\btn-ability-zerg-generatecreepstop-color.dds"/>
+        <AlertIcon value="Assets\Textures\btn-ability-zerg-generatecreepstop-color.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <HotkeySet value="AutoCreep"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadMedivac">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadMedivacBlackOps">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadMedivacMengsk">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadBunker">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadBunkerDepotMengsk">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadArtilleryMengsk">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadWarpPrism">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Protoss"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadWarpPrismTaldarim">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Protoss"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadNydusNetwork">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadNydusWorm">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadGreaterNydusWorm">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadHercules">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Terran"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadOverlord">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadOverlordStetmann">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Zerg"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+    <CButton id="CMUIXQuickLoadZeratulWarpPrism">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <AlertIcon value="Assets\Textures\btn-techupgrade-terran-expandedhull.dds"/>
+        <EditorCategories value="Race:Protoss"/>
+        <TintRacially value="1"/>
+        <Hotkey value="Button/Hotkey/LoadNearby"/>
+        <HotkeyAlias value="LoadNearby"/>
+        <HotkeySet value="LoadNearby"/>
+    </CButton>
+</Catalog>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="ColonistShip">
+        <MinimapRadius value="0"/>
+    </CUnit>
+    <CUnit id="ColonistShipTHanson02A">
+        <Attributes index="Armored" value="0"/>
+        <MinimapRadius value="0"/>
+    </CUnit>
+    <CUnit id="IndustrialShip">
+        <FlagArray index="IgnoreAttackAlert" value="1"/>
+        <Attributes index="Armored" value="0"/>
+        <Attributes index="Mechanical" value="0"/>
+        <Attributes index="MapBoss" value="1"/>
+    </CUnit>
+    <CUnit id="InfestedCivilian">
+        <CostResource index="Minerals" value="25"/>
+        <LifeStart value="70"/>
+        <LifeMax value="70"/>
+    </CUnit>
+    <CUnit id="InfestedCivilianBurrowed">
+        <LifeStart value="70"/>
+        <LifeMax value="70"/>
+    </CUnit>
+    <CUnit id="InfestedColonistShip">
+        <MinimapRadius value="0"/>
+    </CUnit>
+    <CUnit id="InfestedExploder">
+        <CostResource index="Minerals" value="50"/>
+        <CostResource index="Vespene" value="25"/>
+        <LifeStart value="120"/>
+        <LifeMax value="120"/>
+    </CUnit>
+    <CUnit id="InfestedExploderBurrowed">
+        <LifeStart value="120"/>
+        <LifeMax value="120"/>
+    </CUnit>
+    <CUnit id="InfestedTerranCampaign">
+        <Race value="Terr"/>
+        <CostResource index="Minerals" value="50"/>
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+    </CUnit>
+    <CUnit id="InfestedTerranCampaignBurrowed">
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+    </CUnit>
+</Catalog>

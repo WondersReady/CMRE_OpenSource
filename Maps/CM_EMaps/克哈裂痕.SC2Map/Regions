@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="49">
+        <name value="Reveal Players Base"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="96.878,23.46"/>
+            <radius value="21.5297"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.0886,25.7844"/>
+            <radius value="24.3483"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.476,49.107"/>
+            <radius value="27.9382"/>
+        </shape>
+        <shape type="circle">
+            <center value="36.9313,28.6264"/>
+            <radius value="27.9382"/>
+        </shape>
+        <shape type="circle">
+            <center value="30.5986,84.4"/>
+            <radius value="28.0498"/>
+        </shape>
+        <shape type="circle">
+            <center value="60.3754,43.3134"/>
+            <radius value="16.5068"/>
+        </shape>
+    </region>
+    <region id="57">
+        <name value="DeactivateBullies 01"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="77.8847,64.227"/>
+            <radius value="15.8107"/>
+        </shape>
+    </region>
+    <region id="58">
+        <name value="DeactivateBullies 02"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="37.7263,91.5397"/>
+            <radius value="12.575"/>
+        </shape>
+    </region>
+    <region id="61">
+        <name value="DeactivateBullies 03"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="98.1132,26.1318"/>
+            <radius value="13.6518"/>
+        </shape>
+    </region>
+    <region id="62">
+        <name value="DeactivateBullies 04"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="114.1276,49.471"/>
+            <width value="14.9462"/>
+            <height value="32.53"/>
+        </shape>
+    </region>
+    <region id="63">
+        <name value="DeactivateBullies 05"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117.0324,84.5546"/>
+            <radius value="25.6008"/>
+        </shape>
+    </region>
+    <region id="64">
+        <name value="DeactivateBullies 06"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="76.19,106.837"/>
+            <radius value="14.8122"/>
+        </shape>
+    </region>
+    <region id="65">
+        <name value="DeactivateBullies 07"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="166.801,40.0812"/>
+            <radius value="21.6525"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="DeactivateBullies 09"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="55.9404,137.436"/>
+            <radius value="26.521"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Player Expansion Left"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="38.3916,91.558"/>
+            <radius value="16.2805"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Player Expansion Right"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="97.5532,26.1218"/>
+            <radius value="15.904"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="DeactivateBullies 10"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="134.0505,122.3884"/>
+            <radius value="15.9436"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="DeactivateBullies 11"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="157.8913,146.5898"/>
+            <width value="40.1235"/>
+            <height value="62.3835"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Reveal First Shard"/>
+        <color value="255,255,255,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="71.99,58.5283"/>
+            <radius value="18.3925"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Bonus Objective Crate Stealing 01"/>
+        <shape type="diamond">
+            <center value="121.8618,48.2292"/>
+            <width value="2.972"/>
+            <height value="4.339"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Bonus Objective Crate Stealing 02"/>
+        <shape type="diamond">
+            <center value="158.1965,25.83"/>
+            <width value="4.0122"/>
+            <height value="4.9042"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="No Spawn Zone NW"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="21.2866,181.0058"/>
+            <width value="19.3828"/>
+            <height value="79.5847"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="No Spawn Zone E"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="205.841,57.3327"/>
+            <width value="26.9941"/>
+            <height value="49.0314"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="No Spawn Zone Base"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="20.015,14.0168,49.4584,38.7416"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="AI Attack Gather Region"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="181.246,88.662"/>
+            <width value="40.0742"/>
+            <height value="29.839"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Performance Sleep Area"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="130.7827,117.5595"/>
+            <width value="135.0861"/>
+            <height value="197.6665"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Start Bonus Objective 02 Early"/>
+        <shape type="diamond">
+            <center value="167.626,43.0454"/>
+            <width value="39.1855"/>
+            <height value="38.6513"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="97.3095,23.2363"/>
+            <radius value="21.5297"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.5202,25.5607"/>
+            <radius value="24.3483"/>
+        </shape>
+        <shape type="circle">
+            <center value="38.9077,48.8833"/>
+            <radius value="27.9382"/>
+        </shape>
+        <shape type="circle">
+            <center value="37.363,28.4028"/>
+            <radius value="27.9382"/>
+        </shape>
+        <shape type="circle">
+            <center value="31.0302,84.1762"/>
+            <radius value="28.0498"/>
+        </shape>
+        <shape type="circle">
+            <center value="60.8071,43.0898"/>
+            <radius value="16.5068"/>
+        </shape>
+    </region>
+</Regions>

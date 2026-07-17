@@ -1,0 +1,1482 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="MutatorItemTemplate">
+        <Anchor side="Left" relative="$this/BGImage" pos="Min" offset="0"/>
+        <Anchor side="Right" relative="$this/BGImage" pos="Max" offset="0"/>
+        <Height val="52"/>
+        <Visible val="false"/>
+
+        <Frame type="Image" name="BGImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Label" name="Number">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Width val="25"/>
+            <Height val="20"/>
+            <Style val="MM_MutatorIndex"/>
+        </Frame>
+
+        <Frame type="CheckBox" name="ActiveCheckBox" template="StandardTemplates/StandardCheckBoxTemplate">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/Number" pos="Max" offset="2"/>
+
+            <Frame type="Image" name="CheckMarkImage">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="1"/>
+                <!--<Texture val="@UI/SC2_UI_Tournament_MapVeto_RedX"/>-->
+            </Frame>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+            <Text val="Not Implemented"/>
+            <Style val="Tournament_MapVetoMapName"/>
+            <Width val="250"/>
+        </Frame>
+
+        <Frame type="Button" name="MutatorIconBox">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/ActiveCheckBox" pos="Max" offset="10"/>
+            <Width val="40"/>
+            <Height val="40"/>
+            <Frame type="Image" name="MutatorIcon">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Width val="32"/>
+                <Height val="32"/>
+                <Alpha val="255"/>
+                <DesaturateOnDisable val="false"/>
+            </Frame>
+
+            <Frame type="Image" name="BorderImage">
+                <Anchor relative="$parent"/>
+                <Width val="40"/>
+                <Height val="40"/>
+
+                <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                <TextureType val="Normal"/>
+                <Animation name="Toggled">
+                    <Event event="Toggled" action="DirectionForward" frame="$parent"/>
+                    <Event event="Toggled" action="Play" frame="$parent"/>
+                    <Event event="Normal" action="DirectionReverse" frame="$parent"/>
+                    <Event event="Normal" action="Play" frame="$parent"/>
+                    <Event event="Disabled" action="DirectionReverse" frame="$parent"/>
+                    <Event event="Disabled" action="Play" frame="$parent"/>
+                    
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="255" out="Fast"/>
+                        <Key type="Curve" time=".5" value="0" in="Slow"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="BorderImageEX">
+                <Anchor relative="$parent"/>
+                <Width val="40"/>
+                <Height val="40"/>
+
+                <Texture val="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                <TextureType val="Normal"/>
+
+                <Animation name="Toggled">
+                    <Event event="Toggled" action="DirectionForward" frame="$parent"/>
+                    <Event event="Toggled" action="Play" frame="$parent"/>
+                    <Event event="Normal" action="DirectionReverse" frame="$parent"/>
+                    <Event event="Normal" action="Play" frame="$parent"/>
+                    <Event event="Disabled" action="DirectionReverse" frame="$parent"/>
+                    <Event event="Disabled" action="Play" frame="$parent"/>
+                    
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Fast"/>
+                        <Key type="Curve" time=".5" value="255" in="Slow"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <StateGroup name="SourceState">
+                <DefaultState val="Official"/>
+                
+                <State name="Official">
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                </State>
+                
+                <State name="Plus">
+                    <When type="AnimationState" SourceState="Plus"/>
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                </State>
+                
+                <State name="Maguro">
+                    <When type="AnimationState" SourceState="Maguro"/>
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                </State>
+                
+                <State name="ThirdParty">
+                    <When type="AnimationState" SourceState="ThirdParty"/>
+                    <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+            <Text val="Not Implemented"/>
+            <Style val="Coop_Dev_MutatorDescription"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="MutatorSelectionTemplate">
+        <!--Anchor relative="$parent"/-->
+
+        <Frame type="Image" name="BackgroundImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+            <TextureType val="NineSlice"/>
+            <Tiled val="false"/>
+            <Width val="1500"/>
+            <Height val="1000"/>
+        </Frame>
+
+        <Frame type="Image" name="TopHexPattern">
+            <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="11"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+        </Frame>
+
+        <Frame type="Image" name="BottomHexPattern">
+            <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-11"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+            <TextureCoords top="1" left="1" bottom="0" right="0"/>
+        </Frame>
+
+        <Frame type="Label" name="Title">
+            <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="50"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+            <Style val="@BattlenetDialogTitle"/>
+            <Text val="@UI/Coop_CustopmMutatorSelection_Title"/>
+        </Frame>
+
+        <Frame type="Label" name="MessageLabel">
+            <Anchor side="Top" relative="$parent/Title" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+            <Style val="@StandardDialogMessage"/>
+            <Text val="@UI/Coop_CustopmMutatorSelection_Message"/>
+        </Frame>
+
+        <Frame type="Image" name="MutatorListBg">
+            <Anchor side="Top" relative="$parent/MessageLabel" pos="Max" offset="25"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Min" offset="-75"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Frame" name="HeaderPanel">
+            <Anchor side="Top" relative="$parent/MutatorListBg" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="30"/>
+            <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+
+            <Width val="800"/>
+            <Height val="60"/>
+
+            <Frame type="EditBox" name="SearchEditBoxTemplate" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
+                <Tooltip val="@UI/MutatorSearch/SearchTooltip"/>
+                <MaxCharacters val="80"/>
+
+                <Animation name="RequestSearch">
+                    <Event event="OnEnterPressed" frame="$this" action="Reset,Play"/>
+                </Animation>
+
+                <Frame type="Label" name="SearchTextLabel">
+                    <Text val="@UI/MutatorSearch/SearchText"/>
+                </Frame>
+
+                <Frame type="Button" name="ClearTextButton">
+                    <Animation name="ClearLobbyList">
+                        <Event event="OnClick" frame="$this" action="Reset,Play"/>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent/$parent/MutatorTypePulldown/AnchorFrame" pos="Min" offset="-14"/>
+                </Frame>
+
+                <!-- Doing the edit box animation this way because apparently you lose focus on the edit box otherwise -->
+                <Animation name="ListEmptyFilterPrep">
+                    <Event event="EmptyFilter" action="DirectionForward,Play" frame="$parent"/>
+                    <Event event="NotEmpty" action="DirectionForward,Play" frame="$parent"/>
+                    <Event event="Empty" action="DirectionReverse,Play" frame="$parent"/>
+                    <Event event="Loading" action="DirectionReverse,Play" frame="$parent"/>
+
+                    <Controller type="Visibility" end="Pause">
+                        <Key type="Bool" time="0.00" value="False"/>
+                        <Key type="Bool" time="0.01" value="True"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Pulldown" name="MutatorTypePulldown" template="StandardSmallButtonTemplates/StandardSmallPulldownTemplate">
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="-15"/>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="MutatorTileListHeaderBg">
+            <Anchor side="Top" relative="$parent/MutatorListBg" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/MutatorListBg" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/MutatorListBg" pos="Max" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+            <TextureType val="NineSlice"/>
+            <Height val="40"/>
+        </Frame>
+
+        <Frame type="Label" name="MutatorNameLabelTitle">
+            <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+            <Anchor side="Left" relative="$parent/ScrollableMutatorList" pos="Min" offset="124"/>
+            <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="-10"/>
+            <Text val="@UI/Coop_CustopmMutatorSelection_Name"/>
+            <Style val="BattlenetListHeader"/>
+        </Frame>
+
+        <Frame type="Label" name="MutatorDescriptionLabelTitle">
+            <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+            <Anchor side="Left" relative="$parent/MutatorNameLabelTitle" pos="Min" offset="260"/>
+            <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="-10"/>
+            <Text val="@UI/Coop_CustopmMutatorSelection_Description"/>
+            <Style val="BattlenetListHeader"/>
+        </Frame>
+
+        <Frame type="ScrollableFrame" name="ScrollableMutatorList">
+            <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="3"/>
+            <Anchor side="Left" relative="$parent/MutatorListBg" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent/MutatorListBg" pos="Max" offset="-5"/>
+            <Anchor side="Right" relative="$parent/MutatorListBg" pos="Max" offset="-5"/>
+            <AcceptsMouse val="true"/>
+
+            <Frame type="Frame" name="ContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$this/Item200" pos="Max" offset="3"/>
+
+                <Frame type="Frame" name="Item1" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item2" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item1" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item3" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item2" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item4" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item3" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item5" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item4" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item6" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item5" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item7" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item6" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item8" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item7" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item9" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item8" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item10" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item9" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item11" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item10" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item10" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item12" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item11" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item13" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item12" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item14" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item13" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item13" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item15" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item14" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item14" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item16" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item15" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item15" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item17" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item16" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item16" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item18" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item17" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item17" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item19" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item18" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item18" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item20" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item19" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item19" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item21" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item20" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item20" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item22" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item21" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item21" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item23" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item22" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item22" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item24" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item23" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item23" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item25" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item24" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item24" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item26" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item25" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item25" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item27" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item26" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item26" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item28" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item27" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item27" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item29" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item28" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item28" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item30" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item29" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item29" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item31" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item30" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item30" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item32" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item31" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item31" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item33" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item32" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item32" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item34" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item33" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item33" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item35" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item34" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item34" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item36" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item35" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item35" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item37" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item36" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item36" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item38" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item37" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item37" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item39" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item38" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item38" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item40" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item39" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item39" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item41" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item40" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item40" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item42" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item41" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item41" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item43" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item42" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item42" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item44" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item43" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item43" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item45" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item44" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item44" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item46" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item45" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item45" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item47" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item46" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item46" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item48" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item47" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item47" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item49" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item48" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item48" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item50" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item49" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item49" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item51" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item50" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item50" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item52" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item51" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item51" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item53" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item52" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item52" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item54" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item53" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item53" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item55" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item54" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item54" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item56" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item55" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item55" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item57" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item56" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item56" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item58" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item57" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item57" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item59" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item58" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item58" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item60" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item59" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item59" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item61" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item60" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item60" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item62" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item61" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item61" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item63" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item62" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item62" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item64" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item63" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item63" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item65" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item64" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item64" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item66" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item65" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item65" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item67" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item66" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item66" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item68" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item67" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item67" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item69" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item68" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item68" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item70" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item69" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item69" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item71" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item70" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item70" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item72" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item71" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item71" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item73" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item72" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item72" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item74" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item73" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item73" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item75" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item74" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item74" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item76" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item75" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item75" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item77" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item76" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item76" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item78" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item77" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item77" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item79" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item78" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item78" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item80" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item79" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item79" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item81" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item80" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item80" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item82" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item81" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item81" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item83" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item82" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item82" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item84" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item83" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item83" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item85" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item84" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item84" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item86" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item85" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item85" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item87" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item86" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item86" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item88" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item87" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item87" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item89" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item88" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item88" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item90" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item89" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item89" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item91" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item90" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item90" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item92" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item91" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item91" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item93" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item92" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item92" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item94" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item93" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item93" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item95" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item94" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item94" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item96" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item95" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item95" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item97" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item96" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item96" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item98" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item97" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item97" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item99" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item98" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item98" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item100" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item99" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item99" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item101" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item100" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item100" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item102" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item101" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item101" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item103" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item102" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item102" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item104" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item103" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item103" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item105" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item104" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item104" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item106" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item105" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item105" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item107" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item106" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item106" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item108" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item107" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item107" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item109" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item108" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item108" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item110" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item109" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item109" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item111" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item110" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item110" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item112" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item111" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item111" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item113" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item112" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item112" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item114" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item113" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item113" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item115" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item114" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item114" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item116" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item115" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item115" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item117" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item116" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item116" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item118" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item117" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item117" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item119" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item118" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item118" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item120" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item119" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item119" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item121" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item120" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item120" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item122" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item121" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item121" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item123" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item122" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item122" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item124" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item123" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item123" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item125" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item124" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item124" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item126" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item125" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item125" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item127" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item126" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item126" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item128" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item127" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item127" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item129" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item128" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item128" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item130" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item129" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item129" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item131" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item130" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item130" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item132" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item131" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item131" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item133" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item132" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item132" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item134" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item133" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item133" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item135" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item134" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item134" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item136" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item135" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item135" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item137" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item136" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item136" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item138" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item137" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item137" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item139" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item138" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item138" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item140" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item139" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item139" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item141" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item140" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item140" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item142" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item141" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item141" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item143" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item142" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item142" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item144" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item143" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item143" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item145" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item144" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item144" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item146" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item145" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item145" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item147" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item146" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item146" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item148" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item147" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item147" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item149" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item148" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item148" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item150" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item149" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item149" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item151" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item150" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item150" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item152" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item151" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item151" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item153" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item152" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item152" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item154" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item153" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item153" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item155" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item154" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item154" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item156" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item155" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item155" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item157" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item156" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item156" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item158" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item157" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item157" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item159" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item158" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item158" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item160" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item159" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item159" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item161" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item160" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item160" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item162" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item161" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item161" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item163" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item162" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item162" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item164" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item163" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item163" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item165" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item164" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item164" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item166" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item165" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item165" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item167" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item166" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item166" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item168" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item167" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item167" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item169" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item168" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item168" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item170" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item169" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item169" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item171" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item170" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item170" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item172" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item171" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item171" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item173" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item172" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item172" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item174" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item173" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item173" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item175" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item174" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item174" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item176" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item175" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item175" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item177" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item176" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item176" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item178" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item177" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item177" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item179" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item178" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item178" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item180" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item179" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item179" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item181" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item180" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item180" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item182" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item181" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item181" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item183" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item182" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item182" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item184" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item183" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item183" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item185" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item184" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item184" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item186" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item185" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item185" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item187" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item186" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item186" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item188" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item187" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item187" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item189" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item188" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item188" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item190" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item189" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item189" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item191" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item190" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item190" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item192" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item191" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item191" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item193" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item192" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item192" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item194" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item193" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item193" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item195" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item194" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item194" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item196" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item195" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item195" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item197" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item196" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item196" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item198" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item197" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item197" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item199" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item198" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item198" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+                <Frame type="Frame" name="Item200" template="Coop_MutatorSelection_EX/MutatorItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item199" pos="Max" offset="#VerticalItemGap"/>
+                    <Anchor side="Left" relative="$parent/Item199" pos="Min" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="ScrollBar" name="ScrollBar">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Orientation val="Vertical"/>
+                <Width val="24"/>
+                <StepValue val="48"/>
+                <Continuous val="false"/>
+
+                <Frame type="Image" name="Image">
+                    <Anchor relative="$parent"/>
+                    <Texture val="@@UI/StandardScrollBar"/>
+                    <TextureType val="NineSlice"/>
+                    <Tiled val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Button">
+                    <Frame type="Image" name="NormalImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@@UI/StandardScrollBarButton"/>
+                        <TextureType val="NineSlice"/>
+                        <StateCount val="2"/>
+                        <Tiled val="true"/>
+                    </Frame>
+
+                    <Frame type="Image" name="HoverImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@@UI/StandardScrollBarButtonHover"/>
+                        <TextureType val="NineSlice"/>
+                        <StateCount val="2"/>
+                        <Tiled val="true"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+            <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-40"/>
+            <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-3"/>
+            <Text val="@UI/MatchmakingMapVetoFrame/Accept"/>
+        </Frame>
+
+        <Frame type="Button" name="CancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="3"/>
+            <Text val="@UI/MatchmakingMapVetoFrame/Cancel"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="MutatorSelectionPage">
+        <Anchor relative="$parent"/>
+
+        <Frame type="Image" name="BackgroundTint">
+            <Anchor relative="$parent"/>
+            <Color val="0,0,0"/>
+            <Alpha val="180"/>
+            <AcceptsMouse val="true"/>
+        </Frame>
+
+        <Frame type="Image" name="LeftBGGlowPattern">
+            <Anchor side="Top" relative="$parent/MutatorSelectionMainDialog/BackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/MutatorSelectionMainDialog/BackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/MutatorSelectionMainDialog/BackgroundImage" pos="Min" offset="40"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+        </Frame>
+
+        <Frame type="Image" name="RightBGGlowPattern">
+            <Anchor side="Top" relative="$parent/MutatorSelectionMainDialog/BackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/MutatorSelectionMainDialog/BackgroundImage" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/MutatorSelectionMainDialog/BackgroundImage" pos="Max" offset="-40"/>
+            <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+            <TextureCoords top="0" left="1" bottom="1" right="0"/>
+        </Frame>
+
+        <Frame type="Frame" name="MutatorSelectionMainDialog" template="Coop_MutatorSelection_EX/MutatorSelectionTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        </Frame>
+
+    </Frame>
+</Desc>

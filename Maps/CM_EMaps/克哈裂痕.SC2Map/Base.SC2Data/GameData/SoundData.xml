@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSound id="Explosion_Distant_2D" parent="Combat">
+        <AssetArray File="Assets\Sounds\Explosion_Distant_BGv2_03.wav" FacialGroup=""/>
+        <Category value="Other"/>
+        <Mode value="2D"/>
+        <Pitch value="-4.000000,-4.000000"/>
+        <SpeakerMix index="Center" value="0.000000"/>
+        <SpeakerMix index="LFE" value="0.250000"/>
+        <SpeakerMix index="BackLeft" value="0.500000"/>
+        <SpeakerMix index="BackRight" value="0.500000"/>
+        <SpeakerMix index="SideLeft" value="0.125000"/>
+        <SpeakerMix index="SideRight" value="0.125000"/>
+        <Volume value="2.000000,2.000000"/>
+        <VolumeRolloffFadeIn Volume="-96.000000"/>
+        <VolumeRolloffFadeIn Time="7"/>
+        <VolumeRolloffPoints Distance="8.702532"/>
+        <VolumeRolloffPoints Distance="15.189873" Volume="-2.370000"/>
+        <VolumeRolloffPoints Distance="21.202532" Volume="-96.000000"/>
+    </CSound>
+</Catalog>

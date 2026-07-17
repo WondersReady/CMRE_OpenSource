@@ -1,0 +1,4 @@
+Button/Hotkey/TurnOffAutoCreep=D
+Button/Hotkey/TurnOnAutoCreep=E
+Button/Hotkey/LoadNearby=O
+Button/Hotkey/Cancel=Escape

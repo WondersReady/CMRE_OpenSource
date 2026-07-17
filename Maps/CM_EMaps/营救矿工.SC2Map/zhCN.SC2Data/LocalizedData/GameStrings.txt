@@ -1,0 +1,81 @@
+﻿Button/Tooltip/Aiur01MechanismDisabler=摧毁该路障可以打开前往新区域的通道。
+Button/Tooltip/Factory=战车生产设施。<n/><n/><c val="ffff8a">开启：</c><n/>- 恶蝠<n/>- 歌利亚武装机器人
+Button/Tooltip/InfestedMercHaven=移民地的矿工们舒缓压力的几个去处之一。
+Button/Tooltip/TechLabStarport=空中单位研发建筑。科技实验室可以同任何生产建筑相组合。<n/><n/><c val="ffff8a">开启：</c><n/>- 女妖<n/>- 铁鸦
+DocInfo/DescLong=凯莫瑞安的一处边远采矿移民地爆发了感染体危机。当地的矿工公会会长——德布拉·格林，决心将她的民众撤离到安全地带。同时面对埃蒙和感染体两股敌人，协助矿工顺利撤离。
+DocInfo/Name=[CM] 营救矿工
+LoadingScreen/Subtitle= <sp/>
+LoadingScreen/TextBody= <sp/>
+LoadingScreen/Tip= <sp/>
+LoadingScreen/TipRestart= <sp/>
+LoadingScreen/Title= <sp/>
+MapInfo/Player00/Name=中立
+MapInfo/Player01/Name=玩家1
+MapInfo/Player02/Name=玩家2
+MapInfo/Player03/Name=埃蒙的部队
+MapInfo/Player04/Name=埃蒙的部队
+MapInfo/Player05/Name=感染体
+MapInfo/Player06/Name=感染体
+MapInfo/Player07/Name=埃蒙的部队
+MapInfo/Player08/Name=凯莫瑞安矿工
+MapInfo/Player09/Name=根除者
+MapInfo/Player10/Name=凯莫瑞安矿工
+MapInfo/Player11/Name=凯莫瑞安设备
+MapInfo/Player12/Name=敌对
+Param/Expression/1687FAE0=Final:~D~<n/>~OriginalText~
+Param/Expression/2EC0FC9E=<c val="FF8000">奖励1：<n/>~A~<n/>穿梭机：<n/>~B~<n/>时间得分：<n/>~C~</c>
+Param/Expression/53A26397=强制声索波次目标至~A~
+Param/Expression/6BA0298C=<s val="@@ObjectivePanelProgress">(~Timer~)</s>
+Param/Expression/97E07B75=<s val="@@ObjectivePanelProgress">(~Timer~)</s>
+Param/Expression/9FDBEB97=设定首要目标计数为~A~
+Param/Expression/A04A8E86=<c val="FF8000">时间：<n/>~A~<n/>奖励：<n/>~B~<n/>目标：<n/>~C~</c>
+Param/Value/05391F34=将单位移动至此
+Param/Value/0FABD2CB=撤离飞船被摧毁
+Param/Value/0FB2EF5E=你盟友的所有建筑都被摧毁了。
+Param/Value/11B1338E=疾疫传播体
+Param/Value/124EBD46=太多的飞船被摧毁。
+Param/Value/1591EB86=飞船发射中
+Param/Value/1595402E=<s val="ModLeftSize16Bold">开启发射</s>
+Param/Value/1671D608=保护飞船
+Param/Value/21720A7E=<s val="ModLeftSize16Bold">恐慌发射倒计时</s>
+Param/Value/234C5B9D=你所有的建筑物都被摧毁了。
+Param/Value/25E8E89F=正在遭受攻击
+Param/Value/2B8BDA35=撤离飞船被摧毁
+Param/Value/2DE76641=5天
+Param/Value/2EB011DE=<s val="ModLeftSize16Bold">发射倒计时</s>
+Param/Value/44D60041=矿井入口
+Param/Value/487A6F48=飞船袭击
+Param/Value/4F2D2B30=完成任务所用天数：
+Param/Value/501DFCDB=畸变体奇袭
+Param/Value/506C6D79=发射成功
+Param/Value/53E5266F=无效的声索波次目标，使用1到9中间的一个数字
+Param/Value/5ABBD9C3=你盟友的所有建筑都被摧毁了。
+Param/Value/6D06812E=科研站入口
+Param/Value/72AEAE0A=你所有的建筑物都被摧毁了。
+Param/Value/75FE2C98=坦克毁灭者波次
+Param/Value/8536BB32=飞船袭击
+Param/Value/90E500F4=根除者
+Param/Value/93FC67C5=撤离完毕。
+Param/Value/9581578E=根除者
+Param/Value/95D392A9=飞船遭到攻击
+Param/Value/96C21974=恐慌的飞行员
+Param/Value/9BFCBEA0=根除者
+Param/Value/9F26D80B=发疯的驾驶员
+Param/Value/A6297CCB=撤离飞船
+Param/Value/B8CD2B19=启动发射程序
+Param/Value/B8D9895E=发射程序已启动
+Param/Value/C3DF8648=飞船遭到攻击
+Param/Value/CB135A05=将单位移动至此
+Param/Value/D048DB5E=瘟疫传播者
+Param/Value/D61C8849=恶火（26击杀）
+Param/Value/E30664D3=根除者
+Param/Value/E91D5A5F=最多杀敌的单位类型：
+Param/Value/FC736644=埃蒙的部队来袭
+Param/Value/FD294869=畸变体奇袭
+Param/Value/FF7333B5=塔达林折跃棱镜
+Unit/Name/HammerSecurity=被感染的铁锤安保
+Unit/Name/IndustrialShip=撤离飞船
+Unit/Name/InfestedMercHaven=被感染的狂翼
+Unit/Name/JarbanInfestibleColonistHut=被感染的移民者小屋
+Variant001/ModeDesc=请手动修改玩家难度来实现不同难度敌人的挑战。
+Variant001/ModeName=合作模式

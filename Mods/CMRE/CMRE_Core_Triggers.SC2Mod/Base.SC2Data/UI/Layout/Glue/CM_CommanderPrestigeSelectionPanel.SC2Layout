@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Image" name="ScrollBarBackgroundImage">
+        <Texture val="Assets/Textures/UI_Battlenet_Glue_ChatPanelScrollBarLine.dds"/>
+        <TextureType val="Nineslice"/>
+        <Tiled val="true"/>
+        <Alpha val="0"/>
+        <DescFlags val="Internal"/>
+    </Frame>
+
+    <Frame type="Button" name="ScrollBarButtonTemplate">
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <DescFlags val="Internal"/>
+
+        <Frame type="Image" name="NormalImage">
+            <Texture val="@UI/ChatPanelScrollBarGrabber_Normal"/>
+            <TextureType val="Nineslice"/>
+            <Tiled val="true"/>
+            <DescFlags val="Internal"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Texture val="@UI/ChatPanelScrollBarGrabber_Hover"/>
+            <TextureType val="Nineslice"/>
+            <Tiled val="true"/>
+            <DescFlags val="Internal"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="ScrollBar" name="TileListScrollBarTemplate">
+        <Image val="$root/CM_CommanderPrestigeSelectionPanel/ScrollBarBackgroundImage"/>
+        <Button val="$root/CM_CommanderPrestigeSelectionPanel/ScrollBarButtonTemplate"/>
+        <Orientation val="Vertical"/>
+        <Width val="16"/>
+        <CollapseLayout val="true"/>
+    </Frame>
+
+    <Frame type="Image" name="CommanderPrestigeTileListDividerTemplate">
+        <Height val="2"/>
+        <Color val="11,49,88"/>
+        <Alpha val="127"/>
+    </Frame>
+
+    <!-- <Frame type="CommanderPrestigeTileListItem" name="CommanderPrestigeTileListItemTemplate"> -->
+    <Frame type="Button" name="CommanderPrestigeTileListItemTemplate">
+        <StateGroup name="SoundState">
+            <DefaultState val="Allow"/>
+            <State name="Prevent">
+                <When type="Property" frame="$this" Toggled="True"/>
+                <Action type="SetProperty" ClickSound=""/>
+                <Action type="SetProperty" HoverSound=""/>
+            </State>
+            <State name="Allow">
+                <Action type="SetProperty" ClickSound="@UI_ActionButtonSelect"/>
+            </State>
+        </StateGroup>
+
+        <Height val="100"/>
+        <Enabled val="true"/>
+        <Tooltip val=""/>
+        <TooltipFrame val="BattleNetTooltip"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+
+        <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+
+        <!-- <Frame type="CommanderPrestigeFrame" name="CommanderPrestigeFrame"> -->
+        <Frame type="Frame" name="CommanderPrestigeFrame">
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <!-- CommanderPrestigeFrame data fields are unavailable after restoring this restricted type to Frame. -->
+            <!-- <Commander val="{$parent/@Commander}"/> -->
+            <!-- <PrestigeLevel val="{$parent/@PrestigeLevel}"/> -->
+            <!-- <MaxCommanderPrestigeLevelUnlocked val="{$parent/@MaxCommanderPrestigeLevelUnlocked}"/> -->
+        </Frame>
+        
+        <Frame type="Image" name="HoverGlow">
+            <Anchor relative="$parent"/>
+            <Color val="7,53,107"/>
+            <Alpha val="97"/>
+            <TextureCoords top="1" left="0" bottom="0" right="1"/>
+            <Texture val="Assets/Textures/SC2_UI_Global_GenericEffect_LinearGradient_1x256.dds"/>
+            <Visible val="False"/>
+        </Frame>
+        
+        <Frame type="Image" name="UnlockGlow">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Color val="7,53,107"/>
+            <Alpha val="0"/>
+            <TextureCoords top="0" left="0.3" bottom="1" right="1"/>
+            <Texture val="Assets/Textures/SC2_UI_Global_GenericEffect_RadialGradient_256x256.dds"/>
+            <Visible val="False"/>
+            
+            <Animation name="PrestigeUnlock">
+                <!-- PrestigeRecentlyUnlocked is sent to the new prestige tier after it becomes available -->
+                <Event event="PrestigeRecentlyUnlocked" frame="$parent" action="Reset,Play"/>
+                <Event event="PrestigeRecentlyUnlockedReset" frame="$parent" action="Reset,Stop"/>
+                <Event event="OnClick" frame="$parent" action="Reset,Stop"/>
+                
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0" value="False"/>
+                    <Key type="Bool" time="0.01" value="True"/>
+                </Controller>
+                
+                <Controller type="Sound" end="Stop">
+                    <Key type="Sound" time="0.2" sound="@AC_UI_PrestigeUnlock"/>
+                </Controller>
+                 
+                <Controller type="Fade" end="Loop">
+                    <Key type="Curve" time="0" value="0" out="Slow"/>
+                    <Key type="Curve" timeinc="0.6" value="255" in="Slow"/>
+                    <Key type="Curve" timeinc="0.6" value="0" out="Slow"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="Indicator">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Width val="118"/>
+            <Height val="107"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_DifficultySelection_Radio_Normal"/>
+            <DesaturateOnDisable val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="LockIcon">
+            <Anchor side="Top" relative="$parent/Indicator" pos="0.3" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/Indicator" pos="0.7" offset="0"/>
+            <Anchor side="Left" relative="$parent/Indicator" pos="0.3" offset="0"/>
+            <Anchor side="Right" relative="$parent/Indicator" pos="0.7" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_LockIcon"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="False"/>
+            <Enabled val="False"/>
+            <Alpha val="255"/>
+        </Frame>
+
+        <Frame type="Image" name="UnlockIcon">
+            <Anchor side="Top" relative="$parent/Indicator" pos="0.3" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/Indicator" pos="0.7" offset="0"/>
+            <Anchor side="Left" relative="$parent/Indicator" pos="0.3" offset="5"/>
+            <Anchor side="Right" relative="$parent/Indicator" pos="0.7" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_UnLockIcon"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="False"/>
+            <Alpha val="255"/>
+        </Frame>
+
+        <Frame type="Label" name="PrestigeTitleLabel">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/Indicator" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Text val=""/>
+            <Style val="DifficultySelectionButtonTitle"/>
+        </Frame>
+        
+        <Frame type="Image" name="UnlockSlide">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="-500"/>
+            <Width val="400"/>
+            <Height val="120"/>
+            <Rotation val="-45"/>
+            <Visible val="False"/>
+            <Texture val="Assets/Textures/White.dds"/>
+            <TextureCoords top="0" left="0.2" bottom="1" right="0.2"/>
+            <Color val="125,200,255"/>
+            
+            <Animation name="PrestigeUnlock">
+                <!-- PrestigeRecentlyUnlocked is sent to the new prestige tier after it becomes available -->
+                <Event event="PrestigeRecentlyUnlocked" frame="$parent" action="Reset,Play"/>
+                <Event event="PrestigeRecentlyUnlockedReset" frame="$parent" action="Reset,Stop"/>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0" value="False"/>
+                    <Key type="Bool" time="0.01" value="True"/>
+                </Controller>
+                
+                <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                    <Key type="Curve" time="0.0" value="0" inout="Fast"/>
+                    <Key type="Curve" time="0.2" value="0" inout="Fast"/>
+                    <Key type="Curve" time="0.9" value="1300" inout="Slow"/>
+                </Controller>
+                 
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.2" value="255" inout="Fast"/>
+                    <Key type="Curve" time="0.9" value="255" inout="Slow"/>
+                    <Key type="Curve" time="1.1" value="0" inout="Slow"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <StateGroup name="DisplayState">
+            <DefaultState val="Disabled"/>
+
+            <State name="Dev">
+                <When type="Property" frame="$this" Toggled="False"/>
+                <When type="AnimationState" LockState="Dev"/>
+                <Action type="SetProperty" frame="Indicator" Texture="@UI/Glues_Battlenet_PageAssets_DifficultySelection_Radio_Normal"/>
+                <Action type="SetProperty" frame="PrestigeTitleLabel" Style="Coop_Prestige_TalentSelection_Normal"/>
+                <Action type="SetProperty" frame="HoverGlow" Visible="False"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="True"/>
+            </State>
+            
+            <State name="Selected">
+                <When type="Property" frame="$this" Toggled="True"/>
+                <When type="Property" frame="$this" Enabled="True"/>
+                <Action type="SetProperty" frame="Indicator" Texture="@UI/Glues_Battlenet_PageAssets_DifficultySelection_Radio_Selected"/>
+                <Action type="SetProperty" frame="PrestigeTitleLabel" Style="Coop_Prestige_TalentSelection_Selected"/>
+                <Action type="SetProperty" frame="HoverGlow" Visible="False"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+            
+            <State name="Hover">
+                <When type="Property" frame="$this" Hovered="True"/>
+                <When type="Property" frame="$this" Enabled="True"/>
+                <Action type="SetProperty" frame="Indicator" Texture="@UI/Glues_Battlenet_PageAssets_DifficultySelection_Radio_Normal"/>
+                <Action type="SetProperty" frame="PrestigeTitleLabel" Style="Coop_Prestige_TalentSelection_Hover"/>
+                <Action type="SetProperty" frame="HoverGlow" Visible="True"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+            
+            <State name="Normal">
+                <When type="Property" frame="$this" Enabled="True"/>
+                <Action type="SetProperty" frame="Indicator" Texture="@UI/Glues_Battlenet_PageAssets_DifficultySelection_Radio_Normal"/>
+                <Action type="SetProperty" frame="PrestigeTitleLabel" Style="Coop_Prestige_TalentSelection_Normal"/>
+                <Action type="SetProperty" frame="HoverGlow" Visible="False"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+            
+            <State name="Disabled">
+                <When type="Property" frame="$this" Enabled="False"/>
+                <Action type="SetProperty" frame="Indicator" Texture="@UI/Glues_Battlenet_PageAssets_DifficultySelection_Radio_Disabled"/>
+                <Action type="SetProperty" frame="PrestigeTitleLabel" Style="Coop_Prestige_TalentSelection_Disabled"/>
+                <Action type="SetProperty" frame="HoverGlow" Visible="False"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="True"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <!-- <Frame type="CommanderPrestigeSelectionPanel" name="CommanderPrestigeSelectionPanelTemplate"> -->
+    <Frame type="Frame" name="CommanderPrestigeSelectionPanelTemplate">
+
+        <!-- <Frame type="Label" name="DescriptionLabel"> -->
+            <!-- <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="0"/> -->
+            <!-- <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="30"/> -->
+            <!-- <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/> -->
+            <!-- <Style val="@Coop_CommanderMasterySubtitle"/> -->
+            <!-- <Text val="@CMUI/CommanderPrestigeSelectionPanel/Description"/> -->
+        <!-- </Frame> -->
+
+        <Frame type="Image" name="ListBackground">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-18"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="18"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-18"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="ListHeader">
+            <Anchor side="Top" relative="$parent/ListBackground" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+            <TextureType val="NineSlice"/>
+            <Height val="40"/>
+        </Frame>
+
+        <Frame type="Label" name="HeaderTitle">
+            <Anchor side="Top" relative="$parent/ListHeader" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent/ListHeader" pos="Mid" offset="1"/>
+            <Anchor side="Left" relative="$parent/ListHeader" pos="Min" offset="15"/>
+            <Style val="@Coop_CommanderMasteryInfoHeader"/>
+            <Text val="@CMUI/CommanderMasterySelectionPanel/HeaderTitlePrestige"/>
+        </Frame>
+
+        <Frame type="ScrollableFrame" name="CommanderPrestigeTileList">
+            <Anchor side="Top" relative="$parent/ListHeader" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/ListBackground" pos="Max" offset="-2"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="2"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="-2"/>
+            <AcceptsMouse val="true"/>
+            <Handle val="CM_CommanderPrestigeTileList"/>
+
+            <Frame type="Frame" name="ContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$this/Item19" pos="Max" offset="3"/>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item0" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item0" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider0" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item1" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item1" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider1" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item1" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item1" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item2" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item2" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item1" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item1" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider2" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item2" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item2" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item3" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item3" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item2" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item2" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider3" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item3" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item3" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item4" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item4" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item3" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item3" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider4" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item4" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item4" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item5" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item5" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item4" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item4" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider5" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item5" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item5" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item6" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item6" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item5" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item5" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider6" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item6" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item6" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item7" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item7" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item6" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item6" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider7" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item7" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item7" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item8" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item8" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item7" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item7" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider8" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item8" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item8" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item9" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item9" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item8" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item8" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider9" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item9" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item9" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item10" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item10" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item9" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item9" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider10" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item10" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item10" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item10" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item11" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item11" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item10" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item10" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item10" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider11" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item11" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item11" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item12" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item12" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item11" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item11" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider12" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item12" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item12" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item13" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item13" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item12" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item12" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider13" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item13" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item13" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item13" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item14" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item14" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item13" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item13" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item13" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider14" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item14" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item14" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item14" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item15" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item15" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item14" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item14" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item14" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider15" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item15" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item15" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item15" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item16" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item16" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item15" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item15" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item15" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider16" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item16" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item16" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item16" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item17" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item17" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item16" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item16" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item16" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider17" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item17" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item17" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item17" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item18" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item18" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item17" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item17" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item17" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+
+                <Frame type="Image" name="Divider18" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListDividerTemplate">
+                    <Anchor side="Top" relative="$parent/Item18" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item18" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item18" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <!-- <Frame type="CommanderPrestigeTileListItem" name="Item19" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate"> -->
+                <Frame type="Button" name="Item19" template="CM_CommanderPrestigeSelectionPanel/CommanderPrestigeTileListItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item18" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Item18" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Item18" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                    <Frame type="Label" name="PrestigeTitleLabel"/>
+                </Frame>
+            </Frame>
+            <Frame type="ScrollBar" name="ScrollBar" template="CM_CommanderPrestigeSelectionPanel/TileListScrollBarTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="-4"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+                <StepValue val="100"/>
+                <Continuous val="true"/>
+            </Frame>
+            
+            <StateGroup name="VisibleState">
+                <DefaultState val="Visible"/>
+                
+                <State name="Visible">
+                    <Action type="SetProperty" frame="$this" Visible="True"/>
+                </State>
+            </StateGroup>
+        </Frame>
+        
+        <Frame type="Frame" name="ActivationPanel">
+            <Anchor side="Top" relative="$parent/ListHeader" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/ListBackground" pos="Max" offset="-2"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="2"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="-2"/>
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="ActivationLabel">
+                <Anchor side="Bottom" relative="$parent/WaitLabel" pos="Min" offset="-10"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Style val="Coop_Prestige_ActivationLabel"/>
+                <Text val="@CMUI/CommanderPrestigeSelectionPanel/ActivatingPrestige"/>
+            </Frame>
+            
+            <Frame type="Label" name="WaitLabel">
+                <Anchor side="Bottom" relative="$parent/IdleSpinner" pos="Min" offset="-50"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Style val="Coop_Prestige_ActivationLabel"/>
+                <Text val="@CMUI/CommanderPrestigeSelectionPanel/PleaseWait"/>
+            </Frame>
+            
+            <Frame type="Frame" name="IdleSpinner" template="StandardBattlenetTemplates/IdleSpinnerTemplate">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>
+

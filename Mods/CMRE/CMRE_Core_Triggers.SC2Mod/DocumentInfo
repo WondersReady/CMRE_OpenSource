@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocInfo>
+    <Dependencies>
+        <Value>bnet:CM_Core_Base/0.0/177683,file:Mods\CMRE\CMRE_Core_Base.SC2Mod</Value>
+        <Value>bnet:CM_Core_Commander_Mengsk/0.0/177694,file:Mods\CMRE\CMRE_Core_Mengsk.SC2Mod</Value>
+        <Value>bnet:CM_Core_Commander_Stetmann/0.0/177699,file:Mods\CMRE\CMRE_Core_Stetmann.SC2Mod</Value>
+    </Dependencies>
+    <Preload>
+        <Value>AssetFile;Cutscenes\UI_Screens_AlliedCommander_Foreground.SC2Cutscene</Value>
+        <Value>AssetFile;Cutscenes\UI_Screens_CampaignMode_Background.SC2Cutscene</Value>
+        <Value>AssetFile;NewsBorder.dds</Value>
+        <Value>AssetFile;UI\Layout\VG_CoopLoading.SC2Layout</Value>
+        <Value>AssetFile;Cutscenes\UI_Screens_AlliedCommander_Foreground_Modify.SC2Cutscene</Value>
+    </Preload>
+</DocInfo>

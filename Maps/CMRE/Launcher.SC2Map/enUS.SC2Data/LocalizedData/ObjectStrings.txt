@@ -1,0 +1,8 @@
+﻿Actor/Name/ASound_AmonTemple_AmbEmitter=ASound_AmonTemple_AmbEmitter
+Light/Name/EditorTestLight=default
+Light/Name/PsionicWaveUp=PsionicWaveUp
+Sound/Name/Aiur05_Amon_CenterLoop_Emitter=Aiur05_Amon_CenterLoop_Emitter
+Sound/Name/Aiur05_Amon_CenterVx_Emitter=Aiur05_Amon_CenterVx_Emitter
+Sound/Name/VoidShade_Hybrid_Amon_Roar=VoidShade_Hybrid_Amon_Roar
+Validator/Name/Aiur05NotSoA=Aiur05 Not SoA
+Weapon/EditorPrefix/PsionicShockwave2=Archon -

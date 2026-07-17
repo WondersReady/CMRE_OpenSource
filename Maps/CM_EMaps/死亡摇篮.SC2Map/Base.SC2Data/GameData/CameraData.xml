@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CCamera id="SpacePlatform">
+        <StrafeScale index="Normal" removed="1"/>
+        <StrafeScale index="Follow" removed="1"/>
+        <SmartPanJumpDistance value="0.000000"/>
+        <SmartPanSkipDistance value="0.000000"/>
+    </CCamera>
+</Catalog>

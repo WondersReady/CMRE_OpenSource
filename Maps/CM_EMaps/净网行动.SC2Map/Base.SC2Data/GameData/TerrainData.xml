@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="MarSaraEx2">
+        <CliffSets index="1" value="CybrossCliff0"/>
+    </CTerrain>
+    <CTerrain id="PurificationDesert">
+        <CliffSets index="1" value="CybrossCliff0"/>
+        <FogColor value="255,166,111,70"/>
+    </CTerrain>
+    <CTerrain id="PurifierJungle">
+        <Lighting value="CustomLight"/>
+    </CTerrain>
+</Catalog>

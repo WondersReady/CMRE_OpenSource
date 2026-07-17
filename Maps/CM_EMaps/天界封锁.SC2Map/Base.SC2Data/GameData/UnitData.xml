@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="BallOfDeath">
+        <Height value="15"/>
+    </CUnit>
+    <CUnit id="CelestialLock">
+        <FogVisibility value="Visible"/>
+    </CUnit>
+</Catalog>

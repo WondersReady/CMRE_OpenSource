@@ -1,0 +1,689 @@
+include "scripts/cm_commander_voice_h"
+
+// CM commander voice overlay registry.
+// Runtime selection is keyed by player + phase + MissionTransmission type, so
+// transmission playback does not scan the full voice catalog.
+
+const string CMVO_USER_TYPE = "CMCommanderVoiceLine";
+const string CMVO_KEY_PREFIX = "CMVO:";
+const string CMVO_FALLBACK_TERRAN_COMMANDER = "TerranRaynor";
+const string CMVO_FALLBACK_ZERG_COMMANDER = "ZergKerrigan";
+const string CMVO_FALLBACK_PROTOSS_COMMANDER = "ProtossArtanis";
+
+bool CMVO_Initialized = false;
+
+string CMVO_PhaseName(int lp_phase) {
+    if ((lp_phase == CMVO_PHASE_RESPONSE)) {
+        return "Response";
+    }
+
+    if ((lp_phase == CMVO_PHASE_VICTORY)) {
+        return "Victory";
+    }
+
+    return "Main";
+}
+
+int CMVO_PhaseFromName(string lp_phase) {
+    if ((lp_phase == "Response") || (lp_phase == "response") || (lp_phase == "CMVO.Response")) {
+        return CMVO_PHASE_RESPONSE;
+    }
+
+    if ((lp_phase == "Victory") || (lp_phase == "victory") || (lp_phase == "CMVO.Victory")) {
+        return CMVO_PHASE_VICTORY;
+    }
+
+    return CMVO_PHASE_MAIN;
+}
+
+string CMVO_SourcePolicyName(int lp_policy) {
+    if ((lp_policy == CMVO_SOURCE_EXCLUDE_SOURCE)) {
+        return "ExcludeSource";
+    }
+
+    if ((lp_policy == CMVO_SOURCE_ONLY_SOURCE)) {
+        return "OnlySource";
+    }
+
+    return "Any";
+}
+
+int CMVO_SourcePolicyFromName(string lp_policy) {
+    if ((lp_policy == "ExcludeSource") || (lp_policy == "Exclude") || (lp_policy == "NotSource")) {
+        return CMVO_SOURCE_EXCLUDE_SOURCE;
+    }
+
+    if ((lp_policy == "OnlySource") || (lp_policy == "SourceOnly")) {
+        return CMVO_SOURCE_ONLY_SOURCE;
+    }
+
+    return CMVO_SOURCE_ANY;
+}
+
+string CMVO_PlayerKey(int lp_player) {
+    return (CMVO_KEY_PREFIX + "Player:" + IntToString(lp_player));
+}
+
+string CMVO_PlayerAnyRegisteredKey(int lp_player) {
+    return (CMVO_PlayerKey(lp_player) + ":AnyRegistered");
+}
+
+string CMVO_PlayerRaceDefaultFallbackEnabledKey(int lp_player) {
+    return (CMVO_PlayerKey(lp_player) + ":RaceDefaultFallbackEnabled");
+}
+
+string CMVO_PlayerRaceDefaultFallbackForcedKey(int lp_player) {
+    return (CMVO_PlayerKey(lp_player) + ":RaceDefaultFallbackForced");
+}
+
+string CMVO_PlayerRaceDefaultFallbackAppliedKey(int lp_player) {
+    return (CMVO_PlayerKey(lp_player) + ":RaceDefaultFallbackApplied");
+}
+
+string CMVO_PlayerRaceDefaultFallbackCommanderKey(int lp_player) {
+    return (CMVO_PlayerKey(lp_player) + ":RaceDefaultFallbackCommander");
+}
+
+string CMVO_PoolBaseKey(int lp_player, string lp_eventType, int lp_phase) {
+    return (CMVO_PlayerKey(lp_player) + ":Pool:" + CMVO_PhaseName(lp_phase) + ":" + lp_eventType);
+}
+
+string CMVO_PoolCountKey(int lp_player, string lp_eventType, int lp_phase) {
+    return (CMVO_PoolBaseKey(lp_player, lp_eventType, lp_phase) + ":Count");
+}
+
+string CMVO_PoolSlotKey(int lp_player, string lp_eventType, int lp_phase, int lp_slot) {
+    return (CMVO_PoolBaseKey(lp_player, lp_eventType, lp_phase) + ":" + IntToString(lp_slot));
+}
+
+string CMVO_PoolSlotGenerationKey(int lp_player, string lp_eventType, int lp_phase, int lp_slot) {
+    return (CMVO_PoolSlotKey(lp_player, lp_eventType, lp_phase, lp_slot) + ":Generation");
+}
+
+string CMVO_LineKey(string lp_lineId, string lp_field) {
+    return (CMVO_KEY_PREFIX + "Line:" + lp_lineId + ":" + lp_field);
+}
+
+string CMVO_PlayerGenerationKey(int lp_player) {
+    return (CMVO_PlayerKey(lp_player) + ":Generation");
+}
+
+int CMVO_PlayerGeneration(int lp_player) {
+    return DataTableGetInt(true, CMVO_PlayerGenerationKey(lp_player));
+}
+
+bool CMVO_ValidPlayer(int lp_player) {
+    if ((lp_player < 1)) {
+        return false;
+    }
+
+    if ((lp_player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool CMVO_PlayerHasAnyRegisteredLine(int lp_player) {
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return false;
+    }
+
+    return (DataTableGetInt(true, CMVO_PlayerAnyRegisteredKey(lp_player)) != 0);
+}
+
+bool CMVO_ValidLine(string lp_lineId) {
+    if ((lp_lineId == null) || (lp_lineId == "")) {
+        return false;
+    }
+
+    return true;
+}
+
+void CMVO_Init() {
+    if ((CMVO_Initialized == true)) {
+        return;
+    }
+
+    CMVO_Initialized = true;
+}
+
+void CMVO_Reset() {
+    int lv_player;
+
+    lv_player = 1;
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMVO_ClearPlayer(lv_player);
+        lv_player = lv_player + 1;
+    }
+}
+
+void CMVO_ClearPlayer(int lp_player) {
+    string lv_base;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return;
+    }
+
+    lv_base = CMVO_PlayerKey(lp_player);
+    DataTableValueRemove(true, (lv_base + ":Cleared"));
+    DataTableValueRemove(true, CMVO_PlayerAnyRegisteredKey(lp_player));
+    DataTableValueRemove(true, CMVO_PlayerRaceDefaultFallbackAppliedKey(lp_player));
+    DataTableValueRemove(true, CMVO_PlayerRaceDefaultFallbackCommanderKey(lp_player));
+    DataTableSetInt(true, CMVO_PlayerGenerationKey(lp_player), (CMVO_PlayerGeneration(lp_player) + 1));
+}
+
+void CMVO_ClearPlayerEventPhase(int lp_player, string lp_eventType, int lp_phase) {
+    int lv_index;
+    int lv_count;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return;
+    }
+
+    if ((lp_eventType == null) || (lp_eventType == "")) {
+        return;
+    }
+
+    lv_count = DataTableGetInt(true, CMVO_PoolCountKey(lp_player, lp_eventType, lp_phase));
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        DataTableValueRemove(true, CMVO_PoolSlotKey(lp_player, lp_eventType, lp_phase, lv_index));
+        DataTableValueRemove(true, CMVO_PoolSlotGenerationKey(lp_player, lp_eventType, lp_phase, lv_index));
+        lv_index = lv_index + 1;
+    }
+    DataTableValueRemove(true, CMVO_PoolCountKey(lp_player, lp_eventType, lp_phase));
+}
+
+void CMVO_RegisterVoiceLineData(string lp_lineId, string lp_soundId, text lp_speaker, text lp_message, string lp_portraitActor, int lp_weight, int lp_sourcePolicy, string lp_conditionProfile) {
+    int lv_weight;
+    string lv_soundId;
+
+    if ((CMVO_ValidLine(lp_lineId) == false)) {
+        return;
+    }
+
+    if (((lp_soundId == null) || (lp_soundId == "")) && (lp_message == null)) {
+        return;
+    }
+
+    lv_soundId = lp_soundId;
+    if ((lv_soundId == null)) {
+        lv_soundId = "";
+    }
+
+    lv_weight = lp_weight;
+    if ((lv_weight < 1)) {
+        lv_weight = 1;
+    }
+
+    DataTableSetString(true, CMVO_LineKey(lp_lineId, "Sound"), lv_soundId);
+    DataTableSetText(true, CMVO_LineKey(lp_lineId, "Speaker"), lp_speaker);
+    DataTableSetText(true, CMVO_LineKey(lp_lineId, "Message"), lp_message);
+    DataTableSetString(true, CMVO_LineKey(lp_lineId, "PortraitActor"), lp_portraitActor);
+    DataTableSetInt(true, CMVO_LineKey(lp_lineId, "Weight"), lv_weight);
+    DataTableSetInt(true, CMVO_LineKey(lp_lineId, "SourcePolicy"), lp_sourcePolicy);
+    DataTableSetString(true, CMVO_LineKey(lp_lineId, "ConditionProfile"), lp_conditionProfile);
+    DataTableSetString(true, CMVO_LineKey(lp_lineId, "LegacyLine"), "");
+}
+
+void CMVO_RegisterLegacyConversationLineData(string lp_lineId, string lp_legacyLine, string lp_soundId, string lp_textKey, string lp_speakerCharacter, string lp_portraitActor, int lp_weight, int lp_sourcePolicy, string lp_conditionProfile) {
+    text lv_speaker;
+    text lv_message;
+    string lv_speakerKey;
+
+    if ((lp_speakerCharacter == null) || (lp_speakerCharacter == "")) {
+        lv_speaker = null;
+    }
+    else {
+        lv_speakerKey = "Character/Name/" + lp_speakerCharacter;
+        lv_speaker = StringExternal(lv_speakerKey);
+    }
+
+    if ((lp_textKey == null) || (lp_textKey == "")) {
+        lv_message = null;
+    }
+    else {
+        lv_message = StringExternal(lp_textKey);
+    }
+
+    CMVO_RegisterVoiceLineData(lp_lineId, lp_soundId, lv_speaker, lv_message, lp_portraitActor, lp_weight, lp_sourcePolicy, lp_conditionProfile);
+    if ((CMVO_ValidLine(lp_lineId) == true)) {
+        DataTableSetString(true, CMVO_LineKey(lp_lineId, "LegacyLine"), lp_legacyLine);
+        DataTableSetString(true, CMVO_LineKey(lp_lineId, "SpeakerCharacter"), lp_speakerCharacter);
+        DataTableSetString(true, CMVO_LineKey(lp_lineId, "TextKey"), lp_textKey);
+    }
+}
+
+void CMVO_RegisterVoiceLineForPlayer(int lp_player, string lp_eventType, int lp_phase, string lp_lineId) {
+    int lv_count;
+
+    CMVO_Init();
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return;
+    }
+
+    if ((CMVO_ValidLine(lp_lineId) == false)) {
+        return;
+    }
+
+    if ((lp_eventType == null) || (lp_eventType == "")) {
+        return;
+    }
+
+    if ((DataTableValueExists(true, CMVO_LineKey(lp_lineId, "Sound")) == false)) {
+        return;
+    }
+
+    lv_count = DataTableGetInt(true, CMVO_PoolCountKey(lp_player, lp_eventType, lp_phase)) + 1;
+    DataTableSetInt(true, CMVO_PoolCountKey(lp_player, lp_eventType, lp_phase), lv_count);
+    DataTableSetString(true, CMVO_PoolSlotKey(lp_player, lp_eventType, lp_phase, lv_count), lp_lineId);
+    DataTableSetInt(true, CMVO_PoolSlotGenerationKey(lp_player, lp_eventType, lp_phase, lv_count), CMVO_PlayerGeneration(lp_player));
+    DataTableSetInt(true, CMVO_PlayerAnyRegisteredKey(lp_player), 1);
+}
+
+void CMVO_RegisterVoiceLineForPlayerByName(int lp_player, string lp_eventType, string lp_phase, string lp_lineId) {
+    CMVO_RegisterVoiceLineForPlayer(lp_player, lp_eventType, CMVO_PhaseFromName(lp_phase), lp_lineId);
+}
+
+void CMVO_RegisterVoiceLineForCommanderPlayer(int lp_player, string lp_commander, string lp_eventType, int lp_phase, string lp_lineId) {
+    if ((lp_commander != libCOOC_gf_ActiveCommanderForPlayer(lp_player))) {
+        return;
+    }
+
+    CMVO_RegisterVoiceLineForPlayer(lp_player, lp_eventType, lp_phase, lp_lineId);
+}
+
+void CMVO_RegisterUserTypeLinesForPlayer(int lp_player, string lp_commander) {
+    int lv_index;
+    int lv_end;
+    string lv_instance;
+    string lv_eventType;
+    int lv_phase;
+    string lv_soundId;
+    text lv_speaker;
+    text lv_message;
+    string lv_portraitActor;
+    int lv_weight;
+    int lv_sourcePolicy;
+    string lv_conditionProfile;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return;
+    }
+
+    if ((lp_commander == null) || (lp_commander == "")) {
+        return;
+    }
+
+    lv_index = 1;
+    lv_end = UserDataInstanceCount(CMVO_USER_TYPE);
+    while ((lv_index <= lv_end)) {
+        lv_instance = UserDataInstance(CMVO_USER_TYPE, lv_index);
+        if ((lv_instance != "[Default]") && (lv_instance != "None")) {
+            if ((UserDataGetInt(CMVO_USER_TYPE, lv_instance, "Disabled", 1) != 1) && (UserDataGetUserInstance(CMVO_USER_TYPE, lv_instance, "Commander", 1) == lp_commander)) {
+                lv_eventType = UserDataGetString(CMVO_USER_TYPE, lv_instance, "EventType", 1);
+                lv_phase = CMVO_PhaseFromName(UserDataGetString(CMVO_USER_TYPE, lv_instance, "Phase", 1));
+                lv_soundId = UserDataGetSound(CMVO_USER_TYPE, lv_instance, "Sound", 1);
+                lv_speaker = UserDataGetText(CMVO_USER_TYPE, lv_instance, "Speaker", 1);
+                lv_message = UserDataGetText(CMVO_USER_TYPE, lv_instance, "Message", 1);
+                lv_portraitActor = UserDataGetString(CMVO_USER_TYPE, lv_instance, "PortraitActor", 1);
+                lv_weight = UserDataGetInt(CMVO_USER_TYPE, lv_instance, "Weight", 1);
+                lv_sourcePolicy = CMVO_SourcePolicyFromName(UserDataGetString(CMVO_USER_TYPE, lv_instance, "SourcePolicy", 1));
+                lv_conditionProfile = UserDataGetString(CMVO_USER_TYPE, lv_instance, "ConditionProfile", 1);
+                CMVO_RegisterVoiceLineData(lv_instance, lv_soundId, lv_speaker, lv_message, lv_portraitActor, lv_weight, lv_sourcePolicy, lv_conditionProfile);
+                CMVO_RegisterVoiceLineForPlayer(lp_player, lv_eventType, lv_phase, lv_instance);
+            }
+        }
+        lv_index = lv_index + 1;
+    }
+}
+
+void CMVO_SetRaceDefaultTransmissionFallbackForPlayer(int lp_player, bool lp_enabled, bool lp_forceEnabled) {
+    int lv_enabled;
+    int lv_forceEnabled;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return;
+    }
+
+    lv_enabled = 0;
+    lv_forceEnabled = 0;
+    if ((lp_enabled == true)) {
+        lv_enabled = 1;
+    }
+    if ((lp_forceEnabled == true)) {
+        lv_forceEnabled = 1;
+    }
+
+    DataTableSetInt(true, CMVO_PlayerRaceDefaultFallbackEnabledKey(lp_player), lv_enabled);
+    DataTableSetInt(true, CMVO_PlayerRaceDefaultFallbackForcedKey(lp_player), lv_forceEnabled);
+    if ((lv_enabled == 0) && (lv_forceEnabled == 0) && (DataTableGetInt(true, CMVO_PlayerRaceDefaultFallbackAppliedKey(lp_player)) != 0)) {
+        CMVO_ClearPlayer(lp_player);
+    }
+}
+
+bool CMVO_RaceDefaultTransmissionFallbackEnabledForPlayer(int lp_player) {
+    string lv_commander;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return false;
+    }
+
+    if ((CMPE_EventRegistryHasAnyHandler() == false)) {
+        return false;
+    }
+
+    lv_commander = libCOOC_gf_ActiveCommanderForPlayer(lp_player);
+    if ((lv_commander == "") || (lv_commander == null)) {
+        return false;
+    }
+
+    if ((CMPE_CommanderEventHasHandler(lv_commander, "Commander.Initial.After") == true)) {
+        return false;
+    }
+
+    return true;
+}
+
+string CMVO_RaceDefaultTransmissionCommanderForPlayer(int lp_player) {
+    string lv_commander;
+    string lv_race;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return "";
+    }
+
+    lv_commander = libCOOC_gf_ActiveCommanderForPlayer(lp_player);
+    if ((lv_commander == "") || (lv_commander == null)) {
+        return "";
+    }
+
+    lv_race = libCOOC_gf_CC_CommanderRace(lv_commander);
+    if ((lv_race == "Terr")) {
+        return CMVO_FALLBACK_TERRAN_COMMANDER;
+    }
+
+    if ((lv_race == "Zerg")) {
+        return CMVO_FALLBACK_ZERG_COMMANDER;
+    }
+
+    if ((lv_race == "Prot")) {
+        return CMVO_FALLBACK_PROTOSS_COMMANDER;
+    }
+
+    return "";
+}
+
+void CMVO_RegisterRaceDefaultTransmissionCommanderLinesForPlayer(int lp_player, string lp_fallbackCommander) {
+    if ((lp_fallbackCommander == CMVO_FALLBACK_TERRAN_COMMANDER)) {
+        libCOMI_gf_CM_Raynor_Commander_Initial_After(lp_player);
+        return;
+    }
+
+    if ((lp_fallbackCommander == CMVO_FALLBACK_ZERG_COMMANDER)) {
+        libCOMI_gf_CM_Kerrigan_Commander_Initial_After(lp_player);
+        return;
+    }
+
+    if ((lp_fallbackCommander == CMVO_FALLBACK_PROTOSS_COMMANDER)) {
+        libCOMI_gf_CM_Artanis_Commander_Initial_After(lp_player);
+    }
+}
+
+void CMVO_EnsureRaceDefaultTransmissionFallbackForPlayer(int lp_player) {
+    string lv_fallbackCommander;
+    string lv_appliedCommander;
+
+    if ((CMVO_ValidPlayer(lp_player) == false)) {
+        return;
+    }
+
+    if ((CMVO_RaceDefaultTransmissionFallbackEnabledForPlayer(lp_player) == false)) {
+        if ((DataTableGetInt(true, CMVO_PlayerRaceDefaultFallbackAppliedKey(lp_player)) != 0)) {
+            CMVO_ClearPlayer(lp_player);
+        }
+
+        return;
+    }
+
+    lv_fallbackCommander = CMVO_RaceDefaultTransmissionCommanderForPlayer(lp_player);
+    if ((lv_fallbackCommander == "") || (lv_fallbackCommander == null)) {
+        return;
+    }
+
+    if ((DataTableGetInt(true, CMVO_PlayerRaceDefaultFallbackAppliedKey(lp_player)) != 0)) {
+        lv_appliedCommander = DataTableGetString(true, CMVO_PlayerRaceDefaultFallbackCommanderKey(lp_player));
+        if ((lv_appliedCommander == lv_fallbackCommander)) {
+            return;
+        }
+
+        CMVO_ClearPlayer(lp_player);
+    }
+
+    if ((CMVO_PlayerHasAnyRegisteredLine(lp_player) == true)) {
+        return;
+    }
+
+    DataTableSetInt(true, CMVO_PlayerRaceDefaultFallbackAppliedKey(lp_player), 1);
+    DataTableSetString(true, CMVO_PlayerRaceDefaultFallbackCommanderKey(lp_player), lv_fallbackCommander);
+    CMVO_RegisterRaceDefaultTransmissionCommanderLinesForPlayer(lp_player, lv_fallbackCommander);
+    if ((CMVO_PlayerHasAnyRegisteredLine(lp_player) == false)) {
+        DataTableValueRemove(true, CMVO_PlayerRaceDefaultFallbackAppliedKey(lp_player));
+        DataTableValueRemove(true, CMVO_PlayerRaceDefaultFallbackCommanderKey(lp_player));
+    }
+}
+
+bool CMVO_ConditionProfilePasses(string lp_profile, int lp_ownerPlayer, string lp_eventType, int lp_sourcePlayer) {
+    string lv_ownerCommander;
+
+    if ((lp_profile == null) || (lp_profile == "")) {
+        return true;
+    }
+
+    if ((lp_profile == "DoNotPlay") || (lp_profile == "NeverTrue")) {
+        return false;
+    }
+
+    lv_ownerCommander = libCOOC_gf_ActiveCommanderForPlayer(lp_ownerPlayer);
+    if ((lp_profile == "AC_SlaynPayload.Alarak")) {
+        return ((libCOOC_gf_CC_CurrentMap() == "AC_SlaynPayload") && (lv_ownerCommander == "ProtossAlarak"));
+    }
+
+    if ((lp_profile == "AC_SlaynPayload.NotAlarak")) {
+        return ((libCOOC_gf_CC_CurrentMap() == "AC_SlaynPayload") && (lv_ownerCommander != "ProtossAlarak"));
+    }
+
+    if ((lp_profile == "AC_BelshirEscort.Stetmann")) {
+        return ((libCOOC_gf_CC_CurrentMap() == "AC_BelshirEscort") && (lv_ownerCommander == "ZergStetmann"));
+    }
+
+    if ((lp_profile == "AC_BelshirEscort.NotStetmann")) {
+        return ((libCOOC_gf_CC_CurrentMap() == "AC_BelshirEscort") && (lv_ownerCommander != "ZergStetmann"));
+    }
+
+    return true;
+}
+
+bool CMVO_LineCanPlayForSource(string lp_lineId, int lp_ownerPlayer, string lp_eventType, int lp_sourcePlayer) {
+    int lv_policy;
+    string lv_profile;
+
+    if ((CMVO_ValidLine(lp_lineId) == false)) {
+        return false;
+    }
+
+    lv_policy = DataTableGetInt(true, CMVO_LineKey(lp_lineId, "SourcePolicy"));
+    if ((lv_policy == CMVO_SOURCE_EXCLUDE_SOURCE) && (lp_ownerPlayer == lp_sourcePlayer)) {
+        return false;
+    }
+
+    if ((lv_policy == CMVO_SOURCE_ONLY_SOURCE) && (lp_ownerPlayer != lp_sourcePlayer)) {
+        return false;
+    }
+
+    lv_profile = DataTableGetString(true, CMVO_LineKey(lp_lineId, "ConditionProfile"));
+    if ((CMVO_ConditionProfilePasses(lv_profile, lp_ownerPlayer, lp_eventType, lp_sourcePlayer) == false)) {
+        return false;
+    }
+
+    return true;
+}
+
+bool CMVO_RunTextOnlyLine(text lp_speaker, text lp_message, string lp_portraitActor, bool lp_waitUntilDone) {
+    transmissionsource lv_source;
+
+    if ((lp_message == null)) {
+        return false;
+    }
+
+    lv_source = TransmissionSource();
+    TransmissionSendAdvanced(PlayerGroupAll(), lv_source, c_invalidPortraitId, lp_portraitActor, "Talk", null, lp_speaker, lp_message, 0.0, c_transmissionDurationAdd, lp_waitUntilDone);
+    return true;
+}
+
+bool CMVO_RunVoiceLine(string lp_lineId, bool lp_waitUntilDone) {
+    string lv_soundId;
+    string lv_portraitActor;
+    text lv_speaker;
+    text lv_message;
+    soundlink lv_sound;
+
+    if ((CMVO_ValidLine(lp_lineId) == false)) {
+        return false;
+    }
+
+    lv_soundId = DataTableGetString(true, CMVO_LineKey(lp_lineId, "Sound"));
+    lv_sound = null;
+    if ((lv_soundId != null) && (lv_soundId != "")) {
+        lv_sound = SoundLink(lv_soundId, c_soundIndexAny);
+        if ((lv_sound == null)) {
+            return false;
+        }
+    }
+
+    lv_speaker = null;
+    lv_message = null;
+    if ((DataTableValueExists(true, CMVO_LineKey(lp_lineId, "Speaker")) == true)) {
+        lv_speaker = DataTableGetText(true, CMVO_LineKey(lp_lineId, "Speaker"));
+    }
+    if ((DataTableValueExists(true, CMVO_LineKey(lp_lineId, "Message")) == true)) {
+        lv_message = DataTableGetText(true, CMVO_LineKey(lp_lineId, "Message"));
+    }
+
+    lv_portraitActor = DataTableGetString(true, CMVO_LineKey(lp_lineId, "PortraitActor"));
+    if (((lv_portraitActor == null) || (lv_portraitActor == "")) && (lv_soundId != null) && (lv_soundId != "")) {
+        lv_portraitActor = CatalogFieldValueGet(c_gameCatalogSound, lv_soundId, "AssetArray[" + IntToString(0) + "].PortraitActor", c_playerAny);
+    }
+
+    if ((lv_sound == null)) {
+        return CMVO_RunTextOnlyLine(lv_speaker, lv_message, lv_portraitActor, lp_waitUntilDone);
+    }
+
+    libCOMI_gf_CM_SendTransmissionCampaignInternal(false, null, null, lv_sound, lv_speaker, lv_message, c_transmissionDurationAdd, 0.0, lp_waitUntilDone, libCOMI_ge_MissionTransmissionPortraitOptioins_HidePortraitAfter, libCOMI_ge_MissionTransmissionCueSoundOptions_DefaultCueSoundBehavior, lv_portraitActor);
+    return true;
+}
+
+bool CMVO_TryRunTransmissionPhase(string lp_eventType, int lp_phase, int lp_sourcePlayer, bool lp_waitUntilDone) {
+    int lv_player;
+    int lv_index;
+    int lv_count;
+    string lv_lineId;
+    int lv_weight;
+    int lv_totalWeight;
+    int lv_roll;
+    string lv_chosenLine;
+    int lv_generation;
+
+    if ((lp_eventType == null) || (lp_eventType == "")) {
+        return false;
+    }
+
+    CMVO_Init();
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        CMVO_EnsureRaceDefaultTransmissionFallbackForPlayer(lv_player);
+        lv_player = lv_player + 1;
+    }
+
+    lv_totalWeight = 0;
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_generation = CMVO_PlayerGeneration(lv_player);
+        lv_count = DataTableGetInt(true, CMVO_PoolCountKey(lv_player, lp_eventType, lp_phase));
+        lv_index = 1;
+        while ((lv_index <= lv_count)) {
+            if ((DataTableGetInt(true, CMVO_PoolSlotGenerationKey(lv_player, lp_eventType, lp_phase, lv_index)) == lv_generation)) {
+                lv_lineId = DataTableGetString(true, CMVO_PoolSlotKey(lv_player, lp_eventType, lp_phase, lv_index));
+                if ((CMVO_LineCanPlayForSource(lv_lineId, lv_player, lp_eventType, lp_sourcePlayer) == true)) {
+                    lv_weight = DataTableGetInt(true, CMVO_LineKey(lv_lineId, "Weight"));
+                    if ((lv_weight < 1)) {
+                        lv_weight = 1;
+                    }
+                    lv_totalWeight = lv_totalWeight + lv_weight;
+                }
+            }
+            lv_index = lv_index + 1;
+        }
+        lv_player = lv_player + 1;
+    }
+
+    if ((lv_totalWeight <= 0)) {
+        return false;
+    }
+
+    lv_roll = RandomInt(1, lv_totalWeight);
+    lv_chosenLine = "";
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_generation = CMVO_PlayerGeneration(lv_player);
+        lv_count = DataTableGetInt(true, CMVO_PoolCountKey(lv_player, lp_eventType, lp_phase));
+        lv_index = 1;
+        while ((lv_index <= lv_count)) {
+            if ((DataTableGetInt(true, CMVO_PoolSlotGenerationKey(lv_player, lp_eventType, lp_phase, lv_index)) == lv_generation)) {
+                lv_lineId = DataTableGetString(true, CMVO_PoolSlotKey(lv_player, lp_eventType, lp_phase, lv_index));
+                if ((CMVO_LineCanPlayForSource(lv_lineId, lv_player, lp_eventType, lp_sourcePlayer) == true)) {
+                    lv_weight = DataTableGetInt(true, CMVO_LineKey(lv_lineId, "Weight"));
+                    if ((lv_weight < 1)) {
+                        lv_weight = 1;
+                    }
+                    lv_roll = lv_roll - lv_weight;
+                    if ((lv_roll <= 0)) {
+                        lv_chosenLine = lv_lineId;
+                        break;
+                    }
+                }
+            }
+            lv_index = lv_index + 1;
+        }
+        if ((lv_chosenLine != "")) {
+            break;
+        }
+        lv_player = lv_player + 1;
+    }
+
+    if ((lv_chosenLine == "")) {
+        return false;
+    }
+
+    return CMVO_RunVoiceLine(lv_chosenLine, lp_waitUntilDone);
+}
+
+bool CMVO_TryRunMissionTransmission(string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone) {
+    string lv_conversation;
+
+    if ((lp_eventType == "Victory")) {
+        return CMVO_TryRunTransmissionPhase(lp_eventType, CMVO_PHASE_VICTORY, lp_sourcePlayer, lp_waitUntilDone);
+    }
+
+    lv_conversation = UserDataGetGameLink("MissionTransmission", lp_eventType, "Conversation", 1);
+    if ((lv_conversation != "acAttackWave") && (lv_conversation != "acCloakedUnitSpotted")) {
+        return false;
+    }
+
+    return CMVO_TryRunTransmissionPhase(lp_eventType, CMVO_PHASE_MAIN, lp_sourcePlayer, lp_waitUntilDone);
+}
+
+bool CMVO_TryRunMissionResponse(string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone) {
+    return CMVO_TryRunTransmissionPhase(lp_eventType, CMVO_PHASE_RESPONSE, lp_sourcePlayer, lp_waitUntilDone);
+}

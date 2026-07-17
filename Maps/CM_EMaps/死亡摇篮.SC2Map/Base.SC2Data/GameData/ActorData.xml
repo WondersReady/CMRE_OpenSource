@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorSimple id="BuildingStasisTinter">
+        <On index="6" Terms="Behavior.BuildingStasis.Off; ValidateUnit NotDead" Target="::Main" Send="ClearTintColor 0.125000 BuildingStasis"/>
+    </CActorSimple>
+    <CActorUnit id="COOPTerrazineTank">
+        <MinimapIcon value=""/>
+        <MinimapIconScale value="0.000000"/>
+    </CActorUnit>
+    <CActorUnit id="DesertEnergyCannon">
+        <Scale value="2.000000"/>
+    </CActorUnit>
+    <!-- we'll have to make this a real doodad so it doesnt break streaming -->
+    <CActorDoodad id="BattleStation_Text_Decals">
+        <AcceptedHostedPropTransfers index="CreepEngulfment" value="0"/>
+        <FogVisibility value="Visible"/>
+    </CActorDoodad>
+    <CActorDoodad id="ArmoredDoor">
+        <On Terms="Signal.*.Open" Send="AnimBracketStart Open Stand,Work,Start Stand,Work Stand,Work,End"/>
+        <On Terms="Signal.*.Close" Send="AnimBracketStop Open"/>
+    </CActorDoodad>
+    <CActorModelMaterial id="GlazeStasis">
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <On Terms="Behavior.CODRetreatingPayload.On" Send="Create"/>
+        <On Terms="Behavior.CODRetreatingPayload.Off" Send="Destroy"/>
+    </CActorModelMaterial>
+</Catalog>

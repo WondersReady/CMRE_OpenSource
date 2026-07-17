@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preload>
+<Asset path="assets\textures\sc2_ui_ingame_ac_icon_sgthammersfortress.dds" Type="Image"/>
+<Actor id="SYSTEM_ActorConfig"/>
+<Actor id="LightOmniOrangeLarge"/>
+<Actor id="CharCliffStructureLarge" Variations="0,1,2,3,4"/>
+<Actor id="CharCliffStructureSmall" Variations="2,3"/>
+<Actor id="CharDuneRock" Variations="10,13,18"/>
+<Actor id="CharDuneRockGiant" Variations="1,2,3,4,5,6,7,8,9,10,11,12"/>
+<Actor id="CharDuneRockLarge" Variations="0,4,7,8,9"/>
+<Actor id="DecalSpace_Baked" Variations="0,2,3,6,7,8,9"/>
+<Actor id="Decal_Baked" Variations="2,3,14,21,22,26"/>
+<Actor id="DominionLandingPad" Variations="4"/>
+<Actor id="ElectricConduitPathMedium" Variations="2,8,9"/>
+<Actor id="ElectricConduitPathSmall" Variations="3"/>
+<Actor id="FurnaceSmall"/>
+<Actor id="GarageLarge_Warfield" Variations="0"/>
+<Actor id="GenericFire_Large"/>
+<Actor id="HalfStructure" Variations="4"/>
+<Actor id="Korhal_Platform_LandingLights" Variations="3"/>
+<Actor id="Korhal_Platform_Ramp"/>
+<Actor id="LavaPillars" Variations="0,1,2,3,4,6"/>
+<Actor id="MoebiusLabBrokenHornet" Variations="0,2"/>
+<Actor id="MoebiusLab_Splat" Variations="0"/>
+<Actor id="NukeTowerWarfield"/>
+<Actor id="PowerSupplyWarfield"/>
+<Actor id="RoadMetalCornerDiagonal" Variations="0,1,2"/>
+<Actor id="RoadMetalCornerStraight" Variations="1,2"/>
+<Actor id="RoadMetalDiagonal" Variations="0,1,2,3,4"/>
+<Actor id="RoadMetalEndCap" Variations="1"/>
+<Actor id="RoadMetalStraight" Variations="2,3"/>
+<Actor id="Shadow_Tarmac_Splat" Variations="5"/>
+<Actor id="SmokeEmbersMedium"/>
+<Actor id="TerranButcherPropLarge" Variations="0,1"/>
+<Actor id="VolcanicSpire" Variations="0,1,4"/>
+<Actor id="WaterGenerator" Variations="0,2"/>
+<Actor id="WaterGeneratorLarge"/>
+<Actor id="ZergBonePileLarge" Variations="0,1,2"/>
+<Actor id="ZergCarcasses" Variations="0,1,2,3,4,5,6"/>
+<Actor id="ZergCarcassesMedium" Variations="0,1,2,3,4,5"/>
+<Actor id="ZergCurbs" Variations="0,1,3,4"/>
+<Actor id="ZerusVolcano" Variations="0,1,2"/>
+<Actor id="PathingBlocker2x2Doodad"/>
+<Actor id="CaveEntrance"/>
+<Actor id="CharAshWeather"/>
+<Actor id="CharBlisterEgg"/>
+<Actor id="CharCrystalHuge" Variations="0,1,2,3"/>
+<Actor id="CharCrystalLarge" Variations="0,1"/>
+<Actor id="CharHorn" Variations="0,1,2"/>
+<Actor id="CharRock" Variations="3"/>
+<Actor id="CharRockLarge" Variations="0,2"/>
+<Actor id="CharTree" Variations="0,1,2,3,4"/>
+<Actor id="ColonistShipAbandoned" Variations="0"/>
+<Actor id="Floodlight" Variations="2,3"/>
+<Actor id="LandingLights" Variations="2"/>
+<Actor id="RedstoneRockSpiresNoBase" Variations="4"/>
+<Actor id="RockTower" Variations="0"/>
+<Actor id="RockVolcanicGiant" Variations="0,1,2,3,4,5"/>
+<Actor id="RockLarge" Variations="5,11"/>
+<Actor id="TerranTarmac" Variations="1,7"/>
+<Actor id="ColonistSupplyCrate" Variations="1,3,7"/>
+<Actor id="DefensiveWall45Doodad" Variations="0,1,2"/>
+<Actor id="DefensiveWall45InnerDoodad"/>
+<Actor id="DefensiveWall45OneThirdDoodad"/>
+<Actor id="DefensiveWall45OuterDoodad"/>
+<Actor id="DefensiveWallEnd"/>
+<Actor id="Generic_ProtossFire_Large_ActorSound"/>
+<Behavior id="ProgressBar"/>
+<Behavior id="ExpansionRocks"/>
+<Behavior id="User1AttributeFlagBehavior"/>
+<Behavior id="FireSuppressionSystemNoReq"/>
+<Behavior id="ArchAngelRepair"/>
+<Effect id="VoidThrasherLightningAoECreatePersistentDelay"/>
+<Map id="AC_CharThrasher"/>
+<Model id="PingObjective"/>
+<Objective id="AC_CharThrasher_Bonus01"/>
+<Terrain id="CharEx2_Fortress"/>
+<Unit id="Colossus" UserTag="Prot"/>
+<Unit id="Baneling" UserTag="Zerg"/>
+<Unit id="CommandCenter" UserTag="Terr"/>
+<Unit id="SupplyDepot" UserTag="Terr"/>
+<Unit id="Refinery" UserTag="Terr"/>
+<Unit id="Barracks"/>
+<Unit id="EngineeringBay" UserTag="Terr"/>
+<Unit id="MissileTurret"/>
+<Unit id="Bunker" UserTag="Terr"/>
+<Unit id="GhostAcademy" UserTag="Terr"/>
+<Unit id="Factory"/>
+<Unit id="Starport" UserTag="Terr"/>
+<Unit id="Armory" UserTag="Terr"/>
+<Unit id="FusionCore" UserTag="Terr"/>
+<Unit id="SiegeTank" UserTag="Terr"/>
+<Unit id="VikingFighter" UserTag="Terr"/>
+<Unit id="SCV" UserTag="Terr"/>
+<Unit id="Marine" UserTag="Terr"/>
+<Unit id="Reaper" UserTag="Terr"/>
+<Unit id="Ghost" UserTag="Terr"/>
+<Unit id="Marauder" UserTag="Terr"/>
+<Unit id="Thor" UserTag="Terr"/>
+<Unit id="Medivac" UserTag="Terr"/>
+<Unit id="Banshee" UserTag="Terr"/>
+<Unit id="Raven" UserTag="Terr"/>
+<Unit id="Battlecruiser" UserTag="Terr"/>
+<Unit id="Nexus" UserTag="Prot"/>
+<Unit id="Pylon" UserTag="Prot"/>
+<Unit id="Assimilator" UserTag="Prot"/>
+<Unit id="Forge" UserTag="Prot"/>
+<Unit id="FleetBeacon" UserTag="Prot"/>
+<Unit id="TwilightCouncil" UserTag="Prot"/>
+<Unit id="PhotonCannon" UserTag="Prot"/>
+<Unit id="Stargate" UserTag="Prot"/>
+<Unit id="TemplarArchive" UserTag="Prot"/>
+<Unit id="DarkShrine" UserTag="Prot"/>
+<Unit id="RoboticsBay" UserTag="Prot"/>
+<Unit id="RoboticsFacility" UserTag="Prot"/>
+<Unit id="CyberneticsCore" UserTag="Prot"/>
+<Unit id="Zealot" UserTag="Prot"/>
+<Unit id="Stalker" UserTag="Prot"/>
+<Unit id="HighTemplar" UserTag="Prot"/>
+<Unit id="DarkTemplar" Variations="0" UserTag="Prot"/>
+<Unit id="Sentry" UserTag="Prot"/>
+<Unit id="Phoenix" UserTag="Prot"/>
+<Unit id="Carrier" UserTag="Prot"/>
+<Unit id="VoidRay" UserTag="Prot"/>
+<Unit id="Observer" UserTag="Prot"/>
+<Unit id="Immortal" UserTag="Prot"/>
+<Unit id="Probe" UserTag="Prot"/>
+<Unit id="Extractor" UserTag="Zerg"/>
+<Unit id="SpawningPool" UserTag="Zerg"/>
+<Unit id="EvolutionChamber" UserTag="Zerg"/>
+<Unit id="HydraliskDen" UserTag="Zerg"/>
+<Unit id="UltraliskCavern" UserTag="Zerg"/>
+<Unit id="InfestationPit" UserTag="Zerg"/>
+<Unit id="BanelingNest" UserTag="Zerg"/>
+<Unit id="RoachWarren" UserTag="Zerg"/>
+<Unit id="SpineCrawler" UserTag="Zerg"/>
+<Unit id="SporeCrawler" UserTag="Zerg"/>
+<Unit id="Lair" UserTag="Zerg"/>
+<Unit id="Hive" UserTag="Zerg"/>
+<Unit id="GreaterSpire" UserTag="Zerg"/>
+<Unit id="Drone" UserTag="Zerg"/>
+<Unit id="Zergling" UserTag="Zerg"/>
+<Unit id="Hydralisk" UserTag="Zerg"/>
+<Unit id="Mutalisk" UserTag="Zerg"/>
+<Unit id="Ultralisk" UserTag="Zerg"/>
+<Unit id="Roach" UserTag="Zerg"/>
+<Unit id="Infestor" UserTag="Zerg"/>
+<Unit id="Corruptor" UserTag="Zerg"/>
+<Unit id="BroodLord" UserTag="Zerg"/>
+<Unit id="Overseer" UserTag="Zerg"/>
+<Unit id="OrbitalCommand" UserTag="Terr"/>
+<Unit id="WarpGate" UserTag="Prot"/>
+<Unit id="Archon" UserTag="Prot"/>
+<Unit id="Tempest" UserTag="Prot"/>
+<Unit id="SwarmHostMP" UserTag="Zerg"/>
+<Unit id="Viper" UserTag="Zerg"/>
+<Unit id="MineralField" Variations="0,1,2,3,4,5,6,7,8,9"/>
+<Unit id="VespeneGeyser"/>
+<Unit id="DestructibleStreetlight" Variations="0"/>
+<Unit id="DestructibleRock2x4Vertical" Variations="0"/>
+<Unit id="DestructibleRock2x4Horizontal" Variations="0"/>
+<Unit id="DestructibleRock6x6"/>
+<Unit id="PathingBlocker2x2"/>
+<Unit id="LurkerBurrowed" UserTag="Zerg"/>
+<Unit id="InfestedAbomination" UserTag="Zerg"/>
+<Unit id="BarracksTechReactor" UserTag="Terr"/>
+<Unit id="FactoryTechReactor" UserTag="Terr"/>
+<Unit id="StarportTechReactor" UserTag="Terr"/>
+<Unit id="Firebat" UserTag="Terr"/>
+<Unit id="Goliath" UserTag="Terr"/>
+<Unit id="ScienceVessel" UserTag="Terr"/>
+<Unit id="HybridDestroyer" UserTag="Terr"/>
+<Unit id="HybridReaver" UserTag="Terr"/>
+<Unit id="Medic" UserTag="Terr"/>
+<Unit id="ExtendingBridgeDirtyNEWide10Out"/>
+<Unit id="ExtendingBridgeDirtyNEWide10"/>
+<Unit id="CreepTumorUsed" UserTag="Zerg"/>
+<Unit id="GunTower"/>
+<Unit id="WarfieldBasePlatform"/>
+<Unit id="WarfieldFortress"/>
+<Unit id="HybridDominatorVoid" UserTag="Prot"/>
+<Unit id="VoidRiftUnselectable"/>
+<Unit id="VoidThrasher"/>
+<Unit id="HybridBehemoth" UserTag="Zerg"/>
+<Unit id="ArchAngelCoopAssault"/>
+<Unit id="ACHeroSpawnPlacement"/>
+</Preload>

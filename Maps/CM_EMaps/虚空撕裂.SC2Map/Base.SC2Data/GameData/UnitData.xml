@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="ArchAngelCoopAssault">
+        <Attributes index="Mechanical" value="0"/>
+        <LifeArmor value="1"/>
+    </CUnit>
+    <CUnit id="ArchAngelCoopFighter">
+        <Attributes index="Mechanical" value="0"/>
+        <LifeArmor value="1"/>
+        <Speed value="6"/>
+    </CUnit>
+    <CUnit id="GunTower">
+        <Sight value="25"/>
+        <BehaviorArray index="0" Link="Detector11"/>
+        <BehaviorArray index="1" removed="1"/>
+        <FlagArray index="UseLineOfSight" value="0"/>
+        <RepairTime value="480"/>
+    </CUnit>
+    <CUnit id="NydusBeast">
+        <LifeStart value="2000"/>
+        <LifeMax value="2000"/>
+        <ShieldsStart value="1200"/>
+        <ShieldsMax value="1200"/>
+        <ShieldRegenDelay value="0.5"/>
+        <ShieldRegenRate value="5"/>
+        <FogVisibility value="Snapshot"/>
+    </CUnit>
+    <!--
+    <CUnit id="NydusBeastRumble">
+        <FlagArray index="Unselectable" value="0"/>
+        <FlagArray index="Untargetable" value="0"/>
+        <FlagArray index="Invulnerable" value="0"/>
+        <Collide index="Burrow" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Collide index="Structure" value="1"/>
+        <Collide index="RoachBurrow" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <LifeStart value="3000"/>
+        <LifeMax value="3000"/>
+        <LifeArmor value="3"/>
+        <Speed value="0"/>
+        <BehaviorArray Link="GenericDontDie"/>
+    </CUnit>
+-->
+    <CUnit id="Predator">
+        <Radius value="0.5625"/>
+        <InnerRadius value="0.375"/>
+    </CUnit>
+    <CUnit id="VoidThrasher">
+        <LifeStart value="3000"/>
+        <LifeMax value="3000"/>
+        <ShieldsStart value="1000"/>
+        <ShieldsMax value="1000"/>
+    </CUnit>
+    <CUnit id="WarfieldFortress">
+        <FlagArray index="IgnoreAttackAlert" value="1"/>
+    </CUnit>
+</Catalog>

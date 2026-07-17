@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <!--CActorUnit id="NydusBeastHole" parent="GenericUnitBase" unitName="NydusBeastHole">-->
+    <!--        <Model value="Invisible"/>-->
+    <!--        <StatusBarFlags index="Shields" value="0"/>-->
+    <!--        <StatusBarFlags index="Life" value="0"/>-->
+    <!--        <StatusBarFlags index="Energy" value="0"/>-->
+    <!--        <StatusBarFlags index="Cargo" value="0"/>-->
+    <!--        <StatusBarFlags index="Progress" value="0"/>-->
+    <!--        <StatusBarFlags index="Duration" value="0"/>-->
+    <!--        <UnitFlags index="ShowBlobShadow" value="0"/>-->
+    <!--        <Macros value="RemoveFlyerHelperMacro"/>-->
+    <!--    </CActorUnit-->
+    <CActorUnit id="NydusBeastRumble"/>
+    <CActorRange id="SensorTowerRadar">
+        <Range value="14.000000"/>
+    </CActorRange>
+    <!--                                                                                         -->
+    <!-- WarfieldFortress                                                                                  -->
+    <!--                                                                                         -->
+    <CActorUnit id="WarfieldFortress">
+        <MinimapIcon value="Assets\Textures\btn-ac-terran-sgthammersfortress.dds"/>
+        <MinimapIconIsTeamColored value="1"/>
+        <MinimapTooltip value="Unit/Name/WarfieldFortress"/>
+        <GroupIcon>
+            <Image index="0" value="Assets\Textures\wireframe-terran-warfieldfortress.dds"/>
+        </GroupIcon>
+        <MinimapIconScale value="1.100000"/>
+    </CActorUnit>
+</Catalog>

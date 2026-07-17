@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TriggerData>
+    <Root>
+        <Item Type="Category" Id="3EBADE46"/>
+    </Root>
+    <Element Type="Category" Id="3EBADE46">
+        <Item Type="Category" Id="F8FFCBA1"/>
+    </Element>
+    <Element Type="Category" Id="F8FFCBA1">
+        <Item Type="Category" Id="3375C34B"/>
+    </Element>
+    <Element Type="Category" Id="3375C34B">
+        <Item Type="Trigger" Id="7DF7E698"/>
+        <Item Type="Trigger" Id="E2B2825D"/>
+    </Element>
+    <Element Type="Trigger" Id="7DF7E698">
+        <Event Type="FunctionCall" Id="80C123C2"/>
+        <Action Type="Comment" Id="A16E0D28"/>
+        <Action Type="Comment" Id="D675F60B"/>
+        <Action Type="Comment" Id="029F888F"/>
+        <Action Type="Comment" Id="D75C3366"/>
+        <Action Type="FunctionCall" Id="B4717262"/>
+    </Element>
+    <Element Type="FunctionCall" Id="80C123C2">
+        <FunctionDef Type="FunctionDef" Library="Ntve" Id="00000120"/>
+    </Element>
+    <Element Type="Comment" Id="A16E0D28">
+        <Comment>
+            ------------------------------------------------------------
+        </Comment>
+    </Element>
+    <Element Type="Comment" Id="D675F60B">
+        <Comment>
+            Template Version 1.11
+            1.11 - Removed Music Scripting, this is handled by the Commanders now. Updated Victory &amp; Defeat. 
+            1.10 - Added intro zoom in
+            1.09 - Initialization restructure.  Removed unneeded sections.  Touched up victory &amp; defeat.
+            1.08 - Added Example AI Waves
+            1.07 - Coop AI updates
+            1.06 - Initial co-op changes
+            1.05 - Added Midway Scripted Event &amp; autosave
+            1.04 - Replaced Temp Cinematic Transmission lines
+            1.03 - Removed Transmissions folder, integrated Transmissions with example Scripted Event
+            1.02 - Moved Transmissions folder in Main, added &quot;First Scripted Event&quot; example trigger
+            1.01 - Moving Objective Complete/Fail out of the Action Queue
+        </Comment>
+    </Element>
+    <Element Type="Comment" Id="029F888F">
+        <Comment>
+            ------------------------------------------------------------
+        </Comment>
+    </Element>
+    <Element Type="Comment" Id="D75C3366">
+        <Comment>
+            Initialization
+        </Comment>
+    </Element>
+    <Element Type="FunctionCall" Id="B4717262">
+        <FunctionDef Type="FunctionDef" Library="COMI" Id="E7FBAF78"/>
+        <Parameter Type="Param" Id="A4734238"/>
+        <Parameter Type="Param" Id="A1DE6156"/>
+    </Element>
+    <Element Type="Param" Id="A4734238">
+        <ParameterDef Type="ParamDef" Library="COMI" Id="C491CCD6"/>
+        <Value>Launcher</Value>
+        <ValueType Type="gamelink"/>
+        <ValueGameType Type="Map"/>
+    </Element>
+    <Element Type="Param" Id="A1DE6156">
+        <ParameterDef Type="ParamDef" Library="COMI" Id="624E093B"/>
+        <ValueType Type="trigger"/>
+        <ValueElement Type="Trigger" Id="E2B2825D"/>
+    </Element>
+    <Element Type="Trigger" Id="E2B2825D">
+    </Element>
+</TriggerData>

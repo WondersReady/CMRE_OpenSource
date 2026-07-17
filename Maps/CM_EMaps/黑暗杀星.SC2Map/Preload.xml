@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preload>
+<Actor id="SYSTEM_ActorConfig"/>
+<Actor id="LightOmniRedLarge"/>
+<Actor id="AiurTree_Ex2" Variations="0,1,2,3,4,5,6,7"/>
+<Actor id="AiurTree_Grouped" Variations="0,1,2,3,4,5"/>
+<Actor id="Aiur_ChiseledRock_Brown" Variations="0,1,2,3,4"/>
+<Actor id="Aiur_ChiseledRock_Brown_Large" Variations="0,1,3"/>
+<Actor id="Aiur_City_Archway_Large_Abandoned" Variations="0"/>
+<Actor id="Aiur_CliffBuilding_A_Destroyed"/>
+<Actor id="Aiur_CliffRocks_SmallRocks" Variations="0,1,2,3,4,5,6"/>
+<Actor id="Aiur_Cliff_Waterfall" Variations="0,1"/>
+<Actor id="Aiur_GroundCover" Variations="0,1,2,3"/>
+<Actor id="Aiur_Overgrowth" Variations="0,1,2,3,4,5"/>
+<Actor id="Aiur_Puddle" Variations="1,2,5,6,7"/>
+<Actor id="Aiur_Pyramid_Tower_Large_Destruction"/>
+<Actor id="Aiur_Ramp_Stairs" Variations="0,1"/>
+<Actor id="Aiur_Rock_Cliff" Variations="0,1,2"/>
+<Actor id="Aiur_Rock_Cliff_Jungle" Variations="0,1,2,3,4,5"/>
+<Actor id="Aiur_Rock_Cliff_Jungle_Chunks" Variations="3"/>
+<Actor id="Aiur_Stone_Temple"/>
+<Actor id="Aiur_Stone_Temple_Doodads" Variations="1"/>
+<Actor id="Aiur_Stone_Temple_Rubble" Variations="0,1,2"/>
+<Actor id="Aiur_Stone_Temple_Shrine" Variations="1,2"/>
+<Actor id="Aiur_Temple_Archway" Variations="0,1,2"/>
+<Actor id="Aiur_Temple_Bigwalls" Variations="0,6,7,10,11"/>
+<Actor id="Aiur_Temple_BrickGroup" Variations="1,2,3,4,5,7,8"/>
+<Actor id="Aiur_Temple_Bricks" Variations="0,1,2,3,4,5"/>
+<Actor id="Aiur_Temple_BridgeArch" Variations="1"/>
+<Actor id="Aiur_Temple_BridgeSection" Variations="0,3"/>
+<Actor id="Aiur_Temple_CliffDoodads" Variations="0,1,2,4"/>
+<Actor id="Aiur_Temple_GroundDecal" Variations="5"/>
+<Actor id="Aiur_Temple_Inlay" Variations="0,1,3"/>
+<Actor id="Aiur_Temple_OldWalls" Variations="0,1,2"/>
+<Actor id="Aiur_Temple_Pillars" Variations="0"/>
+<Actor id="Aiur_Temple_Ruins_Set" Variations="0"/>
+<Actor id="Aiur_Temple_Small_Pillar" Variations="0,2,4,6"/>
+<Actor id="Aiur_Temple_Small_Pillar_Destroyed" Variations="0,3"/>
+<Actor id="Aiur_Temple_Statue" Variations="0"/>
+<Actor id="Aiur_Temple_Statue_ZealotBust" Variations="0"/>
+<Actor id="Aiur_Temple_StoneAltar"/>
+<Actor id="Aiur_Tree_Large" Variations="0,1,2"/>
+<Actor id="Aiur_Trees_Log_Small" Variations="1,2,3"/>
+<Actor id="Aiur_Vines_Cliff" Variations="1,2,3,4"/>
+<Actor id="Blast_Craters" Variations="1,2"/>
+<Actor id="Cybros_Beam"/>
+<Actor id="Fog_Shakuras"/>
+<Actor id="Fog_Ulnar"/>
+<Actor id="JarbanMinor_Medium_Rock_Group" Variations="2,6"/>
+<Actor id="Korhal_Platform_GrimeSplats" Variations="0,1"/>
+<Actor id="LightningBolt"/>
+<Actor id="Protoss_Amon_Temple"/>
+<Actor id="Rock_Cliff" Variations="1,3,4,5"/>
+<Actor id="Rock_Cliff_Chunks" Variations="4"/>
+<Actor id="SOA_Beam"/>
+<Actor id="Slayn_Brazier_Fire" Variations="3"/>
+<Actor id="Slayn_Braziers" Variations="0"/>
+<Actor id="Slayn_BrickFloor"/>
+<Actor id="TheVoid_RubblePile" Variations="0,1,2,3"/>
+<Actor id="Void_CrackSplat" Variations="0,1,2,3,4,5"/>
+<Actor id="XelNaga_LargeCrates_Cliff_Amon" Variations="2"/>
+<Actor id="CreepBlocker1x1Doodad"/>
+<Actor id="BelShirCliffGapFiller"/>
+<Actor id="BelShirCliffRoots" Variations="3,4"/>
+<Actor id="ThunderLightning"/>
+<Actor id="RainEmitterLarge"/>
+<Actor id="Waterfall"/>
+<Actor id="BrokenGroundEdgingWide" Variations="0,1,2,3"/>
+<Actor id="ShakurasBaseShield"/>
+<Actor id="OrbitalMegaDeathBeam_ImpactTrail" Variations="0,1,2,3,4"/>
+<Actor id="ASound_AmonTemple_AmbEmitter"/>
+<Behavior id="WarpInEffect15"/>
+<Behavior id="Harmless"/>
+<Behavior id="SuppressCloak"/>
+<Behavior id="ColonyInfestation"/>
+<Behavior id="SOAWarpInReinforcements"/>
+<Behavior id="ProtossGenericWarpInOut"/>
+<Behavior id="VoidShade"/>
+<Behavior id="ProtossGenericWarpInOutAir"/>
+<Behavior id="MapBossAttributeFlagBehavior"/>
+<Effect id="ParasiteSporeLaunchMissile"/>
+<Effect id="HeroNukeDetonate"/>
+<Effect id="ZergTowerArtilleryLaunchSwarm"/>
+<Effect id="HyperionVoidCoopYamatoCannonLM"/>
+<Light id="AiurTempleJungle"/>
+<Map id="AC_AiurSiege"/>
+<Model id="InfestedHomeSmall"/>
+<Model id="HybridWarpInEffect"/>
+<Model id="ProtossGenericWarpInOut"/>
+<Objective id="AC_AiurSiege_Primary02"/>
+<Sound id="UI_GenericError"/>
+<Sound id="Aiur05_Amon_Amb_Emitter"/>
+<Sound id="Event_Aiur05Victory_AmonAwake"/>
+<Sound id="Event_Aiur05Victory_AmonShoots"/>
+<Sound id="Event_Aiur05Victory_White_to_Ashes"/>
+<Sound id="Event_Aiur05Victory_SoABeam1"/>
+<Sound id="Event_Aiur05Victory_SoABeam2"/>
+<Soundtrack id="PShakuras02_Music_Stinger"/>
+<Soundtrack id="AC_Music_AiurSiege_FailOutro"/>
+<Terrain id="AiurTempleJungle"/>
+<Unit id="Colossus" UserTag="Prot"/>
+<Unit id="SupplyDepot" UserTag="Terr"/>
+<Unit id="Barracks" UserTag="Prot"/>
+<Unit id="EngineeringBay" UserTag="Prot"/>
+<Unit id="MissileTurret" UserTag="Prot"/>
+<Unit id="Bunker" UserTag="Terr"/>
+<Unit id="Factory" UserTag="Prot"/>
+<Unit id="Starport" UserTag="Zerg"/>
+<Unit id="Armory" UserTag="Prot"/>
+<Unit id="FusionCore" UserTag="Prot"/>
+<Unit id="SiegeTank" UserTag="Terr"/>
+<Unit id="VikingAssault" UserTag="Zerg"/>
+<Unit id="VikingFighter" UserTag="Zerg"/>
+<Unit id="SupplyDepotLowered" UserTag="Terr"/>
+<Unit id="Marine"/>
+<Unit id="Ghost" UserTag="Prot"/>
+<Unit id="Marauder" UserTag="Prot"/>
+<Unit id="Thor" UserTag="Prot"/>
+<Unit id="Medivac" UserTag="Terr"/>
+<Unit id="Banshee" UserTag="Prot"/>
+<Unit id="Raven" UserTag="Terr"/>
+<Unit id="Battlecruiser" UserTag="Prot"/>
+<Unit id="Nexus" UserTag="Prot"/>
+<Unit id="Pylon" UserTag="Zerg"/>
+<Unit id="Gateway" UserTag="Prot"/>
+<Unit id="Forge" UserTag="Prot"/>
+<Unit id="FleetBeacon" UserTag="Zerg"/>
+<Unit id="PhotonCannon" UserTag="Prot"/>
+<Unit id="Stargate" UserTag="Zerg"/>
+<Unit id="TemplarArchive" UserTag="Zerg"/>
+<Unit id="RoboticsBay" UserTag="Zerg"/>
+<Unit id="RoboticsFacility" UserTag="Zerg"/>
+<Unit id="CyberneticsCore" UserTag="Zerg"/>
+<Unit id="Zealot" UserTag="Prot"/>
+<Unit id="Stalker" UserTag="Prot"/>
+<Unit id="Sentry" UserTag="Terr"/>
+<Unit id="Phoenix" UserTag="Terr"/>
+<Unit id="Carrier" UserTag="Terr"/>
+<Unit id="VoidRay" UserTag="Zerg"/>
+<Unit id="WarpPrism"/>
+<Unit id="Observer" UserTag="Prot"/>
+<Unit id="Immortal" UserTag="Terr"/>
+<Unit id="SpawningPool" UserTag="Terr"/>
+<Unit id="EvolutionChamber" UserTag="Terr"/>
+<Unit id="HydraliskDen"/>
+<Unit id="Spire" UserTag="Terr"/>
+<Unit id="UltraliskCavern"/>
+<Unit id="InfestationPit"/>
+<Unit id="BanelingNest"/>
+<Unit id="RoachWarren"/>
+<Unit id="SpineCrawler" UserTag="Terr"/>
+<Unit id="SporeCrawler" UserTag="Terr"/>
+<Unit id="Lair" UserTag="Zerg"/>
+<Unit id="Hive"/>
+<Unit id="GreaterSpire" UserTag="Zerg"/>
+<Unit id="Zergling" UserTag="Terr"/>
+<Unit id="Hydralisk" UserTag="Prot"/>
+<Unit id="Mutalisk" UserTag="Terr"/>
+<Unit id="Ultralisk" UserTag="Terr"/>
+<Unit id="Roach" UserTag="Zerg"/>
+<Unit id="Corruptor" UserTag="Zerg"/>
+<Unit id="BroodLord" UserTag="Prot"/>
+<Unit id="Overseer" UserTag="Zerg"/>
+<Unit id="UltraliskBurrowed" UserTag="Zerg"/>
+<Unit id="OrbitalCommand" UserTag="Terr"/>
+<Unit id="WarpGate" UserTag="Zerg"/>
+<Unit id="CreepTumorBurrowed" UserTag="Zerg"/>
+<Unit id="Archon" UserTag="Prot"/>
+<Unit id="Ravager" UserTag="Terr"/>
+<Unit id="Oracle" UserTag="Prot"/>
+<Unit id="HellionTank" UserTag="Terr"/>
+<Unit id="Liberator" UserTag="Prot"/>
+<Unit id="SwarmHostMP" UserTag="Terr"/>
+<Unit id="MineralField" Variations="0,5,7,8"/>
+<Unit id="VespeneGeyser"/>
+<Unit id="InfestedCivilian" Variations="0" UserTag="Prot"/>
+<Unit id="Scout" UserTag="Zerg"/>
+<Unit id="InfestedAbomination" UserTag="Prot"/>
+<Unit id="InfestedTerranCampaign" UserTag="Prot"/>
+<Unit id="Firebat" UserTag="Prot"/>
+<Unit id="Goliath" UserTag="Zerg"/>
+<Unit id="ScienceVessel" UserTag="Zerg"/>
+<Unit id="Scourge" UserTag="Prot"/>
+<Unit id="HybridDestroyer" UserTag="Prot"/>
+<Unit id="HybridReaver" UserTag="Zerg"/>
+<Unit id="SuperWarpGate"/>
+<Unit id="InfestedBunker" UserTag="Prot"/>
+<Unit id="InfestedMissileTurret" UserTag="Prot"/>
+<Unit id="Medic" UserTag="Terr"/>
+<Unit id="InfestationSpire" Variations="0" UserTag="Prot"/>
+<Unit id="InvisibleTargetDummy"/>
+<Unit id="Dragoon" UserTag="Zerg"/>
+<Unit id="HybridDominatorVoid" UserTag="Terr"/>
+<Unit id="VoidRift"/>
+<Unit id="HybridNemesis" UserTag="Zerg"/>
+<Unit id="HybridBehemoth" UserTag="Prot"/>
+<Unit id="SunkenColony" UserTag="Prot"/>
+<Unit id="AmonHostBody"/>
+<Unit id="VoidSliverAC"/>
+<Unit id="VoidSliverDeathGripCrystalAC"/>
+</Preload>

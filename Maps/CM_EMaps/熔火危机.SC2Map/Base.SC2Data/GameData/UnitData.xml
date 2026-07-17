@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="Civilian">
+        <Food value="0"/>
+        <BehaviorArray Link="Benign"/>
+    </CUnit>
+    <CUnit id="CivilianFemale">
+        <Food value="0"/>
+        <BehaviorArray Link="Benign"/>
+    </CUnit>
+    <CUnit id="FuelCellPickupUnit">
+        <EditorFlags index="NeutralDefault" value="1"/>
+        <BehaviorArray Link="Benign"/>
+    </CUnit>
+    <CUnit id="MinerMale">
+        <FlagArray index="Untargetable" value="1"/>
+        <Food value="0"/>
+        <BehaviorArray Link="Benign"/>
+    </CUnit>
+</Catalog>

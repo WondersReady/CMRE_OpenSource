@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="2">
+        <name value="Escort Peel"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="215,133"/>
+            <radius value="2.9873"/>
+        </shape>
+        <shape type="circle">
+            <center value="216,77.1667"/>
+            <radius value="2.9873"/>
+        </shape>
+        <shape type="circle">
+            <center value="211,20"/>
+            <radius value="2.9873"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Outposts"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="149.05,56.9526"/>
+            <radius value="9.248"/>
+        </shape>
+        <shape type="circle">
+            <center value="148.778,125.8442"/>
+            <radius value="6.9396"/>
+        </shape>
+        <shape type="circle">
+            <center value="172.931,74.54"/>
+            <radius value="8.4162"/>
+        </shape>
+        <shape type="circle">
+            <center value="121.0197,130.272"/>
+            <radius value="6.8386"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.755,104.3198"/>
+            <radius value="5.8405"/>
+        </shape>
+        <shape type="circle">
+            <center value="104.2966,73.4765"/>
+            <radius value="7.0971"/>
+        </shape>
+        <shape type="circle">
+            <center value="161.6984,26.1547"/>
+            <radius value="8.899"/>
+        </shape>
+        <shape type="circle">
+            <center value="94.6501,88.7705"/>
+            <radius value="7.0222"/>
+        </shape>
+    </region>
+    <region id="78">
+        <name value="Default Exploration"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="140.277,92.8808"/>
+            <radius value="38.0551"/>
+        </shape>
+        <shape type="circle">
+            <center value="119.92,64.394"/>
+            <radius value="7.8901"/>
+        </shape>
+        <shape type="circle">
+            <center value="112.1235,132.2773"/>
+            <radius value="16.7568"/>
+        </shape>
+        <shape type="circle">
+            <center value="88.4484,135.1181"/>
+            <radius value="17.1965"/>
+        </shape>
+        <shape type="circle">
+            <center value="112.003,109.836"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="133.4362,133.231"/>
+            <radius value="11.0612"/>
+        </shape>
+        <shape type="circle">
+            <center value="154.9548,120.8884"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="167.2897,117.982"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="174.036,106.1435"/>
+            <radius value="11.005"/>
+        </shape>
+        <shape type="circle">
+            <center value="175.9106,94.5324"/>
+            <radius value="5.966"/>
+        </shape>
+        <shape type="circle">
+            <center value="173.3198,83.0986"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="170.7016,71.113"/>
+            <radius value="5.9484"/>
+        </shape>
+        <shape type="circle">
+            <center value="163.9143,63.7177"/>
+            <radius value="7.063"/>
+        </shape>
+        <shape type="circle">
+            <center value="143.9284,56.8691"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="155.2233,59.9067"/>
+            <radius value="5.3681"/>
+        </shape>
+        <shape type="circle">
+            <center value="131.0893,59.4746"/>
+            <radius value="8.0437"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.8796,73.0441"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.9692,84.9072"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.0786,98.4265"/>
+            <radius value="8.8676"/>
+        </shape>
+        <shape type="circle">
+            <center value="146.1596,129.9101"/>
+            <radius value="8.8676"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Expansion"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="94.5856,138.1054"/>
+            <radius value="19.7741"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Train Escape Top"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="179.385,107.8427"/>
+            <radius value="4.2031"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Despawn Top"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="221.9973,139.7021"/>
+            <radius value="4.3574"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="Despawn Mid"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="223.7717,76.8093"/>
+            <radius value="4.3574"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Despawn Bottom"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="216.1872,13.3024"/>
+            <radius value="4.3574"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Expansion Bullies Defend"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="94.2888,138.989"/>
+            <radius value="15.8503"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Performance Sleep Area"/>
+        <shape type="rect">
+            <quad value="34.854,7.3215,94.6733,134.3073"/>
+        </shape>
+        <shape type="rect">
+            <quad value="93.7167,11.195,129.8896,61.9997"/>
+        </shape>
+        <shape type="rect">
+            <quad value="172.1906,16.5812,229.0046,143.5671"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="136.191,99.5"/>
+            <radius value="22"/>
+        </shape>
+        <shape type="circle">
+            <center value="125.1794,94.3461"/>
+            <radius value="15.41"/>
+        </shape>
+        <shape type="circle">
+            <center value="153,93.1962"/>
+            <radius value="19.5"/>
+        </shape>
+        <shape type="circle">
+            <center value="140.9763,77.03"/>
+            <radius value="7.946"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.6245,137.7346"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="86.495,138.4868"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="MutatorSafetyZoneEXT"/>
+        <shape type="circle">
+            <center value="138.4453,104.7678"/>
+            <radius value="17.7495"/>
+        </shape>
+    </region>
+</Regions>

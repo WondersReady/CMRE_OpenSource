@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <DescFlags val="Locked"/>
+
+    <Constant name="CM_ScreenNavigation_Mainnav_Divider_Spacing_Horizontal" val="-1"/>
+
+    <Frame type="Button" name="CM_ScreenNavigationButtonTemplate" template="StandardNavigationTemplates/BattlenetTopNavButtonTemplate">
+        <ClickSound val="@UI_ScreenNavigation_ButtonClick01"/>
+        <HoverSound val="@UI_ScreenNavigation_MouseOver01"/>
+        <Toggleable val="True"/>
+    </Frame>
+
+    <Frame type="TabControl" name="CM_ScreenNavigationSC2Template">
+        <Handle val="CM_ScreenNavigationSC2"/>
+        <Anchor relative="$parent"/>
+        <RenderPriority val="600"/>
+        <SelectedIndex val="1"/>
+        <Animation name="CMUIXSelectCoop">
+            <Event event="CMUIXSelectCoop" action="Reset,Play" frame="$this"/>
+            <Controller type="Property" property="SelectedIndex" frame="$this" end="Pause">
+                <Key type="Property" time="0" value="1"/>
+            </Controller>
+            <Controller type="Property" property="Toggled" frame="NavigationContainer/HomeButton" end="Pause">
+                <Key type="Property" time="0" value="False"/>
+            </Controller>
+            <Controller type="Property" property="Toggled" frame="NavigationContainer/CoopButton" end="Pause">
+                <Key type="Property" time="0" value="True"/>
+            </Controller>
+            <Controller type="Property" property="Toggled" frame="NavigationContainer/HistoryButton" end="Pause">
+                <Key type="Property" time="0" value="False"/>
+            </Controller>
+        </Animation>
+        <TabListItem val="$this/NavigationContainer/HomeButton"/>
+        <TabListItem val="$this/NavigationContainer/CoopButton"/>
+        <TabListItem val="$this/NavigationContainer/HistoryButton"/>
+        <PanelListItem val="$this/ScreenHomePanel"/>
+        <PanelListItem val="$this/ScreenCoopPanel"/>
+        <PanelListItem val="$this/ScreenHistoryPanel"/>
+
+        <Frame type="Frame" name="ScreenHomePanel" template="CM_ScreenHome/CM_ScreenHomeTemplate">
+            <Anchor relative="$parent"/>
+        </Frame>
+
+        <Frame type="Frame" name="ScreenCoopPanel">
+            <Anchor relative="$parent"/>
+
+            <Frame type="Frame" name="ScreenCoopCampaign" template="CM_ScreenCoopCampaign/ScreenCoopCampaignTemplate">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="ScreenHistoryPanel">
+            <Anchor relative="$parent"/>
+
+            <Frame type="Frame" name="ScreenHistory" template="CM_ScreenHistory/CM_ScreenHistoryTemplate">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="NavigationContainer">
+            <Anchor relative="$parent"/>
+
+            <Frame type="BlurFrame" name="BlurEffect">
+                <Anchor relative="$parent/Background"/>
+                <BlurAmount val=".3"/>
+
+                <Frame type="Image" name="LowImage">
+                    <Anchor relative="$parent"/>
+                    <Color val="0,0,0"/>
+                    <Alpha val="150"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Image" name="Background">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="72"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_Bg"/>
+                <TextureType val="Normal"/>
+                <Tiled val="False"/>
+            </Frame>
+
+            <Frame type="Image" name="BackgroundHexShimmer">
+                <Anchor side="Top" relative="$parent/Background" pos="Min" offset="4"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/Background" pos="Max" offset="-4"/>
+                <LayerCount val="2"/>
+
+                <Texture val="@UI/Glues_Battlenet_TopNav_HexPattern" layer="0"/>
+                <TextureType val="Normal" layer="0"/>
+                <Tiled val="true" layer="0"/>
+                <AlphaLayer val="true" layer="0"/>
+
+                <Texture val="@UI/Glues_Battlenet_TopNav_HexShimmer" layer="1"/>
+                <TextureCoords top="0" left="0" bottom="1" right="1" layer="1"/>
+                <Alpha val="175" layer="1"/>
+
+                <Animation name="Shimmer">
+                    <Event event="OnShown" action="DirectionForward" frame="$parent"/>
+                    <Event event="OnShown" action="Play" frame="$parent"/>
+
+                    <Controller type="LayerUV" layer="1" side="Right" relative="False" sidelock="True" end="Loop">
+                        <Key type="Curve" time="0" value="1" out="linear"/>
+                        <Key type="Curve" time="8" value="0" in="linear"/>
+                    </Controller>
+
+                    <Controller type="Fade" end="Loop">
+                        <Key type="Curve" time="0" value="0"/>
+                        <Key type="Curve" time="1" value="100"/>
+                        <Key type="Curve" time="3" value="200"/>
+                        <Key type="Curve" time="4" value="255"/>
+                        <Key type="Curve" time="6" value="200"/>
+                        <Key type="Curve" time="8" value="0"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="TopLineHighlightAnim">
+                <Anchor side="Top" relative="$parent/Background" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_TopHighlightAnim"/>
+
+                <Animation name="Highlight">
+                    <Event event="OnShown" action="DirectionForward" frame="$parent"/>
+                    <Event event="OnShown" action="Play" frame="$parent"/>
+
+                    <Controller type="Fade" end="Loop">
+                        <Key type="Curve" time="0" value="0"/>
+                        <Key type="Curve" time="1" value="255"/>
+                        <Key type="Curve" time="7" value="255"/>
+                        <Key type="Curve" time="8" value="0"/>
+                    </Controller>
+
+                    <Controller type="Anchor" end="Loop" side="Left" relative="true">
+                        <Key type="Curve" time="0" value="0" out="linear"/>
+                        <Key type="Curve" time="8" value="1920" out="linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="BottomLineHighlightAnim">
+                <Anchor side="Bottom" relative="$parent/Background" pos="Max" offset="2"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_BottomHighlightAnim"/>
+
+                <Animation name="Highlight">
+                    <Event event="OnShown" action="DirectionForward" frame="$parent"/>
+                    <Event event="OnShown" action="Play" frame="$parent"/>
+
+                    <Controller type="Fade" end="Loop">
+                        <Key type="Curve" time="0" value="0"/>
+                        <Key type="Curve" time="2" value="0"/>
+                        <Key type="Curve" time="4.5" value="255"/>
+                        <Key type="Curve" time="6" value="255"/>
+                        <Key type="Curve" time="8" value="0"/>
+                    </Controller>
+
+                    <Controller type="Anchor" end="Loop" side="Left" relative="true">
+                        <Key type="Curve" time="0" value="0" out="linear"/>
+                        <Key type="Curve" time="2" value="0" out="linear"/>
+                        <Key type="Curve" time="8" value="1920" out="linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Image" name="ButtonDivider1">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="4"/>
+                <Anchor side="Right" relative="$parent/HomeButton" pos="Max" offset="1"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_ButtonDivider"/>
+            </Frame>
+
+            <Frame type="Image" name="ButtonDivider2">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="4"/>
+                <Anchor side="Left" relative="$parent/CoopButton/HitTestFrame" pos="Max" offset="#CM_ScreenNavigation_Mainnav_Divider_Spacing_Horizontal"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_ButtonDivider"/>
+            </Frame>
+
+            <Frame type="Image" name="ButtonDivider3">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="4"/>
+                <Anchor side="Left" relative="$parent/HistoryButton/HitTestFrame" pos="Max" offset="#CM_ScreenNavigation_Mainnav_Divider_Spacing_Horizontal"/>
+                <Texture val="@UI/Glues_Battlenet_TopNav_ButtonDivider"/>
+            </Frame>
+
+            <Frame type="Button" name="HomeButton" template="StandardNavigationTemplates/BattlenetTopNavHomeButtonTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Toggleable val="True"/>
+
+                <StateGroup name="AspectRatioState">
+                    <DefaultState val="Not4x3"/>
+
+                    <State name="4x3">
+                        <When type="StateGroup" frame="$GlueUI" AspectRatioState="4x3"/>
+                        <Action type="SetProperty" frame="HomeIcon" Width="35"/>
+                        <Action type="SetProperty" frame="HomeIcon" Height="35"/>
+                    </State>
+
+                    <State name="Not4x3">
+                        <Action type="SetProperty" frame="HomeIcon" Width="50"/>
+                        <Action type="SetProperty" frame="HomeIcon" Height="49"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="Button" name="CoopButton" template="CM_ScreenNavigationSC2/CM_ScreenNavigationButtonTemplate">
+                <Text val="@CMUI/ScreenNavigation/Coop"/>
+                <Toggled val="True"/>
+
+                <Frame type="Frame" name="HitTestFrame">
+                    <Anchor side="Top" relative="$parent/$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/$parent/HomeButton" pos="Max" offset="0"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="HistoryButton" template="CM_ScreenNavigationSC2/CM_ScreenNavigationButtonTemplate">
+                <Text val="@CMUI/ScreenNavigation/History"/>
+
+                <Frame type="Frame" name="HitTestFrame">
+                    <Anchor side="Top" relative="$parent/$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/$parent/CoopButton/HitTestFrame" pos="Max" offset="0"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="RebuildLauncherUIButton">
+                <Anchor side="Top" relative="$parent/Background" pos="Mid" offset="-16"/>
+                <Anchor side="Right" relative="$parent/Background" pos="Max" offset="-20"/>
+                <Width val="32"/>
+                <Height val="32"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+                <Tooltip val="@CMUI/ScreenNavigation/RebuildLauncherUI/Tooltip"/>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor relative="$parent"/>
+                    <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                    <TextureCoords top="1" bottom="0" left="0" right="1"/>
+
+                    <StateGroup name="DisplayState">
+                        <DefaultState val="Normal"/>
+
+                        <State name="Disabled">
+                            <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="64,95,113"/>
+                        </State>
+
+                        <State name="Pressed">
+                            <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Pressed"/>
+                            <Action type="SetProperty" frame="$this" Color="255,255,255"/>
+                        </State>
+
+                        <State name="Hover">
+                            <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="204,231,255"/>
+                        </State>
+
+                        <State name="Normal">
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="141,191,234"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="MapSelectionContainer" template="CM_CoopCampaignMapSelectionPanel/MapSelectionContainerTemplate">
+            <Handle val="CM_MapSelectionContainer"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="950"/>
+
+            <Animation name="Show">
+                <Event event="OnClick" action="Reset" frame="$CM_MapSelectionPanel/MapButton"/>
+                <Event event="OnClick" action="Play" frame="$CM_MapSelectionPanel/MapButton"/>
+                <Event event="OnClick" action="DirectionReverse" frame="$this/AcceptButton"/>
+                <Event event="OnClick" action="Play" frame="$this/AcceptButton"/>
+                <Event event="OnClick" action="DirectionReverse" frame="$this/CloseButton"/>
+                <Event event="OnClick" action="Play" frame="$this/CloseButton"/>
+                <Event event="Hide" action="Reset,Stop" frame="$CM_ScreenCoopCampaign"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.00" value="false"/>
+                    <Key type="Bool" time="0.01" value="true"/>
+                    <Key type="Bool" time="0.20" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="MutatorChallengeContainer" template="CM_CoopCampaignMutatorChallengeSelectionPanel/MutatorChallengeSelectionContainerTemplate">
+            <Handle val="CM_MutatorChallengeContainer"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="950"/>
+
+            <Animation name="Show">
+                <Event event="CMUIXShow" action="Reset" frame="$this"/>
+                <Event event="CMUIXShow" action="Play" frame="$this"/>
+                <Event event="CMUIXHide" action="DirectionReverse" frame="$this"/>
+                <Event event="CMUIXHide" action="Play" frame="$this"/>
+                <Event event="Hide" action="Reset,Stop" frame="$CM_ScreenCoopCampaign"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.00" value="false"/>
+                    <Key type="Bool" time="0.01" value="true"/>
+                    <Key type="Bool" time="0.20" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="DifficultyContainer" template="CM_CoopCampaignDifficultySelectionPanel/DifficultyContainerTemplate">
+            <Handle val="CM_DifficultyContainer"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="950"/>
+
+            <Animation name="Show">
+                <Event event="OnClick" action="Reset" frame="$CM_CoopStandardGlue_CommanderSelectionPanel/DifficultyPanel/DifficultyButton"/>
+                <Event event="OnClick" action="Play" frame="$CM_CoopStandardGlue_CommanderSelectionPanel/DifficultyPanel/DifficultyButton"/>
+                <Event event="OnClick" action="DirectionReverse" frame="$this/AcceptButton"/>
+                <Event event="OnClick" action="Play" frame="$this/AcceptButton"/>
+                <Event event="OnClick" action="DirectionReverse" frame="$this/CancelButton"/>
+                <Event event="OnClick" action="Play" frame="$this/CancelButton"/>
+                <Event event="Hide" action="Reset,Stop" frame="$CM_ScreenCoopCampaign"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.00" value="false"/>
+                    <Key type="Bool" time="0.01" value="true"/>
+                    <Key type="Bool" time="0.20" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="SpecialDifficultyContainer" template="CM_CoopCampaignSpecialDifficultySelectionPanel/SpecialDifficultyContainerTemplate">
+            <Handle val="CM_SpecialDifficultyContainer"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="950"/>
+
+            <Animation name="Show">
+                <Event event="CMUIXShow" action="Reset" frame="$this"/>
+                <Event event="CMUIXShow" action="Play" frame="$this"/>
+                <Event event="CMUIXHide" action="DirectionReverse" frame="$this"/>
+                <Event event="CMUIXHide" action="Play" frame="$this"/>
+                <Event event="Hide" action="Reset,Stop" frame="$CM_ScreenCoopCampaign"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.00" value="false"/>
+                    <Key type="Bool" time="0.01" value="true"/>
+                    <Key type="Bool" time="0.20" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="CustomMutatorFullscreen" template="CM_CoopCustomMutatorSelection/CustomMutatorFullscreenTemplate">
+            <Handle val="CM_CustomMutatorFullscreen"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="950"/>
+
+            <Animation name="Show">
+                <Event event="CMUIXShow" action="Reset" frame="$this"/>
+                <Event event="CMUIXShow" action="Play" frame="$this"/>
+                <Event event="CMUIXHide" action="DirectionReverse" frame="$this"/>
+                <Event event="CMUIXHide" action="Play" frame="$this"/>
+                <Event event="Hide" action="Reset,Stop" frame="$CM_ScreenCoopCampaign"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.00" value="false"/>
+                    <Key type="Bool" time="0.01" value="true"/>
+                    <Key type="Bool" time="0.20" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="CustomMutatorPoolPanel">
+            <Handle val="CM_CustomMutatorPoolPanel"/>
+            <Anchor relative="$parent"/>
+            <RenderPriority val="980"/>
+
+            <Frame type="Frame" name="MutatorPoolPage" template="CM_CustomMutatorPool/MutatorSelectionPage">
+                <Handle val="CM_CustomMutatorPoolPage"/>
+                <Visible val="False"/>
+                <Alpha val="0"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="CustomizationSelectionPanel" template="CM_CommanderCustomizationSelectionPanel/CommanderCustomizationSelectionPanelTemplate">
+            <Handle val="CM_CustomizationSelectionPanel"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="950"/>
+
+            <Animation name="Show">
+                <Event event="OpenSelf" action="Reset,Play"/>
+                <Event event="OpenAlliance" action="Reset,Play"/>
+                <Event event="OnClick" action="DirectionReverse,Play" frame="$CM_MasterySelectionPanel/AcceptButton"/>
+                <Event event="OnClick" action="DirectionReverse,Play" frame="$CM_MasterySelectionPanel/CancelButton"/>
+                <Event event="Hide" action="Reset,Stop" frame="$CM_ScreenCoopCampaign"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.00" value="false"/>
+                    <Key type="Bool" time="0.01" value="true"/>
+                    <Key type="Bool" time="0.20" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+    </Frame>
+</Desc>

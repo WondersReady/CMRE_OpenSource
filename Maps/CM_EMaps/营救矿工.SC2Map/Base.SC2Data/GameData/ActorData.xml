@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorUnit id="Beacon_Terran">
+        <CustomUnitStatusFrame value="LotV_UnitStatus/UnitStatusProgressFrameTemplateHigh"/>
+    </CActorUnit>
+    <CActorUnit id="ColonistShip">
+        <MinimapUseSelfColor value="0"/>
+        <MinimapUseSelectionColor value="0"/>
+    </CActorUnit>
+    <CActorUnit id="ColonistShipTHanson02A">
+        <MinimapUseSelfColor value="0"/>
+        <MinimapUseSelectionColor value="0"/>
+    </CActorUnit>
+    <CActorUnit id="NovaTerrazineCanister">
+        <FogVisibility value="Dimmed"/>
+    </CActorUnit>
+    <CActorUnit id="NovaTerrazineTank">
+        <FogVisibility value="Dimmed"/>
+    </CActorUnit>
+</Catalog>

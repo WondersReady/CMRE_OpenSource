@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="ZergTowerArtilleryImpact">
+        <Flags index="Kill" value="0"/>
+    </CEffectDamage>
+</Catalog>

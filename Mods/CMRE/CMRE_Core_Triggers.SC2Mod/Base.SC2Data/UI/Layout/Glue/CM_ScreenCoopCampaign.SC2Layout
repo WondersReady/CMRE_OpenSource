@@ -1,0 +1,2066 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="ScreenCoopCampaignTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Handle val="CM_ScreenCoopCampaign"/>
+
+            <!-- <DisplayBackgroundModel val="false"/> -->
+            <!-- <MasteryVersion val="3"/> -->
+
+            <StateGroup name="ModeState">
+                <DefaultState val="ModeStandard"/>
+
+                <State name="ModeStandard">
+                    <Action type="SendEvent" frame="$this" event="ModeStandard"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel" event="ModeStandard"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel/BackgroundCutscene" event="ModeStandard"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel/ForegroundCutscene" event="ModeStandard"/>
+                </State>
+
+                <State name="ModeMutator">
+                    <Action type="SendEvent" frame="$this" event="ModeMutator"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel" event="ModeMutator"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel/BackgroundCutscene" event="ModeMutator"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel/ForegroundCutscene" event="ModeMutator"/>
+                </State>
+
+                <State name="ModeCustom">
+                    <Action type="SendEvent" frame="$this" event="ModeCustom"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel" event="ModeCustom"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel/BackgroundCutscene" event="ModeCustom"/>
+                    <Action type="SendEvent" frame="CommanderSelectionPanel/ForegroundCutscene" event="ModeCustom"/>
+                </State>
+            </StateGroup>
+
+            <!--
+
+            <Frame type="Image" name="BackgroundImage">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <ScaleWidthToTexture val="true"/>
+                <TextureType val="Normal"/>
+                <Texture val="@UI/GlueCampaignPanelBackground_Challenge"/>
+            </Frame> 
+            
+            -->
+
+            <!-- <Frame type="CommanderSelectionPanel" name="CommanderSelectionPanel" template="CM_CommanderSelectionPanel/CommanderSelectionPanelTemplate"> -->
+            <Frame type="Frame" name="CommanderSelectionPanel" template="CM_CommanderSelectionPanel/CommanderSelectionPanelTemplate">
+                <Anchor relative="$parent"/>
+
+                <Animation name="Show">
+                    <Event event="Show" action="Reset" frame="$parent/ScorePanel"/>
+                    <Event event="Show" action="Play" frame="$parent/ScorePanel"/>
+
+                    <Controller type="Event" end="Stop" frame="$this">
+                        <Key type="Event" time="0" event="UISlideOut"/>
+                    </Controller>
+                </Animation>
+
+                <Animation name="Hide">
+                    <Event event="Hide" action="Reset" frame="$parent/ScorePanel"/>
+                    <Event event="Hide" action="Play" frame="$parent/ScorePanel"/>
+
+                    <Controller type="Event" end="Stop" frame="$this">
+                        <Key type="Event" time="0" event="UISlideIn"/>
+                    </Controller>
+                </Animation>
+
+                <Animation name="MatchStarting">
+                    <Event event="Matched" action="Reset,Play" frame="$parent"/>
+                    <Event event="PartyReady" action="Reset,Play" frame="$parent"/>
+                    
+                    <Controller type="Enabled" end="Pause" frame="CancelButton">
+                        <Key type="Bool" time="0" value="false"/>
+                    </Controller>
+                </Animation>
+
+                <!-- This is a dummy button for when mutators are inactive -->
+                <!--Frame type="Button" name="MutatorReadyButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                    <Anchor relative="$parent/ReadyButton"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/Ready"/>
+                    <Tooltip val="@CMUI/ScreenCoopCampaign/MutatorInactiveTooltip"/>
+                    <TooltipFrame val="BattleNetTooltip"/>
+                    <Visible val="false"/>
+                    <Enabled val="false"/>
+
+                    <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                </Frame-->
+
+                <!-- <Frame type="CoopCampaignMutatorInfoPanel" name="MutatorInfoPanel" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorInfoPanelTemplate"> -->
+                <Frame type="Frame" name="MutatorInfoPanel" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorInfoPanelTemplate">
+                    <Anchor relative="$parent"/>
+                    <Handle val="CM_MutatorInfoPanel"/>
+                    
+                    <Animation name="CloseAllianceStatePanel">
+                        <Event event="Show" action="Reset,Play" frame="$this"/>
+                        <Event event="OnClick" action="Reset,Play" frame="Button"/>
+
+                        <Controller type="Event" end="Stop" frame="$parent/AllianceStatePanel">
+                            <Key type="Event" time="0" event="Inactive"/>
+                        </Controller>
+                    </Animation>
+
+                    <Animation name="UISlideOut" template="CM_CommanderSelectionPanel/UISlideOutAnimationTemplate"/>
+                    <Animation name="UISlideIn" template="CM_CommanderSelectionPanel/UISlideInAnimationTemplate"/>
+                    
+                </Frame>
+                
+                <Frame type="Frame" name="AllianceStatePanel" template="CM_CommanderSelectionDetailsContainer/AllianceStatePanelTemplate">
+                    <Anchor relative="$parent/DetailsContainer"/>
+                    <Handle val="CM_AllianceStatePanel"/>
+
+                    <Animation name="UISlideOut" template="CM_CommanderSelectionPanel/UISlideOutAnimationTemplate"/>
+                    <Animation name="UISlideIn" template="CM_CommanderSelectionPanel/UISlideInAnimationTemplate"/>
+                </Frame>
+
+                <Frame type="Frame" name="CustomMutatorInfoPanel" template="CM_CoopCampaignCustomMutatorInfoPanel/CoopCampaignCustomMutatorInfoPanelTemplate">
+                    <Visible val="False"/>
+                </Frame>
+                
+                <Frame type="Frame" name="StandardInfoPanel" template="CM_CoopCampaignStandardInfoPanel/CoopCampaignStandardInfoPanelTemplate">
+                    <Anchor side="Bottom" relative="Button" pos="Max" offset="31"/>
+                    <Anchor side="Left" relative="$parent/ReadyButton" pos="Min" offset="-361"/>
+                    <Handle val="CM_StandardInfoPanel"/>
+                    
+                    <Frame type="Button" name="Button">
+                        <Anchor side="Bottom" relative="$parent/$parent/ReadyButton" pos="Max" offset="-4"/>
+                        <HoverSound val="@UI_HoverTick"/>
+                        <Visible val="False"/>
+                    </Frame>
+                </Frame>
+
+                <!-- <Frame type="CoopCampaignMapSelectionPanel" name="MapSelectionPanel" template="CM_CoopCampaignMapSelectionPanel/CoopCampaignMapSelectionPanelTemplate"> -->
+                <Frame type="Frame" name="MapSelectionPanel" template="CM_CoopCampaignMapSelectionPanel/CoopCampaignMapSelectionPanelTemplate">
+                    <Handle val="CM_MapSelectionPanel"/>
+                    <Anchor relative="$parent"/>
+                    
+                    <Frame type="Button" name="RetryMapButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                        <!--Fake map button to replace the real one while retry is selected.-->
+                        <Anchor side="Top" relative="$parent/MapButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/MapButton" pos="Min" offset="0"/>
+                        <Width val="260"/>
+                        <Enabled val="False"/>
+                        <HoverSound val="@UI_HoverTick"/>
+
+                        <Frame type="Label" name="Label">
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                            <Options val="Ellipsis | TooltipIfTruncated"/>
+                            <AcceptsMouseTooltip val="True"/>
+                            <TooltipFrame val="BattleNetTooltip"/>
+
+                            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                        </Frame>
+                    </Frame>
+                    
+                    
+                    <Frame type="Button" name="MapButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                        <Anchor side="Top" relative="$parent/$parent/ReadyButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent/ReadyButton" pos="Max" offset="8"/>
+                        <Width val="260"/>
+                        <HoverSound val="@UI_HoverTick"/>
+
+                        <Frame type="Label" name="Label">
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                            <Options val="Ellipsis | TooltipIfTruncated"/>
+                            <AcceptsMouseTooltip val="True"/>
+                            <TooltipFrame val="BattleNetTooltip"/>
+
+                            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                        </Frame>
+                    </Frame>
+                    
+                    <Animation name="UISlideOut" template="CM_CommanderSelectionPanel/UISlideOutAnimationTemplate"/>
+                    <Animation name="UISlideIn" template="CM_CommanderSelectionPanel/UISlideInAnimationTemplate"/>
+                </Frame>
+
+                <Frame type="Frame" name="MutatorChallengePanel">
+                    <Handle val="CM_MutatorChallengePanel"/>
+                    <Anchor relative="$parent"/>
+                    <Visible val="False"/>
+
+                    <Frame type="Button" name="MutatorChallengeButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                        <Anchor side="Top" relative="$parent/$parent/ReadyButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent/ReadyButton" pos="Max" offset="8"/>
+                        <Width val="260"/>
+                        <HoverSound val="@UI_HoverTick"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/MutatorChallengeButton"/>
+
+                        <Frame type="Label" name="Label">
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                            <Options val="Ellipsis | TooltipIfTruncated"/>
+                            <AcceptsMouseTooltip val="True"/>
+                            <TooltipFrame val="BattleNetTooltip"/>
+
+                            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                        </Frame>
+                    </Frame>
+
+                    <Frame type="Label" name="SelectedEnemyLabel">
+                        <Anchor side="Top" relative="$parent/MutatorChallengeButton" pos="Min" offset="-20"/>
+                        <Anchor side="Left" relative="$parent/MutatorChallengeButton" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/MutatorChallengeButton" pos="Max" offset="0"/>
+                        <Style val="Coop_MapDifficultyLabel"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Frame" name="DifficultyPanel">
+                    <Anchor relative="$parent"/>
+                    <Visible val="True"/>
+
+                    <Frame type="Button" name="DifficultyButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                        <Anchor side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="8"/>
+                        <Width val="260"/>
+                        <HoverSound val="@UI_HoverTick"/>
+
+                        <StateGroup name="DifficultyButtonPositionState">
+                            <DefaultState val="ModeStandard"/>
+
+                            <State name="ModeStandard">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="8"/>
+                            </State>
+
+                            <State name="ModeMutator">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/$parent/MutatorChallengePanel/MutatorChallengeButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/$parent/MutatorChallengePanel/MutatorChallengeButton" pos="Max" offset="8"/>
+                            </State>
+
+                            <State name="ModeCustom">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="8"/>
+                            </State>
+                        </StateGroup>
+
+                        <StateGroup name="DifficultyButtonVisibilityState">
+                            <DefaultState val="ModeStandard"/>
+
+                            <State name="ModeStandard">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                                <Action type="SetProperty" frame="$this" Visible="True"/>
+                            </State>
+
+                            <State name="ModeMutator">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                                <Action type="SetProperty" frame="$this" Visible="False"/>
+                            </State>
+
+                            <State name="ModeCustom">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                                <Action type="SetProperty" frame="$this" Visible="False"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Button" name="SpecialDifficultyButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                        <Anchor side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="8"/>
+                        <Width val="260"/>
+                        <HoverSound val="@UI_HoverTick"/>
+                        <Visible val="False"/>
+
+                        <StateGroup name="SpecialDifficultyButtonPositionState">
+                            <DefaultState val="ModeStandard"/>
+
+                            <State name="ModeStandard">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="8"/>
+                            </State>
+
+                            <State name="ModeMutator">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/$parent/MutatorChallengePanel/MutatorChallengeButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/$parent/MutatorChallengePanel/MutatorChallengeButton" pos="Max" offset="8"/>
+                            </State>
+
+                            <State name="ModeCustom">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="8"/>
+                            </State>
+                        </StateGroup>
+
+                        <StateGroup name="SpecialDifficultyButtonVisibilityState">
+                            <DefaultState val="ModeStandard"/>
+
+                            <State name="ModeStandard">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                                <Action type="SetProperty" frame="$this" Visible="False"/>
+                            </State>
+
+                            <State name="ModeMutator">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                                <Action type="SetProperty" frame="$this" Visible="True"/>
+                            </State>
+
+                            <State name="ModeCustom">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                                <Action type="SetProperty" frame="$this" Visible="True"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Button" name="MutatorPoolButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                        <Anchor side="Top" relative="$parent/DifficultyButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/DifficultyButton" pos="Max" offset="8"/>
+                        <Width val="260"/>
+                        <HoverSound val="@UI_HoverTick"/>
+                        <Text val="@CMUI/CustomMutatorPool/OpenButton"/>
+                        <Visible val="False"/>
+
+                        <StateGroup name="MutatorPoolButtonPositionState">
+                            <DefaultState val="ModeStandard"/>
+
+                            <State name="ModeStandard">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/DifficultyButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/DifficultyButton" pos="Max" offset="8"/>
+                            </State>
+
+                            <State name="ModeMutator">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/SpecialDifficultyButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/SpecialDifficultyButton" pos="Max" offset="8"/>
+                            </State>
+
+                            <State name="ModeCustom">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                                <Action type="SetAnchor" frame="$this" side="Top" relative="$parent/SpecialDifficultyButton" pos="Min" offset="0"/>
+                                <Action type="SetAnchor" frame="$this" side="Left" relative="$parent/SpecialDifficultyButton" pos="Max" offset="8"/>
+                            </State>
+                        </StateGroup>
+
+                        <StateGroup name="MutatorPoolButtonTextState">
+                            <DefaultState val="ModeStandard"/>
+
+                            <State name="ModeStandard">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                                <Action type="SetProperty" frame="$this" Text="@CMUI/CustomMutatorPool/OpenButtonBrutalPlus"/>
+                                <Action type="SetProperty" frame="Label" Text="@CMUI/CustomMutatorPool/OpenButtonBrutalPlus"/>
+                            </State>
+
+                            <State name="ModeMutator">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                                <Action type="SetProperty" frame="$this" Text="@CMUI/CustomMutatorPool/OpenButtonCycle"/>
+                                <Action type="SetProperty" frame="Label" Text="@CMUI/CustomMutatorPool/OpenButtonCycle"/>
+                            </State>
+
+                            <State name="ModeCustom">
+                                <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                                <Action type="SetProperty" frame="$this" Text="@CMUI/CustomMutatorPool/OpenButtonRandom"/>
+                                <Action type="SetProperty" frame="Label" Text="@CMUI/CustomMutatorPool/OpenButtonRandom"/>
+                            </State>
+                        </StateGroup>
+
+                        <Frame type="Label" name="Label">
+                            <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+                            <Anchor side="Right" relative="$parent" pos="Max" offset="-14"/>
+                            <Text val="@CMUI/CustomMutatorPool/OpenButton"/>
+                            <Options val="Ellipsis"/>
+                        </Frame>
+                    </Frame>
+
+                </Frame>
+
+                <Frame type="Frame" name="MutatorSelectionPanel" template="CM_CoopCustomMutatorSelection/MutatorPanelTemplate">
+                    <Handle val="CM_MutatorSelectionPanel"/>
+                    <Anchor relative="$parent"/>
+                    <Visible val="False"/>
+
+                    <Frame type="Button" name="CustomMutatorButton">
+                        <Anchor side="Top" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent/DifficultyPanel/MutatorPoolButton" pos="Max" offset="8"/>
+                    </Frame>
+                </Frame>
+
+                <Animation name="ApplyModeStandardButtons">
+                    <Event event="ModeStandard" action="Reset,Play"/>
+
+                    <Controller type="Property" property="Visible" frame="MapSelectionPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_MapSelectionContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="DifficultyPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_DifficultyContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_SpecialDifficultyContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorSelectionPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_CustomMutatorFullscreen" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorChallengePanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_MutatorChallengeContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="StandardInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="CustomMutatorInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+                </Animation>
+
+                <Animation name="ApplyModeMutatorButtons">
+                    <Event event="ModeMutator" action="Reset,Play"/>
+
+                    <Controller type="Property" property="Visible" frame="MapSelectionPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_MapSelectionContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="DifficultyPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_DifficultyContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_SpecialDifficultyContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorSelectionPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_CustomMutatorFullscreen" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorChallengePanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_MutatorChallengeContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="StandardInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="CustomMutatorInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+                </Animation>
+
+                <Animation name="ApplyModeCustomButtons">
+                    <Event event="ModeCustom" action="Reset,Play"/>
+
+                    <Controller type="Property" property="Visible" frame="MapSelectionPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_MapSelectionContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="DifficultyPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_DifficultyContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_SpecialDifficultyContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorSelectionPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_CustomMutatorFullscreen" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorChallengePanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="$CM_MutatorChallengeContainer" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="StandardInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="False"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="MutatorInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+
+                    <Controller type="Property" property="Visible" frame="CustomMutatorInfoPanel" end="Pause">
+                        <Key type="Property" time="0" value="True"/>
+                    </Controller>
+                </Animation>
+
+                <StateGroup name="ButtonModeVisibilty">
+                    <DefaultState val="ButtonModeStandard"/>
+
+                    <State name="ButtonModeStandard">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                        <Action type="SetProperty" frame="MapSelectionPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="MutatorChallengePanel" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_MutatorChallengeContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_MutatorChallengeContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="DifficultyPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="$CM_SpecialDifficultyContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_SpecialDifficultyContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="MutatorSelectionPanel" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_CustomMutatorFullscreen" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_CustomMutatorFullscreen" Alpha="0"/>
+                        <Action type="SetProperty" frame="StandardInfoPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="MutatorInfoPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="CustomMutatorInfoPanel" Visible="False"/>
+                    </State>
+                  
+                    <State name="ButtonModeMutator">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                        <Action type="SetProperty" frame="MapSelectionPanel" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_MapSelectionContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_MapSelectionContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="MutatorChallengePanel" Visible="True"/>
+                        <Action type="SetProperty" frame="DifficultyPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="$CM_DifficultyContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_DifficultyContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="$CM_SpecialDifficultyContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_SpecialDifficultyContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="MutatorSelectionPanel" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_CustomMutatorFullscreen" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_CustomMutatorFullscreen" Alpha="0"/>
+                        <Action type="SetProperty" frame="StandardInfoPanel" Visible="False"/>
+                        <Action type="SetProperty" frame="MutatorInfoPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="CustomMutatorInfoPanel" Visible="False"/>
+                    </State>
+
+                    <State name="ButtonModeCustom">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                        <Action type="SetProperty" frame="MapSelectionPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="MutatorChallengePanel" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_MutatorChallengeContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_MutatorChallengeContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="DifficultyPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="$CM_DifficultyContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_DifficultyContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="$CM_SpecialDifficultyContainer" Visible="False"/>
+                        <Action type="SetProperty" frame="$CM_SpecialDifficultyContainer" Alpha="0"/>
+                        <Action type="SetProperty" frame="MutatorSelectionPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="StandardInfoPanel" Visible="False"/>
+                        <Action type="SetProperty" frame="MutatorInfoPanel" Visible="True"/>
+                        <Action type="SetProperty" frame="CustomMutatorInfoPanel" Visible="True"/>
+                    </State>
+                </StateGroup>
+
+                <StateGroup name="TitleStateGroup">
+                    <DefaultState val="TitleModeStandard"/>
+
+                    <State name="TitleModeStandard">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                        <Action type="SetProperty" frame="Title" Text="@CMUI/ScreenCoopCampaign/Title"/>
+                        <Action type="SetProperty" frame="Subtitle" Text="@CMUI/ScreenCoopCampaign/Subtitle"/>
+                    </State>
+
+                    <State name="TitleModeMutator">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                        <Action type="SetProperty" frame="Title" Text="@CMUI/ScreenCoopCampaign/MutatorTitle"/>
+                        <Action type="SetProperty" frame="Subtitle" Text="@CMUI/ScreenCoopCampaign/MutatorSubtitle"/>
+                    </State>
+
+                    <State name="TitleModeCustom">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                        <Action type="SetProperty" frame="Title" Text="@CMUI/ScreenCoopCampaign/CustomTitle"/>
+                        <Action type="SetProperty" frame="Subtitle" Text="@CMUI/ScreenCoopCampaign/CustomSubtitle"/>
+                    </State>
+                </StateGroup>
+
+                <StateGroup name="ReadyButtonStateGroup">
+                    <State name="MutatorDisabledState">
+                        <When type="AnimationState" frame="MutatorInfoPanel" InfoPanelState="Inactive"/>
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                        <Action type="SetProperty" frame="ReadyButton" Visible="True"/>
+                        <Action type="SetProperty" frame="CancelButton" Visible="False"/>
+                        <!--Action type="SetProperty" frame="MutatorReadyButton" Visible="False"/-->
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="Frame" name="ReadyStatusPanel" template="CM_CoopReadyStatusPanel/ReadyStatusPanelTemplate">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="52"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="84"/>
+                <Visible val="False"/>
+            </Frame>
+
+            <Frame type="Button" name="DebugButton" template="StandardTemplates/StandardButtonTemplate" requiredtoload="IS_COOP_CAMPAIGN_DEBUG_CODE_ENABLED">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="150"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-50"/>
+                <Width val ="315"/>
+                <Text val="@CMUI/Debug/Title"/>
+                <Toggleable val="true"/>
+
+                <StateGroup name="ToggleStateGroup">
+                    <State name="ToggledState">
+                        <When type="Property" frame="$this" Toggled="true"/>
+                        <Action type="SetProperty" frame="$parent/DebugFrame" Visible="True"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="CoopCampaignDebugFrame" name="DebugFrame" requiredtoload="IS_COOP_CAMPAIGN_DEBUG_CODE_ENABLED">
+                <Anchor side="Top" relative="$parent/DebugButton" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent/DebugButton" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="ResetMasteryVersionButton" pos="Max" offset="20"/>
+                <Width val="500"/>
+                <Visible val="false"/>
+
+                <Frame type="Image" name="Background">
+                    <Anchor relative="$parent"/>
+                    <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_MainContainer"/>
+                    <TextureType val="NineSlice"/>
+                </Frame>
+                
+                <Frame type="EditBox" name="AdvanceTimeEditBox" template="StandardBattlenetTemplates/BattlenetEditBoxTemplate">
+                    <Anchor side="Top" relative="$parent/Background" pos="Min" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Height val="68"/>
+                    <Width val ="315"/>
+                </Frame>
+
+                <Frame type="Pulldown" name="AdvanceTimePulldown" template="StandardBattlenetTemplates/BattlenetPulldownTemplate">
+                    <Anchor side="Top" relative="$parent/AdvanceTimeEditBox" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                </Frame>
+
+                <Frame type="Button" name="AdvanceTimeButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/AdvanceTimePulldown" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/AdvanceTime"/>
+                </Frame>
+
+                <Frame type="Button" name="AdvanceRotationButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/AdvanceTimeButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/NextMapRotation"/>
+                </Frame>
+                
+                <Frame type="Button" name="DebugScoreButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/AdvanceRotationButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/ScoreScreen"/>
+                </Frame>
+
+                <Frame type="Button" name="DebugMasteryButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/DebugScoreButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/MasteryEarned"/>
+
+                    <Animation name="Show">
+                        <Event event="OnClick" action="Reset,Play" frame="$this"/>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/MasteryUnlockPanel">
+                            <Key type="Event" time="0" event="ShowMasteryWindow"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Button" name="ResetNewUserButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/DebugMasteryButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/ResetNewUser"/>
+                </Frame>
+
+                <Frame type="Button" name="ResetNewUserMutatorButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/ResetNewUserButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/ResetNewUserMutator"/>
+                </Frame>
+
+                <Frame type="Button" name="ResetNewUserMasteryButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/ResetNewUserMutatorButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/ResetNewUserMastery"/>
+                </Frame>
+
+                <Frame type="Button" name="ResetMasteryVersionButton" template="StandardBattlenetTemplates/BattlenetMediumButtonTemplate">
+                    <Anchor side="Top" relative="$parent/ResetNewUserMasteryButton" pos="Max" offset="20"/>
+                    <Anchor side="Left" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/Background" pos="Mid" offset="0"/>
+                    <Width val ="315"/>
+                    <Text val="@CMUI/Debug/ResetMasteryVersion"/>
+                </Frame>
+            </Frame>
+
+            <!-- <Frame type="CoopCampaignScorePanel" name="ScorePanel" template="CM_CoopCampaignScorePanel/CoopCampaignScorePanelTemplate"> -->
+            <Frame type="Frame" name="ScorePanel" template="CM_CoopCampaignScorePanel/CoopCampaignScorePanelTemplate">
+                <Handle val="CM_ScreenCoopCampaign_ScorePanel"/>
+                <Anchor relative="$parent"/>
+                <Visible val="false"/>
+                <Alpha val="0"/>
+
+                <Animation name="Show">
+                    <Event event="Show" action="DirectionForward"/>
+                    <Event event="Show" action="Play"/>
+                    <Event event="Hide" action="DirectionReverse"/>
+                    <Event event="Hide" action="Play"/>
+                    <Event event="Hide" action="Reset,Stop" frame="$parent"/>
+
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Slow"/>
+                        <Key type="Curve" time=".175" value="255" in="Auto"/>
+                    </Controller>
+
+                    <Controller type="Visibility" end="Pause">
+                        <Key type="Bool" time="0" value="false"/>
+                        <Key type="Bool" time=".001" value="true"/>
+                        <Key type="Bool" time=".175" value="true"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+
+            <Frame type="Frame" name="NewPlayerContainerFrame">
+                <Handle val="CM_NewPlayerContainer"/>
+                <Anchor relative="$parent"/>
+                <Visible val="false"/>
+                
+                <StateGroup name="VisibleStateGroup">
+                    <State name="MasteryActiveState">
+                        <When type="Property" frame="$parent/ScorePanel" Visible="false"/>
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                        <Action type="SetProperty" frame="$this" Visible="True"/>
+                    </State>
+                </StateGroup>
+                
+                <Frame type="Frame" name="NewPlayerPanel">
+                    <Handle val="CM_NewPlayerPanel"/>
+                    <Anchor relative="$parent"/>
+                    <Visible val="false"/>
+                    <Alpha val="0"/>
+
+                    <!-- This animation is shown by the code based on the first time coming to this screen -->
+                    <!-- You may change the event to "OnShown" to debug it without a new account every time -->
+                    <Animation name="Show">
+                        <Event event="ShowNewUser" action="Reset,Play" frame="$parent/$parent"/>
+                        <Event event="OnClick" action="DirectionReverse,Play" frame="CloseButton"/>
+
+                        <Controller type="Fade" end="Pause">
+                            <Key type="Curve" time="0" value="0" out="Slow"/>
+                            <Key type="Curve" time=".175" value="255" in="Auto"/>
+                        </Controller>
+
+                        <Controller type="Visibility" end="Pause">
+                            <Key type="Bool" time="0" value="false"/>
+                            <Key type="Bool" time=".001" value="true"/>
+                            <Key type="Bool" time=".175" value="true"/>
+                        </Controller>
+                    </Animation>
+                
+                    <!-- This tooltip is just for blocking tooltips behind this panel -->
+                    <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+                        <Frame type="Label" name="Label">
+                            <Anchor relative="$parent"/>
+                        </Frame>
+                    </Frame>
+
+                    <Frame type="Image" name="FullscreenBlackoutImage">
+                        <Anchor relative="$parent"/>
+                        <Color val="0,0,0"/>
+                        <Alpha val="180"/>
+                        <AcceptsMouse val="true"/>
+                        <TooltipFrame val="CoopCampaignTooltip"/>
+                    </Frame>
+
+                    <Frame type="Image" name="LeftBGGlowPattern">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Min" offset="40"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="RightBGGlowPattern">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Max" offset="-40"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+                        <TextureCoords top="0.0" left="1.0" bottom="1.0" right="0.0"/>
+                    </Frame>
+
+                    <Frame type="Image" name="BackgroundImage">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                        <TextureType val="NineSlice"/>
+                        <Tiled val="false"/>
+                        <Width val="1182"/>
+                        <Height val="802"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="TopHexPattern">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="11"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="BottomHexPattern">
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-11"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                        <TextureCoords top="1.0" left="1.0" bottom="0.0" right="0.0"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="NewUserBg">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="17"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-15"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashBg"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="TitleIcon">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="39"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="40"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashIcon"/>
+                    </Frame>
+
+                    <Frame type="Label" name="WelcomeTitleLabel">
+                        <Anchor side="Top" relative="$parent/TitleIcon" pos="Min" offset="55"/>
+                        <Anchor side="Left" relative="$parent/TitleIcon" pos="Max" offset="-10"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+                        <Style val="Coop_NewUser_Subtitle"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/SubTitle"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="TitleLabel">
+                        <Anchor side="Top" relative="$parent/WelcomeTitleLabel" pos="Max" offset="5"/>
+                        <Anchor side="Left" relative="$parent/WelcomeTitleLabel" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+                        <Style val="Coop_NewUser_Title"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Title"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent/TitleLabel" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="60"/>
+                        <Height val="70"/>
+                        <Style val="Coop_NewUser_Description"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description"/>
+                    </Frame>
+
+                    <Frame type="Image" name="HeaderBg1">
+                        <Anchor side="Bottom" relative="$parent/DetailHeader1" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="-90"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashHeaders"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="DetailHeader1">
+                        <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="85"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-20"/>
+                        <Height val="25"/>
+                        <Style val="Coop_NewUser_SectionHeader"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description/Section1/Header"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="DetailText1">
+                        <Anchor side="Top" relative="$parent/DetailHeader1" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="2"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="40"/>
+                        <Style val="Coop_NewUser_SectionText"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description/Section1/Description1"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="HeaderBg2">
+                        <Anchor side="Bottom" relative="$parent/DetailHeader2" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader2" pos="Min" offset="-90"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashHeaders"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="DetailHeader2">
+                        <Anchor side="Top" relative="$parent/DetailText1" pos="Max" offset="40"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-20"/>
+                        <Height val="25"/>
+                        <Style val="Coop_NewUser_SectionHeader"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description/Section2/Header"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="DetailText2">
+                        <Anchor side="Top" relative="$parent/DetailHeader2" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="2"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="40"/>
+                        <Style val="Coop_NewUser_SectionText"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description/Section2/Description1"/>
+                    </Frame>
+                
+                    <Frame type="Image" name="HeaderBg3">
+                        <Anchor side="Bottom" relative="$parent/DetailHeader3" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader3" pos="Min" offset="-90"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashHeaders"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="DetailHeader3">
+                        <Anchor side="Top" relative="$parent/DetailText2" pos="Max" offset="40"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-20"/>
+                        <Height val="25"/>
+                        <Style val="Coop_NewUser_SectionHeader"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description/Section3/Header"/>
+                    </Frame>
+                
+                    <Frame type="Label" name="DetailText3">
+                        <Anchor side="Top" relative="$parent/DetailHeader3" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="2"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="40"/>
+                        <Style val="Coop_NewUser_SectionText"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Description/Section3/Description1"/>
+                    </Frame>
+
+                    <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                        <!-- <Handle val="CM_ScreenCoopCampaign_CloseNewPlayerButton"/> -->
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-50"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/NewUser/Close"/>
+                        <Width val="315"/>
+                        <HoverSound val="@UI_HoverTick"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="NewPlayerMutatorContainerFrame">
+                <Handle val="CM_NewPlayerMutatorContainer"/>
+                <Anchor relative="$parent"/>
+                <Visible val="false"/>
+
+                <StateGroup name="VisibleStateGroup">
+                    <State name="MasteryActiveState">
+                        <When type="Property" frame="$parent/ScorePanel" Visible="false"/>
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                        <Action type="SetProperty" frame="$this" Visible="True"/>
+                    </State>
+                </StateGroup>
+                
+                <Frame type="Frame" name="NewPlayerMutatorPanel">
+                    <Handle val="CM_NewPlayerMutatorPanel"/>
+                    <Anchor relative="$parent"/>
+                    <Visible val="false"/>
+                    <Alpha val="0"/>
+
+                    <!-- This animation is shown by the code based on the first time coming to this screen -->
+                    <!-- You may change the event to "OnShown" to debug it without a new account every time -->
+                    <Animation name="Show">
+                        <Event event="ShowNewUserMutator" action="Reset,Play" frame="$parent/$parent"/>
+                        <Event event="OnClick" action="DirectionReverse,Play" frame="CloseButton"/>
+
+                        <Controller type="Fade" end="Pause">
+                            <Key type="Curve" time="0" value="0" out="Slow"/>
+                            <Key type="Curve" time=".175" value="255" in="Auto"/>
+                        </Controller>
+
+                        <Controller type="Visibility" end="Pause">
+                            <Key type="Bool" time="0" value="false"/>
+                            <Key type="Bool" time=".001" value="true"/>
+                            <Key type="Bool" time=".175" value="true"/>
+                        </Controller>
+                    </Animation>
+
+                    <!-- This tooltip is just for blocking tooltips behind this panel -->
+                    <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+                        <Frame type="Label" name="Label">
+                            <Anchor relative="$parent"/>
+                        </Frame>
+                    </Frame>
+
+                    <Frame type="Image" name="FullscreenBlackoutImage">
+                        <Anchor relative="$parent"/>
+                        <Color val="0,0,0"/>
+                        <Alpha val="180"/>
+                        <AcceptsMouse val="true"/>
+                        <TooltipFrame val="CoopCampaignTooltip"/>
+                    </Frame>
+
+                    <Frame type="Image" name="LeftBGGlowPattern">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Min" offset="40"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+                    </Frame>
+
+                    <Frame type="Image" name="RightBGGlowPattern">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Max" offset="-40"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_BackGlow"/>
+                        <TextureCoords top="0.0" left="1.0" bottom="1.0" right="0.0"/>
+                    </Frame>
+
+                    <Frame type="Image" name="BackgroundImage">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                        <TextureType val="NineSlice"/>
+                        <Tiled val="false"/>
+                        <Width val="1182"/>
+                        <Height val="802"/>
+                    </Frame>
+
+                    <Frame type="Image" name="TopHexPattern">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="11"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                    </Frame>
+
+                    <Frame type="Image" name="BottomHexPattern">
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-11"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                        <TextureCoords top="1.0" left="1.0" bottom="0.0" right="0.0"/>
+                    </Frame>
+
+                    <Frame type="Image" name="NewUserBg">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="17"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-15"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_MutatorSplashBg"/>
+                    </Frame>
+
+                    <Frame type="Image" name="TitleIcon">
+                        <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="39"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="40"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_MutatorSplashIcon"/>
+                    </Frame>
+
+                    <Frame type="Label" name="WelcomeTitleLabel">
+                        <Anchor side="Top" relative="$parent/TitleIcon" pos="Min" offset="43"/>
+                        <Anchor side="Left" relative="$parent/TitleIcon" pos="Max" offset="-10"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+                        <Style val="Coop_NewUser_Subtitle"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/WelcomeTitle"/>
+                    </Frame>
+
+                    <Frame type="Label" name="TitleLabel">
+                        <Anchor side="Top" relative="$parent/WelcomeTitleLabel" pos="Max" offset="5"/>
+                        <Anchor side="Left" relative="$parent/WelcomeTitleLabel" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+                        <Style val="Coop_NewUser_Title"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Title"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent/TitleLabel" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="60"/>
+                        <Height val="70"/>
+                        <Style val="Coop_NewUser_Description"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Description"/>
+                    </Frame>
+
+                    <Frame type="Image" name="HeaderBg1">
+                        <Anchor side="Bottom" relative="$parent/DetailHeader1" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="-90"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashHeaders"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DetailHeader1">
+                        <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="10"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="85"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-20"/>
+                        <Height val="25"/>
+                        <Style val="Coop_NewUser_SectionHeader"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Header1"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DetailText1">
+                        <Anchor side="Top" relative="$parent/DetailHeader1" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="2"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="40"/>
+                        <Style val="Coop_NewUser_SectionText"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Description1"/>
+                    </Frame>
+
+                    <Frame type="Image" name="HeaderBg2">
+                        <Anchor side="Bottom" relative="$parent/DetailHeader2" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader2" pos="Min" offset="-90"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashHeaders"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DetailHeader2">
+                        <Anchor side="Top" relative="$parent/DetailText1" pos="Max" offset="40"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-20"/>
+                        <Height val="25"/>
+                        <Style val="Coop_NewUser_SectionHeader"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Header2"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DetailText2">
+                        <Anchor side="Top" relative="$parent/DetailHeader2" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="2"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="40"/>
+                        <Style val="Coop_NewUser_SectionText"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Description2"/>
+                    </Frame>
+
+                    <Frame type="Image" name="HeaderBg3">
+                        <Anchor side="Bottom" relative="$parent/DetailHeader3" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader3" pos="Min" offset="-90"/>
+                        <Texture val="@UI/SC2_UI_Coop_NewUser_SplashHeaders"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DetailHeader3">
+                        <Anchor side="Top" relative="$parent/DetailText2" pos="Max" offset="40"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-20"/>
+                        <Height val="25"/>
+                        <Style val="Coop_NewUser_SectionHeader"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Header3"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DetailText3">
+                        <Anchor side="Top" relative="$parent/DetailHeader3" pos="Max" offset="30"/>
+                        <Anchor side="Left" relative="$parent/DetailHeader1" pos="Min" offset="2"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="40"/>
+                        <Style val="Coop_NewUser_SectionText"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/Description3"/>
+                    </Frame>
+
+                    <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                        <!-- <Handle val="CM_ScreenCoopCampaign_CloseNewPlayerMutatorButton"/> -->
+                        <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-50"/>
+                        <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/Mutator/NewUser/PlayButton"/>
+                        <Width val="315"/>
+                        <HoverSound val="@UI_HoverTick"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryVersionPanel">
+                <Handle val="CM_MasteryVersionPanel"/>
+                <Anchor relative="$parent"/>
+                <Visible val="false"/>
+            
+                <Animation name="Show">
+                    <Event event="ShowMasteryVersionWindow" action="Reset,Play" frame="$parent"/>
+                    <Event event="OnHidden" action="Reset,Stop" frame="$parent"/>
+                    <Event event="OnClick" action="DirectionReverse,Play" frame="CloseButton"/>
+                    
+                    <Controller type="Visibility" end="Pause">
+                        <Key type="Bool" time="0" value="false"/>
+                        <Key type="Bool" time=".001" value="true"/>
+                        <Key type="Bool" time=".175" value="true"/>
+                    </Controller>
+
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Slow"/>
+                        <Key type="Curve" time=".175" value="255" in="Auto"/>
+                    </Controller>
+                </Animation>
+                
+                <Animation name="FlashMasteryButton">
+                    <Event event="OnClick" action="Reset,Play" frame="CloseButton"/>
+
+                    <Controller type="Event" end="Pause" frame="$parent/CommanderSelectionPanel/MasteryButton/NotificationGlow">
+                        <Key type="Event" time="0" event="ShowMasteryNotification"/>
+                    </Controller>
+                </Animation>
+                
+                <!-- This tooltip is just for blocking tooltips behind this panel -->
+                <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+                    <Frame type="Label" name="Label">
+                        <Anchor relative="$parent"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Image" name="FullscreenBlackoutImage">
+                    <Anchor relative="$parent"/>
+                    <Color val="0,0,0"/>
+                    <Alpha val="180"/>
+                    <AcceptsMouse val="true"/>
+                    <TooltipFrame val="CoopCampaignTooltip"/>
+                </Frame>
+
+                <Frame type="Image" name="BackgroundImage">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                    <TextureType val="NineSlice"/>
+                    <Tiled val="false"/>
+                    <Width val="860"/>
+                    <Height val="380"/>
+                </Frame>
+                
+                <Frame type="Image" name="TopHexPattern">
+                    <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="11"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                </Frame>
+                
+                <Frame type="Image" name="BottomHexPattern">
+                    <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-11"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                    <TextureCoords top="1.0" left="1.0" bottom="0.0" right="0.0"/>
+                </Frame>
+
+                <Frame type="Label" name="TitleLabel">
+                    <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="45"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="60"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-60"/>
+                    <Style val="@@StandardDialogTitle"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/MasteryVersionTitle"/>
+                </Frame>
+
+                <Frame type="Label" name="MessageLabel">
+                    <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="30"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="60"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-60"/>
+                    <Style val="@Coop_MasteryDialogUnlockText"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/MasteryVersionMessage"/>
+                </Frame>
+                
+                <Frame type="Label" name="DescriptionLabel">
+                    <Anchor side="Top" relative="$parent/MessageLabel" pos="Max" offset="10"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="90"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-90"/>
+                    <Style val="@@StandardDialogMessage"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/MasteryVersionDescription"/>
+                </Frame>
+
+                <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                    <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-45"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Text val="@CMUI/StandardDialog_Ok_Control"/>
+                    <HoverSound val="@UI_HoverTick"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryUnlockPanel">
+                <Handle val="CM_MasteryUnlockPanel"/>
+                <Anchor relative="$parent"/>
+                <Visible val="false"/>
+
+                <!-- This animation is shown by the code based on the hitting level 15 and unlocking mastery -->
+                <!-- You may change the event to "OnShown" to debug it every time -->
+                <!-- MasteryStateGroup: if you're leveling up mastery or not -->
+                <StateGroup name="MasteryStateGroup">
+                    <State name="MasteryActiveState">
+                        <When type="Property" frame="$parent/ScorePanel" Visible="false"/>
+                        <When type="AnimationState" frame="$parent/ScorePanel/SummaryPanel" MasteryState="MasteryInactive"/>
+                        <When type="AnimationState" frame="$parent/ScorePanel/SummaryPanel" MaxLevelState="MaxLevel"/>
+                        <Action type="SendEvent" frame="$this" event="ShowMasteryWindow"/>
+                    </State>
+                    
+                    <State name="MasteryActiveEarlyState">
+                        <When type="Property" frame="$parent/ScorePanel" Visible="false"/>
+                        <When type="AnimationState" frame="$parent/ScorePanel/SummaryPanel" MasteryState="MasteryInactive"/>
+                        <When type="AnimationState" frame="$parent/ScorePanel/SummaryPanel" MaxLevelState="MaxLevelEarned"/>
+                        <Action type="SendEvent" frame="$this" event="ShowMasteryWindow"/>
+                    </State>
+                </StateGroup>
+            
+                <Animation name="Show">
+                    <Event event="ShowMasteryWindow" action="Reset,Play" frame="$this"/>
+                    <Event event="ShowMasteryWindow" action="Reset,Play" frame="$parent"/>
+                    <Event event="OnHidden" action="Reset,Stop" frame="$parent"/>
+                    <Event event="OnClick" action="DirectionReverse,Play" frame="CloseButton"/>
+                    
+                    <Controller type="Visibility" end="Pause">
+                        <Key type="Bool" time="0" value="false"/>
+                        <Key type="Bool" time=".001" value="true"/>
+                        <Key type="Bool" time=".175" value="true"/>
+                    </Controller>
+
+                    <Controller type="Fade" end="Pause">
+                        <Key type="Curve" time="0" value="0" out="Slow"/>
+                        <Key type="Curve" time=".175" value="255" in="Auto"/>
+                    </Controller>
+                </Animation>
+                
+                <Animation name="FlashMasteryButton">
+                    <Event event="OnClick" action="Reset,Play" frame="CloseButton"/>
+
+                    <Controller type="Event" end="Pause" frame="$parent/CommanderSelectionPanel/MasteryButton/NotificationGlow">
+                        <Key type="Event" time="0" event="ShowMasteryNotification"/>
+                    </Controller>
+                </Animation>
+                
+                <!-- This tooltip is just for blocking tooltips behind this panel -->
+                <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+                    <Frame type="Label" name="Label">
+                        <Anchor relative="$parent"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Image" name="FullscreenBlackoutImage">
+                    <Anchor relative="$parent"/>
+                    <Color val="0,0,0"/>
+                    <Alpha val="180"/>
+                    <AcceptsMouse val="true"/>
+                    <TooltipFrame val="CoopCampaignTooltip"/>
+                </Frame>
+
+                <Frame type="Image" name="BackgroundImage">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                    <TextureType val="NineSlice"/>
+                    <Tiled val="false"/>
+                    <Width val="860"/>
+                    <Height val="480"/>
+                </Frame>
+                
+                <Frame type="Image" name="TopHexPattern">
+                    <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="11"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                </Frame>
+                
+                <Frame type="Image" name="BottomHexPattern">
+                    <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-11"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                    <TextureCoords top="1.0" left="1.0" bottom="0.0" right="0.0"/>
+                </Frame>
+
+                <Frame type="Label" name="TitleLabel">
+                    <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="45"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="60"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-60"/>
+                    <Style val="@@StandardDialogTitle"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/CustomizationUnlockTitle"/>
+                </Frame>
+
+                <Frame type="Label" name="MessageLabel">
+                    <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="30"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="60"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-60"/>
+                    <Style val="@Coop_MasteryDialogUnlockText"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/MasteryUnlockMessage"/>
+                </Frame>
+                
+                <Frame type="Label" name="CustomizationDescriptionLabel">
+                    <Anchor side="Top" relative="$parent/MessageLabel" pos="Max" offset="30"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="90"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-90"/>
+                    <Style val="@@StandardDialogMessage"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/CustomizationUnlockDescription"/>
+                </Frame>
+
+                <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                    <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-45"/>
+                    <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                    <Text val="@CMUI/StandardDialog_Ok_Control"/>
+                    <HoverSound val="@UI_HoverTick"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="NavigationContainer">
+                <Handle val="CM_NavigationContainer"/>
+                <!--Anchor side="Top" relative="$Anchor_SubNav" pos="Max" offset="0"/-->
+                <Anchor side="Top" relative="$parent" pos="Min" offset="72"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+                <Frame type="BlurFrame" name="BlurEffect">
+                    <Anchor relative="$parent/Background"/>
+                    <BlurAmount val=".3"/>
+
+                    <Frame type="Image" name="LowImage">
+                        <Anchor relative="$parent"/>
+                        <Color val="0,0,0"/>
+                        <Alpha val="150"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Image" name="Background">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="52"/>
+                    <Texture val="@UI/Glues_Battlenet_SubNav_Bg"/>
+                    <TextureType val="Nineslice"/>
+                    <Tiled val="true"/>
+                    <Alpha val="0"/>
+                    
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                            <Key type="Curve" time="0.95" value="255" out="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                
+                <Frame type="Image" name="BottomLineHighlightAnim">
+                    <Anchor side="Bottom" relative="$parent/Background" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_TopNav_BottomHighlightAnim"/>
+                    <Alpha val="150"/>
+                    
+                    <Animation name="Highlight">
+                        <Event event="OnShown" action="DirectionForward" frame="$parent"/>
+                        <Event event="OnShown" action="Play" frame="$parent"/>
+                        
+                        <Controller type="Fade" end="Loop">
+                            <Key type="Curve" time="0" value="0"/>
+                            <Key type="Curve" time="2" value="100"/>
+                            <Key type="Curve" time="4.5" value="175"/>
+                            <Key type="Curve" time="6" value="150"/>
+                            <Key type="Curve" time="10" value="0"/>
+                        </Controller>
+                        
+                        <Controller type="Anchor" end="Loop" side="Left" relative="true">
+                            <Key type="Curve" time="0" value="0" out="linear"/>
+                            <Key type="Curve" time="2" value="0" out="linear"/>
+                            <Key type="Curve" time="10" value="1920" out="linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                
+                <Frame type="Image" name="ButtonDivider1">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent/StandardButton" pos="Max" offset="#SubNavigationButtonDividerOffset"/>
+                    <Texture val="@UI/Glues_Battlenet_SubNav_ButtonDivider"/>
+                    <Alpha val="0"/>
+                    
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                            <Key type="Curve" time="0.5" value="255" out="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                
+                <Frame type="Image" name="ButtonDivider2">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent/MutatorButton" pos="Max" offset="#SubNavigationButtonDividerOffset"/>
+                    <Texture val="@UI/Glues_Battlenet_SubNav_ButtonDivider"/>
+                    <Alpha val="0"/>
+                    
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                            <Key type="Curve" time="0.5" value="255" out="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Image" name="ButtonDivider3">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent/CMMutatorButton" pos="Max" offset="#SubNavigationButtonDividerOffset"/>
+                    <Texture val="@UI/Glues_Battlenet_SubNav_ButtonDivider"/>
+                    <Alpha val="0"/>
+
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                            <Key type="Curve" time="0.5" value="255" out="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Image" name="ProfileCancelDivider">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent/CustomButton" pos="Max" offset="#SubNavigationButtonDividerOffset"/>
+                    <Texture val="@UI/Glues_Battlenet_SubNav_ButtonDivider"/>
+                    <Alpha val="0"/>
+                    <Visible val="false"/>
+
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Linear"/>
+                            <Key type="Curve" time="0.5" value="255" out="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                
+                <Frame type="Button" name="StandardButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$Anchor_SubNav" pos="Max" offset="0"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/StandardButton"/>
+                    <Toggled val="True"/>
+                    <Alpha val="0"/>
+                    
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.45" value="255" out="Auto"/>
+                        </Controller>
+                        
+                        <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                            <Key type="Curve" time="0" value="-40" out="Linear"/>
+                            <Key type="Curve" time="0.3" value="-40" out="Linear"/>
+                            <Key type="Curve" time="0.45" value="0" out="Linear"/>
+                        </Controller>
+                    </Animation>
+
+                    <Animation name="SelectMode">
+                        <Event event="OnClick" action="Reset,Play"/>
+
+                        <Controller type="State" stateGroup="ModeState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="ModeStandard"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel">
+                            <Key type="Event" time="0" event="ModeStandard"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/BackgroundCutscene">
+                            <Key type="Event" time="0" event="ModeStandard"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/ForegroundCutscene">
+                            <Key type="Event" time="0" event="ModeStandard"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/StandardButton" end="Pause">
+                            <Key type="Property" time="0" value="True"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/MutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CMMutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CustomButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Button" name="MutatorButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                    <Anchor side="Top" relative="$parent/StandardButton" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/StandardButton" pos="Max" offset="#SubNavigationButtonOverlapOffset"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/MutatorButton"/>
+                    <Toggled val="False"/>
+                    <Alpha val="0"/>
+                    
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.47" value="255" out="Auto"/>
+                        </Controller>
+                        
+                        <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                            <Key type="Curve" time="0" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.3" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.47" value="0" out="Linear"/>
+                        </Controller>
+                    </Animation>
+
+                    <Animation name="SelectMode">
+                        <Event event="OnClick" action="Reset,Play"/>
+
+                        <Controller type="State" stateGroup="ModeState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel">
+                            <Key type="Event" time="0" event="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/BackgroundCutscene">
+                            <Key type="Event" time="0" event="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/ForegroundCutscene">
+                            <Key type="Event" time="0" event="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/StandardButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/MutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="True"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CMMutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CustomButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Button" name="CMMutatorButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                    <Anchor side="Top" relative="$parent/MutatorButton" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/MutatorButton" pos="Max" offset="#SubNavigationButtonOverlapOffset"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/CMMutatorButton"/>
+                    <Toggled val="False"/>
+                    <Alpha val="0"/>
+
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.47" value="255" out="Auto"/>
+                        </Controller>
+
+                        <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                            <Key type="Curve" time="0" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.3" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.47" value="0" out="Linear"/>
+                        </Controller>
+                    </Animation>
+
+                    <Animation name="SelectMode">
+                        <Event event="OnClick" action="Reset,Play"/>
+
+                        <Controller type="State" stateGroup="ModeState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel">
+                            <Key type="Event" time="0" event="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/BackgroundCutscene">
+                            <Key type="Event" time="0" event="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/ForegroundCutscene">
+                            <Key type="Event" time="0" event="ModeMutator"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/StandardButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/MutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CMMutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="True"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CustomButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Button" name="CustomButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                    <Anchor side="Top" relative="$parent/CMMutatorButton" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/CMMutatorButton" pos="Max" offset="#SubNavigationButtonOverlapOffset"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/CustomButton"/>
+                    <Toggled val="False"/>
+                    <Alpha val="0"/>
+                    
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.47" value="255" out="Auto"/>
+                        </Controller>
+                        
+                        <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                            <Key type="Curve" time="0" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.3" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.47" value="0" out="Linear"/>
+                        </Controller>
+                    </Animation>
+
+                    <Animation name="SelectMode">
+                        <Event event="OnClick" action="Reset,Play"/>
+
+                        <Controller type="State" stateGroup="ModeState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="ModeCustom"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel">
+                            <Key type="Event" time="0" event="ModeCustom"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/BackgroundCutscene">
+                            <Key type="Event" time="0" event="ModeCustom"/>
+                        </Controller>
+
+                        <Controller type="Event" end="Pause" frame="$parent/$parent/CommanderSelectionPanel/ForegroundCutscene">
+                            <Key type="Event" time="0" event="ModeCustom"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/StandardButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/MutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CMMutatorButton" end="Pause">
+                            <Key type="Property" time="0" value="False"/>
+                        </Controller>
+
+                        <Controller type="Property" property="Toggled" frame="$parent/CustomButton" end="Pause">
+                            <Key type="Property" time="0" value="True"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Button" name="ProfileCancelButton" template="CM_SharedTemplates/SubNavigationButtonTemplate">
+                    <Anchor side="Top" relative="$parent/CustomButton" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/CustomButton" pos="Max" offset="#SubNavigationButtonOverlapOffset"/>
+                    <Text val="@CMUI/ScreenCoopCampaign/ProfileCancel"/>
+                    <Toggled val="False"/>
+                    <Toggleable val="False"/>
+                    <Alpha val="0"/>
+                    <Visible val="false"/>
+
+                    <Animation name="FadeNav">
+                        <Event event="OnShown" action="Reset"/>
+                        <Event event="OnShown" action="Play"/>
+
+                        <Controller name="FadeIn" type="Fade" end="Pause">
+                            <Key type="Curve" time="0.0" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.3" value="0" in="Auto"/>
+                            <Key type="Curve" time="0.47" value="255" out="Auto"/>
+                        </Controller>
+
+                        <Controller type="Anchor" end="Pause" side="Left" relative="true">
+                            <Key type="Curve" time="0" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.3" value="-10" out="Linear"/>
+                            <Key type="Curve" time="0.47" value="0" out="Linear"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <StateGroup name="NavigationModeState">
+                    <DefaultState val="ModeStandard"/>
+
+                    <State name="ModeStandard">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                        <Action type="SetProperty" frame="StandardButton" Toggled="True"/>
+                        <Action type="SetProperty" frame="MutatorButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="CMMutatorButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="CustomButton" Toggled="False"/>
+                    </State>
+
+                    <State name="ModeMutator">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                        <Action type="SetProperty" frame="StandardButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="MutatorButton" Toggled="True"/>
+                        <Action type="SetProperty" frame="CMMutatorButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="CustomButton" Toggled="False"/>
+                    </State>
+
+                    <State name="ModeCustom">
+                        <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                        <Action type="SetProperty" frame="StandardButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="MutatorButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="CMMutatorButton" Toggled="False"/>
+                        <Action type="SetProperty" frame="CustomButton" Toggled="True"/>
+                    </State>
+                </StateGroup>
+                
+                <Frame type="Image" name="NewContentFlagGlow">
+                    <Anchor side="Bottom" relative="$parent/NewMutatorIndicator" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/NewMutatorIndicator" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/NewMutatorIndicator" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_TopNav_NewContentGlow"/>
+                    <Width val="36"/>
+                    <Height val="36"/>
+                    <Visible val="False"/>
+
+                    <Frame type="Image" name="NewContentFlagPulse">
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_TopNav_NewContentBg"/>
+                        <Width val="36"/>
+                        <Height val="36"/>
+                        <Alpha val="0"/>
+                        
+                        <Animation name="FlagGlow">
+                            <Event event="OnShown" action="Reset,Play" frame="$parent"/>
+                            <Event event="OnHidden" action="Stop" frame="$parent"/>
+
+                            <Controller type="Rotation" relative="False" end="Loop">
+                                <Key type="Curve" time="0" value="0" out="Linear"/>
+                                <Key type="Curve" time="5" value="360" in="Linear"/>
+                            </Controller>
+
+                            <Controller type="Fade" end="Loop">
+                                <Key type="Curve" time="0" value="255" out="Fast"/>
+                                <Key type="Curve" time="2" value="0" in="Slow"/>
+                                <Key type="Curve" time="4" value="255" out="Fast"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                    
+                    <Animation name="FlagGlow">
+                        <Event event="OnShown" action="Reset,Play" frame="$parent/NewMutatorIndicator"/>
+                        <Event event="OnHidden" action="Reset,Stop" frame="$parent/NewMutatorIndicator"/>
+
+                        <Controller type="Rotation" relative="False" end="Loop">
+                            <Key type="Curve" time="0" value="0" out="Linear"/>
+                            <Key type="Curve" time="5" value="360" in="Linear"/>
+                        </Controller>
+
+                        <Controller name="Show" type="Visibility" end="Pause">
+                            <Key type="Bool" time="0" value="true"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+
+                <Frame type="Frame" name="NewMutatorHelperFrame">
+                    <Anchor relative="$parent/NewMutatorIndicator"/>
+                    <Visible val="false"/>
+                    <Animation name="Show">
+                        <Event event="Show" action="Reset,Play" frame="$parent/$parent/CommanderSelectionPanel/MutatorInfoPanel"/>
+                        
+                        <Controller name="Show" type="Visibility" end="Pause">
+                            <Key type="Bool" time="0" value="true"/>
+                            <Key type="Bool" time="0.1" value="false"/>
+                        </Controller>
+                    </Animation>
+
+                    <StateGroup name="ShowMutatorIndicatorGroup">
+                        <State name="ShowMutatorIndicatorState">
+                            <When type="Property" frame="$this" Visible="true"/>
+                            <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                            <Action type="SendEvent" frame="$parent/NewMutatorIndicator" event="Show"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+
+                <Frame type="Frame" name="NewMutatorIndicator">
+                    <Anchor side="Bottom" relative="$parent/MutatorButton" pos="Max" offset="11"/>
+                    <Anchor side="Right" relative="$parent/MutatorButton/Label" pos="Max" offset="21"/>
+                    <Width val="36"/>
+                    <Height val="36"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="IconImage">
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_TopNav_NewContent"/>
+                        <Width val="36"/>
+                        <Height val="36"/>
+                    </Frame>
+
+                    <Animation name="Show">
+                        <Event event="Show" action="Reset,Play" frame="$this"/>
+                        <Event event="OnClick" action="Reset,Stop" frame="$parent/MutatorButton"/>
+                        <Event event="ModeMutator" action="Reset,Stop" frame="$parent/$parent"/>
+                        
+                        <Controller name="Show" type="Visibility" end="Pause">
+                            <Key type="Bool" time="0" value="true"/>
+                        </Controller>
+
+                        <Controller type="Tooltip" end="Pause" frame="$parent/MutatorButton">
+                            <Key type="Text" time="0" text="@CMUI/ScreenNavigation/NewMutation"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+                
+                <!-- <Frame type="VersionNotificationFrame" name="CustomNewContentIndicator"> -->
+                <Frame type="Frame" name="CustomNewContentIndicator">
+                    <Anchor side="Bottom" relative="$parent/CustomButton" pos="Max" offset="11"/>
+                    <Anchor side="Right" relative="$parent/CustomButton/Label" pos="Max" offset="21"/>
+                    <Width val="36"/>
+                    <Height val="36"/>
+                    <Visible val="False"/>
+                    <!-- <Version val="1"/> -->
+                    <!-- <SettingName val="CustomButton"/> -->
+                    
+                    <Animation name="VersionState">
+                        <Event event="NewVersion" action="Reset,Play"/>
+                        <Event event="OldVersion" action="Reset,Stop"/>
+                        <Event event="InvalidVersion" action="Reset,Stop"/>
+                        <Controller type="Visibility" end="Pause">
+                            <Key type="Bool" time="0" value="True"/>
+                        </Controller>
+                        <Controller type="Tooltip" end="Pause" frame="$parent/CustomButton">
+                            <Key type="Text" time="0" text="@CMUI/ScreenNavigation/NewMode"/>
+                        </Controller>
+                    </Animation>
+                 
+                    <!-- The name of this animation must be "ClearNotification" -->
+                    <!-- When played, it will update the version of this notification  -->
+                    <Animation name="ClearNotification">
+                        <Event event="OnClick" action="Reset,Play" frame="$parent/CustomButton"/>
+                        <Event event="Toggled" action="Reset,Play" frame="$parent/CustomButton"/>
+                 
+                        <Controller type="Event" end="Stop">
+                            <Key type="Event" time="0.0" event="NoOp"/>
+                            <Key type="Event" time="1.0" event="NoOp"/>
+                        </Controller>
+
+                        <Controller type="Tooltip" end="Pause" frame="$parent/CustomButton">
+                            <Key type="Text" time="0" text=""/>
+                        </Controller>
+                    </Animation>
+                        
+                    <Frame type="Image" name="NewContentFlagBg">
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_TopNav_NewContentGlow"/>
+                        <Width val="36"/>
+                        <Height val="36"/>
+
+                        <Animation name="FlagGlow">
+                            <Event event="OnShown" action="Reset,Play" frame="$parent"/>
+                            <Event event="OnHidden" action="Stop" frame="$parent"/>
+
+                            <Controller type="Rotation" relative="False" end="Loop">
+                                <Key type="Curve" time="0" value="0" out="Linear"/>
+                                <Key type="Curve" time="5" value="360" in="Linear"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+
+                    <Frame type="Image" name="NewContentFlag">
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_TopNav_NewContent"/>
+                        <Width val="36"/>
+                        <Height val="36"/>
+                    </Frame>
+                    
+                    <Frame type="Image" name="NewContentFlagGlow">
+                        <Anchor side="Bottom" relative="$parent/NewContentFlag" pos="Max" offset="0"/>
+                        <Anchor side="Left" relative="$parent/NewContentFlag" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/NewContentFlag" pos="Mid" offset="0"/>
+                        <Texture val="@UI/Glues_Battlenet_TopNav_NewContentBg"/>
+                        <Width val="36"/>
+                        <Height val="36"/>
+                        <Alpha val="0"/>
+                        
+                        <Animation name="FlagGlow">
+                            <Event event="OnShown" action="Reset,Play" frame="$parent"/>
+                            <Event event="OnHidden" action="Stop" frame="$parent"/>
+
+                            <Controller type="Rotation" relative="False" end="Loop">
+                                <Key type="Curve" time="0" value="0" out="Linear"/>
+                                <Key type="Curve" time="5" value="360" in="Linear"/>
+                            </Controller>
+
+                            <Controller type="Fade" end="Loop">
+                                <Key type="Curve" time="0" value="255" out="Fast"/>
+                                <Key type="Curve" time="2" value="0" in="Slow"/>
+                                <Key type="Curve" time="4" value="255" out="Fast"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+            </Frame>
+    </Frame>
+</Desc>
+

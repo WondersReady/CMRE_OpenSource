@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorSound id="ASound_AmonTemple_AmbEmitter" parent="SoundContinuous">
+        <EditorCategories value=""/>
+        <Sound value="Aiur05_Amon_CenterLoop_Emitter"/>
+        <Layers Sound="Aiur05_Amon_CenterVx_Emitter">
+            <Chance value="100"/>
+            <Pitch value="0.000000,0.000000"/>
+            <PlayDelay value="0,0"/>
+            <Volume value="0.000000,0.000000"/>
+        </Layers>
+    </CActorSound>
+    <CActorDoodad id="ShakurasBaseShield">
+        <Flags index="SuppressSaveLoad" value="0"/>
+    </CActorDoodad>
+    <CActorDoodad id="ZergCarcasses">
+        <Flags index="SuppressSaveLoad" value="0"/>
+    </CActorDoodad>
+</Catalog>

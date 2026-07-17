@@ -1,0 +1,196 @@
+include "TriggerLibs/NativeLib"
+include "LibCOOC_h"
+
+include "LibCMFE_h"
+
+//--------------------------------------------------------------------------------------------------
+// Library: Features (CM)
+//--------------------------------------------------------------------------------------------------
+// External Library Initialization
+void libCMFE_InitLibraries () {
+    libNtve_InitVariables();
+    libCOOC_InitVariables();
+}
+
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: Initial
+//--------------------------------------------------------------------------------------------------
+include "scripts/cmui_customization"
+include "scripts/cm_pointer_events"
+include "scripts/cm_commander_feature_gate"
+include "scripts/cm_commander_voice"
+
+void libCMFE_InitCustomScript () {
+}
+
+// Functions
+void libCMFE_gf_CMCT_RegisterAndEnableCommanderFeatureTrigger (string lp_feature, trigger lp_trigger, int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    libCMFE_gf_CMCT_RegisterCommanderFeatureTrigger(lp_feature, lp_trigger);
+    libCMFE_gf_CMCT_EnableCommanderFeatureForPlayer(lp_feature, lp_player);
+}
+
+bool libCMFE_gf_CMCT_CommanderFeatureCanRun (string lp_feature, int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMCT_CommanderFeatureCanRun(lp_feature, lp_player);
+}
+
+void libCMFE_gf_CMCT_SetCommanderFeatureForPlayer (string lp_feature, int lp_player, bool lp_enabled) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMCT_SetCommanderFeatureForPlayer(lp_feature, lp_player, lp_enabled);
+}
+
+void libCMFE_gf_CMCT_EnableCommanderFeatureForPlayer (string lp_feature, int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMCT_EnableCommanderFeatureForPlayer(lp_feature, lp_player);
+}
+
+void libCMFE_gf_CMCT_DisableCommanderFeatureForPlayer (string lp_feature, int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMCT_DisableCommanderFeatureForPlayer(lp_feature, lp_player);
+}
+
+void libCMFE_gf_CMCT_RegisterCommanderFeatureTrigger (string lp_feature, trigger lp_trigger) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMCT_RegisterCommanderFeatureTrigger(lp_feature, lp_trigger);
+}
+
+void libCMFE_gf_CMCT_DisableCommanderFeatureForPlayerTrigger (trigger lp_trigger, int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMCT_DisableCommanderFeatureForPlayerTrigger(lp_trigger, lp_player);
+}
+
+void libCMFE_gf_CMCT_RegisterCommanderFeatureTriggerAt (string lp_feature, int lp_slot, trigger lp_trigger) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMCT_RegisterCommanderFeatureTriggerAt(lp_feature, lp_slot, lp_trigger);
+}
+
+void libCMFE_gf_CMVO_ClearPlayer (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMVO_ClearPlayer(lp_player);
+}
+
+void libCMFE_gf_CMVO_RegisterLegacyConversationLineData (string lp_lineID, string lp_legacyLine, string lp_soundId, string lp_textKey, string lp_speakerCharacter, string lp_portraitActor, int lp_weight, int lp_sourcePolicy, string lp_conditionProfile) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMVO_RegisterLegacyConversationLineData(lp_lineID, lp_legacyLine, lp_soundId, lp_textKey, lp_speakerCharacter, lp_portraitActor, lp_weight, lp_sourcePolicy, lp_conditionProfile);
+}
+
+void libCMFE_gf_CMVO_RegisterVoiceLineForPlayer (int lp_player, string lp_eventType, int lp_phase, string lp_lineId) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMVO_RegisterVoiceLineForPlayer(lp_player, lp_eventType, lp_phase, lp_lineId);
+}
+
+bool libCMFE_gf_CMVO_TryRunMissionTransmission (string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone) {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMVO_TryRunMissionTransmission(lp_eventType, lp_sourcePlayer, lp_waitUntilDone);
+}
+
+bool libCMFE_gf_CMVO_TryRunMissionResponse (string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone) {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMVO_TryRunMissionResponse(lp_eventType, lp_sourcePlayer, lp_waitUntilDone);
+}
+
+bool libCMFE_gf_CMUIX_StartupApplySavedConfiguration () {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMUIX_StartupApplySavedConfiguration();
+}
+
+void libCMFE_gf_CMUIX_LaunchProfileSaveForTransitionAll () {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_LaunchProfileSaveForTransitionAll();
+}
+
+void libCMFE_gf_CMUIX_GameHistoryAutosaveProgressAll () {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_GameHistoryAutosaveProgressAll();
+}
+
+void libCMFE_gf_CMUIX_PlayerProfileSaveAllFromUserData (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_PlayerProfileSaveAllFromUserData(lp_player);
+}
+
+void libCMFE_gf_CMUIX_CoopProgressSaveForPlayer (int lp_player) {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_CoopProgressSaveForPlayer(lp_player);
+}
+
+void libCMFE_gf_CMUIX_OnRetryButtonClicked () {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_OnRetryButtonClicked();
+}
+
+void libCMFE_gf_CMUIX_GameHistoryRecordVictory () {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_GameHistoryRecordVictory();
+}
+
+void libCMFE_gf_CMUIX_GameHistoryRecordDefeat () {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_GameHistoryRecordDefeat();
+}
+
+string libCMFE_gf_CMUIX_VoicePackEffectiveForPlayerCommander (int lp_player, string lp_commander) {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMUIX_VoicePackEffectiveForPlayerCommander(lp_player, lp_commander);
+}
+
+bool libCMFE_gf_CMUIX_OptimizationEnabled (int lp_player, string lp_commander, string lp_optimization) {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMUIX_OptimizationEnabled(lp_player, lp_commander, lp_optimization);
+}
+
+void libCMFE_gf_CMUIX_OptimizationApplyStartupEntry () {
+    // Automatic Variable Declarations
+    // Implementation
+    CMUIX_OptimizationApplyStartupEntry();
+}
+
+string libCMFE_gf_CMUIX_CurrentStartupPath () {
+    // Automatic Variable Declarations
+    // Implementation
+    return CMUIX_CurrentStartupPath();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Library Initialization
+//--------------------------------------------------------------------------------------------------
+bool libCMFE_InitLib_completed = false;
+
+void libCMFE_InitLib () {
+    if (libCMFE_InitLib_completed) {
+        return;
+    }
+
+    libCMFE_InitLib_completed = true;
+
+    libCMFE_InitLibraries();
+    libCMFE_InitCustomScript();
+}
+
+include "LibCOOC"
+

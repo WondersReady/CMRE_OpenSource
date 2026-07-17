@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CUnit id="NydusNetwork">
+        <EffectArray index="Birth" value="NydusNetworkBirth"/>
+        <EffectArray index="Death" value="NydusNetworkDeath"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="7" Face="CMUIXQuickLoadNydusNetwork" AbilCmd="NydusCanalTransport,LoadAll" Row="0" Column="2"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="Medivac">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadMedivac"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="MedivacTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="Medivac_BlackOps">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadMedivacBlackOps"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="MedivacTransportBlackOps,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="MedivacMengsk">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadMedivacMengsk"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="MedivacMengskTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="Bunker">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadBunker"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="BunkerTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="BunkerDepotMengsk">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadBunkerDepotMengsk"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="BunkerMengskTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="ArtilleryMengsk">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadArtilleryMengsk"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="ArtilleryMengskTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="TychusArmory">
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Requirements=""/>
+            <LayoutButtons index="1" Face="CommanderPrestigeTychusUltMarauderLocked" Requirements="CommanderPrestigeTychusLoneWolf"/>
+            <LayoutButtons index="2" Face="TychusMarauderAttackSplashLocked" Type="Passive" AbilCmd="" Requirements="TychusLevel14HeroesNotMaxedOrMarauderOwned"/>
+            <LayoutButtons index="3" Face="TychusMarauderAttackSplashLearn" AbilCmd="TychusHeroResearch,Research4"/>
+            <LayoutButtons index="4" Face="Cancel" AbilCmd="que5,CancelLast"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="TychusGhostAcademy">
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Requirements=""/>
+            <LayoutButtons index="1" Face="CommanderPrestigeTychusUltMedicLocked" Requirements="CommanderPrestigeTychusLoneWolf"/>
+            <LayoutButtons index="2" Face="TychusMedicDefensiveMatrixLocked" Type="Passive" AbilCmd="" Requirements="TychusLevel12HeroesNotMaxedOrMedicOwned"/>
+            <LayoutButtons index="3" Face="TychusMedicDefensiveMatrixLearn" AbilCmd="TychusHeroResearch2,Research12"/>
+            <LayoutButtons index="4" Face="Cancel" AbilCmd="que5,CancelLast"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="TychusMercCompound">
+        <CardLayouts index="0">
+            <LayoutButtons index="5" Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Requirements=""/>
+            <LayoutButtons index="6" Face="CommanderPrestigeTychusUltWarhoundLocked" Requirements="CommanderPrestigeTychusLoneWolf"/>
+            <LayoutButtons index="7" Face="TychusWarhoundTurretUpgradeLocked" Type="Passive" AbilCmd="" Requirements="TychusLevel14HeroesNotMaxedOrWarhoundOwned"/>
+            <LayoutButtons index="8" Face="TychusWarhoundTurretUpgrade" AbilCmd="TychusHeroResearch2,Research21"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="WarpPrism">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadWarpPrism"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="WarpPrismTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="WarpPrismPhasing">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadWarpPrism"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="WarpPrismTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="WarpPrismTaldarim">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadWarpPrismTaldarim"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="WarpPrismTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="WarpPrismPhasingTaldarim">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadWarpPrismTaldarim"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="WarpPrismTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="NydusNetworkAlly">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadNydusNetwork"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="NydusCanalTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="NydusCanal">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadNydusWorm"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="NydusWormTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="NydusCanalAlly">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadNydusWorm"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="NydusWormTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GreaterNydusWorm">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadGreaterNydusWorm"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="GreaterNydusWormTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GreaterNydusWormAlly">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadGreaterNydusWorm"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="GreaterNydusWormTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GreatNydusWorm">
+        <CardLayouts>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadGreaterNydusWorm"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="GreaterNydusWormTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GreatNydusWormAlly">
+        <CardLayouts>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons Row="0" Column="0"/>
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadGreaterNydusWorm"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="GreaterNydusWormTransport,LoadAll"/>
+                <Row value="0"/>
+                <Column value="2"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="Hercules">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadHercules"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="HerculesTransport,LoadAll"/>
+                <Row value="2"/>
+                <Column value="3"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="Overlord">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadOverlord"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="OverlordTransport,LoadAll"/>
+                <Requirements value="CMUIXQuickLoadOverlord"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="OverlordStetmann">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadOverlordStetmann"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="OverlordStetmannTransport,LoadAll"/>
+                <Requirements value="CMUIXQuickLoadOverlordStetmann"/>
+                <Row value="2"/>
+                <Column value="4"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="ZeratulWarpPrismPhasing">
+        <CardLayouts index="0">
+            <LayoutButtons>
+                <Face value="CMUIXQuickLoadZeratulWarpPrism"/>
+                <Type value="AbilCmd"/>
+                <AbilCmd value="ZeratulWarpPrismTransport,LoadAll"/>
+                <Requirements value="CMUIXQuickLoadZeratulWarpPrism"/>
+                <Row value="1"/>
+                <Column value="1"/>
+            </LayoutButtons>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="CoopCasterKerrigan">
+        <AbilArray Link="KerriganNydusTopBar"/>
+        <AbilArray Link="NydusNetworkUnloadKerrigan"/>
+        <CardLayouts>
+            <LayoutButtons Face="KerriganTopBarLocked" Type="Passive" Requirements="KerriganLevel08" Row="0" Column="0"/>
+            <LayoutButtons Face="SummonGreaterNydusWorm" Type="AbilCmd" AbilCmd="KerriganNydusTopBar,Build1" Row="0" Column="0"/>
+            <LayoutButtons Face="KerriganTopBarLocked" Type="Passive" Requirements="KerriganLevel08" Row="0" Column="1"/>
+            <LayoutButtons Face="NydusNetworkUnloadKerrigan" Type="AbilCmd" AbilCmd="NydusNetworkUnloadKerrigan,Execute" Row="0" Column="1"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GreaterNydusWormVisual">
+        <DeathRevealRadius value="3"/>
+        <Facing value="29.9707"/>
+        <Race value="Zerg"/>
+        <Mob value="Multiplayer"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="TownAlert" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
+        <FogVisibility value="Snapshot"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Burrow" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Structure" value="1"/>
+        <Collide index="RoachBurrow" value="1"/>
+        <Collide index="ForceField" value="1"/>
+        <Collide index="Locust" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="1000"/>
+        <LifeMax value="1000"/>
+        <LifeArmor value="2"/>
+        <LifeRegenRate value="0.2734"/>
+        <LifeArmorName value="Unit/LifeArmorName/ZergBuildingArmor"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <Sight value="10"/>
+        <CostCategory value="Technology"/>
+        <AttackTargetPriority value="11"/>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <Footprint value="Footprint3x3IgnoreCreepContour"/>
+        <PlacementFootprint value="Footprint3x3IgnoreCreepContour"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="60"/>
+        <MinimapRadius value="1"/>
+        <EditorCategories value="ObjectType:Structure,ObjectFamily:FactionEvolved"/>
+        <GlossaryCategory value="Unit/Category/ZergUnits"/>
+        <GlossaryPriority value="20"/>
+        <HotkeyCategory value="Unit/Category/ZergEvolved"/>
+        <EffectArray index="Birth" value="NydusBirth"/>
+    </CUnit>
+    <CUnit id="NovaAIDummyCaster">
+        <Race value="Terr"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <LifeStart value="500000"/>
+        <LifeMax value="500000"/>
+        <EditorCategories value="ObjectType:Other"/>
+    </CUnit>
+    <CUnit id="CMStormCommanderPanelCaster" parent="NovaAIDummyCaster">
+        <AbilArray/>
+        <Sight value="0"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="NoDraw" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <FlagArray index="NoDeathEvent" value="1"/>
+        <Radius value="0"/>
+        <SeparationRadius value="0"/>
+    </CUnit>
+    <CUnit id="CreepTumor">
+        <AbilArray Link="AutoCreepOn"/>
+        <AbilArray Link="AutoCreepOff"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TurnOnAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOn,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="TurnOffAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOff,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="CreepTumorBurrowed">
+        <AbilArray Link="AutoCreepOn"/>
+        <AbilArray Link="AutoCreepOff"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TurnOnAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOn,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="TurnOffAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOff,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+        <BehaviorArray Link="AutoCreepTumorSpread"/>
+    </CUnit>
+    <CUnit id="CreepTumorUsed">
+        <AbilArray Link="AutoCreepOn"/>
+        <AbilArray Link="AutoCreepOff"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TurnOnAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOn,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="TurnOffAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOff,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="CreepTumorQueenNoCreep">
+        <AbilArray Link="AutoCreepOn"/>
+        <AbilArray Link="AutoCreepOff"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TurnOnAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOn,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="TurnOffAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOff,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="CreepTumorZagara">
+        <AbilArray Link="AutoCreepOn"/>
+        <AbilArray Link="AutoCreepOff"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TurnOnAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOn,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="TurnOffAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOff,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="CreepTumorQueen">
+        <AbilArray Link="AutoCreepOn"/>
+        <AbilArray Link="AutoCreepOff"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TurnOnAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOn,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="TurnOffAutoCreep" Type="AbilCmd" AbilCmd="AutoCreepOff,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="StukovInfestedSiegeTank">
+        <AbilArray Link="que5Passive"/>
+        <AbilArray Link="StukovInfestedSiegeTankDisplayAmmoMagazine"/>
+    </CUnit>
+    <CUnit id="StukovInfestedSiegeTankUprooted">
+        <AbilArray Link="que5Passive"/>
+        <AbilArray Link="StukovInfestedSiegeTankDisplayAmmoMagazine"/>
+    </CUnit>
+    <CUnit id="StukovInfestedSiegeTankDisplayAmmo" parent="MISSILE_INVULNERABLE">
+        <Race value="InfT"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:FactionInfested"/>
+        <FlagArray index="NoDraw" value="1"/>
+    </CUnit>
+    <CUnit id="ZeratulXelNagaConstruct">
+        <BehaviorArray index="2" Link="CMREZeratulConstructWarpIn"/>
+    </CUnit>
+    <CUnit id="ZeratulXelNagaConstructCyan">
+        <BehaviorArray index="2" Link="CMREZeratulConstructWarpIn"/>
+    </CUnit>
+</Catalog>

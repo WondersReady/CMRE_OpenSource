@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CAbilBuild id="AshWormBuild" parent="CreepTumorBuild">
+        <Name value="Abil/Name/AshWormBuild"/>
+        <TargetMessage value="Abil/TargetMessage/AshWormBuild"/>
+        <InfoArray index="Build1" Unit="AshWorm" Time="15">
+            <Cooldown TimeStart="0" TimeUse="0"/>
+            <Button DefaultButtonFace="AshWorm" Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="" Time="0">
+            <Cooldown TimeStart="0" TimeUse="0"/>
+            <Button DefaultButtonFace="" Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="">
+            <Cooldown TimeStart="0" TimeUse="0"/>
+            <Button DefaultButtonFace="" State="Available"/>
+        </InfoArray>
+        <Range value="255"/>
+        <EffectArray index="Start" value=""/>
+    </CAbilBuild>
+    <CAbilMorph id="BurrowSkiver">
+        <AbilSetId value="BrwDb"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowDown">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <ActorKey value="BurrowDown"/>
+        <Flags index="Interruptible" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnorePlacement" value="0"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="ImpalerBurrowed2" RandomDelayMax="0.25">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="2"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="1.8332"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="1.8332"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilTransport id="CaveEntranceTransport" parent="NydusWormTransport">
+        <Name value="Abil/Name/CaveEntranceTransport"/>
+        <CmdButtonArray index="Load" DefaultButtonFace="CaveEntranceLoad"/>
+        <CmdButtonArray index="UnloadAll" DefaultButtonFace="CaveEntranceUnloadAll"/>
+        <UnloadPeriod value="0.1"/>
+    </CAbilTransport>
+    <CAbilEffectTarget id="KhailuCloud">
+        <OrderArray index="0" DisplayType="Legacy" Model="Assets\UI\Cursors\WayPointConfirmSwarm\WayPointConfirmSwarm.m3"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="KhailuCloudInitSet"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Cost>
+            <Charge Link="Abil/DisablingCloud"/>
+            <Cooldown Link="Abil/DisablingCloud"/>
+        </Cost>
+        <Range value="20"/>
+        <Arc value="29.9926"/>
+        <CursorEffect value="DisablingCloudSearch"/>
+        <AINotifyEffect value="KhailuCloudCreatePersistent"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="SpagotCloud"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="KhailuBomb">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="KhailuBombCreatePersistent"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AllowMovingSuppressed" value="1"/>
+        <Cost>
+            <Charge Link=""/>
+            <Cooldown Link="Abil/SpagotBomb" TimeUse="4"/>
+        </Cost>
+        <PrepTime value="4"/>
+        <ShowProgressArray index="Prep" value="1"/>
+        <ProgressButtonArray index="Prep" value="SpagotBomb"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="SpagotBomb"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="KraithSpineVolley">
+        <ProgressButtonArray index="Prep" value="KraithSpineVolley"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="Leap">
+        <OrderArray index="0" DisplayType="Legacy" Model="Assets\UI\Cursors\WayPointConfirmSwarm\WayPointConfirmSwarm.m3"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="SkiverLeap"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Cost>
+            <Charge Link="Abil/DehakaLeap"/>
+            <Cooldown Link="Abil/DehakaLeap"/>
+        </Cost>
+        <Range value="10"/>
+        <CursorEffect value="DehakaLeapSearch"/>
+        <AINotifyEffect value="SkiverLeap"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="LeapSkiver"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+    </CAbilEffectTarget>
+    <CAbilMorph id="MorphToCollapsibleRockTowerDebrisPurifier022">
+        <OrderArray index="0">
+            <DisplayType value="Confirm"/>
+            <Color value="255,0,255,0"/>
+            <Model value="Assets\UI\Cursors\WayPointConfirmSwarm\WayPointConfirmSwarm.m3"/>
+            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
+        </OrderArray>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CollapsibleTowerDebris">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <Flags index="Birth" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="WaitUntilStopped" value="0"/>
+        <InfoArray Unit="CollapsibleRockTowerDebrisPurifier022"/>
+    </CAbilMorph>
+    <CAbilEffectTarget id="MutatedColonyAttack">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="MutatedColonyInitialSet"/>
+        <TargetFilters value="Ground,Visible;Stasis,Invulnerable"/>
+        <Range value="20"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="MutatedColonyAttack"/>
+    </CAbilEffectTarget>
+    <CAbilMorph id="UnburrowSkiver">
+        <AbilSetId value="BrwUb"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowUp">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <ActorKey value="BurrowUp"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="Skiver" RandomDelayMax="0.1">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+        </InfoArray>
+        <AutoCastRange value="2"/>
+        <AutoCastCountMin value="1"/>
+    </CAbilMorph>
+    <CAbilEffectTarget id="VoidCrystalHeal">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Effect index="0" value="VoidCrystalHealCreatePersistent"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ChannelingMinimum" value="0"/>
+        <Flags index="DeferCooldown" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown Operation="Add" TimeUse="0.2"/>
+        </Cost>
+        <TargetFilters value="Visible;Self,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSAlliancePassive"/>
+            <SortArray value="TSShieldsFraction"/>
+            <SortArray value="TSDistance"/>
+        </TargetSorts>
+        <Range value="40"/>
+        <Arc value="360"/>
+        <ArcSlop value="360"/>
+        <AutoCastRange value="40"/>
+        <AINotifyEffect value="VoidCrystalHealApplyEffect"/>
+        <ProgressButtonArray index="Channel" value="VoidCrystalHeal"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="VoidCrystalHeal"/>
+        <AutoCastFilters value="Heroic,Visible;Neutral,Enemy"/>
+        <RangeSlop value="30"/>
+        <AcquirePriority value="10"/>
+        <FollowRange value="40"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="CarnozorBomb">
+        <Alignment value="Negative"/>
+        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirmSwarm\WayPointConfirmSwarm.m3"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="CarnozorBombDelayCreatePersistent"/>
+        <Cost>
+            <Charge Link="Abil/BileLauncherZagaraBombardment"/>
+            <Cooldown Link="Abil/BileLauncherZagaraBombardment"/>
+        </Cost>
+        <Range value="20"/>
+        <Arc value="360"/>
+        <CursorEffect value="BileLauncherZagaraBombardmentDamageSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CarnozorBomb"/>
+    </CAbilEffectTarget>
+    <CAbilMorph id="BurrowDevastatorDown">
+        <OrderArray index="0">
+            <DisplayType value="Confirm"/>
+            <Color value="255,0,255,0"/>
+            <Model value="Assets\UI\Cursors\WayPointAttack_Void\WayPointAttack_Void.m3"/>
+            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
+        </OrderArray>
+        <AbilSetId value="BrwD"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowDown">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <ActorKey value="BurrowDown"/>
+        <Flags index="Interruptible" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnorePlacement" value="0"/>
+        <InfoArray Unit="DevastatorBurrowed" RandomDelayMax="0.1">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="0.5556"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="0.5556"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="0.5556"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="BurrowDevastatorUp">
+        <OrderArray index="0">
+            <DisplayType value="Confirm"/>
+            <Color value="255,0,255,0"/>
+            <Model value="Assets\UI\Cursors\WayPointAttack_Void\WayPointAttack_Void.m3"/>
+            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
+        </OrderArray>
+        <AbilSetId value="BrwU"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowUp">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <ActorKey value="BurrowUp"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="Devastator" RandomDelayMax="0.1">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="0.4443"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="0.4443"/>
+            </SectionArray>
+        </InfoArray>
+        <AutoCastFilters value="Ground,Visible;Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden"/>
+        <AutoCastValidatorArray value="TargetNotChangeling"/>
+        <AutoCastRange value="2"/>
+        <AutoCastCountMin value="1"/>
+    </CAbilMorph>
+    <CAbilBuild id="CarnozorTowerBuild" parent="CreepTumorBuild">
+        <Name value="Abil/Name/CarnozorTowerBuild"/>
+        <TargetMessage value="Abil/TargetMessage/CarnozorTowerBuild"/>
+        <InfoArray index="Build1" Unit="CarnozorTower">
+            <Cooldown TimeStart="0" TimeUse="0"/>
+            <Button Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="" Time="0">
+            <Cooldown TimeStart="0" TimeUse="0"/>
+            <Button DefaultButtonFace="" Requirements=""/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="">
+            <Cooldown TimeStart="0" TimeUse="0"/>
+            <Button DefaultButtonFace="" State="Available"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilMorph id="CarnozorUproot" parent="PrimalBuildingUproot" unit="CarnozorUprooted"/>
+    <CAbilTrain id="CarnozorTrain">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Structures"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
+        <InfoArray index="Train1" Time="5" Effect="PrimalSpawnedFrenzy">
+            <Button DefaultButtonFace="PrimalZergling"/>
+            <Unit value="PrimalZergling"/>
+        </InfoArray>
+        <InfoArray index="Train2" Time="5" Effect="PrimalSpawnedFrenzy">
+            <Button DefaultButtonFace="PrimalHydralisk"/>
+            <Unit value="PrimalHydralisk"/>
+        </InfoArray>
+        <InfoArray index="Train3" Time="5" Effect="primalspawnedfrenzy">
+            <Button DefaultButtonFace="PrimalFlyer"/>
+            <Unit value="PrimalFlyer"/>
+        </InfoArray>
+        <InfoArray index="Train4" Time="5" Effect="primalspawnedfrenzy">
+            <Button DefaultButtonFace="PrimalUltralisk"/>
+            <Unit value="PrimalUltralisk"/>
+        </InfoArray>
+        <InfoArray index="Train6" Time="5" Effect="PrimalSpawnedFrenzy">
+            <Button DefaultButtonFace="SporeRay"/>
+            <Unit value="SporeRay"/>
+        </InfoArray>
+        <InfoArray index="Train8" Time="5" Effect="PrimalSpawnedFrenzy">
+            <Button DefaultButtonFace="Ravasaur"/>
+            <Unit value="Ravasaur"/>
+        </InfoArray>
+        <InfoArray index="Train9" Time="5" Effect="PrimalSpawnedFrenzy">
+            <Button DefaultButtonFace="PrimalRoach"/>
+            <Unit value="PrimalRoach"/>
+        </InfoArray>
+        <InfoArray index="Train10" Time="5" Effect="PrimalSpawnedFrenzy">
+            <Button DefaultButtonFace="PrimalMutalisk"/>
+            <Unit value="PrimalMutalisk"/>
+        </InfoArray>
+    </CAbilTrain>
+    <CAbilBehavior id="SporeRayBeam">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="PlanetCracker"/>
+        <CmdButtonArray index="Off" DefaultButtonFace="PlanetCrackerOff"/>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <BehaviorArray value="SporeRayBeam"/>
+    </CAbilBehavior>
+    <CAbilEffectTarget id="DevastatorCorrosiveBile">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="DevastatorCorrosiveBileLaunchSet"/>
+        <Cost>
+            <Charge Link="Abil/RavagerCorrosiveBile"/>
+            <Cooldown Link="Abil/RavagerCorrosiveBile"/>
+        </Cost>
+        <Cost>
+            <Charge Link="Abil/RavagerCorrosiveBile"/>
+            <Cooldown Link="Abil/RavagerCorrosiveBile" TimeUse="15"/>
+        </Cost>
+        <Range value="20"/>
+        <Arc value="360"/>
+        <CursorEffect value="RavagerCorrosiveBileCursorDummy"/>
+        <CursorEffect value="RavagerCorrosiveBileAoeCursorDummy"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CorrosiveBile2"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="DevastatorShockwave">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="DevastatorShockwaveCreatePersistent"/>
+        <Cost>
+            <Charge Link=""/>
+            <Cooldown Link="Abil/ZHybridPsionicShockwave"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="PsionicShockwave"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="Abduct" parent="Yoink">
+        <Name value="Abil/Name/Abduct"/>
+        <Cost index="0">
+            <Vital index="Energy" value="0"/>
+        </Cost>
+        <Range index="0" value="20"/>
+        <TargetFilters index="0" value="Visible;Self,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <UninterruptibleArray index="Cast" value="0"/>
+        <UninterruptibleArray index="Channel" value="0"/>
+        <UninterruptibleArray index="Finish" value="0"/>
+        <Effect index="0" value="YoinkStartSA"/>
+    </CAbilEffectTarget>
+    <CAbilTrain id="VoidRiftTrain">
+        <Flags index="Transient" value="1"/>
+        <Flags index="WaitForFood" value="0"/>
+        <InfoArray index="Train1">
+            <Unit value="PrimalHydralisk"/>
+            <Unit value="PrimalHydralisk"/>
+            <Unit value="PrimalZergling"/>
+            <Unit value="PrimalZergling"/>
+            <Unit value="PrimalZergling"/>
+        </InfoArray>
+        <InfoArray index="Train6" Time="1" Effect="VoidPylonPrimalTrainSet">
+            <Unit index="0" value="PrimalZergling"/>
+            <Unit index="1" value="PrimalZergling"/>
+        </InfoArray>
+        <InfoArray index="Train7" Time="1" Effect="VoidPylonPrimalTrainSet">
+            <Unit index="0" value="PrimalHydralisk"/>
+        </InfoArray>
+        <Range value="10"/>
+        <!--Flags index="Transient" value="1"/-->
+    </CAbilTrain>
+    <CAbilTrain id="YagdraEggTrain">
+        <InfoArray index="Train1" Effect="PrimalSpawnedFrenzy"/>
+        <InfoArray index="Train2" Effect="PrimalSpawnedFrenzy"/>
+        <InfoArray index="Train3" Effect="PrimalSpawnedFrenzy"/>
+    </CAbilTrain>
+</Catalog>

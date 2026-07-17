@@ -1,0 +1,76 @@
+﻿Behavior/Name/CloakField2=默认行为(CBehaviorBuff)
+Behavior/Tooltip/CloakField2=母舰周围的星灵单位获得隐形效果。
+DocInfo/Author=暴雪娱乐
+DocInfo/DescLong=埃蒙正在使用卡亚迪尔的时空航道在星区中运送他的部队。摧毁这些运送部队的穿梭机，不能让他们抵达时空航道。
+DocInfo/Name=[CM] 虚空降临
+LoadingScreen/Tip= <sp/>
+MapInfo/Player00/Name=
+MapInfo/Player01/Name=玩家1
+MapInfo/Player02/Name=玩家2
+MapInfo/Player03/Name=埃蒙的部队
+MapInfo/Player04/Name=埃蒙的部队
+MapInfo/Player05/Name=埃蒙的部队
+MapInfo/Player06/Name=时空航道
+MapInfo/Player07/Name=科研队伍
+MapInfo/Player08/Name=敌对
+MapInfo/Player09/Name=玩家9
+MapInfo/Player10/Name=玩家10
+MapInfo/Player11/Name=玩家11
+MapInfo/Player12/Name=玩家12
+MapInfo/Player13/Name=玩家13
+MapInfo/Player14/Name=玩家14
+MapInfo/Player15/Name=敌对
+MapInfo/Team00/Name=宇宙队
+MapInfo/Team01/Name=埃蒙队
+Objective/Description/AC_KaldirShuttle_Bonus01=护送科学船前往萨尔纳加圣坛。在他们解析研究期间保护它们。
+Param/Expression/20F23A0E=~PlayerName~ 穿梭机击杀
+Param/Expression/29D97951=~PlayerName~ 穿梭机击杀
+Param/Expression/2E58DDA1=~ShuttlesDestroyed~
+Param/Expression/3088EC24=~ShuttlesDestroyed~
+Param/Expression/7A4502C4=<c val="FF8000">奖励1：<n/>~A~<n/>穿梭机：<n/>~B~<n/>时间：<n/>~C~</c>
+Param/Expression/84FACE67=Final:~D~<n/>~OriginalText~
+Param/Expression/D0A7883E=~ShuttlesCreated~
+Param/Value/0D242371=静滞舱
+Param/Value/2B1758BF=研究船
+Param/Value/2BED2F74=已摧毁所有穿梭机！
+Param/Value/3585668F=穿梭机
+Param/Value/36C59E47=停泊湾
+Param/Value/49A29DE0=时空航道未激活
+Param/Value/49B3DB1A=穿梭机
+Param/Value/5442A7D3=已摧毁所有穿梭机！
+Param/Value/56B18546=时空航道
+Param/Value/5DF1ED19=萨尔纳加圣坛
+Param/Value/5FEA1DD5=研究船
+Param/Value/649A1660=<s val="ModLeftSize16Bold">扫描圣物：</s>
+Param/Value/6FFD1985=<c val="FF0000">穿梭机折跃中</c>
+Param/Value/756A980D=你所有的建筑物都被摧毁了。
+Param/Value/781102D9=你盟友的所有建筑都被摧毁了。
+Param/Value/78BD177F=埃蒙的穿梭机
+Param/Value/7D2B4820=时空航道
+Param/Value/7DB556F0=穿梭机已发射
+Param/Value/7DE553F9=你盟友的所有建筑都被摧毁了。
+Param/Value/97C9F53F=<s val="ModLeftSize16Bold">即将折跃离开：</s>
+Param/Value/97D2D2C4=研究船
+Param/Value/A43810E7=时空航道
+Param/Value/B0B7B594=研究船
+Param/Value/B22961F1=时空航道
+Param/Value/B2D83ABB=时空航道未激活
+Param/Value/C519B087=停泊湾
+Param/Value/C58A00E5=发射的穿梭机数量
+Param/Value/C5BD2D7F=<s val="ModLeftSize16Bold">穿梭机无法机动</s>
+Param/Value/C622F520=你所有的建筑物都被摧毁了。
+Param/Value/CA71A518=<s val="ModLeftSize16Bold">即将折跃离开：</s>
+Param/Value/CE4A6FC3=穿梭机逃离路径
+Param/Value/D8F92A11=时空航道已激活
+Param/Value/DE83E603=萨尔纳加圣坛
+Param/Value/E2EECFF9=停泊湾
+Param/Value/E5B2BD1F=太多的穿梭机已逃脱！
+Param/Value/EBFA29B3=时空航道
+Param/Value/EE304499=该穿梭机正试图抵达时空航道，准备逃离卡亚迪尔。
+Param/Value/F14C5F19=停泊湾
+Param/Value/F4ADD9A8=已开始折跃离开的穿梭机
+Param/Value/FD5E2B9B=时空航道
+Param/Value/FD8A40A5=<c val="FFFF00">防守</c>
+Unit/Name/ProtossCruiser=母舰
+Variant001/ModeDesc=请手动修改玩家难度来实现不同难度敌人的挑战。
+Variant001/ModeName=合作模式

@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="MutatorPoolRowHeight" val="45"/>
+
+    <Frame type="Frame" name="MutatorSelectionPage">
+        <Handle val="CM_CustomMutatorPoolPage"/>
+        <Anchor relative="$parent"/>
+        <Visible val="False"/>
+        <Alpha val="0"/>
+        <RenderPriority val="960"/>
+
+        <Animation name="Show">
+            <Event event="Show" action="Reset,Play"/>
+            <Controller type="Visibility" end="Pause">
+                <Key type="Bool" time="0" value="True"/>
+            </Controller>
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0" out="Fast"/>
+                <Key type="Curve" time=".12" value="255" in="Slow"/>
+            </Controller>
+        </Animation>
+
+        <Animation name="Hide">
+            <Event event="Hide" action="Reset,Play"/>
+            <Event event="OnClick" action="Reset,Play" frame="$this/MutatorSelectionMainDialog/AcceptButton"/>
+            <Event event="OnClick" action="Reset,Play" frame="$this/MutatorSelectionMainDialog/CancelButton"/>
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0"/>
+            </Controller>
+            <Controller type="Visibility" end="Pause">
+                <Key type="Bool" time="0" value="False"/>
+            </Controller>
+        </Animation>
+
+        <Frame type="Image" name="BackgroundTint">
+            <Anchor relative="$parent"/>
+            <Color val="0,0,0"/>
+            <Alpha val="180"/>
+            <AcceptsMouse val="true"/>
+        </Frame>
+
+        <Frame type="Frame" name="MutatorSelectionMainDialog">
+            <Anchor relative="$parent"/>
+
+            <Frame type="Image" name="BackgroundImage">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
+                <TextureType val="NineSlice"/>
+                <Tiled val="false"/>
+                <Width val="1280"/>
+                <Height val="1012"/>
+            </Frame>
+
+            <Frame type="Image" name="TopHexPattern">
+                <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="11"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+            </Frame>
+
+            <Frame type="Image" name="BottomHexPattern">
+                <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-11"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_DialogBox_HexPattern"/>
+                <TextureCoords top="1" left="1" bottom="0" right="0"/>
+            </Frame>
+
+            <Frame type="Label" name="Title">
+                <Anchor side="Top" relative="$parent/BackgroundImage" pos="Min" offset="50"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="0"/>
+                <Style val="@BattlenetDialogTitle"/>
+                <Text val="@CMUI/Coop_CustopmMutatorSelection_Title"/>
+            </Frame>
+
+            <Frame type="Image" name="PoolInfoIcon">
+                <Anchor side="Top" relative="$parent/Title" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/Title" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/Title" pos="Max" offset="30"/>
+                <Width val="32"/>
+                <Height val="32"/>
+                <Texture val="Assets/Textures/ui_glues_icons_infogeneric.dds"/>
+                <AcceptsMouse val="true"/>
+                <Tooltip val="@CMUI/CustomMutatorPool/InfoTooltip"/>
+                <TooltipFrame val="BattleNetTooltip"/>
+                <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+            </Frame>
+
+            <Frame type="Label" name="MessageLabel">
+                <Anchor side="Top" relative="$parent/Title" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="30"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+                <Style val="@StandardDialogMessage"/>
+                <Text val="@CMUI/Coop_CustopmMutatorSelection_Message"/>
+            </Frame>
+
+            <Frame type="Frame" name="HeaderPanel">
+                <Anchor side="Top" relative="$parent/MessageLabel" pos="Max" offset="18"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="-450"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="450"/>
+                <Height val="54"/>
+
+                <Frame type="EditBox" name="SearchEditBoxTemplate" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
+                    <Tooltip val="@CMUI/MutatorSearch/SearchTooltip"/>
+                    <TooltipFrame val="BattleNetTooltip"/>
+                    <MaxCharacters val="80"/>
+                    <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                    <Frame type="Label" name="SearchTextLabel">
+                        <Text val="@CMUI/MutatorSearch/SearchText"/>
+                    </Frame>
+                    <Frame type="Button" name="ClearTextButton"/>
+                    <Frame type="Frame" name="AnchorFrame">
+                        <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="0"/>
+                        <Width val="420"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Pulldown" name="MutatorPoolPulldown" template="StandardSmallButtonTemplates/StandardSmallPulldownTemplate">
+                    <Tooltip val="@CMUI/CustomMutatorPool/PoolTooltip"/>
+                    <TooltipFrame val="BattleNetTooltip"/>
+                    <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                    <Frame type="Frame" name="AnchorFrame">
+                        <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent/SearchEditBoxTemplate/AnchorFrame" pos="Max" offset="18"/>
+                        <Width val="230"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="PrevPageButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/NextPageButton" pos="Min" offset="-2"/>
+                    <Width val="50"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                        <DesaturateOnDisable val="false"/>
+                        <Texture val="@UI/Glues_Icons_SingleArrow"/>
+
+                        <Animation name="Disabled">
+                            <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                            <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                            <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                                <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrowDisabled"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Label" name="PageLabel">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="2"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="2"/>
+                    <Anchor side="Right" relative="$parent/PrevPageButton" pos="Min" offset="-4"/>
+                    <Width val="86"/>
+                    <Text val="1 / 1"/>
+                    <Style val="@Coop_CustomMutator_PageNumber"/>
+                </Frame>
+
+                <Frame type="Button" name="NextPageButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="-4"/>
+                    <Width val="50"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                        <DesaturateOnDisable val="false"/>
+                        <Texture val="@UI/Glues_Icons_SingleArrow"/>
+                        <TextureCoords top="0" left="1" bottom="1" right="0"/>
+
+                        <Animation name="Disabled">
+                            <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                            <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                            <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                                <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrowDisabled"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="ListPanel">
+                <Anchor side="Top" relative="$parent/HeaderPanel" pos="Max" offset="12"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Min" offset="55"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-55"/>
+                <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Min" offset="-25"/>
+
+                <Frame type="Image" name="MutatorListBg">
+                    <Anchor relative="$parent"/>
+                    <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+                    <TextureType val="NineSlice"/>
+                </Frame>
+
+                <Frame type="Image" name="MutatorTileListHeaderBg">
+                    <Anchor side="Top" relative="$parent/MutatorListBg" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/MutatorListBg" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/MutatorListBg" pos="Max" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+                    <TextureType val="NineSlice"/>
+                    <Height val="40"/>
+                </Frame>
+
+                <Frame type="Frame" name="RowsPanel">
+                    <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="4"/>
+                    <Anchor side="Left" relative="$parent/MutatorListBg" pos="Min" offset="8"/>
+                    <Anchor side="Right" relative="$parent/MutatorListBg" pos="Max" offset="-8"/>
+                    <Anchor side="Bottom" relative="$parent/MutatorListBg" pos="Max" offset="-8"/>
+                <Frame type="Frame" name="Item1">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item2">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="45"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item3">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="90"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item4">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="135"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item5">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="180"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item6">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="225"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item7">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="270"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item8">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="315"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item9">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="360"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item10">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="405"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item11">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="450"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item12">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="495"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item13">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="540"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item14">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="585"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item15">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="630"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item16">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="675"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item17">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="720"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Item18">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="765"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Height val="45"/>
+                    <Visible val="false"/>
+
+                    <Frame type="Image" name="BGImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/Glues_Battlenet_PageAssets_ListItem_Hover"/>
+                        <TextureType val="NineSlice"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="ActiveCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="30"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="FirstRandomCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="94"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                        <Visible val="False"/>
+                    </Frame>
+
+                    <Frame type="CheckBox" name="EnhanceCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="158"/>
+                        <Width val="30"/>
+                        <Height val="30"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="MutatorIconBox">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="216"/>
+                        <Width val="40"/>
+                        <Height val="40"/>
+
+                        <Frame type="Image" name="MutatorIcon">
+                            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                            <Width val="36"/>
+                            <Height val="36"/>
+                            <DesaturateOnDisable val="false"/>
+                        </Frame>
+
+                        <Frame type="Image" name="BorderImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+
+                        <StateGroup name="SourceState">
+                            <DefaultState val="Official"/>
+                            <State name="Official">
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+                            </State>
+                            <State name="Plus">
+                                <When type="AnimationState" SourceState="Plus"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+                            </State>
+                            <State name="Maguro">
+                                <When type="AnimationState" SourceState="Maguro"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+                            </State>
+                            <State name="ThirdParty">
+                                <When type="AnimationState" SourceState="ThirdParty"/>
+                                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+
+                    <Frame type="Label" name="NameLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/MutatorIconBox" pos="Max" offset="10"/>
+                        <Width val="250"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Tournament_MapVetoMapName"/>
+                    </Frame>
+
+                    <Frame type="Label" name="DescriptionLabel">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-11"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="11"/>
+                        <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+                        <Text val="@CMUI/Common/NotImplemented"/>
+                        <Style val="Coop_Dev_MutatorDescription"/>
+                    </Frame>
+                </Frame>
+                </Frame>
+
+                <Frame type="Label" name="ActiveLabelTitle">
+                    <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/RowsPanel/Item1/ActiveCheckBox" pos="Mid" offset="-48"/>
+                    <Anchor side="Right" relative="$parent/RowsPanel/Item1/ActiveCheckBox" pos="Mid" offset="48"/>
+                    <Text val="@CMUI/CustomMutatorPool/Normal"/>
+                    <Style val="CM_MutatorPoolColumnHeaderCenter"/>
+                </Frame>
+
+                <Frame type="Label" name="FirstRandomLabelTitle">
+                    <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/RowsPanel/Item1/FirstRandomCheckBox" pos="Mid" offset="-48"/>
+                    <Anchor side="Right" relative="$parent/RowsPanel/Item1/FirstRandomCheckBox" pos="Mid" offset="48"/>
+                    <Text val="@CMUI/CustomMutatorPool/FirstRoll"/>
+                    <Style val="CM_MutatorPoolColumnHeaderCenter"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Label" name="EnhanceLabelTitle">
+                    <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/RowsPanel/Item1/EnhanceCheckBox" pos="Mid" offset="-48"/>
+                    <Anchor side="Right" relative="$parent/RowsPanel/Item1/EnhanceCheckBox" pos="Mid" offset="48"/>
+                    <Text val="@CMUI/CustomMutatorPool/Enhance"/>
+                    <Style val="CM_MutatorPoolColumnHeaderCenter"/>
+                </Frame>
+
+                <Frame type="Label" name="MutatorNameLabelTitle">
+                    <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/RowsPanel/Item1/NameLabel" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/RowsPanel/Item1/NameLabel" pos="Max" offset="0"/>
+                    <Text val="@CMUI/Coop_CustopmMutatorSelection_Name"/>
+                    <Style val="BattlenetListHeader"/>
+                </Frame>
+
+                <Frame type="Label" name="MutatorDescriptionLabelTitle">
+                    <Anchor side="Top" relative="$parent/MutatorTileListHeaderBg" pos="Min" offset="3"/>
+                    <Anchor side="Bottom" relative="$parent/MutatorTileListHeaderBg" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/RowsPanel/Item1/DescriptionLabel" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/RowsPanel/Item1/DescriptionLabel" pos="Max" offset="0"/>
+                    <Text val="@CMUI/Coop_CustopmMutatorSelection_Description"/>
+                    <Style val="BattlenetListHeader"/>
+                </Frame>
+
+                <StateGroup name="PoolModeState">
+                    <DefaultState val="Random"/>
+                    <State name="Random">
+                        <When type="StateGroup" frame="$ancestor[@name=MutatorSelectionMainDialog]" PoolModeState="Random"/>
+                        <Action type="SetProperty" frame="FirstRandomLabelTitle" Visible="False"/>
+                    </State>
+                    <State name="BrutalPlus">
+                        <When type="StateGroup" frame="$ancestor[@name=MutatorSelectionMainDialog]" PoolModeState="BrutalPlus"/>
+                        <Action type="SetProperty" frame="FirstRandomLabelTitle" Visible="False"/>
+                    </State>
+                    <State name="Cycle">
+                        <When type="StateGroup" frame="$ancestor[@name=MutatorSelectionMainDialog]" PoolModeState="Cycle"/>
+                        <Action type="SetProperty" frame="FirstRandomLabelTitle" Visible="True"/>
+                    </State>
+                    <State name="Chaos">
+                        <When type="StateGroup" frame="$ancestor[@name=MutatorSelectionMainDialog]" PoolModeState="Chaos"/>
+                        <Action type="SetProperty" frame="FirstRandomLabelTitle" Visible="True"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+                <Anchor side="Bottom" relative="$parent/BackgroundImage" pos="Max" offset="-40"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Mid" offset="-180"/>
+                <Width val="300"/>
+                <Text val="@CMUI/MatchmakingMapVetoFrame/Accept"/>
+            </Frame>
+
+            <Frame type="Button" name="ResetButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="-150"/>
+                <Width val="300"/>
+                <Text val="@CMUI/CustomMutatorPool/Reset"/>
+            </Frame>
+
+            <Frame type="Button" name="CancelButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+                <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/BackgroundImage" pos="Mid" offset="180"/>
+                <Width val="300"/>
+                <Text val="@CMUI/MatchmakingMapVetoFrame/Cancel"/>
+                <Shortcut val="@UI/ScreenNavigationBack_Hotkey"/>
+            </Frame>
+
+            <StateGroup name="PoolModeState">
+                <DefaultState val="Random"/>
+                <State name="Random">
+                    <When type="AnimationState" PoolModeState="Random"/>
+                </State>
+                <State name="BrutalPlus">
+                    <When type="AnimationState" PoolModeState="BrutalPlus"/>
+                </State>
+                <State name="Cycle">
+                    <When type="AnimationState" PoolModeState="Cycle"/>
+                </State>
+                <State name="Chaos">
+                    <When type="AnimationState" PoolModeState="Chaos"/>
+                </State>
+            </StateGroup>
+        </Frame>
+    </Frame>
+</Desc>

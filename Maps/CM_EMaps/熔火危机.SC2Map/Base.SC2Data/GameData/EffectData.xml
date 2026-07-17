@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectCreateUnit id="FuelCellPickupUnitCU">
+        <SpawnOwner Value="Neutral"/>
+    </CEffectCreateUnit>
+    <CEffectDamage id="LavaDamageMU">
+        <Amount value="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="LavaDamageMU2">
+        <Amount value="1"/>
+    </CEffectDamage>
+</Catalog>

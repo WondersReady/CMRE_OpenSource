@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <!--
+    ========================
+    PERSONALIZATION SELECTOR ROW TEMPLATE
+    ========================
+    -->
+    <Frame type="Frame" name="PersonalizationSelectorRowTemplate">
+        <Height val="100"/>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="28"/>
+            <Style val="@Coop_CommanderMasteryInfoHeader"/>
+        </Frame>
+
+        <Frame type="Pulldown" name="Pulldown" template="StandardBattlenetTemplates/BattlenetPulldownTemplate">
+            <Anchor side="Top" relative="$parent/Label" pos="Max" offset="4"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="OptimizationRowTemplate">
+        <Height val="42"/>
+        <Visible val="False"/>
+        <CollapseLayout val="true"/>
+
+        <Frame type="CheckBox" name="CheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+            <Width val="30"/>
+            <Height val="30"/>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/CheckBox" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@Coop_CommanderMasteryInfoHeader"/>
+            <Text val=""/>
+            <AcceptsMouseTooltip val="true"/>
+            <TooltipFrame val="BattleNetTooltip"/>
+            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+        </Frame>
+    </Frame>
+
+    <!--
+    ========================================================================
+    COMMANDER PERSONALIZATION SELECTION PANEL TEMPLATE
+    ========================================================================
+    -->
+    <Frame type="Frame" name="CommanderPersonalizationSelectionPanelTemplate">
+        <Frame type="Image" name="ListBackground">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="18"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-18"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="18"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-18"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Image" name="ListHeader">
+            <Anchor side="Top" relative="$parent/ListBackground" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="0"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+            <TextureType val="NineSlice"/>
+            <Height val="40"/>
+        </Frame>
+
+        <Frame type="Label" name="HeaderTitle">
+            <Anchor side="Top" relative="$parent/ListHeader" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent/ListHeader" pos="Mid" offset="1"/>
+            <Anchor side="Left" relative="$parent/ListHeader" pos="Min" offset="15"/>
+            <Style val="@Coop_CommanderMasteryInfoHeader"/>
+            <Text val="@CMUI/CommanderCustomizationSelectionPanel/HeaderPersonalization"/>
+        </Frame>
+
+        <Frame type="Frame" name="AnnouncerSelector" template="CM_CommanderPersonalizationSelectionPanel/PersonalizationSelectorRowTemplate">
+            <Anchor side="Top" relative="$parent/ListHeader" pos="Max" offset="35"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="22"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="-22"/>
+
+            <Frame type="Label" name="Label">
+                <Text val="@CMUI/CommanderCustomizationSelectionPanel/Announcer"/>
+            </Frame>
+
+            <Frame type="Pulldown" name="Pulldown" template="StandardBattlenetTemplates/BattlenetPulldownTemplate">
+                <Handle val="CM_PersonalizationAnnouncerPulldown"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="OptimizationHeader">
+            <Anchor side="Top" relative="$parent/AnnouncerSelector" pos="Max" offset="8"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="22"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="-22"/>
+            <Height val="34"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+            <TextureType val="NineSlice"/>
+
+            <Frame type="CheckBox" name="MasterCheckBox" template="StandardSmallButtonTemplates/StandardSmallCheckBoxTemplate">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                <Width val="30"/>
+                <Height val="30"/>
+                <Handle val="CM_PersonalizationOptimizationMasterCheckBox"/>
+            </Frame>
+
+            <Frame type="Label" name="Label">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/MasterCheckBox" pos="Max" offset="10"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                <Style val="@Coop_CommanderMasteryInfoHeader"/>
+                <Text val="@CMUI/CommanderCustomizationSelectionPanel/OptimizationMaster"/>
+                <AcceptsMouseTooltip val="true"/>
+                <Tooltip val="@CMUI/CommanderCustomizationSelectionPanel/OptimizationMasterTooltip"/>
+                <TooltipFrame val="BattleNetTooltip"/>
+                <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="ScrollableFrame" name="OptimizationScrollFrame">
+            <Anchor side="Top" relative="$parent/OptimizationHeader" pos="Max" offset="6"/>
+            <Anchor side="Bottom" relative="$parent/ListBackground" pos="Max" offset="-12"/>
+            <Anchor side="Left" relative="$parent/ListBackground" pos="Min" offset="22"/>
+            <Anchor side="Right" relative="$parent/ListBackground" pos="Max" offset="-8"/>
+            <AcceptsMouse val="true"/>
+
+            <Frame type="Frame" name="ContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="-6"/>
+                <Anchor side="Bottom" relative="$this/ContentsBottom" pos="Max" offset="0"/>
+
+                <Frame type="Frame" name="Item1" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item2" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item3" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item4" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item5" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item6" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item7" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item8" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item9" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item10" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item11" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item10" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="Item12" template="CM_CommanderPersonalizationSelectionPanel/OptimizationRowTemplate">
+                    <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Frame" name="ContentsBottom">
+                    <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Width val="1"/>
+                    <Height val="1"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="ScrollBar" name="ScrollBar" template="CM_CommanderPrestigeSelectionPanel/TileListScrollBarTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="-4"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+                <StepValue val="42"/>
+                <Continuous val="true"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

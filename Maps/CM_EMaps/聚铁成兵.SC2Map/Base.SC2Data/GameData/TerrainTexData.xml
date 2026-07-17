@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrainTex id="UmojaEx3_1">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_2">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_3">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_4">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_5">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_6">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_7">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UmojaEx3_8">
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+</Catalog>

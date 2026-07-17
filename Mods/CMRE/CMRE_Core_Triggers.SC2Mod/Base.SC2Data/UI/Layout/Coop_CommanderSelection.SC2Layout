@@ -1,0 +1,2036 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="CommanderButtonHorizontalSpacing" val="10"/>
+    <Constant name="CommanderButtonVerticalSpacing" val="10"/>
+    <Constant name="UpgradeSpacing" val="5"/>
+    <Constant name="MutatorspacingVertical" val="-2"/>
+    <Constant name="MutatorspacingHorizontal" val="-2"/>
+    <Constant name="PrestigeSpacingVertical" val="8"/>
+    <Constant name="PrestigeButtonSize" val="78"/>
+    <Constant name="PrestigeIconSize" val="64"/>
+    <Constant name="Coop_BackgroundGlowAlly_Color" val="158,0,197"/>
+    <Constant name="Coop_BackgroundGlowBasic_Color" val="0,97,255"/>
+    <Constant name="Coop_BackgroundGlowMastery_Color" val="217,82,0"/>
+    <Constant name="Coop_BackgroundGlowPrestige_Color" val="217,82,0"/>
+    <Constant name="Coop_BackgroundGlowPrestigeMax_Color" val="217,82,0"/>
+    <Constant name="Coop_ReadyLockGlowAlly_Color" val="158,0,197"/>
+    <Constant name="Coop_ReadyLockGlowBasic_Color" val="0,78,238"/>
+    <Constant name="Coop_ReadyLockGlowMastery_Color" val="238,73,0"/>
+    <Constant name="Coop_ReadyLockGlowPrestige_Color" val="238,73,0"/>
+    <Constant name="Coop_ReadyLockGlowPrestigeMax_Color" val="238,73,0"/>
+    <Constant name="Coop_LevelFontDisabled_Color" val="84,100,113"/>
+    <Constant name="Coop_LevelFontBasicNormal_Color" val="93,190,235"/>
+    <Constant name="Coop_LevelFontBasicSelected_Color" val="154,216,255"/>
+    <Constant name="Coop_LevelFontMasteryNormal_Color" val="240,192,136"/>
+    <Constant name="Coop_LevelFontMasterySelected_Color" val="246,221,187"/>
+    <Constant name="Coop_LevelFontPrestigeNormal_Color" val="240,192,136"/>
+    <Constant name="Coop_LevelFontPrestigeSelected_Color" val="246,221,187"/>
+    <Constant name="Coop_LevelFontPrestigeMaxNormal_Color" val="240,192,136"/>
+    <Constant name="Coop_LevelFontPrestigeMaxSelected_Color" val="246,221,187"/>
+    <Constant name="Coop_LevelFontBasicNormalAlly_Color" val="235,194,241"/>
+
+    <!--
+        分隔符
+    -->
+    <Frame type="Frame" name="CompositionInfoUpgrageIconTemplate">
+        <Width val="45"/>
+        <Height val="45"/>
+
+        <Frame type="Image" name="bg">
+            <Anchor relative="$parent"/>
+            <Alpha val="255"/>
+            <Color val="55,55,55"/>
+            <Texture val="Assets/Textures/SC2_UI_Glues_AlliedCommanders_UpgradeBackground.dds"/>
+
+            <Animation name="Lock">
+                <Event event="Locked" action="Reset,Play" frame="$parent"/>
+                <Event event="Unlocked" action="DirectionReverse,Play" frame="$parent"/>
+
+                <Controller name="Fade_0" type="Fade" end="Pause" frame="$this">
+                    <Key type="CurveReal" time="0" inout="Linear,Auto" value="255"/>
+                    <Key type="CurveReal" time="0.010" inout="Linear,Auto" value="100"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Image" name="Icon">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/blank.dds"/>
+
+            <Animation name="Unlock">
+                <Event event="Locked" action="Reset,Play" frame="$parent"/>
+                <Event event="Unlocked" action="DirectionReverse,Play" frame="$parent"/>
+
+                <Controller name="Fade_0" type="Fade" end="Pause" frame="$this">
+                    <Key type="CurveReal" time="0" inout="Linear,Auto" value="255"/>
+                    <Key type="CurveReal" time="0.010" inout="Linear,Auto" value="0"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Image" name="locked">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="25"/>
+            <Height val="25"/>
+            <Alpha val="0"/>
+            <Texture val="Assets/Textures/SC2_UI_Glues_AlliedCommanders_Lock.dds"/>
+
+            <Animation name="Lock">
+                <Event event="Locked" action="Reset,Play" frame="$parent"/>
+                <Event event="Unlocked" action="DirectionReverse,Play" frame="$parent"/>
+
+                <Controller name="Fade_0" type="Fade" end="Pause" frame="$this">
+                    <Key type="CurveReal" time="0" inout="Linear,Auto" value="0"/>
+                    <Key type="CurveReal" time="0.010" inout="Linear,Auto" value="50"/>
+                </Controller>
+            </Animation>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="CommanderTalentTileListItemTemplate">
+        <Width val="78"/>
+        <Height val="78"/>
+        <AcceptsMouseTooltip val="true"/>
+
+        <Frame type="Image" name="BackgroundImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-3"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="3"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-3"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Alpha val="179"/>
+            <Color val="0,0,0"/>
+        </Frame>
+
+        <!-- <DesaturationColor val="2a3b50"/> -->
+        <Frame type="Image" name="Icon">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="1"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-1"/>
+            <ColorAdjustMode val="Colorize"/>
+            <AdjustmentColor val="54,107,181"/>
+            <LightAdjustColor val="129,156,203"/>
+        </Frame>
+
+        <Frame type="Image" name="LockedOverlay">
+            <Anchor relative="$parent/Icon"/>
+            <Visible val="false"/>
+            <LayerCount val="2"/>
+            <AlphaLayer val="true"/>
+            <Texture val="{$parent/Icon/@Texture}"/>
+            <Texture val="Assets/Textures/white.dds" Layer="1"/>
+            <LayerAlpha val="153" Layer="1"/>
+            <LayerColor val="0,0,0" Layer="1"/>
+        </Frame>
+
+        <Frame type="Image" name="LockedGlow">
+            <Anchor relative="$parent/BackgroundImage"/>
+            <Texture val="@UI/SC2_UI_Collection_VoicePack_CharacterFrame_GenericEffect_RadialGradient_256x256"/>
+            <TextureCoords top="0.55" left="-0.5" bottom="1.5" right="0.45"/>
+            <Alpha val="128"/>
+            <Color val="54,94,131"/>
+            <Visible val="{$parent/LockedOverlay/@Visible}"/>
+        </Frame>
+
+        <!-- BORDER OUTER -->
+        <Frame type="Image" name="BorderOuter">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer"/>
+            <TextureType val="NineSlice"/>
+            <Color val="0,0,0"/>
+        </Frame>
+
+        <!-- BORDER INNER -->
+        <Frame type="Image" name="BorderInner">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner"/>
+            <TextureType val="NineSlice"/>
+            <Color val="37,107,169"/>
+        </Frame>
+
+        <Frame type="Image" name="LevelBackground">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="1"/>
+            <Width val="25"/>
+            <Height val="22"/>
+            <Texture val="@UI/SC2_UI_Coop_AbilityFrame_LevelBG"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <Frame type="Label" name="LevelLabel">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+            <Anchor side="Left" relative="$parent/LevelBackground" pos="Mid" offset="1"/>
+            <Anchor side="Right" relative="$parent/LevelBackground" pos="Mid" offset="1"/>
+            <Style val="Coop_CommanderTalentLevel_Earned"/>
+
+            <Frame type="MathFrame" name="ConvertToInt">
+                <Anchor relative="$parent"/>
+                <A val="{$parent/@Text}"/>
+                <B val="0"/>
+                <Operator val="Add"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="LockIcon">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Texture val="@UI/SC2_UI_Coop_LockIcon_Upgrade"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="{$parent/LockedOverlay/@Visible}"/>
+        </Frame>
+
+        <StateGroup name="LevelState">
+            <DefaultState val="Below10"/>
+            <State name="AtOrAbove10">
+                <When type="Property" frame="LevelLabel/ConvertToInt" operator="GreaterThanOrEqual" ResultInt="10" Index="0"/>
+                <Action type="SetProperty" frame="LevelBackground" Width="36"/>
+            </State>
+            <State name="Below10">
+                <Action type="SetProperty" frame="LevelBackground" Width="25"/>
+            </State>
+        </StateGroup>
+
+        <StateGroup name="EarnedState">
+            <DefaultState val="Unearned"/>
+            <State name="Earned">
+                <When type="AnimationState" EarnedState="Earned"/>
+                <Action type="SetProperty" frame="Icon" Desaturated="False"/>
+                <Action type="SetProperty" frame="Icon" ColorAdjustMode="None"/>
+                <Action type="SetProperty" frame="BorderInner" Color="37,107,169"/>
+                <Action type="SetProperty" frame="LockedOverlay" Visible="False"/>
+                <Action type="SetProperty" frame="LevelLabel" Style="Coop_CommanderTalentLevel_Earned"/>
+                <Action type="SetProperty" frame="LevelBackground" Texture="@UI/SC2_UI_Coop_AbilityFrame_LevelBG"/>
+            </State>
+            <State name="Unearned">
+                <Action type="SetProperty" frame="Icon" Desaturated="True"/>
+                <Action type="SetProperty" frame="Icon" ColorAdjustMode="Colorize"/>
+                <Action type="SetProperty" frame="BorderInner" Color="29,57,86"/>
+                <Action type="SetProperty" frame="LockedOverlay" Visible="True"/>
+                <Action type="SetProperty" frame="LevelLabel" Style="Coop_CommanderTalentLevel_Unearned"/>
+                <Action type="SetProperty" frame="LevelBackground" Texture="@UI/SC2_UI_Coop_AbilityFrame_LevelBG_Disabled"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <!-- Note: There are animation events for the different talent types: TalentTypePassive, TalentTypeAbility, TalentTypeBundle, TalentTypeUnit -->
+    <Frame type="Frame" name="MutatorShowFrameTemplate">
+        <Width val="50"/>
+        <Height val="51"/>
+        <CollapseLayout val="false"/>
+        <Visible val="false"/>
+        <AcceptsMouse val="true"/>
+
+        <Frame type="Image" name="MutatorIcon">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="6"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-6"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="6"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-6"/>
+        </Frame>
+
+        <Frame type="Image" name="BorderImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>
+            <TextureType val="Normal"/>
+        </Frame>
+
+        <StateGroup name="SourceState">
+            <DefaultState val="Official"/>
+            <State name="Official">
+                <Action type="SetProperty" frame="BorderImage" Texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+            </State>
+            <State name="Plus">
+                <When type="AnimationState" SourceState="Plus"/>
+                <Action type="SetProperty" frame="BorderImage" Texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+            </State>
+            <State name="ThirdParty">
+                <When type="AnimationState" SourceState="ThirdParty"/>
+                <Action type="SetProperty" frame="BorderImage" Texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="Button" name="MasteryButtonsTemplate">
+        <Width val="230"/>
+        <Height val="50"/>
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <Text val="@UI/Blank"/>
+
+        <!--Label val="Label"/-->
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <StateCount val="2"/>
+            <Texture val="Assets\Textures\protoss-border-button-game.dds"/>
+            <Color val="255,255,255"/>
+            <Alpha val="255"/>
+            <TextureType val="Border"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <StateCount val="2"/>
+            <Texture val="Assets\Textures\protoss-border-button-game.dds"/>
+            <Color val="255,255,255"/>
+            <Alpha val="255"/>
+            <TextureType val="Border"/>
+        </Frame>
+
+        <Frame type="Label" name="LabelSelf">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="ButtonFont"/>
+            <AcceptsMouse val="false"/>
+            <DisabledAlpha val="40"/>
+            <Text val=""/>
+            <Color val="255,255,255"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Button" name="FeatureButtonsTemplate">
+        <Width val="230"/>
+        <Height val="50"/>
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <Text val="@UI/Blank"/>
+
+        <!--Label val="Label"/-->
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <StateCount val="2"/>
+            <Texture val="Assets\Textures\protoss-border-button-game.dds"/>
+            <Color val="255,255,255"/>
+            <Alpha val="255"/>
+            <TextureType val="Border"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <StateCount val="2"/>
+            <Texture val="Assets\Textures\protoss-border-button-game.dds"/>
+            <Color val="255,255,255"/>
+            <Alpha val="255"/>
+            <TextureType val="Border"/>
+        </Frame>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="ButtonFont"/>
+            <DisabledAlpha val="40"/>
+            <Text val=""/>
+            <Color val="255,255,255"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Button" name="PrestigeButtonTemplate">
+        <Width val="#PrestigeButtonSize"/>
+        <Height val="#PrestigeButtonSize"/>
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor side="Top" relative="$parent/Icon" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/Icon" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/Icon" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/Icon" pos="Max" offset="0"/>
+            <Texture val="Assets\Textures\white.dds"/>
+            <Color val="17,17,17"/>
+            <DesaturateOnDisable val="false"/>
+            <Alpha val="255"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent/NormalImage"/>
+            <Texture val="Assets\Textures\white.dds"/>
+            <Color val="85,85,85"/>
+            <DesaturateOnDisable val="false"/>
+            <Alpha val="255"/>
+        </Frame>
+
+        <Frame type="Image" name="Icon">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="#PrestigeIconSize"/>
+            <Height val="#PrestigeIconSize"/>
+            <Alpha val="255"/>
+            <DesaturateOnDisable val="false"/>
+            <DisabledAlpha val="50"/>
+        </Frame>
+
+        <Frame type="Label" name="Level">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@Coop_CommanderUpgradeCustomizationLevel"/>
+            <Text val="0"/>
+        </Frame>
+
+        <StateGroup name="ToggleState">
+            <DefaultState val="NotToggled"/>
+            <State name="Toggled">
+                <When type="AnimationState" ToggleState="Toggled"/>
+                <Action type="SetProperty" frame="NormalImage" Color="333333"/>
+                <Action type="SetProperty" frame="HoverImage" Color="777777"/>
+            </State>
+            <State name="NotToggled">
+                <Action type="SetProperty" frame="NormalImage" Color="111111"/>
+                <Action type="SetProperty" frame="HoverImage" Color="555555"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="Frame" name="CompositionInfoTemplate">
+        <Width val="1000"/>
+        <Height val="450"/>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="55"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="60"/>
+            <Text val="Selection name here"/>
+            <Style val="Coop_CommanderSelectNameSelf"/>
+        </Frame>
+
+        <Frame type="Label" name="PrestigeLabel">
+            <Anchor side="Bottom" relative="$parent/NameLabel" pos="Max" offset="-14"/>
+            <Anchor side="Left" relative="$parent/NameLabel" pos="Max" offset="10"/>
+            <Height val="40"/>
+            <Width val="1000"/>
+            <Style val="AF_PrestigeName"/>
+            <Text val=""/>
+            <Color val="255,255,255"/>
+        </Frame>
+
+        <Frame type="Label" name="AccountLabel">
+            <Anchor side="Top" relative="$parent/NameLabel" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="3"/>
+            <Width val="300"/>
+            <Height val="35"/>
+            <Text val="Your Account"/>
+            <Style val="Coop_CommanderSelectNameSelfSmall"/>
+        </Frame>
+
+        <Frame type="Frame" name="Level">
+            <Width val="175"/>
+            <Height val="75"/>
+            <Anchor side="Top" relative="$parent/NameLabel" pos="Max" offset="30"/>
+            <Anchor side="Left" relative="$parent/NameLabel" pos="Min" offset="0"/>
+
+            <Frame type="Image" name="LevelBG">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <ScaleWidthToTexture val="true"/>
+                <Texture val="Assets/Textures/SC2_UI_Glues_AlliedCommanders_UpgradeBackground.dds"/>
+                <Alpha val="0"/>
+                <Color val="34,34,34"/>
+            </Frame>
+
+            <Frame type="Label" name="LevelLabel">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="3"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="3"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="-1"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="-1"/>
+                <Style val="Coop_CommanderSelectCompositionLevel"/>
+                <Text val="0"/>
+            </Frame>
+
+            <Frame type="Label" name="MasteryLevelLabel">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Width val="50"/>
+                <Height val="35"/>
+                <Style val="Coop_CommanderSelectMasteryLevelWhite"/>
+                <Text val="0"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="Difficulty">
+            <Anchor side="Top" relative="$parent/Level" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/Level" pos="Max" offset="0"/>
+            <Width val="100"/>
+            <Height val="70"/>
+
+            <Frame type="Label" name="Heading">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Label" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/Label" pos="Max" offset="0"/>
+                <Height val="20"/>
+                <Text val="@UI/Difficulty_Heading"/>
+                <Style val="Coop_CommanderSelectDifficultyHeading"/>
+            </Frame>
+
+            <Frame type="Label" name="Label">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Style val="Coop_CommanderSelectDifficultyRight"/>
+                <Text val="@UI/Difficulty_Heading"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Button" name="LevelDownButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+            <Anchor side="Bottom" relative="$parent/Difficulty" pos="Max" offset="-4"/>
+            <Anchor side="Left" relative="$parent/Difficulty" pos="Max" offset="10"/>
+            <Width val="36"/>
+            <Height val="36"/>
+
+            <Frame type="Image" name="Icon">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Texture val="@UI/SC2_UI_Coop_MasteryIcons_Decrement"/>
+                <DesaturateOnDisable val="false"/>
+
+                <Animation name="Disabled">
+                    <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                    <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                    <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                        <Key type="Image" time="0" image="@UI/SC2_UI_Coop_MasteryIcons_Decrement_Disabled"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+        </Frame>
+
+        <Frame type="Button" name="LevelUpButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+            <Anchor side="Top" relative="$parent/LevelDownButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/LevelDownButton" pos="Max" offset="5"/>
+            <Width val="36"/>
+            <Height val="36"/>
+
+            <Frame type="Image" name="Icon">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Texture val="@UI/SC2_UI_Coop_MasteryIcons_Increment"/>
+                <DesaturateOnDisable val="false"/>
+
+                <Animation name="Disabled">
+                    <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                    <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                    <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                        <Key type="Image" time="0" image="@UI/SC2_UI_Coop_MasteryIcons_Increment_Disabled"/>
+                    </Controller>
+                </Animation>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="CompositionInfoTemplateAlly" template="Coop_CommanderSelection/CompositionInfoTemplate">
+        <Frame type="Button" name="MasteryButtonAlly" template="Coop_CommanderSelection/MasteryButtonsTemplate">
+            <Anchor side="Top" relative="$parent/Level" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/Level" pos="Min" offset="5"/>
+
+            <Frame type="Label" name="LabelSelf">
+                <Text val="@UI/Coop_CommanderSelection_MasteryButtonAlly_Name"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Button" name="CommandButton" template="Coop_CommanderSelection/MasteryButtonsTemplate">
+            <Anchor side="Top" relative="$parent/MasteryButtonAlly" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/MasteryButtonAlly" pos="Min" offset="0"/>
+
+            <Frame type="Label" name="LabelSelf">
+                <Text val="@UI/Coop_CommanderSelection_CommandButton_Name"/>
+            </Frame>
+        </Frame>
+
+    </Frame>
+
+    <Frame type="Frame" name="CompositionInfoTemplateSelf" template="Coop_CommanderSelection/CompositionInfoTemplate">
+        <Frame type="Button" name="MasteryButtonSelf" template="Coop_CommanderSelection/MasteryButtonsTemplate">
+            <Anchor side="Top" relative="$parent/Level" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/Level" pos="Min" offset="5"/>
+
+            <Frame type="Label" name="LabelSelf">
+                <Text val="@UI/Coop_CommanderSelection_MasteryButton_Name"/>
+            </Frame>
+        </Frame>
+        <Frame type="Button" name="FeatureButton" template="Coop_CommanderSelection/FeatureButtonsTemplate">
+            <Anchor side="Top" relative="$parent/MasteryButtonSelf" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/MasteryButtonSelf" pos="Min" offset="0"/>
+        </Frame>
+
+    </Frame>
+
+    <!--
+        分隔符
+    -->
+    <!-- Commander Button Background Glow Pulse Template -->
+    <Animation name="BackgroundGlowPulseTemplate">
+        <Event event="OnShown" action="Reset,Play" frame="$parent"/>
+
+        <Controller name="Fade_0" type="Fade" end="Loop" frame="$this">
+            <Key type="CurveReal" time="0" inout="Slow" value="100"/>
+            <Key type="CurveReal" time="1" inout="Slow" value="255"/>
+            <Key type="CurveReal" time="2" inout="Slow" value="100"/>
+        </Controller>
+    </Animation>
+
+    <!-- Commander Button Background Glow Template -->
+    <Frame type="Image" name="ItemBackgroundGlowTemplate">
+        <Texture val="@UI/SC2_UI_Coop_SelectTile_BackgroundGlow"/>
+        <DesaturateOnDisable val="false"/>
+        <Visible val="false"/>
+
+        <Animation name="Pulse" template="Coop_CommanderSelection/BackgroundGlowPulseTemplate">
+        </Animation>
+    </Frame>
+
+    <!-- Ready Lock Templates -->
+    <!-- ReadyLockTop-->
+    <Frame type="Image" name="ReadyLockTopTemplate">
+        <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Min" offset="-12"/>
+        <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="5"/>
+        <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="-5"/>
+        <Height val="3"/>
+        <Texture val="@UI/SC2_UI_Coop_SelectTile_ReadyLock_Basic"/>
+        <TextureType val="EndCap"/>
+        <DesaturateOnDisable val="false"/>
+        <Alpha val="0"/>
+        <Visible val="false"/>
+
+        <Animation name="Show">
+            <Event event="OnShown" action="Reset,Play" frame="$this"/>
+            <Event event="OnHidden" action="Reset,Stop" frame="$this"/>
+
+            <Controller name="Anchor_0" type="Anchor" end="Pause" side="Bottom" relative="true" unclip="false" frame="$this">
+                <Key type="CurveReal" time="0" inout="Linear,Slow" value="0"/>
+                <Key type="CurveReal" time="0.15" inout="Fast,Linear" value="10"/>
+            </Controller>
+            <Controller name="Fade_0" type="Fade" end="Pause" frame="$this">
+                <Key type="CurveReal" time="0" inout="Linear,Fast" value="0"/>
+                <Key type="CurveReal" time="0.15" inout="Slow,Linear" value="255"/>
+            </Controller>
+        </Animation>
+    </Frame>
+
+    <!-- ReadyLockBottom -->
+    <Frame type="Image" name="ReadyLockBottomTemplate">
+        <Anchor side="Top" relative="$parent/AnchorFrame" pos="Max" offset="12"/>
+        <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="5"/>
+        <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="-5"/>
+        <Height val="3"/>
+        <TextureType val="EndCap"/>
+        <Rotation val="180"/>
+        <DesaturateOnDisable val="false"/>
+        <Alpha val="0"/>
+        <Visible val="false"/>
+
+        <Animation name="Show">
+            <Event event="OnShown" action="Reset,Play" frame="$this"/>
+            <Event event="OnHidden" action="Reset,Stop" frame="$this"/>
+
+            <Controller name="Anchor_0" type="Anchor" end="Pause" side="Top" relative="true" unclip="false" frame="$this">
+                <Key type="CurveReal" time="0" inout="Linear,Slow" value="0"/>
+                <Key type="CurveReal" time="0.15" inout="Fast,Linear" value="-10"/>
+            </Controller>
+            <Controller name="Fade_0" type="Fade" end="Pause" frame="$this">
+                <Key type="CurveReal" time="0" inout="Linear,Fast" value="0"/>
+                <Key type="CurveReal" time="0.15" inout="Slow,Linear" value="255"/>
+            </Controller>
+        </Animation>
+    </Frame>
+
+    <!-- ReadyLockGlowTop -->
+    <Frame type="Image" name="ReadyLockGlowTopTemplate" template="Coop_CommanderSelection/ReadyLockTopTemplate">
+        <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Min" offset="-3"/>
+        <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="-3"/>
+        <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="3"/>
+        <Height val="21"/>
+        <Texture val="@UI/SC2_UI_Coop_SelectTile_ReadyLock_BackgroundGlow"/>
+    </Frame>
+
+    <!-- ReadyLockGlowBottom -->
+    <Frame type="Image" name="ReadyLockGlowBottomTemplate" template="Coop_CommanderSelection/ReadyLockBottomTemplate">
+        <Anchor side="Top" relative="$parent/AnchorFrame" pos="Max" offset="3"/>
+        <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="-3"/>
+        <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="3"/>
+        <Height val="21"/>
+        <Texture val="@UI/SC2_UI_Coop_SelectTile_ReadyLock_BackgroundGlow"/>
+    </Frame>
+
+    <!--
+    Commander Button Template
+    -->
+    <Frame type="Button" name="CommanderTileListItemTemplate">
+        <Toggleable val="true"/>
+        <Toggled val="true"/>
+        <ClickSound val="@UI_ActionButtonSelect"/>
+        <Width val="174"/>
+        <Height val="186"/>
+        <DisabledAlpha val="255"/>
+        <TooltipAnchorPosition val="BottomToTop | HCenterToCenter"/>
+
+        <Animation name="HoverSound">
+            <Event event="OnMouseEnter" action="Reset,Play" frame="$this"/>
+            <Event event="OnMouseExit" action="Reset,Stop" frame="$this"/>
+
+            <Controller name="Sound_0" type="Sound" end="Stop" frame="$this">
+                <Key type="Sound" time="0" sound="@UI_HoverTick" direction="Both"/>
+            </Controller>
+        </Animation>
+
+        <!-- 
+        
+        Core State Events:
+        
+        SelectedState:
+        None - Nobody is currently selecting this item.
+        Self - The user is currently selecting this item.
+        Ally - The user's ally is currently selecting this item.
+        Both - Both the user and their ally are currently selecting this item.
+        
+        ReadyState:
+        Ready - The user is locked into this commander.
+        AllyReady - The user's ally is locked into this commander.
+        NotReady - Neither the user nor their ally is locked into this commander.
+        
+        LockState:
+        Locked - This commander is not owned by the user.
+        Unlocked - This commander is owned by the user.
+        
+        ColorBlind - The user currently has the color blind option turned on
+        NotColorBlind - The user does not currently have the color blind option turned on
+        
+        -->
+        <Frame type="Image" name="BackgroundGlow">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Visible val="false"/>
+            <Enabled val="{$parent/@Toggled}"/>
+            <Color val="{$this/SelfColorFrame/@Color}"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_BackgroundGlow"/>
+
+            <Frame type="Frame" name="SelfColorFrame">
+                <Anchor relative="$parent"/>
+                <Visible val="false"/>
+                <Color val="#Coop_BackgroundGlowBasic_Color"/>
+            </Frame>
+        </Frame>
+
+        <!-- 
+        
+        AnchorFrame
+        
+        This frame is used to create an established placements and width/height for all of the border and portrait images on the button
+        
+        -->
+        <Frame type="Frame" name="AnchorFrame">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="75"/>
+            <Height val="100"/>
+        </Frame>
+
+        <!-- HitTestFrame -->
+        <Frame type="Frame" name="HitTestFrame">
+            <Anchor relative="$parent/AnchorFrame"/>
+            <TooltipAnchorPosition val="BottomToTop | HCenterToCenter"/>
+        </Frame>
+
+        <!-- Portrait -->
+        <Frame type="Portrait" name="Portrait">
+            <Anchor side="Top" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Width val="70"/>
+            <Height val="95"/>
+            <Alpha val="255"/>
+            <RenderType val="LDR"/>
+            <UseTransition val="false"/>
+            <BorderImage val="BorderImage"/>
+            <RenderPriority val="512"/>
+            <AcceptsMouse val="false"/>
+
+            <!-- <BackgroundImage val="BackgroundImage"/> -->
+            <Frame type="Image" name="BorderImage">
+                <Visible val="false"/>
+            </Frame>
+
+            <Frame type="Image" name="BackgroundImage">
+                <Visible val="false"/>
+            </Frame>
+
+            <StateGroup name="PortraitState">
+                <DefaultState val="Enabled"/>
+                <State name="Disabled">
+                    <When type="StateGroup" frame="$parent" DisabilityState="Disabled"/>
+                    <Action type="SetProperty" LayerAlpha="128" index="1"/>
+                    <Action type="SetProperty" ColorAdjustMode="Colorize"/>
+                </State>
+                <State name="Enabled">
+                    <Action type="SetProperty" LayerAlpha="255" index="1"/>
+                    <Action type="SetProperty" ColorAdjustMode="None"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Image" name="PortraitImage">
+            <Anchor side="Top" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            <Width val="70"/>
+            <Height val="95"/>
+            <Texture val="Assets\Textures\ui_commanderportrait_random.dds"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <StateGroup name="RandomState">
+            <DefaultState val="NotRandom"/>
+            <State name="NotRandom">
+                <When type="AnimationState" RandomState="NotRandom"/>
+                <Action type="SetProperty" frame="$this/Portrait" Visible="True"/>
+                <Action type="SetProperty" frame="$this/PortraitImage" Visible="False"/>
+            </State>
+            <State name="Random">
+                <When type="AnimationState" RandomState="Random"/>
+                <Action type="SetProperty" frame="$this/Portrait" Visible="False"/>
+                <Action type="SetProperty" frame="$this/PortraitImage" Visible="True"/>
+            </State>
+        </StateGroup>
+
+        <!-- ReadyLockTopGlowSelf -->
+        <Frame type="Image" name="ReadyLockTopGlow" template="Coop_CommanderSelection/ReadyLockGlowTopTemplate">
+        </Frame>
+
+        <!-- ReadyLockBottomGlowSelf -->
+        <Frame type="Image" name="ReadyLockBottomGlow" template="Coop_CommanderSelection/ReadyLockGlowBottomTemplate">
+            <Color val="{$parent/ReadyLockTopGlow/@Color}"/>
+        </Frame>
+
+        <!-- Border - Normal -->
+        <Frame type="Image" name="NormalImage">
+            <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="-9"/>
+            <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="9"/>
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="-9"/>
+            <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="9"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="false"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_Basic_Normal"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <!-- Border - Hover -->
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent/NormalImage"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="false"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_Basic_Hover"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <!-- Border - Selected Self -->
+        <Frame type="Image" name="SelectedImage">
+            <Anchor relative="$parent/NormalImage"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="{$parent/@Toggled}"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_Basic_Selected"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+
+        <!-- Border - Selected Pulse Self -->
+        <Frame type="Image" name="SelectedPulseImage">
+            <Anchor relative="$parent/NormalImage"/>
+            <DesaturateOnDisable val="false"/>
+            <Alpha val="0"/>
+            <Visible val="{$parent/@Toggled}"/>
+            <Texture val="{$parent/SelectedImage/@Texture}"/>
+            <TextureType val="NineSlice"/>
+
+            <Animation name="Pulse" template="Coop_CommanderSelection/BackgroundGlowPulseTemplate">
+            </Animation>
+        </Frame>
+
+        <!-- LockIcon -->
+        <Frame type="Image" name="LockIcon">
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="-1"/>
+            <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_LockIcon"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="false"/>
+            <Alpha val="255"/>
+        </Frame>
+
+        <!-- UnlockIcon -->
+        <Frame type="Image" name="UnlockIcon">
+            <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="4"/>
+            <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_UnLockIcon"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="false"/>
+            <Alpha val="255"/>
+        </Frame>
+
+        <!-- AllyIcon -->
+        <Frame type="Image" name="AllyIcon">
+            <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="-2"/>
+            <Anchor side="Right" relative="$parent/AnchorFrame" pos="Max" offset="2"/>
+            <Texture val="@UI/SC2_UI_Coop_SelectTile_AllyIcon"/>
+            <DesaturateOnDisable val="false"/>
+            <Visible val="false"/>
+
+            <StateGroup name="AllyIconState">
+                <DefaultState val="Hidden"/>
+                <State name="ShownAlly">
+                    <When type="StateGroup" frame="$parent" SelectionState="Ally"/>
+                    <Action type="SetProperty" Visible="true"/>
+                </State>
+                <State name="ShownBoth">
+                    <When type="AnimationState" frame="$parent" SelectionState="Both"/>
+                    <Action type="SetProperty" Visible="true"/>
+                </State>
+                <State name="Hidden">
+                    <Action type="SetProperty" Visible="false"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <!-- ReadyLockTop -->
+        <Frame type="Image" name="ReadyLockTop" template="Coop_CommanderSelection/ReadyLockTopTemplate">
+        </Frame>
+
+        <!-- ReadyLockBottom -->
+        <Frame type="Image" name="ReadyLockBottom" template="Coop_CommanderSelection/ReadyLockBottomTemplate">
+            <Texture val="{$parent/ReadyLockTop/@Texture}"/>
+        </Frame>
+
+        <!-- 
+        ========================================================================================
+        
+        STATEGROUPS
+        
+        ========================================================================================
+        -->
+
+        <!-- Basic/Mastery/Prestige/PrestigeMax -->
+        <StateGroup name="LevelState">
+            <DefaultState val="Basic"/>
+            <State name="PrestigeMax">
+                <When type="AnimationState" frame="$this" LevelState="PrestigeMax"/>
+            </State>
+            <State name="Prestige">
+                <When type="AnimationState" frame="$this" LevelState="Prestige"/>
+            </State>
+            <State name="Mastery">
+                <When type="AnimationState" frame="$this" LevelState="Mastery"/>
+            </State>
+            <State name="Basic">
+                <When type="AnimationState" frame="$this" LevelState="Basic"/>
+            </State>
+        </StateGroup>
+
+        <!-- This state group combines Self and Both selection animations into one, which is helpful for shortening other stategroups -->
+        <StateGroup name="SelectionState">
+            <DefaultState val="Self"/>
+            <State name="None">
+                <When type="AnimationState" frame="$this" SelectionState="None"/>
+            </State>
+            <State name="Ally">
+                <When type="AnimationState" frame="$this" SelectionState="Ally"/>
+            </State>
+            <State name="Self">
+            </State>
+        </StateGroup>
+
+        <!-- Lock State -->
+        <StateGroup name="LockState">
+            <DefaultState val="Normal"/>
+            <State name="Normal">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+            </State>
+            <State name="Locked">
+                <When type="AnimationState" frame="$this" LockState="Locked"/>
+            </State>
+            <State name="Dev">
+                <When type="AnimationState" frame="$this" LockState="Dev"/>
+            </State>
+        </StateGroup>
+
+        <!-- Whether or not the item should be displayed as disabled -->
+        <StateGroup name="DisabilityState">
+            <DefaultState val="Enabled"/>
+            <State name="Disabled">
+                <When type="AnimationState" frame="$this" SelectionState="None"/>
+                <When type="Property" frame="$this" Enabled="False" Index="0"/>
+            </State>
+            <State name="Enabled"/>
+        </StateGroup>
+
+        <!-- Controls the background/pulse glows during selection -->
+        <StateGroup name="GlowState">
+            <DefaultState val="Basic"/>
+            
+            <State name="PrestigeMax">
+                <When type="StateGroup" LevelState="PrestigeMax"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <When type="AnimationState" ReadyState="NotReady"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Color="#Coop_BackgroundGlowPrestigeMax_Color"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Enabled="true"/>
+                <Action type="SetProperty" frame="SelectedPulseImage" Visible="true"/>
+            </State>
+            
+            <State name="Prestige">
+                <When type="StateGroup" LevelState="Prestige"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <When type="AnimationState" ReadyState="NotReady"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Color="#Coop_BackgroundGlowPrestige_Color"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Enabled="true"/>
+                <Action type="SetProperty" frame="SelectedPulseImage" Visible="true"/>
+            </State>
+            
+            <State name="Mastery">
+                <When type="StateGroup" LevelState="Mastery"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <When type="AnimationState" ReadyState="NotReady"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Color="#Coop_BackgroundGlowMastery_Color"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Enabled="true"/>
+                <Action type="SetProperty" frame="SelectedPulseImage" Visible="true"/>
+            </State>
+            
+            <State name="Basic">
+                <When type="StateGroup" LevelState="Basic"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <When type="AnimationState" ReadyState="NotReady"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Color="#Coop_BackgroundGlowBasic_Color"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Enabled="true"/>
+                <Action type="SetProperty" frame="SelectedPulseImage" Visible="true"/>
+            </State>
+            
+            <State name="Ally">
+                <When type="StateGroup" SelectionState="Ally"/>
+                <When type="AnimationState" ReadyState="NotReady"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Color="#Coop_BackgroundGlowAlly_Color"/>
+                <Action type="SetProperty" frame="BackgroundGlow" Enabled="true"/>
+                <Action type="SetProperty" frame="SelectedPulseImage" Visible="true"/>
+            </State>
+            
+            <State name="None">
+                <Action type="SetProperty" frame="BackgroundGlow" Enabled="false"/>
+                <Action type="SetProperty" frame="SelectedPulseImage" Visible="false"/>
+            </State>
+        </StateGroup>
+
+
+        <!-- Controls the normal/hover frames during selection -->
+        <StateGroup name="FrameState">
+            <DefaultState val="Basic"/>
+
+            <State name="DevUnlocked_Disabled">
+                <When type="AnimationState" frame="$this" LockState="Dev"/>
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Normal"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Hover"/>
+            </State>
+            
+            <State name="DevUnlocked">
+                <When type="AnimationState" frame="$this" LockState="Dev"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Normal"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Hover"/>
+            </State>
+
+            <State name="Locked_Disabled">
+                <When type="AnimationState" frame="$this" LockState="Locked"/>
+                <When type="StateGroup" DisabilityState="Disabled"/>
+            </State>
+            
+            <State name="Locked">
+                <When type="AnimationState" frame="$this" LockState="Locked"/>
+            </State>
+            
+            <State name="PrestigeMax_Disabled">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="PrestigeMax"/>
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_MasteryMax_Disabled"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_MasteryMax_Disabled"/>
+            </State>
+            
+            <State name="PrestigeMax">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="PrestigeMax"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_MasteryMax_Normal"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_MasteryMax_Hover"/>
+            </State>
+            
+            <State name="Prestige_Disabled">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="Prestige"/>
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Disabled"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Disabled"/>
+            </State>
+            
+            <State name="Prestige">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="Prestige"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Normal"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Hover"/>
+            </State>
+            
+            <State name="Mastery_Disabled">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="Mastery"/>
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Disabled"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Disabled"/>
+            </State>
+            
+            <State name="Mastery">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="Mastery"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Normal"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Hover"/>
+            </State>
+            
+            <State name="Basic_Disabled">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="Basic"/>
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Disabled"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Disabled"/>
+            </State>
+            
+            <State name="Basic">
+                <When type="AnimationState" frame="$this" LockState="Normal"/>
+                <When type="StateGroup" LevelState="Basic"/>
+                <Action type="SetProperty" frame="NormalImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Normal"/>
+                <Action type="SetProperty" frame="HoverImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Hover"/>
+            </State>
+        </StateGroup>
+
+        <!-- Controls the selected frames during selection -->
+        <StateGroup name="SelectedFrameState">
+            <DefaultState val="NotSelected"/>
+            <State name="PrestigeMax">
+                <When type="StateGroup" LevelState="PrestigeMax"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_MasteryMax_Selected"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="Prestige">
+                <When type="StateGroup" LevelState="Prestige"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Selected"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="Mastery">
+                <When type="StateGroup" LevelState="Mastery"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Selected"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="Basic">
+                <When type="StateGroup" LevelState="Basic"/>
+                <When type="StateGroup" SelectionState="Self"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Selected"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="PrestigeMax_Ally">
+                <When type="StateGroup" LevelState="PrestigeMax"/>
+                <When type="StateGroup" SelectionState="Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_MasteryMax_Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="Prestige_Ally">
+                <When type="StateGroup" LevelState="Prestige"/>
+                <When type="StateGroup" SelectionState="Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="Mastery_Ally">
+                <When type="StateGroup" LevelState="Mastery"/>
+                <When type="StateGroup" SelectionState="Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_Mastery_Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="Basic_Ally">
+                <When type="StateGroup" LevelState="Basic"/>
+                <When type="StateGroup" SelectionState="Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Texture="@UI/SC2_UI_Coop_SelectTile_Basic_Ally"/>
+                <Action type="SetProperty" frame="SelectedImage" Visible="true"/>
+            </State>
+            <State name="NotSelected">
+                <Action type="SetProperty" frame="SelectedImage" Visible="false"/>
+            </State>
+        </StateGroup>
+
+        <!-- Controls the ready locks during selection -->
+        <StateGroup name="ReadyLockState">
+            <DefaultState val="NotReady"/>
+            <State name="PrestigeMax">
+                <When type="StateGroup" LevelState="PrestigeMax"/>
+                <When type="AnimationState" ReadyState="Ready"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Texture="@UI/SC2_UI_Coop_SelectTile_ReadyLock_Mastery"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Visible="true"/>
+                <Action type="SetProperty" frame="ReadyLockTopGlow" Color="#Coop_ReadyLockGlowMastery_Color"/>
+            </State>
+            <State name="Prestige">
+                <When type="StateGroup" LevelState="Prestige"/>
+                <When type="AnimationState" ReadyState="Ready"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Texture="@UI/SC2_UI_Coop_SelectTile_ReadyLock_Mastery"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Visible="true"/>
+                <Action type="SetProperty" frame="ReadyLockTopGlow" Color="#Coop_ReadyLockGlowMastery_Color"/>
+            </State>
+            <State name="Mastery">
+                <When type="StateGroup" LevelState="Mastery"/>
+                <When type="AnimationState" ReadyState="Ready"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Texture="@UI/SC2_UI_Coop_SelectTile_ReadyLock_Mastery"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Visible="true"/>
+                <Action type="SetProperty" frame="ReadyLockTopGlow" Color="#Coop_ReadyLockGlowMastery_Color"/>
+            </State>
+            <State name="Basic">
+                <When type="StateGroup" LevelState="Basic"/>
+                <When type="AnimationState" ReadyState="Ready"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Texture="@UI/SC2_UI_Coop_SelectTile_ReadyLock_Basic"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Visible="true"/>
+                <Action type="SetProperty" frame="ReadyLockTopGlow" Color="#Coop_ReadyLockGlowBasic_Color"/>
+            </State>
+            <State name="Ally">
+                <When type="AnimationState" ReadyState="AllyReady"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Texture="@UI/SC2_UI_Coop_SelectTile_ReadyLock_Ally"/>
+                <Action type="SetProperty" frame="ReadyLockTop" Visible="true"/>
+                <Action type="SetProperty" frame="ReadyLockTopGlow" Color="#Coop_ReadyLockGlowAlly_Color"/>
+            </State>
+            <State name="NotReady">
+                <Action type="SetProperty" frame="ReadyLockTop" Visible="false"/>
+            </State>
+        </StateGroup>
+
+        <!-- Permission badges are independent from selection and ready states. -->
+        <StateGroup name="AccessIconState">
+            <DefaultState val="Public"/>
+            <State name="Selected">
+                <When type="StateGroup" SelectionState="Self"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+            <State name="Locked_Disabled">
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <When type="AnimationState" frame="$this" LockState="Locked"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="True"/>
+                <Action type="SetProperty" frame="LockIcon" Texture="@UI/SC2_UI_Coop_SelectTile_LockIcon_Disabled"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+            <State name="Locked">
+                <When type="AnimationState" frame="$this" LockState="Locked"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="True"/>
+                <Action type="SetProperty" frame="LockIcon" Texture="@UI/SC2_UI_Coop_SelectTile_LockIcon"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+            <State name="Unlocked_Disabled">
+                <When type="StateGroup" DisabilityState="Disabled"/>
+                <When type="AnimationState" frame="$this" LockState="Dev"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="True"/>
+                <Action type="SetProperty" frame="UnlockIcon" Texture="@UI/SC2_UI_Coop_SelectTile_UnLockIcon_Disabled"/>
+            </State>
+            <State name="Unlocked">
+                <When type="AnimationState" frame="$this" LockState="Dev"/>
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="True"/>
+                <Action type="SetProperty" frame="UnlockIcon" Texture="@UI/SC2_UI_Coop_SelectTile_UnLockIcon"/>
+            </State>
+            <State name="Public">
+                <Action type="SetProperty" frame="LockIcon" Visible="False"/>
+                <Action type="SetProperty" frame="UnlockIcon" Visible="False"/>
+            </State>
+        </StateGroup>
+
+        <!-- 
+        ========================================================================================
+        
+        MISC ANIMATIONS
+        
+        ========================================================================================
+        -->
+        <Animation name="CharacterReadyStart">
+            <Event event="Selected" action="Reset,Play" frame="$this"/>
+
+            <Controller name="Cutscene_0" type="Cutscene" end="Stop" frame="$parent/$parent/$parent/ForegroundCutscene">
+                <Key type="Cutscene" time="0" action="Bookmark" bookmark="CharacterBirthStart" file="" value="0" filter="" order="Sequential"/>
+            </Controller>
+        </Animation>
+
+        <Animation name="ClickSound">
+            <Event event="OnMouseclick" action="Reset,Play" frame="$this"/>
+
+            <Controller name="Sound_0" type="Sound" end="Stop" frame="$this">
+                <Key type="Sound" time="0" sound="@AC_UI_OnClick01" direction="Both"/>
+            </Controller>
+        </Animation>
+    </Frame>
+
+    <!-- 
+    Commander Selection Container Template
+    -->
+    <Frame type="Frame" name="CommanderSelectionContainerTemplate">
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Height val="300"/>
+        <Width val="1080"/>
+
+        <Frame type="TileList" name="CommanderTileList">
+            <Handle val="CommanderTileList"/>
+            <Anchor relative="$parent"/>
+            <Enabled val="true"/>
+
+            <StateGroup name="EnabledStateGroup">
+                <DefaultState val="ListEnabledState"/>
+                <State name="ListEnabledState">
+                    <When type="AnimationState" frame="$parent/$parent" CommanderTileList="ListEnabled"/>
+                    <Action type="SetProperty" frame="$this" Enabled="true"/>
+                </State>
+                <State name="ListDisabledState">
+                    <Action type="SetProperty" frame="$this" Enabled="false"/>
+                </State>
+            </StateGroup>
+
+            <Frame type="Image" name="Item1BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item1/BackgroundGlow"/>
+                <Color val="{$parent/Item1/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item2BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item2/BackgroundGlow"/>
+                <Color val="{$parent/Item2/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item3BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item3/BackgroundGlow"/>
+                <Color val="{$parent/Item3/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item4BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item4/BackgroundGlow"/>
+                <Color val="{$parent/Item4/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item5BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item5/BackgroundGlow"/>
+                <Color val="{$parent/Item5/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item6BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item6/BackgroundGlow"/>
+                <Color val="{$parent/Item6/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item7BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item7/BackgroundGlow"/>
+                <Color val="{$parent/Item7/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item8BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item8/BackgroundGlow"/>
+                <Color val="{$parent/Item8/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item9BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item9/BackgroundGlow"/>
+                <Color val="{$parent/Item9/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item10BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item10/BackgroundGlow"/>
+                <Color val="{$parent/Item10/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item11BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item11/BackgroundGlow"/>
+                <Color val="{$parent/Item11/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item12BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item12/BackgroundGlow"/>
+                <Color val="{$parent/Item12/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item13BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item13/BackgroundGlow"/>
+                <Color val="{$parent/Item13/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item14BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item14/BackgroundGlow"/>
+                <Color val="{$parent/Item14/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item15BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item15/BackgroundGlow"/>
+                <Color val="{$parent/Item15/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item16BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item16/BackgroundGlow"/>
+                <Color val="{$parent/Item16/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item17BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item17/BackgroundGlow"/>
+                <Color val="{$parent/Item17/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item18BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item18/BackgroundGlow"/>
+                <Color val="{$parent/Item18/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item19BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item19/BackgroundGlow"/>
+                <Color val="{$parent/Item19/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item20BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item20/BackgroundGlow"/>
+                <Color val="{$parent/Item20/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item21BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item21/BackgroundGlow"/>
+                <Color val="{$parent/Item21/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item22BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item22/BackgroundGlow"/>
+                <Color val="{$parent/Item22/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item23BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item23/BackgroundGlow"/>
+                <Color val="{$parent/Item23/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Image" name="Item24BackgroundGlow" template="Coop_CommanderSelection/ItemBackgroundGlowTemplate">
+                <Anchor relative="$parent/Item24/BackgroundGlow"/>
+                <Color val="{$parent/Item24/BackgroundGlow/@Color}"/>
+            </Frame>
+
+            <Frame type="Button" name="Item1" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item2" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item1" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item3" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item2" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item2" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item4" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item3" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item3" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item5" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item4" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item4" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item6" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item5" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item5" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item7" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item8" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item7" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item7" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item9" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item8" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item8" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item10" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item9" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item9" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item11" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item10" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item12" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item11" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item11" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item13" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="-75"/>
+                <Anchor side="Left" relative="$parent/Item1" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item14" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item13" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item13" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item15" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item14" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item14" pos="Max" offset="-90"/>
+            </Frame>
+
+            <!-- You Should Reognize the Achor Position of the Frame which are above this comment. -->
+            <Frame type="Button" name="Item16" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item15" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item15" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item17" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item16" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item16" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item18" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item17" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item17" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item19" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item18" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item18" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item20" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item19" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item19" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item21" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item20" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item20" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item22" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item21" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item21" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item23" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item22" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item22" pos="Max" offset="-90"/>
+            </Frame>
+
+            <Frame type="Button" name="Item24" template="Coop_CommanderSelection/CommanderTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item23" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item23" pos="Max" offset="-90"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <!-- 
+
+The following template is the main template used to create the comander selection interface for Allied Commanders. 
+    
+ -->
+    <Frame type="Frame" name="CommanderSelectionTemplate">
+        <Handle val="CommanderButtonTemplate"/>
+        <Anchor relative="$parent"/>
+
+        <Frame type="Image" name="BackgroundImage">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets\Textures\White.dds"/>
+            <Color val="27,27,27"/>
+            <RenderPriority val="500"/>
+            <Alpha val="0"/>
+        </Frame>
+
+        <!--Frame type="Frame" name="URL4">
+             <Anchor side="Right" relative="$parent" pos="Max" offset="-10" />
+             <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10" />
+             <Width val="76"/>
+             <Height val="76"/>
+             <Visible val="True" />
+             <RenderPriority val="1000"/>
+             <Handle val="URL4"/>
+             <Frame type="Frame" name="URL" template="CM_URLFrame/URL">
+                <Anchor relative="$parent" /> 
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                       <Text val="" />
+                       <Tooltip val="友情链接：CXLCoop" />
+                       <URL val="https://cxlcoop.com/" />
+                    </Frame>
+             </Frame>
+        </Frame-->
+
+        <Frame type="Frame" name="URL3">
+             <Anchor side="Right" relative="$parent" pos="Max" offset="-10" />
+             <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10" />
+             <Width val="76"/>
+             <Height val="76"/>
+             <Visible val="True" />
+             <RenderPriority val="1000"/>
+             <!-- Handle -->
+             <Handle val="URL3"/>
+             <Frame type="Frame" name="URL" template="CM_URLFrame/URL">
+                <Anchor relative="$parent" /> 
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                       <Text val="" />
+                       <Tooltip val="友情链接：合作单一兵种作战" />
+                       <URL val="https://qm.qq.com/q/JKDr8AAzIG" />
+                    </Frame>
+             </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="URL2">
+             <Anchor side="Left" relative="$parent/URL3" pos="Min" offset="0" />
+             <Anchor side="Bottom" relative="$parent/URL3" pos="Min" offset="-10" />
+             <Width val="76"/>
+             <Height val="76"/>
+             <Visible val="True"/>
+             <RenderPriority val="1000"/>
+             <!-- Handle -->
+             <Handle val="URL2"/>
+             <Frame type="Frame" name="URL" template="CM_URLFrame/URL">
+                <Anchor relative="$parent" /> 
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                       <Text val="" />
+                       <Tooltip val="时空枢纽：反叛" />
+                       <URL val="https://qm.qq.com/q/JAmz0ileW4" />
+                    </Frame>
+             </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="URL1">
+             <Anchor side="Left" relative="$parent/URL2" pos="Min" offset="0" />
+             <Anchor side="Bottom" relative="$parent/URL2" pos="Min" offset="-10" />
+             <Width val="76"/>
+             <Height val="76"/>
+             <Visible val="True"/>
+             <RenderPriority val="1000"/>
+             <!-- Handle -->
+             <Handle val="URL1"/>
+             <Frame type="Frame" name="URL" template="CM_URLFrame/URL">
+                <Anchor relative="$parent" /> 
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                       <Text val="" />
+                       <Tooltip val="CM 合作任务练习图 OnCall 反馈群" />
+                       <URL val="https://qm.qq.com/q/8UNEta0ZK8" />
+                    </Frame>
+             </Frame>
+        </Frame>
+
+        <Frame type="CutsceneFrame" name="CommanderAvatar">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <File val="Cutscenes\UI_Screens_AlliedCommander_Foreground_Modify.SC2Cutscene" preloadFilters="Artanis"/>
+            <Width val="1200"/>
+            <RenderType val="HDR"/>
+            <RenderPriority val="300"/>
+        </Frame>
+
+        <Frame type="CutsceneFrame" name="CommanderAvatarAlly">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <File val="Cutscenes\UI_Screens_AlliedCommander_Foreground_Modify.SC2Cutscene" preloadFilters="Artanis"/>
+            <Width val="1200"/>
+            <RenderType val="HDR"/>
+            <RenderPriority val="300"/>
+        </Frame>
+
+        <Frame type="Frame" name="CompositionInfoSelf" template="Coop_CommanderSelection/CompositionInfoTemplateSelf">
+            <Anchor side="Top" relative="$parent/CommanderButtons" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/CommanderButtons" pos="Min" offset="0"/>
+        </Frame>
+
+        <Frame type="Frame" name="CompositionInfoAlly" template="Coop_CommanderSelection/CompositionInfoTemplateAlly">
+            <Anchor side="Top" relative="$parent/CompositionInfoSelf" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/CompositionInfoSelf" pos="Min" offset="0"/>
+        </Frame>
+
+        <Frame type="Frame" name="CommanderButtons" template="Coop_CommanderSelection/CommanderSelectionContainerTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="25"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="20"/>
+        </Frame>
+
+        <Frame type="Image" name="BottomBar">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Texture val="Assets\Textures\White.dds"/>
+            <Color val="38,38,38"/>
+            <Height val="158"/>
+            <Alpha val="0"/>
+        </Frame>
+
+        <Frame type="Button" name="ReadyButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
+            <Anchor side="Top" relative="$parent/BottomBar" pos="Min" offset="10"/>
+            <Anchor side="Right" relative="$parent/MapSelectionPanel/MapButton" pos="Min" offset="-10"/>
+            <Text val="@UI/ScreenCoopCampaign/Ready"/>
+
+            <Frame type="Image" name="CheckMark">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="-5"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="5"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="10"/>
+                <ScaleWidthToTexture val="true"/>
+                <Texture val="Assets\Textures\ui_void_spearofadun_icon_check.dds"/>
+                <Color val="0,255,0"/>
+                <Visible val="true"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="MapSelectionPanel" template="Menu_MapSelectionPanel/MapSelectionPanelTemplate">
+            <Frame type="Button" name="MapButton">
+                <Anchor side="Top" relative="$parent/$parent/BottomBar" pos="Min" offset="10"/>
+                <Anchor side="Left" relative="$parent/$parent/" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/$parent/" pos="Mid" offset="0"/>
+            </Frame>
+        </Frame>
+        <Frame type="Frame" name="MutatorSelectionPanel" template="Menu_CustomMutatorSelection/MutatorPanelTemplate">
+            <Frame type="Button" name="MutatorButton">
+                <Anchor side="Top" relative="$parent/$parent/BottomBar" pos="Min" offset="10"/>
+                <Anchor side="Left" relative="$parent/$parent/MapSelectionPanel/MapButton" pos="Max" offset="10"/>
+                <Text val="@UI/ScreenCoopCampaign/CustomTitle"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Pulldown" name="GameModePulldown" template="StandardTemplates/StandardPulldownTemplate">
+            <Anchor side="Left" relative="$parent/MutatorButton" pos="Max" offset="5"/>
+            <Anchor side="Bottom" relative="$parent/MutatorButton" pos="Max" offset="0"/>
+        </Frame>
+
+        <Frame type="Pulldown" name="GameModePulldownLevel2" template="StandardTemplates/StandardPulldownTemplate">
+            <Anchor side="Left" relative="$parent/GameModePulldown" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/GameModePulldown" pos="Min" offset="5"/>
+        </Frame>
+
+        <Frame type="Frame" name="EditBoxWithFreshButton">
+            <Height val="54"/>
+            <Width val="260"/>
+            <Anchor side="Left" relative="$parent/GameModePulldown" pos="Min" offset="0"/>
+            <Anchor side="Top" relative="$parent/GameModePulldown" pos="Max" offset="5"/>
+
+            <Frame type="EditBox" name="CountEditBox" template="CustomGamesTemplates/FilterEditBoxTemplate">
+                <MaxCharacters val="20"/>
+
+                <Animation name="ClearLobbyList">
+                    <Event event="OnEnterPressed" action="Reset,Play" frame="$this"/>
+
+                </Animation>
+
+                <Frame type="Label" name="SearchTextLabel">
+                    <Text val="@UI/Coop_CommanderSelection_RandomMutatorEditBox"/>
+                </Frame>
+
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="15"/>
+                    <Anchor side="Right" relative="$parent/$parent/FreshButton/AnchorFrame" pos="Min" offset="-13"/>
+                </Frame>
+
+                <Frame type="Button" name="ClearTextButton">
+                    <Animation name="ClearLobbyList">
+                        <Event event="OnClick" action="Reset,Play" frame="$this"/>
+
+                    </Animation>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="FreshButton" template="StandardSmallButtonTemplates/StandardSmallIconButtonTemplate">
+                <AcceptsMouseTooltip val="true"/>
+                <Tooltip val="@UI/Coop_CommanderSelection_RandomMutatorCount_Tooltip"/>
+
+                <Frame type="Frame" name="AnchorFrame">
+                    <Anchor side="Top" relative="$parent/$parent/CountEditBox" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/$parent/CountEditBox" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="-15"/>
+                </Frame>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+
+                    <StateGroup name="DisplayState">
+                        <DefaultState val="Normal"/>
+                        <State name="Disabled">
+                            <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="64,95,113"/>
+                        </State>
+                        <State name="Pressed">
+                            <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Pressed"/>
+                            <Action type="SetProperty" frame="$this" Color="255,255,255"/>
+                        </State>
+                        <State name="Hover">
+                            <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="204,231,255"/>
+                        </State>
+                        <State name="Normal">
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="141,191,234"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+
+                <Animation name="RefreshLobbyList">
+                    <Event event="OnClick" action="Reset,Play" frame="$this"/>
+
+                </Animation>
+            </Frame>
+        </Frame>
+
+        <Frame type="Pulldown" name="AICModePulldown" template="StandardTemplates/StandardPulldownTemplate">
+            <Anchor side="Left" relative="$parent/GameModePulldown" pos="Max" offset="5"/>
+            <Anchor side="Bottom" relative="$parent/GameModePulldown" pos="Max" offset="0"/>
+        </Frame>
+
+        <Frame type="Pulldown" name="AICModePulldownLevel2" template="StandardTemplates/StandardPulldownTemplate">
+            <Anchor side="Left" relative="$parent/AICModePulldown" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/AICModePulldown" pos="Min" offset="5"/>
+        </Frame>
+
+        <Frame type="Frame" name="MutatorShowList">
+            <Anchor side="Bottom" relative="$parent/MutatorCountLabel" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent/MutatorCountLabel" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/MutatorCountLabel" pos="Mid" offset="0"/>
+            <Width val="242"/>
+            <Height val="208"/>
+
+            <Frame type="Button" name="Mutators1" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators2" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators1" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators1" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators3" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators2" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators2" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators4" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators3" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators3" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators5" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators4" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators4" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators6" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators1" pos="Max" offset="#MutatorspacingVertical"/>
+                <Anchor side="Left" relative="$parent/Mutators1" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators7" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators6" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators6" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators8" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators7" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators7" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators9" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators8" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators8" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators10" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators9" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators9" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators11" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators6" pos="Max" offset="#MutatorspacingVertical"/>
+                <Anchor side="Left" relative="$parent/Mutators6" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators12" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators11" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators11" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators13" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators12" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators12" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators14" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators13" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators13" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators15" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators14" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators14" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators16" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators11" pos="Max" offset="#MutatorspacingVertical"/>
+                <Anchor side="Left" relative="$parent/Mutators11" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators17" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators16" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators16" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators18" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators17" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators17" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators19" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators18" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators18" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Mutators20" template="Coop_CommanderSelection/MutatorShowFrameTemplate">
+                <Anchor side="Top" relative="$parent/Mutators19" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Mutators19" pos="Max" offset="#MutatorspacingHorizontal"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Label" name="AIDescriptionLabel">
+            <Anchor side="Top" relative="$parent/MutatorShowList" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/GameModePulldown" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/AICModePulldown" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/MutatorShowList" pos="Max" offset="0"/>
+            <Text val="AI Description"/>
+        </Frame>
+
+        <Frame type="Label" name="MutatorCountLabel">
+            <Anchor side="Bottom" relative="$parent/MutatorButton" pos="Min" offset="-5"/>
+            <Anchor side="Left" relative="$parent/MutatorButton" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/MutatorButton" pos="Max" offset="0"/>
+            <Height val="35"/>
+            <Text val="There are # active mutators"/>
+            <Style val="Coop_CommanderSelectMutatorCount"/>
+        </Frame>
+
+        <Frame type="Label" name="LabelAlly">
+            <Anchor side="Top" relative="$parent/ReadyButton" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/ReadyButton" pos="Max" offset="40"/>
+            <Anchor side="Left" relative="$parent/ReadyButton" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/ReadyButton" pos="Max" offset="0"/>
+            <Style val="Coop_CommanderSelectReadyAlly"/>
+            <DisabledAlpha val="40"/>
+            <Text val="@UI/Coop_CommanderSelection_ReadyState_AllyN"/>
+            <Color val="255,48,48"/>
+        </Frame>
+
+        <Frame type="Frame" name="UpgradeList">
+            <Anchor side="Top" relative="$parent/CommanderButtons" pos="Max" offset="150"/>
+            <Anchor side="Right" relative="$parent/CommanderButtons" pos="Max" offset="#UpgradeSpacing"/>
+            <Width val="505"/>
+            <Height val="255"/>
+
+            <Frame type="Frame" name="Upgrades1" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="#UpgradeSpacing"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades2" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades1" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades1" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades3" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades2" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades2" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades4" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades3" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades3" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades5" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades4" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades4" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades6" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades5" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades5" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades7" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades1" pos="Max" offset="#UpgradeSpacing"/>
+                <Anchor side="Left" relative="$parent/Upgrades1" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades8" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades7" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades7" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades9" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades8" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades8" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades10" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades9" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades9" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades11" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades10" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades12" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades11" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades11" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades13" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades7" pos="Max" offset="#UpgradeSpacing"/>
+                <Anchor side="Left" relative="$parent/Upgrades7" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades14" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades13" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades13" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+
+            <Frame type="Frame" name="Upgrades15" template="Coop_CommanderSelection/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Upgrades14" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Upgrades14" pos="Max" offset="#UpgradeSpacing"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

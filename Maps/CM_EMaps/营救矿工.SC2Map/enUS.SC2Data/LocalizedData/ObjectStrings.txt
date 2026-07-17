@@ -1,0 +1,8 @@
+﻿Actor/Name/Amb_Nova05_Loop_ActorSound=Amb_Nova05_Loop_ActorSound
+Camera/Name/BonusObjectiveInstallation=Bonus Objective Installation
+Light/Name/EditorTestLight=Default
+Sound/Name/AmbEmitter_CritterDistant01_Nova05=AmbEmitter_CritterDistant01_Nova05
+Sound/Name/CS_Void_CreatureVoxDistantNova05=CS_Void_CreatureVoxDistantNova05
+Sound/Name/Nova_ColonistShip_TakeOff_Alert_Trigg=Nova_ColonistShip_TakeOff_Alert_Trigg
+Soundtrack/Name/Ambience_Nova05=Ambience_Nova05
+Soundtrack/Name/nDLC_Music_Nova05_Outro=nDLC_Music_Nova05_Outro

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CRequirementAnd id="AndCountUpgradeKerriganCommanderCompleteOnlyGT8CountUpgradeCommanderLevelCompleteOnlyNot1087874511CountBehaviorUnderConstructionCompleteOnlyAtUnitNotCountUpgradeCommanderPrestigeKerriganCreepCompleteOnly">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray value="CountUpgradeKerriganCommanderCompleteOnly"/>
+        <OperandArray value="GT8CountUpgradeCommanderLevelCompleteOnly"/>
+        <OperandArray value="Not1087874511CountBehaviorUnderConstructionCompleteOnlyAtUnit"/>
+        <OperandArray value="NotCountUpgradeCommanderPrestigeKerriganCreepCompleteOnly"/>
+    </CRequirementAnd>
+    <CRequirementCountUpgrade id="CountUpgradeAutoCreepCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="AutoCreep" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementNot id="Not1087874511CountBehaviorUnderConstructionCompleteOnlyAtUnit">
+        <OperandArray index="0" value="CountBehaviorUnderConstructionCompleteOnlyAtUnit"/>
+    </CRequirementNot>
+    <CRequirementNot id="NotCountUpgradeAutoCreepCompleteOnly">
+        <OperandArray index="0" value="CountUpgradeAutoCreepCompleteOnly"/>
+    </CRequirementNot>
+    <CRequirementNot id="NotCountUpgradeCommanderPrestigeKerriganCreepCompleteOnly">
+        <Tooltip value="RequirementNode/Tooltip/##id##"/>
+        <OperandArray index="0" value="CountUpgradeCommanderPrestigeKerriganCreepCompleteOnly"/>
+    </CRequirementNot>
+</Catalog>

@@ -1,0 +1,1610 @@
+//--------------------------------------------------------------------------------------------------
+//  Nova tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMNova_TU_Nova = "NovaCoop";
+const string c_CMNova_TU_Ghost = "GhostFemale_BlackOps";
+const string c_CMNova_TU_Hellion = "HellionBlackOps";
+const string c_CMNova_TU_Hellbat = "HellbatBlackOps";
+const string c_CMNova_TU_SiegeTank = "SiegeTank_BlackOps";
+const string c_CMNova_TU_SiegeTankSieged = "SiegeTankSieged_BlackOps";
+const string c_CMNova_TU_Goliath = "Goliath_BlackOps";
+const string c_CMNova_TU_Liberator = "Liberator_BlackOps";
+const string c_CMNova_TU_LiberatorAG = "LiberatorAG_BlackOps";
+const string c_CMNova_TU_Raven = "Raven_BlackOps";
+const string c_CMNova_TU_Banshee = "Banshee_BlackOps";
+const string c_CMNova_AB_NovaSnipe = "NovaWeaponImprovedCanisterRifleSnipe";
+const string c_CMNova_AB_NovaShotgun = "NovaWeaponHellfireShotgunBlast";
+const string c_CMNova_AB_NovaBoombots = "NovaGadgetBoombots";
+const string c_CMNova_AB_NovaNuke = "NovaCoopCasterNuke";
+const string c_CMNova_AB_NovaDecoy = "NovaCoopDecoyTarget";
+const string c_CMNova_AB_NovaBlink = "NovaBlink";
+const string c_CMNova_AB_NovaKitSwap = "NovaKitSwap";
+const string c_CMNova_AB_GhostEMP = "EMPBlackOps";
+const string c_CMNova_AB_GhostSnipe = "Snipe_BlackOps";
+const string c_CMNova_AB_HellionToHellbat = "MorphToHellbatBlackOps";
+const string c_CMNova_AB_Siege = "SiegeTank_BlackOpsSiege";
+const string c_CMNova_AB_Unsiege = "SiegeTank_BlackOpsUnsiege";
+const string c_CMNova_AB_SpiderMines = "DeploySpiderMines";
+const string c_CMNova_AB_LiberatorAGTarget = "LiberatorAG_BlackOpsTarget";
+const string c_CMNova_AB_LiberatorAATarget = "LiberatorAA_BlackOpsTarget";
+const string c_CMNova_AB_RavenTurret = "BuildAutoTurret_BlackOps";
+const string c_CMNova_AB_RavenMissile = "InstantSeekerMissile_BlackOps";
+const string c_CMNova_AB_BansheeAirstrike = "Banshee_BlackOpsAirstrike";
+const string c_CMNova_EF_NovaSnipe = "NovaWeaponImprovedCanisterRifleSnipe";
+const string c_CMNova_EF_NovaShotgunSearch = "NovaWeaponHellfireShotgunBlastSearch";
+const string c_CMNova_EF_NovaShotgunDamage = "NovaWeaponHellfireShotgunBlastDamage";
+const string c_CMNova_EF_NovaBoombotDamage = "NovaBoombotBoomDamage";
+const string c_CMNova_EF_NovaNukeDamage = "NovaCoopCasterNukeDamage";
+const string c_CMNova_EF_GhostEMPSearch = "EMPBlackOpsSearch";
+const string c_CMNova_EF_GhostSnipe = "Snipe_BlackOpsDamage";
+const string c_CMNova_EF_LiberatorAGSearch = "Liberator_BlackOpsTargetMorphSearchArea";
+const string c_CMNova_EF_BansheeAirstrikeSearch = "Banshee_BlackOpsAirstrikeSearch";
+const string c_CMNova_EF_BansheeAirstrikeDamage = "Banshee_BlackOpsAirstrikeDamage";
+const string c_CMNova_BE_NovaCombatSuit = "NovaCombatSuit";
+const string c_CMNova_BE_NovaStealthSuit = "NovaPermanentlyCloaked";
+const string c_CMNova_BE_NovaSuperCloak = "CommanderPrestigeNovaSuperCloak";
+const string c_CMNova_BE_NovaSuperCloakCombat = "CommanderPrestigeNovaSuperCloakCombat";
+const string c_CMNova_UP_NovaSuperCloak = "CommanderPrestigeNovaSuperCloak";
+const string c_CMNova_UP_DeploySpiderMines = "DeploySpiderMines";
+const string c_CMNova_MK_GhostEMP = "Abil/EMPBlackOps/AI";
+const string c_CMNova_MK_GhostSnipe = "Abil/Snipe_BlackOps/AI";
+const string c_CMNova_MK_RavenMissile = "Abil/InstantSeekerMissile_BlackOps/AI";
+const int c_CMNova_CMD_KitSwapCombat = 0;
+const int c_CMNova_CMD_KitSwapStealth = 1;
+const int c_CMNova_CV_NovaModeSwapDone = 58;
+const fixed c_CMNova_ModeSwapReady = 0.0;
+const fixed c_CMNova_ModeSwapDone = 1.0;
+const fixed c_CMNova_CloseRange = 3.5;
+const fixed c_CMNova_HellionMorphRange = 4.5;
+const fixed c_CMNova_GoliathAssistRange = 9.0;
+const fixed c_CMNova_RavenProtectRange = 11.0;
+const fixed c_CMNova_RavenMissileClusterRadius = 3.0;
+const fixed c_CMNova_RavenMissileConflictRange = 4.0;
+const fixed c_CMNova_RavenMissileMinScore = 180.0;
+const fixed c_CMNova_BansheeAirstrikeRadius = 2.0;
+const fixed c_CMNova_BansheeAirstrikeConflictRange = 4.0;
+const fixed c_CMNova_NovaDangerVitality = 40.0;
+const fixed c_CMNova_NovaDamagedVitality = 99.0;
+const fixed c_CMNova_NovaFreshLifeVitality = 90.0;
+const fixed c_CMNova_NovaFreshLifeEnergy = 90.0;
+const fixed c_CMNova_BoombotStructureDamage = 400.0;
+const fixed c_CMNova_BoombotGroundDamage = 200.0;
+const int c_CMNova_EMPMinEnergy = 50;
+const int c_CMNova_EMPMinShields = 40;
+const int c_CMNova_HellionCloseGroundMin = 3;
+const int c_CMNova_LiberatorGroundMin = 2;
+const int c_CMNova_LiberatorAirMany = 3;
+const int c_CMNova_NukeMinHits = 4;
+const int c_CMNova_BoombotMinHits = 3;
+const int c_CMNova_ShotgunMinHits = 2;
+const fixed c_CMNova_ShotgunRange = 7.0;
+const fixed c_CMNova_ShotgunHalfArc = 30.0;
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMNovaAbilityTargetFilters (int player, string abilityLink) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMNovaFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup targetGroup;
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    return targetGroup;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMNovaEnemyGroup (int player, unitgroup scanGroup) {
+    if (scanGroup == null) {
+        return null;
+    }
+
+    return UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMNovaEnemyPlaneGroup (int player, unitgroup scanGroup, int plane) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMNovaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    return UnitGroupFilterPlane(enemyGroup, plane, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMNovaEnemyPlaneCountInRange (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed range) {
+    unitgroup enemyGroup;
+    unitgroup rangeGroup;
+
+    enemyGroup = CMNovaEnemyPlaneGroup(player, scanGroup, plane);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    rangeGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(UnitGetPosition(aiUnit), range), 0);
+    return UnitGroupCount(rangeGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaTargetVitalityScore (unit targetUnit, fixed damage) {
+    fixed vitality;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if ((damage > 0.0) && (vitality > damage)) {
+        return damage;
+    }
+
+    return vitality;
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMNovaDamageBase (fixed damage, int defaultDamage) {
+    int damageBase;
+
+    damageBase = FixedToInt(damage);
+    if (damageBase <= 0) {
+        damageBase = defaultDamage;
+    }
+
+    return damageBase;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaBestUnitOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed damage, fixed defaultRange) {
+    string filters;
+    fixed range;
+    fixed targetScore;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+
+    if (CMNovaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMNovaAbilityRange(player, abilityLink, defaultRange);
+    filters = CMNovaAbilityTargetFilters(player, abilityLink);
+    targetGroup = CMNovaFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, abilityLink, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMNovaTargetVitalityScore(targetUnit, damage);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if (bestTarget == null) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(bestOrder, bestTarget);
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaBestPointOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed defaultRange, fixed defaultRadius, int minHits, int damageBase, fixed minScore) {
+    string filters;
+    fixed range;
+    fixed radius;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMNovaAbilityRange(player, abilityLink, defaultRange);
+    radius = CMNovaEffectRadius(player, effectLink, defaultRadius);
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    targetGroup = CMNovaFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, damageBase, minScore, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaPointOrderAt (int player, unit aiUnit, string abilityLink, point targetPoint) {
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaInstantOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaIsCombatMode (unit aiUnit) {
+    if (UnitHasBehavior2(aiUnit, c_CMNova_BE_NovaCombatSuit) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaHasSuperCloak (int player, unit aiUnit) {
+    if (TechTreeUpgradeCount(player, c_CMNova_UP_NovaSuperCloak, c_techCountCompleteOnly) > 0) {
+        return true;
+    }
+    if (UnitHasBehavior2(aiUnit, c_CMNova_BE_NovaSuperCloak) == true) {
+        return true;
+    }
+    if (UnitHasBehavior2(aiUnit, c_CMNova_BE_NovaSuperCloakCombat) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaSuperCloakCanSnipe (unit aiUnit) {
+    fixed vitality;
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (UnitHasBehavior2(aiUnit, c_CMNova_BE_NovaSuperCloakCombat) == true) {
+        return true;
+    }
+    if (UnitTestState(aiUnit, c_unitStateCloaked) == false) {
+        return true;
+    }
+    if (vitality < c_CMNova_NovaDamagedVitality) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void CMNovaRefreshModeSwapState (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    fixed energy;
+    fixed swapState;
+    int enemyCount;
+
+    swapState = UnitGetCustomValue(aiUnit, c_CMNova_CV_NovaModeSwapDone);
+    if (swapState <= c_CMNova_ModeSwapReady) {
+        return;
+    }
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    energy = UnitGetPropertyFixed(aiUnit, c_unitPropEnergyPercent, c_unitPropCurrent);
+    enemyCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 12.0);
+    enemyCount = enemyCount + CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, 12.0);
+    if ((vitality >= c_CMNova_NovaFreshLifeVitality) && (energy >= c_CMNova_NovaFreshLifeEnergy) && (enemyCount == 0)) {
+        UnitSetCustomValue(aiUnit, c_CMNova_CV_NovaModeSwapDone, c_CMNova_ModeSwapReady);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaKitSwapOrder (int player, unit aiUnit, bool toCombat) {
+    int cmd;
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_NovaKitSwap) == false) {
+        return null;
+    }
+    if (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaKitSwap) == true) {
+        return null;
+    }
+    if ((toCombat == true) && (CMNovaIsCombatMode(aiUnit) == true)) {
+        return null;
+    }
+    if ((toCombat == false) && (CMNovaIsCombatMode(aiUnit) == false)) {
+        return null;
+    }
+
+    cmd = c_CMNova_CMD_KitSwapStealth;
+    if (toCombat == true) {
+        cmd = c_CMNova_CMD_KitSwapCombat;
+    }
+
+    ord = AICreateOrder(player, c_CMNova_AB_NovaKitSwap, cmd);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaTrySwapMode (int player, unit aiUnit, bool toCombat) {
+    fixed swapState;
+    order ord;
+
+    swapState = UnitGetCustomValue(aiUnit, c_CMNova_CV_NovaModeSwapDone);
+    if (swapState >= c_CMNova_ModeSwapDone) {
+        return false;
+    }
+
+    ord = CMNovaKitSwapOrder(player, aiUnit, toCombat);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    UnitSetCustomValue(aiUnit, c_CMNova_CV_NovaModeSwapDone, c_CMNova_ModeSwapDone);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaUnitBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaSnipe) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaShotgun) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaBoombots) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaNuke) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaDecoy) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaBlink) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_NovaKitSwap) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaEMPPointOrder (int player, unit aiUnit, unitgroup scanGroup, bool useEnergy) {
+    fixed range;
+    fixed radius;
+    point targetPoint;
+    unitgroup targetGroup;
+    aifilter filter;
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_GhostEMP) == false) {
+        return null;
+    }
+
+    range = CMNovaAbilityRange(player, c_CMNova_AB_GhostEMP, 10.0);
+    radius = CMNovaEffectRadius(player, c_CMNova_EF_GhostEMPSearch, 2.0);
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterRange(filter, aiUnit, range + radius + 1.0);
+    if (useEnergy == true) {
+        AISetFilterEnergy(filter, c_CMNova_EMPMinEnergy, c_noMax);
+    }
+    else {
+        AISetFilterShields(filter, c_CMNova_EMPMinShields, c_noMax);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, 1, 100, 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMNova_AB_GhostEMP, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaGhostEMPOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    ord = CMNovaEMPPointOrder(player, aiUnit, scanGroup, true);
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMNovaEMPPointOrder(player, aiUnit, scanGroup, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaGhostSnipeOrder (int player, unit aiUnit, unitgroup scanGroup, marker mark) {
+    fixed damage;
+    fixed range;
+    unitgroup targetGroup;
+    aifilter filter;
+    order ord;
+
+    if (AITactCooldownAllow(aiUnit, c_snipeCooldown) == false) {
+        return null;
+    }
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_GhostSnipe) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMNova_AB_GhostSnipe, 0);
+    damage = AIEffectFixed(player, c_CMNova_EF_GhostSnipe, c_fieldAmount);
+    if (damage <= 0.0) {
+        damage = 170.0;
+    }
+
+    range = CMNovaAbilityRange(player, c_CMNova_AB_GhostSnipe, 10.0);
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterBits(filter, UnitFilterStr(CMNovaAbilityTargetFilters(player, c_CMNova_AB_GhostSnipe)));
+    AISetFilterRange(filter, aiUnit, range + 1.0);
+    AISetFilterLifePerMarker(filter, damage, mark);
+    AISetFilterLifeSortReference(filter, damage, damage * c_distanceFromDamage);
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    return AIUnitGroupGetValidOrder(targetGroup, ord, aiUnit, c_backwards);
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMNovaClosestEnemy (int player, unit aiUnit, unitgroup scanGroup, int plane, fixed maxRange) {
+    fixed distance;
+    fixed bestDistance;
+    int enemyCount;
+    unit enemyUnit;
+    unit bestEnemy;
+    unitgroup enemyGroup;
+    unitgroup planeGroup;
+    unitgroup rangeGroup;
+    point here;
+
+    bestDistance = 99999.0;
+    bestEnemy = null;
+    here = UnitGetPosition(aiUnit);
+    enemyGroup = CMNovaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    planeGroup = UnitGroupFilterPlane(enemyGroup, plane, 0);
+    rangeGroup = UnitGroupFilterRegion(planeGroup, RegionCircle(here, maxRange), 0);
+    enemyCount = UnitGroupCount(rangeGroup, c_unitCountAlive);
+    while (enemyCount > 0) {
+        enemyUnit = UnitGroupUnit(rangeGroup, enemyCount);
+        enemyCount = enemyCount - 1;
+        distance = DistanceBetweenPoints(here, UnitGetPosition(enemyUnit));
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestEnemy = enemyUnit;
+        }
+    }
+
+    return bestEnemy;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaMorphOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, abilityLink) == true) {
+        return null;
+    }
+
+    ord = CMNovaInstantOrder(player, aiUnit, abilityLink);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaDeploySpiderMineAtFullCharges (int player, unit aiUnit) {
+    fixed angle;
+    fixed chargesLeft;
+    fixed chargesMax;
+    fixed distance;
+    int attempt;
+    point here;
+    point targetPoint;
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_SpiderMines) == false) {
+        return false;
+    }
+    if (TechTreeUpgradeCount(player, c_CMNova_UP_DeploySpiderMines, c_techCountCompleteOnly) <= 0) {
+        return false;
+    }
+
+    chargesLeft = UnitAbilityChargeInfo(aiUnit, AbilityCommand(c_CMNova_AB_SpiderMines, 0), c_unitAbilChargeCountLeft);
+    chargesMax = UnitAbilityChargeInfo(aiUnit, AbilityCommand(c_CMNova_AB_SpiderMines, 0), c_unitAbilChargeCountMax);
+    if ((chargesMax <= 0.0) || (chargesLeft < chargesMax)) {
+        return false;
+    }
+
+    here = UnitGetPosition(aiUnit);
+    attempt = 0;
+    while (attempt < 8) {
+        angle = RandomFixed(0.0, 360.0);
+        distance = RandomFixed(1.5, 5.0);
+        targetPoint = PointWithOffsetPolar(here, distance, angle);
+        ord = CMNovaPointOrderAt(player, aiUnit, c_CMNova_AB_SpiderMines, targetPoint);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return true;
+        }
+        attempt = attempt + 1;
+    }
+
+    ord = CMNovaPointOrderAt(player, aiUnit, c_CMNova_AB_SpiderMines, here);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaDeploySpiderMine (int player, unit aiUnit, unitgroup scanGroup, bool closeOnly) {
+    fixed range;
+    unit targetUnit;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMNova_AB_SpiderMines) == true) {
+        return true;
+    }
+
+    range = CMNovaAbilityRange(player, c_CMNova_AB_SpiderMines, 5.5);
+    if (closeOnly == true) {
+        targetUnit = CMNovaClosestEnemy(player, aiUnit, scanGroup, c_planeGround, c_CMNova_CloseRange);
+    }
+    else {
+        targetUnit = CMNovaClosestEnemy(player, aiUnit, scanGroup, c_planeGround, range);
+    }
+    if (targetUnit == null) {
+        if (closeOnly == false) {
+            return CMNovaDeploySpiderMineAtFullCharges(player, aiUnit);
+        }
+        return false;
+    }
+
+    ord = CMNovaPointOrderAt(player, aiUnit, c_CMNova_AB_SpiderMines, UnitGetPosition(targetUnit));
+    if (ord == null) {
+        if (closeOnly == false) {
+            return CMNovaDeploySpiderMineAtFullCharges(player, aiUnit);
+        }
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaRavenCastTurret (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed angle;
+    fixed distance;
+    fixed range;
+    int attempt;
+    unit enemyUnit;
+    unitgroup enemyGroup;
+    unitgroup rangeGroup;
+    point enemyPoint;
+    point turretPoint;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMNova_AB_RavenTurret) == true) {
+        return true;
+    }
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_RavenTurret) == false) {
+        return false;
+    }
+
+    range = CMNovaAbilityRange(player, c_CMNova_AB_RavenTurret, 8.0);
+    enemyGroup = CMNovaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return false;
+    }
+    rangeGroup = UnitGroupFilterRegion(
+        enemyGroup,
+        RegionCircle(UnitGetPosition(aiUnit), range),
+        0
+    );
+    enemyUnit = UnitGroupClosestToPoint(rangeGroup, UnitGetPosition(aiUnit));
+    if (enemyUnit == null) {
+        return false;
+    }
+
+    enemyPoint = UnitGetPosition(enemyUnit);
+    attempt = 0;
+    while (attempt < 12) {
+        angle = RandomFixed(0.0, 360.0);
+        distance = RandomFixed(1.0, 3.0);
+        turretPoint = PointWithOffsetPolar(enemyPoint, distance, angle);
+        ord = CMNovaPointOrderAt(
+            player,
+            aiUnit,
+            c_CMNova_AB_RavenTurret,
+            turretPoint
+        );
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return true;
+        }
+        attempt = attempt + 1;
+    }
+
+    ord = CMNovaPointOrderAt(
+        player,
+        aiUnit,
+        c_CMNova_AB_RavenTurret,
+        enemyPoint
+    );
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaRavenMissileHasConflict (int player, unit aiUnit, unit targetUnit) {
+    int allyCount;
+    unit allyUnit;
+    unit orderTarget;
+    unitgroup allyGroup;
+    order curOrder;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(targetUnit), c_CMNova_RavenMissileConflictRange + c_CMNova_RavenProtectRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMNova_TU_Raven) && (UnitOrderHasAbil(allyUnit, c_CMNova_AB_RavenMissile) == true)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if ((curOrder != null) && (OrderGetTargetType(curOrder) == c_orderTargetUnit)) {
+                orderTarget = OrderGetTargetUnit(curOrder);
+                if ((orderTarget != null) && (DistanceBetweenPoints(UnitGetPosition(orderTarget), UnitGetPosition(targetUnit)) <= c_CMNova_RavenMissileConflictRange)) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaClusterScore (unitgroup enemyGroup, point targetPoint, fixed radius, fixed damage) {
+    fixed score;
+    int count;
+    unit targetUnit;
+    unitgroup clusterGroup;
+
+    score = 0.0;
+    if ((enemyGroup == null) || (targetPoint == null)) {
+        return 0.0;
+    }
+
+    clusterGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(targetPoint, radius), 0);
+    count = UnitGroupCount(clusterGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(clusterGroup, count);
+        count = count - 1;
+        score = score + CMNovaTargetVitalityScore(targetUnit, damage);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaRavenCastMissile (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed score;
+    fixed bestScore;
+    int count;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup enemyGroup;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMNova_AB_RavenMissile) == true) {
+        return true;
+    }
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_RavenMissile) == false) {
+        return false;
+    }
+
+    bestScore = 0.0;
+    bestTarget = null;
+    enemyGroup = CMNovaEnemyGroup(player, scanGroup);
+    if (enemyGroup == null) {
+        return false;
+    }
+
+    count = UnitGroupCount(enemyGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(enemyGroup, count);
+        count = count - 1;
+        ord = AICreateOrder(player, c_CMNova_AB_RavenMissile, 0);
+        OrderSetTargetUnit(ord, targetUnit);
+        if ((UnitOrderIsValid(aiUnit, ord) == true) && (CMNovaRavenMissileHasConflict(player, aiUnit, targetUnit) == false)) {
+            score = CMNovaClusterScore(enemyGroup, UnitGetPosition(targetUnit), c_CMNova_RavenMissileClusterRadius, 100.0);
+            if (score > bestScore) {
+                bestScore = score;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if ((bestTarget == null) || (bestScore < c_CMNova_RavenMissileMinScore)) {
+        return false;
+    }
+
+    ord = AICreateOrder(player, c_CMNova_AB_RavenMissile, 0);
+    OrderSetTargetUnit(ord, bestTarget);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, AIMarker(aiUnit, c_CMNova_MK_RavenMissile), c_castRetreat);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaBansheeAirstrikeHasConflict (int player, unit aiUnit, point targetPoint, fixed radius) {
+    fixed conflictRange;
+    int allyCount;
+    unit allyUnit;
+    point allyTargetPoint;
+    unitgroup allyGroup;
+    order curOrder;
+
+    conflictRange = radius + radius;
+    if (conflictRange < c_CMNova_BansheeAirstrikeConflictRange) {
+        conflictRange = c_CMNova_BansheeAirstrikeConflictRange;
+    }
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(targetPoint, conflictRange + 8.0), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMNova_TU_Banshee) && (UnitOrderHasAbil(allyUnit, c_CMNova_AB_BansheeAirstrike) == true)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if (curOrder != null) {
+                allyTargetPoint = OrderGetTargetPoint(curOrder);
+                if (allyTargetPoint != null) {
+                    if (DistanceBetweenPoints(allyTargetPoint, targetPoint) <= conflictRange) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaBansheeCastAirstrike (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed range;
+    fixed radius;
+    int damageBase;
+    point targetPoint;
+    unit targetUnit;
+    unitgroup targetGroup;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMNova_AB_BansheeAirstrike) == true) {
+        return true;
+    }
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_BansheeAirstrike) == false) {
+        return false;
+    }
+
+    range = CMNovaAbilityRange(player, c_CMNova_AB_BansheeAirstrike, 7.0);
+    radius = CMNovaEffectRadius(player, c_CMNova_EF_BansheeAirstrikeSearch, c_CMNova_BansheeAirstrikeRadius);
+    damageBase = CMNovaDamageBase(AIEffectFixed(player, c_CMNova_EF_BansheeAirstrikeDamage, c_fieldAmount), 75);
+    targetGroup = CMNovaFilteredEnemyGroup(player, aiUnit, scanGroup, AIEffectStr(player, c_CMNova_EF_BansheeAirstrikeSearch, c_fieldFilters), range + radius + 1.0);
+    if (targetGroup == null) {
+        return false;
+    }
+
+    targetPoint = AIBestTargetPoint(
+        targetGroup,
+        1,
+        damageBase,
+        1.0,
+        radius,
+        UnitGetPosition(aiUnit),
+        range,
+        c_unitAttributeNone
+    );
+    if (targetPoint == null) {
+        targetUnit = UnitGroupClosestToPoint(targetGroup, UnitGetPosition(aiUnit));
+        if (targetUnit == null) {
+            return false;
+        }
+        targetPoint = UnitGetPosition(targetUnit);
+    }
+
+    if (CMNovaBansheeAirstrikeHasConflict(player, aiUnit, targetPoint, radius) == true) {
+        return false;
+    }
+
+    ord = AICreateOrder(player, c_CMNova_AB_BansheeAirstrike, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMNovaGoliathBestTarget (int player, unit aiUnit, unitgroup scanGroup, bool mechanicalOnly) {
+    fixed score;
+    fixed bestScore;
+    int enemyCount;
+    unit enemyUnit;
+    unit bestTarget;
+    unitgroup airGroup;
+
+    bestScore = 0.0;
+    bestTarget = null;
+    airGroup = CMNovaEnemyPlaneGroup(player, scanGroup, c_planeAir);
+    if (airGroup == null) {
+        return null;
+    }
+
+    enemyCount = UnitGroupCount(airGroup, c_unitCountAlive);
+    while (enemyCount > 0) {
+        enemyUnit = UnitGroupUnit(airGroup, enemyCount);
+        enemyCount = enemyCount - 1;
+        if ((mechanicalOnly == false) || (UnitTypeTestAttribute(UnitGetType(enemyUnit), c_unitAttributeMechanical) == true)) {
+            score = UnitGetPropertyFixed(enemyUnit, c_unitPropVitality, c_unitPropCurrent);
+            if (score > bestScore) {
+                bestScore = score;
+                bestTarget = enemyUnit;
+            }
+        }
+    }
+
+    return bestTarget;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaGoliathTargetIsTaken (int player, unit aiUnit, unit targetUnit) {
+    int allyCount;
+    unit allyUnit;
+    unit orderTarget;
+    unitgroup allyGroup;
+    order curOrder;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(targetUnit), c_CMNova_GoliathAssistRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMNova_TU_Goliath)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if ((curOrder != null) && (AIIsAttackOrder(curOrder) == true) && (OrderGetTargetType(curOrder) == c_orderTargetUnit)) {
+                orderTarget = OrderGetTargetUnit(curOrder);
+                if (orderTarget == targetUnit) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMNovaGoliathBestDistinctTarget (int player, unit aiUnit, unitgroup scanGroup, bool mechanicalOnly) {
+    fixed score;
+    fixed bestScore;
+    int enemyCount;
+    unit enemyUnit;
+    unit bestTarget;
+    unitgroup airGroup;
+
+    bestScore = 0.0;
+    bestTarget = null;
+    airGroup = CMNovaEnemyPlaneGroup(player, scanGroup, c_planeAir);
+    if (airGroup == null) {
+        return null;
+    }
+
+    enemyCount = UnitGroupCount(airGroup, c_unitCountAlive);
+    while (enemyCount > 0) {
+        enemyUnit = UnitGroupUnit(airGroup, enemyCount);
+        enemyCount = enemyCount - 1;
+        if ((mechanicalOnly == false) || (UnitTypeTestAttribute(UnitGetType(enemyUnit), c_unitAttributeMechanical) == true)) {
+            if (CMNovaGoliathTargetIsTaken(player, aiUnit, enemyUnit) == false) {
+                score = UnitGetPropertyFixed(enemyUnit, c_unitPropVitality, c_unitPropCurrent);
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestTarget = enemyUnit;
+                }
+            }
+        }
+    }
+
+    return bestTarget;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaGoliathAttackTarget (int player, unit aiUnit, unit targetUnit) {
+    order ord;
+
+    if (targetUnit == null) {
+        return false;
+    }
+
+    ord = OrderTargetingUnit(AbilityCommand(c_AB_Attack, 0), targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaBoombotDamageForTarget (unit targetUnit) {
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitTypeTestAttribute(UnitGetType(targetUnit), c_unitAttributeStructure) == true) {
+        return c_CMNova_BoombotStructureDamage;
+    }
+
+    return c_CMNova_BoombotGroundDamage;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaBoombotClusterScore (unitgroup enemyGroup, point targetPoint, fixed radius) {
+    fixed damage;
+    fixed score;
+    int count;
+    unit targetUnit;
+    unitgroup clusterGroup;
+
+    score = 0.0;
+    if ((enemyGroup == null) || (targetPoint == null)) {
+        return 0.0;
+    }
+
+    clusterGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(targetPoint, radius), 0);
+    count = UnitGroupCount(clusterGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(clusterGroup, count);
+        count = count - 1;
+        damage = CMNovaBoombotDamageForTarget(targetUnit);
+        score = score + CMNovaTargetVitalityScore(targetUnit, damage);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaBoombotOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+    fixed range;
+    fixed radius;
+    fixed score;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_NovaBoombots) == false) {
+        return null;
+    }
+
+    range = CMNovaAbilityRange(player, c_CMNova_AB_NovaBoombots, 500.0);
+    radius = CMNovaEffectRadius(player, c_CMNova_EF_NovaBoombotDamage, 4.0);
+    filters = AIEffectStr(player, c_CMNova_EF_NovaBoombotDamage, c_fieldFilters);
+    targetGroup = CMNovaFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, c_CMNova_AB_NovaBoombots, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        OrderSetTargetPoint(testOrder, UnitGetPosition(targetUnit));
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            score = CMNovaBoombotClusterScore(targetGroup, UnitGetPosition(targetUnit), radius);
+            if (score > bestScore) {
+                bestScore = score;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if ((bestTarget == null) || (bestScore < 350.0)) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, c_CMNova_AB_NovaBoombots, 0);
+    OrderSetTargetPoint(bestOrder, UnitGetPosition(bestTarget));
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaBlinkAwayOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed angle;
+    unit enemyUnit;
+    point targetPoint;
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_NovaBlink) == false) {
+        return null;
+    }
+
+    enemyUnit = CMNovaClosestEnemy(player, aiUnit, scanGroup, c_planeGround, 8.0);
+    if (enemyUnit == null) {
+        enemyUnit = CMNovaClosestEnemy(player, aiUnit, scanGroup, c_planeAir, 8.0);
+    }
+    if (enemyUnit == null) {
+        return null;
+    }
+
+    angle = AngleBetweenPoints(UnitGetPosition(enemyUnit), UnitGetPosition(aiUnit));
+    targetPoint = PointWithOffsetPolar(UnitGetPosition(aiUnit), 6.0, angle);
+    ord = CMNovaPointOrderAt(player, aiUnit, c_CMNova_AB_NovaBlink, targetPoint);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMNovaAngleDifference (fixed firstAngle, fixed secondAngle) {
+    fixed difference;
+
+    difference = AbsF(firstAngle - secondAngle);
+    if (difference > 180.0) {
+        difference = 360.0 - difference;
+    }
+
+    return difference;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaShotgunOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed aimAngle;
+    fixed bestScore;
+    fixed damage;
+    fixed score;
+    fixed targetAngle;
+    int aimCount;
+    int hitCount;
+    int targetCount;
+    unit aimUnit;
+    unit targetUnit;
+    unit bestAimUnit;
+    unitgroup enemyGroup;
+    unitgroup targetGroup;
+    point casterPoint;
+    order ord;
+
+    if (CMNovaAbilityExists(aiUnit, c_CMNova_AB_NovaShotgun) == false) {
+        return null;
+    }
+
+    casterPoint = UnitGetPosition(aiUnit);
+    enemyGroup = CMNovaEnemyPlaneGroup(player, scanGroup, c_planeGround);
+    if (enemyGroup == null) {
+        return null;
+    }
+    targetGroup = UnitGroupFilterRegion(
+        enemyGroup,
+        RegionCircle(casterPoint, c_CMNova_ShotgunRange),
+        0
+    );
+    aimCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    if (aimCount < c_CMNova_ShotgunMinHits) {
+        return null;
+    }
+
+    damage = AIEffectFixed(player, c_CMNova_EF_NovaShotgunDamage, c_fieldAmount);
+    if (damage <= 0.0) {
+        damage = 50.0;
+    }
+    bestScore = 0.0;
+    bestAimUnit = null;
+    while (aimCount > 0) {
+        aimUnit = UnitGroupUnit(targetGroup, aimCount);
+        aimCount = aimCount - 1;
+        aimAngle = AngleBetweenPoints(casterPoint, UnitGetPosition(aimUnit));
+        hitCount = 0;
+        score = 0.0;
+        targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+        while (targetCount > 0) {
+            targetUnit = UnitGroupUnit(targetGroup, targetCount);
+            targetCount = targetCount - 1;
+            targetAngle = AngleBetweenPoints(casterPoint, UnitGetPosition(targetUnit));
+            if (CMNovaAngleDifference(aimAngle, targetAngle) <= c_CMNova_ShotgunHalfArc) {
+                hitCount = hitCount + 1;
+                score = score + CMNovaTargetVitalityScore(targetUnit, damage);
+            }
+        }
+        if ((hitCount >= c_CMNova_ShotgunMinHits) && (score > bestScore)) {
+            bestScore = score;
+            bestAimUnit = aimUnit;
+        }
+    }
+    if (bestAimUnit == null) {
+        return null;
+    }
+
+    ord = CMNovaPointOrderAt(
+        player,
+        aiUnit,
+        c_CMNova_AB_NovaShotgun,
+        UnitGetPosition(bestAimUnit)
+    );
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMNovaDecoyOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed angle;
+    unit enemyUnit;
+    point targetPoint;
+    order ord;
+
+    enemyUnit = CMNovaClosestEnemy(player, aiUnit, scanGroup, c_planeGround, 8.0);
+    targetPoint = UnitGetPosition(aiUnit);
+    if (enemyUnit != null) {
+        angle = AngleBetweenPoints(UnitGetPosition(aiUnit), UnitGetPosition(enemyUnit));
+        targetPoint = PointWithOffsetPolar(UnitGetPosition(aiUnit), 2.0, angle);
+    }
+
+    ord = CMNovaPointOrderAt(player, aiUnit, c_CMNova_AB_NovaDecoy, targetPoint);
+    if (ord == null) {
+        ord = CMNovaPointOrderAt(player, aiUnit, c_CMNova_AB_NovaDecoy, UnitGetPosition(aiUnit));
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaCastNovaStealthRound (int player, unit aiUnit, unitgroup scanGroup, bool allowSnipe) {
+    fixed damage;
+    order ord;
+
+    ord = CMNovaBestPointOrder(player, aiUnit, scanGroup, c_CMNova_AB_NovaNuke, c_CMNova_EF_NovaNukeDamage, 13.0, 8.0, c_CMNova_NukeMinHits, 600, 1200.0);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+
+    ord = CMNovaBoombotOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+
+    if (allowSnipe == false) {
+        return false;
+    }
+
+    damage = AIEffectFixed(player, c_CMNova_EF_NovaSnipe, c_fieldAmount);
+    if (damage <= 0.0) {
+        damage = 200.0;
+    }
+    ord = CMNovaBestUnitOrder(player, aiUnit, scanGroup, c_CMNova_AB_NovaSnipe, damage, 10.0);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaCastNovaSuperCloakRound (int player, unit aiUnit, unitgroup scanGroup) {
+    bool allowSnipe;
+    order ord;
+
+    ord = CMNovaBoombotOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+
+    ord = CMNovaBestPointOrder(player, aiUnit, scanGroup, c_CMNova_AB_NovaNuke, c_CMNova_EF_NovaNukeDamage, 13.0, 8.0, c_CMNova_NukeMinHits, 600, 1200.0);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+
+    allowSnipe = CMNovaSuperCloakCanSnipe(aiUnit);
+    if (allowSnipe == true) {
+        return CMNovaCastNovaStealthRound(player, aiUnit, scanGroup, true);
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMNovaCastNovaAssaultRound (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    int closeGround;
+    order ord;
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    closeGround = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 7.0);
+    if ((vitality <= c_CMNova_NovaDangerVitality) && (closeGround > 0)) {
+        ord = CMNovaDecoyOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return true;
+        }
+        ord = CMNovaBlinkAwayOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castRetreat);
+            return true;
+        }
+    }
+
+    ord = CMNovaShotgunOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return true;
+    }
+
+    if (closeGround >= 5) {
+        ord = CMNovaDecoyOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return true;
+        }
+    }
+
+    if ((vitality <= c_CMNova_NovaDangerVitality) && (closeGround > 0)) {
+        ord = CMNovaBlinkAwayOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castRetreat);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaCoop (int player, unit aiUnit, unitgroup scanGroup) {
+    bool isCombat;
+    int enemyCount;
+    int groundCount;
+
+    if (CMNovaUnitBusy(aiUnit) == true) {
+        return;
+    }
+
+    if (CMNovaHasSuperCloak(player, aiUnit) == true) {
+        if (CMNovaCastNovaSuperCloakRound(player, aiUnit, scanGroup) == true) {
+            return;
+        }
+        return;
+    }
+
+    CMNovaRefreshModeSwapState(player, aiUnit, scanGroup);
+
+    isCombat = CMNovaIsCombatMode(aiUnit);
+    groundCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 12.0);
+    enemyCount = groundCount + CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, 12.0);
+    if (isCombat == true) {
+        if (CMNovaCastNovaAssaultRound(player, aiUnit, scanGroup) == true) {
+            return;
+        }
+        if ((enemyCount > 0) && (CMNovaTrySwapMode(player, aiUnit, false) == true)) {
+            return;
+        }
+    }
+    else {
+        if (CMNovaCastNovaStealthRound(player, aiUnit, scanGroup, true) == true) {
+            return;
+        }
+        if ((groundCount > 0) && (CMNovaTrySwapMode(player, aiUnit, true) == true)) {
+            return;
+        }
+    }
+
+    if (AIEvalTacticalData(aiUnit, null) == true) {
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaGhost (int player, unit aiUnit, unitgroup scanGroup) {
+    marker mark;
+    order ord;
+
+    if (AITacticalAutoCastOffForUnit(aiUnit) == true) {
+        return;
+    }
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMNova_AB_GhostEMP) == true) || (UnitOrderHasAbil(aiUnit, c_CMNova_AB_GhostSnipe) == true)) {
+        return;
+    }
+
+    mark = AIMarker(aiUnit, c_CMNova_MK_GhostEMP);
+    ord = CMNovaGhostEMPOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, mark, c_castHold);
+        return;
+    }
+
+    mark = AIMarker(aiUnit, c_CMNova_MK_GhostSnipe);
+    ord = CMNovaGhostSnipeOrder(player, aiUnit, scanGroup, mark);
+    if (ord != null) {
+        AICastCooldown(aiUnit, ord, mark, c_castHold, c_snipeCooldown, 0.0);
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaHellion (int player, unit aiUnit, unitgroup scanGroup) {
+    int closeGround;
+    order ord;
+
+    closeGround = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, c_CMNova_HellionMorphRange);
+    if (closeGround >= c_CMNova_HellionCloseGroundMin) {
+        ord = CMNovaMorphOrder(player, aiUnit, c_CMNova_AB_HellionToHellbat);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaHellbat (int player, unit aiUnit, unitgroup scanGroup) {
+    return;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaSiegeTank (int player, unit aiUnit, unitgroup scanGroup) {
+    int groundCount;
+    order ord;
+
+    if (CMNovaDeploySpiderMine(player, aiUnit, scanGroup, true) == true) {
+        return;
+    }
+    if (CMNovaDeploySpiderMine(player, aiUnit, scanGroup, false) == true) {
+        return;
+    }
+
+    groundCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 11.0);
+    if ((groundCount > 0) && (AIControlForceToMove(aiUnit) == false)) {
+        ord = CMNovaMorphOrder(player, aiUnit, c_CMNova_AB_Siege);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaSiegeTankSieged (int player, unit aiUnit, unitgroup scanGroup) {
+    int groundCount;
+    order ord;
+
+    if (CMNovaDeploySpiderMine(player, aiUnit, scanGroup, true) == true) {
+        return;
+    }
+    if (CMNovaDeploySpiderMine(player, aiUnit, scanGroup, false) == true) {
+        return;
+    }
+
+    groundCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 13.0);
+    if ((groundCount == 0) || (AIControlWantsToMove(aiUnit) == true)) {
+        ord = CMNovaMorphOrder(player, aiUnit, c_CMNova_AB_Unsiege);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaGoliath (int player, unit aiUnit, unitgroup scanGroup) {
+    unit targetUnit;
+
+    targetUnit = CMNovaGoliathBestDistinctTarget(player, aiUnit, scanGroup, true);
+    if (targetUnit == null) {
+        targetUnit = CMNovaGoliathBestTarget(player, aiUnit, scanGroup, true);
+    }
+    if (targetUnit == null) {
+        targetUnit = CMNovaGoliathBestDistinctTarget(player, aiUnit, scanGroup, false);
+    }
+    if (CMNovaGoliathAttackTarget(player, aiUnit, targetUnit) == true) {
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaLiberator (int player, unit aiUnit, unitgroup scanGroup) {
+    int airCount;
+    int groundCount;
+    order ord;
+
+    airCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, 13.0);
+    groundCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 13.0);
+
+    if (AIControlForceToMove(aiUnit) == true) {
+        return;
+    }
+    if ((airCount >= c_CMNova_LiberatorAirMany) && (airCount >= groundCount)) {
+        return;
+    }
+    if ((groundCount >= c_CMNova_LiberatorGroundMin) || ((groundCount > 0) && (airCount == 0))) {
+        ord = CMNovaBestPointOrder(player, aiUnit, scanGroup, c_CMNova_AB_LiberatorAGTarget, c_CMNova_EF_LiberatorAGSearch, 9.0, 5.0, 1, 125, 1.0);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaLiberatorAG (int player, unit aiUnit, unitgroup scanGroup) {
+    int airCount;
+    int groundCount;
+    order ord;
+
+    airCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeAir, 13.0);
+    groundCount = CMNovaEnemyPlaneCountInRange(player, aiUnit, scanGroup, c_planeGround, 13.0);
+
+    if ((AIControlForceToMove(aiUnit) == true) || (airCount >= c_CMNova_LiberatorAirMany) || (groundCount == 0)) {
+        ord = CMNovaInstantOrder(player, aiUnit, c_CMNova_AB_LiberatorAATarget);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaRaven (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMNovaRavenCastTurret(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    if (CMNovaRavenCastMissile(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkNovaBanshee (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMNovaBansheeCastAirstrike(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}

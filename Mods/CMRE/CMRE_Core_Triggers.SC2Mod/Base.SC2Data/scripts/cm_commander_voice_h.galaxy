@@ -1,0 +1,33 @@
+// Public declarations for the CM commander voice overlay registry.
+
+const int CMVO_PHASE_MAIN = 1;
+const int CMVO_PHASE_RESPONSE = 2;
+const int CMVO_PHASE_VICTORY = 3;
+
+const int CMVO_SOURCE_ANY = 0;
+const int CMVO_SOURCE_EXCLUDE_SOURCE = 1;
+const int CMVO_SOURCE_ONLY_SOURCE = 2;
+
+string CMVO_PhaseName(int lp_phase);
+int CMVO_PhaseFromName(string lp_phase);
+string CMVO_SourcePolicyName(int lp_policy);
+int CMVO_SourcePolicyFromName(string lp_policy);
+
+void CMVO_Init();
+void CMVO_Reset();
+void CMVO_ClearPlayer(int lp_player);
+void CMVO_ClearPlayerEventPhase(int lp_player, string lp_eventType, int lp_phase);
+
+void CMVO_RegisterVoiceLineData(string lp_lineId, string lp_soundId, text lp_speaker, text lp_message, string lp_portraitActor, int lp_weight, int lp_sourcePolicy, string lp_conditionProfile);
+void CMVO_RegisterLegacyConversationLineData(string lp_lineId, string lp_legacyLine, string lp_soundId, string lp_textKey, string lp_speakerCharacter, string lp_portraitActor, int lp_weight, int lp_sourcePolicy, string lp_conditionProfile);
+void CMVO_RegisterVoiceLineForPlayer(int lp_player, string lp_eventType, int lp_phase, string lp_lineId);
+void CMVO_RegisterVoiceLineForPlayerByName(int lp_player, string lp_eventType, string lp_phase, string lp_lineId);
+void CMVO_RegisterVoiceLineForCommanderPlayer(int lp_player, string lp_commander, string lp_eventType, int lp_phase, string lp_lineId);
+void CMVO_RegisterUserTypeLinesForPlayer(int lp_player, string lp_commander);
+
+bool CMVO_ConditionProfilePasses(string lp_profile, int lp_ownerPlayer, string lp_eventType, int lp_sourcePlayer);
+bool CMVO_LineCanPlayForSource(string lp_lineId, int lp_ownerPlayer, string lp_eventType, int lp_sourcePlayer);
+bool CMVO_RunVoiceLine(string lp_lineId, bool lp_waitUntilDone);
+bool CMVO_TryRunTransmissionPhase(string lp_eventType, int lp_phase, int lp_sourcePlayer, bool lp_waitUntilDone);
+bool CMVO_TryRunMissionTransmission(string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone);
+bool CMVO_TryRunMissionResponse(string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone);

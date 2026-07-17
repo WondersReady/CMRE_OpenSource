@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="10">
+        <name value="Void Shard Area 2"/>
+        <color value="255,128,128,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="106.3,45.7524"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="Void Shard Area 3"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47.3322,65.7324"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="Void Shard Area 4"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="116.9348,125.72"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="Void Shard Area 5"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47.9152,130.7431"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="Defeat - Amon Vision"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="181.2033,28.4411"/>
+            <radius value="28.1064"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Amon Revealer"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="113.994,81.4975"/>
+            <radius value="15.8012"/>
+        </shape>
+        <shape type="circle">
+            <center value="121.9982,73.0251"/>
+            <radius value="11.0012"/>
+        </shape>
+        <shape type="circle">
+            <center value="121.6235,88.764"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="120.0136,91.587"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="127.3813,88.3022"/>
+            <radius value="3.2697"/>
+        </shape>
+        <shape type="circle">
+            <center value="134.4328,75.052"/>
+            <radius value="6.0776"/>
+        </shape>
+        <shape type="circle">
+            <center value="134.66,69.7087"/>
+            <radius value="2.34"/>
+        </shape>
+        <shape type="circle">
+            <center value="131.9428,79.4228"/>
+            <radius value="3.4995"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.5808,76.463"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.2238,74.68"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.3525,78.5786"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="100.348,83.872"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="95.2578,85.7097"/>
+            <radius value="5.0546"/>
+        </shape>
+        <shape type="circle">
+            <center value="102.2067,88.5012"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="105.745,92.5515"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.067,94.7304"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="107.918,97.7446"/>
+            <radius value="5.789"/>
+        </shape>
+        <shape type="circle">
+            <center value="98.8186,96.3488"/>
+            <radius value="4.044"/>
+        </shape>
+        <shape type="circle">
+            <center value="96.3854,91.783"/>
+            <radius value="2.1154"/>
+        </shape>
+        <shape type="circle">
+            <center value="95.049,96.604"/>
+            <radius value="2.1154"/>
+        </shape>
+        <shape type="circle">
+            <center value="117.5766,100.6213"/>
+            <radius value="3.5507"/>
+        </shape>
+        <shape type="circle">
+            <center value="117.3537,95.936"/>
+            <radius value="3.5507"/>
+        </shape>
+        <shape type="circle">
+            <center value="116.0495,100.9892"/>
+            <radius value="3.5507"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.091,98.4086"/>
+            <radius value="3.5507"/>
+        </shape>
+        <shape type="circle">
+            <center value="122.225,68.205"/>
+            <radius value="7.8474"/>
+        </shape>
+        <shape type="circle">
+            <center value="121.3112,62.071"/>
+            <radius value="2.2673"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.1992,69.0217"/>
+            <radius value="3.3937"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.842,70.5036"/>
+            <radius value="2.918"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.1403,69.7592"/>
+            <radius value="2.434"/>
+        </shape>
+        <shape type="circle">
+            <center value="104.567,73.9455"/>
+            <radius value="1.2001"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.6982,67.3354"/>
+            <radius value="1.65"/>
+        </shape>
+        <shape type="circle">
+            <center value="101.0163,66.9885"/>
+            <radius value="2.1154"/>
+        </shape>
+        <shape type="circle">
+            <center value="100.2165,69.739"/>
+            <radius value="1.9211"/>
+        </shape>
+        <shape type="circle">
+            <center value="99.245,72.4042"/>
+            <radius value="3.496"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Void Shard Bullies 01 - 02"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="159,70"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Void Shard Bullies 01 - 03"/>
+        <color value="255,255,128,64"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="158.996,70.0393"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Void Shard Bullies 01 - 04"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="156.5231,67.381"/>
+            <radius value="21.8381"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Void Shard Bullies 02 - 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="106,46"/>
+            <radius value="10"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Void Shard Bullies 02 - 02"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="106,46"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+    <region id="15">
+        <name value="Void Shard Bullies 02 - 03"/>
+        <color value="255,255,128,64"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="106,46"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Void Shard Bullies 02 - 04"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="106,46"/>
+            <radius value="25"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Void Shard Bullies 03 - 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47,66"/>
+            <radius value="10"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Void Shard Bullies 03 - 02"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47,66"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="Void Shard Bullies 03 - 03"/>
+        <color value="255,255,128,64"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47,66"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Void Shard Bullies 03 - 04"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="47,66"/>
+            <radius value="25"/>
+        </shape>
+    </region>
+    <region id="29">
+        <name value="Void Shard Bullies 04 - 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117,126"/>
+            <radius value="10"/>
+        </shape>
+    </region>
+    <region id="30">
+        <name value="Void Shard Bullies 04 - 02"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117,126"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+    <region id="31">
+        <name value="Void Shard Bullies 04 - 03"/>
+        <color value="255,255,128,64"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117,126"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="32">
+        <name value="Void Shard Bullies 04 - 04"/>
+        <color value="255,255,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="117,126"/>
+            <radius value="25"/>
+        </shape>
+    </region>
+    <region id="33">
+        <name value="Void Shard Bullies 05 - 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48,130"/>
+            <radius value="10"/>
+        </shape>
+    </region>
+    <region id="34">
+        <name value="Void Shard Bullies 05 - 02"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48,130"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+    <region id="35">
+        <name value="Void Shard Bullies 05 - 03"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48,130"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="36">
+        <name value="Void Shard Bullies 05 - 04"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="48,130"/>
+            <radius value="25"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Void Shard Bullies 01 - 01"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="159,70"/>
+            <radius value="10"/>
+        </shape>
+    </region>
+    <region id="28">
+        <name value="Void Shard Terrain Hide 1"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="155.4558,66.2907,162.4555,73.2907"/>
+        </shape>
+    </region>
+    <region id="37">
+        <name value="Void Shard Terrain Hide 2"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="102.4772,42.5024,109.477,49.5024"/>
+        </shape>
+    </region>
+    <region id="38">
+        <name value="Void Shard Terrain Hide 3"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="43.5107,62.546,50.5104,69.546"/>
+        </shape>
+    </region>
+    <region id="39">
+        <name value="Void Shard Terrain Hide 4"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="113.4846,122.5495,120.4843,129.5495"/>
+        </shape>
+    </region>
+    <region id="40">
+        <name value="Void Shard Terrain Hide 5"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="45.037,127.0227,51.0124,133.027"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="BO Region 01"/>
+        <color value="255,255,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="184.4118,101.331"/>
+            <radius value="8.4016"/>
+        </shape>
+        <shape type="circle">
+            <center value="179.1403,93.2534"/>
+            <radius value="8.4016"/>
+        </shape>
+        <shape type="circle">
+            <center value="184.8002,96.1662"/>
+            <radius value="8.4016"/>
+        </shape>
+    </region>
+    <region id="41">
+        <name value="BO Region 03"/>
+        <color value="255,255,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="160.8298,148.6586"/>
+            <radius value="8.4016"/>
+        </shape>
+        <shape type="circle">
+            <center value="165.5368,145.3935"/>
+            <radius value="8.4016"/>
+        </shape>
+        <shape type="circle">
+            <center value="167.7275,147.7973"/>
+            <radius value="8.4016"/>
+        </shape>
+    </region>
+    <region id="42">
+        <name value="BO Region 02"/>
+        <color value="255,255,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="54.257,24.375"/>
+            <radius value="8.4016"/>
+        </shape>
+        <shape type="circle">
+            <center value="46.3872,25.528"/>
+            <radius value="8.4016"/>
+        </shape>
+        <shape type="circle">
+            <center value="50.9038,22.748"/>
+            <radius value="8.4016"/>
+        </shape>
+    </region>
+    <region id="43">
+        <name value="BO Reveal 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="183.11,97.7431"/>
+            <radius value="18.769"/>
+        </shape>
+    </region>
+    <region id="44">
+        <name value="BO Reveal 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="56.1811,28.5834"/>
+            <radius value="17.9494"/>
+        </shape>
+    </region>
+    <region id="45">
+        <name value="BO Reveal 03"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="131.408,152.2226"/>
+            <radius value="17.4992"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Void Shard Area 1"/>
+        <color value="255,128,128,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="159.0656,70.1018"/>
+            <radius value="20"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Expansion A Reveal 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="164.935,82.496"/>
+            <radius value="0.7377"/>
+        </shape>
+        <shape type="circle">
+            <center value="166.0007,83.549"/>
+            <radius value="0.647"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.0773,82.58"/>
+            <radius value="0.6386"/>
+        </shape>
+        <shape type="circle">
+            <center value="170.0854,81.4663"/>
+            <radius value="0.612"/>
+        </shape>
+        <shape type="circle">
+            <center value="171.0915,80.4814"/>
+            <radius value="0.6018"/>
+        </shape>
+        <shape type="circle">
+            <center value="171.1457,79.3537"/>
+            <radius value="0.5612"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Expansion A Reveal 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="165.1501,56.44"/>
+            <radius value="0.5698"/>
+        </shape>
+        <shape type="circle">
+            <center value="166.0251,55.4553"/>
+            <radius value="0.561"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.0881,56.472"/>
+            <radius value="0.6374"/>
+        </shape>
+        <shape type="circle">
+            <center value="170.2026,57.3242"/>
+            <radius value="0.4936"/>
+        </shape>
+        <shape type="circle">
+            <center value="170.9096,58.3613"/>
+            <radius value="0.5881"/>
+        </shape>
+        <shape type="circle">
+            <center value="171.1176,59.4304"/>
+            <radius value="0.5444"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Expansion B Reveal 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="106.9748,63.4973"/>
+            <radius value="0.6606"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.1147,64.5915"/>
+            <radius value="0.558"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.1098,64.534"/>
+            <radius value="0.5876"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.1166,63.4624"/>
+            <radius value="0.5197"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.0107,63.4841"/>
+            <radius value="0.524"/>
+        </shape>
+        <shape type="circle">
+            <center value="115.025,62.4016"/>
+            <radius value="0.4858"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Expansion B Reveal 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="105.6276,31.619"/>
+            <radius value="0.6252"/>
+        </shape>
+        <shape type="circle">
+            <center value="106.872,30.3708"/>
+            <radius value="0.4597"/>
+        </shape>
+        <shape type="circle">
+            <center value="109.0551,30.5231"/>
+            <radius value="0.4426"/>
+        </shape>
+        <shape type="circle">
+            <center value="110.0187,31.5085"/>
+            <radius value="0.4497"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.9167,31.4802"/>
+            <radius value="0.5056"/>
+        </shape>
+        <shape type="circle">
+            <center value="113.868,32.3574"/>
+            <radius value="0.4067"/>
+        </shape>
+    </region>
+    <region id="13">
+        <name value="Initial Player Vision"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="192.622,21.0598"/>
+            <radius value="14.2502"/>
+        </shape>
+        <shape type="circle">
+            <center value="193.802,34.4565"/>
+            <radius value="14.2502"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.1701,42.071"/>
+            <radius value="9.7385"/>
+        </shape>
+        <shape type="circle">
+            <center value="162.3645,31.6442"/>
+            <radius value="12.2092"/>
+        </shape>
+        <shape type="circle">
+            <center value="163.5573,15.8972"/>
+            <radius value="11.464"/>
+        </shape>
+        <shape type="circle">
+            <center value="176.561,47.2111"/>
+            <radius value="8.6394"/>
+        </shape>
+        <shape type="circle">
+            <center value="190.7658,46.6062"/>
+            <radius value="17.378"/>
+        </shape>
+        <shape type="circle">
+            <center value="154.9992,20.5183"/>
+            <radius value="8.4086"/>
+        </shape>
+        <shape type="circle">
+            <center value="175.649,17.222"/>
+            <radius value="11.464"/>
+        </shape>
+        <shape type="circle">
+            <center value="177.0847,30.8862"/>
+            <radius value="8.6394"/>
+        </shape>
+    </region>
+    <region id="18">
+        <name value="BonusSuccessZone1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="187.06,104.3603"/>
+            <radius value="4.5166"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="Bonus Objective South"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="55.083,28.0515"/>
+            <width value="24.683"/>
+            <height value="38.0546"/>
+        </shape>
+    </region>
+    <region id="46">
+        <name value="Bonus Objective East"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="159.8837,86.8107,191.2685,107.2651"/>
+        </shape>
+    </region>
+    <region id="47">
+        <name value="Bonus Objective North"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="131.491,153.6396"/>
+            <radius value="12.546"/>
+        </shape>
+    </region>
+    <region id="48">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="192.618,20.8393"/>
+            <radius value="14.2502"/>
+        </shape>
+        <shape type="circle">
+            <center value="193.7978,34.236"/>
+            <radius value="14.2502"/>
+        </shape>
+        <shape type="circle">
+            <center value="168.166,41.8505"/>
+            <radius value="9.7385"/>
+        </shape>
+        <shape type="circle">
+            <center value="162.3603,31.4238"/>
+            <radius value="12.2092"/>
+        </shape>
+        <shape type="circle">
+            <center value="163.5532,15.6767"/>
+            <radius value="11.464"/>
+        </shape>
+        <shape type="circle">
+            <center value="176.557,46.9907"/>
+            <radius value="8.6394"/>
+        </shape>
+        <shape type="circle">
+            <center value="190.7617,46.3857"/>
+            <radius value="17.378"/>
+        </shape>
+        <shape type="circle">
+            <center value="154.995,20.2978"/>
+            <radius value="8.4086"/>
+        </shape>
+        <shape type="circle">
+            <center value="175.6447,17.0014"/>
+            <radius value="11.464"/>
+        </shape>
+        <shape type="circle">
+            <center value="177.0805,30.6657"/>
+            <radius value="8.6394"/>
+        </shape>
+        <shape type="circle">
+            <center value="108.5297,36.7797"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="109.0998,58.3298"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

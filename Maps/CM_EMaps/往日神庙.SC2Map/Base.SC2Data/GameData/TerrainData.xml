@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="ShakurasTemple">
+        <HeightMapEnabled value="1"/>
+    </CTerrain>
+</Catalog>

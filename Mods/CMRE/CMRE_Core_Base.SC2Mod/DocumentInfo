@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocInfo>
+    <Dependencies>
+        <Value>bnet:CM_ArtPack_Base/0.0/178531,file:Mods\CM_ArtPack\CM_ArtPack_Base.SC2Mod</Value>
+        <Value>bnet:Void (Campaign)/0.0/999,file:Campaigns/Void.SC2Campaign</Value>
+    </Dependencies>
+</DocInfo>

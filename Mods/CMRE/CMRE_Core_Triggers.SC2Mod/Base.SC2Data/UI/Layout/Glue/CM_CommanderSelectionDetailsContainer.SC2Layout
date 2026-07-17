@@ -1,0 +1,1866 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    
+    
+    <!-- 
+    
+    Commander Trait Ability Info Container Template 
+    
+    -->
+    
+    <Frame type="Frame" name="AbilContainerTemplate">
+        <Width val="504"/>
+        <Height val="415"/>
+
+        <Frame type="Image" name="Background">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/SC2_UI_Coop_TooltipBG"/>
+            <TextureType val="NineSlice"/>
+        </Frame>
+        
+        <Frame type="Image" name="HoriztonalBorder">
+            <Anchor side="Top" relative="$parent/LevelCapWarningLabel" pos="Max" offset="5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="4"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-4"/>
+            <Height val="2"/>
+            <LayerColor val="00a8ff"/>
+            <Alpha val="102"/>
+            <PreserveAnchorOffset val="True"/>
+            
+            <StateGroup name="AnchorState">
+                <DefaultState val="TitleAnchored"/>
+                
+                <State name="CapAnchored">
+                    <When type="Property" frame="$parent/LevelCapWarningLabel" Visible="True"/>
+                    <Action type="SetAnchor" side="Top" relative="$parent/LevelCapWarningLabel" pos="Max" offset="5"/>
+                </State>
+                
+                <State name="TitleAnchored">
+                    <Action type="SetAnchor" side="Top" relative="$parent/LevelCapWarningLabel" pos="Max" offset="9"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Label" name="LevelLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="14"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="25"/>
+            <Style val="@Coop_AbilTooltip_LevelLabel"/>
+            <Text val=""/>
+        </Frame>
+
+        <Frame type="Label" name="ExperienceLabel">
+            <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/LevelLabel" pos="Max" offset="5"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+            <Style val="@Coop_AbilTooltip_ExperienceLabel"/>
+            <Text val=""/>
+
+            <StateGroup name="MaxLevelStateGroup">
+                <DefaultState val="NotMaxLevelState"/>
+                
+                <State name="MaxLevelState">
+                    <When type="AnimationState" frame="$CM_CoopStandardGlue_CommanderSelectionPanel" CommanderMaxLevel="MaxLevel"/>
+                    <Action type="SetProperty" frame="$this" Text="@CMUI/ScreenCoopCampaign/ExperienceMaxTooltip"/>
+                </State>
+
+                <State name="NotMaxLevelState">
+                    <When type="AnimationState" frame="$CM_CoopStandardGlue_CommanderSelectionPanel" CommanderMaxLevel="NotMaxLevel"/>
+                    <Action type="SetProperty" frame="$this" Text=""/>
+                </State>
+            </StateGroup>
+        </Frame>
+        
+        <Frame type="Label" name="LevelCapWarningLabel">
+            <Anchor side="Top" relative="$parent/LevelLabel" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/LevelLabel" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-50"/>
+            <Text val="@CMUI/ScreenCoopCampaign/XPCappedHint"/>
+            <Style val="Coop_TraitTooltip_Warning"/>
+            <CollapseLayout val="True"/>
+            <Visible val="{$parent/$parent/DetailsContainer/DetailsBackground/CappedLevelLabel/@Visible}"/>
+        </Frame>
+        
+        <Frame type="Image" name="CappedIcon">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="19"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-19"/>
+            <Texture val="@UI/SC2_UI_Coop_CappedIcon_Small_Overlay"/>
+            <Visible val="{$parent/LevelCapWarningLabel/@Visible}"/>
+        </Frame>
+
+        <Frame type="Label" name="Title">
+            <Anchor side="Top" relative="$parent/HoriztonalBorder" pos="Max" offset="15"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="25"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@Coop_TraitTooltip_Title"/>
+            <Text val=""/>
+        </Frame>
+
+        <Frame type="Frame" name="TileList">
+            <Anchor side="Top" relative="$parent/Title" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+
+            <!-- <Frame type="CommanderAbilTileListItem" name="Item0" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate"> -->
+            <Frame type="Button" name="Item0" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="15"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="23"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderAbilTileListItem" name="Item1" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate"> -->
+            <Frame type="Button" name="Item1" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="5"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderAbilTileListItem" name="Item2" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate"> -->
+            <Frame type="Button" name="Item2" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="5"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderAbilTileListItem" name="Item3" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate"> -->
+            <Frame type="Button" name="Item3" template="CM_CommanderSelectionDetailsContainerItems/CommanderAbilTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="5"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+            </Frame>
+            
+            <Frame type="Frame" name="ListPadding">
+                <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="5"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/Item0" pos="Max" offset="0"/>
+                <Height val="20"/>
+            </Frame>
+        </Frame>
+    </Frame>
+    
+    <!--
+    
+    Commander Info Detail Container Template
+    
+    -->
+    
+    <Frame type="Frame" name="InfoDetailContainerTemplate">
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="17"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+            <!-- <Handle val="CM_CoopStandardGlue_CommanderDescriptionLabel"/> -->
+            <Style val="@Coop_CommanderInfoDescription"/>
+            <Text val=""/>
+        </Frame>
+
+        <Frame type="Label" name="DetailsLabel">
+            <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="11"/>
+            <Anchor side="Left" relative="$parent/DescriptionLabel" pos="Min" offset="-2"/>
+            <Anchor side="Right" relative="$parent/DescriptionLabel" pos="Max" offset="0"/>
+            <Style val="@Coop_CommanderInfoDetails"/>
+            <Text val=""/>
+        </Frame>
+    </Frame>
+    
+    <!--
+    
+    Units Detail Container Template
+    
+    -->
+    
+    <Frame type="Frame" name="UnitsDetailContainerTemplate">
+
+        <Frame type="Frame" name="UnitTileList">
+            <Anchor relative="$parent"/>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item0" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item0" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="14"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item1" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item1" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item0" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item2" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item2" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item1" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item3" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item3" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item2" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item2" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item4" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item4" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item3" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item3" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item5" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item5" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item4" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item4" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item6" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item6" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item7" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item7" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item8" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item8" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item7" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item7" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item9" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item9" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item8" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item8" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item10" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item10" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item9" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item9" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item11" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item11" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item10" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item12" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item12" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Min" offset="0"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item13" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item13" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item12" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item12" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item14" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item14" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item13" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item13" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item15" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item15" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item14" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item14" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item16" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item16" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item15" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item15" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderUnitTileListItem" name="Item17" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate"> -->
+            <Frame type="Button" name="Item17" template="CM_CommanderSelectionDetailsContainerItems/CommanderUnitTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item16" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item16" pos="Max" offset="12"/>
+            </Frame>
+        </Frame>
+    </Frame>
+    
+    
+    <!--
+    
+    Upgrades Detail Container Template
+    
+    -->
+    
+    <Frame type="Frame" name="UpgradesDetailContainerTemplate">
+
+        <Frame type="Frame" name="TalentTileList">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item0" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item0" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="14"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="14"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item1" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item1" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item0" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item2" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item2" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item1" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item3" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item3" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item2" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item2" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item4" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item4" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item3" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item3" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item5" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item5" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item4" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item4" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item6" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item6" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item0" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/Item0" pos="Min" offset="0"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item7" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item7" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item8" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item8" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item7" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item7" pos="Max" offset="12"/>
+            </Frame>
+
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item9" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item9" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item8" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item8" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item10" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item10" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item9" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item9" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item11" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item11" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item10" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item12" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item12" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="10"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Min" offset="0"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item13" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item13" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item12" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item12" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item14" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item14" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item13" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item13" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item15" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item15" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item14" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item14" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item16" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item16" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item15" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item15" pos="Max" offset="12"/>
+            </Frame>
+            
+            <!-- <Frame type="CommanderTalentTileListItem" name="Item17" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate"> -->
+            <Frame type="Button" name="Item17" template="CM_CommanderSelectionDetailsContainerItems/CommanderTalentTileListItemTemplate">
+                <Anchor side="Top" relative="$parent/Item16" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item16" pos="Max" offset="12"/>
+            </Frame>
+        </Frame>
+    </Frame>
+    
+    <!--
+
+    Commander Status Detail Container Template
+
+    -->
+
+    <Frame type="Frame" name="StatusMasteryValueRowTemplate">
+        <Width val="404"/>
+        <Height val="32"/>
+
+        <Frame type="Image" name="BottomLine">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="1"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Color val="37,107,169"/>
+            <Alpha val="180"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-74"/>
+            <Style val="StandardTabButton_Normal"/>
+            <Text val="@CMUI/ScreenCoopCampaign/StatusUnset"/>
+            <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+        </Frame>
+
+        <Frame type="Image" name="ColumnDivider">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-70"/>
+            <Width val="1"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Color val="37,107,169"/>
+            <Alpha val="180"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="ValueLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/ColumnDivider" pos="Max" offset="6"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+            <Style val="StandardTabButton_Normal"/>
+            <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+            <Text val="@CMUI/ScreenCoopCampaign/StatusUnset"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="StatusMasteryGroupTemplate">
+        <Width val="522"/>
+        <Height val="64"/>
+
+        <Frame type="Image" name="GroupBottomLine">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/GroupDivider" pos="Min" offset="0"/>
+            <Height val="1"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Color val="37,107,169"/>
+            <Alpha val="180"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Image" name="GroupDivider">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="118"/>
+            <Width val="1"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Color val="37,107,169"/>
+            <Alpha val="180"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="GroupLabel">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="-12"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="12"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+            <Anchor side="Right" relative="$parent/GroupDivider" pos="Min" offset="-8"/>
+            <Style val="StandardTabButton_Normal"/>
+            <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+        </Frame>
+
+        <Frame type="Frame" name="Row0" template="CM_CommanderSelectionDetailsContainer/StatusMasteryValueRowTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/GroupDivider" pos="Max" offset="0"/>
+        </Frame>
+
+        <Frame type="Frame" name="Row1" template="CM_CommanderSelectionDetailsContainer/StatusMasteryValueRowTemplate">
+            <Anchor side="Top" relative="$parent/Row0" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/Row0" pos="Min" offset="0"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="StatusDetailContainerTemplate">
+        <Frame type="Label" name="HeaderLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="16"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-22"/>
+            <Style val="@Coop_CommanderInfoDescription"/>
+            <Text val="@CMUI/ScreenCoopCampaign/StatusSummary"/>
+            <Visible val="False"/>
+            <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+        </Frame>
+
+        <Frame type="Image" name="HeaderDivider">
+            <Anchor side="Top" relative="$parent/HeaderLabel" pos="Max" offset="8"/>
+            <Anchor side="Left" relative="$parent/HeaderLabel" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent/HeaderLabel" pos="Max" offset="0"/>
+            <Height val="2"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Color val="37,107,169"/>
+            <Alpha val="150"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Frame" name="TableHeader">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="34"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="22"/>
+            <Width val="522"/>
+            <Height val="28"/>
+
+            <Frame type="Image" name="BottomLine">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+                <Visible val="False"/>
+            </Frame>
+
+            <Frame type="Image" name="ColumnDivider0">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="118"/>
+                <Width val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+                <Visible val="False"/>
+            </Frame>
+
+            <Frame type="Image" name="ColumnDivider1">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-70"/>
+                <Width val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+                <Visible val="False"/>
+            </Frame>
+
+            <Frame type="Label" name="GroupHeaderLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+                <Anchor side="Right" relative="$parent/ColumnDivider0" pos="Min" offset="-8"/>
+                <Style val="StandardTabButton_Normal"/>
+                <Text val="@CMUI/ScreenCoopCampaign/StatusGroupColumn"/>
+                <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+            </Frame>
+
+            <Frame type="Label" name="NameHeaderLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/ColumnDivider0" pos="Max" offset="10"/>
+                <Anchor side="Right" relative="$parent/ColumnDivider1" pos="Min" offset="-10"/>
+                <Style val="StandardTabButton_Normal"/>
+                <Text val="@CMUI/ScreenCoopCampaign/StatusMasteryNameColumn"/>
+                <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+            </Frame>
+
+            <Frame type="Label" name="PointsHeaderLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/ColumnDivider1" pos="Max" offset="6"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+                <Style val="StandardTabButton_Normal"/>
+                <Text val="@CMUI/ScreenCoopCampaign/StatusPointsColumn"/>
+                <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="MasteryGroup0" template="CM_CommanderSelectionDetailsContainer/StatusMasteryGroupTemplate">
+            <Anchor side="Top" relative="$parent/TableHeader" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/TableHeader" pos="Min" offset="0"/>
+
+            <Frame type="Label" name="GroupLabel">
+                <Text val="@CMUI/ScreenCoopCampaign/StatusMasterySet1"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="MasteryGroup1" template="CM_CommanderSelectionDetailsContainer/StatusMasteryGroupTemplate">
+            <Anchor side="Top" relative="$parent/MasteryGroup0" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/MasteryGroup0" pos="Min" offset="0"/>
+
+            <Frame type="Label" name="GroupLabel">
+                <Text val="@CMUI/ScreenCoopCampaign/StatusMasterySet2"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="MasteryGroup2" template="CM_CommanderSelectionDetailsContainer/StatusMasteryGroupTemplate">
+            <Anchor side="Top" relative="$parent/MasteryGroup1" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/MasteryGroup1" pos="Min" offset="0"/>
+
+            <Frame type="Label" name="GroupLabel">
+                <Text val="@CMUI/ScreenCoopCampaign/StatusMasterySet3"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="StatusTableGrid">
+            <Anchor side="Top" relative="$parent/TableHeader" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/TableHeader" pos="Min" offset="0"/>
+            <Width val="522"/>
+            <Height val="220"/>
+
+            <Frame type="Image" name="GroupColumnDivider">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="118"/>
+                <Width val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+            </Frame>
+
+            <Frame type="Image" name="PointsColumnDivider">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="452"/>
+                <Width val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+            </Frame>
+
+            <Frame type="Image" name="HeaderBottomLine">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="28"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+            </Frame>
+
+            <Frame type="Image" name="RowLine0">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="60"/>
+                <Anchor side="Left" relative="$parent/GroupColumnDivider" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="120"/>
+            </Frame>
+
+            <Frame type="Image" name="GroupLine0">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="92"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+            </Frame>
+
+            <Frame type="Image" name="RowLine1">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="124"/>
+                <Anchor side="Left" relative="$parent/GroupColumnDivider" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="120"/>
+            </Frame>
+
+            <Frame type="Image" name="GroupLine1">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="156"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+            </Frame>
+
+            <Frame type="Image" name="RowLine2">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="188"/>
+                <Anchor side="Left" relative="$parent/GroupColumnDivider" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="120"/>
+            </Frame>
+
+            <Frame type="Image" name="GroupLine2">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="219"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="1"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="37,107,169"/>
+                <Alpha val="180"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="AllianceStateBackgroundContainerTemplate" template="StandardSmallButtonTemplates/StandardSmallPulldownListBoxBackground">
+        <Anchor side="Top" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Min" offset="1"/>
+        <Anchor side="Bottom" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="-1"/>
+        <Anchor side="Left" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Min" offset="1"/>
+        <Anchor side="Right" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="-1"/>
+        <AcceptsMouse val="True"/>
+
+        <Frame type="Image" name="Background">
+            <LayerColor val="0,0,0" layer="1"/>
+        </Frame>
+
+        <Frame type="Image" name="TopGradient">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="1"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-1"/>
+            <Height val="100"/>
+            <DesaturateOnDisable val="False"/>
+            <RenderPriority val="513"/>
+            <LayerCount val="2"/>
+            <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Mask" layer="0"/>
+            <TextureType val="NineSlice" layer="0"/>
+            <AlphaLayer val="True" layer="0"/>
+            <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Background_Gradient" layer="1"/>
+            <LayerAlpha val="230" layer="1"/>
+            <LayerColor val="0,25,56" layer="1"/>
+            <TextureCoords top="1" left="0" bottom="0" right="1" layer="1"/>
+        </Frame>
+    </Frame>
+
+    <!--
+
+    Alliance Status Panel Template
+
+    -->
+
+    <Frame type="Frame" name="AllianceStatePanelTemplate">
+        <Width val="1000"/>
+        <Height val="360"/>
+
+        <Frame type="Frame" name="InfoContainer">
+            <Handle val="CM_AllianceStateInfoContainer"/>
+            <Anchor relative="$parent"/>
+            <Visible val="False"/>
+
+            <Animation name="Show">
+                <Event event="Show" action="Reset,Play" frame="$parent"/>
+
+                <Controller type="Property" end="Pause" property="Toggled" frame="$parent/Button">
+                    <Key type="Property" time="0" value="true"/>
+                </Controller>
+
+            </Animation>
+
+            <Animation name="Hide">
+                <Event event="OnClick" action="Reset,Play" frame="CloseButton"/>
+                <Event event="Inactive" action="Reset,Play" frame="$parent"/>
+                <Event event="UISlideOut" action="Reset,Play" frame="$parent/$parent"/>
+
+                <Controller type="Property" end="Pause" property="Toggled" frame="$parent/Button">
+                    <Key type="Property" time="0" value="false"/>
+                </Controller>
+            </Animation>
+
+            <StateGroup name="ShowStateGroup">
+                <State name="ToggledState">
+                    <When type="Property" frame="$parent/Button" Toggled="true"/>
+                    <Action type="SetProperty" frame="$this" Visible="true"/>
+                </State>
+
+                <State name="UntoggledState">
+                    <When type="Property" frame="$parent/Button" Toggled="false"/>
+                    <Action type="SetProperty" frame="$this" Visible="false"/>
+                </State>
+            </StateGroup>
+
+            <Frame type="Frame" name="BackgroundContainer" template="CM_CommanderSelectionDetailsContainer/AllianceStateBackgroundContainerTemplate"/>
+
+            <Frame type="Frame" name="DetailsBackground" template="StandardBattlenetTemplates/BattlenetStandardContentContainerTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="47"/>
+                <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="108"/>
+                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+                <Width val="804"/>
+                <Height val="298"/>
+
+                <Frame type="Image" name="DividerAnchor">
+                    <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="76"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="239"/>
+                </Frame>
+
+                <Frame type="Image" name="DividerTop">
+                    <Visible val="True"/>
+                </Frame>
+
+                <Frame type="Image" name="DividerLeft">
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Image" name="DividerRight">
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Image" name="BodyShadow">
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Image" name="CommanderDetailsBackground">
+                    <!-- <Handle val="CM_AllianceStatusCommanderIcon"/> -->
+                    <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/DividerAnchor" pos="Min" offset="0"/>
+                    <Texture val="Assets\Textures\White.dds"/>
+                    <TextureType val="Normal"/>
+                    <Tiled val="false"/>
+                    <TextureCoords top="0" left="0" bottom="1" right="1"/>
+                </Frame>
+
+                <Frame type="Image" name="ArtBackgroundVignette">
+                    <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="-2"/>
+                    <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="-2"/>
+                    <Anchor side="Right" relative="$parent/DividerAnchor" pos="Min" offset="2"/>
+                    <Texture val="@UI/Glues_Battlenet_PageAssets_StandardElements_ArtBackground_Vignette"/>
+                    <Color val="20,119,217"/>
+                    <Alpha val="31"/>
+                </Frame>
+
+                <Frame type="Frame" name="LevelRingFrame">
+                    <Handle val="CM_AllianceStateLevelRingFrame"/>
+                    <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                    <Anchor side="Right" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                    <Width val="156"/>
+                    <Height val="156"/>
+
+                    <Frame type="Image" name="BorderImage">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                        <Texture val="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Normal"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="FillImageContainer">
+                        <Anchor relative="$parent"/>
+
+                        <Frame type="Image" name="FillImage">
+                            <Anchor relative="$parent"/>
+                            <Texture val="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Normal"/>
+                            <TextureType val="Normal"/>
+                        </Frame>
+                    </Frame>
+
+                    <Frame type="Image" name="MaxLevelFillImage">
+                        <Anchor relative="$parent"/>
+                        <Visible val="False"/>
+                        <Texture val="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max"/>
+                    </Frame>
+
+                </Frame>
+
+                <Frame type="Image" name="RandomIcon">
+                    <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                    <Anchor side="Right" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                    <Texture val="@UI/SC2_UI_Coop_CommanderIcon_Bubble_Random"/>
+                    <Visible val="False"/>
+                </Frame>
+
+                <Frame type="Image" name="MaxLevelIcon">
+                    <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                    <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                    <Anchor side="Left" relative="$parent/LevelLabel" pos="Mid" offset="-2"/>
+                    <Anchor side="Right" relative="$parent/LevelLabel" pos="Mid" offset="-2"/>
+                    <Width val="143"/>
+                    <Height val="141"/>
+                    <ImageMaskTexture val="@UI/SC2_UI_Coop_CommanderIcon_Bubble_Mask"/>
+                    <Texture val="@UI/SC2_UI_Coop_CommanderIcon_MaxLevel_Large"/>
+                    <Visible val="false"/>
+                </Frame>
+
+                <Frame type="Label" name="LevelLabel">
+                    <!-- <Handle val="CM_AllianceStatusLevelLabel"/> -->
+                    <Anchor side="Top" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="-30"/>
+                    <Anchor side="Bottom" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="-30"/>
+                    <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                    <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                    <Width val="150"/>
+                    <Style val="@Coop_CommanderLevel"/>
+                    <Text val=""/>
+                    <Options val="ScaleToPreventTruncation"/>
+                </Frame>
+
+                <StateGroup name="LevelDisplayModeState">
+                    <DefaultState val="PrestigeMax"/>
+
+                    <State name="Random">
+                        <When type="AnimationState" frame="$parent/$parent" RandomState="Random"/>
+                        <Action type="SetProperty" frame="LevelRingFrame" Visible="false"/>
+                        <Action type="SetProperty" frame="LevelLabel" Visible="false"/>
+                        <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                        <Action type="SetProperty" frame="RandomIcon" Visible="true"/>
+                    </State>
+
+                    <State name="PrestigeMax">
+                        <Action type="SetProperty" frame="LevelRingFrame" Visible="true"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max_Capped"/>
+                        <Action type="SetProperty" frame="LevelLabel" Visible="false"/>
+                        <Action type="SetProperty" frame="MaxLevelIcon" Visible="true"/>
+                        <Action type="SetProperty" frame="RandomIcon" Visible="false"/>
+                    </State>
+
+                    <State name="Prestige">
+                        <When type="AnimationState" frame="$parent/$parent" LevelDisplayMode="Prestige"/>
+                        <Action type="SetProperty" frame="LevelRingFrame" Visible="true"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max"/>
+                        <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel_Max"/>
+                        <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                        <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                        <Action type="SetProperty" frame="RandomIcon" Visible="false"/>
+                    </State>
+
+                    <State name="Normal">
+                        <When type="AnimationState" frame="$parent/$parent" LevelDisplayMode="Normal"/>
+                        <Action type="SetProperty" frame="LevelRingFrame" Visible="true"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Normal"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="True"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Normal"/>
+                        <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="False"/>
+                        <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel"/>
+                        <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                        <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                        <Action type="SetProperty" frame="RandomIcon" Visible="false"/>
+                    </State>
+                </StateGroup>
+
+                <Frame type="Label" name="MasterySpentLabel">
+                    <Handle val="CM_AllianceStateMasterySpentLabel"/>
+                    <Anchor side="Bottom" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-78"/>
+                    <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Min" offset="20"/>
+                    <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-20"/>
+                    <Height val="22"/>
+                    <Style val="@Coop_CommanderInfoDescription"/>
+                    <Text val=""/>
+                    <RenderPriority val="501"/>
+                    <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+                </Frame>
+
+                <Frame type="Button" name="CustomizationButton">
+                    <Handle val="CM_AllianceStateCustomizationButton"/>
+                    <Anchor side="Bottom" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-14"/>
+                    <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Min" offset="6"/>
+                    <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-6"/>
+                    <Height val="56"/>
+                    <Text val="@Commander/Name/Customize"/>
+                    <HoverSound val="@UI_HoverTick"/>
+                    <ClickSound val="@UI_PopUpWindowEnters"/>
+
+                    <Frame type="Image" name="NormalImage">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="9"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="9"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="-9"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-9"/>
+                        <Texture val="@UI/SC2_UI_Coop_MasteryButton_Normal"/>
+                        <TextureType val="NineSlice"/>
+                        <RenderPriority val="499"/>
+                    </Frame>
+
+                    <Frame type="Image" name="HoverImage">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="9"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="9"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="-9"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-9"/>
+                        <Texture val="@UI/SC2_UI_Coop_MasteryButton_Over"/>
+                        <TextureType val="NineSlice"/>
+                        <RenderPriority val="499"/>
+                    </Frame>
+
+                    <Frame type="Label" name="Label">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="2"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="2"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="32"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-15"/>
+                        <Style val="@Coop_CommanderMasteryButton"/>
+                        <RenderPriority val="501"/>
+                        <Options val="ScaleToPreventTruncation"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="HitTestFrame">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="9"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="-9"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="9"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="-9"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/NewCloseButtonTemplate">
+                <Anchor side="Top" relative="$parent/DetailsBackground" pos="Min" offset="5"/>
+                <Anchor side="Right" relative="$parent/DetailsBackground" pos="Max" offset="-5"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+            </Frame>
+
+            <Frame type="Frame" name="StatusContainer" template="CM_CommanderSelectionDetailsContainer/StatusDetailContainerTemplate">
+                <Handle val="CM_AllianceStateStatusContainer"/>
+                <Anchor side="Top" relative="$parent/DetailsBackground/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/DetailsBackground/AnchorFrame" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/DetailsBackground/DividerAnchor" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent/DetailsBackground/AnchorFrame" pos="Max" offset="0"/>
+
+                <Frame type="Label" name="HeaderLabel">
+                    <!-- <Handle val="CM_AllianceStatusHeaderLabel"/> -->
+                    <Text val="@CMUI/ScreenCoopCampaign/AllianceStatusSummary"/>
+                </Frame>
+
+                <Frame type="Frame" name="MasteryGroup0">
+                    <Frame type="Label" name="GroupLabel">
+                        <!-- <Handle val="CM_AllianceStatusMasterySet1GroupLabel"/> -->
+                    </Frame>
+                    <Frame type="Frame" name="Row0">
+                        <Frame type="Label" name="NameLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet1NameLabel"/> -->
+                        </Frame>
+                        <Frame type="Label" name="ValueLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet1ValueLabel"/> -->
+                        </Frame>
+                    </Frame>
+                    <Frame type="Frame" name="Row1">
+                        <Frame type="Label" name="NameLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet1AltNameLabel"/> -->
+                        </Frame>
+                        <Frame type="Label" name="ValueLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet1AltValueLabel"/> -->
+                        </Frame>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Frame" name="MasteryGroup1">
+                    <Frame type="Label" name="GroupLabel">
+                        <!-- <Handle val="CM_AllianceStatusMasterySet2GroupLabel"/> -->
+                    </Frame>
+                    <Frame type="Frame" name="Row0">
+                        <Frame type="Label" name="NameLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet2NameLabel"/> -->
+                        </Frame>
+                        <Frame type="Label" name="ValueLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet2ValueLabel"/> -->
+                        </Frame>
+                    </Frame>
+                    <Frame type="Frame" name="Row1">
+                        <Frame type="Label" name="NameLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet2AltNameLabel"/> -->
+                        </Frame>
+                        <Frame type="Label" name="ValueLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet2AltValueLabel"/> -->
+                        </Frame>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Frame" name="MasteryGroup2">
+                    <Frame type="Label" name="GroupLabel">
+                        <!-- <Handle val="CM_AllianceStatusMasterySet3GroupLabel"/> -->
+                    </Frame>
+                    <Frame type="Frame" name="Row0">
+                        <Frame type="Label" name="NameLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet3NameLabel"/> -->
+                        </Frame>
+                        <Frame type="Label" name="ValueLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet3ValueLabel"/> -->
+                        </Frame>
+                    </Frame>
+                    <Frame type="Frame" name="Row1">
+                        <Frame type="Label" name="NameLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet3AltNameLabel"/> -->
+                        </Frame>
+                        <Frame type="Label" name="ValueLabel">
+                            <!-- <Handle val="CM_AllianceStatusMasterySet3AltValueLabel"/> -->
+                        </Frame>
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="ToggleArrow">
+            <Anchor side="Top" relative="$parent/Button" pos="Max" offset="-9"/>
+            <Anchor side="Left" relative="$parent/Button" pos="Mid" offset="-1"/>
+            <Anchor side="Right" relative="$parent/Button" pos="Mid" offset="-1"/>
+            <Texture val="@UI/Glues_BlueButtons_Arrow_Down"/>
+            <Visible val="{$parent/Button/@Toggled}"/>
+        </Frame>
+
+        <Frame type="Button" name="CommanderTargetToggleButton" template="StandardSmallButtonTemplates/StandardSmallBaseButtonTemplate">
+            <Text val="@CMUI/ScreenCoopCampaign/AllianceState/CommanderTargetSelf"/>
+            <Toggleable val="true"/>
+            <Toggled val="false"/>
+            <Visible val="{$parent/Button/@Toggled}"/>
+
+            <Frame type="Frame" name="AnchorFrame">
+                <Anchor side="Bottom" relative="$parent/$parent/Button/AnchorFrame" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent/$parent/Button/AnchorFrame" pos="Min" offset="-8"/>
+                <Width val="192"/>
+                <Height val="38"/>
+            </Frame>
+
+            <Frame type="Label" name="Label">
+                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
+                <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+                <Options val="ScaleToPreventTruncation"/>
+
+                <StateGroup name="StyleState">
+                    <DefaultState val="Normal"/>
+
+                    <State name="Disabled">
+                        <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Disabled"/>
+                    </State>
+
+                    <State name="Pressed">
+                        <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
+                    </State>
+
+                    <State name="Selected">
+                        <When type="StateGroup" frame="$parent" ToggledState="Toggled"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
+                    </State>
+
+                    <State name="Hover">
+                        <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Hovered"/>
+                    </State>
+
+                    <State name="Normal">
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Normal"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <StateGroup name="PressedState">
+                <DefaultState val="Pressed"/>
+                <State name="NotPressed">
+                    <When type="Property" frame="$this" Pushed="False"/>
+                    <When type="Property" frame="$this" Toggled="False"/>
+                </State>
+                <State name="Pressed"/>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Button" name="Button" template="StandardSmallButtonTemplates/StandardSmallBaseButtonTemplate">
+            <Handle val="CM_AllianceStateButton"/>
+            <Text val="@CMUI/ScreenCoopCampaign/AllianceStateButton"/>
+            <Toggleable val="true"/>
+
+            <Frame type="Frame" name="AnchorFrame">
+                <Anchor side="Bottom" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Min" offset="-10"/>
+                <Anchor side="Right" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="-4"/>
+                <Width val="192"/>
+                <Height val="38"/>
+            </Frame>
+
+            <Frame type="Label" name="Label">
+                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
+                <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+
+                <StateGroup name="StyleState">
+                    <DefaultState val="Normal"/>
+
+                    <State name="Disabled">
+                        <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Disabled"/>
+                    </State>
+
+                    <State name="Pressed">
+                        <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
+                    </State>
+
+                    <State name="Selected">
+                        <When type="StateGroup" frame="$parent" ToggledState="Toggled"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
+                    </State>
+
+                    <State name="Hover">
+                        <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Hovered"/>
+                    </State>
+
+                    <State name="Normal">
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Normal"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <StateGroup name="PressedState">
+                <DefaultState val="Pressed"/>
+                <State name="NotPressed">
+                    <When type="Property" frame="$this" Pushed="False"/>
+                    <When type="Property" frame="$this" Toggled="False"/>
+                </State>
+                <State name="Pressed"/>
+            </StateGroup>
+        </Frame>
+    </Frame>
+
+    
+    <!--
+    
+    
+    
+    Details Complete Container
+    
+    
+    
+    -->
+    
+    <Frame type="Frame" name="DetailsContainerTemplate">
+        <Width val="1000"/>
+        <Height val="360"/>
+
+        <Frame type="Frame" name="RandomStateFlag">
+            <Width val="0"/>
+            <Height val="0"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Animation name="SetRandomState">
+            <Event event="Random" action="Reset,Play"/>
+
+            <Controller type="Property" property="Visible" frame="RandomStateFlag" end="Pause">
+                <Key type="Property" time="0" value="True"/>
+            </Controller>
+        </Animation>
+
+        <Animation name="SetNotRandomState">
+            <Event event="NotRandom" action="Reset,Play"/>
+
+            <Controller type="Property" property="Visible" frame="RandomStateFlag" end="Pause">
+                <Key type="Property" time="0" value="False"/>
+            </Controller>
+        </Animation>
+        
+        <Frame type="TabControl" name="TabControl">
+            <Anchor relative="$parent"/>
+            <SelectedIndex val="0"/>
+            
+            <TabListItem val="$parent/InfoButton"/>
+            <TabListItem val="$parent/UnitsButton"/>
+            <TabListItem val="$parent/UpgradesButton"/>
+            <TabListItem val="$parent/StatusButton"/>
+            <PanelListItem val="$parent/InfoContainer"/>
+            <PanelListItem val="$parent/UnitsContainer"/>
+            <PanelListItem val="$parent/UpgradesContainer"/>
+            <PanelListItem val="$parent/StatusContainer"/>
+        </Frame>
+        
+        <Frame type="Button" name="InfoButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonLeftTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="113"/>
+            <Anchor side="Right" relative="Label" pos="Max" offset="42"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Information"/>
+            
+            <Frame type="Label" name="Label">
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="36"/>
+                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+                <AutoSizeClamps maxWidth="120"/>
+                <Options val="NoWrapping|TooltipIfTruncated"/>
+            </Frame>
+            
+            <StateGroup name="TooltipState">
+                <State name="Show">
+                    <When type="Property" frame="TitleLabel" IsTextTruncated="True"/>
+                    <Action type="SetProperty" Tooltip="{$this/Label/@Text}"/>
+                </State>
+            </StateGroup>
+        </Frame>
+        
+        <Frame type="Button" name="UnitsButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonMiddleTemplate">
+            <Anchor side="Top" relative="$parent/InfoButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/InfoButton" pos="Max" offset="-21"/>
+            <Anchor side="Right" relative="Label" pos="Max" offset="43"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Units"/>
+            
+            <Frame type="Label" name="Label">
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="47"/>
+                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+                <AutoSizeClamps maxWidth="120"/>
+                <Options val="NoWrapping|TooltipIfTruncated"/>
+            </Frame>
+            
+            <StateGroup name="TooltipState">
+                <State name="Show">
+                    <When type="Property" frame="TitleLabel" IsTextTruncated="True"/>
+                    <Action type="SetProperty" Tooltip="{$this/Label/@Text}"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Button" name="UpgradesButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonMiddleTemplate">
+            <Anchor side="Top" relative="$parent/UnitsButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/UnitsButton" pos="Max" offset="-21"/>
+            <Anchor side="Right" relative="Label" pos="Max" offset="35"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Upgrades"/>
+            
+            <Frame type="Label" name="Label">
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="44"/>
+                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+                <AutoSizeClamps maxWidth="120"/>
+                <Options val="NoWrapping|TooltipIfTruncated"/>
+            </Frame>
+            
+            <StateGroup name="TooltipState">
+                <State name="Show">
+                    <When type="Property" frame="TitleLabel" IsTextTruncated="True"/>
+                    <Action type="SetProperty" Tooltip="{$this/Label/@Text}"/>
+                </State>
+            </StateGroup>
+        </Frame>
+        
+        <Frame type="Button" name="StatusButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonRightTemplate">
+            <Anchor side="Top" relative="$parent/UpgradesButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/UpgradesButton" pos="Max" offset="-21"/>
+            <Anchor side="Right" relative="Label" pos="Max" offset="35"/>
+            <Text val="@CMUI/ScreenCoopCampaign/Status"/>
+
+            <Frame type="Label" name="Label">
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="44"/>
+                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+                <AutoSizeClamps maxWidth="120"/>
+                <Options val="NoWrapping|TooltipIfTruncated"/>
+            </Frame>
+
+            <StateGroup name="TooltipState">
+                <State name="Show">
+                    <When type="Property" frame="TitleLabel" IsTextTruncated="True"/>
+                    <Action type="SetProperty" Tooltip="{$this/Label/@Text}"/>
+                </State>
+            </StateGroup>
+        </Frame>
+
+        <Frame type="Frame" name="DetailsBackground" template="StandardBattlenetTemplates/BattlenetStandardContentContainerTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="47"/>
+            <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="108"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <Width val="804"/>
+            <Height val="298"/>
+            
+            <Frame type="Image" name="DividerAnchor">
+                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="76"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="239"/>
+            </Frame>
+            
+            <Frame type="Image" name="DividerTop">
+                <Visible val="True"/>
+            </Frame>
+            
+            <Frame type="Image" name="DividerLeft">
+                <Visible val="False"/>
+            </Frame>
+            
+            <Frame type="Image" name="DividerRight">
+                <Visible val="False"/>
+            </Frame>
+        
+            <Frame type="Image" name="BodyShadow">
+                <Visible val="False"/>
+            </Frame>
+            
+            <Frame type="Image" name="CommanderDetailsBackground">
+                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/DividerAnchor" pos="Min" offset="0"/>
+                <Texture val="Assets\Textures\White.dds"/>
+                <TextureType val="Normal"/>
+                <Tiled val="false"/>
+                <TextureCoords top="0" left="0" bottom="1" right="1"/>
+            </Frame>
+            
+            <Frame type="Image" name="ArtBackgroundVignette">
+                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="-2"/>
+                <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Max" offset="2"/>
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="-2"/>
+                <Anchor side="Right" relative="$parent/DividerAnchor" pos="Min" offset="2"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_StandardElements_ArtBackground_Vignette"/>
+                <Color val="20,119,217"/>
+                <Alpha val="31"/>
+            </Frame>
+
+            <Frame type="Frame" name="LevelRingFrame">
+                <Handle val="CM_CommanderDetailsLevelRingFrame"/>
+                <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                <Anchor side="Right" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                <Width val="156"/>
+                <Height val="156"/>
+                
+                <Frame type="Image" name="BorderImage">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <Texture val="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Normal"/>
+                </Frame>
+                
+                <Frame type="Frame" name="FillImageContainer">
+                    <Anchor relative="$parent"/>
+                    
+                    <Frame type="Image" name="FillImage">
+                        <Anchor relative="$parent"/>
+                        <Texture val="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Normal"/>
+                        <TextureType val="Normal"/>
+                    </Frame>
+                </Frame>
+                
+                <Frame type="Image" name="MaxLevelFillImage">
+                    <Anchor relative="$parent"/>
+                    <Visible val="False"/>
+                    <Texture val="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max"/>
+                </Frame>
+            </Frame>
+            
+            <Frame type="Image" name="RandomIcon">
+                <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                <Anchor side="Right" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                <Texture val="@UI/SC2_UI_Coop_CommanderIcon_Bubble_Random"/>
+                <Visible val="False"/>
+            </Frame>
+            
+            <Frame type="Image" name="MaxLevelIcon">
+                <Anchor side="Top" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                <Anchor side="Bottom" relative="$parent/LevelLabel" pos="Mid" offset="-1"/>
+                <Anchor side="Left" relative="$parent/LevelLabel" pos="Mid" offset="-2"/>
+                <Anchor side="Right" relative="$parent/LevelLabel" pos="Mid" offset="-2"/>
+                <Width val="143"/>
+                <Height val="141"/>
+                <ImageMaskTexture val="@UI/SC2_UI_Coop_CommanderIcon_Bubble_Mask"/>
+                <Texture val="@UI/SC2_UI_Coop_CommanderIcon_MaxLevel_Large"/>
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="LevelLabel">
+                <Anchor side="Top" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="-30"/>
+                <Anchor side="Bottom" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="-30"/>
+                <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                <Width val="150"/>
+                <Style val="@Coop_CommanderLevel"/>
+                <Text val=""/>
+                <Options val="ScaleToPreventTruncation"/>
+            </Frame>
+            
+            <Frame type="Label" name="CappedLevelLabel">
+                <Anchor side="Top" relative="$parent/LevelLabel" pos="Min" offset="10"/>
+                <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                <Width val="150"/>
+                <Style val="@Coop_CommanderLevel"/>
+                <Text val=""/>
+                <Visible val="True"/>
+            </Frame>
+            
+            <Frame type="Label" name="CappedWarningLabel">
+                <Anchor side="Bottom" relative="$parent/CappedLevelLabel" pos="Min" offset="13"/>
+                <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Mid" offset="1"/>
+                <Style val="Coop_CommanderLevel_Warning"/>
+                <Text val="@CMUI/ScreenCoopCampaign/XPCapped"/>
+                <Visible val="{$parent/CappedLevelLabel/@Visible}"/>
+            </Frame>
+            
+            <Frame type="Image" name="CappedIconUnderlay">
+                <Anchor side="Top" relative="$parent/CappedIcon" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/CappedIcon" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent/CappedIcon" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/CappedIcon" pos="Mid" offset="0"/>
+                <Texture val="@UI/SC2_UI_Coop_CappedIcon_Small_Underlay"/>
+                <Visible val="{$parent/CappedLevelLabel/@Visible}"/>
+            </Frame>
+            
+            <Frame type="Image" name="CappedIcon">
+                <Anchor side="Top" relative="$parent/LevelRingFrame" pos="Min" offset="-8"/>
+                <Anchor side="Left" relative="$parent/LevelRingFrame" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/LevelRingFrame" pos="Mid" offset="0"/>
+                <Texture val="@UI/SC2_UI_Coop_CappedIcon_Small_Overlay"/>
+                <Visible val="{$parent/CappedLevelLabel/@Visible}"/>
+            </Frame>
+            
+            <StateGroup name="IGRCommanderState">
+                <DefaultState val="IGRFree"/>
+                
+                <State name="IGRNotFree">
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Raynor"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Kerrigan"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Artanis"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Swann"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Zagara"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Vorazun"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Karax"/>
+                    <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]" operator="NotEqual" Commander="Abathur"/>
+                </State>
+                
+                <State name="IGRFree"/>
+            </StateGroup>
+            
+            <StateGroup name="CommanderCapState">
+                <DefaultState val="Cappable"/>
+                
+                <State name="NotCappable">
+                    <When type="StateGroup" IGRCommanderState="IGRFree"/>
+                    <When type="StateGroup" frame="$GlueUI" IGRState="Active"/>
+                </State>
+                
+                <State name="Cappable"/>
+            </StateGroup>
+            
+            <StateGroup name="MaxLevelStateGroup">
+                <DefaultState val="NotMaxLevelState"/>
+                
+                <State name="Random">
+                    <When type="AnimationState" frame="$parent" RandomState="Random"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="False"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="True"/>
+                </State>
+
+                <State name="PrestigeMaxDisplayMode">
+                    <When type="AnimationState" frame="$parent" LevelDisplayMode="PrestigeMax"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max_Capped"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+
+                <State name="PrestigeDisplayMode">
+                    <When type="AnimationState" frame="$parent" LevelDisplayMode="Prestige"/>
+                    <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel_Max"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+
+                <State name="NormalDisplayMode">
+                    <When type="AnimationState" frame="$parent" LevelDisplayMode="Normal"/>
+                    <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Normal"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="True"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Normal"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="False"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+                
+                <State name="PrestigeMaxLevelState">
+                    <When type="AnimationState" frame="$CM_CoopStandardGlue_CommanderSelectionPanel" CommanderMaxLevel="MaxLevel"/> 
+                    <Action type="SetProperty" frame="LevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max_Capped"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+                
+                <State name="MasteryMaxLevelState">
+                    <When type="AnimationState" frame="$CM_CoopStandardGlue_CommanderSelectionPanel" CommanderMaxLevel="MaxLevel"/> 
+                    <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel_Max"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+                
+                <State name="MaxLevelState">
+                    <When type="AnimationState" frame="$CM_CoopStandardGlue_CommanderSelectionPanel" CommanderMaxLevel="MaxLevel"/> 
+                    <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel_Max"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Max"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="True"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" Texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Max"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+
+                <State name="NotMaxLevelState">
+                    <When type="AnimationState" frame="$CM_CoopStandardGlue_CommanderSelectionPanel" CommanderMaxLevel="NotMaxLevel"/> 
+                    <Action type="SetProperty" frame="LevelLabel" style="@Coop_CommanderLevel"/>
+                    <Action type="SetProperty" frame="LevelLabel" Visible="true"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/BorderImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Border_Normal"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/FillImageContainer/FillImage" texture="@UI/SC2_UI_Coop_CommanderIcon_CircularProgress_Fill_Normal"/>
+                    <Action type="SetProperty" frame="LevelRingFrame/MaxLevelFillImage" visible="False"/>
+                    <Action type="SetProperty" frame="CappedLevelLabel" Visible="false"/>
+                    <Action type="SetProperty" frame="MaxLevelIcon" Visible="false"/>
+                    <Action type="SetProperty" frame="LevelRingFrame" Visible="True"/>
+                    <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                </State>
+            </StateGroup>
+            
+            <Frame type="Label" name="FreeTil5Label">
+                <Anchor side="Top" relative="$parent/LevelRingFrame" pos="Max" offset="39"/>
+                <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Min" offset="10"/>
+                <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-10"/>
+                <Style val="@Coop_FreeTil5"/>
+                <Text val="@CMUI/ScreenCoopCampaign/FreeUntil5"/>
+            
+                <StateGroup name="VisibleState">
+                    <DefaultState val="NotVisible"/>
+                    
+                    <State name="VisibleCapped">
+                        <When type="Property" frame="$parent/CappedLevelLabel" Visible="True"/> 
+                        <When type="StateGroup" frame="$parent" CommanderCapState="Cappable"/>
+                        <Action type="SetProperty" frame="$this" Visible="True"/>
+                        <Action type="SetProperty" frame="$this" Text="@CMUI/ScreenCoopCampaign/XPCappedProgress"/>
+                    </State>
+                    
+                    <State name="NotVisible">
+                        <Action type="SetProperty" frame="$this" Visible="False"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <Frame type="Label" name="MasterySpentLabel">
+                <Handle val="CM_CommanderDetailsMasterySpentLabel"/>
+                <Anchor side="Bottom" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-78"/>
+                <Anchor side="Left" relative="$parent/CommanderDetailsBackground" pos="Min" offset="20"/>
+                <Anchor side="Right" relative="$parent/CommanderDetailsBackground" pos="Max" offset="-20"/>
+                <Height val="22"/>
+                <Style val="@Coop_CommanderInfoDescription"/>
+                <Text val=""/>
+                <RenderPriority val="501"/>
+                <Options val="NoWrapping | Ellipsis | TooltipIfTruncated"/>
+
+                <StateGroup name="RandomVisibilityState">
+                    <DefaultState val="Visible"/>
+
+                    <State name="Random">
+                        <When type="AnimationState" frame="$parent/$parent" RandomState="Random"/>
+                        <Action type="SetProperty" frame="$this" Visible="False"/>
+                    </State>
+
+                    <State name="Visible">
+                        <Action type="SetProperty" frame="$this" Visible="True"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+        </Frame>
+        
+        
+        <!-- Info Detail Container -->
+
+        <Frame type="Frame" name="InfoContainer" template="CM_CommanderSelectionDetailsContainer/InfoDetailContainerTemplate">
+            <Handle val="CM_CommanderDetailsInfoContainer"/>
+            <Anchor side="Top" relative="$parent/DetailsBackground/AnchorFrame" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/DetailsBackground/AnchorFrame" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent/DetailsBackground/DividerAnchor" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/DetailsBackground/AnchorFrame" pos="Max" offset="0"/>
+        </Frame>
+        
+        
+        <!-- Units Detail Container -->
+
+        <Frame type="Frame" name="UnitsContainer" template="CM_CommanderSelectionDetailsContainer/UnitsDetailContainerTemplate">
+            <Handle val="CM_CommanderDetailsUnitsContainer"/>
+            <Anchor relative="$parent/InfoContainer"/>
+        </Frame>
+        
+        
+        <!-- Upgrades Detail Container -->
+        
+        <Frame type="Frame" name="UpgradesContainer" template="CM_CommanderSelectionDetailsContainer/UpgradesDetailContainerTemplate">
+            <Handle val="CM_CommanderDetailsUpgradesContainer"/>
+            <Anchor relative="$parent/InfoContainer"/>
+        </Frame>
+
+
+        <!-- Status Detail Container -->
+
+        <Frame type="Frame" name="StatusContainer" template="CM_CommanderSelectionDetailsContainer/StatusDetailContainerTemplate">
+            <Handle val="CM_CommanderDetailsStatusContainer"/>
+            <Anchor relative="$parent/InfoContainer"/>
+
+            <Frame type="Label" name="HeaderLabel">
+                <!-- <Handle val="CM_PlayerStatusHeaderLabel"/> -->
+            </Frame>
+
+            <Frame type="Frame" name="MasteryGroup0">
+                <Frame type="Label" name="GroupLabel">
+                    <!-- <Handle val="CM_PlayerStatusMasterySet1GroupLabel"/> -->
+                </Frame>
+                <Frame type="Frame" name="Row0">
+                    <Frame type="Label" name="NameLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet1NameLabel"/> -->
+                    </Frame>
+                    <Frame type="Label" name="ValueLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet1ValueLabel"/> -->
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Row1">
+                    <Frame type="Label" name="NameLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet1AltNameLabel"/> -->
+                    </Frame>
+                    <Frame type="Label" name="ValueLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet1AltValueLabel"/> -->
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryGroup1">
+                <Frame type="Label" name="GroupLabel">
+                    <!-- <Handle val="CM_PlayerStatusMasterySet2GroupLabel"/> -->
+                </Frame>
+                <Frame type="Frame" name="Row0">
+                    <Frame type="Label" name="NameLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet2NameLabel"/> -->
+                    </Frame>
+                    <Frame type="Label" name="ValueLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet2ValueLabel"/> -->
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Row1">
+                    <Frame type="Label" name="NameLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet2AltNameLabel"/> -->
+                    </Frame>
+                    <Frame type="Label" name="ValueLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet2AltValueLabel"/> -->
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryGroup2">
+                <Frame type="Label" name="GroupLabel">
+                    <!-- <Handle val="CM_PlayerStatusMasterySet3GroupLabel"/> -->
+                </Frame>
+                <Frame type="Frame" name="Row0">
+                    <Frame type="Label" name="NameLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet3NameLabel"/> -->
+                    </Frame>
+                    <Frame type="Label" name="ValueLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet3ValueLabel"/> -->
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Row1">
+                    <Frame type="Label" name="NameLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet3AltNameLabel"/> -->
+                    </Frame>
+                    <Frame type="Label" name="ValueLabel">
+                        <!-- <Handle val="CM_PlayerStatusMasterySet3AltValueLabel"/> -->
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+            
+        <Frame type="Frame" name="AbilHitArea" template="StandardTemplates/HoverableFrameTemplate">
+            <Anchor relative="$parent/DetailsBackground/CommanderDetailsBackground"/>
+        </Frame>
+        
+        <StateGroup name="RandomState">
+            <DefaultState val="NotRandom"/>
+            
+            <State name="Random">
+                <When type="AnimationState" frame="$this" RandomState="Random"/>
+                <Action type="SetProperty" frame="UnitsButton" Enabled="False"/>
+                <Action type="SetProperty" frame="UpgradesButton" Enabled="False"/>
+                <Action type="SetProperty" frame="StatusButton" Enabled="False"/>
+                <Action type="SetProperty" frame="TabControl" SelectedIndex="0"/>
+            </State>
+            
+            <State name="NotRandom">
+                <Action type="SetProperty" frame="UnitsButton" Enabled="True"/>
+                <Action type="SetProperty" frame="UpgradesButton" Enabled="True"/>
+                <Action type="SetProperty" frame="StatusButton" Enabled="True"/>
+            </State>
+        </StateGroup>
+
+        <StateGroup name="ExternalPanelTabVisibility">
+            <DefaultState val="Visible"/>
+
+            <State name="AllianceStateOpen">
+                <When type="Property" frame="$ancestor[@name=CommanderSelectionPanel]/AllianceStatePanel/Button" Toggled="True"/>
+                <Action type="SetProperty" frame="TabControl" Visible="False"/>
+                <Action type="SetProperty" frame="InfoButton" Visible="False"/>
+                <Action type="SetProperty" frame="UnitsButton" Visible="False"/>
+                <Action type="SetProperty" frame="UpgradesButton" Visible="False"/>
+                <Action type="SetProperty" frame="StatusButton" Visible="False"/>
+            </State>
+
+            <State name="Visible">
+                <Action type="SetProperty" frame="TabControl" Visible="True"/>
+                <Action type="SetProperty" frame="InfoButton" Visible="True"/>
+                <Action type="SetProperty" frame="UnitsButton" Visible="True"/>
+                <Action type="SetProperty" frame="UpgradesButton" Visible="True"/>
+                <Action type="SetProperty" frame="StatusButton" Visible="True"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+</Desc>

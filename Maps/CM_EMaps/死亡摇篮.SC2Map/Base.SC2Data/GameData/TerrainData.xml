@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrain id="TheVoid">
+        <CliffSets index="1" value="HybridLabOuterCliff1"/>
+        <CliffSets value="TheVoidCliff1"/>
+        <BlendTextures index="1" value="HybridLabOuter4"/>
+        <BlendTextures index="2" value="HybridLabOuter6"/>
+        <BlendTextures index="3" value="HybridLabOuter1"/>
+        <BlendTextures index="4" value="Void4"/>
+        <FixedSkyboxModel value="CradleofDeathSkybox"/>
+        <NonFixedSkyboxModel value=""/>
+        <Camera value="Dflt"/>
+    </CTerrain>
+</Catalog>

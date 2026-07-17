@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+
+        <Frame type="Frame" name="BiliBoardbackgrond">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <RenderPriority val="1050"/>
+
+            <Frame type="Image" name="BackgroundTint">
+                <Anchor relative="$parent"/>
+                <Color val="0,0,0"/>
+                <Alpha val="180"/>
+                <AcceptsMouse val="true"/>
+            </Frame>
+
+            <Frame type="Image" name="BiliBoardbackgrond_Image">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="108"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-108"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="192"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-192"/>
+                <Texture val="Assets\Textures\公告.tga"/>
+            </Frame>
+
+            <Frame type="Button" name="BiliBoardButton">
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            </Frame>
+        </Frame>
+</Desc>

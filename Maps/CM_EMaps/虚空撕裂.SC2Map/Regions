@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="66">
+        <name value="Reveal_INT_PlayersBase"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="52.242,110.5974"/>
+            <radius value="14.351"/>
+        </shape>
+        <shape type="circle">
+            <center value="53.64,87.74"/>
+            <radius value="19.4848"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.3176,62.8413"/>
+            <radius value="18.045"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.968,50.4"/>
+            <radius value="14.8498"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.63,46.1098"/>
+            <radius value="15.3498"/>
+        </shape>
+        <shape type="circle">
+            <center value="61.412,65.64"/>
+            <radius value="26.0598"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.8298,50.17"/>
+            <radius value="22.21"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="DeactivateBullies 01"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="98.8166,94.3818"/>
+            <radius value="15.8107"/>
+        </shape>
+    </region>
+    <region id="67">
+        <name value="DeactivateBullies 02"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="77.0302,156.447"/>
+            <radius value="19.031"/>
+        </shape>
+    </region>
+    <region id="68">
+        <name value="DeactivateBullies 03"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="85.3007,127.6174"/>
+            <radius value="10.128"/>
+        </shape>
+    </region>
+    <region id="70">
+        <name value="DeactivateBullies 05"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="127.5781,175.2905"/>
+            <radius value="10.128"/>
+        </shape>
+    </region>
+    <region id="71">
+        <name value="DeactivateBullies 06"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="146.2893,128.083"/>
+            <radius value="12.2463"/>
+        </shape>
+        <shape type="circle">
+            <center value="136.7646,136.5537"/>
+            <radius value="12.2463"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.9885,139.6174"/>
+            <radius value="13.7233"/>
+        </shape>
+        <shape type="circle">
+            <center value="117.438,125.7504"/>
+            <radius value="10.5832"/>
+        </shape>
+        <shape type="circle">
+            <center value="128.5798,115.9392"/>
+            <radius value="10.5832"/>
+        </shape>
+        <shape type="circle">
+            <center value="135.2116,111.2111"/>
+            <radius value="10.5832"/>
+        </shape>
+    </region>
+    <region id="73">
+        <name value="DeactivateBullies 07"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="124.7321,74.266"/>
+            <radius value="15.8107"/>
+        </shape>
+    </region>
+    <region id="74">
+        <name value="DeactivateBullies 08"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="157.4467,56.1574"/>
+            <radius value="15.8107"/>
+        </shape>
+        <shape type="circle">
+            <center value="159.5537,68.843"/>
+            <radius value="15.8107"/>
+        </shape>
+    </region>
+    <region id="75">
+        <name value="DeactivateBullies 09"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="191.6804,74.1616"/>
+            <radius value="12.7827"/>
+        </shape>
+    </region>
+    <region id="76">
+        <name value="DeactivateBullies 010"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="166.9587,103.0913"/>
+            <radius value="16.785"/>
+        </shape>
+        <shape type="circle">
+            <center value="151.4841,97.5686"/>
+            <radius value="10.6784"/>
+        </shape>
+    </region>
+    <region id="77">
+        <name value="DeactivateBullies 04"/>
+        <color value="255,192,192,192"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="110.5002,157.0002"/>
+            <radius value="11.4316"/>
+        </shape>
+    </region>
+    <region id="69">
+        <name value="Thrasher Early Trigger Group A"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="93.8,89.2597"/>
+            <radius value="15.7321"/>
+        </shape>
+    </region>
+    <region id="72">
+        <name value="Thrasher Early Trigger Group B"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="72.9716,152.0278"/>
+            <radius value="13.6684"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.7397,164.506"/>
+            <radius value="13.6684"/>
+        </shape>
+        <shape type="circle">
+            <center value="88.689,149.8862"/>
+            <radius value="13.6684"/>
+        </shape>
+    </region>
+    <region id="78">
+        <name value="Thrasher Early Trigger Group C"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="149.8967,63.2854"/>
+            <radius value="15.701"/>
+        </shape>
+        <shape type="circle">
+            <center value="158.4067,51.468"/>
+            <radius value="15.701"/>
+        </shape>
+        <shape type="circle">
+            <center value="164.5751,71.385"/>
+            <radius value="15.701"/>
+        </shape>
+    </region>
+    <region id="79">
+        <name value="Thrasher Early Trigger Group D"/>
+        <color value="255,255,255,128"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.1704,122.5273"/>
+            <radius value="21.5788"/>
+        </shape>
+        <shape type="circle">
+            <center value="131.2875,142.9687"/>
+            <radius value="14.1381"/>
+        </shape>
+        <shape type="circle">
+            <center value="149.0808,126.9792"/>
+            <radius value="14.1381"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Reveal_FirstVoidThrasher"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="90.3027,89.8818"/>
+            <radius value="14.3415"/>
+        </shape>
+        <shape type="circle">
+            <center value="94.69,85.4465"/>
+            <radius value="14.3415"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Expansion Left"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="50.0217,109.6467"/>
+            <radius value="11.838"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Expansion Right"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="113.4558,45.8676"/>
+            <radius value="11.838"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Expansion Left Bullies"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="50.43,110.6496"/>
+            <radius value="13.7365"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Expansion Right Bullies"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="113.5207,48.287"/>
+            <radius value="13.7365"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Performance Sleep Area"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="92.8945,155.769"/>
+            <width value="73.676"/>
+            <height value="50.5332"/>
+        </shape>
+        <shape type="diamond">
+            <center value="172.9191,90.718"/>
+            <width value="39.29"/>
+            <height value="50.5332"/>
+        </shape>
+        <shape type="diamond">
+            <center value="145.7441,139.951"/>
+            <width value="81.1257"/>
+            <height value="45.6838"/>
+        </shape>
+        <shape type="diamond">
+            <center value="154.5144,60.1855"/>
+            <width value="30.1496"/>
+            <height value="33.659"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="51,110.8356"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="53.4406,87.9782"/>
+            <radius value="19.4848"/>
+        </shape>
+        <shape type="circle">
+            <center value="75.1184,63.0795"/>
+            <radius value="18.045"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.7687,50.6381"/>
+            <radius value="14.8498"/>
+        </shape>
+        <shape type="circle">
+            <center value="111.4306,46.3481"/>
+            <radius value="15.3498"/>
+        </shape>
+        <shape type="circle">
+            <center value="61.213,65.8781"/>
+            <radius value="26.0598"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.6306,50.4082"/>
+            <radius value="22.21"/>
+        </shape>
+    </region>
+</Regions>

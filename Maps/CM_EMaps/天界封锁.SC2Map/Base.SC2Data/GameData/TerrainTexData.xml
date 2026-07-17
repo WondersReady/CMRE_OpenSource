@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrainTex id="UlnarOuter1">
+        <Heightmap value="Assets\Textures\ulnarouter_1normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="3.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter2">
+        <Heightmap value="Assets\Textures\ulnarouter_2normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="15.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter3">
+        <Heightmap value="Assets\Textures\ulnarouter_3normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="15.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter4">
+        <Heightmap value="Assets\Textures\ulnarouter_4normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="15.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter5">
+        <Heightmap value="Assets\Textures\ulnarouter_5normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="15.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter6">
+        <Heightmap value="Assets\Textures\ulnarouter_6normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="15.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter7">
+        <Heightmap value="Assets\Textures\ulnarouter_7normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="5.000000"/>
+    </CTerrainTex>
+    <CTerrainTex id="UlnarOuter8">
+        <Heightmap value="Assets\Textures\ulnarouter_8normal.dds"/>
+        <HeightMapOffset value="0.300000"/>
+        <HeightMapScale value="15.000000"/>
+    </CTerrainTex>
+</Catalog>

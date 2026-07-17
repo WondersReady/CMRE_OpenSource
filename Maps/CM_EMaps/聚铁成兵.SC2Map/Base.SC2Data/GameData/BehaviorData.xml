@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CBehaviorBuff id="Scrappable2">
+        <InfoIcon value="Assets\Textures\btn-tips-scrap.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <DeathResponse Chance="1" Effect="CreatePartsonDeath2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="Scrappable3">
+        <InfoIcon value="Assets\Textures\btn-tips-scrap.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <DeathResponse Chance="1" Effect="CreatePartsonDeath3"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="Scrappable">
+        <InfoIcon value="Assets\Textures\btn-tips-scrap.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <DeathResponse Chance="1" Effect="CreatePartsonDeath"/>
+        </Modification>
+    </CBehaviorBuff>
+</Catalog>

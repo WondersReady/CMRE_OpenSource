@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CBehaviorBuff id="KhailuCloud">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-blindingcloud.dds"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Duration value="0.625"/>
+        <Modification AccelerationMultiplier="0.5" AttackSpeedMultiplier="0.5"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="KhailuBombDamage">
+        <Cost>
+            <Charge Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+            <Cooldown Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-parasiticbomb.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="5"/>
+        <Period value="0.5"/>
+        <PeriodCount value="5"/>
+        <InitialEffect value="KhailuBombInitialDamage"/>
+        <PeriodicEffect value="KhailuBombDamageOverTime"/>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+                <Cooldown Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+            </Cost>
+        </DamageResponse>
+        <Modification MoveSpeedMultiplier="0.2" AttackSpeedMultiplier="0.2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="IncreasedRange">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-zerg-hotsgroovedspines.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="0.5"/>
+        <Modification WeaponRange="4"/>
+    </CBehaviorBuff>
+    <CBehaviorWander id="MothmamWanderLeash">
+        <Cost>
+            <Charge Link="Behavior/CritterWanderLeash"/>
+            <Cooldown Link="Behavior/CritterWanderLeash"/>
+        </Cost>
+        <Leash value="1"/>
+        <Range value="13.5"/>
+        <Delay value="3.5"/>
+    </CBehaviorWander>
+    <CBehaviorBuff id="BeingDrained">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-slow.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="DamageAura">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="0.4"/>
+        <PeriodicEffect value="DamageAuraSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="MothmamAura">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-sporecloud.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="0.4"/>
+        <PeriodicEffect value="MothmamAuraSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="MothmamAuraDamage">
+        <Alignment value="Negative"/>
+        <Cost>
+            <Charge Link="Behavior/PsiStormAura"/>
+            <Cooldown Link="Behavior/PsiStormAura"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-sporecloud.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="0.6"/>
+        <DamageResponse>
+            <ModifyAmount value="0.2"/>
+            <RequireEffectArray value="MothmamAuraDamage"/>
+            <Chance value="1"/>
+            <Cost>
+                <Charge Link="Behavior/PsiStormAura"/>
+                <Cooldown Link="Behavior/PsiStormAura"/>
+            </Cost>
+        </DamageResponse>
+        <BuffFlags index="RefreshStack" value="1"/>
+        <MaxStackCount value="20"/>
+        <Modification MoveSpeedMultiplier="0.95" AttackSpeedMultiplier="0.95"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="PrimalSpawnedFrenzy">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-zerg-frenzy.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Modification MoveSpeedMultiplier="1.5" AttackSpeedMultiplier="1.5">
+            <DamageDealtFraction index="Spell" value="1"/>
+            <DamageDealtFraction index="Melee" value="1"/>
+            <DamageDealtFraction index="Ranged" value="1"/>
+            <DamageDealtFraction index="Splash" value="1"/>
+            <DamageDealtFraction index="NoProc" value="1"/>
+            <DamageDealtAttributeMultiplier index="Heroic" value="1"/>
+            <VitalMaxFractionArray index="Life" value="2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RangeAura">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-zerg-hotsgroovedspines.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="0.25"/>
+        <PeriodicEffect value="RangeBuffSearchArea"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="SlowAura">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-creepmove.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="0.4"/>
+        <PeriodicEffect value="SlowAuraSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="DamageAuraDamaged">
+        <Alignment value="Negative"/>
+        <Cost>
+            <Charge Link="Behavior/PsiStormAura"/>
+            <Cooldown Link="Behavior/PsiStormAura"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="1"/>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/PsiStormAura"/>
+                <Cooldown Link="Behavior/PsiStormAura"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="Slowed">
+        <Alignment value="Negative"/>
+        <Cost>
+            <Charge Link="Behavior/PsiStormAura"/>
+            <Cooldown Link="Behavior/PsiStormAura"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-creepmove.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="1"/>
+        <Modification MoveSpeedMultiplier="0.5" AttackSpeedMultiplier="0.5"/>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/PsiStormAura"/>
+                <Cooldown Link="Behavior/PsiStormAura"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RockCrushSearch2">
+        <InfoFlags index="Hidden" value="1"/>
+        <Duration value="0.5"/>
+        <Period value="0.0625"/>
+        <PeriodicEffect value="RockCrushSearch2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="MovesFaster">
+        <Alignment value="Positive"/>
+        <Cost>
+            <Charge Link="Behavior/2xUnitSpeed"/>
+            <Cooldown Link="Behavior/2xUnitSpeed"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-command-move.dds"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification MoveSpeedMultiplier="2" AccelerationMultiplier="2"/>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/2xUnitSpeed"/>
+                <Cooldown Link="Behavior/2xUnitSpeed"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="SporeRayBeam">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Period value="0.25"/>
+        <PeriodicEffect value="SporeRayBeamSearchArea"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="SJPirateCapitalShipNoFire">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <WeaponDisableArray value="SJPirateCapitalShip"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="DevastatorShockwaveBehaviorController">
+        <Cost>
+            <Charge Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+            <Cooldown Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+        </Cost>
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="1.5"/>
+        <InitialEffect value="DevastatorShockwaveApplyRealBehavior"/>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+                <Cooldown Link="Behavior/ZHybridPsionicShockwaveBehaviorController"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="DevastatorShockwaveHeightAndStun">
+        <Alignment value="Negative"/>
+        <Cost>
+            <Charge Link="Behavior/ZHybridPsionicShockwaveHeightAndStun"/>
+            <Cooldown Link="Behavior/ZHybridPsionicShockwaveHeightAndStun"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-blink.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="0.875"/>
+        <Period value="0.5"/>
+        <PeriodCount value="1"/>
+        <InitialEffect value="DevastatorShockwaveRaise"/>
+        <PeriodicEffect value="DevastatorShockwaveLower"/>
+        <FinalEffect value="DevastatorShockwaveSpellDamage"/>
+        <Modification>
+            <StateFlags index="Stun" value="1"/>
+        </Modification>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/ZHybridPsionicShockwaveHeightAndStun"/>
+                <Cooldown Link="Behavior/ZHybridPsionicShockwaveHeightAndStun"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="SpawnsUnits">
+        <Cost>
+            <Charge Link="Behavior/HavocPermanentCloak"/>
+            <Cooldown Link="Behavior/HavocPermanentCloak"/>
+        </Cost>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-unit-zerg-primalzergling.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Zerg"/>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/HavocPermanentCloak"/>
+                <Cooldown Link="Behavior/HavocPermanentCloak"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="TemporarilyCloaked">
+        <Cost>
+            <Charge Link="Behavior/HavocPermanentCloak"/>
+            <Cooldown Link="Behavior/HavocPermanentCloak"/>
+        </Cost>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <BehaviorCategories index="Cloak" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Zerg"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/HavocPermanentCloak"/>
+                <Cooldown Link="Behavior/HavocPermanentCloak"/>
+            </Cost>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="PrimalBossFrenzy">
+        <InfoIcon value="Assets\Textures\btn-upgrade-zerg-frenzy.dds"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Duration value="1"/>
+        <Modification MoveSpeedMultiplier="1.25" AttackSpeedMultiplier="1.5"/>
+    </CBehaviorBuff>
+</Catalog>

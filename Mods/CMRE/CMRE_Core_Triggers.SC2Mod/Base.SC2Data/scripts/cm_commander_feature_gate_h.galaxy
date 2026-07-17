@@ -1,0 +1,52 @@
+// Public declarations for per-player commander feature gates.
+
+string CMCT_FeaturePlayerKey(string lp_feature, int lp_player);
+string CMCT_FeatureCountKey(string lp_feature);
+string CMCT_FeatureTriggerKey(string lp_feature);
+string CMCT_FeatureTriggerSlotKey(string lp_feature, int lp_slot);
+
+bool CMCT_FeatureValid(string lp_feature);
+bool CMCT_PlayerValid(int lp_player);
+bool CMCT_FeaturePlayerValid(string lp_feature, int lp_player);
+int CMCT_FeatureTriggerSlotValid(int lp_slot);
+
+int CMCT_FeatureActiveCount(string lp_feature);
+bool CMCT_FeatureTriggerRegistered(string lp_feature);
+trigger CMCT_FeatureTrigger(string lp_feature);
+trigger CMCT_FeatureTriggerAt(string lp_feature, int lp_slot);
+string CMCT_FeatureForTrigger(trigger lp_trigger);
+int CMCT_FeatureSlotForTrigger(trigger lp_trigger);
+int CMCT_FeatureNextTriggerSlot(string lp_feature);
+int CMCT_FeatureTriggerSlotForRegistration(string lp_feature, trigger lp_trigger);
+
+void CMCT_RegisterFeatureTrigger(string lp_feature, trigger lp_trigger);
+void CMCT_RegisterFeatureTriggerAt(string lp_feature, int lp_slot, trigger lp_trigger);
+void CMCT_RefreshFeatureTrigger(string lp_feature);
+void CMCT_RecountFeature(string lp_feature);
+
+bool CMCT_FeatureCanRun(string lp_feature, int lp_player);
+bool CMCT_FeatureCanRunForUnit(string lp_feature, unit lp_unit);
+bool CMCT_FeatureCanRunForEventUnit(string lp_feature);
+bool CMCT_SetFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player, bool lp_enabled);
+bool CMCT_DisableFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player);
+
+void CMCT_SetFeatureForPlayer(string lp_feature, int lp_player, bool lp_enabled);
+void CMCT_EnableFeatureForPlayer(string lp_feature, int lp_player);
+void CMCT_DisableFeatureForPlayer(string lp_feature, int lp_player);
+void CMCT_SetFeatureForPlayerGroup(string lp_feature, playergroup lp_players, bool lp_enabled);
+void CMCT_EnableFeatureForPlayerGroup(string lp_feature, playergroup lp_players);
+void CMCT_DisableFeatureForPlayerGroup(string lp_feature, playergroup lp_players);
+
+void CMCT_RegisterCommanderFeatureTrigger(string lp_feature, trigger lp_trigger);
+void CMCT_RegisterCommanderFeatureTriggerAt(string lp_feature, int lp_slot, trigger lp_trigger);
+void CMCT_RefreshCommanderFeatureTrigger(string lp_feature);
+bool CMCT_CommanderFeatureCanRun(string lp_feature, int lp_player);
+bool CMCT_SetCommanderFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player, bool lp_enabled);
+bool CMCT_DisableCommanderFeatureForPlayerByTrigger(trigger lp_trigger, int lp_player);
+void CMCT_DisableCommanderFeatureForPlayerTrigger(trigger lp_trigger, int lp_player);
+void CMCT_SetCommanderFeatureForPlayer(string lp_feature, int lp_player, bool lp_enabled);
+void CMCT_EnableCommanderFeatureForPlayer(string lp_feature, int lp_player);
+void CMCT_DisableCommanderFeatureForPlayer(string lp_feature, int lp_player);
+void CMCT_SetCommanderFeatureForPlayerGroup(string lp_feature, playergroup lp_players, bool lp_enabled);
+void CMCT_EnableCommanderFeatureForPlayerGroup(string lp_feature, playergroup lp_players);
+void CMCT_DisableCommanderFeatureForPlayerGroup(string lp_feature, playergroup lp_players);

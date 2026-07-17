@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CAbilBuild id="BuildNydusCanal">
+        <EffectArray index="Start" value="KerriganNydusNetworkReadySet"/>
+    </CAbilBuild>
+    <CAbilEffectTarget id="NydusNetworkUnloadKerrigan">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NydusNetworkUnloadKerriganDummy"/>
+        <Range value="500"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NydusNetworkUnloadKerrigan"/>
+        <TargetFilters value="Structure;Ally,Neutral,Enemy"/>
+        <DefaultError value="MustTargetUnit,Error/NydusNetworkUnloadKerrigan"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CAbilBuild id="KerriganNydusTopBar">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:MorphsandBurrows"/>
+        <Range value="500"/>
+        <FlagArray index="Cancelable" value="0"/>
+        <InfoArray index="Build1" Unit="GreaterNydusWormVisual">
+            <Charge CountMax="999" CountUse="1" Location="Player"/>
+            <Cooldown Link="Abil/KerriganNydusTopBarCooldown"/>
+            <Button DefaultButtonFace="SummonGreaterNydusWorm" Requirements="HaveNydusNetwork"/>
+        </InfoArray>
+    </CAbilBuild>
+    <CAbilEffectInstant id="AutoCreepOn">
+        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="AutoCreepUpgrade"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TurnOnAutoCreep" State="Restricted" Requirements="AutoCreepOff"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="AutoCreepOff">
+        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="AutoCreepDowngrade"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TurnOffAutoCreep" State="Restricted" Requirements="AutoCreepOn"/>
+    </CAbilEffectInstant>
+    <CAbilMorph id="SiegeTank_BlackOpsSiege">
+        <AbilSetId value=""/>
+    </CAbilMorph>
+    <CAbilMorph id="SiegeTank_BlackOpsUnsiege">
+        <AbilSetId value=""/>
+    </CAbilMorph>
+    <CAbilMorph id="StukovInfestedSiegeTankRoot">
+        <AbilSetId value=""/>
+    </CAbilMorph>
+    <CAbilMorph id="StukovInfestedSiegeTankUproot">
+        <AbilSetId value=""/>
+    </CAbilMorph>
+    <CAbilArmMagazine id="StukovInfestedSiegeTankDisplayAmmoMagazine">
+        <EditorCategories value="Race:InfestedTerran,AbilityorEffectType:Units"/>
+        <Flags index="Transient" value="1"/>
+        <InfoArray index="Ammo1" Time="0.0625" CountStart="0" Unit="StukovInfestedSiegeTankDisplayAmmo"/>
+        <MaxCount value="4"/>
+        <Alert value="NoAlert"/>
+    </CAbilArmMagazine>
+    <CAbilTransport id="MedivacTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadMedivac">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="MedivacTransportBlackOps">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadMedivacBlackOps">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="MedivacMengskTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadMedivacMengsk">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="BunkerTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadBunker">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="BunkerMengskTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadBunkerDepotMengsk">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="ArtilleryMengskTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadArtilleryMengsk">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="WarpPrismTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadWarpPrism">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="NydusCanalTransport">
+        <SearchRadius value="6"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadNydusNetwork">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="NydusWormTransport">
+        <SearchRadius value="6"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadNydusWorm">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="GreaterNydusWormTransport">
+        <SearchRadius value="6"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadGreaterNydusWorm">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="HerculesTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadHercules">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="OverlordTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadOverlord" Requirements="CMUIXQuickLoadOverlord">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="OverlordStetmannTransport">
+        <SearchRadius value="3"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadOverlordStetmann" Requirements="CMUIXQuickLoadOverlordStetmann">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+    <CAbilTransport id="ZeratulWarpPrismTransport">
+        <SearchRadius value="6"/>
+        <CmdButtonArray index="LoadAll" DefaultButtonFace="CMUIXQuickLoadZeratulWarpPrism" Requirements="CMUIXQuickLoadZeratulWarpPrism">
+            <Flags index="Hidden" value="0"/>
+        </CmdButtonArray>
+    </CAbilTransport>
+</Catalog>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preload>
+<Actor id="SYSTEM_ActorConfig"/>
+<Map id="Launcher"/>
+<Terrain id="AiurTempleJungle"/>
+<Unit id="VoidThrasher"/>
+</Preload>

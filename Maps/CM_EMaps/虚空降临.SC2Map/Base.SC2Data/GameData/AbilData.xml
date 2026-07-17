@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CAbilTransport id="ColonistTransportTransport">
+        <MaxCargoCount value="5"/>
+        <TotalCargoSpace value="5"/>
+        <LoadValidatorArray index="0" removed="1"/>
+    </CAbilTransport>
+</Catalog>

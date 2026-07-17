@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectModifyUnit id="Heal">
+        <EditorCategories value=""/>
+        <VitalArray index="Life" Change="50000"/>
+    </CEffectModifyUnit>
+</Catalog>

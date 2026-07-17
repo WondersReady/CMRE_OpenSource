@@ -1,0 +1,276 @@
+// Sorted, per-player AI upgrade scheduler.
+// Red-zone integration only needs to call CMAIUS_ProcessForPlayer every AI stock tick.
+
+const int CMAIUS_PLAYER_MAX = 8;
+const int CMAIUS_TREE_AI_MAX = 10;
+const int CMAIUS_TREE_UPGRADE_MAX = 30;
+const int CMAIUS_CACHE_UPGRADE_MAX = 192;
+const int CMAIUS_DIFFICULTY_MIN = 1;
+const int CMAIUS_DIFFICULTY_MAX = 6;
+
+bool[CMAIUS_PLAYER_MAX + 1] CMAIUS_Initialized;
+int[CMAIUS_PLAYER_MAX + 1] CMAIUS_CachedDifficulty;
+string[CMAIUS_PLAYER_MAX + 1] CMAIUS_CachedAI;
+int[CMAIUS_PLAYER_MAX + 1] CMAIUS_UpgradeCount;
+int[CMAIUS_PLAYER_MAX + 1] CMAIUS_NextUpgradeIndex;
+int[CMAIUS_PLAYER_MAX + 1] CMAIUS_MatchedTreeCount;
+bool[CMAIUS_PLAYER_MAX + 1] CMAIUS_CacheOverflowed;
+string[CMAIUS_PLAYER_MAX + 1][CMAIUS_CACHE_UPGRADE_MAX + 1] CMAIUS_Upgrade;
+fixed[CMAIUS_PLAYER_MAX + 1][CMAIUS_CACHE_UPGRADE_MAX + 1] CMAIUS_UpgradeTime;
+
+bool CMAIUS_PlayerIsValid(int lp_player) {
+    return ((lp_player >= 1) && (lp_player <= CMAIUS_PLAYER_MAX));
+}
+
+int CMAIUS_NormalizeDifficulty(int lp_difficulty) {
+    if ((lp_difficulty < CMAIUS_DIFFICULTY_MIN)) {
+        return CMAIUS_DIFFICULTY_MIN;
+    }
+
+    if ((lp_difficulty > CMAIUS_DIFFICULTY_MAX)) {
+        return CMAIUS_DIFFICULTY_MAX;
+    }
+
+    return lp_difficulty;
+}
+
+bool CMAIUS_AIIsValid(string lp_ai) {
+    return ((lp_ai != null) && (lp_ai != "") && (lp_ai != "None") && (lp_ai != "[Default]"));
+}
+
+bool CMAIUS_TreeIsValid(string lp_tree) {
+    return ((lp_tree != null) && (lp_tree != "") && (lp_tree != "[Default]"));
+}
+
+bool CMAIUS_EntryIsValid(string lp_entry) {
+    return ((lp_entry != null) && (lp_entry != "") && (lp_entry != "None") && (lp_entry != "[Default]"));
+}
+
+void CMAIUS_ResetPlayer(int lp_player) {
+    int lv_index;
+
+    lv_index = 1;
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return;
+    }
+
+    while ((lv_index <= CMAIUS_CACHE_UPGRADE_MAX)) {
+        CMAIUS_Upgrade[lp_player][lv_index] = "";
+        CMAIUS_UpgradeTime[lp_player][lv_index] = -1.0;
+        lv_index += 1;
+    }
+
+    CMAIUS_Initialized[lp_player] = false;
+    CMAIUS_CachedDifficulty[lp_player] = 0;
+    CMAIUS_CachedAI[lp_player] = "";
+    CMAIUS_UpgradeCount[lp_player] = 0;
+    CMAIUS_NextUpgradeIndex[lp_player] = 1;
+    CMAIUS_MatchedTreeCount[lp_player] = 0;
+    CMAIUS_CacheOverflowed[lp_player] = false;
+}
+
+void CMAIUS_ResetAll() {
+    int lv_player;
+
+    lv_player = 1;
+    while ((lv_player <= CMAIUS_PLAYER_MAX)) {
+        CMAIUS_ResetPlayer(lv_player);
+        lv_player += 1;
+    }
+}
+
+bool CMAIUS_TreeMatchesAI(string lp_tree, string lp_ai) {
+    int lv_index;
+    string lv_boundAI;
+
+    lv_index = 1;
+    lv_boundAI = "";
+    if ((CMAIUS_TreeIsValid(lp_tree) == false) || (CMAIUS_AIIsValid(lp_ai) == false)) {
+        return false;
+    }
+
+    while ((lv_index <= CMAIUS_TREE_AI_MAX)) {
+        lv_boundAI = UserDataGetUserInstance("CoopAIUpgradeTree", lp_tree, "AI", lv_index);
+        if ((lv_boundAI == lp_ai)) {
+            return true;
+        }
+
+        lv_index += 1;
+    }
+
+    return false;
+}
+
+bool CMAIUS_TreeIsGlobal(string lp_tree) {
+    if ((CMAIUS_TreeIsValid(lp_tree) == false)) {
+        return false;
+    }
+
+    return (UserDataGetInt("CoopAIUpgradeTree", lp_tree, "Global", 1) == 1);
+}
+
+bool CMAIUS_UpgradeAlreadyCached(int lp_player, string lp_upgrade) {
+    int lv_index;
+
+    lv_index = 1;
+    while ((lv_index <= CMAIUS_UpgradeCount[lp_player])) {
+        if ((CMAIUS_Upgrade[lp_player][lv_index] == lp_upgrade)) {
+            return true;
+        }
+
+        lv_index += 1;
+    }
+
+    return false;
+}
+
+void CMAIUS_InsertUpgrade(int lp_player, string lp_upgrade, fixed lp_time) {
+    int lv_insertIndex;
+
+    if ((CMAIUS_PlayerIsValid(lp_player) == false) || (lp_upgrade == null) || (lp_upgrade == "") || (lp_time < 0.0)) {
+        return;
+    }
+
+    if ((CMAIUS_UpgradeCount[lp_player] >= CMAIUS_CACHE_UPGRADE_MAX)) {
+        CMAIUS_CacheOverflowed[lp_player] = true;
+        return;
+    }
+
+    if ((CMAIUS_UpgradeAlreadyCached(lp_player, lp_upgrade) == true)) {
+        return;
+    }
+
+    CMAIUS_UpgradeCount[lp_player] += 1;
+    lv_insertIndex = CMAIUS_UpgradeCount[lp_player];
+    while ((lv_insertIndex > 1) && (CMAIUS_UpgradeTime[lp_player][lv_insertIndex - 1] > lp_time)) {
+        CMAIUS_Upgrade[lp_player][lv_insertIndex] = CMAIUS_Upgrade[lp_player][lv_insertIndex - 1];
+        CMAIUS_UpgradeTime[lp_player][lv_insertIndex] = CMAIUS_UpgradeTime[lp_player][lv_insertIndex - 1];
+        lv_insertIndex -= 1;
+    }
+
+    CMAIUS_Upgrade[lp_player][lv_insertIndex] = lp_upgrade;
+    CMAIUS_UpgradeTime[lp_player][lv_insertIndex] = lp_time;
+}
+
+void CMAIUS_AddEntryForPlayer(int lp_player, string lp_entry, int lp_difficulty) {
+    string lv_upgrade;
+    fixed lv_time;
+
+    lv_upgrade = "";
+    lv_time = -1.0;
+    if ((CMAIUS_EntryIsValid(lp_entry) == false)) {
+        return;
+    }
+
+    lv_upgrade = UserDataGetUpgrade("CoopAIUpgrade", lp_entry, "Upgrade", 1);
+    lv_time = UserDataGetFixed("CoopAIUpgrade", lp_entry, "TimePerDifficult", lp_difficulty);
+    CMAIUS_InsertUpgrade(lp_player, lv_upgrade, lv_time);
+}
+
+void CMAIUS_BuildForPlayer(int lp_player, string lp_ai, int lp_difficulty) {
+    int lv_difficulty;
+    int lv_treeCount;
+    int lv_treeIndex;
+    int lv_slot;
+    string lv_entry;
+    string lv_tree;
+
+    lv_difficulty = CMAIUS_NormalizeDifficulty(lp_difficulty);
+    lv_treeCount = UserDataInstanceCount("CoopAIUpgradeTree");
+    lv_treeIndex = 1;
+    lv_slot = 1;
+    lv_entry = "";
+    lv_tree = "";
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return;
+    }
+
+    CMAIUS_ResetPlayer(lp_player);
+    CMAIUS_Initialized[lp_player] = true;
+    CMAIUS_CachedDifficulty[lp_player] = lv_difficulty;
+    CMAIUS_CachedAI[lp_player] = lp_ai;
+
+    while ((lv_treeIndex <= lv_treeCount)) {
+        lv_tree = UserDataInstance("CoopAIUpgradeTree", lv_treeIndex);
+        if ((CMAIUS_TreeIsGlobal(lv_tree) == true) || (CMAIUS_TreeMatchesAI(lv_tree, lp_ai) == true)) {
+            CMAIUS_MatchedTreeCount[lp_player] += 1;
+            lv_slot = 1;
+            while ((lv_slot <= CMAIUS_TREE_UPGRADE_MAX)) {
+                lv_entry = UserDataGetUserInstance("CoopAIUpgradeTree", lv_tree, "Upgrades", lv_slot);
+                CMAIUS_AddEntryForPlayer(lp_player, lv_entry, lv_difficulty);
+                lv_slot += 1;
+            }
+        }
+
+        lv_treeIndex += 1;
+    }
+}
+
+int CMAIUS_GetCachedUpgradeCount(int lp_player) {
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return 0;
+    }
+
+    return CMAIUS_UpgradeCount[lp_player];
+}
+
+int CMAIUS_GetNextUpgradeIndex(int lp_player) {
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return 0;
+    }
+
+    return CMAIUS_NextUpgradeIndex[lp_player];
+}
+
+int CMAIUS_GetMatchedTreeCount(int lp_player) {
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return 0;
+    }
+
+    return CMAIUS_MatchedTreeCount[lp_player];
+}
+
+bool CMAIUS_CacheDidOverflow(int lp_player) {
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return false;
+    }
+
+    return CMAIUS_CacheOverflowed[lp_player];
+}
+
+void CMAIUS_ProcessForPlayer(int lp_player, string lp_ai, int lp_difficulty) {
+    int lv_difficulty;
+    int lv_index;
+    string lv_upgrade;
+    fixed lv_missionTime;
+    fixed lv_upgradeTime;
+
+    lv_difficulty = CMAIUS_NormalizeDifficulty(lp_difficulty);
+    lv_index = 0;
+    lv_upgrade = "";
+    lv_missionTime = GameGetMissionTime();
+    lv_upgradeTime = -1.0;
+    if ((CMAIUS_PlayerIsValid(lp_player) == false)) {
+        return;
+    }
+
+    if ((CMAIUS_Initialized[lp_player] == false) || (CMAIUS_CachedDifficulty[lp_player] != lv_difficulty) || (CMAIUS_CachedAI[lp_player] != lp_ai)) {
+        CMAIUS_BuildForPlayer(lp_player, lp_ai, lv_difficulty);
+    }
+
+    lv_index = CMAIUS_NextUpgradeIndex[lp_player];
+    while ((lv_index <= CMAIUS_UpgradeCount[lp_player])) {
+        lv_upgradeTime = CMAIUS_UpgradeTime[lp_player][lv_index];
+        if ((lv_upgradeTime > lv_missionTime)) {
+            return;
+        }
+
+        lv_upgrade = CMAIUS_Upgrade[lp_player][lv_index];
+        if ((lv_upgrade != null) && (lv_upgrade != "") && (TechTreeUpgradeCount(lp_player, lv_upgrade, c_techCountQueuedOrBetter) == 0)) {
+            TechTreeUpgradeAddLevel(lp_player, lv_upgrade, 1);
+        }
+
+        lv_index += 1;
+        CMAIUS_NextUpgradeIndex[lp_player] = lv_index;
+    }
+}

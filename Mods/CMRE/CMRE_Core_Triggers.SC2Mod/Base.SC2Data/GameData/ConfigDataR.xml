@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CRequirement id="HGGTestUnitAir">
+        <NodeArray index="Use" Link="CountUpgradeHGGTestUnitAirCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="HGGTestUnitAlly">
+        <NodeArray index="Use" Link="CountUpgradeHGGTestUnitAllyCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="HGGTestUnitColossus">
+        <NodeArray index="Use" Link="CountUpgradeHGGTestUnitColossusCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="HGGTestUnitAttack">
+        <NodeArray index="Use" Link="CountUpgradeHGGTestUnitAttackCompleteOnly"/>
+    </CRequirement>
+    <CRequirementLT id="LTCountUnitBroodlingEscortQueuedOrBetterAtUnit1">
+        <OperandArray index="0" value="CountUnitBroodlingEscortQueuedOrBetterAtUnit"/>
+        <OperandArray index="1" value="1"/>
+    </CRequirementLT>
+    <CRequirementCountUpgrade id="CountUpgradeHGGTestUnitAirCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="HGGTestUnitAir" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeHGGTestUnitAllyCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="HGGTestUnitAlly" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeHGGTestUnitAttackCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="HGGTestUnitAttack" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CRequirementCountUpgrade id="CountUpgradeHGGTestUnitColossusCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="HGGTestUnitColossus" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <CActorSiteOpRotator id="HGGTestUnitAirRotate">
+        <EditorCategories value=""/>
+        <LocalAxis value="1.000000,0.000000,0.000000"/>
+        <InitialAngle value="90.000000"/>
+        <HoldRotation value="1"/>
+    </CActorSiteOpRotator>
+    <CActorModel id="HGGTestUnitAir" parent="ModelAddition">
+        <EditorCategories value=""/>
+        <On Terms="Behavior.HGGTestUnitAir.On" Send="Create"/>
+        <On Terms="Behavior.HGGTestUnitAir.Off" Send="Destroy"/>
+        <HostSiteOps Ops="HGGTestUnitAirRotate" HoldRotation="1"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+    </CActorModel>
+    <CActorUnit id="HGGTestUnit" parent="GenericUnitStandardNoAutoSoundLinks" unitName="HGGTestUnit">
+        <Aliases value="_UnitMedium"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <EditorCategories value=""/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <On Terms="Behavior.HGGTestUnitColossus.On" Send="SetScale 1.000000,1.000000,3.000000 3.000000"/>
+        <On Terms="Behavior.HGGTestUnitColossus.Off" Send="SetScale 1.000000 3.000000"/>
+        <DeathArray index="Normal" ModelLink="HGGTestUnitDeath"/>
+        <PlacementSound value="Protoss_BuildingPlacementSmall"/>
+        <PortraitModel value="Jinara_Portrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="0.600000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleLarge"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="3.1328"/>
+        <BarOffset value="70"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Protoss-Stalker.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-unit-jinara-hero-master.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel0.dds"/>
+        <UnitIcon value="Assets\Textures\btn-unit-jinara-hero-master.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\wireframe-protoss-jinara.dds"/>
+        </Wireframe>
+        <WireframeShield>
+            <Image value="Assets\Textures\Wireframe-Protoss-Stalker-Shield01.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-Stalker-Shield02.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-Stalker-Shield03.dds"/>
+        </WireframeShield>
+    </CActorUnit>
+    <CActorUnit id="HGGTestUnitFollowTarget" parent="GenericUnitStandardNoAutoSoundLinks" unitName="HGGTestUnitFollowTarget">
+        <EditorCategories value=""/>
+        <UnitFlags index="SuppressDefaultStatusBar" value="1"/>
+    </CActorUnit>
+    <CModel id="HGGTestUnitAir">
+        <EditorCategories value="Race:Neutral"/>
+        <Model value="Assets\Effects\Zerg\Primal_Roach_Coop_FireBreath\Primal_Roach_Coop_FireBreath.m3"/>
+        <ScaleMax value="0.400000,0.400000,0.400000"/>
+        <ScaleMin value="0.400000,0.400000,0.400000"/>
+    </CModel>
+    <CModel id="HGGTestUnit" parent="Unit" Race="Protoss">
+        <Model value="Assets\Doodads\Shapes\ShapeApple\ShapeApple.m3"/>
+        <RequiredAnims value="Assets\Units\Protoss\Stalker_SwarmAnims\Stalker_SwarmAnims.m3a"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraHigh10"/>
+        <Radius value="0.850000"/>
+        <SelectionRadius value="1.087000"/>
+        <ShadowRadius value="1.087000"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="Star2CameraHigh10"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.800000"/>
+        <TipabilityWidth value="0.800000"/>
+        <TextureDeclares Prefix="stalker_">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+        </TextureDeclares>
+        <UnitGlossaryCamera value="Star2CameraHigh10"/>
+    </CModel>
+    <CModel id="HGGTestUnitFollowTarget">
+        <Model value="Assets\UI\Feedback\AIBeaconHarass\AIBeaconHarass.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CConfig id="Config">
+        <GameContentArray value="EmoticonPack,Developers"/>
+        <GameContentArray value="EmoticonPack,Shashang"/>
+        <GameContentArray value="EmoticonPack,Sakura"/>
+        <!--GameContentArray value="EmoticonPack,AbathurEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,AbathurEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,AbstractEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,AlarakEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,AlarakEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,AlexstraszaPack1"/>
+        <GameContentArray value="EmoticonPack,AlexstraszaPack2"/>
+        <GameContentArray value="EmoticonPack,AnaPack1"/>
+        <GameContentArray value="EmoticonPack,AnaPack2"/>
+        <GameContentArray value="EmoticonPack,AnubarakEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,AnubarakEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ArtanisEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ArtanisEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ArthasEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ArthasEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,AurielEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,AurielEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,AzmodanEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,AzmodanEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,BlazePack1"/>
+        <GameContentArray value="EmoticonPack,BlazePack2"/>
+        <GameContentArray value="EmoticonPack,BrightwingEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,BrightwingEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ButcherEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ButcherEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,CassiaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,CassiaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,CatSpooky18Pack"/>
+        <GameContentArray value="EmoticonPack,CelebrationsEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ChenEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ChenEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ChoEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ChoEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ChompPack"/>
+        <GameContentArray value="EmoticonPack,ChromieEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ChromieEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,CountessKerriganPack1"/>
+        <GameContentArray value="EmoticonPack,CountessKerriganPack2"/>
+        <GameContentArray value="EmoticonPack,CrimsonCountArthasPack1"/>
+        <GameContentArray value="EmoticonPack,CrimsonCountArthasPack2"/>
+        <GameContentArray value="EmoticonPack,CryptQueenZagaraPack1"/>
+        <GameContentArray value="EmoticonPack,CryptQueenZagaraPack2"/>
+        <GameContentArray value="EmoticonPack,DeathbringerSonyaPack1"/>
+        <GameContentArray value="EmoticonPack,DeathbringerSonyaPack2"/>
+        <GameContentArray value="EmoticonPack,DeathEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,DeathfangGenjiPack"/>
+        <GameContentArray value="EmoticonPack,DeathKnightSonyaPack1"/>
+        <GameContentArray value="EmoticonPack,DeathKnightSonyaPack2"/>
+        <GameContentArray value="EmoticonPack,DeckardPack1"/>
+        <GameContentArray value="EmoticonPack,DeckardPack2"/>
+        <GameContentArray value="EmoticonPack,DecktheHallsPack"/>
+        <GameContentArray value="EmoticonPack,DehakaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,DehakaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,DeputyVallaPack1"/>
+        <GameContentArray value="EmoticonPack,DeputyVallaPack2"/>
+        <GameContentArray value="EmoticonPack,DiabloEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,DiabloEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,DoctorWolfSteinPack1"/>
+        <GameContentArray value="EmoticonPack,DoctorWolfSteinPack2"/>
+        <GameContentArray value="EmoticonPack,DragonKnightPack1"/>
+        <GameContentArray value="EmoticonPack,DragonKnightPack2"/>
+        <GameContentArray value="EmoticonPack,DreadlordJainaPack1"/>
+        <GameContentArray value="EmoticonPack,DreadlordJainaPack2"/>
+        <GameContentArray value="EmoticonPack,DrinksPack"/>
+        <GameContentArray value="EmoticonPack,DVaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,DVaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ElChamucoDiabloPack1"/>
+        <GameContentArray value="EmoticonPack,ElChamucoDiabloPack2"/>
+        <GameContentArray value="EmoticonPack,ElementsPack"/>
+        <GameContentArray value="EmoticonPack,ElJefeGarroshPack1"/>
+        <GameContentArray value="EmoticonPack,ElJefeGarroshPack2"/>
+        <GameContentArray value="EmoticonPack,EmojiAnduinPack1"/>
+        <GameContentArray value="EmoticonPack,EmojiAnduinPack2"/>
+        <GameContentArray value="EmoticonPack,EmojiCarbotAlliancePack"/>
+        <GameContentArray value="EmoticonPack,EmojiCarbotDiabloPack"/>
+        <GameContentArray value="EmoticonPack,EmojiCarbotHordePack"/>
+        <GameContentArray value="EmoticonPack,EmojiImperiusPack1"/>
+        <GameContentArray value="EmoticonPack,EmojiImperiusPack2"/>
+        <GameContentArray value="EmoticonPack,EmojiMadAxe19Pack1"/>
+        <GameContentArray value="EmoticonPack,EmojiMadAxe19Pack2"/>
+        <GameContentArray value="EmoticonPack,EmojiMalGanisPack1"/>
+        <GameContentArray value="EmoticonPack,EmojiMalGanisPack2"/>
+        <GameContentArray value="EmoticonPack,EmojiMechastormPack1"/>
+        <GameContentArray value="EmoticonPack,EmojiNexusHunterPack1"/>
+        <GameContentArray value="EmoticonPack,EmojiNexusHunterPack2"/>
+        <GameContentArray value="EmoticonPack,EmojiOrpheaPack1"/>
+        <GameContentArray value="EmoticonPack,EmojiOrpheaPack2"/>
+        <GameContentArray value="EmoticonPack,EmojiPlushiePack1"/>
+        <GameContentArray value="EmoticonPack,EmojiToysPack1"/>
+        <GameContentArray value="EmoticonPack,EtcEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,EtcEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,EyeSpooky18Pack"/>
+        <GameContentArray value="EmoticonPack,FalstadEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,FalstadEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,FenixPack1"/>
+        <GameContentArray value="EmoticonPack,FenixPack2"/>
+        <GameContentArray value="EmoticonPack,Food1EmoticonPack"/>
+        <GameContentArray value="EmoticonPack,Food2EmoticonPack"/>
+        <GameContentArray value="EmoticonPack,FoodPack3"/>
+        <GameContentArray value="EmoticonPack,GallEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,GallEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,GarroshPack1"/>
+        <GameContentArray value="EmoticonPack,GarroshPack2"/>
+        <GameContentArray value="EmoticonPack,GazloweEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,GazloweEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,GenjiEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,GenjiEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,GhostSpooky18Pack"/>
+        <GameContentArray value="EmoticonPack,GingerdreadNazeeboPack1"/>
+        <GameContentArray value="EmoticonPack,GingerdreadNazeeboPack2"/>
+        <GameContentArray value="EmoticonPack,GreatfatherWinterMalfurionPack1"/>
+        <GameContentArray value="EmoticonPack,GreatfatherWinterMalfurionPack2"/>
+        <GameContentArray value="EmoticonPack,GreatfatherWinterRehgarPack1"/>
+        <GameContentArray value="EmoticonPack,GreatfatherWinterRehgarPack2"/>
+        <GameContentArray value="EmoticonPack,GreatfatherWinterStitchesPack1"/>
+        <GameContentArray value="EmoticonPack,GreatfatherWinterStitchesPack2"/>
+        <GameContentArray value="EmoticonPack,GreymaneEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,GreymaneEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,GuldanEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,GuldanEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,HallowsEndPhrasesPack"/>
+        <GameContentArray value="EmoticonPack,HammerEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HammerEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,HandSigns1EmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns1GauntletEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns1OrcEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns2EmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns2GauntletEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns2OrcEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns3EmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns3GauntletEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HandSigns3OrcEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,HanzoPack1"/>
+        <GameContentArray value="EmoticonPack,HanzoPack2"/>
+        <GameContentArray value="EmoticonPack,HeartPack"/>
+        <GameContentArray value="EmoticonPack,HeroStormNexusPack"/>
+        <GameContentArray value="EmoticonPack,IllidanEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,IllidanEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ImperatorStukovPack"/>
+        <GameContentArray value="EmoticonPack,JainaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,JainaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,JohannaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,JohannaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,JunkratPack1"/>
+        <GameContentArray value="EmoticonPack,JunkratPack2"/>
+        <GameContentArray value="EmoticonPack,KaelthasEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,KaelthasEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,KelThuzadPack1"/>
+        <GameContentArray value="EmoticonPack,KelThuzadPack2"/>
+        <GameContentArray value="EmoticonPack,KerriganEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,KerriganEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,KharazimEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,KharazimEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,LaPanteraSonyaPack1"/>
+        <GameContentArray value="EmoticonPack,LaPanteraSonyaPack2"/>
+        <GameContentArray value="EmoticonPack,LaParcaLunaraPack1"/>
+        <GameContentArray value="EmoticonPack,LaParcaLunaraPack2"/>
+        <GameContentArray value="EmoticonPack,LeoricEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,LeoricEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,LiliEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,LiliEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,LimingEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,LimingEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,LucioEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,LucioEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,LunaraEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,LunaraEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,LunarFestivalPhrasesPack"/>
+        <GameContentArray value="EmoticonPack,LunarGenjiPack1"/>
+        <GameContentArray value="EmoticonPack,LunarGenjiPack2"/>
+        <GameContentArray value="EmoticonPack,LunarGuardianPack1"/>
+        <GameContentArray value="EmoticonPack,LunarGuardianPack2"/>
+        <GameContentArray value="EmoticonPack,LunarIllidanPack1"/>
+        <GameContentArray value="EmoticonPack,LunarIllidanPack2"/>
+        <GameContentArray value="EmoticonPack,LunarKaelthasPack1"/>
+        <GameContentArray value="EmoticonPack,LunarKaelthasPack2"/>
+        <GameContentArray value="EmoticonPack,LunarLiLiPack1"/>
+        <GameContentArray value="EmoticonPack,LunarLiLiPack2"/>
+        <GameContentArray value="EmoticonPack,LunarSylvanasPack1"/>
+        <GameContentArray value="EmoticonPack,LunarSylvanasPack2"/>
+        <GameContentArray value="EmoticonPack,MaievPack1"/>
+        <GameContentArray value="EmoticonPack,MaievPack2"/>
+        <GameContentArray value="EmoticonPack,MalfurionEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,MalfurionEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,MalthaelEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,MalthaelEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,MechaAbathurPack1"/>
+        <GameContentArray value="EmoticonPack,MechaAbathurPack2"/>
+        <GameContentArray value="EmoticonPack,MechaDehakaPack1"/>
+        <GameContentArray value="EmoticonPack,MechaDehakaPack2"/>
+        <GameContentArray value="EmoticonPack,MechaPhrasesPack"/>
+        <GameContentArray value="EmoticonPack,MechaRehgarPack1"/>
+        <GameContentArray value="EmoticonPack,MechaRehgarPack2"/>
+        <GameContentArray value="EmoticonPack,MechaTassadarPack1"/>
+        <GameContentArray value="EmoticonPack,MechaTassadarPack2"/>
+        <GameContentArray value="EmoticonPack,MechaTyraelPack1"/>
+        <GameContentArray value="EmoticonPack,MechaTyraelPack2"/>
+        <GameContentArray value="EmoticonPack,MedivhEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,MedivhEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,MephistoPack1"/>
+        <GameContentArray value="EmoticonPack,MephistoPack2"/>
+        <GameContentArray value="EmoticonPack,MoralesEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,MoralesEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,MuradinEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,MuradinEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,MurkyEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,MurkyEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,NazeeboEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,NazeeboEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,NexusEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,NovaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,NovaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,PachimariPack1"/>
+        <GameContentArray value="EmoticonPack,PachimariPack2"/>
+        <GameContentArray value="EmoticonPack,PhrasesEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,PhrasesTheme1EmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ProbiusEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ProbiusEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,PsychoStitchesPack1"/>
+        <GameContentArray value="EmoticonPack,PsychoStitchesPack2"/>
+        <GameContentArray value="EmoticonPack,RagnarosEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,RagnarosEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,RaynorEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,RaynorEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,RehgarEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,RehgarEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,RexxarEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,RexxarEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,SamuroEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,SamuroEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,SapperPack1"/>
+        <GameContentArray value="EmoticonPack,SapperPack2"/>
+        <GameContentArray value="EmoticonPack,SapperPackBonus"/>
+        <GameContentArray value="EmoticonPack,ScarecrowXulPack1"/>
+        <GameContentArray value="EmoticonPack,ScarecrowXulPack2"/>
+        <GameContentArray value="EmoticonPack,SidewinderAnaPack1"/>
+        <GameContentArray value="EmoticonPack,SidewinderAnaPack2"/>
+        <GameContentArray value="EmoticonPack,SillySpooky18Pack"/>
+        <GameContentArray value="EmoticonPack,SkeletalHandSymbolPack1"/>
+        <GameContentArray value="EmoticonPack,SkeletalHandSymbolPack2"/>
+        <GameContentArray value="EmoticonPack,SkeletalHandSymbolPack3"/>
+        <GameContentArray value="EmoticonPack,SonyaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,SonyaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,SportsballPack"/>
+        <GameContentArray value="EmoticonPack,Spring19PhrasesPack"/>
+        <GameContentArray value="EmoticonPack,StitchesEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,StitchesEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,StukovEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,StukovEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,SugarPlumSylvanasPack1"/>
+        <GameContentArray value="EmoticonPack,SugarPlumSylvanasPack2"/>
+        <GameContentArray value="EmoticonPack,SylvanasEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,SylvanasEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,TassadarEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,TassadarEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ThrallEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ThrallEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,TracerEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,TracerEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,TychusEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,TychusEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,TyraelEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,TyraelEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,TyrandeEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,TyrandeEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,UtherEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,UtherEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ValeeraEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ValeeraEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,VallaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,VallaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,VampireSlayerVPack1"/>
+        <GameContentArray value="EmoticonPack,VampireSlayerVPack2"/>
+        <GameContentArray value="EmoticonPack,VarianEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,VarianEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,VikingsEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,VikingsEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,WhitemanePack1"/>
+        <GameContentArray value="EmoticonPack,WhitemanePack2"/>
+        <GameContentArray value="EmoticonPack,WinterVeilPhrasesPack"/>
+        <GameContentArray value="EmoticonPack,XulEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,XulEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,YrelPack1"/>
+        <GameContentArray value="EmoticonPack,YrelPack2"/>
+        <GameContentArray value="EmoticonPack,ZagaraEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ZagaraEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ZaryaEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ZaryaEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ZeratulEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ZeratulEmoticonPack2"/>
+        <GameContentArray value="EmoticonPack,ZuljinEmoticonPack"/>
+        <GameContentArray value="EmoticonPack,ZuljinEmoticonPack2"/-->
+        <CommanderDifficultyLevels index="5" RequirePartyToQueue="0"/>
+        <CommanderDifficultyLevels index="6" RequirePartyToQueue="0"/>
+        <CommanderDifficultyLevels index="7" RequirePartyToQueue="0"/>
+        <CommanderDifficultyLevels index="8" RequirePartyToQueue="0"/>
+        <CommanderDifficultyLevels index="9" RequirePartyToQueue="0"/>
+        <CommanderDifficultyLevels index="10" RequirePartyToQueue="0"/>
+        <CommanderDifficultyLevels index="11" DifficultyLevel="11" CommanderLevel="15" Name="CommanderDifficultyLevel/Name/Brutal+7" Description="CommanderDifficultyLevel/Description/Brutal+7" AISkillLevel="4" BeyondBrutalLevel="7" RequirePartyToQueue="0" IsRetry="0"/>
+        <CommanderDifficultyLevels index="12" DifficultyLevel="12" CommanderLevel="15" Name="CommanderDifficultyLevel/Name/Brutal+8" Description="CommanderDifficultyLevel/Description/Brutal+8" AISkillLevel="4" BeyondBrutalLevel="8" RequirePartyToQueue="0" IsRetry="0"/>
+        <CommanderDifficultyLevels index="13" DifficultyLevel="13" CommanderLevel="15" Name="CommanderDifficultyLevel/Name/Brutal+9" Description="CommanderDifficultyLevel/Description/Brutal+9" AISkillLevel="4" BeyondBrutalLevel="9" RequirePartyToQueue="0" IsRetry="0"/>
+        <CommanderDifficultyLevels index="14" DifficultyLevel="14" CommanderLevel="15" Name="CommanderDifficultyLevel/Name/Brutal+10" Description="CommanderDifficultyLevel/Description/Brutal+10" AISkillLevel="4" BeyondBrutalLevel="10" RequirePartyToQueue="0" IsRetry="0"/>
+        <CommanderDifficultyLevels index="15" DifficultyLevel="15" CommanderLevel="15" Name="CommanderDifficultyLevel/Name/Brutal+11" Description="CommanderDifficultyLevel/Description/Brutal+11" AISkillLevel="4" BeyondBrutalLevel="11" RequirePartyToQueue="0" IsRetry="0"/>
+        <CommanderDifficultyLevels index="16" DifficultyLevel="16" CommanderLevel="15" Name="CommanderDifficultyLevel/Name/Brutal+12" Description="CommanderDifficultyLevel/Description/Brutal+12" AISkillLevel="4" BeyondBrutalLevel="12" RequirePartyToQueue="0" IsRetry="0"/>
+    </CConfig>
+    <CUnit id="HGGTestUnit">
+        <DeathRevealRadius value="3"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <PlaneArray index="Ground" value="1"/>
+        <Collide index="Ground" value="1"/>
+        <Collide index="Locust" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Level value="29"/>
+        <LifeStart value="10000"/>
+        <LifeMax value="10000"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossArmor"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Mover value="Fly"/>
+        <Speed value="1"/>
+        <Acceleration value="1000"/>
+        <LateralAcceleration value="46"/>
+        <StationaryTurningRate value="999.8437"/>
+        <TurningRate value="999.8437"/>
+        <Sight value="10"/>
+        <AttackTargetPriority value="20"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="attack"/>
+        <BehaviorArray Link="HGGTestUnitAir"/>
+        <BehaviorArray Link="HGGTestUnitAttack"/>
+        <BehaviorArray Link="HGGTestUnitColossus"/>
+        <BehaviorArray Link="HGGTestUnitAttribute"/>
+        <CardLayouts>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="ProgressRally,Rally1" Row="2" Column="4"/>
+        </CardLayouts>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.625"/>
+        <InnerRadius value="0.5"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="16"/>
+        <MinimapRadius value="0.625"/>
+        <EditorCategories value="ObjectFamily:Coop,ObjectType:Unit"/>
+    </CUnit>
+    <CUnit id="HGGTestUnitFollowTarget">
+        <Race value="PZrg"/>
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="PreventDestroy" value="1"/>
+        <FlagArray index="PenaltyRevealed" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <FlagArray index="ArmorDisabledWhileConstructing" value="1"/>
+        <Collide index="Air4" value="1"/>
+        <Mover value="Fly"/>
+        <Speed value="5"/>
+        <Acceleration value="3"/>
+        <Deceleration value="2"/>
+        <AbilArray Link="move"/>
+        <AbilArray Link="stop"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:Melee"/>
+    </CUnit>
+    <CBehaviorBuff id="HGGTestUnitAir">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification Height="3.76">
+            <PlaneDelta index="Ground" value="-1"/>
+            <PlaneDelta index="Air" value="1"/>
+        </Modification>
+        <Requirements value="HGGTestUnitAir"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="HGGTestUnitAttack">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Requirements value="HGGTestUnitAttack"/>
+        <Modification>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+        </Modification>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="HGGTestUnitAlly">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Player Value="Caster"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="HGGTestUnitColossus">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <PlaneDelta index="Air" value="1"/>
+        </Modification>
+        <Requirements value="HGGTestUnitColossus"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="HGGTestUnitAttribute">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CUpgrade id="HGGTestUnitAir"/>
+    <CUpgrade id="HGGTestUnitColossus">
+        <LeaderAlias value="HGGTestUnitAir"/>
+    </CUpgrade>
+    <CUpgrade id="HGGTestUnitAttack">
+        <LeaderAlias value="HGGTestUnitAir"/>
+    </CUpgrade>
+    <CUpgrade id="HGGTestUnitAlly">
+        <LeaderAlias value="HGGTestUnitAir"/>
+    </CUpgrade>
+</Catalog>

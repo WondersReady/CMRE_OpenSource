@@ -1,0 +1,7 @@
+﻿Category/Name/3375C34B=Initialization
+Category/Name/3EBADE46=Co-op Mission
+Category/Name/F8FFCBA1======== MAIN =======
+Trigger/Name/7DF7E698=Init 01 Load Data
+Trigger/Name/E2B2825D=Init 03 Loading Complete
+Trigger/Name/FC36FE41=Kill Larva
+Variable/Name/37FF7D5E=c_DebugDialogVisible

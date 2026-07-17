@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CActorUnit id="PartsCrate" parent="GenericUnitStandardNoAutoSoundLinks" unitName="Crate">
+        <On Terms="ActorCreation" Send="$Birth"/>
+        <On Terms="AnimDone; AnimName Birth" Send="AnimPlay Morph Morph"/>
+        <Model value="PartsCrate"/>
+        <BuildModel value="PartsCrate"/>
+        <DeathArray index="Normal" ModelLink="DefaultExplosionTerranSmall" SoundLink="ExplodingBarrel_Explode"/>
+        <PlacementModel value="PartsCrate"/>
+        <HighlightTooltip value="Unit/Name/PartsCrate"/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <UnitIcon value="Assets\Textures\WireFrame-PartParcel-Crate.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\WireFrame-PartParcel-Crate.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorModel id="PartsPickupBehaviorModel" parent="ModelAnimationStyleContinuous">
+        <Macros value="GlobalLoopMacro"/>
+        <Macros value="GlobalLoopMacroMore"/>
+        <Inherits index="Visibility" value="1"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead SOpForwardSouth SOpMoveUpBy1Dot5" HoldRotation="1"/>
+    </CActorModel>
+    <CActorModel id="PartsPickupBehaviorModel2" parent="ModelAnimationStyleContinuous">
+        <Macros value="GlobalLoopMacro"/>
+        <Macros value="GlobalLoopMacroMore"/>
+        <Inherits index="Visibility" value="1"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead SOpForwardSouth" HoldRotation="1"/>
+    </CActorModel>
+    <CActorModel id="PartsPickupBehaviorModel22" parent="ModelAnimationStyleContinuous">
+        <Macros value="GlobalLoopMacro"/>
+        <Macros value="GlobalLoopMacroMore"/>
+        <Inherits index="Visibility" value="1"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead SOpForwardSouth" HoldRotation="1"/>
+    </CActorModel>
+    <CActorUnit id="MechanicalConsole" parent="GenericUnitStandardNoAutoSoundLinks" unitName="MechanicalConsole">
+        <On Terms="ActorCreation" Send="Create SoundEmitter Doodad_AvernusGateControlStand"/>
+        <Model value="GateControlUnit"/>
+        <BuildModel value="GateControlUnit"/>
+        <DeathArray index="Normal" ModelLink="AvernusGateControlDeath" SoundLink="Terran_ExplosionLarge"/>
+        <PlacementModel value="GateControlUnit"/>
+        <BarOffset value="120"/>
+        <BarWidth value="140"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-terran-gatecontrol.dds"/>
+        </GroupIcon>
+        <NameOffset value="120"/>
+        <StatusBarFlags index="Duration" value="0"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Textures\Wireframe-terran-gatecontrol.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-terran-gatecontrol.dds"/>
+        </Wireframe>
+        <PortraitModel value="AdjutantPortrait"/>
+    </CActorUnit>
+    <CActorUnit id="Generator" parent="TerranBuilding" unitName="Generator">
+        <On Terms="ActorCreation" Send="Create SoundEmitter Doodad_UmojanLabGenerator"/>
+        <Model value="UmojanLabGenerator"/>
+        <BuildModel value="UmojanLabGenerator"/>
+        <DeathArray index="Normal" ModelLink="UmojanLabGeneratorDeath" SoundLink="UmojanLabGenerator_explode"/>
+        <PlacementModel value="UmojanLabGenerator"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="120"/>
+        <BarWidth value="135"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Terran-UmojanLabGenerator.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\Wireframe-Terran-UmojanLabGenerator.dds"/>
+        <NameOffset value="150"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Textures\Wireframe-Terran-UmojanLabGenerator.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Terran-UmojanLabGenerator.dds"/>
+        </Wireframe>
+    </CActorUnit>
+</Catalog>

@@ -1,0 +1,1786 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="ProtossEnergyHeight" val="84"/>
+    <Constant name="ProtossEnergyHeightDouble" val="168"/>
+    <Constant name="ProtossEnergyWidth" val="83"/>
+    <Constant name="ProtossEnergyGrowth" val="-82"/>   
+
+ 
+    
+    <Frame type="CommandButton" name="ProtossCommandButtonTemplate" template="CommandButton/CommandButtonTemplate">
+        <ShowCooldownText val="True"/>
+        <Frame type="Label" name="CooldownLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-5"/>
+            <Style val="GameButtonCooldownLight"/>
+            <RenderPriority val="516"/>
+        </Frame>
+    </Frame>
+    
+    
+    <Frame type="CommandButton" name="ProtossCommandPassiveTemplate" template="CommandButton/CommandButtonTemplate">
+        <Width val="42"/>
+        <Height val="42"/>
+        
+        <Frame type="Image" name="GameButtonBorderImage">
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_passive.dds"/>
+        </Frame>
+    </Frame>
+    
+
+
+    <Frame type="CommandPanel" name="ProtossCommandPanelTemplate" template="CommandPanel/CommandPanelTemplate">
+        <Width val="688"/>
+        <Height val="700"/>
+        
+        <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <HideUnusedButtons val="true"/>
+        <DisplayCancelCommandCard val="false"/>
+        <UseGridHotkeys val="false"/>
+        
+        <Animation name="FadeIn">
+            <Event event="OnShown" action="Reset"/>
+            <Event event="OnShown" action="Play"/>                
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0" out="Slow"/>
+                <Key type="Curve" time="0.25" value="255" in="Slow"/>
+            </Controller>
+        </Animation>
+
+        <Frame type="CommandTooltip" name="ProtossCommandTooltip" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="88"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="11"/>
+            <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="134"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility0"/>
+        </Frame>        
+        
+        <Frame type="Image" name="LockedImage00">
+            <Anchor relative="$parent/CommandButton00"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_ability_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/Commandbutton00" pos="Max" offset="1"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility1"/>
+        </Frame>        
+        
+        <Frame type="Image" name="LockedImage01">
+            <Anchor relative="$parent/CommandButton01"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_ability_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton02" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent/CommandButton03" pos="Min" offset="-1"/>
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility2"/>
+        </Frame>
+        
+        <Frame type="Image" name="LockedImage02">
+            <Anchor relative="$parent/CommandButton02"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_ability_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton02"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton02"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton02"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton02"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-134"/>
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility3"/>
+        </Frame>
+        
+        <Frame type="Image" name="LockedImage03">
+            <Anchor relative="$parent/CommandButton03"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_ability_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton03"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton03"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton03"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton03"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Image" name="PassiveBorder04">
+            <Anchor relative="$parent/CommandButton04"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_passive.dds"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/ProtossCommandPassiveTemplate">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="74"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="11"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>        
+        
+        <Frame type="Image" name="LockedImage04">
+            <Anchor relative="$parent/CommandButton04"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_passive_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton04"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton04"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton04"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton04"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="PassiveBorder05">
+            <Anchor relative="$parent/CommandButton05"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_passive.dds"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/ProtossCommandPassiveTemplate">
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-73"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Top" relative="$parent/CommandButton04" pos="Min" offset="0"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>
+        
+        <Frame type="Image" name="LockedImage05">
+            <Anchor relative="$parent/CommandButton05"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_passive_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton05"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton05"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton05"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton05"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton09" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton10" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton11" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton12" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton13" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton14" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText0">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/CommandButton00" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@@CommandRow"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText1">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText2">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="CommandTargetImage">
+            <Anchor side="Left" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Top" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="200"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetName">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetPrompt">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="UncontrollableUnitFrame">
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="UncontrollableUnitTitleLabel">
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="UncontrollableUnitPromptLabel">
+                <Visible val="false"/>
+            </Frame>
+        </Frame>
+    </Frame>
+    
+    <Frame type="Frame" name="ProtossAbilityArrowsTemplate">
+        <Width val="76"/>
+        <Height val="100"/>
+        <Visible val="false"/>
+        
+        <Frame type="Image" name="Arrow1Empty">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <ScaleHeightToTexture val="True"/>
+            <Texture val="@UI/LotV_Mission_SoA_Frame_Ability_Alert_ArrowEmpty"/>
+        </Frame>
+        
+        <Frame type="Image" name="Arrow1Highlight">
+            <Anchor relative="$parent/Arrow1Empty"/>
+            <Texture val="@UI/LotV_Mission_SoA_Frame_Ability_Alert_ArrowHighlight"/>
+
+            <Animation name="Show">
+                <Event event="OnShown" action="Play"/>
+                <Event event="OnShown" action="Reset"/>
+                <Controller type="Fade" end="Loop">
+                    <Key type="Curve" time="0" value="0" out="Slow"/>
+                    <Key type="Curve" time="0.2" value="0" out="Slow"/>
+                    <Key type="Curve" time="0.5" value="0" in="Slow"/>
+                    <Key type="Curve" time="0.8" value="255" out="Slow"/>
+                    <Key type="Curve" time="1.2" value="0" out="Slow"/>
+                </Controller>
+            </Animation>
+          
+            <Animation name="Dismiss">
+                <Event event="DialogDismissed" action="Play"/>
+                <Event event="DialogDismissed" action="Reset"/>
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="255" out="Slow"/>
+                    <Key type="Curve" time=".5" value="0" in="Slow"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="Arrow2Empty">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Top" relative="$parent/Arrow1Empty" pos="Max" offset="-43"/>
+            <ScaleHeightToTexture val="True"/>
+            <Texture val="@UI/LotV_Mission_SoA_Frame_Ability_Alert_ArrowEmpty"/>
+        </Frame>
+        
+        <Frame type="Image" name="Arrow2Highlight">
+            <Anchor relative="$parent/Arrow2Empty"/>
+            <Texture val="@UI/LotV_Mission_SoA_Frame_Ability_Alert_ArrowHighlight"/>
+
+            <Animation name="Show">
+                <Event event="OnShown" action="Play"/>
+                <Event event="OnShown" action="Reset"/>
+                <Controller type="Fade" end="Loop">
+                    <Key type="Curve" time="0.0" value="0" out="Slow"/>
+                    <Key type="Curve" time="0.3" value="0" in="Slow"/>
+                    <Key type="Curve" time="0.6" value="153" out="Slow"/>
+                    <Key type="Curve" time="1.2" value="0" out="Slow"/>
+                </Controller>
+            </Animation>
+          
+            <Animation name="Dismiss">
+                <Event event="DialogDismissed" action="Play"/>
+                <Event event="DialogDismissed" action="Reset"/>
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="255" out="Slow"/>
+                    <Key type="Curve" time=".5" value="0" in="Slow"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="Arrow3Empty">
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Top" relative="$parent/Arrow2Empty" pos="Max" offset="-43"/>
+            <ScaleHeightToTexture val="True"/>
+            <Texture val="@UI/LotV_Mission_SoA_Frame_Ability_Alert_ArrowEmpty"/>
+        </Frame>
+        
+        <Frame type="Image" name="Arrow3Highlight">
+            <Anchor relative="$parent/Arrow3Empty"/>
+            <Texture val="@UI/LotV_Mission_SoA_Frame_Ability_Alert_ArrowHighlight"/>
+
+            <Animation name="Show">
+                <Event event="OnShown" action="Play"/>
+                <Event event="OnShown" action="Reset"/>
+                <Controller type="Fade" end="Loop">
+                    <Key type="Curve" time="0.0" value="0" out="Slow"/>
+                    <Key type="Curve" time="0.3" value="51" in="Slow"/>
+                    <Key type="Curve" time="0.6" value="0" out="Slow"/>
+                    <Key type="Curve" time="1.2" value="0" out="Slow"/>
+                </Controller>
+            </Animation>
+          
+            <Animation name="Dismiss">
+                <Event event="DialogDismissed" action="Play"/>
+                <Event event="DialogDismissed" action="Reset"/>
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="255" out="Slow"/>
+                    <Key type="Curve" time=".5" value="0" in="Slow"/>
+                </Controller>
+            </Animation>
+        </Frame>
+    </Frame>
+    
+    <Frame type="Frame" name="ProtossPanelTemplate">
+        <Width val="786"/>
+        <Height val="225"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Mid" offset="-393"/>
+        <Visible val="true"/>
+        
+        <Frame type="CutsceneFrame" name="ProtossCommandCutscene">
+            <Width val="1000"/>
+            <Height val="1000"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-501"/>
+            
+            <RenderType val="HDR"/>
+            <ToneMapping val="False"/>
+        </Frame>     
+
+        <Frame type="CutsceneFrame" name="ProtossOverlayCutscene">
+            <Anchor relative="$parent/ProtossCommandCutscene"/>
+            <File val="Cutscenes/UI_SoAMission_Glass.SC2Cutscene"/>
+            <RenderType val="HDR"/>
+            <ToneMapping val="False"/>
+            <RenderPriority val="515"/>
+            <AutoPlay val="true"/>
+        </Frame>            
+        
+        <Frame type="Frame" name="ProtossAbilityArrow01" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        
+        <Frame type="Frame" name="ProtossAbilityArrow02" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        
+        <Frame type="Frame" name="ProtossAbilityArrow03" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        
+        <Frame type="Frame" name="ProtossAbilityArrow04" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        
+        <Frame type="Frame" name="ProtossButtonHolder">
+            <Width val="688"/>
+            <Height val="700"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-344"/>
+        </Frame>        
+        
+        <Frame type="Frame" name="ProtossEnergyBarFill">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Min" offset="92"/>
+            <AlphaMaskTexture val="@UI/HotS_Shared_Frame_PortraitMask_Circle01"/>
+            <Height val="#ProtossEnergyHeight"/>
+            <Width val="#ProtossEnergyWidth"/>            
+
+            <Frame type="CutsceneFrame" name="ProtossFillScene">
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="#ProtossEnergyHeight"/>
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                <Width val="#ProtossEnergyWidth"/>
+                <Height val="#ProtossEnergyHeightDouble"/>
+                <File val="Cutscenes/UI_SoAMissionEnergy.SC2Cutscene"/>
+                <RenderType val="HDR"/>
+                <AutoPlay val="true"/>                
+                <ToneMapping val="False"/>
+                
+                <Animation name="EnergyLevel">
+                    <Event event="SetEnergyPlay" action="Reset"/>
+                    <Event event="SetEnergyPlay" action="Play"/>
+                    <Event event="SetEnergyPause" action="Pause"/>
+                    <Controller type="Anchor" end="Pause" side="Bottom" relative="true">
+                        <Key type="Curve" time="0" value="0" out="Linear"/>
+                        <Key type="Curve" time="100" value="#ProtossEnergyGrowth" in="Linear"/>
+                    </Controller>
+                </Animation>
+            </Frame>            
+            <RenderPriority val="514"/>
+        </Frame>                           
+
+        <Frame type="Frame" name="ProtossEnergyTooltipHitFrame">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Min" offset="92"/>
+            <Height val="#ProtossEnergyHeight"/>
+            <Width val="#ProtossEnergyWidth"/>   
+            <AcceptsMouse val="true"/>
+            <TooltipFrame val="ProtossEnergyTooltip"/>
+            <Tooltip val="@UI/SoAMissionEnergyTooltip"/>                     
+        </Frame>
+        
+        <Frame type="StandardTooltip" name="ProtossEnergyTooltip" template="StandardTooltip/StandardTooltip">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="88"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+            <MinWidth val="450"/>
+            <MaxWidth val="450"/>
+            <Width val="450"/>
+            <Height val="300"/>
+
+            <Frame type="Label" name="Label">
+                <Width val="420"/>
+            </Frame>
+        </Frame>
+        
+        <Frame type="Label" name="ProtossEnergyLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Min" offset="108"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-40"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="40"/>
+            <Width val="80"/>
+            <Style val="Void_SoAEnergyText"/>
+            <RenderPriority val="517"/>
+            
+            <Animation name="FadeIn">
+                <Event event="OnShown" action="Reset"/>
+                <Event event="OnShown" action="Play"/>                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Slow"/>
+                    <Key type="Curve" time="0.25" value="255" in="Slow"/>
+                </Controller>
+            </Animation>
+        </Frame>               
+    </Frame>
+
+    <Frame type="CommandButton" name="TerranCommandButtonTemplate" template="CommandButton/CommandButtonTemplate">
+        <ShowCooldownText val="True"/>
+        <Frame type="Label" name="CooldownLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-5"/>
+            <Style val="GameButtonCooldownLight"/>
+            <RenderPriority val="516"/>
+        </Frame>
+    </Frame>
+    
+    <Frame type="CommandButton" name="ZergCommandButtonTemplate" template="CommandButton/CommandButtonTemplate">
+        <ShowCooldownText val="True"/>
+        <Frame type="Label" name="CooldownLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-5"/>
+            <Style val="GameButtonCooldownLight"/>
+            <RenderPriority val="516"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="CommandPanel" name="TerranGlobalCommandPanelTemplate" template="CommandPanel/CommandPanelTemplate">
+        <Width val="688"/>
+        <Height val="700"/>
+        
+        <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <HideUnusedButtons val="true"/>
+        <DisplayCancelCommandCard val="false"/>
+        <UseGridHotkeys val="false"/>
+
+        <Frame type="CommandTooltip" name="TerranCommandTooltip" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="120"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="12"/>
+            <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-102"/>
+            <TooltipFrame val="TerranCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility0"/>
+        </Frame>        
+
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-16"/>
+            <TooltipFrame val="TerranCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility1"/>
+        </Frame>       
+
+        <Frame type="CommandButton" name="CommandButton02" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="16"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="TerranCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility2"/>
+        </Frame>      
+
+        <Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="102"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="TerranCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility3"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton09" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton10" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton11" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton12" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton13" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton14" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText0">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/CommandButton00" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@@CommandRow"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText1">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText2">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="CommandTargetImage">
+            <Anchor side="Left" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Top" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="200"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetName">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetPrompt">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="UncontrollableUnitFrame">
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="UncontrollableUnitTitleLabel">
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="UncontrollableUnitPromptLabel">
+                <Visible val="false"/>
+            </Frame>
+        </Frame>
+    </Frame>
+    
+    <!-- Two buttons for raynor, so more mid positioned -->
+    <Frame type="CommandPanel" name="RaynorGlobalCommandPanelTemplate" template="Coop_GlobalCastingTemplates/TerranGlobalCommandPanelTemplate">
+        <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="12"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-16"/>
+            <TooltipFrame val="TerranCommandTooltip"/>
+        </Frame>       
+
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/TerranCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="16"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="TerranCommandTooltip"/>
+        </Frame>     
+    </Frame>
+    
+    <Frame type="CommandPanel" name="ZergGlobalCommandPanelTemplate" template="CommandPanel/CommandPanelTemplate">
+        <Width val="688"/>
+        <Height val="700"/>
+        
+        <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <HideUnusedButtons val="true"/>
+        <DisplayCancelCommandCard val="false"/>
+        <UseGridHotkeys val="false"/>
+
+        <Frame type="CommandTooltip" name="ZergCommandTooltip" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="120"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+        <Frame type="CommandTooltip" name="ZergCommandTooltipB" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="160"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+        <Frame type="CommandTooltip" name="ZergCommandTooltipC" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="160"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+		
+        <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-21"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility0"/>
+        </Frame>    
+
+        <Frame type="Image" name="EmptyImage00">
+            <Anchor relative="$parent/CommandButton00"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="21"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility1"/>
+        </Frame>     
+
+        <Frame type="Image" name="EmptyImage01">
+            <Anchor relative="$parent/CommandButton01"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+
+		
+			
+		<!-- removing the biomass button for now -->
+        <!--Frame type="CommandButton" name="CommandButton02" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="85"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="20"/>
+            <TooltipFrame val="ZergCommandTooltipB"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame-->   
+			
+		
+
+        <!--Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="120"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-120"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltipC"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>    		
+
+        <Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent/CommandButton03" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/CommandButton03" pos="Mid" offset="20"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltipC"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>    		
+
+		<Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent/CommandButton04" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/CommandButton04" pos="Mid" offset="20"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltipC"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>    		
+
+		<Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent/CommandButton05" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/CommandButton05" pos="Mid" offset="20"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltipC"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>    		
+
+		<Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent/CommandButton06" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/CommandButton06" pos="Mid" offset="20"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltipC"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame>    		
+
+		<Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+		    <Width val="40"/>
+			<Height val="40"/>
+            <Anchor side="Top" relative="$parent/CommandButton07" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/CommandButton07" pos="Mid" offset="20"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltipC"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+        </Frame-->    		
+
+		<Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+		<Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+		<Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+		<Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+		<Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+		<Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+
+        <Frame type="CommandButton" name="CommandButton09" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton10" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton11" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton12" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton13" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton14" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText0">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/CommandButton00" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@@CommandRow"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText1">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText2">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="CommandTargetImage">
+            <Anchor side="Left" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Top" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="200"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetName">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetPrompt">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="UncontrollableUnitFrame">
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="UncontrollableUnitTitleLabel">
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="UncontrollableUnitPromptLabel">
+                <Visible val="false"/>
+            </Frame>
+        </Frame>
+    </Frame>
+    
+    <Frame type="Frame" name="ProtossCasterPanelTemplate" template="Coop_GlobalCastingTemplates/ProtossPanelTemplate">
+        <Frame type="CutsceneFrame" name="ProtossOverlayCutscene">
+            <AutoPlay val="false"/>
+        </Frame>
+        
+        <Frame type="Frame" name="ProtossEnergyBarFill">
+            <Frame type="CutsceneFrame" name="ProtossFillScene">
+                <AutoPlay val="false"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+
+    <Frame type="CommandPanel" name="StukovGlobalCommandPanelTemplate" template="CommandPanel/CommandPanelTemplate">
+	
+        <Width val="688"/>
+        <Height val="700"/>
+        
+        <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <HideUnusedButtons val="true"/>
+        <DisplayCancelCommandCard val="false"/>
+        <UseGridHotkeys val="false"/>
+		
+	    <Frame type="CommandTooltip" name="ZergCommandTooltip" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="120"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+		
+		
+	    <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-102"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility0"/>
+        </Frame>   
+
+        <Frame type="Image" name="EmptyImage00">
+            <Anchor relative="$parent/CommandButton00"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+
+		
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-16"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility1"/>
+        </Frame>     
+
+
+        <Frame type="Image" name="EmptyImage01">
+            <Anchor relative="$parent/CommandButton01"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+
+
+
+        
+        <Frame type="CommandButton" name="CommandButton02" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="16"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility2"/>
+        </Frame>      
+
+        <Frame type="Image" name="EmptyImage02">
+            <Anchor relative="$parent/CommandButton02"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton02"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton02"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton02"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton02"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+
+		
+        <Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="102"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility3"/>
+        </Frame>
+
+        <Frame type="Image" name="EmptyImage03">
+            <Anchor relative="$parent/CommandButton03"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton03"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton03"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton03"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton03"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+		
+        <Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton09" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton10" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton11" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton12" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton13" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton14" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText0">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/CommandButton00" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@@CommandRow"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText1">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText2">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="CommandTargetImage">
+            <Anchor side="Left" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Top" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="200"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetName">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetPrompt">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="UncontrollableUnitFrame">
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="UncontrollableUnitTitleLabel">
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="UncontrollableUnitPromptLabel">
+                <Visible val="false"/>
+            </Frame>
+        </Frame>
+		
+    </Frame>
+
+	
+	
+    <Frame type="CommandPanel" name="DehakaGlobalCommandPanelTemplate" template="CommandPanel/CommandPanelTemplate">
+	
+        <Width val="688"/>
+        <Height val="700"/>
+        
+        <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <HideUnusedButtons val="true"/>
+        <DisplayCancelCommandCard val="false"/>
+        <UseGridHotkeys val="false"/>
+
+
+		
+	    <Frame type="CommandTooltip" name="ZergCommandTooltip" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="120"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+		
+		
+	    <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="10"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-102"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility0"/>
+        </Frame>   
+
+        <Frame type="Image" name="EmptyImage00">
+            <Anchor relative="$parent/CommandButton00"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+
+		
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-16"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility1"/>
+        </Frame>     
+
+
+        <Frame type="Image" name="EmptyImage01">
+            <Anchor relative="$parent/CommandButton01"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+
+	        
+        <Frame type="CommandButton" name="CommandButton02" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="16"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility2"/>
+        </Frame>      
+
+        <Frame type="Image" name="EmptyImage02">
+            <Anchor relative="$parent/CommandButton02"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton02"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton02"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton02"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton02"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+
+		
+        <Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="102"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ZergCommandTooltip"/>
+            <ClickSound val="*@UI_Stukov_TopBar_Click"/>
+            <HotkeyUse val="CommanderAbility3"/>
+        </Frame>
+
+        <Frame type="Image" name="EmptyImage03">
+            <Anchor relative="$parent/CommandButton03"/>
+            <TextureType val="Normal"/>
+            <Texture val="@@UI/ButtonBorderNormal"/>
+            
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton03"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton03"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton03"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton03"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>        
+		
+        <Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton09" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton10" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton11" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton12" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton13" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton14" template="Coop_GlobalCastingTemplates/ZergCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText0">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/CommandButton00" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@@CommandRow"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText1">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText2">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="CommandTargetImage">
+            <Anchor side="Left" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Top" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="200"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetName">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetPrompt">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="UncontrollableUnitFrame">
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="UncontrollableUnitTitleLabel">
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="UncontrollableUnitPromptLabel">
+                <Visible val="false"/>
+            </Frame>
+        </Frame>
+		
+    </Frame>
+
+	
+	
+	
+	
+	
+    <Frame type="Frame" name="TerranCasterPanelTemplate">
+        <Width val="786"/>
+        <Height val="225"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Mid" offset="-393"/>        
+
+        <Frame type="CutsceneFrame" name="TerranCommandCutscene">
+            <Width val="1000"/>
+            <Height val="1000"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-501"/>
+            
+            <File val="Cutscenes/UI_TerranCastingPanel.SC2Cutscene"/>
+            <RenderType val="HDR"/>
+            <ToneMapping val="False"/>
+        </Frame>     
+        
+        <Frame type="Frame" name="ButtonHolder">
+            <Width val="688"/>
+            <Height val="700"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-344"/>
+        </Frame>
+        
+        <Frame type="Frame" name="AbilityArrow01" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow02" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow03" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow04" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+    </Frame>    
+    
+    <Frame type="Frame" name="ZergCasterPanelTemplate">
+        <Width val="786"/>
+        <Height val="225"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Mid" offset="-393"/>        
+
+        <Frame type="CutsceneFrame" name="ZergCommandCutscene">
+            <Width val="1000"/>
+            <Height val="1000"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-501"/>
+            
+            <File val="Cutscenes/UI_ZergCastingPanel.SC2Cutscene"/>
+            <RenderType val="HDR"/>
+            <ToneMapping val="False"/>
+        </Frame>     
+
+
+        
+        <Frame type="Frame" name="ButtonHolder">
+            <Width val="688"/>
+            <Height val="700"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-344"/>
+        </Frame>
+        
+        <Frame type="Frame" name="AbilityArrow01" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow02" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow03" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow04" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+    </Frame>    
+    
+    <!-- Two buttons for Alarak and no energy -->        
+    <Frame type="Frame" name="AlarakCasterPanelTemplate">
+        <Width val="786"/>
+        <Height val="225"/>
+        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Left" relative="$parent" pos="Mid" offset="-393"/>        
+
+        <Frame type="CutsceneFrame" name="AlarakCommandCutscene">
+            <Width val="1000"/>
+            <Height val="1000"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-501"/>
+            
+            <File val="Cutscenes/UI_TerranCastingPanel.SC2Cutscene"/>
+            <RenderType val="HDR"/>
+            <ToneMapping val="False"/>
+        </Frame>             
+        
+        <Frame type="Frame" name="ButtonHolder">
+            <Width val="688"/>
+            <Height val="700"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-344"/>
+        </Frame>
+        
+        <Frame type="Frame" name="AbilityArrow01" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="AbilityArrow02" template="Coop_GlobalCastingTemplates/ProtossAbilityArrowsTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        
+        <Frame type="Button" name="GemButton">
+            <Width val="32"/>
+            <Height val="58"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="14"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+        </Frame>
+    </Frame> 
+    
+    <Frame type="CommandPanel" name="AlarakGlobalCommandPanelTemplate" template="CommandPanel/CommandPanelTemplate">
+        <Width val="688"/>
+        <Height val="700"/>
+        
+        <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <HideUnusedButtons val="true"/>
+        <DisplayCancelCommandCard val="false"/>
+        <UseGridHotkeys val="false"/>
+        
+        <Animation name="FadeIn">
+            <Event event="OnShown" action="Reset"/>
+            <Event event="OnShown" action="Play"/>                
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0" out="Slow"/>
+                <Key type="Curve" time="0.25" value="255" in="Slow"/>
+            </Controller>
+        </Animation>
+
+        <Frame type="CommandTooltip" name="ProtossCommandTooltip" template="CommandButton/CommandTooltipTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="88"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="-225"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton00" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="11"/>
+            <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$this" pos="Max" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-64"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility0"/>
+        </Frame>        
+        
+        <Frame type="Image" name="LockedImage00">
+            <Anchor relative="$parent/CommandButton00"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_ability_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton00"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton00"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton01" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="64"/>
+            <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
+            <TooltipFrame val="ProtossCommandTooltip"/>
+
+            <ClickSound val="*@UI_SoA_SpellClick"/>
+            <HotkeyUse val="CommanderAbility1"/>
+        </Frame>        
+        
+        <Frame type="Image" name="LockedImage01">
+            <Anchor relative="$parent/CommandButton01"/>
+            <Texture val="Assets\Textures\ui_void_mission_soa_frame_ability_lock.dds"/>
+            <Animation name="Show">
+                <Event event="OnHidden" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnHidden" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="true"/>
+                </Controller>
+            </Animation>
+            <Animation name="Hide">
+                <Event event="OnShown" action="Reset" frame="$parent/CommandButton01"/>
+                <Event event="OnShown" action="Play" frame="$parent/CommandButton01"/>
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0.0" value="false"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton02" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton03" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton04" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton05" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+        
+        <Frame type="CommandButton" name="CommandButton06" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton07" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton08" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton09" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton10" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton11" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton12" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton13" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="CommandButton" name="CommandButton14" template="Coop_GlobalCastingTemplates/ProtossCommandButtonTemplate">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText0">
+            <Anchor side="Top" relative="$parent/CommandButton00" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/CommandButton00" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="@@CommandRow"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText1">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="RowText2">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="CommandTargetImage">
+            <Anchor side="Left" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Top" relative="$parent" pos="Max" offset="200"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="200"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetName">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="CommandTargetPrompt">
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Frame" name="UncontrollableUnitFrame">
+            <Visible val="false"/>
+            
+            <Frame type="Label" name="UncontrollableUnitTitleLabel">
+                <Visible val="false"/>
+            </Frame>
+            
+            <Frame type="Label" name="UncontrollableUnitPromptLabel">
+                <Visible val="false"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

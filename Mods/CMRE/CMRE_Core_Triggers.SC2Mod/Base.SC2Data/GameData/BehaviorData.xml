@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CBehaviorBuff id="KerriganNydusNetworkReady">
+        <InfoFlags index="Hidden" value="1"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <DisplayDuration index="Neutral" value="1"/>
+        <Duration value="60"/>
+        <ExpireEffect value="KerriganNydusNetworkReadyDummy"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AutoCreepTumorSpread">
+        <InfoFlags index="Hidden" value="1"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <DisableValidatorArray value="HaveAutoCreepUpgrade"/>
+        <Period value="20"/>
+        <PeriodicEffect value="AutoCreepTumorSpreadRB"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="SOARepairBeam">
+        <Period value="1"/>
+        <PeriodicEffect value="SOARepairBeamSwitch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ZeratulTopBarTimedLife">
+        <ExpireEffect value="ZeratulTopBarWarpingOutExpireAB"/>
+        <!--StateFlags index="Uncommandable" value="1"/-->
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ZeratulXelNagaConstructTimedLife">
+        <ExpireEffect value="CMREZeratulConstructTimedLifeExpireAB"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CMREZeratulConstructWarpIn">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Duration value="2"/>
+        <Modification>
+            <StateFlags index="Stun" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CMREZeratulConstructTimedLifeExpire">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="5"/>
+        <FinalEffect value="CMREZeratulConstructTimedLifeRemove"/>
+        <Modification>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ZeratulTopBarWarpingOutExpire">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="2"/>
+        <FinalEffect value="ZeratulTopBarWarpingOutTimedLifeFate"/>
+        <Modification>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="TychusGhostConfusion"/>
+    <CBehaviorBuff id="InfestedSiegeTankAmmoAuto">
+        <PeriodicEffect value="StukovInfestedSiegeTankRestoreAmmoDisplaySet"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CMStukovSpreadPlague">
+        <Alignment value="Positive"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-contaminate-color.dds"/>
+        <EditorCategories value="Race:InfestedTerran,AbilityorEffectType:Units"/>
+        <Period value="12"/>
+        <PeriodicEffect value="CMStukovSpreadPlaguePulse"/>
+        <Modification>
+            <StateFlags index="UnitAttrOnBiological" value="1"/>
+            <LifeArmorBonus value="3"/>
+            <VitalRegenArray index="Life" value="10"/>
+        </Modification>
+    </CBehaviorBuff>
+</Catalog>

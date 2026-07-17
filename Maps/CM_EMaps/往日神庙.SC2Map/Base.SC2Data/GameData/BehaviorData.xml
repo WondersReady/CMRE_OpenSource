@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CBehaviorConjoined id="ConjoinedTrainCar">
+        <ConjoinedFlags index="ShareSelect" value="1"/>
+    </CBehaviorConjoined>
+    <CBehaviorBuff id="ZenithStonePsiStorm">
+        <Duration value="1.5"/>
+    </CBehaviorBuff>
+</Catalog>

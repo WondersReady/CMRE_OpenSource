@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CValidatorCombine id="IsBossOrCombine">
+        <CombineArray value="IsCarnozor"/>
+        <CombineArray value="IsDevastator"/>
+        <CombineArray value="IsDevastatorBurrowed"/>
+        <CombineArray value="IsMothmam"/>
+        <CombineArray value="IsUldra"/>
+        <CombineArray value="IsUldraBurrowed"/>
+        <CombineArray value="IsSkiver"/>
+        <CombineArray value="IsSkiverBurrowed"/>
+        <CombineArray value="IsKhailu"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="IsCarnozor">
+        <Value value="Carnozor"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsDevastator">
+        <Value value="Devastator"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsKhailu">
+        <Value value="Khailu"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsSkiverBurrowed">
+        <Value value="ImpalerBurrowed2"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsSkiver">
+        <Value value="Skiver"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsDevastatorBurrowed">
+        <Value value="DevastatorBurrowed"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsUldra">
+        <Value value="RedstoneSalamander"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsMothmam">
+        <Value value="Mothmam"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsUldraBurrowed">
+        <Value value="RedstoneSalamanderBurrowed"/>
+        <Type value="SelectAlias"/>
+    </CValidatorUnitType>
+    <CValidatorUnitCompareBehaviorCount id="NotNanoRepaired">
+        <ResultFailed value="CantTargetThatUnit"/>
+        <Behavior value="NanoRepairTest"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitFilters id="VoidCrystalAurasTargetFilters">
+        <Filters value="-;Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="VoidCrystalHealChannelCheck">
+        <Type value="And"/>
+        <CombineArray value="NotDead"/>
+        <CombineArray value="CasterNotDead"/>
+        <CombineArray value="ShieldsNotFull"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNotPrimalEggBigOrSmall">
+        <Type value="And"/>
+        <CombineArray value="IsNotPrimalEggBig"/>
+        <CombineArray value="IsNotPrimalEggSmall"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="IsNotPrimalEggBig">
+        <Value value="AscendantEggBig"/>
+        <Find value="0"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsPrimalEggSmall">
+        <Value value="AscendantEggSmall"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="IsPrimalEggBigOrSmall">
+        <CombineArray value="IsPrimalEggBig"/>
+        <CombineArray value="IsPrimalEggSmall"/>
+    </CValidatorCombine>
+    <CValidatorUnitType id="IsPrimalEggBig">
+        <Value value="AscendantEggBig"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="IsNotPrimalEggSmall">
+        <Value value="AscendantEggSmall"/>
+        <Find value="0"/>
+    </CValidatorUnitType>
+</Catalog>

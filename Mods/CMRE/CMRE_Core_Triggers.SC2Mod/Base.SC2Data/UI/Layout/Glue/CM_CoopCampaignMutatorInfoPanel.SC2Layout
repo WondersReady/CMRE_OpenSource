@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+                
+    <Frame type="Frame" name="BackgroundContainerTemplate" template="StandardBattlenetTemplates/BattlenetStandardContentContainerTemplate">
+        <Anchor side="Top" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Min" offset="1"/>
+        <Anchor side="Bottom" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="-1"/>
+        <Anchor side="Left" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="12"/>
+        <Width val="760"/>
+        <AcceptsMouse val="True"/>
+
+        <Frame type="Image" name="Shadow">
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Image" name="DividerAnchor">
+            <Anchor side="Top" relative="$parent/AnchorFrame" pos="Min" offset="76"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="236"/>
+        </Frame>
+
+        <Frame type="Image" name="DividerTop">
+            <Visible val="True"/>
+        </Frame>
+
+        <Frame type="Image" name="DividerLeft">
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Image" name="DividerRight">
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Image" name="BodyShadow">
+            <Visible val="False"/>
+        </Frame>
+
+    </Frame>
+
+    <!-- <Frame type="CoopCampaignMutatorIconFrame" name="CoopCampaignMutatorIconFrameTemplate"> -->
+    <Frame type="Frame" name="CoopCampaignMutatorIconFrameTemplate">
+        <Width val="72"/>
+        <Height val="72"/>
+        <AcceptsMouseTooltip val="true"/>
+        <Visible val="false"/>
+        <CollapseLayout val="false"/>
+
+        <Frame type="Image" name="Background">
+            <Anchor relative="$parent"/>
+            <Color val="255,0,255"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <!-- <Frame type="BattleMapIcon" name="IconImage"> -->
+        <Frame type="Frame" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="66"/>
+            <Height val="66"/>
+
+            <Frame type="Image" name="Image">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor relative="$parent"/>
+            <Style val="@Coop_CommanderMutatorIndividualTitle"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor relative="$parent"/>
+            <Height val="45"/>
+            <Style val="@Coop_CommanderMutatorIndividualDescription"/>
+            <AcceptsMouseTooltip val="True"/>
+            <Options val="Ellipsis | TooltipIfTruncated"/>
+            <Visible val="False"/>
+            <TooltipFrame val="BattleNetTooltip"/>
+
+            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+        </Frame>
+        
+        <!-- BORDER OUTER -->
+        <Frame type="Image" name="BorderOuter">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer"/>
+            <TextureType val="NineSlice"/>
+            <Color val="0,0,0"/>
+        </Frame>
+        
+        <!-- BORDER INNER -->
+        <Frame type="Image" name="BorderInner">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner"/>
+            <TextureType val="NineSlice"/>
+            <Color val="37,107,169"/>
+        </Frame>
+
+        <Animation name="Show">
+            <Event event="Show" action="Reset,Play"/>
+            <Event event="Hide" action="Reset,Stop"/>
+
+            <Controller type="Visibility" end="Pause">
+                <Key type="Bool" time="0" value="true"/>
+            </Controller>
+        </Animation>
+    
+        <!-- AspectRatioState-->
+        <StateGroup name="AspectRatioState">
+            <DefaultState val="Default"/>
+            
+            <State name="16x9">
+                <When type="StateGroup" frame="$GlueUI" AspectRatioState="16x9"/>
+                <Action type="SetProperty" frame="BorderOuter" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer_16x9"/>
+                <Action type="SetProperty" frame="BorderInner" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner_16x9"/>
+            </State>
+            
+            <State name="Default">
+                <Action type="SetProperty" frame="BorderOuter" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer"/>
+                <Action type="SetProperty" frame="BorderInner" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner"/>
+            </State>
+        </StateGroup>
+    </Frame>
+
+    <Frame type="Frame" name="CoopCampaignMutatorSmallIconFrameTemplate">
+        <Width val="44"/>
+        <Height val="44"/>
+        <AcceptsMouseTooltip val="true"/>
+        <TooltipFrame val="BattleNetTooltip"/>
+        <TooltipAnchorPosition val="BottomToTop | LeftToRight"/>
+        <Visible val="false"/>
+        <CollapseLayout val="false"/>
+
+        <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+
+        <Frame type="Frame" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="40"/>
+            <Height val="40"/>
+
+            <Frame type="Image" name="Image">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Image" name="EtcImage">
+            <Anchor relative="$parent/IconImage"/>
+            <Texture val="@@UI/CM_MutatorEtcIcon"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor relative="$parent"/>
+            <Style val="@Coop_CommanderMutatorIndividualTitle"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor relative="$parent"/>
+            <Height val="45"/>
+            <Style val="@Coop_CommanderMutatorIndividualDescription"/>
+            <Options val="Ellipsis | TooltipIfTruncated"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Image" name="BorderImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="-4"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="4"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="-4"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="4"/>
+            <Texture val="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+            <TextureType val="Normal"/>
+        </Frame>
+
+        <Animation name="Show">
+            <Event event="Show" action="Reset,Play"/>
+            <Event event="Hide" action="Reset,Stop"/>
+
+            <Controller type="Visibility" end="Pause">
+                <Key type="Bool" time="0" value="true"/>
+            </Controller>
+        </Animation>
+
+        <StateGroup name="IconDisplayState">
+            <DefaultState val="Normal"/>
+
+            <State name="Normal">
+                <Action type="SetProperty" frame="IconImage" Visible="True"/>
+                <Action type="SetProperty" frame="EtcImage" Visible="False"/>
+            </State>
+
+            <State name="Etc">
+                <Action type="SetProperty" frame="IconImage" Visible="False"/>
+                <Action type="SetProperty" frame="EtcImage" Visible="True"/>
+            </State>
+        </StateGroup>
+
+        <Animation name="SetIconNormal">
+            <Event event="IconNormal" action="Reset,Play"/>
+            <Event event="NormalIcon" action="Reset,Play"/>
+
+            <Controller type="State" stateGroup="IconDisplayState" frame="$this" end="Pause">
+                <Key type="Identifier" time="0" value="Normal"/>
+            </Controller>
+        </Animation>
+
+        <Animation name="SetIconEtc">
+            <Event event="IconEtc" action="Reset,Play"/>
+            <Event event="EtcIcon" action="Reset,Play"/>
+
+            <Controller type="State" stateGroup="IconDisplayState" frame="$this" end="Pause">
+                <Key type="Identifier" time="0" value="Etc"/>
+            </Controller>
+        </Animation>
+
+        <StateGroup name="SourceState">
+            <DefaultState val="Official"/>
+
+            <State name="Official">
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_coop_ingame_mutatorframe.dds"/>
+            </State>
+
+            <State name="Plus">
+                <When type="AnimationState" SourceState="Plus"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_grandmaster_small.dds"/>
+            </State>
+
+            <State name="Maguro">
+                <When type="AnimationState" SourceState="Maguro"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_master_small.dds"/>
+            </State>
+
+            <State name="ThirdParty">
+                <When type="AnimationState" SourceState="ThirdParty"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_glues_profileavatar_diamond_small.dds"/>
+            </State>
+        </StateGroup>
+
+    </Frame>
+
+    <Frame type="Frame" name="CoopCampaignMutatorCountIconTemplate">
+        <Width val="60"/>
+        <Height val="60"/>
+        <AcceptsMouse val="true"/>
+        <AcceptsMouseTooltip val="true"/>
+        <TooltipFrame val="BattleNetTooltip"/>
+        <TooltipAnchorPosition val="BottomToTop | LeftToRight"/>
+        <CollapseLayout val="false"/>
+
+        <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+
+        <Frame type="Frame" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="56"/>
+            <Height val="56"/>
+
+            <Frame type="Image" name="Image">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Label" name="Title">
+            <Anchor relative="$parent"/>
+            <Visible val="False"/>
+            <Text val="MutatorName"/>
+        </Frame>
+
+        <Frame type="Label" name="Description">
+            <Anchor relative="$parent"/>
+            <Visible val="False"/>
+            <Text val="MutatorDescription"/>
+        </Frame>
+
+        <Frame type="Frame" name="TooltipFrame">
+            <Width val="250"/>
+        </Frame>
+
+        <Frame type="Label" name="Cost">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-4"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-6"/>
+            <Height val="18"/>
+            <AutoSizeClamps minWidth="14" maxWidth="34"/>
+            <RenderPriority val="703"/>
+            <Style val="BattlenetSmallButton"/>
+            <Options val="NoWrapping"/>
+        </Frame>
+
+        <Frame type="Frame" name="CostAnchorFrame">
+            <Anchor side="Top" relative="$parent/Cost" pos="Min" offset="-3"/>
+            <Anchor side="Bottom" relative="$parent/Cost" pos="Max" offset="3"/>
+            <Anchor side="Left" relative="$parent/Cost" pos="Min" offset="-5"/>
+            <Anchor side="Right" relative="$parent/Cost" pos="Max" offset="5"/>
+        </Frame>
+
+        <Frame type="Image" name="CostBackgroundImage">
+            <Anchor side="Top" relative="$parent/CostAnchorFrame" pos="Min" offset="2"/>
+            <Anchor side="Bottom" relative="$parent/CostAnchorFrame" pos="Max" offset="-2"/>
+            <Anchor side="Left" relative="$parent/CostAnchorFrame" pos="Min" offset="2"/>
+            <Anchor side="Right" relative="$parent/CostAnchorFrame" pos="Max" offset="-2"/>
+            <RenderPriority val="701"/>
+            <Texture val="Assets/Textures/white.dds"/>
+            <Color val="6,15,25"/>
+        </Frame>
+
+        <Frame type="Image" name="CostBorderInner">
+            <Anchor relative="$parent/CostAnchorFrame"/>
+            <RenderPriority val="702"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner"/>
+            <TextureType val="NineSlice"/>
+            <Color val="37,107,169"/>
+        </Frame>
+
+        <Frame type="Image" name="BorderOuter">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer"/>
+            <TextureType val="NineSlice"/>
+            <Color val="0,0,0"/>
+        </Frame>
+
+        <Frame type="Image" name="BorderInner">
+            <Anchor relative="$parent"/>
+            <Texture val="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner"/>
+            <TextureType val="NineSlice"/>
+            <Color val="37,107,169"/>
+        </Frame>
+
+        <StateGroup name="AspectRatioState">
+            <DefaultState val="Default"/>
+
+            <State name="16x9">
+                <When type="StateGroup" frame="$GlueUI" AspectRatioState="16x9"/>
+                <Action type="SetProperty" frame="BorderOuter" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer_16x9"/>
+                <Action type="SetProperty" frame="BorderInner" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner_16x9"/>
+            </State>
+
+            <State name="Default">
+                <Action type="SetProperty" frame="BorderOuter" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Outer"/>
+                <Action type="SetProperty" frame="BorderInner" Texture="@UI/Glues_Battlenet_PageAssets_GraphicListItem_Border_Inner"/>
+            </State>
+        </StateGroup>
+    </Frame>
+    
+    <!-- <Frame type="CoopCampaignMutatorInfoPanel" name="CoopCampaignMutatorInfoPanelTemplate"> -->
+    <Frame type="Frame" name="CoopCampaignMutatorInfoPanelTemplate">
+        <!-- <RemainingTimeUnitThreshold val="1"/> -->
+        <HookupAlias original="TitleLabel" alias="InfoContainer/SummaryTitleLabel"/>
+        <HookupAlias original="MapLabel" alias="InfoContainer/SummaryBodyLabel"/>
+        <HookupAlias original="RemainingTimeLabel" alias="InfoContainer/SummaryStatusLabel"/>
+        <HookupAlias original="SelectedMutatorIconGroup" alias="InfoContainer/MutatorIconGroup"/>
+        <HookupAlias original="MutatorPageSelector" alias="InfoContainer/MutatorIconPageSelector"/>
+        <HookupAlias original="RefreshButton" alias="InfoContainer/RerollButton"/>
+        
+        <!-- This tooltip is just for blocking tooltips behind this panel -->
+        <Frame type="StandardTooltip" name="CoopCampaignTooltip">
+            <Frame type="Label" name="Label">
+                <Anchor relative="$parent"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="InfoContainer">
+            <Anchor relative="$parent"/>
+
+            <Animation name="Show">
+                <Event event="Show" action="Reset,Play" frame="$parent"/>
+
+                <Controller type="Property" end="Pause" property="Toggled" frame="$parent/Button">
+                    <Key type="Property" time="0" value="true"/>
+                </Controller>
+            </Animation>
+
+            <Animation name="Hide">
+                <Event event="OnClick" action="Reset,Play" frame="CloseButton"/>
+                <Event event="Inactive" action="Reset,Play" frame="$parent"/>
+                <Event event="UISlideOut" action="Reset,Play" frame="$parent/$parent"/>
+
+                <Controller type="Property" end="Pause" property="Toggled" frame="$parent/Button">
+                    <Key type="Property" time="0" value="false"/>
+                </Controller>
+            </Animation>
+            
+            <StateGroup name="ShowStateGroup">
+                <DefaultState val="Visible"/>
+
+                <State name="Visible">
+                    <Action type="SetProperty" frame="$this" Visible="true"/>
+                </State>
+            </StateGroup>
+            
+            <StateGroup name="LoadingStateGroup">
+                <State name="Loading1">
+                    <When type="AnimationState" frame="$parent" InfoPanelDescriptionState="Loading"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelMapState="Loading"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
+                    <Action type="SetProperty" frame="SummaryTitleLabel" visible="False"/>
+                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="False"/>
+                    <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="False"/>
+                    <Action type="SetProperty" frame="Loading" visible="True"/>
+                </State>
+                
+                <State name="Loading2">
+                    <When type="AnimationState" frame="$parent" InfoPanelDescriptionState="Loaded"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelMapState="Loading"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
+                    <Action type="SetProperty" frame="SummaryTitleLabel" visible="False"/>
+                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="False"/>
+                    <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="False"/>
+                    <Action type="SetProperty" frame="Loading" visible="True"/>
+                </State>
+                
+                <State name="Loading3">
+                    <When type="AnimationState" frame="$parent" InfoPanelDescriptionState="Loading"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelMapState="Loaded"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
+                    <Action type="SetProperty" frame="SummaryTitleLabel" visible="False"/>
+                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="False"/>
+                    <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="False"/>
+                    <Action type="SetProperty" frame="Loading" visible="True"/>
+                </State>
+
+                <State name="Loaded">
+                    <When type="AnimationState" frame="$parent" InfoPanelDescriptionState="Loaded"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelMapState="Loaded"/>
+                    <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
+                    <Action type="SetProperty" frame="SummaryTitleLabel" visible="True"/>
+                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="True"/>
+                    <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="True"/>
+                    <Action type="SetProperty" frame="Loading" visible="False"/>
+                </State>
+                
+                <State name="Inactive">
+                    <When type="AnimationState" frame="$parent" InfoPanelState="Inactive"/>
+                    <Action type="SetProperty" frame="Loading" visible="False"/>
+                </State>
+            </StateGroup>
+            
+            <Frame type="Frame" name="BackgroundContainer" template="CM_CoopCampaignMutatorInfoPanel/BackgroundContainerTemplate"/>
+            
+            <Frame type="Image" name="VerticalDivider">
+                <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="5"/>
+                <Anchor side="Bottom" relative="$parent/BackgroundContainer" pos="Max" offset="-5"/>
+                <Anchor side="Left" relative="$parent/BackgroundContainer" pos="Min" offset="236"/>
+                <Width val="2"/>
+                <Texture val="Assets/Textures/white.dds"/>
+                <Color val="189,223,255"/>
+            </Frame>
+            
+            <Frame type="Image" name="HorizontalTopDivider">
+                <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="118"/>
+                <Anchor side="Left" relative="$parent/VerticalDivider" pos="Max" offset="18"/>
+                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-26"/>
+                <Height val="14"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_StandardContainer_ContentDivider"/>
+                <TextureType val="EndCap"/>
+            </Frame>
+            
+            <Frame type="Image" name="HorizontalBottomDivider">
+                <Anchor side="Top" relative="$parent/HorizontalTopDivider" pos="Max" offset="96"/>
+                <Anchor side="Left" relative="$parent/HorizontalTopDivider" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/HorizontalTopDivider" pos="Max" offset="0"/>
+                <Height val="14"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_StandardContainer_ContentDivider"/>
+                <TextureType val="EndCap"/>
+            </Frame>
+            
+            <Frame type="Image" name="MutatorBackGlow">
+                <Anchor side="Top" relative="$parent/HorizontalTopDivider" pos="Max" offset="-6"/>
+                <Anchor side="Bottom" relative="$parent/HorizontalBottomDivider" pos="Min" offset="6"/>
+                <Anchor side="Left" relative="$parent/HorizontalTopDivider" pos="Min" offset="6"/>
+                <Anchor side="Right" relative="$parent/HorizontalTopDivider" pos="Max" offset="-6"/>
+                <LayerCount val="2"/>
+                <Color val="15,113,168"/>
+                <Alpha val="80"/>
+                
+                <Texture val="@UI/SC2_UI_Collection_VoicePack_CharacterFrame_GenericEffect_RadialGradient_256x256" layer="0"/>
+                <TextureCoords top=".750" bottom=".891" left=".220" right=".780" layer="0"/>
+                
+                <Texture val="@UI/SC2_UI_Collection_VoicePack_CharacterFrame_GenericEffect_RadialGradient_256x256" layer="1"/>
+                <TextureCoords top=".891" bottom=".750" left=".220" right=".780" layer="1"/>
+            </Frame>
+
+            <Frame type="Button" name="CloseButton" template="StandardBattlenetTemplates/NewCloseButtonTemplate">
+                <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="5"/>
+                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-5"/>
+                <Shortcut val="@UI/ScreenNavigationBack_Hotkey"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+                <Visible val="False"/>
+                <Enabled val="False"/>
+            </Frame>
+
+            <Frame type="Button" name="RerollButton" template="StandardBattlenetTemplates/CloseButton">
+                <Anchor side="Bottom" relative="$parent/BackgroundContainer" pos="Max" offset="-5"/>
+                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-5"/>
+                <ClickSound val="@UI_ActionButtonSelect"/>
+                <Tooltip val="@CMUI/MutatorInfo/RefreshTooltip"/>
+                <Visible val="False"/>
+
+                <Frame type="Image" name="Icon">
+                    <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                    <TextureCoords top="1" bottom="0" left="0" right="1"/>
+
+                    <StateGroup name="DisplayState">
+                        <DefaultState val="Normal"/>
+
+                        <State name="Disabled">
+                            <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="64,95,113"/>
+                        </State>
+
+                        <State name="Pressed">
+                            <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Pressed"/>
+                            <Action type="SetProperty" frame="$this" Color="255,255,255"/>
+                        </State>
+
+                        <State name="Hover">
+                            <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="204,231,255"/>
+                        </State>
+
+                        <State name="Normal">
+                            <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                            <Action type="SetProperty" frame="$this" Color="141,191,234"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+            </Frame>
+            
+            <Frame type="Label" name="SummaryTitleLabel">
+                <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="23"/>
+                <Anchor side="Left" relative="$parent/VerticalDivider" pos="Max" offset="23"/>
+                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-52"/>
+                <AutoSizeClamps maxHeight="72"/>
+                <AcceptsMouseTooltip val="True"/>
+                <Options val="Ellipsis | TooltipIfTruncated"/>
+                <Style val="@Coop_CommanderMutatorTitle"/>
+                <TooltipFrame val="BattleNetTooltip"/>
+
+                <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+            </Frame>
+
+            <Frame type="Label" name="SummaryBodyLabel">
+                <Anchor side="Top" relative="$parent/SummaryTitleLabel" pos="Max" offset="-2"/>
+                <Anchor side="Left" relative="$parent/SummaryTitleLabel" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-52"/>
+                <Height val="64"/>
+                <AcceptsMouseTooltip val="True"/>
+                <Options val="Ellipsis | TooltipIfTruncated"/>
+                <Style val="@Coop_CommanderMutatorMapTitle"/>
+                <TooltipFrame val="BattleNetTooltip"/>
+
+                <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+            </Frame>
+
+            <Frame type="Label" name="HiddenDescriptionLabel">
+                <Anchor relative="$parent/SummaryTitleLabel"/>
+                <Visible val="False"/>
+            </Frame>
+
+            <Frame type="Label" name="SummaryStatusLabel">
+                <Anchor side="Top" relative="$parent/HorizontalBottomDivider" pos="Max" offset="5"/>
+                <Anchor side="Left" relative="$parent/SummaryTitleLabel" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/MutatorQuickControlPanel" pos="Min" offset="-8"/>
+                <Style val="Coop_TimeRemainingLabel"/>
+                <Text val="@CMUI/MutatorInfo/StandardMutatorCountPrefix"/>
+                <Options val="NoWrapping | ScaleToPreventTruncation"/>
+            </Frame>
+
+            <Frame type="Frame" name="MutatorIconGroup">
+                <Anchor side="Top" relative="$parent/MutatorBackGlow" pos="Mid" offset="-46"/>
+                <Anchor side="Left" relative="$parent/HorizontalTopDivider" pos="Mid" offset="-256"/>
+                <Anchor side="Right" relative="$parent/HorizontalTopDivider" pos="Mid" offset="256"/>
+                <Height val="92"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon0" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon1" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon0" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon2" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon1" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon3" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon2" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon4" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon3" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon5" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon4" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon6" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon5" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon7" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon6" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon8" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon7" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon9" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon8" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon10" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon0" pos="Max" offset="4"/>
+                <Anchor side="Left" relative="$parent/MutatorIconGroup" pos="Min" offset="0"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon11" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon10" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon12" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon11" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon13" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon12" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon14" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon13" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon15" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon14" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon16" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon15" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon17" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon16" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon18" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon17" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="Icon19" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorSmallIconFrameTemplate">
+                <Anchor side="Top" relative="$parent/Icon10" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Icon18" pos="Max" offset="8"/>
+                <AcceptsMouse val="True"/>
+            </Frame>
+
+            <Frame type="Frame" name="MutatorIconPageSelector">
+                <Anchor side="Bottom" relative="$parent/HorizontalTopDivider" pos="Min" offset="-4"/>
+                <Anchor side="Left" relative="$parent/MutatorIconGroup" pos="Mid" offset="-88"/>
+                <Anchor side="Right" relative="$parent/MutatorIconGroup" pos="Mid" offset="88"/>
+                <Width val="176"/>
+                <Height val="22"/>
+                <Visible val="False"/>
+
+                <Frame type="Button" name="DecrementButton" template="EmoticonSelectionPanel/EmoticonPageButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Texture val="@UI/Glues_Icons_SmallPageArrow_Left_Normal"/>
+
+                        <Animation name="OnDisable">
+                            <Event event="OnDisabled" action="Reset,Play"/>
+                            <Event event="OnEnabled" action="Reset"/>
+
+                            <Controller type="Texture" end="Pause">
+                                <Key type="Image" time="0" image="@UI/Glues_Icons_SmallPageArrow_Left_Disabled"/>
+                            </Controller>
+                        </Animation>
+
+                        <Animation name="OnHover">
+                            <Event event="OnMouseEnter" action="Reset, Play" frame="$parent"/>
+                            <Event event="OnMouseExit" action="Reset" frame="$parent"/>
+                            <Controller type="Texture" end="Pause">
+                                <Key type="Image" time="0" image="@UI/Glues_Icons_SmallPageArrow_Left_Hover"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="PageButton0" template="EmoticonSelectionPanel/PageSelectorButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent/PageButton1" pos="Min" offset="12"/>
+                </Frame>
+
+                <Frame type="Button" name="PageButton1" template="EmoticonSelectionPanel/PageSelectorButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="-4"/>
+                </Frame>
+
+                <Frame type="Button" name="PageButton2" template="EmoticonSelectionPanel/PageSelectorButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="4"/>
+                </Frame>
+
+                <Frame type="Button" name="PageButton3" template="EmoticonSelectionPanel/PageSelectorButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/PageButton2" pos="Max" offset="-12"/>
+                </Frame>
+
+                <Frame type="Button" name="IncrementButton" template="EmoticonSelectionPanel/EmoticonPageButtonTemplate">
+                    <Anchor side="Top" relative="$parent/DecrementButton" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Texture val="@UI/Glues_Icons_SmallPageArrow_Left_Normal"/>
+                        <TextureCoords top="0.0" left="1.0" bottom="1.0" right="0.0"/>
+
+                        <Animation name="OnDisable">
+                            <Event event="OnDisabled" action="Reset,Play"/>
+                            <Event event="OnEnabled" action="Reset"/>
+
+                            <Controller type="Texture" end="Pause">
+                                <Key type="Image" time="0" image="@UI/Glues_Icons_SmallPageArrow_Left_Disabled"/>
+                            </Controller>
+                        </Animation>
+
+                        <Animation name="OnHover">
+                            <Event event="OnMouseEnter" action="Reset, Play" frame="$parent"/>
+                            <Event event="OnMouseExit" action="Reset" frame="$parent"/>
+                            <Controller type="Texture" end="Pause">
+                                <Key type="Image" time="0" image="@UI/Glues_Icons_SmallPageArrow_Left_Hover"/>
+                            </Controller>
+                        </Animation>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="MutatorQuickControlPanel">
+                <Anchor side="Top" relative="$parent/HorizontalBottomDivider" pos="Max" offset="2"/>
+                <Anchor side="Bottom" relative="$parent/BackgroundContainer" pos="Max" offset="-5"/>
+                <Anchor side="Right" relative="$parent/HorizontalBottomDivider" pos="Max" offset="0"/>
+                <Width val="340"/>
+                <Visible val="False"/>
+
+                <Frame type="Label" name="QuickControlLabel">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-10"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="10"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="10"/>
+                    <Width val="56"/>
+                    <Style val="Coop_TimeRemainingLabel"/>
+                    <Text val="@CMUI/MutatorInfo/QuickControlLabel"/>
+                    <Options val="NoWrapping | ScaleToPreventTruncation"/>
+                </Frame>
+
+                <Frame type="Image" name="QuickControlDivider">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="6"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="-6"/>
+                    <Anchor side="Left" relative="$parent/QuickControlLabel" pos="Max" offset="6"/>
+                    <Width val="1"/>
+                    <Texture val="Assets/Textures/white.dds"/>
+                    <Color val="37,107,169"/>
+                    <Alpha val="180"/>
+                </Frame>
+
+                <Frame type="Frame" name="MutatorRandomIcon" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorCountIconTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-23"/>
+                    <Anchor side="Left" relative="$parent/QuickControlDivider" pos="Max" offset="33"/>
+                    <Width val="46"/>
+                    <Height val="46"/>
+                    <Tooltip val="@CMUI/MutatorInfo/RandomCountTooltip"/>
+
+                    <Frame type="Frame" name="IconImage">
+                        <Width val="42"/>
+                        <Height val="42"/>
+
+                        <Frame type="Image" name="Image">
+                            <Texture val="@@UI/CM_MutatorRandomIcon"/>
+                        </Frame>
+                    </Frame>
+
+                </Frame>
+
+                <Frame type="Button" name="MutatorRandomIncress" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-23"/>
+                    <Anchor side="Left" relative="$parent/MutatorRandomIcon" pos="Max" offset="3"/>
+                    <Height val="23"/>
+                    <Width val="34"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="8"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="8"/>
+                        <Texture val="@UI/SC2_UI_Coop_MasteryIcons_Increment"/>
+                        <DesaturateOnDisable val="false"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="MutatorRandomDecress" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/MutatorRandomIcon" pos="Max" offset="3"/>
+                    <Height val="23"/>
+                    <Width val="34"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="8"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="8"/>
+                        <Texture val="@UI/SC2_UI_Coop_MasteryIcons_Decrement"/>
+                        <DesaturateOnDisable val="false"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Frame" name="MutatorChaosIcon" template="CM_CoopCampaignMutatorInfoPanel/CoopCampaignMutatorCountIconTemplate">
+                    <Anchor side="Top" relative="$parent/MutatorRandomIcon" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent/QuickControlDivider" pos="Max" offset="151"/>
+                    <Width val="46"/>
+                    <Height val="46"/>
+                    <Tooltip val="@CMUI/MutatorInfo/ChaosCountTooltip"/>
+
+                    <Frame type="Frame" name="IconImage">
+                        <Width val="42"/>
+                        <Height val="42"/>
+
+                        <Frame type="Image" name="Image">
+                            <Texture val="@@UI/CM_MutatorChaosIcon"/>
+                        </Frame>
+                    </Frame>
+
+                </Frame>
+
+                <Frame type="Button" name="MutatorChaosIncress" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-23"/>
+                    <Anchor side="Left" relative="$parent/MutatorChaosIcon" pos="Max" offset="3"/>
+                    <Height val="23"/>
+                    <Width val="34"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="8"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="8"/>
+                        <Texture val="@UI/SC2_UI_Coop_MasteryIcons_Increment"/>
+                        <DesaturateOnDisable val="false"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="MutatorChaosDecress" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent/MutatorChaosIcon" pos="Max" offset="3"/>
+                    <Height val="23"/>
+                    <Width val="34"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="8"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="-8"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="8"/>
+                        <Texture val="@UI/SC2_UI_Coop_MasteryIcons_Decrement"/>
+                        <DesaturateOnDisable val="false"/>
+                    </Frame>
+                </Frame>
+            </Frame>
+
+            <StateGroup name="MutatorCountModeState">
+                <DefaultState val="ModeStandard"/>
+
+                <State name="ModeStandard">
+                    <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeStandard"/>
+                    <Action type="SetProperty" frame="MutatorQuickControlPanel" Visible="False"/>
+                </State>
+
+                <State name="ModeMutator">
+                    <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeMutator"/>
+                    <Action type="SetProperty" frame="MutatorQuickControlPanel" Visible="False"/>
+                </State>
+
+                <State name="ModeCustom">
+                    <When type="StateGroup" frame="$CM_ScreenCoopCampaign" ModeState="ModeCustom"/>
+                    <Action type="SetProperty" frame="MutatorQuickControlPanel" Visible="True"/>
+                </State>
+            </StateGroup>
+            
+            <Frame type="Frame" name="DifficultyBadgeContainer">
+                <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="6"/>
+                <Anchor side="Bottom" relative="$parent/BackgroundContainer" pos="Max" offset="-6"/>
+                <Anchor side="Left" relative="$parent/BackgroundContainer" pos="Min" offset="6"/>
+                <Anchor side="Right" relative="$parent/VerticalDivider" pos="Min" offset="0"/>
+                <AcceptsMouse val="false"/>
+                
+                <Frame type="Image" name="CommanderDetailsBackground">
+                    <Anchor relative="$parent"/>
+                    <LayerCount val="2"/>
+                    <Texture val="@UI/SC2_UI_Multiplayer_LeaguePanel_IconBackground_Mask" layer="0"/>
+                    <AlphaLayer val="True" layer="0"/>
+                    <Texture val="assets/textures/SC2_UI_Coop_Detail_Background_Mutation.dds" layer="1"/>
+                </Frame>
+                
+                <Frame type="Image" name="ArtBackgroundVignette">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="-2"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="-2"/>
+                    <Anchor side="Right" relative="$parent" pos="Min" offset="2"/>
+                    <Texture val="@UI/Glues_Battlenet_PageAssets_StandardElements_ArtBackground_Vignette"/>
+                    <Color val="20,119,217"/>
+                    <Alpha val="31"/>
+                </Frame>
+                
+                <Frame type="Image" name="BadgeIcon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="-12"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="-12"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="1"/>
+                    <Texture val="@UI/SC2_UI_Coop_Mutators_Badges_Rank_0"/>
+
+                    <StateGroup name="RankStateGroup">
+                        <State name="WonVyEyState">
+                            <When type="AnimationState" frame="$parent/$parent/$parent" ProfileStatsState="WonVyEy"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/SC2_UI_Coop_Mutators_Badges_Rank_1"/>
+                        </State>
+
+                        <State name="WonEasyState">
+                            <When type="AnimationState" frame="$parent/$parent/$parent" ProfileStatsState="WonEasy"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/SC2_UI_Coop_Mutators_Badges_Rank_2"/>
+                        </State>
+
+                        <State name="WonMediState">
+                            <When type="AnimationState" frame="$parent/$parent/$parent" ProfileStatsState="WonMedi"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/SC2_UI_Coop_Mutators_Badges_Rank_3"/>
+                        </State>
+
+                        <State name="WonMdHdState">
+                            <When type="AnimationState" frame="$parent/$parent/$parent" ProfileStatsState="WonMdHd"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/SC2_UI_Coop_Mutators_Badges_Rank_4"/>
+                        </State>
+
+                        <State name="QuestionState">
+                            <When type="AnimationState" frame="$parent/$parent/$parent" ProfileStatsState="Question"/>
+                            <Action type="SetProperty" frame="$this" Texture="@UI/SC2_UI_Coop_CommanderIcon_Bubble_Random"/>
+                        </State>
+                        
+                        <State name="DefaultState">
+                            <Action type="SetProperty" frame="$this" Texture="@UI/SC2_UI_Coop_Mutators_Badges_Rank_0"/>
+                        </State>
+                    </StateGroup>
+                </Frame>
+            </Frame>
+            
+            <Frame type="Frame" name="Loading">
+                <Anchor relative="$parent/BackgroundContainer"/>
+                <Visible val="False"/>
+                
+                <Frame type="Frame" name="IdleSpinner" template="StandardBattlenetTemplates/IdleSpinnerTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                </Frame>
+            </Frame>
+            
+        </Frame>
+        
+        <Frame type="Image" name="ToggleArrow">
+            <Anchor side="Top" relative="$parent/Button" pos="Max" offset="-9"/>
+            <Anchor side="Left" relative="$parent/Button" pos="Mid" offset="-1"/>
+            <Anchor side="Right" relative="$parent/Button" pos="Mid" offset="-1"/>
+            <Texture val="@UI/Glues_BlueButtons_Arrow_Down"/>
+            <Visible val="False"/>
+        </Frame>
+
+        <Frame type="Button" name="Button" template="StandardSmallButtonTemplates/StandardSmallBaseButtonTemplate">
+            <Text val="@CMUI/MutatorInfo/Button"/>
+            <Toggleable val="true"/>
+            <Visible val="False"/>
+            <Enabled val="False"/>
+            
+            <Frame type="Frame" name="AnchorFrame">
+                <Anchor side="Bottom" relative="$parent/$parent/InfoContainer/BackgroundContainer" pos="Min" offset="-10"/>
+                <Anchor side="Right" relative="$parent/$parent/InfoContainer/BackgroundContainer" pos="Max" offset="-4"/>
+                <Width val="192"/>
+                <Height val="38"/>
+            </Frame>
+            
+            <Frame type="Label" name="Label">
+                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
+                <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
+                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
+            
+                <StateGroup name="StyleState">
+                    <DefaultState val="Normal"/>
+                    
+                    <State name="Disabled">
+                        <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Disabled"/>
+                    </State>
+                
+                    <State name="Pressed">
+                        <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
+                    </State>
+                
+                    <State name="Selected">
+                        <When type="StateGroup" frame="$parent" ToggledState="Toggled"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
+                    </State>
+                    
+                    <State name="Hover">
+                        <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Hovered"/>
+                    </State>
+
+                    <State name="Normal">
+                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Normal"/>
+                    </State>
+                </StateGroup>
+            </Frame>
+
+            <StateGroup name="MutatorButtonStateGroup">
+                <State name="InactiveState">
+                    <When type="AnimationState" frame="$parent" InfoPanelState="Inactive"/>
+                    <Action type="SetProperty" frame="$this" Enabled="false"/>
+                </State>
+                
+                <State name="DefaultState">
+                    <Action type="SetProperty" frame="$this" Enabled="false"/>
+                </State>
+            </StateGroup>
+                
+            <StateGroup name="PressedState">
+                <DefaultState val="Pressed"/>
+                <State name="NotPressed">
+                    <When type="Property" frame="$this" Pushed="False"/>
+                    <When type="Property" frame="$this" Toggled="False"/>
+                </State>
+                <State name="Pressed">
+                </State>
+            </StateGroup>
+        </Frame>
+    </Frame>
+</Desc>
+

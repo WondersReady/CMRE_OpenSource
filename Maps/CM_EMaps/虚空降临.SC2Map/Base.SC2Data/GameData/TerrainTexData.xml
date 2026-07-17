@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrainTex id="IceWorldEx2_2">
+        <Normalmap value="Assets\Textures\iceworldex2_02normal.dds"/>
+    </CTerrainTex>
+</Catalog>

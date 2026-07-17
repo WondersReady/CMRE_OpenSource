@@ -1,0 +1,93 @@
+﻿Button/Tooltip/Aiur01MechanismDisabler=Barrier that can be destroyed to allow access to new areas.
+Button/Tooltip/Factory=Vehicle-production facility. <n/><n/><c val="ffff8a">Enables:</c><n/>- Hellbats<n/>- Goliaths
+Button/Tooltip/InfestedMercHaven=One of the few places the colony's miners have to blow off some steam.
+Button/Tooltip/TechLabStarport=Aircraft-research structure. A Tech Lab can fit onto any production structure.<n/><n/><c val="ffff8a">Enables:</c><n/>- Banshees<n/>- Ravens
+DocInfo/DescLong=Infestation runs rampant throughout one of Kel-Moria’s remote mining colonies. Debra Greene, leader of the local miner’s guild, is determined to get her people to safety. Fight off both Amon and the infested to aid the evacuation. 
+DocInfo/Name=[CM] Miner Evacuation
+LoadingScreen/TextBody= 
+LoadingScreen/Tip= 
+LoadingScreen/TipRestart= 
+LoadingScreen/Title= 
+MapInfo/Player00/Name=Neutral
+MapInfo/Player01/Name=Player 1
+MapInfo/Player02/Name=Player 2
+MapInfo/Player03/Name=Amon's Forces
+MapInfo/Player04/Name=Amon's Forces
+MapInfo/Player05/Name=Infested
+MapInfo/Player06/Name=Infested
+MapInfo/Player07/Name=Amon's Forces
+MapInfo/Player08/Name=Kel-Morian Miners
+MapInfo/Player09/Name=Eradicator
+MapInfo/Player10/Name=Kel-Morian Miners
+MapInfo/Player11/Name=Kel-Morian Equipment
+MapInfo/Player12/Name=Hostile
+Param/Expression/1687FAE0=Final:~D~<n/>~OriginalText~
+Param/Expression/2EC0FC9E=<c val="FF8000">Bonus 1:<n/> ~A~<n/>Shuttle:<n/> ~B~<n/>Time Score:<n/> ~C~</c>
+Param/Expression/53A26397=Forcing claim wave targets to ~A~
+Param/Expression/6BA0298C=<s val="@@ObjectivePanelProgress">(~Timer~)</s>
+Param/Expression/97E07B75=<s val="@@ObjectivePanelProgress">(~Timer~)</s>
+Param/Expression/9FDBEB97=Setting Primary Objective Count to ~A~
+Param/Expression/A04A8E86=<c val="FF8000">Time:<n/> ~A~<n/>Bonus:<n/> ~B~<n/>Objective:<n/> ~C~</c>
+Param/Value/05391F34=Move a unit here
+Param/Value/0FABD2CB=Evacuation Ship Destroyed
+Param/Value/0FB2EF5E=All of your ally's structures have been destroyed.
+Param/Value/11B1338E=Blightbringer
+Param/Value/124EBD46=Too many ships have been destroyed.
+Param/Value/1591EB86=Ship Launching
+Param/Value/1595402E=<s val="ModLeftSize16Bold">Initiate Launch</s>
+Param/Value/1671D608=Protect Ship
+Param/Value/19632C72=Expo (3)
+Param/Value/21720A7E=<s val="ModLeftSize16Bold">Panicked Launch In</s>
+Param/Value/234C5B9D=All of your structures have been destroyed.
+Param/Value/25E8E89F=Under Attack
+Param/Value/2B8BDA35=Evacuation Ship Destroyed
+Param/Value/2DE76641=5 Days
+Param/Value/2EB011DE=<s val="ModLeftSize16Bold">Launching In</s>
+Param/Value/3A8F5A52=11 o'clock ship (4)
+Param/Value/4213F89C=Left of expo (2)
+Param/Value/44D60041=Mines Entrance
+Param/Value/487A6F48=Ship Attack
+Param/Value/4EE237E5=Random
+Param/Value/4F2D2B30=Days Taken to Complete Mission:
+Param/Value/501DFCDB=Aberration Surprise
+Param/Value/506C6D79=Launch Successful
+Param/Value/53E5266F=Invalid claim wave target, use a number between 1 and 9
+Param/Value/5994A54C=Random
+Param/Value/5ABBD9C3=All of your ally's structures have been destroyed.
+Param/Value/6C571503=2 o'clock ship (9)
+Param/Value/6D06812E=Science Facility Entrance
+Param/Value/72AEAE0A=All of your structures have been destroyed.
+Param/Value/75FE2C98=Tank Destroyer Wave
+Param/Value/782B2E60=Miner Evacuation Options
+Param/Value/8536BB32=Ship Attack
+Param/Value/8B20FC55=The first disabled ship
+Param/Value/90E500F4=Eradicator
+Param/Value/93FC67C5=Evacuation complete.
+Param/Value/9581578E=Eradicator
+Param/Value/95D392A9=Ship Under Attack
+Param/Value/96C21974=Panicked Pilot
+Param/Value/9BFCBEA0=Eradicator
+Param/Value/9F26D80B=Crazed Driver
+Param/Value/A6297CCB=Evacuation Ship
+Param/Value/B8CD2B19=Initiate Launch Sequence
+Param/Value/B8D9895E=Launch Sequence Started
+Param/Value/C3DF8648=Ship Under Attack
+Param/Value/CB135A05=Move a Unit here
+Param/Value/CE2CFE4F=The second disabled ship
+Param/Value/D048DB5E=Blightbringer
+Param/Value/D61C8849=Hellion (26 kills)
+Param/Value/E05E3741=Random
+Param/Value/E30664D3=Eradicator
+Param/Value/E4F52433=1 o'clock ship (7)
+Param/Value/E55CF9D2=Accept
+Param/Value/E8F17C87=Right of expo (6)
+Param/Value/E91D5A5F=Unit type with the most kills:
+Param/Value/FC736644=Amon's Forces Incoming
+Param/Value/FD294869=Aberration Surprise
+Param/Value/FF7333B5=Tal'darim Warp Prism
+Unit/Name/HammerSecurity=Infested Hammer Securities
+Unit/Name/IndustrialShip=Evacuation Ship
+Unit/Name/InfestedMercHaven=Infested Wyld Wyngs
+Unit/Name/JarbanInfestibleColonistHut=Infested Colonist Hut
+Variant001/ModeDesc=Please manually select the player difficulty as needed.
+Variant001/ModeName=Co-op

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CTerrainTex id="RedstoneDirt">
+        <DoodadEntry index="0">
+            <Model value="PlantMixTyphon"/>
+            <RandomRotation value="1"/>
+            <Probability value="0.100000"/>
+            <PlacementRadius value="1.000000"/>
+        </DoodadEntry>
+        <DoodadEntry Model="DynamicGrassAgria"/>
+    </CTerrainTex>
+</Catalog>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocInfo>
+    <Icon>
+        <Value>EditorData\Images\UI_Arcade_IconGems.tga</Value>
+    </Icon>
+    <Dependencies>
+        <Value>bnet:CM_Core_Triggers/0.0/186745,file:Mods\CMRE\CMRE_Core_Triggers.SC2Mod</Value>
+    </Dependencies>
+    <Preload>
+        <Value>GameLink:Unit;VoidThrasher</Value>
+    </Preload>
+</DocInfo>

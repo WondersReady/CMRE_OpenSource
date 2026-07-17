@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="3">
+        <name value="Capture Region 1"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="104.0273,100.0805"/>
+            <radius value="6.5"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Capture Region 2"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="40.0214,100.0686"/>
+            <radius value="6.5"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Capture Region 3"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.072,40.0708"/>
+            <radius value="6.5"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Capture Region 4"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="162.9038,100.0314"/>
+            <radius value="6.5"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Capture Region 5"/>
+        <color value="255,0,255,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="96.8923,162.038"/>
+            <radius value="6.5"/>
+        </shape>
+    </region>
+    <region id="16">
+        <name value="Mechanism 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="103.8583,100.2216"/>
+            <radius value="3.3708"/>
+        </shape>
+    </region>
+    <region id="17">
+        <name value="Mechanism 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="40.25,99.9362"/>
+            <radius value="2.9116"/>
+        </shape>
+    </region>
+    <region id="18">
+        <name value="Mechanism 3"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.028,40.226"/>
+            <radius value="2.668"/>
+        </shape>
+    </region>
+    <region id="19">
+        <name value="Mechanism 4"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="163.1313,100.077"/>
+            <radius value="2.919"/>
+        </shape>
+    </region>
+    <region id="20">
+        <name value="Mechanism 5"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="97.0092,162.0385"/>
+            <radius value="2.5856"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="Initial Exploration"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="38.5332,52.7644"/>
+            <radius value="22.6198"/>
+        </shape>
+        <shape type="circle">
+            <center value="33.6032,32.3251"/>
+            <radius value="18.1748"/>
+        </shape>
+        <shape type="circle">
+            <center value="54.8176,30.9116"/>
+            <radius value="17.6748"/>
+        </shape>
+        <shape type="circle">
+            <center value="74.66,35.4707"/>
+            <radius value="22.6098"/>
+        </shape>
+        <shape type="circle">
+            <center value="88.3693,46.2507"/>
+            <radius value="17.4631"/>
+        </shape>
+        <shape type="circle">
+            <center value="60.5393,73.2465"/>
+            <radius value="16.8835"/>
+        </shape>
+        <shape type="circle">
+            <center value="54.5163,58.4011"/>
+            <radius value="22.7243"/>
+        </shape>
+        <shape type="circle">
+            <center value="73.5898,58.5"/>
+            <radius value="12.1748"/>
+        </shape>
+    </region>
+    <region id="21">
+        <name value="Mechanism Reveal 2"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="40.1984,99.9804"/>
+            <radius value="8"/>
+        </shape>
+    </region>
+    <region id="22">
+        <name value="Mechanism Reveal 1"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="104.118,99.8432"/>
+            <radius value="8"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="Mechanism Reveal 3"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.1291,40.2312"/>
+            <radius value="8"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Mechanism Reveal 4"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="163.5642,100.0395"/>
+            <radius value="8"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Mechanism Reveal 5"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="97.2717,162.0134"/>
+            <radius value="8"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Enemy Bases"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="34.017,154.2045"/>
+            <radius value="11.5"/>
+        </shape>
+        <shape type="circle">
+            <center value="49.567,174.524"/>
+            <radius value="18.7304"/>
+        </shape>
+        <shape type="circle">
+            <center value="67.218,179.041"/>
+            <radius value="15.2026"/>
+        </shape>
+        <shape type="circle">
+            <center value="176.4387,53.9907"/>
+            <radius value="16.3413"/>
+        </shape>
+        <shape type="circle">
+            <center value="161.8022,36.119"/>
+            <radius value="15.683"/>
+        </shape>
+        <shape type="circle">
+            <center value="172.7773,39.2387"/>
+            <radius value="21.2075"/>
+        </shape>
+    </region>
+    <region id="38">
+        <name value="Door Explosions"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="150.9682,154.8393"/>
+            <width value="1.074"/>
+            <height value="1.2202"/>
+        </shape>
+        <shape type="diamond">
+            <center value="141.2341,164.693"/>
+            <width value="1.122"/>
+            <height value="1.1423"/>
+        </shape>
+    </region>
+    <region id="39">
+        <name value="Victory Structure Hide"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="146.5664,161.683"/>
+            <radius value="12.3691"/>
+        </shape>
+    </region>
+    <region id="44">
+        <name value="Intro Cinematic Warp Prism"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="53.4533,54.5095"/>
+            <radius value="3.0798"/>
+        </shape>
+    </region>
+    <region id="28">
+        <name value="Null Region"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="195.8627,211.9316"/>
+            <radius value="3.403"/>
+        </shape>
+    </region>
+    <region id="29">
+        <name value="Defense Region 1"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="104.0388,100.339"/>
+            <radius value="6.8666"/>
+        </shape>
+    </region>
+    <region id="34">
+        <name value="Defense Region 2"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="39.722,99.7197"/>
+            <radius value="8.2233"/>
+        </shape>
+    </region>
+    <region id="35">
+        <name value="Defense Region 3"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="127.9536,40.026"/>
+            <radius value="7.5104"/>
+        </shape>
+    </region>
+    <region id="36">
+        <name value="Defense Region 4"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="163.3918,100.1528"/>
+            <radius value="9.1625"/>
+        </shape>
+    </region>
+    <region id="37">
+        <name value="Defense Region 5"/>
+        <color value="255,128,0,255"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="97.158,162.218"/>
+            <radius value="8.8903"/>
+        </shape>
+    </region>
+    <region id="40">
+        <name value="First Capture 1"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="93.6528,90.395"/>
+            <radius value="7.4921"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.4138,100.537"/>
+            <radius value="16.2382"/>
+        </shape>
+    </region>
+    <region id="42">
+        <name value="First Capture 2"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="40.422,85.8305"/>
+            <radius value="6.0402"/>
+        </shape>
+        <shape type="circle">
+            <center value="41.0012,97.32"/>
+            <radius value="13.9345"/>
+        </shape>
+        <shape type="circle">
+            <center value="50.3166,103.3322"/>
+            <radius value="6.9497"/>
+        </shape>
+        <shape type="circle">
+            <center value="35.2666,107.7102"/>
+            <radius value="6.9497"/>
+        </shape>
+    </region>
+    <region id="46">
+        <name value="First Capture 3"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="126.4257,41.5961"/>
+            <radius value="15.7988"/>
+        </shape>
+        <shape type="circle">
+            <center value="116.9995,51.9086"/>
+            <radius value="6.9841"/>
+        </shape>
+        <shape type="circle">
+            <center value="134.9125,50.3303"/>
+            <radius value="6.9841"/>
+        </shape>
+    </region>
+    <region id="47">
+        <name value="First Capture 4"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="162.4455,99.2861"/>
+            <width value="15.7568"/>
+            <height value="22.8452"/>
+        </shape>
+        <shape type="circle">
+            <center value="165.208,104.9035"/>
+            <radius value="7.8444"/>
+        </shape>
+        <shape type="diamond">
+            <center value="153.9792,92.0234"/>
+            <width value="6.9821"/>
+            <height value="9.9238"/>
+        </shape>
+    </region>
+    <region id="48">
+        <name value="First Capture 5"/>
+        <invisible/>
+        <shape type="diamond">
+            <center value="94.4587,158.8334"/>
+            <width value="22.3481"/>
+            <height value="21.5373"/>
+        </shape>
+        <shape type="circle">
+            <center value="84.7702,149.831"/>
+            <radius value="7.5634"/>
+        </shape>
+        <shape type="circle">
+            <center value="100.5385,149.7917"/>
+            <radius value="7.5634"/>
+        </shape>
+        <shape type="circle">
+            <center value="92.7238,150.8703"/>
+            <radius value="7.5634"/>
+        </shape>
+    </region>
+    <region id="49">
+        <name value="Bridge Units"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="133.8757,148.8466"/>
+            <radius value="21.7292"/>
+        </shape>
+    </region>
+    <region id="32">
+        <name value="Player Base Area"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="59.0942,47.5341"/>
+            <radius value="25.0466"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Bullies to Aid Lock 2"/>
+        <shape type="diamond">
+            <center value="52.9177,106.858"/>
+            <width value="16.6076"/>
+            <height value="21.9716"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Bullies to Aid Lock 1"/>
+        <shape type="diamond">
+            <center value="98.526,95.144"/>
+            <width value="10.7785"/>
+            <height value="18.1806"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="Bullies to Aid Lock 3"/>
+        <shape type="diamond">
+            <center value="119.5007,49.7714"/>
+            <width value="22.8933"/>
+            <height value="18.8483"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="Bullies to Aid Lock 4"/>
+        <shape type="diamond">
+            <center value="144.5952,87.4157"/>
+            <width value="22.3593"/>
+            <height value="27.553"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="Bullies to Aid Lock 5"/>
+        <shape type="diamond">
+            <center value="85.8696,145.977"/>
+            <width value="22.3605"/>
+            <height value="28.6955"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Performance Sleep Area"/>
+        <shape type="diamond">
+            <center value="76.4694,167.4985"/>
+            <width value="89.1276"/>
+            <height value="77.3698"/>
+        </shape>
+        <shape type="diamond">
+            <center value="159.6513,66.4667"/>
+            <width value="109.7133"/>
+            <height value="99.6394"/>
+        </shape>
+        <shape type="diamond">
+            <center value="125.1328,132.7814"/>
+            <width value="56.4011"/>
+            <height value="44.658"/>
+        </shape>
+    </region>
+    <region id="12">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="46.5871,60.684"/>
+            <radius value="21.3833"/>
+        </shape>
+        <shape type="circle">
+            <center value="71.4753,35.8681"/>
+            <radius value="23.2255"/>
+        </shape>
+        <shape type="circle">
+            <center value="44.7595,35.7082"/>
+            <radius value="16.057"/>
+        </shape>
+        <shape type="circle">
+            <center value="69.9531,57.018"/>
+            <radius value="8.9013"/>
+        </shape>
+        <shape type="circle">
+            <center value="65.1076,77.104"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="93.5288,46.1286"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

@@ -1,0 +1,2 @@
+﻿AI/Name/F917F4D7=Hybrid Wave AI
+Sound/Name/Explosion_Distant_2D=Explosion_Distant_2D

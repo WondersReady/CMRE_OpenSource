@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CSound id="ZeratulTopBarWarpingOut" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\ShadowGuard_Recall_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\ShadowGuard_Recall_04.wav" FacialGroup=""/>
+        <Pitch value="-4.000000,-2.000000"/>
+        <Volume value="-6.120000,-6.120000"/>
+    </CSound>
+</Catalog>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CUpgrade id="AutoCreep"/>
+    <CUpgrade id="EnemyCommander">
+        <LeaderAlias value=""/>
+    </CUpgrade>
+    <CUpgrade id="SISiegeTankAmmoCapacity">
+        <EffectArray Operation="Set" Reference="Abil,StukovInfestedSiegeTankDisplayAmmoMagazine,MaxCount" Value="8"/>
+    </CUpgrade>
+    <CUpgrade id="CMNovaMechanicalWeaponsLevel1">
+        <EffectArray Reference="Weapon,Goliath_BlackOpsG,Level" Value="1"/>
+        <EffectArray Reference="Effect,Goliath_BlackOpsG,Amount" Value="3.000000"/>
+        <EffectArray Reference="Weapon,Goliath_BlackOpsGUpgraded,Level" Value="1"/>
+        <EffectArray Reference="Effect,Goliath_BlackOpsAU,Amount" Value="2.000000"/>
+        <EffectArray Reference="Effect,Goliath_BlackOpsAU,AttributeBonus[Armored]" Value="2.000000"/>
+        <EffectArray Reference="Weapon,Goliath_BlackOpsAUpgraded,Level" Value="1"/>
+        <EffectArray Reference="Weapon,Goliath_BlackOpsA,Level" Value="1"/>
+        <EffectArray Reference="Weapon,SiegeTank_BlackOps,Level" Value="1"/>
+        <EffectArray Reference="Effect,SiegeTank_BlackOpsDamage,Amount" Value="3.000000"/>
+        <EffectArray Reference="Effect,SiegeTank_BlackOpsDamage,AttributeBonus[Armored]" Value="2.000000"/>
+        <EffectArray Reference="Weapon,SiegeTankSieged_BlackOps,Level" Value="1"/>
+        <EffectArray Reference="Effect,SiegeTankSieged_BlackOpsDirected,Amount" Value="5.000000"/>
+        <EffectArray Reference="Effect,SiegeTankSieged_BlackOpsBlast,Amount" Value="5.000000"/>
+        <EffectArray Reference="Effect,SiegeTankSieged_BlackOpsDirected,AttributeBonus[Armored]" Value="2.000000"/>
+        <EffectArray Reference="Effect,SiegeTankSieged_BlackOpsBlast,AttributeBonus[Armored]" Value="2.000000"/>
+        <EffectArray Reference="Weapon,Banshee_BlackOps,Level" Value="1"/>
+        <EffectArray Reference="Effect,Banshee_BlackOpsDamage,Amount" Value="2.000000"/>
+        <EffectArray Reference="Weapon,LiberatorAG_BlackOpsWeapon,Level" Value="1"/>
+        <EffectArray Reference="Effect,LiberatorAG_BlackOpsDamage,Amount" Value="13.000000"/>
+        <EffectArray Reference="Weapon,Liberator_BlackOpsMissileLaunchers,Level" Value="1"/>
+        <EffectArray Reference="Effect,Liberator_BlackOpsMissileDamage,Amount" Value="1.000000"/>
+        <EffectArray Reference="Weapon,HellbatBlackOps,Level" Value="1"/>
+        <EffectArray Reference="Effect,HellbatBlackOpsDamage,Amount" Value="3.000000"/>
+        <EffectArray Reference="Weapon,HellionBlackOps,Level" Value="1"/>
+        <EffectArray Reference="Effect,HellionBlackOpsDamage,Amount" Value="2.000000"/>
+    </CUpgrade>
+    <CUpgrade id="CMNovaMechanicalWeaponsLevel2" parent="CMNovaMechanicalWeaponsLevel1"/>
+    <CUpgrade id="CMNovaMechanicalWeaponsLevel3" parent="CMNovaMechanicalWeaponsLevel1"/>
+    <CUpgrade id="CMNovaMechanicalArmorsLevel1">
+        <EffectArray Reference="Unit,Goliath_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Goliath_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,SiegeTank_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,SiegeTank_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,SiegeTankSieged_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,SiegeTankSieged_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Banshee_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Banshee_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Raven_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Raven_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Liberator_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Liberator_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,LiberatorAG_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,LiberatorAG_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,Medivac_BlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,Medivac_BlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,HellionBlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,HellionBlackOps,LifeArmor" Value="1"/>
+        <EffectArray Reference="Unit,HellbatBlackOps,LifeArmorLevel" Value="1"/>
+        <EffectArray Reference="Unit,HellbatBlackOps,LifeArmor" Value="1"/>
+    </CUpgrade>
+    <CUpgrade id="CMNovaMechanicalArmorsLevel2" parent="CMNovaMechanicalArmorsLevel1"/>
+    <CUpgrade id="CMNovaMechanicalArmorsLevel3" parent="CMNovaMechanicalArmorsLevel1"/>
+</Catalog>

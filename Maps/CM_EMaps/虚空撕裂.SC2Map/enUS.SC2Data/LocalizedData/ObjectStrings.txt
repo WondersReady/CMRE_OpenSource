@@ -1,0 +1,8 @@
+﻿Light/EditorSuffix/Char2=
+Light/EditorSuffix/CustomLight=
+Light/Name/CLight=CustomLight
+Light/Name/EditorTestLight=CustomLight
+Sound/Name/IntroMusic=IntroMusic
+Sound/Name/VictoryMusic=VictoryMusic
+Soundtrack/Name/IntroMusic=IntroMusic
+Soundtrack/Name/VictoryMusic=VictoryMusic

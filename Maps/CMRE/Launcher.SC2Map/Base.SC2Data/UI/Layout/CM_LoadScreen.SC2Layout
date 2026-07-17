@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="CM_LoadScreenCycleTime1" val="0" />
+    <Constant name="CM_LoadScreenCycleTime2" val="8" />
+    <Constant name="CM_LoadScreenCycleTime3" val="16" />
+    <Constant name="CM_LoadScreenCycleTime4" val="24" />
+    <Constant name="CM_LoadScreenCycleLoopTime" val="32" />
+
+    <Constant name="CM_LoadScreenEmptyText" val="" />
+    <Constant name="CM_LoadScreenTab1Name" val="最新更新" />
+    <Constant name="CM_LoadScreenTab1Text" val="&lt;c val=&quot;FFE303&quot;&gt;【新指挥官】黑石计划（塞伯鲁斯虫群）&lt;/c&gt;&lt;n/&gt;&lt;n/&gt;&quot;击杀并研究敌人，化为自己的力量。&quot;&lt;n/&gt;&lt;n/&gt;· 适合&lt;c val=&quot;00FF66&quot;&gt;不同水平&lt;/c&gt;的玩家&lt;n/&gt;· 击杀并研究敌人，&lt;c val=&quot;FF9800&quot;&gt;不断强化战斗能力&lt;/c&gt;&lt;n/&gt;· 拥有一只&lt;c val=&quot;FF9800&quot;&gt;不断成长的巨兽级移动火力平台&lt;/c&gt;----坚城之主&lt;n/&gt;· &lt;c val=&quot;00FF66&quot;&gt;配合紧密&lt;/c&gt;，环环相扣的异虫部队&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFE303&quot;&gt;【平衡调整】瓦伦里安 · 5/23 补丁&lt;/c&gt;&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;兵种调整&lt;/c&gt;&lt;n/&gt;· 帝盾卫兵：攻击间隔 1.5→1.25，壁垒屏障冷却 60→45 秒&lt;n/&gt;· 猎犬部队：脱战回血提速并立即恢复 30 生命，三阶移速削弱&lt;n/&gt;· 帝国幽影：EMP 沉默按军衔分阶（0/1/2/3 阶 = 7/10/15/25 秒）&lt;n/&gt;· 君王护佑者：愈合冲击冷却 18→16，新增辅助瞄准防前冲&lt;n/&gt;· 君王铁锤：导弹伤害 150→125，军衔经验全面调整&lt;n/&gt;· 布塞法洛斯号：适应性回路现在带可见特效" />
+    <Constant name="CM_LoadScreenTab2Name" val="特别鸣谢" />
+    <Constant name="CM_LoadScreenTab2Text" val="&lt;c val=&quot;FFE303&quot;&gt;特别鸣谢&lt;/c&gt;&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;合作伙伴&lt;/c&gt;&lt;n/&gt;往毅、星际老男孩（黄哥&amp;孙哥）、枢纽制作组&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFE303&quot;&gt;赞助老板&lt;/c&gt;&lt;n/&gt;噼里啪啦蹦、歪比、Charlie、妹红、墨赫、悠久の蒸汽機關～Lasteami、萌萌、从前有棵树&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;素材贡献&lt;/c&gt;&lt;n/&gt;· 喵头嘤Ey -- 模型技术总监&lt;n/&gt;· 冰破残梦 - 模型支持&lt;n/&gt;· 虚空即是虚无 -- 蒙斯克面部动画修复&lt;n/&gt;· 塔达林的红果果 -- 表情包&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;友情链接&lt;/c&gt;&lt;n/&gt;CM Oncall 群、时空枢纽、合作单一兵种作战&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;9F9F9F&quot;&gt;感谢所有支持我们的朋友！&lt;/c&gt;" />
+    <Constant name="CM_LoadScreenTab3Name" val="介绍" />
+    <Constant name="CM_LoadScreenTab3Text" val="&lt;c val=&quot;FFE303&quot;&gt;CM · 指挥官 MOD&lt;/c&gt;&lt;n/&gt;&lt;n/&gt;基于《星际争霸 2》合作模式的扩展项目，由热爱合作模式的玩家共同制作维护。&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;主要内容&lt;/c&gt;&lt;n/&gt;· &lt;c val=&quot;00FF66&quot;&gt;自制指挥官&lt;/c&gt;：莫比斯、瓦伦里安、塞伯鲁斯虫群、诺温蓓尔·泰拉等&lt;n/&gt;· &lt;c val=&quot;00FF66&quot;&gt;平衡实验区&lt;/c&gt;：经 CM 团队调试过的自制威望&lt;n/&gt;· &lt;c val=&quot;00FF66&quot;&gt;怀旧/魔改区&lt;/c&gt;：老神龙凯瑞甘、带追猎的圣堂表象·改 等趣味改造&lt;n/&gt;· &lt;c val=&quot;00FF66&quot;&gt;指挥官 Double&lt;/c&gt;：支持同指挥官搭档&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;玩家须知&lt;/c&gt;&lt;n/&gt;· 自制威望带 &lt;c val=&quot;00FF66&quot;&gt;- CM&lt;/c&gt; 后缀 = CM 团队认证、强度可控&lt;n/&gt;· &lt;c val=&quot;9F9F9F&quot;&gt;- Wonders / - YB&lt;/c&gt; 等后缀 = 作者自定义版本&lt;n/&gt;· 选人界面 &lt;c val=&quot;00FF66&quot;&gt;F3&lt;/c&gt; 切休伯利安、&lt;c val=&quot;00FF66&quot;&gt;W&lt;/c&gt; 切管诺娃兵营、&lt;c val=&quot;00FF66&quot;&gt;-SFA&lt;/c&gt; 指定玩家 2 指挥官&lt;n/&gt;· 支持两位玩家选择&lt;c val=&quot;00FF66&quot;&gt;相同指挥官&lt;/c&gt;&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;9F9F9F&quot;&gt;问题反馈与建议请通过下方社区渠道。&lt;/c&gt;" />
+    <Constant name="CM_LoadScreenTab4Name" val="开发者" />
+    <Constant name="CM_LoadScreenTab4Text" val="&lt;c val=&quot;FFE303&quot;&gt;CM 制作组&lt;/c&gt;&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;核心团队&lt;/c&gt;&lt;n/&gt;CM 制作组全体成员&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;FFFF8A&quot;&gt;优秀开发者&lt;/c&gt;&lt;n/&gt;HTXL、小狂狂、爱兰琪尔&lt;n/&gt;&lt;n/&gt;&lt;c val=&quot;9F9F9F&quot;&gt;CM 持续欢迎对合作模式开发感兴趣的伙伴加入。&lt;/c&gt;" />
+    <Constant name="CM_LoadScreenWebsiteText" val="官网" />
+    <Constant name="CM_LoadScreenWebsiteTooltip" val="（暂未开放，敬请期待）" />
+    <Constant name="CM_LoadScreenWebsiteURL" val="" />
+    <Constant name="CM_LoadScreenDiscordText" val="Discord" />
+    <Constant name="CM_LoadScreenDiscordTooltip" val="（暂未开放，敬请期待）" />
+    <Constant name="CM_LoadScreenDiscordURL" val="" />
+    <Constant name="CM_LoadScreenQQText" val="QQ群" />
+    <Constant name="CM_LoadScreenQQTooltip" val="加入 CM 玩家交流群：517072" />
+    <Constant name="CM_LoadScreenQQURL" val="https://qm.qq.com/q/dq1Bpe9fG0" />
+    <Constant name="CM_LoadScreenBiliBiliText" val="B站" />
+    <Constant name="CM_LoadScreenBiliBiliTooltip" val="关注 CM 官方 B 站频道" />
+    <Constant name="CM_LoadScreenBiliBiliURL" val="https://space.bilibili.com/" />
+
+    <Constant name="CM_LoadScreenTab1Img" val="Assets\Textures\ui_void_loading_aiur01.dds" />
+    <Constant name="CM_LoadScreenTab1On" val="True" />
+    <Constant name="CM_LoadScreenTab2Img" val="Assets\Textures\ui_hots_loading_missionselect_zlab01.dds" />
+    <Constant name="CM_LoadScreenTab2On" val="True" />
+    <Constant name="CM_LoadScreenTab3Img" val="Assets\Textures\loading-marsarabarexterior.dds" />
+    <Constant name="CM_LoadScreenTab3On" val="True" />
+    <Constant name="CM_LoadScreenTab4Img" val="Assets\Textures\ui_void_loading_purifier02.dds" />
+    <Constant name="CM_LoadScreenTab4On" val="True" />
+    <Constant name="CM_LoadScreenLogoImg" val="Assets\Textures\CM_LoadScreenLogo_CM.dds" />
+    <Constant name="CM_LoadScreenGenericBorderImg" val="Assets/Textures/ui_void_mission_genericborder.dds" />
+    <Constant name="CM_LoadScreenPanelBackgroundImg" val="Assets/Textures/ui_observer_custom_map_container.dds" />
+    <Constant name="CM_LoadScreenPanelFrameImg" val="@UI/SC2_UI_Battlenet_Achievement_Fanfare_AchievementContainer_Prot" />
+    <Constant name="CM_LoadScreenTabButtonNormalImg" val="@@UI/StandardBattlenetMediumButtonNormal" />
+    <Constant name="CM_LoadScreenTabButtonHoverImg" val="@@UI/StandardBattlenetMediumButtonHover" />
+    <Constant name="CM_LoadScreenURLButtonNormalImg" val="@UI/StandardGlueButtonNormal_Prot" />
+    <Constant name="CM_LoadScreenURLButtonHoverImg" val="@UI/StandardGlueButtonHover_Prot" />
+    <Frame type="Button" name="TabButtonTemplate">
+        <Anchor side="Top" relative="$parent" pos="Mid" offset="0" />
+        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="-5" />
+        <Anchor side="Left" relative="$parent" pos="Min" offset="5" />
+        <Height val="55" />
+        <Width val="200" />
+        <NormalImage val="NormalImage" />
+        <HoverImage val="HoverImage" />
+        <Label val="Label" />
+        <HitTestFrame val="HitTestFrame" />
+        <ClickSound val="@UI_ActionButtonSelect" />
+        <Toggleable val="true" />
+        <Frame type="Image" name="NormalImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+            <Texture val="#CM_LoadScreenTabButtonNormalImg" />
+            <TextureType val="EndCap" />
+            <Tiled val="true" />
+            <StateCount val="2" />
+            <DesaturateOnDisable val="false" />
+            <DisabledAlpha val="64" />
+        </Frame>
+        <Frame type="Image" name="HoverImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+            <Texture val="#CM_LoadScreenTabButtonHoverImg" />
+            <TextureType val="EndCap" />
+            <Tiled val="true" />
+            <StateCount val="2" />
+        </Frame>
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="6" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+            <Style val="BattlenetStandardButton" />
+            <DisabledAlpha val="40" />
+        </Frame>
+        <Frame type="Frame" name="HitTestFrame">
+            <TooltipAnchorPosition val="TopCenter" />
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+            <DescFlags val="Internal" />
+        </Frame>
+    </Frame>
+    <Frame type="Button" name="URLButtonTemplate">
+        <Style val="StandardButton" />
+        <NormalImage val="NormalImage" />
+        <HoverImage val="HoverImage" />
+        <Label val="Label" />
+        <HitTestFrame val="HitTestFrame" />
+        <ClickSound val="@UI_ActionButtonSelect" />
+        <HoverSound val="@UI_HoverTick" />
+        <Width val="154" />
+        <Height val="36" />
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenURLButtonNormalImg" />
+            <TextureType val="Border" />
+            <Tiled val="false" />
+            <StateCount val="2" />
+            <DescFlags val="Internal" />
+        </Frame>
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenURLButtonHoverImg" />
+            <TextureType val="Border" />
+            <Tiled val="false" />
+            <StateCount val="2" />
+            <DescFlags val="Internal" />
+        </Frame>
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="3" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-3" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="10" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10" />
+            <Style val="@StandardButtonMini_Prot" />
+            <Color val="255,255,255" />
+            <DisabledAlpha val="255" />
+            <Options val="NoWrapping | ScaleToPreventTruncation" />
+        </Frame>
+        <Frame type="Frame" name="HitTestFrame">
+            <Anchor relative="$parent" />
+            <TooltipAnchorPosition val="TopCenter" />
+            <DescFlags val="Internal" />
+        </Frame>
+    </Frame>
+    <Frame type="Frame" name="URLFrameTemplate" template="ScreenCustomFeatured/CTABannerTemplate">
+        <Width val="154" />
+        <Height val="36" />
+        <Frame type="LaunchURLButton" name="WebsiteButton" template="CM_LoadScreen/URLButtonTemplate">
+            <Anchor relative="$parent" />
+            <Width val="154" />
+            <Height val="36" />
+        </Frame>
+        <Frame type="Label" name="URLLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="2" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-2" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="10" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10" />
+            <Style val="@StandardButtonMini_Prot" />
+            <Color val="255,255,255" />
+            <DisabledAlpha val="255" />
+            <AcceptsMouse val="false" />
+            <RenderPriority val="720" />
+            <Options val="NoWrapping | ScaleToPreventTruncation" />
+        </Frame>
+        <Frame type="Frame" name="BannerImage">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+        <Frame type="Frame" name="BorderInner">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+        <Frame type="Frame" name="BorderOuter">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+        <Frame type="Frame" name="BannerVignette">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+        <Frame type="Frame" name="DescriptionLabel">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+        <Frame type="Frame" name="HeaderLabel">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+        <Frame type="Frame" name="MoreInfoLabel">
+            <DescFlags val="CreationDeferred" />
+        </Frame>
+    </Frame>
+    <Frame type="Frame" name="PanelTemplate">
+        <Anchor side="Top" relative="$parent" pos="Min" offset="5" />
+        <Anchor side="Bottom" relative="$parent" pos="Max" offset="-5" />
+        <Anchor side="Left" relative="$parent" pos="Min" offset="5" />
+        <Anchor side="Right" relative="$parent" pos="Max" offset="-5" />
+        <Frame type="BlurFrame" name="BackgroundBlur">
+            <Anchor relative="$parent" />
+            <BlurAmount val="0.35" />
+            <Alpha val="255" />
+        </Frame>
+        <Frame type="Image" name="Background1">
+            <Anchor relative="$parent" />
+            <TextureType val="Nineslice" />
+            <Texture val="#CM_LoadScreenPanelBackgroundImg" />
+            <Alpha val="150" />
+        </Frame>
+        <Frame type="Image" name="Background2">
+            <Anchor relative="$parent" />
+            <TextureType val="Nineslice" />
+            <Texture val="#CM_LoadScreenPanelFrameImg" />
+        </Frame>
+        <Frame type="ScrollableFrame" name="ScrollableList">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="15" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-15" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="15" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-15" />
+            <AcceptsMouse val="true" />
+            <Constant name="CM_LoadScreenCommandButtonGap" val="1" />
+            <Constant name="CM_LoadScreenHGap" val="30" />
+            <CollapseLayout val="true" />
+            <Frame type="Frame" name="ContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="5" />
+                <Anchor side="Left" relative="$parent" pos="Min" offset="15" />
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-15" />
+                <Anchor side="Bottom" relative="$this/ContentFrame/ContentsBottom" pos="Max" offset="2" />
+                <Height val="225" />
+                <CollapseLayout val="true" />
+                <Frame type="Frame" name="ContentFrame">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+                    <Frame type="Frame" name="ContentsBottom">
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                        <Anchor side="Bottom" relative="$parent" pos="Min" offset="0" />
+                        <Height val="1" />
+                    </Frame>
+                </Frame>
+            </Frame>
+            <Frame type="ScrollBar" name="ScrollBar">
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-5" />
+                <Anchor side="Top" relative="$parent" pos="Min" offset="10" />
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-10" />
+                <StepValue val="10" />
+                <Continuous val="true" />
+                <Visible val="true" />
+                <Width val="20" />
+                <RenderPriority val="600" />
+                <Orientation val="Vertical" />
+                <Frame type="Image" name="Image">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                    <Texture val="#CM_LoadScreenPanelBackgroundImg" />
+                    <TextureType val="Normal" />
+                    <Tiled val="true" />
+                    <Alpha val="0" />
+                </Frame>
+                <Frame type="Button" name="Button">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                    <Height val="20" />
+                    <Frame type="Image" name="NormalImage">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                        <Height val="20" />
+                        <Texture val="#CM_LoadScreenPanelBackgroundImg" />
+                        <TextureType val="NineSlice" />
+                        <Tiled val="false" />
+                        <Height val="20" />
+                    </Frame>
+                    <Frame type="Image" name="HoverImage">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                        <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                        <Height val="20" />
+                        <Texture val="#CM_LoadScreenPanelBackgroundImg" />
+                        <TextureType val="NineSlice" />
+                        <Tiled val="false" />
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+    <Frame type="Frame" name="CM_LoadingScreen">
+        <Handle val="CM_LoadingScreen" />
+        <Anchor relative="$parent" />
+        <Frame type="Image" name="LoadScreenImage">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenTab1Img" />
+        </Frame>
+        <Frame type="Image" name="Preload1">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenTab2Img" />
+            <Visible val="False" />
+        </Frame>
+        <Frame type="Image" name="Preload2">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenTab3Img" />
+            <Visible val="False" />
+        </Frame>
+        <Frame type="Image" name="Preload3">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenTab4Img" />
+            <Visible val="False" />
+        </Frame>
+        <Frame type="Image" name="Preload4">
+            <Anchor relative="$parent" />
+            <Texture val="#CM_LoadScreenGenericBorderImg" />
+            <Visible val="False" />
+        </Frame>
+        <Frame type="Image" name="Image_Logo">
+            <Anchor side="Bottom" relative="$parent/InfoTabController" pos="Min" offset="-10" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+            <Width val="287" />
+            <Height val="224" />
+            <Texture val="#CM_LoadScreenLogoImg" />
+        </Frame>
+        <Frame type="TabControl" name="InfoTabController">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="175" />
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0" />
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+            <Width val="950" />
+            <Height val="540" />
+            <Animation name="AutoCyclePages">
+                <Event event="OnShown" action="Reset,Play" frame="$this" />
+                <Event event="CM_LoadScreenStartCycle" action="Reset,Play" frame="$this" />
+                <Event event="OnHidden" action="Reset,Stop" frame="$this" />
+                <Controller type="Property" property="SelectedIndex" frame="$this" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="0" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="1" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="2" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="3" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="0" />
+                </Controller>
+                <Controller type="Property" property="Texture" frame="$parent/LoadScreenImage" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="#CM_LoadScreenTab1Img" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="#CM_LoadScreenTab2Img" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="#CM_LoadScreenTab3Img" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="#CM_LoadScreenTab4Img" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="#CM_LoadScreenTab1Img" />
+                </Controller>
+                <Controller type="Property" property="Toggled" frame="TabButtonsContainer/Button01" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="True" />
+                </Controller>
+                <Controller type="Property" property="Toggled" frame="TabButtonsContainer/Button02" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="False" />
+                </Controller>
+                <Controller type="Property" property="Toggled" frame="TabButtonsContainer/Button03" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="False" />
+                </Controller>
+                <Controller type="Property" property="Toggled" frame="TabButtonsContainer/Button04" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="False" />
+                </Controller>
+                <Controller type="Property" property="Visible" frame="PanelsContainer/Panel01" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="True" />
+                </Controller>
+                <Controller type="Property" property="Visible" frame="PanelsContainer/Panel02" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="False" />
+                </Controller>
+                <Controller type="Property" property="Visible" frame="PanelsContainer/Panel03" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="False" />
+                </Controller>
+                <Controller type="Property" property="Visible" frame="PanelsContainer/Panel04" end="Loop">
+                    <Key type="Property" time="#CM_LoadScreenCycleTime1" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime2" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime3" value="False" />
+                    <Key type="Property" time="#CM_LoadScreenCycleTime4" value="True" />
+                    <Key type="Property" time="#CM_LoadScreenCycleLoopTime" value="False" />
+                </Controller>
+            </Animation>
+            <Animation name="CyclePage1">
+                <Event event="CM_LoadScreenPage1" action="Reset,Play" frame="$this" />
+                <Controller type="State" stateGroup="PageState" frame="$this" end="Pause">
+                    <Key type="Identifier" time="0" value="Page1" />
+                </Controller>
+            </Animation>
+            <Animation name="CyclePage2">
+                <Event event="CM_LoadScreenPage2" action="Reset,Play" frame="$this" />
+                <Controller type="State" stateGroup="PageState" frame="$this" end="Pause">
+                    <Key type="Identifier" time="0" value="Page2" />
+                </Controller>
+            </Animation>
+            <Animation name="CyclePage3">
+                <Event event="CM_LoadScreenPage3" action="Reset,Play" frame="$this" />
+                <Controller type="State" stateGroup="PageState" frame="$this" end="Pause">
+                    <Key type="Identifier" time="0" value="Page3" />
+                </Controller>
+            </Animation>
+            <Animation name="CyclePage4">
+                <Event event="CM_LoadScreenPage4" action="Reset,Play" frame="$this" />
+                <Controller type="State" stateGroup="PageState" frame="$this" end="Pause">
+                    <Key type="Identifier" time="0" value="Page4" />
+                </Controller>
+            </Animation>
+            <StateGroup name="PageState">
+                <DefaultState val="Page1" />
+                <State name="Page1">
+                    <Action type="SetProperty" frame="$this" SelectedIndex="0" />
+                    <Action type="SetProperty" frame="$parent/LoadScreenImage" Texture="#CM_LoadScreenTab1Img" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button01" Toggled="True" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button02" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button03" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button04" Toggled="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel01" Visible="True" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel02" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel03" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel04" Visible="False" />
+                </State>
+                <State name="Page2">
+                    <Action type="SetProperty" frame="$this" SelectedIndex="1" />
+                    <Action type="SetProperty" frame="$parent/LoadScreenImage" Texture="#CM_LoadScreenTab2Img" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button01" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button02" Toggled="True" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button03" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button04" Toggled="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel01" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel02" Visible="True" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel03" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel04" Visible="False" />
+                </State>
+                <State name="Page3">
+                    <Action type="SetProperty" frame="$this" SelectedIndex="2" />
+                    <Action type="SetProperty" frame="$parent/LoadScreenImage" Texture="#CM_LoadScreenTab3Img" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button01" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button02" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button03" Toggled="True" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button04" Toggled="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel01" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel02" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel03" Visible="True" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel04" Visible="False" />
+                </State>
+                <State name="Page4">
+                    <Action type="SetProperty" frame="$this" SelectedIndex="3" />
+                    <Action type="SetProperty" frame="$parent/LoadScreenImage" Texture="#CM_LoadScreenTab4Img" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button01" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button02" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button03" Toggled="False" />
+                    <Action type="SetProperty" frame="TabButtonsContainer/Button04" Toggled="True" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel01" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel02" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel03" Visible="False" />
+                    <Action type="SetProperty" frame="PanelsContainer/Panel04" Visible="True" />
+                </State>
+            </StateGroup>
+            <TabListItem val="$this/TabButtonsContainer/Button01" />
+            <TabListItem val="$this/TabButtonsContainer/Button02" />
+            <TabListItem val="$this/TabButtonsContainer/Button03" />
+            <TabListItem val="$this/TabButtonsContainer/Button04" />
+            <PanelListItem val="$this/PanelsContainer/Panel01" />
+            <PanelListItem val="$this/PanelsContainer/Panel02" />
+            <PanelListItem val="$this/PanelsContainer/Panel03" />
+            <PanelListItem val="$this/PanelsContainer/Panel04" />
+            <Frame type="Frame" name="TabButtonsContainer">
+                <Handle val="CM_LoadScreenTabButtonsContainer" />
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                <Height val="86" />
+                <Frame type="Button" name="Button01" template="CM_LoadScreen/TabButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="-408" />
+                    <Visible val="#CM_LoadScreenTab1On" />
+                    <Frame type="Label" name="Label">
+                        <Text val="#CM_LoadScreenTab1Name" />
+                    </Frame>
+                    <Animation name="SelectPage">
+                        <Event event="OnClick" action="Reset,Play" frame="$this" />
+                        <Controller type="State" stateGroup="PageState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="Page1" />
+                        </Controller>
+                    </Animation>
+                </Frame>
+                <Frame type="Button" name="Button02" template="CM_LoadScreen/TabButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Left" relative="$parent/Button01" pos="Max" offset="5" />
+                    <Visible val="#CM_LoadScreenTab2On" />
+                    <Frame type="Label" name="Label">
+                        <Text val="#CM_LoadScreenTab2Name" />
+                    </Frame>
+                    <Animation name="SelectPage">
+                        <Event event="OnClick" action="Reset,Play" />
+                        <Controller type="State" stateGroup="PageState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="Page2" />
+                        </Controller>
+                    </Animation>
+                </Frame>
+                <Frame type="Button" name="Button03" template="CM_LoadScreen/TabButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Left" relative="$parent/Button02" pos="Max" offset="5" />
+                    <Visible val="#CM_LoadScreenTab3On" />
+                    <Frame type="Label" name="Label">
+                        <Text val="#CM_LoadScreenTab3Name" />
+                    </Frame>
+                    <Animation name="SelectPage">
+                        <Event event="OnClick" action="Reset,Play" />
+                        <Controller type="State" stateGroup="PageState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="Page3" />
+                        </Controller>
+                    </Animation>
+                </Frame>
+                <Frame type="Button" name="Button04" template="CM_LoadScreen/TabButtonTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0" />
+                    <Anchor side="Left" relative="$parent/Button03" pos="Max" offset="5" />
+                    <Visible val="#CM_LoadScreenTab4On" />
+                    <Frame type="Label" name="Label">
+                        <Text val="#CM_LoadScreenTab4Name" />
+                    </Frame>
+                    <Animation name="SelectPage">
+                        <Event event="OnClick" action="Reset,Play" />
+                        <Controller type="State" stateGroup="PageState" frame="$parent/$parent" end="Pause">
+                            <Key type="Identifier" time="0" value="Page4" />
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+            <Frame type="Frame" name="PanelsContainer">
+                <Handle val="CM_LoadScreenPanelsContainer" />
+                <Anchor side="Top" relative="$parent/TabButtonsContainer" pos="Max" offset="0" />
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-52" />
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0" />
+                <Frame type="Frame" name="Panel01" template="CM_LoadScreen/PanelTemplate">
+                    <Frame type="ScrollableFrame" name="ScrollableList">
+                        <Frame type="Frame" name="ContainerFrame">
+                            <Frame type="Frame" name="ContentFrame">
+                                <Frame type="Label" name="Lbl_Body">
+                                    <Anchor side="Top" relative="$parent" pos="Min" offset="20" />
+                                    <Anchor side="Left" relative="$parent" pos="Min" offset="20" />
+                                    <Width val="800" />
+                                    <Style val="LoadingScreenMission" />
+                                    <Text val="#CM_LoadScreenTab1Text" />
+                                </Frame>
+                                <Frame type="Frame" name="ContentsBottom">
+                                    <Anchor side="Bottom" relative="$parent/Lbl_Body" pos="Max" offset="0" />
+                                </Frame>
+                            </Frame>
+                        </Frame>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Panel02" template="CM_LoadScreen/PanelTemplate">
+                    <Frame type="ScrollableFrame" name="ScrollableList">
+                        <Frame type="Frame" name="ContainerFrame">
+                            <Frame type="Frame" name="ContentFrame">
+                                <Frame type="Label" name="Lbl_Body">
+                                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                                    <Anchor side="Left" relative="$parent" pos="Min" offset="20" />
+                                    <Width val="800" />
+                                    <Style val="LoadingScreenMission" />
+                                    <Text val="#CM_LoadScreenTab2Text" />
+                                </Frame>
+                                <Frame type="Frame" name="ContentsBottom">
+                                    <Anchor side="Bottom" relative="$parent/Lbl_Body" pos="Max" offset="0" />
+                                </Frame>
+                            </Frame>
+                        </Frame>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Panel03" template="CM_LoadScreen/PanelTemplate">
+                    <Frame type="ScrollableFrame" name="ScrollableList">
+                        <Frame type="Frame" name="ContainerFrame">
+                            <Frame type="Frame" name="ContentFrame">
+                                <Frame type="Label" name="Lbl_Body">
+                                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                                    <Anchor side="Left" relative="$parent" pos="Min" offset="20" />
+                                    <Width val="800" />
+                                    <Style val="LoadingScreenMission" />
+                                    <Text val="#CM_LoadScreenTab3Text" />
+                                </Frame>
+                                <Frame type="Frame" name="ContentsBottom">
+                                    <Anchor side="Bottom" relative="$parent/Lbl_Body" pos="Max" offset="0" />
+                                </Frame>
+                            </Frame>
+                        </Frame>
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="Panel04" template="CM_LoadScreen/PanelTemplate">
+                    <Frame type="ScrollableFrame" name="ScrollableList">
+                        <Frame type="Frame" name="ContainerFrame">
+                            <Frame type="Frame" name="ContentFrame">
+                                <Frame type="Label" name="Lbl_Body">
+                                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                                    <Anchor side="Left" relative="$parent" pos="Min" offset="20" />
+                                    <Width val="800" />
+                                    <Style val="LoadingScreenMission" />
+                                    <Text val="#CM_LoadScreenTab4Text" />
+                                </Frame>
+                                <Frame type="Frame" name="ContentsBottom">
+                                    <Anchor side="Bottom" relative="$parent/Lbl_Body" pos="Max" offset="0" />
+                                </Frame>
+                            </Frame>
+                        </Frame>
+                    </Frame>
+                </Frame>
+            </Frame>
+            <Frame type="Frame" name="CommunityLinksContainer">
+                <Handle val="CM_LoadScreenCommunityLinksContainer" />
+                <Anchor side="Top" relative="$parent/PanelsContainer" pos="Max" offset="8" />
+                <Anchor side="Left" relative="$parent" pos="Mid" offset="-320" />
+                <Width val="640" />
+                <Height val="36" />
+                <RenderPriority val="650" />
+                <Frame type="Frame" name="WebsiteLink" template="CM_LoadScreen/URLFrameTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0" />
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                        <!-- <Handle val="CM_LoadScreenWebsiteURLButton" /> -->
+                        <Text val="#CM_LoadScreenEmptyText" />
+                        <Tooltip val="#CM_LoadScreenWebsiteTooltip" />
+                        <URL val="#CM_LoadScreenWebsiteURL" />
+                    </Frame>
+                    <Frame type="Label" name="URLLabel">
+                        <Text val="#CM_LoadScreenWebsiteText" />
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="DiscordLink" template="CM_LoadScreen/URLFrameTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent/WebsiteLink" pos="Max" offset="8" />
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                        <!-- <Handle val="CM_LoadScreenDiscordURLButton" /> -->
+                        <Text val="#CM_LoadScreenEmptyText" />
+                        <Tooltip val="#CM_LoadScreenDiscordTooltip" />
+                        <URL val="#CM_LoadScreenDiscordURL" />
+                    </Frame>
+                    <Frame type="Label" name="URLLabel">
+                        <Text val="#CM_LoadScreenDiscordText" />
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="QQLink" template="CM_LoadScreen/URLFrameTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent/DiscordLink" pos="Max" offset="8" />
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                        <!-- <Handle val="CM_LoadScreenQQURLButton" /> -->
+                        <Text val="#CM_LoadScreenEmptyText" />
+                        <Tooltip val="#CM_LoadScreenQQTooltip" />
+                        <URL val="https://qm.qq.com/q/dq1Bpe9fG0" />
+                    </Frame>
+                    <Frame type="Label" name="URLLabel">
+                        <Text val="#CM_LoadScreenQQText" />
+                    </Frame>
+                </Frame>
+                <Frame type="Frame" name="BiliBiliLink" template="CM_LoadScreen/URLFrameTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0" />
+                    <Anchor side="Left" relative="$parent/QQLink" pos="Max" offset="8" />
+                    <Frame type="LaunchURLButton" name="WebsiteButton">
+                        <!-- <Handle val="CM_LoadScreenBiliBiliURLButton" /> -->
+                        <Text val="#CM_LoadScreenEmptyText" />
+                        <Tooltip val="#CM_LoadScreenBiliBiliTooltip" />
+                        <URL val="#CM_LoadScreenBiliBiliURL" />
+                    </Frame>
+                    <Frame type="Label" name="URLLabel">
+                        <Text val="#CM_LoadScreenBiliBiliText" />
+                    </Frame>
+                </Frame>
+            </Frame>
+        </Frame>
+        <StateGroup name="Visible">
+            <State name="DisableHelpTip">
+                <When type="Property" frame="$ancestor[@type=ScreenLoading]/LoadingHelpLabel" Visible="True" />
+                <Action type="SetProperty" frame="$ancestor[@type=ScreenLoading]/LoadingHelpLabel" Alpha="0" />
+                <Action type="SetProperty" frame="$ancestor[@type=ScreenLoading]/LoadingHelpBackgroundImage" Alpha="0" />
+                <Action type="SendEvent" frame="InfoTabController" event="CM_LoadScreenStartCycle" />
+            </State>
+            <State name="DisableHelpTipKRNGL">
+                <When type="Property" frame="$ancestor[@type=ScreenLoading]/LoadingHelpLabel" Visible="True" />
+                <Action type="SetProperty" frame="$ancestor[@type=ScreenLoading]/LoadingLegalLabelKRNGL" Alpha="0" />
+                <Action type="SetProperty" frame="$ancestor[@type=ScreenLoading]/LoadingLegalBackgroundImageKRNGL" Alpha="0" />
+                <Action type="SendEvent" frame="InfoTabController" event="CM_LoadScreenStartCycle" />
+            </State>
+        </StateGroup>
+    </Frame>
+</Desc>

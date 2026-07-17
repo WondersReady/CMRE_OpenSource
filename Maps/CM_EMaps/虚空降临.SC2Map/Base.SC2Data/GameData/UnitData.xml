@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="ColonistTransport">
+        <LifeStart value="1500"/>
+        <LifeMax value="1500"/>
+        <LifeArmor value="3"/>
+    </CUnit>
+    <CUnit id="HybridNemesis">
+        <CostResource index="Minerals" value="500"/>
+    </CUnit>
+    <CUnit id="ProtossFrigate">
+        <FogVisibility value="Hidden"/>
+        <Collide index="Flying" value="0"/>
+    </CUnit>
+</Catalog>

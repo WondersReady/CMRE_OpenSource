@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AIData>
+    <Definition Id="3E812353" Color="2">
+        <SourcePlayer Value="5"/>
+        <TargetPlayer Value="1"/>
+        <TargetPlayer Value="2"/>
+        <Step Type="Comment" Text="Reminder: Shuttle Launches at &quot;Arrival&quot; time"/>
+        <Step Type="Wave" Id="9" Text="Attack Wave 01">
+            <Time Type="Arrival" Trigger="01903F61" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="180"/>
+                <Duration DiffLevel="2" Value="180"/>
+                <Duration DiffLevel="3" Value="180"/>
+                <Duration DiffLevel="4" Value="180"/>
+                <Duration DiffLevel="5" Value="180"/>
+                <Duration DiffLevel="6" Value="180"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="10" Text="Attack Wave 02">
+            <Time Type="Arrival" Trigger="968E2E43" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="120"/>
+                <Duration DiffLevel="2" Value="120"/>
+                <Duration DiffLevel="3" Value="120"/>
+                <Duration DiffLevel="4" Value="120"/>
+                <Duration DiffLevel="5" Value="120"/>
+                <Duration DiffLevel="6" Value="120"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="2" Text="Shuttle Wave 1">
+            <Time Type="Arrival" Trigger="09274953" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="75"/>
+                <Duration DiffLevel="2" Value="75"/>
+                <Duration DiffLevel="3" Value="75"/>
+                <Duration DiffLevel="4" Value="75"/>
+                <Duration DiffLevel="5" Value="75"/>
+                <Duration DiffLevel="6" Value="75"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="19" Text="Shuttle/AttackWave Buffer">
+            <Time Type="Arrival">
+                <Duration DiffLevel="1" Value="30"/>
+                <Duration DiffLevel="2" Value="30"/>
+                <Duration DiffLevel="3" Value="30"/>
+                <Duration DiffLevel="4" Value="30"/>
+                <Duration DiffLevel="5" Value="30"/>
+                <Duration DiffLevel="6" Value="30"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="11" Text="Attack Wave 03">
+            <Time Type="Arrival" Trigger="248BCE4B" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="45"/>
+                <Duration DiffLevel="2" Value="45"/>
+                <Duration DiffLevel="3" Value="45"/>
+                <Duration DiffLevel="4" Value="45"/>
+                <Duration DiffLevel="5" Value="45"/>
+                <Duration DiffLevel="6" Value="45"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="1" Text="Shuttle Wave 2">
+            <Time Type="Arrival" Trigger="C3DE88C2" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="90"/>
+                <Duration DiffLevel="2" Value="90"/>
+                <Duration DiffLevel="3" Value="90"/>
+                <Duration DiffLevel="4" Value="90"/>
+                <Duration DiffLevel="5" Value="90"/>
+                <Duration DiffLevel="6" Value="90"/>
+            </Time>
+        </Step>
+        <Step Type="Link" Id="19"/>
+        <Step Type="Wave" Id="12" Text="Attack Wave 04">
+            <Time Type="Arrival" Trigger="1BEF3DB5" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="30"/>
+                <Duration DiffLevel="2" Value="30"/>
+                <Duration DiffLevel="3" Value="30"/>
+                <Duration DiffLevel="4" Value="30"/>
+                <Duration DiffLevel="5" Value="30"/>
+                <Duration DiffLevel="6" Value="30"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="13" Text="Attack Wave 05">
+            <Time Type="Arrival" Trigger="93C56E63" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="60"/>
+                <Duration DiffLevel="2" Value="60"/>
+                <Duration DiffLevel="3" Value="60"/>
+                <Duration DiffLevel="4" Value="60"/>
+                <Duration DiffLevel="5" Value="60"/>
+                <Duration DiffLevel="6" Value="60"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="3" Text="Shuttle Wave 3">
+            <Time Type="Arrival" Trigger="CA572685" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="90"/>
+                <Duration DiffLevel="2" Value="90"/>
+                <Duration DiffLevel="3" Value="90"/>
+                <Duration DiffLevel="4" Value="90"/>
+                <Duration DiffLevel="5" Value="90"/>
+                <Duration DiffLevel="6" Value="90"/>
+            </Time>
+        </Step>
+        <Step Type="Link" Id="19"/>
+        <Step Type="Wave" Id="14" Text="Attack Wave 06">
+            <Time Type="Arrival" Trigger="8ED85BDC" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="60"/>
+                <Duration DiffLevel="2" Value="60"/>
+                <Duration DiffLevel="3" Value="60"/>
+                <Duration DiffLevel="4" Value="60"/>
+                <Duration DiffLevel="5" Value="60"/>
+                <Duration DiffLevel="6" Value="60"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="4" Text="Shuttle Wave 4">
+            <Time Type="Arrival" Trigger="DA26C8D8" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="90"/>
+                <Duration DiffLevel="2" Value="90"/>
+                <Duration DiffLevel="3" Value="90"/>
+                <Duration DiffLevel="4" Value="90"/>
+                <Duration DiffLevel="5" Value="90"/>
+                <Duration DiffLevel="6" Value="90"/>
+            </Time>
+        </Step>
+        <Step Type="Link" Id="19"/>
+        <Step Type="Wave" Id="15" Text="Attack Wave 07">
+            <Time Type="Arrival" Trigger="B3D71DA5" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="45"/>
+                <Duration DiffLevel="2" Value="45"/>
+                <Duration DiffLevel="3" Value="45"/>
+                <Duration DiffLevel="4" Value="45"/>
+                <Duration DiffLevel="5" Value="45"/>
+                <Duration DiffLevel="6" Value="45"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="5" Text="Shuttle Wave 5">
+            <Time Type="Arrival" Trigger="11033135" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="75"/>
+                <Duration DiffLevel="2" Value="75"/>
+                <Duration DiffLevel="3" Value="75"/>
+                <Duration DiffLevel="4" Value="75"/>
+                <Duration DiffLevel="5" Value="75"/>
+                <Duration DiffLevel="6" Value="75"/>
+            </Time>
+        </Step>
+        <Step Type="Link" Id="19"/>
+        <Step Type="Wave" Id="16" Text="Attack Wave 08">
+            <Time Type="Arrival" Trigger="7B932F63" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="45"/>
+                <Duration DiffLevel="2" Value="45"/>
+                <Duration DiffLevel="3" Value="45"/>
+                <Duration DiffLevel="4" Value="45"/>
+                <Duration DiffLevel="5" Value="45"/>
+                <Duration DiffLevel="6" Value="45"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="6" Text="Shuttle Wave 6">
+            <Time Type="Arrival" Trigger="93D148BB" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="75"/>
+                <Duration DiffLevel="2" Value="75"/>
+                <Duration DiffLevel="3" Value="75"/>
+                <Duration DiffLevel="4" Value="75"/>
+                <Duration DiffLevel="5" Value="75"/>
+                <Duration DiffLevel="6" Value="75"/>
+            </Time>
+        </Step>
+        <Step Type="Link" Id="19"/>
+        <Step Type="Wave" Id="17" Text="Attack Wave 09">
+            <Time Type="Arrival" Trigger="903833D7" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="45"/>
+                <Duration DiffLevel="2" Value="45"/>
+                <Duration DiffLevel="3" Value="45"/>
+                <Duration DiffLevel="4" Value="45"/>
+                <Duration DiffLevel="5" Value="45"/>
+                <Duration DiffLevel="6" Value="45"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="7" Text="Shuttle Wave 7">
+            <Time Type="Arrival" Trigger="4A5B3EA7" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="75"/>
+                <Duration DiffLevel="2" Value="75"/>
+                <Duration DiffLevel="3" Value="75"/>
+                <Duration DiffLevel="4" Value="75"/>
+                <Duration DiffLevel="5" Value="75"/>
+                <Duration DiffLevel="6" Value="75"/>
+            </Time>
+        </Step>
+        <Step Type="Link" Id="19"/>
+        <Step Type="Wave" Id="18" Text="Attack Wave 10">
+            <Time Type="Arrival" Trigger="3ED5DE98" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="45"/>
+                <Duration DiffLevel="2" Value="45"/>
+                <Duration DiffLevel="3" Value="45"/>
+                <Duration DiffLevel="4" Value="45"/>
+                <Duration DiffLevel="5" Value="45"/>
+                <Duration DiffLevel="6" Value="45"/>
+            </Time>
+        </Step>
+    </Definition>
+    <Definition Id="BDA87FA6" Color="5">
+        <SourcePlayer Value="7"/>
+        <TargetPlayer Value="1"/>
+        <TargetPlayer Value="2"/>
+        <Step Type="Wave" Id="1" Text="Bonus Objective 01">
+            <Time Type="Arrival" Trigger="E6AE77E1" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="495"/>
+                <Duration DiffLevel="2" Value="495"/>
+                <Duration DiffLevel="3" Value="495"/>
+                <Duration DiffLevel="4" Value="495"/>
+                <Duration DiffLevel="5" Value="495"/>
+                <Duration DiffLevel="6" Value="495"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="2" Text="Bonus Objective 02">
+            <Time Type="Arrival" Trigger="DFC1C15F" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="390"/>
+                <Duration DiffLevel="2" Value="390"/>
+                <Duration DiffLevel="3" Value="390"/>
+                <Duration DiffLevel="4" Value="390"/>
+                <Duration DiffLevel="5" Value="390"/>
+                <Duration DiffLevel="6" Value="390"/>
+            </Time>
+        </Step>
+        <Step Type="Wave" Id="3" Text="Bonus Objective 03">
+            <Time Type="Arrival" Trigger="FAECA80C" TriggerRunAtEnd="1">
+                <Duration DiffLevel="1" Value="300"/>
+                <Duration DiffLevel="2" Value="300"/>
+                <Duration DiffLevel="3" Value="300"/>
+                <Duration DiffLevel="4" Value="300"/>
+                <Duration DiffLevel="5" Value="300"/>
+                <Duration DiffLevel="6" Value="300"/>
+            </Time>
+        </Step>
+    </Definition>
+</AIData>

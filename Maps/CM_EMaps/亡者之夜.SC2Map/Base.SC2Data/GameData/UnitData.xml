@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CUnit id="Choker">
+        <LifeStart value="600"/>
+        <LifeMax value="600"/>
+    </CUnit>
+    <CUnit id="Hunterling">
+        <BehaviorArray index="0" Link="Detector7"/>
+    </CUnit>
+    <CUnit id="HunterlingLeaping"/>
+    <!--    <CUnit id="Choker">
+        <AbilArray Link="StukovInfestedDiamondbackSnare"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="StukovInfestedDiamondbackSnare" Type="AbilCmd" AbilCmd="StukovInfestedDiamondbackSnare,Execute" Row="2" Column="1"/>
+        </CardLayouts>
+        <BehaviorArray Link="Frenzy"/>
+    </CUnit>
+    Properly Implemented by Data, hanging onto temporarily
+    <CUnit id="Hunterling">
+        <BehaviorArray Link="Frenzy"/>
+    </CUnit>
+    <CUnit id="Kaboomer">
+        <BehaviorArray Link="Frenzy"/>
+    </CUnit>
+    <CUnit id="Spotter">
+        <AbilArray Link="HybridGeneralPhaseShift"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="HybridGeneralPhaseShift" Type="AbilCmd" AbilCmd="HybridGeneralPhaseShift,Execute" Row="2" Column="1"/>
+        </CardLayouts>
+        <BehaviorArray Link="Frenzy"/>
+    </CUnit>
+    <CUnit id="Stank">
+        <BehaviorArray Link="Frenzy"/>
+    </CUnit>
+-->
+    <CUnit id="InfestedExploderBurrowed">
+        <Collide index="Burrow" value="1"/>
+    </CUnit>
+    <!--    
+    <CUnit id="InfestedCivilian">
+        <LifeStart value="70"/>
+        <LifeMax value="70"/>
+    </CUnit>
+    <CUnit id="InfestedCivilianBurrowed">
+        <LifeStart value="70"/>
+        <LifeMax value="70"/>
+        <Collide index="Burrow" value="1"/>
+    </CUnit>
+    <CUnit id="InfestedTerranCampaign">
+        <LifeStart value="125"/>
+        <LifeMax value="125"/>
+    </CUnit>
+    <CUnit id="InfestedTerranCampaignBurrowed">
+        <LifeStart value="125"/>
+        <LifeMax value="125"/>
+    </CUnit>
+-->
+    <CUnit id="JarbanInfestibleColonistHut">
+        <Food value="-0.5"/>
+    </CUnit>
+    <CUnit id="Kaboomer"/>
+    <CUnit id="Spotter"/>
+    <CUnit id="Stank"/>
+    <CUnit id="DestructibleCityDebris6x6">
+        <BehaviorArray Link="AttackWithNeutralScanUntargetable"/>
+    </CUnit>
+    <CUnit id="DestructibleCityDebrisHugeDiagonalBLUR">
+        <BehaviorArray Link="AttackWithNeutralScanUntargetable"/>
+    </CUnit>
+    <CUnit id="DestructibleCityDebrisHugeDiagonalULBR">
+        <BehaviorArray Link="AttackWithNeutralScanUntargetable"/>
+    </CUnit>
+</Catalog>

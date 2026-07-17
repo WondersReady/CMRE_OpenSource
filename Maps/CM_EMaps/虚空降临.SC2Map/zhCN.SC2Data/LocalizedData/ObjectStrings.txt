@@ -1,0 +1,10 @@
+﻿AI/Name/3E812353=Protoss P03 (Orange) ///Auto - Copied from enUS Locale
+AI/Name/BDA87FA6=Bonus Objective P07 ///Auto - Copied from enUS Locale
+Actor/Name/WarpPrism2=Warp Prism Copy ///Auto - Copied from enUS Locale
+Behavior/EditorPrefix/CloakField2=Arbiter -  ///Auto - Copied from enUS Locale
+Effect/EditorPrefix/CloakingFieldSearch2=Arbiter - ///Auto - Copied from enUS Locale
+Effect/Name/CloakingFieldSearch2=Cloaking Field Search ///Auto - Copied from enUS Locale
+Light/Name/EditorTestLight=Default ///Auto - Copied from enUS Locale
+Validator/Name/IsProtossFrigate2=Is Terran Frigate ///Auto - Copied from enUS Locale
+Validator/Name/IsProtossFrigate22=Is Zerg Frigate ///Auto - Copied from enUS Locale
+Validator/Name/IsWarpawayTarget=Is Warpaway Target ///Auto - Copied from enUS Locale

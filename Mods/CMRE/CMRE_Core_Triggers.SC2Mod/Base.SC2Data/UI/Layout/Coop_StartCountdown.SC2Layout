@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <!-- 
+    =========================================
+    CountdownNumberContainerTemplate
+    =========================================
+    -->
+    
+    <Frame type="Frame" name="CountdownNumberContainerTemplate">
+        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+        <Width val="600"/>
+        <Height val="600"/>
+        <Visible val="False"/>
+        
+        <Frame type="Image" name="Glare">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_Countdown_flare2"/>
+            <TextureType val="Normal"/>
+            <Height val="280"/>
+            <Width val="564"/>
+            
+            <Animation name="ShowGlareAnim">
+                <Event event="OnShown" action="Reset" frame="$parent"/>
+                <Event event="OnShown" action="Play" frame="$parent"/>
+                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                    <Key type="Curve" time="0.4" value="255" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="0" in="linear" out="linear"/>
+                </Controller>
+
+                <Controller type="Dimension" dimension="Width" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="23" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="23" out="Auto"/>
+                    <Key type="Curve" time="0.4" value="69" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="100" in="linear" out="linear"/>
+                </Controller>
+                
+                <Controller type="Dimension" dimension="Height" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="31" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="31" out="Auto"/>
+                    <Key type="Curve" time="0.4" value="60" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="195" in="linear" out="linear"/>
+                </Controller>               
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="LensFlare">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="245"/>
+            <Texture val="@UI/SC2_UI_Coop_Countdown_flare1"/>
+            <TextureType val="Normal"/>
+            <Height val="4"/>
+            <Width val="508"/>
+            <BlendMode val="Add"/>
+            
+            <Animation name="ShowNumberAnim">
+                <Event event="OnShown" action="Reset" frame="$parent"/>
+                <Event event="OnShown" action="Play" frame="$parent"/>
+                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="178" in="Auto"/>
+                    <Key type="Curve" time="0.9" value="155" in="Auto"/>
+                    <Key type="Curve" time="1.0" value="0" in="Auto"/>
+                </Controller>
+
+                <Controller type="Dimension" dimension="Width" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="45" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="45" out="Auto"/>
+                    <Key type="Curve" time="0.4" value="69" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="120" in="linear" out="linear"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="Number">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_Countdown_5"/>
+            <TextureType val="Normal"/>
+            <Height val="161"/>
+            <Width val="177"/>
+            
+            <Animation name="ShowNumberAnim">
+                <Event event="OnShown" action="Reset" frame="$parent"/>
+                <Event event="OnShown" action="Play" frame="$parent"/>
+                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="1.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="1.01" value="0" out="Auto"/>
+                </Controller>
+                
+                <Controller type="Dimension" dimension="Width" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="172" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="80" in="linear" out="linear"/>
+                    <Key type="Curve" time="0.9" value="64" in="linear" out="linear"/>
+                </Controller>
+                
+                <Controller type="Dimension" dimension="Height" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="172" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="80" in="linear" out="linear"/>
+                    <Key type="Curve" time="0.9" value="64" in="linear" out="linear"/>
+                </Controller>
+            </Animation>
+        </Frame>
+    </Frame>
+    
+    <Frame type="Frame" name="CountdownContainer">
+        <Anchor relative="$parent"/>
+
+        <Frame type="Frame" name="CountdownNumberContainer5" template="Coop_StartCountdown/CountdownNumberContainerTemplate">
+            <Frame type="Image" name="Number">
+                <Texture val="@UI/SC2_UI_Coop_Countdown_5"/>
+            </Frame>
+
+            <Animation name="ShowNumberAnim">
+                <Event event="Countdown5" action="Reset,Play" frame="$parent"/>
+
+                <Controller name="Visibility_0" type="Visibility" end="Pause" frame="$this">
+                    <Key type="Bool" time="0" value="True"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="CountdownNumberContainer4" template="Coop_StartCountdown/CountdownNumberContainerTemplate">
+            <Frame type="Image" name="Number">
+                <Texture val="@UI/SC2_UI_Coop_Countdown_4"/>
+            </Frame>
+
+            <Animation name="ShowNumberAnim">
+                <Event event="Countdown4" action="Reset,Play" frame="$parent"/>
+
+                <Controller name="Visibility_0" type="Visibility" end="Pause" frame="$this">
+                    <Key type="Bool" time="0" value="True"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="CountdownNumberContainer3" template="Coop_StartCountdown/CountdownNumberContainerTemplate">
+            <Frame type="Image" name="Number">
+                <Texture val="@UI/SC2_UI_Coop_Countdown_3"/>
+            </Frame>
+
+            <Animation name="ShowNumberAnim">
+                <Event event="Countdown3" action="Reset,Play" frame="$parent"/>
+
+                <Controller name="Visibility_0" type="Visibility" end="Pause" frame="$this">
+                    <Key type="Bool" time="0" value="True"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="CountdownNumberContainer2" template="Coop_StartCountdown/CountdownNumberContainerTemplate">
+            <Frame type="Image" name="Number">
+                <Texture val="@UI/SC2_UI_Coop_Countdown_2"/>
+            </Frame>
+
+            <Animation name="ShowNumberAnim">
+                <Event event="Countdown2" action="Reset,Play" frame="$parent"/>
+
+                <Controller name="Visibility_0" type="Visibility" end="Pause" frame="$this">
+                    <Key type="Bool" time="0" value="True"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Frame" name="CountdownNumberContainer1" template="Coop_StartCountdown/CountdownNumberContainerTemplate">
+            <Frame type="Image" name="Number">
+                <Texture val="@UI/SC2_UI_Coop_Countdown_1"/>
+            </Frame>
+
+            <Animation name="ShowNumberAnim">
+                <Event event="Countdown1" action="Reset,Play" frame="$parent"/>
+
+                <Controller name="Visibility_0" type="Visibility" end="Pause" frame="$this">
+                    <Key type="Bool" time="0" value="True"/>
+                </Controller>
+            </Animation>
+        </Frame>
+    </Frame>
+</Desc>

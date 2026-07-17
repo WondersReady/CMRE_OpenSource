@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Preload>
+<Actor id="SYSTEM_ActorConfig"/>
+<Actor id="LightOmniGreenLarge"/>
+<Actor id="Electrical_Arcs_Protoss"/>
+<Actor id="InvisibleWalkablePlatform16x16"/>
+<Actor id="Korhal_Platform_GrimeSplats" Variations="0,1"/>
+<Actor id="Shakuras_XelNaga_PyramidWalls" Variations="0,1,2,3,4,5"/>
+<Actor id="StrobeLight_Group"/>
+<Actor id="TheVoid_RubblePile" Variations="0"/>
+<Actor id="Ulnar_Xelnaga_GiantMechanism" Variations="0,1,2,3"/>
+<Actor id="UmojanLabElectricalArcs"/>
+<Actor id="XelNaga_Archpost"/>
+<Actor id="XelNaga_Archpost_Broken" Variations="0,1,2"/>
+<Actor id="XelNaga_Base_Decals" Variations="3,4,5,6,7,8"/>
+<Actor id="XelNaga_Cavern_GroundPlates" Variations="0"/>
+<Actor id="XelNaga_Cavern_Pillars" Variations="0"/>
+<Actor id="XelNaga_Cavern_TallPillar" Variations="2"/>
+<Actor id="XelNaga_Crates" Variations="0"/>
+<Actor id="XelNaga_Crates_Animating"/>
+<Actor id="XelNaga_Crates_Skinny" Variations="0,1,2"/>
+<Actor id="XelNaga_Curb" Variations="0,1,2,3,5,6,7,8,13,15,16"/>
+<Actor id="XelNaga_EnergyStreaks"/>
+<Actor id="XelNaga_Floating_Bridge"/>
+<Actor id="XelNaga_GroundPlates_TheVoid" Variations="1,2,3,6,7,9,11,12,13,14,15,16,17"/>
+<Actor id="XelNaga_HugeGate"/>
+<Actor id="XelNaga_HugeGate_Doodads" Variations="11,14"/>
+<Actor id="XelNaga_Lantern"/>
+<Actor id="XelNaga_LargeCrate_Animating"/>
+<Actor id="XelNaga_LargeCrates" Variations="0,1"/>
+<Actor id="XelNaga_LargeCrates_Flat" Variations="4,5"/>
+<Actor id="XelNaga_OlderWall"/>
+<Actor id="XelNaga_Outer_CliffPanels" Variations="0,1,2,4"/>
+<Actor id="XelNaga_Shrine" Variations="0"/>
+<Actor id="XelNaga_SurfaceCliff" Variations="0,1,2"/>
+<Actor id="XelNaga_SurfaceCliff_Inner" Variations="0,1,2"/>
+<Actor id="XelNaga_Tall_Column_Dark" Variations="2,3,7,8,9,10,22,24,26,27"/>
+<Actor id="XelNaga_Tall_Pillar" Variations="0,1,2"/>
+<Actor id="XelNaga_TechWall"/>
+<Actor id="XelNaga_Temple_Small" Variations="7"/>
+<Actor id="XelNaga_Trim_Curb" Variations="0,1,2,3"/>
+<Actor id="XelNaga_WallChunks" Variations="1,2,3,4"/>
+<Actor id="SpacePlatformSteamVent" Variations="1"/>
+<Behavior id="ExpansionRocks"/>
+<Map id="AC_UlnarLocks"/>
+<Model id="MinimapPing"/>
+<Objective id="AC_UlnarLocks_Primary02"/>
+<Terrain id="UlnarOuter"/>
+<Unit id="Colossus" UserTag="Prot"/>
+<Unit id="Baneling" UserTag="Zerg"/>
+<Unit id="SupplyDepot" UserTag="Terr"/>
+<Unit id="Refinery" UserTag="Terr"/>
+<Unit id="Barracks" UserTag="Terr"/>
+<Unit id="EngineeringBay" UserTag="Terr"/>
+<Unit id="MissileTurret" UserTag="Terr"/>
+<Unit id="Bunker" UserTag="Terr"/>
+<Unit id="GhostAcademy" UserTag="Terr"/>
+<Unit id="Factory" UserTag="Terr"/>
+<Unit id="Starport" UserTag="Terr"/>
+<Unit id="Armory" UserTag="Terr"/>
+<Unit id="FusionCore" UserTag="Terr"/>
+<Unit id="SiegeTankSieged" UserTag="Terr"/>
+<Unit id="VikingAssault" UserTag="Terr"/>
+<Unit id="VikingFighter" UserTag="Terr"/>
+<Unit id="SCV" UserTag="Terr"/>
+<Unit id="Marine"/>
+<Unit id="Reaper" UserTag="Terr"/>
+<Unit id="Ghost" UserTag="Terr"/>
+<Unit id="Marauder"/>
+<Unit id="Thor" UserTag="Terr"/>
+<Unit id="Medivac" UserTag="Terr"/>
+<Unit id="Banshee" UserTag="Terr"/>
+<Unit id="Raven" UserTag="Terr"/>
+<Unit id="Battlecruiser" UserTag="Terr"/>
+<Unit id="Nexus" UserTag="Prot"/>
+<Unit id="Pylon" UserTag="Prot"/>
+<Unit id="Assimilator" UserTag="Prot"/>
+<Unit id="Forge" UserTag="Prot"/>
+<Unit id="FleetBeacon" UserTag="Prot"/>
+<Unit id="TwilightCouncil" UserTag="Prot"/>
+<Unit id="PhotonCannon" UserTag="Prot"/>
+<Unit id="Stargate" UserTag="Prot"/>
+<Unit id="RoboticsBay" UserTag="Prot"/>
+<Unit id="RoboticsFacility" UserTag="Prot"/>
+<Unit id="CyberneticsCore" UserTag="Prot"/>
+<Unit id="Zealot" UserTag="Prot"/>
+<Unit id="Stalker" UserTag="Prot"/>
+<Unit id="HighTemplar" UserTag="Prot"/>
+<Unit id="DarkTemplar" Variations="0" UserTag="Prot"/>
+<Unit id="Sentry" UserTag="Prot"/>
+<Unit id="Carrier" UserTag="Prot"/>
+<Unit id="VoidRay" UserTag="Prot"/>
+<Unit id="WarpPrism" UserTag="Prot"/>
+<Unit id="Observer" UserTag="Prot"/>
+<Unit id="Immortal" UserTag="Prot"/>
+<Unit id="Probe" UserTag="Prot"/>
+<Unit id="Hatchery" UserTag="Zerg"/>
+<Unit id="Extractor" UserTag="Zerg"/>
+<Unit id="SpawningPool" UserTag="Zerg"/>
+<Unit id="EvolutionChamber" UserTag="Zerg"/>
+<Unit id="HydraliskDen" UserTag="Zerg"/>
+<Unit id="Spire" UserTag="Zerg"/>
+<Unit id="UltraliskCavern" UserTag="Zerg"/>
+<Unit id="InfestationPit" UserTag="Zerg"/>
+<Unit id="BanelingNest" UserTag="Zerg"/>
+<Unit id="RoachWarren" UserTag="Zerg"/>
+<Unit id="SpineCrawler" UserTag="Zerg"/>
+<Unit id="SporeCrawler" UserTag="Zerg"/>
+<Unit id="Hive" UserTag="Zerg"/>
+<Unit id="GreaterSpire" UserTag="Zerg"/>
+<Unit id="Drone" UserTag="Zerg"/>
+<Unit id="Zergling" UserTag="Zerg"/>
+<Unit id="Hydralisk" UserTag="Zerg"/>
+<Unit id="Mutalisk" UserTag="Zerg"/>
+<Unit id="Ultralisk" UserTag="Zerg"/>
+<Unit id="Roach" UserTag="Zerg"/>
+<Unit id="Infestor" UserTag="Zerg"/>
+<Unit id="Corruptor" UserTag="Zerg"/>
+<Unit id="BroodLord" UserTag="Zerg"/>
+<Unit id="Overseer" UserTag="Zerg"/>
+<Unit id="OrbitalCommand" UserTag="Terr"/>
+<Unit id="WarpGate" UserTag="Prot"/>
+<Unit id="Archon" UserTag="Prot"/>
+<Unit id="LurkerMPBurrowed" UserTag="Zerg"/>
+<Unit id="LurkerDen" UserTag="Zerg"/>
+<Unit id="SwarmHostMP" UserTag="Zerg"/>
+<Unit id="Viper" UserTag="Zerg"/>
+<Unit id="MineralField" Variations="0,1,2,3,4,5,6,7,8,9"/>
+<Unit id="VespeneGeyser"/>
+<Unit id="InfestedAbomination" UserTag="Zerg"/>
+<Unit id="BarracksTechReactor" UserTag="Terr"/>
+<Unit id="FactoryTechReactor" UserTag="Terr"/>
+<Unit id="StarportTechReactor" UserTag="Terr"/>
+<Unit id="Wraith" UserTag="Terr"/>
+<Unit id="Firebat" UserTag="Terr"/>
+<Unit id="Goliath" UserTag="Terr"/>
+<Unit id="ScienceVessel" UserTag="Terr"/>
+<Unit id="HybridDestroyer"/>
+<Unit id="HybridReaver"/>
+<Unit id="Food1000"/>
+<Unit id="DestructibleRockEx14x4"/>
+<Unit id="DestructibleRockEx16x6"/>
+<Unit id="CreepTumorUsed" UserTag="Zerg"/>
+<Unit id="CelestialLock"/>
+<Unit id="HybridDominatorVoid"/>
+<Unit id="HybridBehemoth"/>
+<Unit id="XelNagaConstruct"/>
+<Unit id="ProgressBarDummy"/>
+<Unit id="SiegeTankWreckage"/>
+<Unit id="ThorWreckageSwann"/>
+<Unit id="ACHeroSpawnPlacement"/>
+</Preload>

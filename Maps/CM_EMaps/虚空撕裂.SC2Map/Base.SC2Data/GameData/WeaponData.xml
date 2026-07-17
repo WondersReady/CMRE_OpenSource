@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CWeaponLegacy id="ArchAngelCoopGun">
+        <Range value="6"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ArchAngelCoopMissile">
+        <TargetFilters value="Visible;Self,Player,Ground,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="GunTower">
+        <Range value="14"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CWeaponLegacy>
+</Catalog>

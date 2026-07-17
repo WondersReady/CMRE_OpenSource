@@ -1,0 +1,545 @@
+//--------------------------------------------------------------------------------------------------
+//  Alarak tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMAlarak_TU_Alarak = "AlarakCoop";
+const string c_CMAlarak_AB_Knockback = "AlarakKnockback";
+const string c_CMAlarak_AB_DeadlyCharge = "AlarakACDeadlyCharge";
+const string c_CMAlarak_AB_Empower = "AlarakEmpower";
+const string c_CMAlarak_AB_MindBlast = "VoidHighTemplarMindBlast";
+const string c_CMAlarak_AB_PsiOrb = "VoidHighTemplarPsiOrb";
+const string c_CMAlarak_AB_SacrificeInstant = "AscendantSacrificeInstant";
+const string c_CMAlarak_EF_KnockbackSearch = "AlarakKnockbackConjoinedUnitSearch";
+const string c_CMAlarak_EF_DeadlyChargeSearch = "AlarakACDeadlyChargePointSearch";
+const string c_CMAlarak_EF_DeadlyChargeDamage = "AlarakACDeadlyChargeDamage";
+const string c_CMAlarak_EF_PsiOrbSearch = "VoidHighTemplarPsiOrbSearch";
+const string c_CMAlarak_EF_MindBlastDamage = "VoidHighTemplarMindBlastDamage";
+const fixed c_CMAlarak_KnockbackRange = 14.0;
+const fixed c_CMAlarak_KnockbackRadius = 5.0;
+const fixed c_CMAlarak_KnockbackDamage = 50.0;
+const fixed c_CMAlarak_DeadlyChargeRange = 6.0;
+const fixed c_CMAlarak_DeadlyChargeRadius = 1.5;
+const fixed c_CMAlarak_DeadlyChargeDamage = 200.0;
+const fixed c_CMAlarak_PsiOrbDamage = 5.0;
+const fixed c_CMAlarak_AscendantLowEnergy = 100.0;
+const fixed c_CMAlarak_SacrificeAlarakRange = 15.0;
+const fixed c_CMAlarak_AllySupportRange = 15.0;
+const fixed c_CMAlarak_KiteDistance = 4.0;
+const fixed c_CMAlarak_KiteRefreshDistance = 1.0;
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakUnitBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_Knockback) == true) || (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_DeadlyCharge) == true) || (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_Empower) == true) || (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_MindBlast) == true) || (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_PsiOrb) == true) || (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_SacrificeInstant) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakHeroBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_Knockback) == true) || (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_Empower) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMAlarakAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMAlarakAbilityTargetFilters (int player, string abilityLink) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMAlarakFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup targetGroup;
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    return targetGroup;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakHasEnemy (int player, unitgroup scanGroup) {
+    unitgroup enemyGroup;
+
+    if (scanGroup == null) {
+        return false;
+    }
+
+    enemyGroup = UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+    if (UnitGroupCount(enemyGroup, c_unitCountAlive) > 0) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakHasNearbyCombatAlly (int player, unit aiUnit) {
+    unitgroup allyGroup;
+    unit allyUnit;
+    int allyCount;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), c_CMAlarak_AllySupportRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if ((allyUnit != aiUnit) && (UnitTypeTestAttribute(UnitGetType(allyUnit), c_unitAttributeStructure) == false)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMAlarakTargetVitalityScore (unit targetUnit, fixed damage) {
+    fixed vitality;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if ((damage > 0.0) && (vitality > damage)) {
+        return damage;
+    }
+
+    return vitality;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMAlarakBestUnitOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed damage, fixed defaultRange) {
+    string filters;
+    fixed range;
+    fixed targetScore;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+
+    if (CMAlarakAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMAlarakAbilityRange(player, abilityLink, defaultRange);
+    filters = CMAlarakAbilityTargetFilters(player, abilityLink);
+    targetGroup = CMAlarakFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, abilityLink, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMAlarakTargetVitalityScore(targetUnit, damage);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if (bestTarget == null) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(bestOrder, bestTarget);
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMAlarakClosestEnemy (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed distance;
+    fixed bestDistance;
+    int enemyCount;
+    unit enemyUnit;
+    unit bestEnemy;
+    unitgroup enemyGroup;
+    point here;
+
+    bestDistance = 99999.0;
+    bestEnemy = null;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    here = UnitGetPosition(aiUnit);
+    enemyGroup = UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+    enemyCount = UnitGroupCount(enemyGroup, c_unitCountAlive);
+    while (enemyCount > 0) {
+        enemyUnit = UnitGroupUnit(enemyGroup, enemyCount);
+        enemyCount = enemyCount - 1;
+        distance = DistanceBetweenPoints(here, UnitGetPosition(enemyUnit));
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestEnemy = enemyUnit;
+        }
+    }
+
+    return bestEnemy;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakKiteMoveOrderIsFresh (unit aiUnit) {
+    fixed distance;
+    order curOrder;
+
+    curOrder = UnitOrder(aiUnit, 0);
+    if (curOrder == null) {
+        return false;
+    }
+
+    if (AIIsMoveOrder(curOrder) == false) {
+        return false;
+    }
+
+    distance = DistanceBetweenPoints(UnitGetPosition(aiUnit), OrderGetTargetPosition(curOrder));
+    if (distance <= c_CMAlarak_KiteRefreshDistance) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakKiteFromEnemy (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed angle;
+    unit enemyUnit;
+    point here;
+    point movePoint;
+    order ord;
+
+    enemyUnit = CMAlarakClosestEnemy(player, aiUnit, scanGroup);
+    if (enemyUnit == null) {
+        return false;
+    }
+
+    if (CMAlarakKiteMoveOrderIsFresh(aiUnit) == true) {
+        return true;
+    }
+
+    here = UnitGetPosition(aiUnit);
+    angle = AngleBetweenPoints(UnitGetPosition(enemyUnit), here);
+    movePoint = PointWithOffsetPolar(here, c_CMAlarak_KiteDistance, angle);
+    ord = OrderTargetingPoint(AbilityCommand(c_AB_Move, 0), movePoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return false;
+    }
+
+    UnitIssueOrder(aiUnit, ord, c_orderQueueReplace);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMAlarakBestPointOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed damage, fixed defaultRange, fixed defaultRadius) {
+    string filters;
+    fixed range;
+    fixed radius;
+    int damageBase;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMAlarakAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMAlarakAbilityRange(player, abilityLink, defaultRange);
+    if (range > defaultRange) {
+        range = defaultRange;
+    }
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    targetGroup = CMAlarakFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    damageBase = FixedToInt(damage);
+    if (damageBase < 1) {
+        damageBase = 1;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, 1, damageBase, 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMAlarakKnockbackOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    return CMAlarakBestPointOrder(player, aiUnit, scanGroup, c_CMAlarak_AB_Knockback, c_CMAlarak_EF_KnockbackSearch, c_CMAlarak_KnockbackDamage, c_CMAlarak_KnockbackRange, c_CMAlarak_KnockbackRadius);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMAlarakDeadlyChargeDamage (int player) {
+    fixed chargeDamage;
+
+    chargeDamage = AIEffectFixed(player, c_CMAlarak_EF_DeadlyChargeDamage, c_fieldAmount);
+    if (chargeDamage <= 0.0) {
+        chargeDamage = c_CMAlarak_DeadlyChargeDamage;
+    }
+
+    return chargeDamage;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMAlarakDeadlyChargeOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed chargeDamage;
+    order ord;
+
+    chargeDamage = CMAlarakDeadlyChargeDamage(player);
+
+    ord = CMAlarakBestUnitOrder(player, aiUnit, scanGroup, c_CMAlarak_AB_DeadlyCharge, chargeDamage, c_CMAlarak_DeadlyChargeRange);
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMAlarakBestPointOrder(player, aiUnit, scanGroup, c_CMAlarak_AB_DeadlyCharge, c_CMAlarak_EF_DeadlyChargeSearch, chargeDamage, c_CMAlarak_DeadlyChargeRange, c_CMAlarak_DeadlyChargeRadius);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMAlarakInstantOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (CMAlarakAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakCombatCooldownPending (int player) {
+    if (PlayerGetCooldown(player, c_CMAlarak_AB_Knockback) > 0.0) {
+        return true;
+    }
+    if (PlayerGetCooldown(player, c_CMAlarak_AB_DeadlyCharge) > 0.0) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakHeroNearUnit (int player, unit aiUnit) {
+    unitgroup allyGroup;
+    unit allyUnit;
+    int allyCount;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), c_CMAlarak_SacrificeAlarakRange), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        if (UnitGetType(allyUnit) == c_CMAlarak_TU_Alarak) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMAlarakAscendantShouldSacrifice (int player, unit aiUnit) {
+    fixed energy;
+
+    energy = UnitGetPropertyFixed(aiUnit, c_unitPropEnergy, c_unitPropCurrent);
+    if (energy <= c_CMAlarak_AscendantLowEnergy) {
+        return true;
+    }
+
+    if ((CMAlarakCombatCooldownPending(player) == true) && (CMAlarakHeroNearUnit(player, aiUnit) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkAlarakCoop (int player, unit aiUnit, unitgroup scanGroup) {
+    bool hasSupport;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMAlarak_AB_DeadlyCharge) == true) {
+        ord = CMAlarakKnockbackOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+        }
+        return;
+    }
+
+    if (CMAlarakHeroBusy(aiUnit) == true) {
+        return;
+    }
+
+    hasSupport = CMAlarakHasNearbyCombatAlly(player, aiUnit);
+    if (hasSupport == false) {
+        ord = CMAlarakKnockbackOrder(player, aiUnit, scanGroup);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+
+        if (CMAlarakKiteFromEnemy(player, aiUnit, scanGroup) == true) {
+            return;
+        }
+
+        if (AIEvalTacticalData(aiUnit, null) == true) {
+            return;
+        }
+        return;
+    }
+
+    ord = CMAlarakDeadlyChargeOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMAlarakKnockbackOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    if (CMAlarakHasEnemy(player, scanGroup) == true) {
+        ord = CMAlarakInstantOrder(player, aiUnit, c_CMAlarak_AB_Empower);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    if (AIEvalTacticalData(aiUnit, null) == true) {
+        return;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkAlarakAscendant (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed mindBlastDamage;
+    order ord;
+
+    if (AITacticalAutoCastOffForUnit(aiUnit) == true) {
+        return;
+    }
+
+    if (CMAlarakUnitBusy(aiUnit) == true) {
+        return;
+    }
+
+    if (CMAlarakAscendantShouldSacrifice(player, aiUnit) == true) {
+        ord = CMAlarakInstantOrder(player, aiUnit, c_CMAlarak_AB_SacrificeInstant);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    mindBlastDamage = AIEffectFixed(player, c_CMAlarak_EF_MindBlastDamage, c_fieldAmount);
+    if (mindBlastDamage <= 0.0) {
+        mindBlastDamage = 200.0;
+    }
+
+    ord = CMAlarakBestUnitOrder(player, aiUnit, scanGroup, c_CMAlarak_AB_MindBlast, mindBlastDamage, 13.0);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMAlarakBestPointOrder(player, aiUnit, scanGroup, c_CMAlarak_AB_PsiOrb, c_CMAlarak_EF_PsiOrbSearch, c_CMAlarak_PsiOrbDamage, 13.0, 5.0);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    if (AIEvalTacticalData(aiUnit, null) == true) {
+        return;
+    }
+}

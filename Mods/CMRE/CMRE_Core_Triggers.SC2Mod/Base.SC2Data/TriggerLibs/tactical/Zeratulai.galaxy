@@ -1,0 +1,706 @@
+//--------------------------------------------------------------------------------------------------
+//  Zeratul tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMZeratul_TU_Zeratul = "ZeratulCoop";
+const string c_CMZeratul_TU_Stalker = "ZeratulStalker";
+const string c_CMZeratul_TU_Sentry = "ZeratulSentry";
+const string c_CMZeratul_TU_DarkTemplar = "ZeratulDarkTemplar";
+const string c_CMZeratul_TU_Immortal = "ZeratulImmortal";
+const string c_CMZeratul_TU_PhotonCannonProjection = "ZeratulPhotonCannonProjection";
+const string c_CMZeratul_TU_MonolithProjection = "ZeratulKhaydarinMonolithProjection";
+const string c_CMZeratul_AB_ZeratulBlink = "ZeratulBlink";
+const string c_CMZeratul_AB_ZeratulTeleport = "ZeratulTeleport";
+const string c_CMZeratul_AB_ShadowCleave = "ZeratulShadowCleave";
+const string c_CMZeratul_AB_StalkerBlink = "ZeratulStalkerBlink";
+const string c_CMZeratul_AB_ReflectionShield = "ZeratulReflectionShield";
+const string c_CMZeratul_AB_DarkTemplarBlink = "ZeratulDarkTemplarBlink";
+const string c_CMZeratul_AB_ImmortalBarrier = "ZeratulImmortalBarrierBase";
+const string c_CMZeratul_AB_PhaseCannonProjection = "PhaseCannonProjection";
+const string c_CMZeratul_AB_MonolithProjection = "ZeratulKhaydarinMonolithProjection";
+const string c_CMZeratul_AB_PhaseMode = "ZeratulPhasingMode";
+const string c_CMZeratul_AB_TransportMode = "ZeratulWarpPrismTransportMode";
+const string c_CMZeratul_EF_ShadowCleaveSearch = "ZeratulShadowCleaveSearch";
+const string c_CMZeratul_BE_ReflectionShield = "ZeratulReflectionShield";
+const fixed c_CMZeratul_GlobalRange = 500.0;
+const fixed c_CMZeratul_ZeratulBlinkRange = 8.0;
+const fixed c_CMZeratul_ZeratulTeleportRetreat = 22.0;
+const fixed c_CMZeratul_StalkerBlinkRange = 8.0;
+const fixed c_CMZeratul_DarkTemplarBlinkRange = 11.0;
+const fixed c_CMZeratul_RetreatLowVitality = 35.0;
+const fixed c_CMZeratul_StalkerAggressiveVitality = 60.0;
+const fixed c_CMZeratul_CleaveEmergencyVitality = 55.0;
+const fixed c_CMZeratul_SentryEngageRange = 8.5;
+const fixed c_CMZeratul_SentryShieldConflictRange = 7.5;
+const fixed c_CMZeratul_ImmortalBarrierLife = 50.0;
+const fixed c_CMZeratul_ProjectionConflictRange = 7.0;
+const fixed c_CMZeratul_MonolithConflictRange = 9.0;
+const fixed c_CMZeratul_WarpPrismAuraRadius = 5.5;
+const int c_CMZeratul_ShadowCleaveMinHits = 2;
+const int c_CMZeratul_ShadowCleaveDamage = 100;
+const int c_CMZeratul_ProjectionMinHits = 1;
+
+//--------------------------------------------------------------------------------------------------
+bool CMZeratulAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMZeratulAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMZeratulEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = AIEffectFixed(player, effectLink, c_fieldRadius);
+    }
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMZeratulEffectFilters (int player, string effectLink, string fallbackFilters) {
+    string filters;
+
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    if (StringEqual(filters, "", true) == true) {
+        filters = fallbackFilters;
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMZeratulFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMZeratulGlobalEnemyGroup (int player, unit aiUnit, string filters, fixed range) {
+    if (StringEqual(filters, "", true) == false) {
+        return UnitGroupAlliance(player, c_unitAllianceEnemy, RegionCircle(UnitGetPosition(aiUnit), range), UnitFilterStr(filters), c_noMaxCount);
+    }
+
+    return UnitGroupAlliance(player, c_unitAllianceEnemy, RegionCircle(UnitGetPosition(aiUnit), range), null, c_noMaxCount);
+}
+
+//--------------------------------------------------------------------------------------------------
+int CMZeratulEnemyCountInRange (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup enemyGroup;
+
+    enemyGroup = CMZeratulFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range);
+    if (enemyGroup == null) {
+        return 0;
+    }
+
+    return UnitGroupCount(enemyGroup, c_unitCountAlive);
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMZeratulClosestEnemy (int player, unit aiUnit, unitgroup scanGroup, fixed range) {
+    fixed distance;
+    fixed bestDistance;
+    int count;
+    unit enemyUnit;
+    unit bestUnit;
+    unitgroup enemyGroup;
+
+    bestDistance = 99999.0;
+    bestUnit = null;
+    enemyGroup = CMZeratulFilteredEnemyGroup(player, aiUnit, scanGroup, "", range);
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    count = UnitGroupCount(enemyGroup, c_unitCountAlive);
+    while (count > 0) {
+        enemyUnit = UnitGroupUnit(enemyGroup, count);
+        count = count - 1;
+        distance = DistanceBetweenPoints(UnitGetPosition(aiUnit), UnitGetPosition(enemyUnit));
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestUnit = enemyUnit;
+        }
+    }
+
+    return bestUnit;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMZeratulStrategicTargetScore (unit targetUnit, bool preferStructure, bool preferMassive) {
+    fixed score;
+    string unitType;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    unitType = UnitGetType(targetUnit);
+    score = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if ((preferStructure == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeStructure) == true)) {
+        score = score + 220.0;
+    }
+    if ((preferMassive == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true)) {
+        score = score + 160.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeHeroic) == true) {
+        score = score + 240.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeArmored) == true) {
+        score = score + 80.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMZeratulBestEnemyByScore (int player, unit aiUnit, unitgroup enemyGroup, bool preferStructure, bool preferMassive) {
+    fixed targetScore;
+    fixed bestScore;
+    int count;
+    unit enemyUnit;
+    unit bestUnit;
+
+    bestScore = 0.0;
+    bestUnit = null;
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    count = UnitGroupCount(enemyGroup, c_unitCountAlive);
+    while (count > 0) {
+        enemyUnit = UnitGroupUnit(enemyGroup, count);
+        count = count - 1;
+        targetScore = CMZeratulStrategicTargetScore(enemyUnit, preferStructure, preferMassive);
+        if (targetScore > bestScore) {
+            bestScore = targetScore;
+            bestUnit = enemyUnit;
+        }
+    }
+
+    return bestUnit;
+}
+
+//--------------------------------------------------------------------------------------------------
+point CMZeratulPointNearTarget (unit aiUnit, unit targetUnit, fixed maxDistance, fixed targetOffset) {
+    fixed angle;
+    fixed distance;
+    point here;
+    point targetPoint;
+
+    if (targetUnit == null) {
+        return null;
+    }
+
+    here = UnitGetPosition(aiUnit);
+    targetPoint = UnitGetPosition(targetUnit);
+    distance = DistanceBetweenPoints(here, targetPoint);
+    angle = AngleBetweenPoints(here, targetPoint);
+    if (distance > maxDistance) {
+        return PointWithOffsetPolar(here, maxDistance, angle);
+    }
+
+    return PointWithOffsetPolar(targetPoint, targetOffset, AngleBetweenPoints(targetPoint, here));
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulPointOrderAt (int player, unit aiUnit, string abilityLink, point targetPoint) {
+    order ord;
+
+    if ((targetPoint == null) || (CMZeratulAbilityExists(aiUnit, abilityLink) == false)) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulInstantOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (CMZeratulAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulRetreatOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed scanRange, fixed retreatDistance) {
+    fixed angle;
+    point here;
+    point targetPoint;
+    unit enemyUnit;
+    order ord;
+
+    enemyUnit = CMZeratulClosestEnemy(player, aiUnit, scanGroup, scanRange);
+    if (enemyUnit == null) {
+        return null;
+    }
+
+    here = UnitGetPosition(aiUnit);
+    angle = AngleBetweenPoints(UnitGetPosition(enemyUnit), here);
+    targetPoint = PointWithOffsetPolar(here, retreatDistance, angle);
+    ord = CMZeratulPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+    if (ord != null) {
+        return ord;
+    }
+
+    targetPoint = PointWithOffsetPolar(here, retreatDistance * 0.65, angle);
+    ord = CMZeratulPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+    if (ord != null) {
+        return ord;
+    }
+
+    targetPoint = PointWithOffsetPolar(here, retreatDistance * 0.4, angle);
+    return CMZeratulPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulChaseBlinkOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed scanRange, fixed blinkRange, fixed targetOffset) {
+    point targetPoint;
+    unit targetUnit;
+
+    targetUnit = CMZeratulClosestEnemy(player, aiUnit, scanGroup, scanRange);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    targetPoint = CMZeratulPointNearTarget(aiUnit, targetUnit, blinkRange, targetOffset);
+    return CMZeratulPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulShadowCleaveOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed radius;
+    fixed vitality;
+    int enemyCount;
+    string filters;
+
+    if (CMZeratulAbilityExists(aiUnit, c_CMZeratul_AB_ShadowCleave) == false) {
+        return null;
+    }
+
+    radius = CMZeratulEffectRadius(player, c_CMZeratul_EF_ShadowCleaveSearch, 3.0);
+    filters = CMZeratulEffectFilters(player, c_CMZeratul_EF_ShadowCleaveSearch, "Ground;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable");
+    enemyCount = CMZeratulEnemyCountInRange(player, aiUnit, scanGroup, filters, radius + 0.5);
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (enemyCount >= c_CMZeratul_ShadowCleaveMinHits) {
+        return CMZeratulInstantOrder(player, aiUnit, c_CMZeratul_AB_ShadowCleave);
+    }
+    if ((enemyCount >= 1) && (vitality <= c_CMZeratul_CleaveEmergencyVitality)) {
+        return CMZeratulInstantOrder(player, aiUnit, c_CMZeratul_AB_ShadowCleave);
+    }
+
+    return null;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMZeratulNearbySentryShieldActive (int player, unit aiUnit) {
+    int count;
+    unit allyUnit;
+    unitgroup allyGroup;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), c_CMZeratul_SentryShieldConflictRange), null, c_noMaxCount);
+    count = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (count > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, count);
+        count = count - 1;
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == c_CMZeratul_TU_Sentry) && (UnitHasBehavior2(allyUnit, c_CMZeratul_BE_ReflectionShield) == true)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulReflectionShieldOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    int enemyCount;
+
+    if (UnitHasBehavior2(aiUnit, c_CMZeratul_BE_ReflectionShield) == true) {
+        return null;
+    }
+    if (CMZeratulNearbySentryShieldActive(player, aiUnit) == true) {
+        return null;
+    }
+
+    enemyCount = CMZeratulEnemyCountInRange(player, aiUnit, scanGroup, "Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable", c_CMZeratul_SentryEngageRange);
+    if (enemyCount <= 0) {
+        return null;
+    }
+
+    return CMZeratulInstantOrder(player, aiUnit, c_CMZeratul_AB_ReflectionShield);
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMZeratulHasProjectionConflict (int player, unit aiUnit, string projectionType, string abilityLink, point targetPoint, fixed conflictRange) {
+    int count;
+    unit allyUnit;
+    unitgroup allyGroup;
+    point orderPoint;
+    order curOrder;
+
+    if (targetPoint == null) {
+        return true;
+    }
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(targetPoint, conflictRange), null, c_noMaxCount);
+    count = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (count > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, count);
+        count = count - 1;
+        if ((allyUnit != aiUnit) && (UnitGetType(allyUnit) == projectionType)) {
+            return true;
+        }
+    }
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), c_CMZeratul_GlobalRange), null, c_noMaxCount);
+    count = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (count > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, count);
+        count = count - 1;
+        if ((allyUnit != aiUnit) && (UnitOrderHasAbil(allyUnit, abilityLink) == true)) {
+            curOrder = UnitOrder(allyUnit, 0);
+            if (curOrder != null) {
+                orderPoint = OrderGetTargetPoint(curOrder);
+                if (orderPoint != null) {
+                    if (DistanceBetweenPoints(orderPoint, targetPoint) <= conflictRange) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulProjectionOrder (int player, unit aiUnit, string abilityLink, string projectionType, fixed conflictRange, bool preferStructure, bool preferMassive) {
+    fixed radius;
+    fixed range;
+    point targetPoint;
+    unit targetUnit;
+    unitgroup enemyGroup;
+    order ord;
+
+    if (CMZeratulAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMZeratulAbilityRange(player, abilityLink, c_CMZeratul_GlobalRange);
+    enemyGroup = CMZeratulGlobalEnemyGroup(player, aiUnit, "Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable", range);
+    targetUnit = CMZeratulBestEnemyByScore(player, aiUnit, enemyGroup, preferStructure, preferMassive);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    radius = conflictRange * 0.5;
+    targetPoint = AIBestTargetPoint(enemyGroup, c_CMZeratul_ProjectionMinHits, c_CMZeratul_ShadowCleaveDamage, 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        targetPoint = UnitGetPosition(targetUnit);
+    }
+
+    if (CMZeratulHasProjectionConflict(player, aiUnit, projectionType, abilityLink, targetPoint, conflictRange) == true) {
+        targetPoint = UnitGetPosition(targetUnit);
+        if (CMZeratulHasProjectionConflict(player, aiUnit, projectionType, abilityLink, targetPoint, conflictRange) == true) {
+            return null;
+        }
+    }
+
+    ord = CMZeratulPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMZeratulAllyNeedsShieldAura (int player, unit aiUnit, fixed range) {
+    fixed shields;
+    fixed shieldsMax;
+    int count;
+    unit allyUnit;
+    unitgroup allyGroup;
+
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), range), null, c_noMaxCount);
+    count = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (count > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, count);
+        count = count - 1;
+        if (allyUnit != aiUnit) {
+            shields = UnitGetPropertyFixed(allyUnit, c_unitPropShields, c_unitPropCurrent);
+            shieldsMax = UnitGetPropertyFixed(allyUnit, c_unitPropShieldsMax, c_unitPropCurrent);
+            if ((shieldsMax > 0.0) && (shields + 20.0 < shieldsMax)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMZeratulWarpPrismPhaseOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMZeratulAbilityExists(aiUnit, c_CMZeratul_AB_PhaseMode) == false) {
+        return null;
+    }
+
+    if (CMZeratulAllyNeedsShieldAura(player, aiUnit, c_CMZeratul_WarpPrismAuraRadius) == false) {
+        return null;
+    }
+
+    return CMZeratulInstantOrder(player, aiUnit, c_CMZeratul_AB_PhaseMode);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulCoop (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    order ord;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_ZeratulBlink) == true) || (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_ZeratulTeleport) == true) || (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_ShadowCleave) == true)) {
+        return;
+    }
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (vitality <= c_CMZeratul_RetreatLowVitality) {
+        ord = CMZeratulRetreatOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_ZeratulTeleport, c_CMZeratul_GlobalRange, c_CMZeratul_ZeratulTeleportRetreat);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castRetreat);
+            return;
+        }
+        ord = CMZeratulRetreatOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_ZeratulBlink, c_CMZeratul_GlobalRange, c_CMZeratul_ZeratulBlinkRange);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castRetreat);
+            return;
+        }
+    }
+
+    ord = CMZeratulShadowCleaveOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    ord = CMZeratulChaseBlinkOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_ZeratulBlink, c_CMZeratul_ZeratulBlinkRange + 4.0, c_CMZeratul_ZeratulBlinkRange, 1.25);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulStalker (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_StalkerBlink) == true) {
+        return;
+    }
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (vitality <= c_CMZeratul_RetreatLowVitality) {
+        ord = CMZeratulRetreatOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_StalkerBlink, c_CMZeratul_StalkerBlinkRange + 5.0, c_CMZeratul_StalkerBlinkRange);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castRetreat);
+            return;
+        }
+    }
+
+    if (vitality >= c_CMZeratul_StalkerAggressiveVitality) {
+        ord = CMZeratulChaseBlinkOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_StalkerBlink, c_CMZeratul_StalkerBlinkRange + 5.0, c_CMZeratul_StalkerBlinkRange, 2.25);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulSentry (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_ReflectionShield) == true) {
+        return;
+    }
+
+    ord = CMZeratulReflectionShieldOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulDarkTemplar (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed vitality;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_DarkTemplarBlink) == true) {
+        return;
+    }
+
+    vitality = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    if (vitality <= c_CMZeratul_RetreatLowVitality) {
+        ord = CMZeratulRetreatOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_DarkTemplarBlink, c_CMZeratul_DarkTemplarBlinkRange + 5.0, c_CMZeratul_DarkTemplarBlinkRange);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castRetreat);
+            return;
+        }
+    }
+
+    ord = CMZeratulChaseBlinkOrder(player, aiUnit, scanGroup, c_CMZeratul_AB_DarkTemplarBlink, c_CMZeratul_DarkTemplarBlinkRange + 5.0, c_CMZeratul_DarkTemplarBlinkRange, 0.75);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulImmortal (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed lifePercent;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_ImmortalBarrier) == true) {
+        return;
+    }
+
+    lifePercent = UnitGetPropertyFixed(aiUnit, c_unitPropLifePercent, c_unitPropCurrent);
+    if (lifePercent <= c_CMZeratul_ImmortalBarrierLife) {
+        ord = CMZeratulInstantOrder(player, aiUnit, c_CMZeratul_AB_ImmortalBarrier);
+        if (ord != null) {
+            AICast(aiUnit, ord, c_noMarker, c_castHold);
+            return;
+        }
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulPhotonCannon (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_PhaseCannonProjection) == true) {
+        return;
+    }
+
+    ord = CMZeratulProjectionOrder(player, aiUnit, c_CMZeratul_AB_PhaseCannonProjection, c_CMZeratul_TU_PhotonCannonProjection, c_CMZeratul_ProjectionConflictRange, false, false);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulKhaydarinMonolith (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_MonolithProjection) == true) {
+        return;
+    }
+
+    ord = CMZeratulProjectionOrder(player, aiUnit, c_CMZeratul_AB_MonolithProjection, c_CMZeratul_TU_MonolithProjection, c_CMZeratul_MonolithConflictRange, false, true);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulWarpPrism (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_PhaseMode) == true) {
+        return;
+    }
+
+    ord = CMZeratulWarpPrismPhaseOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkZeratulWarpPrismPhasing (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMZeratul_AB_TransportMode) == true) {
+        return;
+    }
+
+    if (CMZeratulAllyNeedsShieldAura(player, aiUnit, c_CMZeratul_WarpPrismAuraRadius) == true) {
+        return;
+    }
+
+    ord = CMZeratulInstantOrder(player, aiUnit, c_CMZeratul_AB_TransportMode);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    return;
+}

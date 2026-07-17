@@ -1,0 +1,3282 @@
+// CM Storm Commander shared systems.
+
+const fixed CMSC_HERO_FIRST_WAVE_TIME = 0.0;
+const int CMSC_PANEL_ABILITY_MAX = 4;
+const int CMSC_NOVA_ABILITY_DEFENSIVE_DRONE = 1;
+const int CMSC_NOVA_ABILITY_GRIFFIN_AIRSTRIKE = 2;
+const int CMSC_NOVA_ABILITY_GRIFFIN_TRANSPORT = 3;
+const int CMSC_NOVA_ABILITY_RAPID_RECOVERY = 4;
+const int CMSC_ARTANIS_ABILITY_POWER_FIELD = 1;
+const int CMSC_ARTANIS_ABILITY_ORBITAL_STRIKE = 2;
+const int CMSC_ARTANIS_ABILITY_SHIELD_OVERCHARGE = 3;
+const int CMSC_ARTANIS_ABILITY_SOLAR_BOMBARDMENT = 4;
+const int CMSC_STUKOV_ABILITY_SPREAD_PLAGUE = 1;
+const int CMSC_STUKOV_ABILITY_INFEST_STRUCTURE = 2;
+const int CMSC_STUKOV_ABILITY_APOCALISK = 3;
+const int CMSC_STUKOV_ABILITY_ALEKSANDER = 4;
+const fixed CMSC_ARTANIS_POWER_FIELD_REPLACE_DELAY = 2.0;
+const fixed CMSC_ARTANIS_POWER_FIELD_SETTLE_DELAY = 0.5;
+const int CMSC_PANEL_STATE_NONE = 0;
+const int CMSC_PANEL_STATE_LOCKED = 1;
+const int CMSC_PANEL_STATE_COOLING = 2;
+const int CMSC_PANEL_STATE_READY = 3;
+
+int CMSC_gv_CommanderOwner = 0;
+string CMSC_gv_HeroUnitType = "";
+unit CMSC_gv_HeroUnit = null;
+unit CMSC_gv_PanelCaster = null;
+unit CMSC_gv_NovaGhostAcademy = null;
+bool CMSC_gv_PanelAbilitiesLoaded = false;
+bool CMSC_gv_PreplacedEnemyBehaviorsApplied = false;
+bool CMSC_gv_RapidRecoveryPending = false;
+string[5] CMSC_gv_PanelAbility;
+fixed[5] CMSC_gv_PanelAbilityUnlockTime;
+fixed[5] CMSC_gv_PanelAbilityMinimumUseInterval;
+fixed[5] CMSC_gv_PanelAbilityChargeRecoveryTime;
+fixed[5] CMSC_gv_PanelAbilityActivationDelay;
+fixed[5] CMSC_gv_PanelAbilityNextUseTime;
+fixed[5] CMSC_gv_PanelAbilityNextChargeTime;
+int[5] CMSC_gv_PanelAbilityCharges;
+int[5] CMSC_gv_PanelAbilityMaximumCharges;
+int[5] CMSC_gv_PanelAbilityChargeRecoveryAmount;
+int CMSC_gv_PanelUI = c_invalidDialogControlId;
+int[5] CMSC_gv_PanelUISlot;
+int[5] CMSC_gv_PanelUIIcon;
+int[5] CMSC_gv_PanelUICooldownMask;
+int[5] CMSC_gv_PanelUICooldownFinishedImage;
+int[5] CMSC_gv_PanelUIChargeLabel;
+int[5] CMSC_gv_PanelUIPreviousState;
+bool[5] CMSC_gv_PanelUIUnlockWarningSent;
+bool[5] CMSC_gv_PanelUICooldownWarningSent;
+int CMSC_gv_PanelUIPreviousWaveTimerCount = -1;
+trigger CMSC_gt_AttackWave = null;
+trigger CMSC_gt_UnitDamaged = null;
+trigger CMSC_gt_NovaHeroDied = null;
+trigger CMSC_gt_PanelAbilityMonitor = null;
+trigger CMSC_gt_PanelUIUpdate = null;
+trigger CMSC_gt_ArtanisSolarBombardment = null;
+point CMSC_gv_ArtanisSolarBombardmentTarget = null;
+unit CMSC_gv_ArtanisEngagedWaveUnit = null;
+unit CMSC_gv_ArtanisEngagedTarget = null;
+bool CMSC_gv_ArtanisPowerFieldPending = false;
+bool CMSC_gv_StukovInitialized = false;
+int CMSC_gv_StukovInfestedTideNotificationStage = 0;
+unit CMSC_gv_StukovApocalisk = null;
+unit CMSC_gv_StukovAleksander = null;
+point CMSC_gv_StukovApocaliskLastDeathPoint = null;
+point CMSC_gv_StukovAleksanderLastDeathPoint = null;
+bool CMSC_gv_StukovAleksanderCrashed = false;
+trigger CMSC_gt_StukovSpreadPlaguePulse = null;
+trigger CMSC_gt_StukovBunkerSpawn = null;
+
+bool CMSC_gf_PlayerIsValid (int lp_player) {
+    return ((lp_player >= 1) && (lp_player <= 16));
+}
+
+bool CMSC_gf_AICommanderCanOwnStormSystems (string lp_aiCommander) {
+    string lv_baseCommander;
+
+    if (((lp_aiCommander == null)
+        || (lp_aiCommander == "")
+        || (lp_aiCommander == "None")
+        || (lp_aiCommander == "[Default]"))) {
+        return false;
+    }
+    if ((UserDataGetUserInstance(
+        "CoopAICommanders", lp_aiCommander, "Faction", 1
+    ) != "EnemyCommander")) {
+        return false;
+    }
+
+    lv_baseCommander = UserDataGetUserInstance(
+        "CoopAICommanders", lp_aiCommander, "BaseCommander", 1
+    );
+    return ((lv_baseCommander != null)
+        && (lv_baseCommander != "")
+        && (lv_baseCommander != "None")
+        && (lv_baseCommander != "[Default]"));
+}
+
+int CMSC_CommanderOwner () {
+    int lv_player;
+    string lv_aiCommander;
+
+    if ((CMSC_gv_CommanderOwner != 0)) {
+        return CMSC_gv_CommanderOwner;
+    }
+
+    lv_player = 3;
+    while ((lv_player <= libCOMI_gv_cMC_CoopAI_HighestPlayerIndex)) {
+        lv_aiCommander = libCOMI_gv_cM_CoopAIPlayer_Commander[lv_player];
+        if (((PlayerType(lv_player) == c_playerTypeComputer)
+            && (CMSC_gf_AICommanderCanOwnStormSystems(lv_aiCommander) == true))) {
+            CMSC_gv_CommanderOwner = lv_player;
+            return lv_player;
+        }
+        lv_player += 1;
+    }
+    return 0;
+}
+
+bool CMSC_gf_StukovIsActive () {
+    string lv_aiCommander;
+    int lv_aiUniqueIndex;
+    int lv_owner;
+
+    if ((libCOMI_gv_cM_CoopAIPlayer_CommanderShared == "ZergStukov")) {
+        return true;
+    }
+    lv_owner = CMSC_CommanderOwner();
+    if (((lv_owner != 0)
+        && (libCOMI_gv_cM_CoopAIPlayer_Commander[lv_owner] == "ZergStukov"))) {
+        return true;
+    }
+
+    lv_aiUniqueIndex = PlayerACEnemyWaveType(1);
+    if ((lv_aiUniqueIndex <= 0)) {
+        return false;
+    }
+    lv_aiCommander = libCOOC_gf_CC_AICommanderByUniqueIndex(
+        lv_aiUniqueIndex
+    );
+    return lv_aiCommander == "ZergStukov";
+}
+
+bool CMSC_gf_ApplyStukovCreep () {
+    if ((CMSC_gv_StukovInitialized == true)) {
+        return true;
+    }
+    if ((CMSC_gf_StukovIsActive() == false)) {
+        return false;
+    }
+
+    CreepModify(
+        RegionGetCenter(RegionPlayableMap()),
+        512.0,
+        true,
+        true
+    );
+    CMSC_gv_StukovInitialized = true;
+    return true;
+}
+
+bool CMSC_gf_StukovSummonIsActive (int lp_slot) {
+    if ((CMSC_gf_StukovIsActive() == false)) {
+        return false;
+    }
+    if ((lp_slot == CMSC_STUKOV_ABILITY_APOCALISK)) {
+        return ((CMSC_gv_StukovApocalisk != null)
+            && (UnitIsAlive(CMSC_gv_StukovApocalisk) == true));
+    }
+    if ((lp_slot == CMSC_STUKOV_ABILITY_ALEKSANDER)) {
+        return ((CMSC_gv_StukovAleksander != null)
+            && (UnitIsAlive(CMSC_gv_StukovAleksander) == true));
+    }
+    return false;
+}
+
+unit CMSC_gf_NovaEnsureGhostAcademy () {
+    int lv_owner;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((lv_owner == 0)) {
+        return null;
+    }
+    if ((libCOMI_gv_cM_CoopAIPlayer_Commander[lv_owner] != "TerranNova")) {
+        return null;
+    }
+    if (((CMSC_gv_NovaGhostAcademy != null)
+        && (UnitIsValid(CMSC_gv_NovaGhostAcademy) == true)
+        && (UnitIsAlive(CMSC_gv_NovaGhostAcademy) == true))) {
+        return CMSC_gv_NovaGhostAcademy;
+    }
+
+    UnitCreate(
+        1,
+        "GhostAcademyNova",
+        c_unitCreateIgnorePlacement,
+        lv_owner,
+        Point(0.0, 0.0),
+        270.0
+    );
+    CMSC_gv_NovaGhostAcademy = UnitLastCreated();
+    if ((CMSC_gv_NovaGhostAcademy == null)) {
+        return null;
+    }
+
+    AISetUnitScriptControlled(CMSC_gv_NovaGhostAcademy, true);
+    UnitSetState(CMSC_gv_NovaGhostAcademy, c_unitStateVisionSuppressed, true);
+    UnitSetState(CMSC_gv_NovaGhostAcademy, c_unitStateInvulnerable, true);
+    UnitSetState(CMSC_gv_NovaGhostAcademy, c_unitStateTargetable, false);
+    UnitSetState(CMSC_gv_NovaGhostAcademy, c_unitStateSelectable, false);
+    UnitSetState(CMSC_gv_NovaGhostAcademy, c_unitStateStatusBar, false);
+    return CMSC_gv_NovaGhostAcademy;
+}
+
+bool CMSC_gf_PlayerIsCommanderEnemy (int lp_player) {
+    int lv_commanderPlayer;
+    playergroup lv_commanderPlayers;
+
+    lv_commanderPlayers = libCOOC_gf_CommanderPlayers();
+    lv_commanderPlayer = 1;
+    while ((lv_commanderPlayer <= c_maxPlayers)) {
+        if ((PlayerGroupHasPlayer(
+            lv_commanderPlayers,
+            lv_commanderPlayer
+        ) == true)) {
+            if ((libNtve_gf_PlayerIsEnemy(
+                lv_commanderPlayer,
+                lp_player,
+                libNtve_ge_PlayerRelation_Enemy
+            ) == true)) {
+                return true;
+            }
+        }
+        lv_commanderPlayer += 1;
+    }
+    return false;
+}
+
+bool CMSC_gf_ApplyPreplacedEnemyBehaviorController () {
+    int lv_index;
+    int lv_count;
+    unit lv_unit;
+    unitgroup lv_units;
+
+    if ((CMSC_gv_PreplacedEnemyBehaviorsApplied == true)) {
+        return true;
+    }
+    if ((PlayerGroupCount(libCOOC_gf_CommanderPlayers()) <= 0)) {
+        return false;
+    }
+
+    lv_units = UnitGroup(
+        null,
+        c_playerAny,
+        RegionEntireMap(),
+        UnitFilter(
+            0,
+            0,
+            ((1 << c_targetFilterMissile)
+                | (1 << c_targetFilterStructure)),
+            (1 << (c_targetFilterDead - 32))
+        ),
+        0
+    );
+    lv_count = UnitGroupCount(lv_units, c_unitCountAlive);
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        if ((CMSC_gf_PlayerIsCommanderEnemy(UnitGetOwner(lv_unit)) == true)) {
+            // Retrigger the initial effect after commander upgrades are available.
+            UnitBehaviorRemove(
+                lv_unit,
+                "AllUnitBehaviorController",
+                c_unitBehaviorCountAll
+            );
+            UnitBehaviorAddPlayer(
+                lv_unit,
+                "AllUnitBehaviorController",
+                UnitGetOwner(lv_unit),
+                1
+            );
+        }
+        lv_index += 1;
+    }
+    CMSC_gv_PreplacedEnemyBehaviorsApplied = true;
+    return true;
+}
+
+bool CMSC_gf_LoadPanelAbilities () {
+    int lv_owner;
+    int lv_slot;
+    int lv_initialCharges;
+    string lv_aiCommander;
+    string lv_ability;
+
+    CMSC_gf_NovaEnsureGhostAcademy();
+    if ((CMSC_gv_PanelAbilitiesLoaded == true)) {
+        return true;
+    }
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((lv_owner == 0)) {
+        return false;
+    }
+    lv_aiCommander = libCOMI_gv_cM_CoopAIPlayer_Commander[lv_owner];
+    if (((lv_aiCommander == null) || (lv_aiCommander == "") || (lv_aiCommander == "None"))) {
+        return false;
+    }
+    CMSC_gf_ApplyStukovCreep();
+    if ((CMSC_gf_ApplyPreplacedEnemyBehaviorController() == false)) {
+        return false;
+    }
+
+    lv_slot = 1;
+    while ((lv_slot <= CMSC_PANEL_ABILITY_MAX)) {
+        lv_ability = UserDataGetUserInstance(
+            "CoopAICommanders",
+            lv_aiCommander,
+            "AIAbility",
+            lv_slot
+        );
+        CMSC_gv_PanelAbility[lv_slot] = lv_ability;
+        if (((lv_ability != null) && (lv_ability != "") && (lv_ability != "[Default]"))) {
+            CMSC_gv_PanelAbilityUnlockTime[lv_slot] = UserDataGetFixed(
+                "CoopAIAbilities", lv_ability, "UnlockTime", 1
+            );
+            CMSC_gv_PanelAbilityMinimumUseInterval[lv_slot] = UserDataGetFixed(
+                "CoopAIAbilities", lv_ability, "MinimumUseInterval", 1
+            );
+            CMSC_gv_PanelAbilityChargeRecoveryTime[lv_slot] = UserDataGetFixed(
+                "CoopAIAbilities", lv_ability, "ChargeRecoveryTime", 1
+            );
+            CMSC_gv_PanelAbilityChargeRecoveryAmount[lv_slot] = MaxI(
+                UserDataGetInt(
+                    "CoopAIAbilities", lv_ability, "ChargeRecoveryAmount", 1
+                ),
+                1
+            );
+            CMSC_gv_PanelAbilityActivationDelay[lv_slot] = UserDataGetFixed(
+                "CoopAIAbilities", lv_ability, "ActivationDelay", 1
+            );
+            CMSC_gv_PanelAbilityMaximumCharges[lv_slot] = MaxI(
+                UserDataGetInt("CoopAIAbilities", lv_ability, "MaximumCharges", 1),
+                1
+            );
+            lv_initialCharges = UserDataGetInt(
+                "CoopAIAbilities", lv_ability, "InitialCharges", 1
+            );
+            CMSC_gv_PanelAbilityCharges[lv_slot] = MinI(
+                MaxI(lv_initialCharges, 0),
+                CMSC_gv_PanelAbilityMaximumCharges[lv_slot]
+            );
+            if (((CMSC_gv_PanelAbilityCharges[lv_slot]
+                < CMSC_gv_PanelAbilityMaximumCharges[lv_slot])
+                && (CMSC_gv_PanelAbilityChargeRecoveryTime[lv_slot] > 0.0))) {
+                CMSC_gv_PanelAbilityNextChargeTime[lv_slot]
+                    = MaxF(
+                        GameGetMissionTime(),
+                        CMSC_gv_PanelAbilityUnlockTime[lv_slot]
+                    ) + CMSC_gv_PanelAbilityChargeRecoveryTime[lv_slot];
+            }
+        }
+        lv_slot += 1;
+    }
+
+    CMSC_gv_PanelAbilitiesLoaded = true;
+    return true;
+}
+
+bool CMSC_PanelAbilityExists (int lp_slot) {
+    if (((lp_slot < 1) || (lp_slot > CMSC_PANEL_ABILITY_MAX))) {
+        return false;
+    }
+    if ((CMSC_gf_LoadPanelAbilities() == false)) {
+        return false;
+    }
+    return ((CMSC_gv_PanelAbility[lp_slot] != null)
+        && (CMSC_gv_PanelAbility[lp_slot] != "")
+        && (CMSC_gv_PanelAbility[lp_slot] != "[Default]"));
+}
+
+unit CMSC_PanelCaster () {
+    int lv_owner;
+    int lv_slot;
+    bool lv_hasAbility;
+
+    if ((CMSC_gf_LoadPanelAbilities() == false)) {
+        return null;
+    }
+    if (((CMSC_gv_PanelCaster != null)
+        && (UnitIsValid(CMSC_gv_PanelCaster) == true)
+        && (UnitIsAlive(CMSC_gv_PanelCaster) == true))) {
+        return CMSC_gv_PanelCaster;
+    }
+
+    lv_hasAbility = false;
+    lv_slot = 1;
+    while ((lv_slot <= CMSC_PANEL_ABILITY_MAX)) {
+        if ((CMSC_PanelAbilityExists(lv_slot) == true)) {
+            lv_hasAbility = true;
+            break;
+        }
+        lv_slot += 1;
+    }
+    if ((lv_hasAbility == false)) {
+        return null;
+    }
+
+    lv_owner = CMSC_CommanderOwner();
+    libNtve_gf_CreateUnitsWithDefaultFacing(
+        1,
+        "CMStormCommanderPanelCaster",
+        c_unitCreateIgnorePlacement,
+        lv_owner,
+        Point(0.0, 0.0)
+    );
+    CMSC_gv_PanelCaster = UnitLastCreated();
+    AISetUnitScriptControlled(CMSC_gv_PanelCaster, true);
+    return CMSC_gv_PanelCaster;
+}
+
+void CMSC_gf_PanelAbilityUpdateCharges (int lp_slot) {
+    fixed lv_missionTime;
+
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        return;
+    }
+    if ((CMSC_gv_PanelAbilityCharges[lp_slot]
+        >= CMSC_gv_PanelAbilityMaximumCharges[lp_slot])) {
+        CMSC_gv_PanelAbilityNextChargeTime[lp_slot] = 0.0;
+        return;
+    }
+    if ((CMSC_gv_PanelAbilityNextChargeTime[lp_slot] <= 0.0)) {
+        return;
+    }
+
+    lv_missionTime = GameGetMissionTime();
+    while (((CMSC_gv_PanelAbilityCharges[lp_slot]
+        < CMSC_gv_PanelAbilityMaximumCharges[lp_slot])
+        && (lv_missionTime >= CMSC_gv_PanelAbilityNextChargeTime[lp_slot]))) {
+        CMSC_gv_PanelAbilityCharges[lp_slot] = MinI(
+            CMSC_gv_PanelAbilityCharges[lp_slot]
+                + CMSC_gv_PanelAbilityChargeRecoveryAmount[lp_slot],
+            CMSC_gv_PanelAbilityMaximumCharges[lp_slot]
+        );
+        if ((CMSC_gv_PanelAbilityCharges[lp_slot]
+            < CMSC_gv_PanelAbilityMaximumCharges[lp_slot])) {
+            CMSC_gv_PanelAbilityNextChargeTime[lp_slot]
+                += CMSC_gv_PanelAbilityChargeRecoveryTime[lp_slot];
+        }
+        else {
+            CMSC_gv_PanelAbilityNextChargeTime[lp_slot] = 0.0;
+        }
+    }
+}
+
+bool CMSC_PanelAbilityCanUse (int lp_player, int lp_slot) {
+    if ((lp_player != CMSC_CommanderOwner())) {
+        return false;
+    }
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        return false;
+    }
+
+    CMSC_gf_PanelAbilityUpdateCharges(lp_slot);
+    if ((GameGetMissionTime() < CMSC_gv_PanelAbilityUnlockTime[lp_slot])) {
+        return false;
+    }
+    if ((GameGetMissionTime() < CMSC_gv_PanelAbilityNextUseTime[lp_slot])) {
+        return false;
+    }
+    return CMSC_gv_PanelAbilityCharges[lp_slot] > 0;
+}
+
+void CMSC_gf_PanelAbilityPlayUseVoice (int lp_slot) {
+    string lv_soundId;
+
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        return;
+    }
+    lv_soundId = UserDataGetSound(
+        "CoopAIAbilities",
+        CMSC_gv_PanelAbility[lp_slot],
+        "UseVoice",
+        1
+    );
+    if (((lv_soundId == null) || (lv_soundId == ""))) {
+        return;
+    }
+
+    SoundPlayForPlayer(
+        SoundLink(lv_soundId, c_soundIndexAny),
+        1,
+        libCOOC_gf_CommanderPlayers(),
+        100.0,
+        0.0
+    );
+}
+
+bool CMSC_gf_PanelAbilityConsumeAmount (int lp_player, int lp_slot, int lp_amount) {
+    fixed lv_missionTime;
+    bool lv_playUseVoice;
+
+    if ((CMSC_PanelAbilityCanUse(lp_player, lp_slot) == false)) {
+        return false;
+    }
+    if (((lp_amount <= 0)
+        || (CMSC_gv_PanelAbilityCharges[lp_slot] < lp_amount))) {
+        return false;
+    }
+
+    lv_playUseVoice = CMSC_gv_PanelAbility[lp_slot] != "NovaRapidRecovery";
+    if (((CMSC_gv_PanelAbility[lp_slot] == "ArtanisOrbitalStrike")
+        && (CMSC_gv_PanelAbilityCharges[lp_slot]
+            < CMSC_gv_PanelAbilityMaximumCharges[lp_slot]))) {
+        lv_playUseVoice = false;
+    }
+    lv_missionTime = GameGetMissionTime();
+    CMSC_gv_PanelAbilityCharges[lp_slot] -= lp_amount;
+    CMSC_gv_PanelUICooldownWarningSent[lp_slot] = false;
+    CMSC_gv_PanelAbilityNextUseTime[lp_slot]
+        = lv_missionTime + CMSC_gv_PanelAbilityMinimumUseInterval[lp_slot];
+    if (((CMSC_gv_PanelAbilityCharges[lp_slot]
+        < CMSC_gv_PanelAbilityMaximumCharges[lp_slot])
+        && (CMSC_gv_PanelAbilityNextChargeTime[lp_slot] <= 0.0)
+        && (CMSC_gv_PanelAbilityChargeRecoveryTime[lp_slot] > 0.0))) {
+        CMSC_gv_PanelAbilityNextChargeTime[lp_slot]
+            = lv_missionTime + CMSC_gv_PanelAbilityChargeRecoveryTime[lp_slot];
+    }
+    if ((lv_playUseVoice == true)) {
+        CMSC_gf_PanelAbilityPlayUseVoice(lp_slot);
+    }
+    return true;
+}
+
+bool CMSC_PanelAbilityConsume (int lp_player, int lp_slot) {
+    return CMSC_gf_PanelAbilityConsumeAmount(lp_player, lp_slot, 1);
+}
+
+int CMSC_PanelAbilityCharges (int lp_slot) {
+    CMSC_gf_PanelAbilityUpdateCharges(lp_slot);
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        return 0;
+    }
+    return CMSC_gv_PanelAbilityCharges[lp_slot];
+}
+
+fixed CMSC_PanelAbilityActivationDelay (int lp_slot) {
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        return 0.0;
+    }
+    return CMSC_gv_PanelAbilityActivationDelay[lp_slot];
+}
+
+bool CMSC_gf_PanelUIHookup () {
+    int lv_slot;
+
+    if ((CMSC_gv_PanelUI != c_invalidDialogControlId)) {
+        return true;
+    }
+
+    CMSC_gv_PanelUI = DialogControlHookupStandard(
+        c_triggerControlTypePanel,
+        "UIContainer/ConsoleUIContainer/StormCommanderAbilityPanel"
+    );
+    if ((CMSC_gv_PanelUI == c_invalidDialogControlId)) {
+        return false;
+    }
+
+    lv_slot = 1;
+    while ((lv_slot <= CMSC_PANEL_ABILITY_MAX)) {
+        CMSC_gv_PanelUISlot[lv_slot] = DialogControlHookup(
+            CMSC_gv_PanelUI,
+            c_triggerControlTypePanel,
+            "Ability" + IntToString(lv_slot)
+        );
+        CMSC_gv_PanelUIIcon[lv_slot] = DialogControlHookup(
+            CMSC_gv_PanelUISlot[lv_slot],
+            c_triggerControlTypeImage,
+            "Icon"
+        );
+        CMSC_gv_PanelUICooldownMask[lv_slot] = DialogControlHookup(
+            CMSC_gv_PanelUISlot[lv_slot],
+            c_triggerControlTypeImage,
+            "CooldownMask"
+        );
+        CMSC_gv_PanelUICooldownFinishedImage[lv_slot] = DialogControlHookup(
+            CMSC_gv_PanelUISlot[lv_slot],
+            c_triggerControlTypeImage,
+            "CooldownFinishedImage"
+        );
+        libNtve_gf_SetDialogItemAnimationDuration(
+            CMSC_gv_PanelUICooldownMask[lv_slot],
+            1.0,
+            PlayerGroupAll()
+        );
+        CMSC_gv_PanelUIChargeLabel[lv_slot] = DialogControlHookup(
+            CMSC_gv_PanelUISlot[lv_slot],
+            c_triggerControlTypeLabel,
+            "ChargeLabel"
+        );
+        lv_slot += 1;
+    }
+    return true;
+}
+
+void CMSC_gf_PanelUIUpdatePosition () {
+    int lv_activeWindowCount;
+    int lv_relativeControl;
+    int lv_yOffset;
+
+    lv_activeWindowCount = MinI(
+        libCOUI_gv_cU_WaveTimerActiveCount,
+        libCOUI_gv_cUC_WAVETIMERWINDOWMAX
+    );
+    if ((lv_activeWindowCount == CMSC_gv_PanelUIPreviousWaveTimerCount)) {
+        return;
+    }
+
+    if ((libCOUI_gv_cU_WaveTimerWindows[1] == c_invalidDialogControlId)) {
+        return;
+    }
+    if ((lv_activeWindowCount <= 0)) {
+        lv_relativeControl = libCOUI_gv_cU_WaveTimerWindows[1];
+        lv_yOffset = 0;
+        DialogControlSetPositionRelative(
+            CMSC_gv_PanelUI,
+            PlayerGroupAll(),
+            c_anchorTopRight,
+            lv_relativeControl,
+            c_anchorTopRight,
+            0,
+            lv_yOffset
+        );
+    }
+    else {
+        lv_relativeControl = libCOUI_gv_cU_WaveTimerWindows[lv_activeWindowCount];
+        lv_yOffset = 10;
+        DialogControlSetPositionRelative(
+            CMSC_gv_PanelUI,
+            PlayerGroupAll(),
+            c_anchorTopRight,
+            lv_relativeControl,
+            c_anchorBottomRight,
+            0,
+            lv_yOffset
+        );
+    }
+    CMSC_gv_PanelUIPreviousWaveTimerCount = lv_activeWindowCount;
+}
+
+int CMSC_gf_PanelAbilityState (int lp_slot) {
+    fixed lv_missionTime;
+
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        return CMSC_PANEL_STATE_NONE;
+    }
+
+    CMSC_gf_PanelAbilityUpdateCharges(lp_slot);
+    lv_missionTime = GameGetMissionTime();
+    if ((lv_missionTime < CMSC_gv_PanelAbilityUnlockTime[lp_slot])) {
+        return CMSC_PANEL_STATE_LOCKED;
+    }
+    if (((CMSC_gv_PanelAbilityCharges[lp_slot] <= 0)
+        || (lv_missionTime < CMSC_gv_PanelAbilityNextUseTime[lp_slot]))) {
+        return CMSC_PANEL_STATE_COOLING;
+    }
+    return CMSC_PANEL_STATE_READY;
+}
+
+fixed CMSC_gf_PanelAbilityRemainingTime (int lp_slot, int lp_state) {
+    fixed lv_endTime;
+    fixed lv_missionTime;
+
+    lv_missionTime = GameGetMissionTime();
+    if ((CMSC_gf_StukovSummonIsActive(lp_slot) == true)) {
+        return 0.0;
+    }
+    if ((lp_state == CMSC_PANEL_STATE_LOCKED)) {
+        lv_endTime = CMSC_gv_PanelAbilityUnlockTime[lp_slot];
+    }
+    else {
+        if ((CMSC_gv_PanelAbilityCharges[lp_slot] <= 0)) {
+            lv_endTime = CMSC_gv_PanelAbilityNextChargeTime[lp_slot];
+        }
+        else {
+            lv_endTime = CMSC_gv_PanelAbilityNextUseTime[lp_slot];
+        }
+    }
+    return MaxF(lv_endTime - lv_missionTime, 0.0);
+}
+
+fixed CMSC_gf_PanelAbilityCooldownProgress (int lp_slot, int lp_state) {
+    fixed lv_remaining;
+    fixed lv_total;
+
+    if ((lp_state == CMSC_PANEL_STATE_READY)) {
+        return 1.0;
+    }
+    if ((CMSC_gf_StukovSummonIsActive(lp_slot) == true)) {
+        return 0.0;
+    }
+
+    lv_remaining = CMSC_gf_PanelAbilityRemainingTime(lp_slot, lp_state);
+    if ((lp_state == CMSC_PANEL_STATE_LOCKED)) {
+        lv_total = CMSC_gv_PanelAbilityUnlockTime[lp_slot];
+    }
+    else {
+        if ((CMSC_gv_PanelAbilityCharges[lp_slot] <= 0)) {
+            lv_total = CMSC_gv_PanelAbilityChargeRecoveryTime[lp_slot];
+        }
+        else {
+            lv_total = CMSC_gv_PanelAbilityMinimumUseInterval[lp_slot];
+        }
+    }
+    if ((lv_total <= 0.0)) {
+        return 0.0;
+    }
+    return MinF(MaxF(1.0 - (lv_remaining / lv_total), 0.0), 1.0);
+}
+
+text CMSC_gf_PanelAbilityStatusText (int lp_slot) {
+    fixed lv_missionTime;
+    fixed lv_remaining;
+
+    CMSC_gf_PanelAbilityUpdateCharges(lp_slot);
+    lv_missionTime = GameGetMissionTime();
+    if ((lv_missionTime < CMSC_gv_PanelAbilityUnlockTime[lp_slot])) {
+        lv_remaining = CMSC_gv_PanelAbilityUnlockTime[lp_slot] - lv_missionTime;
+        return StringExternal("CM/StormCommanderAbility/StatusLocked")
+            + TextTimeFormat(
+                StringToText("<mintotal/>:<sec2/>"),
+                FixedToInt(Ceiling(lv_remaining))
+            );
+    }
+    if ((CMSC_gf_StukovSummonIsActive(lp_slot) == true)) {
+        return StringExternal("CM/StormCommanderAbility/StatusDeployed");
+    }
+    if ((CMSC_gv_PanelAbilityCharges[lp_slot] <= 0)) {
+        lv_remaining = MaxF(
+            CMSC_gv_PanelAbilityNextChargeTime[lp_slot] - lv_missionTime,
+            0.0
+        );
+        return StringExternal("CM/StormCommanderAbility/StatusRecharging")
+            + TextTimeFormat(
+                StringToText("<mintotal/>:<sec2/>"),
+                FixedToInt(Ceiling(lv_remaining))
+            );
+    }
+    if ((lv_missionTime < CMSC_gv_PanelAbilityNextUseTime[lp_slot])) {
+        lv_remaining = CMSC_gv_PanelAbilityNextUseTime[lp_slot] - lv_missionTime;
+        return StringExternal("CM/StormCommanderAbility/StatusCooling")
+            + TextTimeFormat(
+                StringToText("<mintotal/>:<sec2/>"),
+                FixedToInt(Ceiling(lv_remaining))
+            );
+    }
+    return StringExternal("CM/StormCommanderAbility/StatusReady");
+}
+
+text CMSC_gf_PanelAbilityTooltip (int lp_slot) {
+    string lv_ability;
+    text lv_name;
+    text lv_description;
+    text lv_status;
+
+    lv_ability = CMSC_gv_PanelAbility[lp_slot];
+    lv_name = UserDataGetText("CoopAIAbilities", lv_ability, "Name", 1);
+    lv_description = UserDataGetText("CoopAIAbilities", lv_ability, "Description", 1);
+    lv_status = CMSC_gf_PanelAbilityStatusText(lp_slot);
+    return StringToText("<s val=\"@@@StandardTooltipHeader\">") + lv_name
+        + StringToText("</s><n/><s val=\"@@@StandardTooltip\">") + lv_description
+        + StringToText("<n/><n/>") + lv_status
+        + StringExternal("CM/StormCommanderAbility/ChargeStatus")
+        + IntToText(CMSC_gv_PanelAbilityCharges[lp_slot])
+        + StringToText("/")
+        + IntToText(CMSC_gv_PanelAbilityMaximumCharges[lp_slot])
+        + StringToText("</s>");
+}
+
+void CMSC_gf_PanelAbilityNotify (int lp_slot, int lp_state) {
+    bool lv_shouldNotify;
+    fixed lv_remaining;
+    text lv_message;
+    text lv_name;
+
+    if ((CMSC_gf_StukovIsActive() == true)) {
+        return;
+    }
+    lv_name = UserDataGetText(
+        "CoopAIAbilities",
+        CMSC_gv_PanelAbility[lp_slot],
+        "Name",
+        1
+    );
+    lv_shouldNotify = false;
+    lv_message = StringToText("");
+
+    if ((lp_state == CMSC_PANEL_STATE_LOCKED)) {
+        lv_remaining = CMSC_gf_PanelAbilityRemainingTime(lp_slot, lp_state);
+        if (((lv_remaining > 0.0)
+            && (lv_remaining <= 5.0)
+            && (CMSC_gv_PanelUIUnlockWarningSent[lp_slot] == false))) {
+            CMSC_gv_PanelUIUnlockWarningSent[lp_slot] = true;
+            lv_shouldNotify = true;
+            lv_message = StringExternal("CM/StormCommanderAbility/WarningOpen")
+                + lv_name
+                + StringExternal("CM/StormCommanderAbility/UnlockSoonClose");
+        }
+    }
+    else {
+        if (((lp_state == CMSC_PANEL_STATE_COOLING)
+            && (CMSC_gv_PanelAbilityCharges[lp_slot] <= 0))) {
+            lv_remaining = CMSC_gf_PanelAbilityRemainingTime(lp_slot, lp_state);
+            if (((lv_remaining > 0.0)
+                && (lv_remaining <= 5.0)
+                && (CMSC_gv_PanelUICooldownWarningSent[lp_slot] == false))) {
+                CMSC_gv_PanelUICooldownWarningSent[lp_slot] = true;
+                lv_shouldNotify = true;
+                lv_message = StringExternal("CM/StormCommanderAbility/WarningOpen")
+                    + lv_name
+                    + StringExternal("CM/StormCommanderAbility/CooldownSoonClose");
+            }
+        }
+    }
+
+    if ((lv_shouldNotify == false)) {
+        return;
+    }
+
+    libCOUI_gf_CU_MutatorListShowNotification(lv_message);
+}
+
+void CMSC_gf_PanelUIUpdateSlot (int lp_slot) {
+    fixed lv_cooldownProgress;
+    int lv_previousState;
+    int lv_state;
+    string lv_stateName;
+
+    if ((CMSC_PanelAbilityExists(lp_slot) == false)) {
+        DialogControlSetVisible(
+            CMSC_gv_PanelUISlot[lp_slot],
+            PlayerGroupAll(),
+            false
+        );
+        return;
+    }
+
+    DialogControlSetVisible(
+        CMSC_gv_PanelUISlot[lp_slot],
+        PlayerGroupAll(),
+        true
+    );
+    lv_previousState = CMSC_gv_PanelUIPreviousState[lp_slot];
+    lv_state = CMSC_gf_PanelAbilityState(lp_slot);
+
+    if ((lv_state == CMSC_PANEL_STATE_READY)) {
+        lv_stateName = "Ready";
+    }
+    else {
+        if ((lv_state == CMSC_PANEL_STATE_LOCKED)) {
+            lv_stateName = "Locked";
+        }
+        else {
+            lv_stateName = "Cooling";
+        }
+    }
+    lv_cooldownProgress = CMSC_gf_PanelAbilityCooldownProgress(lp_slot, lv_state);
+
+    DialogControlSetAnimationState(
+        CMSC_gv_PanelUISlot[lp_slot],
+        PlayerGroupAll(),
+        "AbilityState",
+        lv_stateName
+    );
+    DialogControlSetVisible(
+        CMSC_gv_PanelUICooldownMask[lp_slot],
+        PlayerGroupAll(),
+        (lv_state != CMSC_PANEL_STATE_READY)
+    );
+    if (((lv_previousState != CMSC_PANEL_STATE_NONE)
+        && (lv_previousState != CMSC_PANEL_STATE_READY)
+        && (lv_state == CMSC_PANEL_STATE_READY))) {
+        DialogControlSetVisible(
+            CMSC_gv_PanelUICooldownFinishedImage[lp_slot],
+            PlayerGroupAll(),
+            true
+        );
+    }
+    else {
+        if ((lv_state != CMSC_PANEL_STATE_READY)) {
+            DialogControlSetVisible(
+                CMSC_gv_PanelUICooldownFinishedImage[lp_slot],
+                PlayerGroupAll(),
+                false
+            );
+        }
+    }
+    libNtve_gf_SetDialogItemAnimationTime(
+        CMSC_gv_PanelUICooldownMask[lp_slot],
+        lv_cooldownProgress,
+        PlayerGroupAll()
+    );
+    if ((CMSC_gv_PanelAbilityMaximumCharges[lp_slot] > 1)) {
+        libNtve_gf_SetDialogItemText(
+            CMSC_gv_PanelUIChargeLabel[lp_slot],
+            IntToText(CMSC_gv_PanelAbilityCharges[lp_slot]),
+            PlayerGroupAll()
+        );
+    }
+    else {
+        libNtve_gf_SetDialogItemText(
+            CMSC_gv_PanelUIChargeLabel[lp_slot],
+            StringToText(""),
+            PlayerGroupAll()
+        );
+    }
+    libNtve_gf_SetDialogItemTooltip(
+        CMSC_gv_PanelUISlot[lp_slot],
+        CMSC_gf_PanelAbilityTooltip(lp_slot),
+        PlayerGroupAll()
+    );
+
+    CMSC_gf_PanelAbilityNotify(lp_slot, lv_state);
+    CMSC_gv_PanelUIPreviousState[lp_slot] = lv_state;
+}
+
+bool CMSC_gt_PanelUIUpdate_Func (bool testConds, bool runActions) {
+    bool lv_hasAbility;
+    int lv_slot;
+
+    if ((runActions == false)) {
+        return true;
+    }
+    if (((CMSC_gf_LoadPanelAbilities() == false)
+        || (CMSC_gf_PanelUIHookup() == false))) {
+        return true;
+    }
+    CMSC_gf_PanelUIUpdatePosition();
+
+    lv_hasAbility = false;
+    lv_slot = 1;
+    while ((lv_slot <= CMSC_PANEL_ABILITY_MAX)) {
+        if ((CMSC_PanelAbilityExists(lv_slot) == true)) {
+            if ((CMSC_gv_PanelUIPreviousState[lv_slot] == CMSC_PANEL_STATE_NONE)) {
+                libNtve_gf_SetDialogItemImage(
+                    CMSC_gv_PanelUIIcon[lv_slot],
+                    UserDataGetImagePath(
+                        "CoopAIAbilities",
+                        CMSC_gv_PanelAbility[lv_slot],
+                        "Icon",
+                        1
+                    ),
+                    PlayerGroupAll()
+                );
+            }
+            lv_hasAbility = true;
+        }
+        CMSC_gf_PanelUIUpdateSlot(lv_slot);
+        lv_slot += 1;
+    }
+    DialogControlSetVisible(CMSC_gv_PanelUI, PlayerGroupAll(), lv_hasAbility);
+    return true;
+}
+
+bool CMSC_RegisterHero (int lp_player, string lp_unitType) {
+    if ((CMSC_gf_PlayerIsValid(lp_player) == false)) {
+        return false;
+    }
+    if (((lp_unitType == null) || (lp_unitType == ""))) {
+        return false;
+    }
+    if (((CMSC_CommanderOwner() != 0)
+        && (CMSC_CommanderOwner() != lp_player))) {
+        return false;
+    }
+    if (((CMSC_gv_HeroUnitType != "")
+        && (CMSC_gv_HeroUnitType != lp_unitType))) {
+        return false;
+    }
+
+    CMSC_gv_CommanderOwner = lp_player;
+    CMSC_gv_HeroUnitType = lp_unitType;
+    return true;
+}
+
+bool CMSC_RegisterAIHero (int lp_player) {
+    string lv_aiCommander;
+    string lv_heroUnitType;
+
+    if ((CMSC_gf_PlayerIsValid(lp_player) == false)) {
+        return false;
+    }
+
+    lv_aiCommander = libCOMI_gv_cM_CoopAIPlayer_Commander[lp_player];
+    if (((lv_aiCommander == null) || (lv_aiCommander == ""))) {
+        return false;
+    }
+
+    lv_heroUnitType = UserDataGetGameLink(
+        "CoopAICommanders",
+        lv_aiCommander,
+        "AIHero",
+        1
+    );
+    if (((lv_heroUnitType == null) || (lv_heroUnitType == ""))) {
+        return false;
+    }
+    return CMSC_RegisterHero(lp_player, lv_heroUnitType);
+}
+
+string CMSC_HeroUnitType (int lp_player) {
+    if (((CMSC_gf_PlayerIsValid(lp_player) == false)
+        || (lp_player != CMSC_CommanderOwner()))) {
+        return "";
+    }
+    return CMSC_gv_HeroUnitType;
+}
+
+unit CMSC_HeroUnit (int lp_player) {
+    if (((CMSC_gf_PlayerIsValid(lp_player) == false)
+        || (lp_player != CMSC_CommanderOwner()))) {
+        return null;
+    }
+    return CMSC_gv_HeroUnit;
+}
+
+void CMSC_gf_RestoreHero (unit lp_hero, bool lp_clearCooldowns) {
+    if ((lp_hero == null)) {
+        return;
+    }
+
+    UnitSetPropertyFixed(lp_hero, c_unitPropLifePercent, 100.0);
+    UnitSetPropertyFixed(lp_hero, c_unitPropShieldsPercent, 100.0);
+    UnitSetPropertyFixed(lp_hero, c_unitPropEnergyPercent, 100.0);
+    if ((lp_clearCooldowns == true)) {
+        UnitClearCooldowns(lp_hero, true);
+    }
+}
+
+unit CMSC_gf_CreateHero (int lp_player, point lp_spawnPoint) {
+    unit lv_hero;
+
+    libNtve_gf_CreateUnitsWithDefaultFacing(
+        1,
+        CMSC_gv_HeroUnitType,
+        c_unitCreateIgnorePlacement,
+        lp_player,
+        lp_spawnPoint
+    );
+    lv_hero = UnitLastCreated();
+    CMSC_gv_HeroUnit = lv_hero;
+    CMSC_gf_RestoreHero(lv_hero, true);
+    return lv_hero;
+}
+
+unit CMSC_gf_ReviveHero (
+    int lp_player,
+    point lp_spawnPoint,
+    bool lp_clearCooldowns
+) {
+    unit lv_hero;
+
+    lv_hero = CMSC_gv_HeroUnit;
+    UnitRevive(lv_hero);
+    UnitSetPosition(lv_hero, lp_spawnPoint, false);
+    CMSC_gf_RestoreHero(lv_hero, lp_clearCooldowns);
+    return lv_hero;
+}
+
+unit CMSC_gf_HeroForAttackWave (int lp_player, point lp_spawnPoint) {
+    unit lv_hero;
+
+    if ((GameGetMissionTime() < CMSC_HERO_FIRST_WAVE_TIME)) {
+        return null;
+    }
+    if ((CMSC_gf_PlayerIsValid(lp_player) == false)) {
+        return null;
+    }
+    if ((lp_player != CMSC_CommanderOwner())) {
+        return null;
+    }
+    if (((CMSC_gv_HeroUnitType == "")
+        && (CMSC_RegisterAIHero(lp_player) == false))) {
+        return null;
+    }
+    if ((lp_spawnPoint == null)) {
+        return null;
+    }
+
+    lv_hero = CMSC_gv_HeroUnit;
+    if ((lv_hero == null)) {
+        return CMSC_gf_CreateHero(lp_player, lp_spawnPoint);
+    }
+    if (((UnitIsAlive(lv_hero) == false)
+        && (CMSC_gv_RapidRecoveryPending == true))) {
+        return null;
+    }
+    if ((UnitIsAlive(lv_hero) == false)) {
+        return CMSC_gf_ReviveHero(lp_player, lp_spawnPoint, true);
+    }
+    return lv_hero;
+}
+
+bool CMSC_gf_NovaUnitIsArmy (unit lp_unit, bool lp_includeHero) {
+    string lv_unitType;
+
+    if (((lp_unit == null) || (UnitIsAlive(lp_unit) == false))) {
+        return false;
+    }
+    lv_unitType = UnitGetType(lp_unit);
+    if (((lv_unitType == "HellbatBlackOps")
+        || (lv_unitType == "HellionBlackOps")
+        || (lv_unitType == "Liberator_BlackOps")
+        || (lv_unitType == "LiberatorAG_BlackOps")
+        || (lv_unitType == "Marauder_BlackOps")
+        || (lv_unitType == "Marine_BlackOps")
+        || (lv_unitType == "Goliath_BlackOps")
+        || (lv_unitType == "Ghost_BlackOps")
+        || (lv_unitType == "GhostFemale_BlackOps")
+        || (lv_unitType == "Raven_BlackOps")
+        || (lv_unitType == "Banshee_BlackOps")
+        || (lv_unitType == "SiegeTankSieged_BlackOps")
+        || (lv_unitType == "SiegeTank_BlackOps"))) {
+        return true;
+    }
+    return ((lp_includeHero == true) && (lv_unitType == "NovaCoop"));
+}
+
+bool CMSC_gf_NovaIsActive () {
+    int lv_owner;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((lv_owner == 0)) {
+        return false;
+    }
+    return libCOMI_gv_cM_CoopAIPlayer_Commander[lv_owner] == "TerranNova";
+}
+
+unitgroup CMSC_gf_NovaArmyGroupAt (point lp_center, fixed lp_radius, bool lp_includeHero) {
+    int lv_owner;
+    int lv_unitOwner;
+    int lv_index;
+    unit lv_unit;
+    unitgroup lv_units;
+    playergroup lv_allies;
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_allies = PlayerGroupAlliance(c_playerGroupAlly, lv_owner);
+    lv_units = UnitGroup(
+        null,
+        c_playerAny,
+        RegionCircle(lp_center, lp_radius),
+        UnitFilter(
+            0,
+            0,
+            ((1 << c_targetFilterStructure) | (1 << c_targetFilterMissile)),
+            ((1 << (c_targetFilterDead - 32))
+                | (1 << (c_targetFilterHidden - 32))
+                | (1 << (c_targetFilterInvulnerable - 32)))
+        ),
+        0
+    );
+    lv_index = UnitGroupCount(lv_units, c_unitCountAll);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        lv_unitOwner = UnitGetOwner(lv_unit);
+        if (((CMSC_gf_NovaUnitIsArmy(lv_unit, lp_includeHero) == false)
+            || ((lv_unitOwner != lv_owner)
+                && (PlayerGroupHasPlayer(lv_allies, lv_unitOwner) == false)))) {
+            UnitGroupRemove(lv_units, lv_unit);
+        }
+        lv_index -= 1;
+    }
+    return lv_units;
+}
+
+fixed CMSC_gf_NovaArmyAverageLife (unitgroup lp_units) {
+    int lv_count;
+    int lv_index;
+    fixed lv_totalLife;
+
+    lv_count = UnitGroupCount(lp_units, c_unitCountAlive);
+    if ((lv_count <= 0)) {
+        return 100.0;
+    }
+
+    lv_totalLife = 0.0;
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_totalLife += UnitGetPropertyFixed(
+            UnitGroupUnit(lp_units, lv_index),
+            c_unitPropLifePercent,
+            c_unitPropCurrent
+        );
+        lv_index += 1;
+    }
+    return lv_totalLife / IntToFixed(lv_count);
+}
+
+bool CMSC_gf_NovaUnitBelongsToEnemyAI (unit lp_unit) {
+    int lv_owner;
+    int lv_unitOwner;
+
+    if ((CMSC_gf_NovaUnitIsArmy(lp_unit, true) == false)) {
+        return false;
+    }
+    lv_owner = CMSC_CommanderOwner();
+    lv_unitOwner = UnitGetOwner(lp_unit);
+    return ((lv_unitOwner == lv_owner)
+        || (PlayerGroupHasPlayer(
+            PlayerGroupAlliance(c_playerGroupAlly, lv_owner),
+            lv_unitOwner
+        ) == true));
+}
+
+bool CMSC_gf_UnitBelongsToCommanderPlayer (unit lp_unit) {
+    if ((lp_unit == null)) {
+        return false;
+    }
+    return PlayerGroupHasPlayer(
+        libCOOC_gf_CommanderPlayers(),
+        UnitGetOwner(lp_unit)
+    );
+}
+
+unitgroup CMSC_gf_VisibleCommanderEnemyGroup () {
+    int lv_owner;
+    int lv_index;
+    unit lv_unit;
+    unitgroup lv_units;
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_units = UnitGroup(
+        null,
+        c_playerAny,
+        RegionPlayableMap(),
+        UnitFilter(
+            0,
+            0,
+            (1 << c_targetFilterMissile),
+            ((1 << (c_targetFilterDead - 32))
+                | (1 << (c_targetFilterHidden - 32))
+                | (1 << (c_targetFilterInvulnerable - 32)))
+        ),
+        0
+    );
+    lv_index = UnitGroupCount(lv_units, c_unitCountAll);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        if (((CMSC_gf_UnitBelongsToCommanderPlayer(lv_unit) == false)
+            || (libNtve_gf_UnitIsVisibleToPlayer(lv_unit, lv_owner) == false))) {
+            UnitGroupRemove(lv_units, lv_unit);
+        }
+        lv_index -= 1;
+    }
+    return lv_units;
+}
+
+bool CMSC_gf_NovaTryGriffinAirstrike () {
+    int lv_owner;
+    int lv_candidateIndex;
+    int lv_candidateCount;
+    int lv_targetIndex;
+    int lv_nearbyCount;
+    int lv_bestNearbyCount;
+    unit lv_candidate;
+    unit lv_target;
+    unit lv_bestTarget;
+    unit lv_airstrikeTargeter;
+    unitgroup lv_visibleEnemies;
+    point lv_candidatePoint;
+    point lv_startPoint;
+    fixed lv_expectedDamage;
+    fixed lv_bestExpectedDamage;
+    fixed lv_targetVitals;
+    fixed lv_angle;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((CMSC_PanelAbilityCanUse(
+        lv_owner,
+        CMSC_NOVA_ABILITY_GRIFFIN_AIRSTRIKE
+    ) == false)) {
+        return false;
+    }
+
+    lv_visibleEnemies = CMSC_gf_VisibleCommanderEnemyGroup();
+    lv_candidateCount = UnitGroupCount(lv_visibleEnemies, c_unitCountAlive);
+    lv_bestTarget = null;
+    lv_bestExpectedDamage = 0.0;
+    lv_bestNearbyCount = 0;
+    lv_candidateIndex = 1;
+    while ((lv_candidateIndex <= lv_candidateCount)) {
+        lv_candidate = UnitGroupUnit(lv_visibleEnemies, lv_candidateIndex);
+        lv_candidatePoint = UnitGetPosition(lv_candidate);
+        lv_expectedDamage = 0.0;
+        lv_nearbyCount = 0;
+        lv_targetIndex = 1;
+        while ((lv_targetIndex <= lv_candidateCount)) {
+            lv_target = UnitGroupUnit(lv_visibleEnemies, lv_targetIndex);
+            if ((DistanceBetweenPoints(
+                lv_candidatePoint,
+                UnitGetPosition(lv_target)
+            ) <= 12.0)) {
+                lv_nearbyCount += 1;
+                lv_targetVitals = UnitGetPropertyFixed(
+                    lv_target,
+                    c_unitPropLife,
+                    c_unitPropCurrent
+                ) + UnitGetPropertyFixed(
+                    lv_target,
+                    c_unitPropShields,
+                    c_unitPropCurrent
+                );
+                lv_expectedDamage += MinF(lv_targetVitals, 500.0);
+            }
+            lv_targetIndex += 1;
+        }
+        if ((((lv_nearbyCount > 5) || (lv_expectedDamage > 1000.0))
+            && ((lv_bestTarget == null)
+                || (lv_expectedDamage > lv_bestExpectedDamage)
+                || ((lv_expectedDamage == lv_bestExpectedDamage)
+                    && (lv_nearbyCount > lv_bestNearbyCount))))) {
+            lv_bestTarget = lv_candidate;
+            lv_bestExpectedDamage = lv_expectedDamage;
+            lv_bestNearbyCount = lv_nearbyCount;
+        }
+        lv_candidateIndex += 1;
+    }
+    if ((lv_bestTarget == null)) {
+        return false;
+    }
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_NOVA_ABILITY_GRIFFIN_AIRSTRIKE
+    ) == false)) {
+        return false;
+    }
+
+    lv_candidatePoint = UnitGetPosition(lv_bestTarget);
+    lv_angle = RandomFixed(0.0, 360.0);
+    lv_startPoint = PointWithOffsetPolar(lv_candidatePoint, 6.0, lv_angle);
+    UnitCreate(
+        1,
+        "NovaGriffinBombingRunTargeter",
+        c_unitCreateIgnorePlacement,
+        lv_owner,
+        lv_startPoint,
+        AngleBetweenPoints(lv_startPoint, lv_candidatePoint)
+    );
+    lv_airstrikeTargeter = UnitLastCreated();
+    UnitCreateEffectPoint(
+        lv_airstrikeTargeter,
+        "NovaGriffinBombingRunInitialSet",
+        lv_candidatePoint
+    );
+    return true;
+}
+
+fixed CMSC_gf_NovaDistanceToNearestCommanderBase (point lp_point) {
+    int lv_player;
+    fixed lv_distance;
+    fixed lv_bestDistance;
+    playergroup lv_commanders;
+
+    lv_commanders = libCOOC_gf_CommanderPlayers();
+    lv_bestDistance = 999999.0;
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        if ((PlayerGroupHasPlayer(lv_commanders, lv_player) == true)) {
+            lv_distance = DistanceBetweenPoints(
+                lp_point,
+                PlayerStartLocation(lv_player)
+            );
+            lv_bestDistance = MinF(lv_bestDistance, lv_distance);
+        }
+        lv_player += 1;
+    }
+    return lv_bestDistance;
+}
+
+bool CMSC_gf_PointConnectedToCommanderBase (point lp_point) {
+    int lv_player;
+    point lv_startPoint;
+    playergroup lv_commanders;
+
+    if ((lp_point == null)) {
+        return false;
+    }
+    lv_commanders = libCOOC_gf_CommanderPlayers();
+    lv_player = 1;
+    while ((lv_player <= 16)) {
+        if ((PlayerGroupHasPlayer(lv_commanders, lv_player) == true)) {
+            lv_startPoint = PlayerStartLocation(lv_player);
+            if (((lv_startPoint != null)
+                && (PointPathingIsConnected(lp_point, lv_startPoint) == true))) {
+                return true;
+            }
+        }
+        lv_player += 1;
+    }
+    return false;
+}
+
+point CMSC_gf_NovaFindTransportDestination (point lp_startPoint) {
+    int lv_owner;
+    int lv_index;
+    int lv_count;
+    int lv_attempt;
+    unit lv_unit;
+    unitgroup lv_targetUnits;
+    point lv_candidate;
+    point lv_bestDestination;
+    fixed lv_baseDistance;
+    fixed lv_bestBaseDistance;
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_targetUnits = CMSC_gf_VisibleCommanderEnemyGroup();
+    lv_count = UnitGroupCount(lv_targetUnits, c_unitCountAlive);
+    lv_bestDestination = null;
+    lv_bestBaseDistance = 999999.0;
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_targetUnits, lv_index);
+        lv_attempt = 1;
+        while ((lv_attempt <= 3)) {
+            lv_candidate = RegionRandomPoint(
+                RegionCircle(UnitGetPosition(lv_unit), 6.0)
+            );
+            if (((PointPathingPassable(lv_candidate) == true)
+                && (CMSC_gf_PointConnectedToCommanderBase(
+                    lv_candidate
+                ) == true)
+                && (VisIsVisibleForPlayer(lv_owner, lv_candidate) == true)
+                && (DistanceBetweenPoints(lp_startPoint, lv_candidate) > 25.0))) {
+                lv_baseDistance = CMSC_gf_NovaDistanceToNearestCommanderBase(
+                    lv_candidate
+                );
+                if (((lv_bestDestination == null)
+                    || (lv_baseDistance < lv_bestBaseDistance))) {
+                    lv_bestDestination = lv_candidate;
+                    lv_bestBaseDistance = lv_baseDistance;
+                }
+            }
+            lv_attempt += 1;
+        }
+        lv_index += 1;
+    }
+    return lv_bestDestination;
+}
+
+bool CMSC_gf_ArtanisIsActive () {
+    int lv_owner;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((lv_owner == 0)) {
+        return false;
+    }
+    return libCOMI_gv_cM_CoopAIPlayer_Commander[lv_owner] == "ProtossArtanis";
+}
+
+bool CMSC_gf_ArtanisUnitBelongsToEnemyAI (unit lp_unit) {
+    int lv_owner;
+    int lv_unitOwner;
+
+    if (((lp_unit == null) || (UnitIsAlive(lp_unit) == false))) {
+        return false;
+    }
+    lv_owner = CMSC_CommanderOwner();
+    lv_unitOwner = UnitGetOwner(lp_unit);
+    return ((lv_unitOwner == lv_owner)
+        || (PlayerGroupHasPlayer(
+            PlayerGroupAlliance(c_playerGroupAlly, lv_owner),
+            lv_unitOwner
+        ) == true));
+}
+
+unitgroup CMSC_gf_ArtanisArmyGroupAt (
+    point lp_center,
+    fixed lp_radius,
+    bool lp_requireShields
+) {
+    int lv_index;
+    unit lv_unit;
+    unitgroup lv_units;
+
+    lv_units = UnitGroup(
+        null,
+        c_playerAny,
+        RegionCircle(lp_center, lp_radius),
+        UnitFilter(
+            0,
+            0,
+            ((1 << c_targetFilterStructure) | (1 << c_targetFilterMissile)),
+            ((1 << (c_targetFilterDead - 32))
+                | (1 << (c_targetFilterHidden - 32)))
+        ),
+        0
+    );
+    lv_index = UnitGroupCount(lv_units, c_unitCountAll);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        if (((CMSC_gf_ArtanisUnitBelongsToEnemyAI(lv_unit) == false)
+            || ((lp_requireShields == true)
+                && (UnitGetPropertyFixed(
+                    lv_unit,
+                    c_unitPropShieldsMax,
+                    c_unitPropCurrent
+                ) <= 0.0)))) {
+            UnitGroupRemove(lv_units, lv_unit);
+        }
+        lv_index -= 1;
+    }
+    return lv_units;
+}
+
+void CMSC_gf_ArtanisRecordEngagement (unit lp_damagedUnit, unit lp_sourceUnit) {
+    if (((lp_damagedUnit == null)
+        || (lp_sourceUnit == null))) {
+        return;
+    }
+
+    if (((CMSC_gf_ArtanisUnitBelongsToEnemyAI(lp_sourceUnit) == true)
+        && (CMSC_gf_UnitBelongsToCommanderPlayer(
+        lp_damagedUnit
+    ) == true))) {
+        CMSC_gv_ArtanisEngagedWaveUnit = lp_sourceUnit;
+        CMSC_gv_ArtanisEngagedTarget = lp_damagedUnit;
+    }
+    else {
+        if (((CMSC_gf_ArtanisUnitBelongsToEnemyAI(lp_damagedUnit) == true)
+            && (CMSC_gf_UnitBelongsToCommanderPlayer(
+            lp_sourceUnit
+        ) == true))) {
+            CMSC_gv_ArtanisEngagedWaveUnit = lp_damagedUnit;
+            CMSC_gv_ArtanisEngagedTarget = lp_sourceUnit;
+        }
+    }
+}
+
+bool CMSC_gf_ArtanisTryPowerField () {
+    int lv_owner;
+    int lv_index;
+    int lv_count;
+    int lv_bestSourceCount;
+    int lv_sourceIndex;
+    int lv_sourceCount;
+    int lv_attempt;
+    unit lv_unit;
+    unit lv_sourceUnit;
+    unit lv_target;
+    unit lv_caster;
+    unitgroup lv_enemies;
+    unitgroup lv_nearbyUnits;
+    unitgroup lv_sourceUnits;
+    point lv_sourcePoint;
+    point lv_targetPoint;
+    point lv_candidatePoint;
+    point lv_unitPoint;
+    point lv_unitDestination;
+    fixed lv_offsetAngle;
+    fixed lv_offsetDistance;
+
+    lv_owner = CMSC_CommanderOwner();
+    if (((CMSC_gv_ArtanisPowerFieldPending == true)
+        || (CMSC_PanelAbilityCanUse(
+            lv_owner,
+            CMSC_ARTANIS_ABILITY_POWER_FIELD
+        ) == false))) {
+        return false;
+    }
+
+    lv_sourceUnit = null;
+    lv_target = null;
+    if (((CMSC_gv_ArtanisEngagedWaveUnit != null)
+        && (CMSC_gv_ArtanisEngagedTarget != null)
+        && (UnitIsAlive(CMSC_gv_ArtanisEngagedWaveUnit) == true)
+        && (UnitIsAlive(CMSC_gv_ArtanisEngagedTarget) == true)
+        && (CMSC_gf_ArtanisUnitBelongsToEnemyAI(
+            CMSC_gv_ArtanisEngagedWaveUnit
+        ) == true)
+        && (CMSC_gf_UnitBelongsToCommanderPlayer(
+            CMSC_gv_ArtanisEngagedTarget
+        ) == true)
+        && (UnitBehaviorCount(
+            CMSC_gv_ArtanisEngagedWaveUnit,
+            "MasteryArtanisSoAPowerFieldHaste_Target"
+        ) == 0))) {
+        lv_sourceUnit = CMSC_gv_ArtanisEngagedWaveUnit;
+        lv_target = CMSC_gv_ArtanisEngagedTarget;
+    }
+    else {
+        CMSC_gv_ArtanisEngagedWaveUnit = null;
+        CMSC_gv_ArtanisEngagedTarget = null;
+    }
+
+    if ((lv_sourceUnit == null)) {
+        lv_enemies = CMSC_gf_VisibleCommanderEnemyGroup();
+        lv_count = MinI(UnitGroupCount(lv_enemies, c_unitCountAlive), 32);
+        lv_bestSourceCount = 0;
+        lv_index = 1;
+        while ((lv_index <= lv_count)) {
+            lv_unit = UnitGroupUnit(lv_enemies, lv_index);
+            lv_nearbyUnits = CMSC_gf_ArtanisArmyGroupAt(
+                UnitGetPosition(lv_unit),
+                10.0,
+                false
+            );
+            lv_sourceIndex = UnitGroupCount(lv_nearbyUnits, c_unitCountAll);
+            while ((lv_sourceIndex >= 1)) {
+                lv_caster = UnitGroupUnit(lv_nearbyUnits, lv_sourceIndex);
+                if ((UnitBehaviorCount(
+                    lv_caster,
+                    "MasteryArtanisSoAPowerFieldHaste_Target"
+                ) > 0)) {
+                    UnitGroupRemove(lv_nearbyUnits, lv_caster);
+                }
+                lv_sourceIndex -= 1;
+            }
+            lv_sourceCount = UnitGroupCount(lv_nearbyUnits, c_unitCountAlive);
+            if ((lv_sourceCount > lv_bestSourceCount)) {
+                lv_sourceUnit = UnitGroupClosestToPoint(
+                    lv_nearbyUnits,
+                    UnitGetPosition(lv_unit)
+                );
+                lv_target = lv_unit;
+                lv_bestSourceCount = lv_sourceCount;
+            }
+            lv_index += 1;
+        }
+    }
+    if (((lv_sourceUnit == null) || (lv_target == null))) {
+        return false;
+    }
+
+    lv_sourcePoint = UnitGetPosition(lv_sourceUnit);
+    lv_sourceUnits = CMSC_gf_ArtanisArmyGroupAt(
+        lv_sourcePoint,
+        7.5,
+        false
+    );
+    lv_index = UnitGroupCount(lv_sourceUnits, c_unitCountAll);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_sourceUnits, lv_index);
+        if ((UnitBehaviorCount(
+            lv_unit,
+            "MasteryArtanisSoAPowerFieldHaste_Target"
+        ) > 0)) {
+            UnitGroupRemove(lv_sourceUnits, lv_unit);
+        }
+        lv_index -= 1;
+    }
+    lv_sourceCount = UnitGroupCount(lv_sourceUnits, c_unitCountAlive);
+    if ((lv_sourceCount <= 0)) {
+        return false;
+    }
+
+    lv_targetPoint = null;
+    lv_attempt = 0;
+    while (((lv_attempt < 8) && (lv_targetPoint == null))) {
+        lv_candidatePoint = PointWithOffsetPolar(
+            UnitGetPosition(lv_target),
+            RandomFixed(2.0, 4.0),
+            libNtve_gf_RandomAngle()
+        );
+        if (((PointPathingPassable(lv_candidatePoint) == true)
+            && (CMSC_gf_PointConnectedToCommanderBase(
+                lv_candidatePoint
+            ) == true)
+            && (VisIsVisibleForPlayer(lv_owner, lv_candidatePoint) == true))) {
+            lv_targetPoint = lv_candidatePoint;
+        }
+        lv_attempt += 1;
+    }
+    if ((lv_targetPoint == null)) {
+        return false;
+    }
+    lv_caster = CMSC_PanelCaster();
+    if ((lv_caster == null)) {
+        return false;
+    }
+    CMSC_gv_ArtanisPowerFieldPending = true;
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_ARTANIS_ABILITY_POWER_FIELD
+    ) == false)) {
+        CMSC_gv_ArtanisPowerFieldPending = false;
+        return false;
+    }
+
+    UnitCreateEffectPoint(lv_caster, "SOAPylonPowerCoop", lv_sourcePoint);
+    Wait(CMSC_ARTANIS_POWER_FIELD_REPLACE_DELAY, c_timeGame);
+    UnitCreateEffectPoint(lv_caster, "SOAPylonPowerCoop", lv_targetPoint);
+    Wait(CMSC_ARTANIS_POWER_FIELD_SETTLE_DELAY, c_timeGame);
+    lv_sourceIndex = 1;
+    while ((lv_sourceIndex <= lv_sourceCount)) {
+        lv_unit = UnitGroupUnit(lv_sourceUnits, lv_sourceIndex);
+        if (((lv_unit != null) && (UnitIsAlive(lv_unit) == true))) {
+            lv_unitPoint = UnitGetPosition(lv_unit);
+            lv_offsetAngle = AngleBetweenPoints(lv_sourcePoint, lv_unitPoint);
+            lv_offsetDistance = MinF(
+                DistanceBetweenPoints(lv_sourcePoint, lv_unitPoint),
+                4.0
+            );
+            lv_unitDestination = PointWithOffsetPolar(
+                lv_targetPoint,
+                lv_offsetDistance,
+                lv_offsetAngle
+            );
+            if (((PointPathingPassable(lv_unitDestination) == false)
+                || (CMSC_gf_PointConnectedToCommanderBase(
+                    lv_unitDestination
+                ) == false))) {
+                lv_unitDestination = lv_targetPoint;
+            }
+            UnitSetPosition(lv_unit, lv_unitDestination, false);
+            UnitBehaviorAddPlayer(
+                lv_unit,
+                "MasteryArtanisSoAPowerFieldHaste_Target",
+                UnitGetOwner(lv_unit),
+                1
+            );
+        }
+        lv_sourceIndex += 1;
+    }
+    CMSC_gv_ArtanisEngagedWaveUnit = null;
+    CMSC_gv_ArtanisEngagedTarget = null;
+    CMSC_gv_ArtanisPowerFieldPending = false;
+    return true;
+}
+
+unit CMSC_gf_ArtanisOrbitalStrikeTarget (unitgroup lp_enemies) {
+    int lv_index;
+    int lv_count;
+    int lv_otherIndex;
+    int lv_nearbyCount;
+    int lv_bestNearbyCount;
+    unit lv_candidate;
+    unit lv_other;
+    unit lv_bestTarget;
+
+    lv_count = UnitGroupCount(lp_enemies, c_unitCountAlive);
+    lv_bestTarget = null;
+    lv_bestNearbyCount = -1;
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_candidate = UnitGroupUnit(lp_enemies, lv_index);
+        lv_nearbyCount = 0;
+        lv_otherIndex = 1;
+        while ((lv_otherIndex <= lv_count)) {
+            lv_other = UnitGroupUnit(lp_enemies, lv_otherIndex);
+            if ((DistanceBetweenPoints(
+                UnitGetPosition(lv_candidate),
+                UnitGetPosition(lv_other)
+            ) <= 4.0)) {
+                lv_nearbyCount += 1;
+            }
+            lv_otherIndex += 1;
+        }
+        if ((lv_nearbyCount > lv_bestNearbyCount)) {
+            lv_bestTarget = lv_candidate;
+            lv_bestNearbyCount = lv_nearbyCount;
+        }
+        lv_index += 1;
+    }
+    return lv_bestTarget;
+}
+
+bool CMSC_gf_ArtanisTryOrbitalStrike () {
+    int lv_owner;
+    unit lv_target;
+    unit lv_caster;
+    unitgroup lv_enemies;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((CMSC_PanelAbilityCanUse(
+        lv_owner,
+        CMSC_ARTANIS_ABILITY_ORBITAL_STRIKE
+    ) == false)) {
+        return false;
+    }
+    lv_enemies = CMSC_gf_VisibleCommanderEnemyGroup();
+    lv_target = CMSC_gf_ArtanisOrbitalStrikeTarget(lv_enemies);
+    if ((lv_target == null)) {
+        return false;
+    }
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_ARTANIS_ABILITY_ORBITAL_STRIKE
+    ) == false)) {
+        return false;
+    }
+
+    lv_caster = CMSC_PanelCaster();
+    UnitCreateEffectPoint(
+        lv_caster,
+        "SOAOrbitalStrikeCP",
+        UnitGetPosition(lv_target)
+    );
+    return true;
+}
+
+unit CMSC_gf_ArtanisSolarBombardmentTarget (unitgroup lp_enemies) {
+    int lv_index;
+    int lv_count;
+    int lv_otherIndex;
+    int lv_nearbyCount;
+    int lv_bestNearbyCount;
+    unit lv_candidate;
+    unit lv_other;
+    unit lv_bestTarget;
+
+    lv_count = UnitGroupCount(lp_enemies, c_unitCountAlive);
+    lv_bestTarget = null;
+    lv_bestNearbyCount = 0;
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_candidate = UnitGroupUnit(lp_enemies, lv_index);
+        lv_nearbyCount = 0;
+        lv_otherIndex = 1;
+        while ((lv_otherIndex <= lv_count)) {
+            lv_other = UnitGroupUnit(lp_enemies, lv_otherIndex);
+            if ((DistanceBetweenPoints(
+                UnitGetPosition(lv_candidate),
+                UnitGetPosition(lv_other)
+            ) <= 10.0)) {
+                lv_nearbyCount += 1;
+            }
+            lv_otherIndex += 1;
+        }
+        if ((lv_nearbyCount > lv_bestNearbyCount)) {
+            lv_bestTarget = lv_candidate;
+            lv_bestNearbyCount = lv_nearbyCount;
+        }
+        lv_index += 1;
+    }
+    if ((lv_bestNearbyCount < 10)) {
+        return null;
+    }
+    return lv_bestTarget;
+}
+
+bool CMSC_gt_ArtanisSolarBombardment_Func (bool testConds, bool runActions) {
+    int lv_owner;
+    int lv_masteryCount;
+    int lv_roundCount;
+    int lv_round;
+    int lv_shotsPerRound;
+    int lv_shot;
+    unit lv_caster;
+    point lv_targetPoint;
+    fixed lv_masteryMultiplier;
+    fixed lv_radiusMaximum;
+    fixed lv_radius;
+
+    if ((runActions == false)) {
+        return true;
+    }
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_caster = CMSC_PanelCaster();
+    lv_targetPoint = CMSC_gv_ArtanisSolarBombardmentTarget;
+    if (((lv_owner == 0) || (lv_caster == null) || (lv_targetPoint == null))) {
+        return true;
+    }
+
+    lv_masteryCount = TechTreeUpgradeCount(
+        lv_owner,
+        "MasteryArtanisSolarBombardment",
+        c_techCountQueuedOrBetter
+    );
+    lv_masteryMultiplier = 1.0 + (IntToFixed(lv_masteryCount) * 0.02);
+    lv_roundCount = FixedToInt(100.0 * lv_masteryMultiplier);
+    lv_radiusMaximum = 10.0 * lv_masteryMultiplier;
+    lv_shotsPerRound = 2;
+    if ((TechTreeUpgradeCount(
+        lv_owner,
+        "SOAStrafeAttackUpgrade",
+        c_techCountQueuedOrBetter
+    ) >= 1)) {
+        lv_shotsPerRound = 4;
+    }
+
+    lv_round = 1;
+    while ((lv_round <= lv_roundCount)) {
+        lv_radius = ((IntToFixed(lv_round) / IntToFixed(lv_roundCount))
+            * (lv_radiusMaximum - 2.0)) + 2.0;
+        lv_shot = 1;
+        while ((lv_shot <= lv_shotsPerRound)) {
+            UnitCreateEffectPoint(
+                lv_caster,
+                "SOAStrafeAttackDamage",
+                RegionRandomPoint(RegionCircle(lv_targetPoint, lv_radius))
+            );
+            lv_shot += 1;
+        }
+        Wait(0.15, c_timeGame);
+        lv_round += 1;
+    }
+    return true;
+}
+
+bool CMSC_gf_ArtanisTrySolarBombardment () {
+    int lv_owner;
+    unit lv_target;
+    unitgroup lv_enemies;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((CMSC_PanelAbilityCanUse(
+        lv_owner,
+        CMSC_ARTANIS_ABILITY_SOLAR_BOMBARDMENT
+    ) == false)) {
+        return false;
+    }
+    lv_enemies = CMSC_gf_VisibleCommanderEnemyGroup();
+    lv_target = CMSC_gf_ArtanisSolarBombardmentTarget(lv_enemies);
+    if ((lv_target == null)) {
+        return false;
+    }
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_ARTANIS_ABILITY_SOLAR_BOMBARDMENT
+    ) == false)) {
+        return false;
+    }
+
+    CMSC_gv_ArtanisSolarBombardmentTarget = UnitGetPosition(lv_target);
+    TriggerExecute(CMSC_gt_ArtanisSolarBombardment, false, false);
+    return true;
+}
+
+bool CMSC_gt_ArtanisUnitDamaged_Func (bool testConds, bool runActions) {
+    int lv_owner;
+    int lv_index;
+    int lv_count;
+    int lv_guardianShellCount;
+    unit lv_damagedUnit;
+    unit lv_unit;
+    unit lv_caster;
+    unitgroup lv_nearbyArmy;
+    unitgroup lv_allArmy;
+    fixed lv_averageLife;
+
+    if ((runActions == false)) {
+        return true;
+    }
+    if ((CMSC_gf_ArtanisIsActive() == false)) {
+        return true;
+    }
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_damagedUnit = EventUnit();
+    CMSC_gf_ArtanisRecordEngagement(
+        lv_damagedUnit,
+        EventUnitDamageSourceUnit()
+    );
+    if (((CMSC_gf_ArtanisUnitBelongsToEnemyAI(lv_damagedUnit) == false)
+        || (CMSC_PanelAbilityCanUse(
+            lv_owner,
+            CMSC_ARTANIS_ABILITY_SHIELD_OVERCHARGE
+        ) == false))) {
+        return true;
+    }
+
+    lv_nearbyArmy = CMSC_gf_ArtanisArmyGroupAt(
+        UnitGetPosition(lv_damagedUnit),
+        9.0,
+        true
+    );
+    lv_count = UnitGroupCount(lv_nearbyArmy, c_unitCountAlive);
+    if ((lv_count <= 0)) {
+        return true;
+    }
+    lv_averageLife = CMSC_gf_NovaArmyAverageLife(lv_nearbyArmy);
+    lv_guardianShellCount = 0;
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_nearbyArmy, lv_index);
+        if ((UnitBehaviorCount(lv_unit, "SOAHeroicShieldImmunity") > 0)) {
+            lv_guardianShellCount += 1;
+        }
+        lv_index += 1;
+    }
+    if (((lv_averageLife >= 40.0) && (lv_guardianShellCount <= 8))) {
+        return true;
+    }
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_ARTANIS_ABILITY_SHIELD_OVERCHARGE
+    ) == false)) {
+        return true;
+    }
+
+    lv_caster = CMSC_PanelCaster();
+    lv_allArmy = CMSC_gf_ArtanisArmyGroupAt(
+        UnitGetPosition(lv_damagedUnit),
+        500.0,
+        true
+    );
+    lv_count = UnitGroupCount(lv_allArmy, c_unitCountAlive);
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_allArmy, lv_index);
+        UnitCreateEffectUnit(lv_caster, "SOASuperShieldModifyUnit", lv_unit);
+        UnitCreateEffectUnit(lv_caster, "SOASuperShieldApplyBehavior", lv_unit);
+        lv_index += 1;
+    }
+    return true;
+}
+
+bool CMSC_gf_StukovUnitBelongsToEnemyAI (unit lp_unit) {
+    int lv_owner;
+    int lv_unitOwner;
+
+    if ((lp_unit == null)) {
+        return false;
+    }
+    lv_owner = CMSC_CommanderOwner();
+    lv_unitOwner = UnitGetOwner(lp_unit);
+    return ((lv_unitOwner == lv_owner)
+        || (PlayerGroupHasPlayer(
+            PlayerGroupAlliance(c_playerGroupAlly, lv_owner),
+            lv_unitOwner
+        ) == true));
+}
+
+bool CMSC_gf_StukovPlagueStructureIsEligible (unit lp_unit) {
+    if (((lp_unit == null)
+        || (UnitIsAlive(lp_unit) == false)
+        || (CMSC_gf_StukovUnitBelongsToEnemyAI(lp_unit) == false)
+        || (UnitTestState(lp_unit, c_unitStateInvulnerable) == true)
+        || (UnitTestState(lp_unit, c_unitStateSelectable) == false)
+        || (UnitTestState(lp_unit, c_unitStateHidden) == true)
+        || (UnitHasBehavior2(lp_unit, "UnderConstruction") == true)
+        || (UnitBehaviorCount(lp_unit, "CMStukovSpreadPlague") > 0))) {
+        return false;
+    }
+    return UnitTypeTestAttribute(
+        UnitGetType(lp_unit),
+        c_unitAttributeStructure
+    );
+}
+
+unitgroup CMSC_gf_StukovEligiblePlagueStructures () {
+    int lv_index;
+    unit lv_unit;
+    unitgroup lv_units;
+
+    lv_units = UnitGroup(
+        null,
+        c_playerAny,
+        RegionPlayableMap(),
+        UnitFilter(
+            (1 << c_targetFilterStructure),
+            0,
+            (1 << c_targetFilterMissile),
+            ((1 << (c_targetFilterDead - 32))
+                | (1 << (c_targetFilterHidden - 32)))
+        ),
+        0
+    );
+    lv_index = UnitGroupCount(lv_units, c_unitCountAll);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_units, lv_index);
+        if ((CMSC_gf_StukovPlagueStructureIsEligible(lv_unit) == false)) {
+            UnitGroupRemove(lv_units, lv_unit);
+        }
+        lv_index -= 1;
+    }
+    return lv_units;
+}
+
+int CMSC_gf_StukovSpreadPlagueTargetCount () {
+    fixed lv_missionTime;
+
+    lv_missionTime = GameGetMissionTime();
+    if ((lv_missionTime >= 1440.0)) {
+        return 5;
+    }
+    if ((lv_missionTime >= 960.0)) {
+        return 3;
+    }
+    if ((lv_missionTime >= 480.0)) {
+        return 2;
+    }
+    return 1;
+}
+
+void CMSC_gf_StukovUpdateInfestedTideNotification () {
+    int lv_stage;
+    fixed lv_missionTime;
+    text lv_message;
+
+    if ((CMSC_gf_StukovIsActive() == false)) {
+        return;
+    }
+    lv_missionTime = GameGetMissionTime();
+    if ((lv_missionTime < 240.0)) {
+        return;
+    }
+    if ((lv_missionTime >= 1440.0)) {
+        lv_stage = 4;
+    }
+    else {
+        if ((lv_missionTime >= 960.0)) {
+            lv_stage = 3;
+        }
+        else {
+            if ((lv_missionTime >= 480.0)) {
+                lv_stage = 2;
+            }
+            else {
+                lv_stage = 1;
+            }
+        }
+    }
+    if ((lv_stage <= CMSC_gv_StukovInfestedTideNotificationStage)) {
+        return;
+    }
+    if ((CMSC_gv_StukovInfestedTideNotificationStage == 0)) {
+        lv_message = StringExternal(
+            "CM/StormCommanderAbility/StukovInfestedTideStarted"
+        );
+    }
+    else {
+        lv_message = StringExternal(
+            "CM/StormCommanderAbility/StukovInfestedTideFaster"
+        );
+    }
+    CMSC_gv_StukovInfestedTideNotificationStage = lv_stage;
+    libCOUI_gf_CU_MutatorListShowNotification(lv_message);
+}
+
+bool CMSC_gf_PointHiddenFromCommanders (point lp_point) {
+    int lv_player;
+    bool lv_hasCommander;
+    playergroup lv_commanders;
+
+    if ((lp_point == null)) {
+        return false;
+    }
+    lv_commanders = libCOOC_gf_CommanderPlayers();
+    lv_hasCommander = false;
+    lv_player = 1;
+    while ((lv_player <= 16)) {
+        if ((PlayerGroupHasPlayer(lv_commanders, lv_player) == true)) {
+            lv_hasCommander = true;
+            if ((VisIsVisibleForPlayer(lv_player, lp_point) == true)) {
+                return false;
+            }
+        }
+        lv_player += 1;
+    }
+    return lv_hasCommander;
+}
+
+point CMSC_gf_StukovFallbackBunkerPoint (int lp_owner) {
+    int lv_attempt;
+    point lv_candidate;
+    point lv_placement;
+
+    if ((CMSC_gf_PlayerIsValid(lp_owner) == false)) {
+        return null;
+    }
+    lv_attempt = 1;
+    while ((lv_attempt <= 128)) {
+        lv_candidate = RegionRandomPoint(RegionPlayableMap());
+        if (((lv_candidate != null)
+            && (PathingType(lv_candidate) == c_pathingGround)
+            && (CMSC_gf_PointHiddenFromCommanders(lv_candidate) == true)
+            && (CMSC_gf_PointConnectedToCommanderBase(lv_candidate) == true)
+            && (libCOOC_gf_CC_SpawnAllowedAtPoint(lv_candidate) == true))) {
+            lv_placement = UnitTypePlacementFromPoint(
+                "SIInfestedBunker",
+                lp_owner,
+                lv_candidate,
+                8.0
+            );
+            if (((lv_placement != null)
+                && (PathingType(lv_placement) == c_pathingGround)
+                && (CMSC_gf_PointHiddenFromCommanders(lv_placement) == true)
+                && (CMSC_gf_PointConnectedToCommanderBase(lv_placement) == true)
+                && (libCOOC_gf_CC_SpawnAllowedAtPoint(lv_placement) == true))) {
+                return lv_placement;
+            }
+        }
+        lv_attempt += 1;
+    }
+    return null;
+}
+
+unit CMSC_gf_StukovCreateFallbackBunker (int lp_owner, point lp_point) {
+    int lv_bunkerSize;
+    unit lv_bunker;
+
+    if (((CMSC_gf_PlayerIsValid(lp_owner) == false) || (lp_point == null))) {
+        return null;
+    }
+    UnitCreate(
+        1,
+        "SIInfestedBunker",
+        c_unitCreateIgnorePlacement,
+        lp_owner,
+        lp_point,
+        libNtve_gf_RandomAngle()
+    );
+    lv_bunker = UnitLastCreated();
+    if ((lv_bunker == null)) {
+        return null;
+    }
+    lv_bunkerSize = CatalogFieldValueGetAsInt(
+        c_gameCatalogAbil,
+        "SIInfestedBunkerTransport",
+        "TotalCargoSpace",
+        lp_owner
+    );
+    if ((lv_bunkerSize > 0)) {
+        UnitCargoCreate(lv_bunker, "SIInfestedTrooper", lv_bunkerSize);
+    }
+    return lv_bunker;
+}
+
+bool CMSC_gf_StukovTrySpreadPlague () {
+    int lv_owner;
+    int lv_targetCount;
+    int lv_index;
+    unit lv_bunker;
+    unit lv_target;
+    unitgroup lv_structures;
+    point lv_fallbackPoint;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((CMSC_PanelAbilityCanUse(
+        lv_owner,
+        CMSC_STUKOV_ABILITY_SPREAD_PLAGUE
+    ) == false)) {
+        return false;
+    }
+    lv_structures = CMSC_gf_StukovEligiblePlagueStructures();
+    lv_targetCount = CMSC_gf_StukovSpreadPlagueTargetCount();
+    lv_fallbackPoint = null;
+    if ((UnitGroupCount(lv_structures, c_unitCountAlive) <= 0)) {
+        lv_fallbackPoint = CMSC_gf_StukovFallbackBunkerPoint(lv_owner);
+        if ((lv_fallbackPoint == null)) {
+            return false;
+        }
+    }
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_STUKOV_ABILITY_SPREAD_PLAGUE
+    ) == false)) {
+        return false;
+    }
+
+    lv_index = 1;
+    while ((lv_index <= lv_targetCount)) {
+        lv_target = UnitGroupRandomUnit(lv_structures, c_unitCountAlive);
+        if ((lv_target != null)) {
+            UnitBehaviorAddPlayer(
+                lv_target,
+                "CMStukovSpreadPlague",
+                UnitGetOwner(lv_target),
+                1
+            );
+            UnitGroupRemove(lv_structures, lv_target);
+        }
+        else {
+            if ((lv_fallbackPoint == null)) {
+                lv_fallbackPoint = CMSC_gf_StukovFallbackBunkerPoint(lv_owner);
+            }
+            if ((lv_fallbackPoint == null)) {
+                return true;
+            }
+            lv_bunker = CMSC_gf_StukovCreateFallbackBunker(
+                lv_owner,
+                lv_fallbackPoint
+            );
+            if ((lv_bunker == null)) {
+                return true;
+            }
+            lv_fallbackPoint = null;
+        }
+        lv_index += 1;
+    }
+    return true;
+}
+
+void CMSC_gf_StukovSetSummonedUnitSuicide (unit lp_unit) {
+    unitgroup lv_units;
+
+    if ((lp_unit == null)) {
+        return;
+    }
+    lv_units = UnitGroupEmpty();
+    UnitGroupAdd(lv_units, lp_unit);
+    AISetGroupSuicide(lv_units, true);
+}
+
+unit CMSC_gf_StukovCreateInfested (unit lp_source, string lp_unitType) {
+    int lv_owner;
+    unit lv_unit;
+    point lv_spawnPoint;
+
+    if ((lp_source == null)) {
+        return null;
+    }
+    lv_owner = UnitGetOwner(lp_source);
+    lv_spawnPoint = PointWithOffsetPolar(
+        UnitGetPosition(lp_source),
+        UnitGetPropertyFixed(lp_source, c_unitPropRadius, c_unitPropCurrent)
+            + 1.5,
+        libNtve_gf_RandomAngle()
+    );
+    UnitCreate(
+        1,
+        lp_unitType,
+        c_unitCreateIgnorePlacement,
+        lv_owner,
+        lv_spawnPoint,
+        libNtve_gf_RandomAngle()
+    );
+    lv_unit = UnitLastCreated();
+    if ((lv_unit == null)) {
+        return null;
+    }
+    UnitSetState(lv_unit, c_unitStateUsingSupply, false);
+    UnitBehaviorAdd(
+        lv_unit,
+        "SIBarracksTrainTimedLifeHasBeenApplied",
+        lv_unit,
+        1
+    );
+    UnitBehaviorAdd(lv_unit, "SIInfestedBunkerTrainTimedLife", lv_unit, 1);
+    UnitBehaviorRemove(
+        lv_unit,
+        "AllUnitBehaviorController",
+        c_unitBehaviorCountAll
+    );
+    UnitBehaviorAddPlayer(
+        lv_unit,
+        "AllUnitBehaviorController",
+        lv_owner,
+        1
+    );
+    CMSC_gf_StukovSetSummonedUnitSuicide(lv_unit);
+    return lv_unit;
+}
+
+bool CMSC_gt_StukovSpreadPlaguePulse_Func (
+    bool testConds,
+    bool runActions
+) {
+    int lv_minute;
+    unit lv_source;
+    string lv_unitType;
+    fixed lv_civilianChance;
+    fixed lv_progress;
+    fixed lv_trooperChance;
+    fixed lv_roll;
+
+    if ((runActions == false)) {
+        return true;
+    }
+    if ((CMSC_gf_StukovIsActive() == false)) {
+        return true;
+    }
+    lv_source = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    if (((lv_source == null)
+        || (CMSC_gf_StukovUnitBelongsToEnemyAI(lv_source) == false)
+        || (UnitBehaviorCount(lv_source, "CMStukovSpreadPlague") <= 0))) {
+        return true;
+    }
+    if ((GameGetMissionTime() < 240.0)) {
+        return true;
+    }
+
+    lv_minute = FixedToInt(GameGetMissionTime() / 60.0);
+    lv_civilianChance = MaxF(
+        30.0,
+        80.0 - IntToFixed(lv_minute * 2)
+    );
+    lv_progress = (80.0 - lv_civilianChance) / 50.0;
+    lv_trooperChance = 15.0 + (25.0 * lv_progress);
+    lv_roll = RandomFixed(0.0, 100.0);
+    if ((lv_roll < lv_civilianChance)) {
+        lv_unitType = "SIInfestedCivilian";
+    }
+    else {
+        if ((lv_roll < lv_civilianChance + lv_trooperChance)) {
+            lv_unitType = "SIInfestedTrooper";
+        }
+        else {
+            lv_unitType = "SIVolatileInfested";
+        }
+    }
+    CMSC_gf_StukovCreateInfested(lv_source, lv_unitType);
+    return true;
+}
+
+bool CMSC_gt_StukovBunkerSpawn_Func (bool testConds, bool runActions) {
+    int lv_bunkerSize;
+    int lv_owner;
+    unit lv_bunker;
+    unit lv_newUnit;
+
+    if ((runActions == false)) {
+        return true;
+    }
+    if ((CMSC_gf_StukovIsActive() == false)) {
+        return true;
+    }
+    lv_bunker = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    if (((lv_bunker == null)
+        || (UnitGetType(lv_bunker) != "SIInfestedBunker")
+        || (CMSC_gf_StukovUnitBelongsToEnemyAI(lv_bunker) == false))) {
+        return true;
+    }
+    lv_owner = UnitGetOwner(lv_bunker);
+    lv_bunkerSize = CatalogFieldValueGetAsInt(
+        c_gameCatalogAbil,
+        "SIInfestedBunkerTransport",
+        "TotalCargoSpace",
+        lv_owner
+    );
+    if (((lv_bunkerSize > 0)
+        && (UnitCargoValue(lv_bunker, c_unitCargoSpaceFree) > 0))) {
+        UnitCargoCreate(lv_bunker, "SIInfestedTrooper", 1);
+        lv_newUnit = UnitCargoLastCreated();
+        if ((lv_newUnit != null)) {
+            UnitSetState(lv_newUnit, c_unitStateUsingSupply, false);
+            UnitBehaviorAdd(
+                lv_newUnit,
+                "SIBarracksTrainTimedLifeHasBeenApplied",
+                lv_newUnit,
+                1
+            );
+            UnitBehaviorAdd(
+                lv_newUnit,
+                "SIInfestedBunkerTrainTimedLife",
+                lv_newUnit,
+                1
+            );
+            UnitBehaviorRemove(
+                lv_newUnit,
+                "AllUnitBehaviorController",
+                c_unitBehaviorCountAll
+            );
+            UnitBehaviorAddPlayer(
+                lv_newUnit,
+                "AllUnitBehaviorController",
+                lv_owner,
+                1
+            );
+            CMSC_gf_StukovSetSummonedUnitSuicide(lv_newUnit);
+        }
+    }
+    else {
+        CMSC_gf_StukovCreateInfested(lv_bunker, "SIInfestedTrooper");
+    }
+    return true;
+}
+
+unit CMSC_gf_StukovInfestStructureTarget () {
+    int lv_index;
+    unit lv_unit;
+    unitgroup lv_defenses;
+    unitgroup lv_structures;
+
+    lv_defenses = UnitGroupEmpty();
+    lv_structures = UnitGroup(
+        null,
+        c_playerAny,
+        RegionPlayableMap(),
+        UnitFilter(
+            (1 << c_targetFilterStructure),
+            0,
+            (1 << c_targetFilterMissile),
+            ((1 << (c_targetFilterDead - 32))
+                | (1 << (c_targetFilterHidden - 32))
+                | (1 << (c_targetFilterInvulnerable - 32)))
+        ),
+        0
+    );
+    lv_index = UnitGroupCount(lv_structures, c_unitCountAll);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_structures, lv_index);
+        if (((CMSC_gf_UnitBelongsToCommanderPlayer(lv_unit) == false)
+            || (libNtve_gf_UnitIsVisibleToPlayer(
+                lv_unit,
+                CMSC_CommanderOwner()
+            ) == false)
+            || (UnitHasBehavior2(lv_unit, "UnderConstruction") == true)
+            || (UnitBehaviorCount(
+                lv_unit,
+                "SIStukovInfestStructureEnemyTarget"
+            ) > 0)
+            || (UnitBehaviorCount(
+                lv_unit,
+                "SIStukovInfestStructureFriendlyTarget"
+            ) > 0))) {
+            UnitGroupRemove(lv_structures, lv_unit);
+        }
+        else {
+            if ((UnitWeaponCount(lv_unit) > 0)) {
+                UnitGroupAdd(lv_defenses, lv_unit);
+            }
+        }
+        lv_index -= 1;
+    }
+    if ((UnitGroupCount(lv_defenses, c_unitCountAlive) > 0)) {
+        return UnitGroupRandomUnit(lv_defenses, c_unitCountAlive);
+    }
+    return UnitGroupRandomUnit(lv_structures, c_unitCountAlive);
+}
+
+bool CMSC_gf_StukovTryInfestStructure () {
+    int lv_owner;
+    unit lv_caster;
+    unit lv_target;
+
+    lv_owner = CMSC_CommanderOwner();
+    if ((CMSC_PanelAbilityCanUse(
+        lv_owner,
+        CMSC_STUKOV_ABILITY_INFEST_STRUCTURE
+    ) == false)) {
+        return false;
+    }
+    lv_target = CMSC_gf_StukovInfestStructureTarget();
+    if ((lv_target == null)) {
+        return false;
+    }
+    lv_caster = CMSC_PanelCaster();
+    if ((lv_caster == null)) {
+        return false;
+    }
+    UnitCreateEffectUnit(
+        lv_caster,
+        "SIStukovInfestStructureInitialSet",
+        lv_target
+    );
+    if (((UnitBehaviorCount(
+        lv_target,
+        "SIStukovInfestStructureEnemyTarget"
+    ) <= 0) && (UnitBehaviorCount(
+        lv_target,
+        "SIStukovInfestStructureFriendlyTarget"
+    ) <= 0))) {
+        return false;
+    }
+    return CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_STUKOV_ABILITY_INFEST_STRUCTURE
+    );
+}
+
+point CMSC_gf_StukovSummonPoint (point lp_lastDeathPoint) {
+    fixed lv_bestScore;
+    fixed lv_score;
+    int lv_index;
+    int lv_owner;
+    point lv_spawnPoint;
+    unit lv_unit;
+    unit lv_frontUnit;
+    unitgroup lv_enemyUnits;
+    unitgroup lv_ownerUnits;
+    unitgroup lv_waveUnits;
+
+    if ((lp_lastDeathPoint != null)) {
+        return lp_lastDeathPoint;
+    }
+    lv_owner = CMSC_CommanderOwner();
+    if ((lv_owner == 0)) {
+        return PlayerStartLocation(3);
+    }
+
+    lv_bestScore = 0.0;
+    lv_frontUnit = null;
+    lv_waveUnits = UnitGroupEmpty();
+    lv_ownerUnits = UnitGroup(
+        null,
+        lv_owner,
+        RegionPlayableMap(),
+        UnitFilter(
+            0,
+            0,
+            (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile),
+            (1 << (c_targetFilterDead - 32))
+        ),
+        0
+    );
+    lv_index = UnitGroupCount(lv_ownerUnits, c_unitCountAlive);
+    while ((lv_index >= 1)) {
+        lv_unit = UnitGroupUnit(lv_ownerUnits, lv_index);
+        if ((AIUnitGetWave(lv_unit) != null)) {
+            UnitGroupAdd(lv_waveUnits, lv_unit);
+            lv_enemyUnits = UnitGroupAlliance(
+                lv_owner,
+                c_unitAllianceEnemy,
+                RegionCircle(UnitGetPosition(lv_unit), 12.0),
+                UnitFilter(
+                    0,
+                    0,
+                    (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile),
+                    (1 << (c_targetFilterDead - 32))
+                ),
+                0
+            );
+            lv_score = IntToFixed(UnitGroupCount(
+                lv_enemyUnits,
+                c_unitCountAlive
+            ));
+            if ((lv_score > lv_bestScore)) {
+                lv_bestScore = lv_score;
+                lv_frontUnit = lv_unit;
+            }
+        }
+        lv_index -= 1;
+    }
+    if ((lv_frontUnit != null)) {
+        return UnitGetPosition(lv_frontUnit);
+    }
+    if ((UnitGroupCount(lv_waveUnits, c_unitCountAlive) > 0)) {
+        return UnitGroupCenterOfGroup(lv_waveUnits);
+    }
+
+    lv_spawnPoint = PlayerStartLocation(lv_owner);
+    if ((lv_spawnPoint != null)) {
+        return lv_spawnPoint;
+    }
+    return PlayerStartLocation(3);
+}
+
+unit CMSC_gf_StukovCreateSummon (string lp_unitType, point lp_point) {
+    string lv_effect;
+    int lv_owner;
+    unit lv_unit;
+    unit lv_caster;
+    unitgroup lv_units;
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_caster = CMSC_PanelCaster();
+    if (((lv_owner == 0) || (lv_caster == null))) {
+        return null;
+    }
+    if ((lp_unitType == "StukovApocalisk")) {
+        lv_effect = "CMSCStukovSummonApocaliskCU";
+    }
+    else {
+        if ((lp_unitType == "StukovAleksander")) {
+            lv_effect = "CMSCStukovSummonAleksanderCU";
+        }
+        else {
+            return null;
+        }
+    }
+
+    UnitCreateEffectPoint(lv_caster, lv_effect, lp_point);
+    lv_units = UnitGroup(
+        lp_unitType,
+        lv_owner,
+        RegionEntireMap(),
+        UnitFilter(
+            0,
+            0,
+            (1 << c_targetFilterMissile),
+            (1 << (c_targetFilterDead - 32))
+        ),
+        0
+    );
+    lv_unit = UnitGroupClosestToPoint(lv_units, lp_point);
+    if ((lv_unit == null)) {
+        return null;
+    }
+    UnitBehaviorRemove(
+        lv_unit,
+        "StukovSummonApocaliskTimedLife",
+        c_unitBehaviorCountAll
+    );
+    UnitBehaviorRemove(
+        lv_unit,
+        "StukovSummonAleksanderTimedLife",
+        c_unitBehaviorCountAll
+    );
+    UnitBehaviorRemove(
+        lv_unit,
+        "AllUnitBehaviorController",
+        c_unitBehaviorCountAll
+    );
+    UnitBehaviorAddPlayer(
+        lv_unit,
+        "AllUnitBehaviorController",
+        lv_owner,
+        1
+    );
+    CMSC_gf_StukovSetSummonedUnitSuicide(lv_unit);
+    return lv_unit;
+}
+
+void CMSC_gf_StukovBeginSummonRecharge (int lp_slot) {
+    CMSC_gv_PanelAbilityCharges[lp_slot] = 0;
+    CMSC_gv_PanelAbilityNextChargeTime[lp_slot]
+        = GameGetMissionTime()
+        + CMSC_gv_PanelAbilityChargeRecoveryTime[lp_slot];
+    CMSC_gv_PanelUICooldownWarningSent[lp_slot] = false;
+}
+
+void CMSC_gf_StukovMaintainSummons () {
+    if (((CMSC_gv_StukovApocalisk != null)
+        && (UnitIsAlive(CMSC_gv_StukovApocalisk) == true))) {
+        UnitBehaviorRemove(
+            CMSC_gv_StukovApocalisk,
+            "StukovSummonApocaliskTimedLife",
+            c_unitBehaviorCountAll
+        );
+    }
+    if (((CMSC_gv_StukovAleksander != null)
+        && (UnitIsAlive(CMSC_gv_StukovAleksander) == true))) {
+        UnitBehaviorRemove(
+            CMSC_gv_StukovAleksander,
+            "StukovSummonAleksanderTimedLife",
+            c_unitBehaviorCountAll
+        );
+    }
+    if (((CMSC_gv_StukovApocalisk != null)
+        && (UnitIsAlive(CMSC_gv_StukovApocalisk) == false))) {
+        if ((UnitIsValid(CMSC_gv_StukovApocalisk) == true)) {
+            CMSC_gv_StukovApocaliskLastDeathPoint
+                = UnitGetPosition(CMSC_gv_StukovApocalisk);
+        }
+        CMSC_gv_StukovApocalisk = null;
+        CMSC_gf_StukovBeginSummonRecharge(
+            CMSC_STUKOV_ABILITY_APOCALISK
+        );
+    }
+    if (((CMSC_gv_StukovAleksander != null)
+        && (UnitIsAlive(CMSC_gv_StukovAleksander) == true))) {
+        CMSC_gv_StukovAleksanderCrashed = UnitGetType(
+            CMSC_gv_StukovAleksander
+        ) == "StukovAleksanderCrashed";
+    }
+    if (((CMSC_gv_StukovAleksander != null)
+        && (UnitIsAlive(CMSC_gv_StukovAleksander) == false))) {
+        if ((UnitIsValid(CMSC_gv_StukovAleksander) == true)) {
+            CMSC_gv_StukovAleksanderLastDeathPoint
+                = UnitGetPosition(CMSC_gv_StukovAleksander);
+        }
+        CMSC_gv_StukovAleksander = null;
+        CMSC_gv_StukovAleksanderCrashed = false;
+        CMSC_gf_StukovBeginSummonRecharge(
+            CMSC_STUKOV_ABILITY_ALEKSANDER
+        );
+    }
+}
+
+bool CMSC_gf_StukovTryApocalisk () {
+    int lv_owner;
+    point lv_spawnPoint;
+
+    lv_owner = CMSC_CommanderOwner();
+    if (((CMSC_gv_StukovApocalisk != null)
+        || (CMSC_PanelAbilityCanUse(
+            lv_owner,
+            CMSC_STUKOV_ABILITY_APOCALISK
+        ) == false))) {
+        return false;
+    }
+    lv_spawnPoint = CMSC_gf_StukovSummonPoint(
+        CMSC_gv_StukovApocaliskLastDeathPoint
+    );
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_STUKOV_ABILITY_APOCALISK
+    ) == false)) {
+        return false;
+    }
+    CMSC_gv_StukovApocalisk = CMSC_gf_StukovCreateSummon(
+        "StukovApocalisk",
+        lv_spawnPoint
+    );
+    if ((CMSC_gv_StukovApocalisk == null)) {
+        CMSC_gf_StukovBeginSummonRecharge(
+            CMSC_STUKOV_ABILITY_APOCALISK
+        );
+        return false;
+    }
+    CMSC_gv_PanelAbilityNextChargeTime[CMSC_STUKOV_ABILITY_APOCALISK]
+        = 0.0;
+    return true;
+}
+
+bool CMSC_gf_StukovTryAleksander () {
+    int lv_owner;
+    point lv_spawnPoint;
+
+    lv_owner = CMSC_CommanderOwner();
+    if (((CMSC_gv_StukovAleksander != null)
+        || (CMSC_PanelAbilityCanUse(
+            lv_owner,
+            CMSC_STUKOV_ABILITY_ALEKSANDER
+        ) == false))) {
+        return false;
+    }
+    lv_spawnPoint = CMSC_gf_StukovSummonPoint(
+        CMSC_gv_StukovAleksanderLastDeathPoint
+    );
+    if ((CMSC_PanelAbilityConsume(
+        lv_owner,
+        CMSC_STUKOV_ABILITY_ALEKSANDER
+    ) == false)) {
+        return false;
+    }
+    CMSC_gv_StukovAleksander = CMSC_gf_StukovCreateSummon(
+        "StukovAleksander",
+        lv_spawnPoint
+    );
+    if ((CMSC_gv_StukovAleksander == null)) {
+        CMSC_gf_StukovBeginSummonRecharge(
+            CMSC_STUKOV_ABILITY_ALEKSANDER
+        );
+        return false;
+    }
+    CMSC_gv_PanelAbilityNextChargeTime[CMSC_STUKOV_ABILITY_ALEKSANDER]
+        = 0.0;
+    CMSC_gv_StukovAleksanderCrashed = false;
+    return true;
+}
+
+bool CMSC_gt_PanelAbilityMonitor_Func (bool testConds, bool runActions) {
+    bool lv_artanisUsedPowerField;
+    bool lv_artanisUsedSolarBombardment;
+
+    if ((runActions == false)) {
+        return true;
+    }
+
+    if ((CMSC_gf_NovaIsActive() == true)) {
+        CMSC_gf_NovaTryGriffinAirstrike();
+    }
+    if ((CMSC_gf_ArtanisIsActive() == true)) {
+        lv_artanisUsedPowerField = CMSC_gf_ArtanisTryPowerField();
+        if ((lv_artanisUsedPowerField == false)) {
+            lv_artanisUsedSolarBombardment = CMSC_gf_ArtanisTrySolarBombardment();
+            if ((lv_artanisUsedSolarBombardment == false)) {
+                CMSC_gf_ArtanisTryOrbitalStrike();
+            }
+        }
+    }
+    if ((CMSC_gf_StukovIsActive() == true)) {
+        CMSC_gf_StukovUpdateInfestedTideNotification();
+        CMSC_gf_StukovMaintainSummons();
+        CMSC_gf_StukovTrySpreadPlague();
+        CMSC_gf_StukovTryInfestStructure();
+        CMSC_gf_StukovTryApocalisk();
+        CMSC_gf_StukovTryAleksander();
+    }
+    return true;
+}
+
+bool CMSC_gf_NovaDefensiveDroneTargetIsEligible (unit lp_unit) {
+    if (((lp_unit == null)
+        || (UnitIsAlive(lp_unit) == false)
+        || (CMSC_gf_PlayerIsCommanderEnemy(UnitGetOwner(lp_unit)) == false))) {
+        return false;
+    }
+    return UnitFilterMatch(
+        lp_unit,
+        UnitGetOwner(lp_unit),
+        UnitFilter(
+            0,
+            0,
+            ((1 << c_targetFilterStructure)
+                | (1 << c_targetFilterMissile)
+                | (1 << c_targetFilterUncommandable)),
+            ((1 << (c_targetFilterStasis - 32))
+                | (1 << (c_targetFilterDead - 32))
+                | (1 << (c_targetFilterHidden - 32))
+                | (1 << (c_targetFilterHallucination - 32))
+                | (1 << (c_targetFilterInvulnerable - 32)))
+        )
+    );
+}
+
+bool CMSC_gt_UnitDamaged_Func (bool testConds, bool runActions) {
+    int lv_owner;
+    int lv_index;
+    int lv_count;
+    unit lv_damagedUnit;
+    unit lv_unit;
+    unit lv_caster;
+    unit lv_griffin;
+    unitgroup lv_nearbyArmy;
+    unitgroup lv_airTransportUnits;
+    unitgroup lv_transportUnits;
+    point lv_startPoint;
+    point lv_destination;
+    point lv_unitDestination;
+    fixed lv_distance;
+    fixed lv_angle;
+
+    if ((runActions == false)) {
+        return true;
+    }
+    if ((CMSC_gf_ArtanisIsActive() == true)) {
+        return CMSC_gt_ArtanisUnitDamaged_Func(testConds, runActions);
+    }
+    if ((CMSC_gf_NovaIsActive() == false)) {
+        return true;
+    }
+
+    lv_owner = CMSC_CommanderOwner();
+    lv_damagedUnit = EventUnit();
+    lv_caster = CMSC_PanelCaster();
+    if ((lv_caster == null)) {
+        return true;
+    }
+
+    if (((CMSC_gf_NovaDefensiveDroneTargetIsEligible(
+        lv_damagedUnit
+    ) == true)
+        && (CMSC_PanelAbilityCanUse(
+            lv_owner,
+            CMSC_NOVA_ABILITY_DEFENSIVE_DRONE
+        ) == true))) {
+        if ((CMSC_PanelAbilityConsume(lv_owner, CMSC_NOVA_ABILITY_DEFENSIVE_DRONE) == true)) {
+            UnitCreateEffectPoint(lv_caster, "NovaDefensiveMatrixDrone", UnitGetPosition(lv_damagedUnit));
+            if ((GameGetMissionTime() >= 480.0)) {
+                UnitCreateEffectPoint(lv_caster, "NovaGadgetDefensiveDroneSummonCU", UnitGetPosition(lv_damagedUnit));
+            }
+            if ((GameGetMissionTime() >= 960.0)) {
+                UnitCreateEffectPoint(lv_caster, "NovaStunDrone", UnitGetPosition(lv_damagedUnit));
+            }
+        }
+    }
+
+    if ((CMSC_gf_NovaUnitBelongsToEnemyAI(lv_damagedUnit) == false)) {
+        return true;
+    }
+    lv_nearbyArmy = CMSC_gf_NovaArmyGroupAt(UnitGetPosition(lv_damagedUnit), 12.0, true);
+    if (((CMSC_PanelAbilityCanUse(lv_owner, CMSC_NOVA_ABILITY_GRIFFIN_TRANSPORT) == false)
+        || (CMSC_gf_NovaArmyAverageLife(lv_nearbyArmy) > 90.0)
+        || (UnitGroupCount(lv_nearbyArmy, c_unitCountAlive) < 3)
+        || (RandomInt(1, 5) != 1))) {
+        return true;
+    }
+
+    lv_startPoint = UnitGetPosition(lv_damagedUnit);
+    lv_destination = CMSC_gf_NovaFindTransportDestination(lv_startPoint);
+    if ((lv_destination == null)) {
+        return true;
+    }
+    lv_transportUnits = CMSC_gf_NovaArmyGroupAt(lv_startPoint, 13.0, true);
+    if ((UnitGroupCount(lv_transportUnits, c_unitCountAlive) < 3)) {
+        return true;
+    }
+    if ((CMSC_PanelAbilityConsume(lv_owner, CMSC_NOVA_ABILITY_GRIFFIN_TRANSPORT) == false)) {
+        return true;
+    }
+
+    lv_angle = AngleBetweenPoints(lv_startPoint, lv_destination);
+    UnitCreate(
+        1,
+        "NovaGriffinTransportUnit",
+        c_unitCreateIgnorePlacement,
+        lv_owner,
+        lv_startPoint,
+        lv_angle
+    );
+    lv_griffin = UnitLastCreated();
+    libCOMI_gf_PingMinimapCampaign(PlayerGroupAll(), lv_destination, 2.0, Color(0.00, 100.00, 100.00));
+    lv_airTransportUnits = UnitGroupFilterPlane(
+        lv_transportUnits,
+        c_planeAir,
+        0
+    );
+    lv_count = UnitGroupCount(lv_transportUnits, c_unitCountAll);
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_transportUnits, lv_index);
+        if (((lv_unit != null) && (UnitIsAlive(lv_unit) == true))) {
+            if ((UnitGroupHasUnit(lv_airTransportUnits, lv_unit) == true)) {
+                UnitBehaviorAddPlayer(
+                    lv_unit,
+                    "NovaGriffinTransportAirUnits",
+                    UnitGetOwner(lv_unit),
+                    1
+                );
+            }
+            else {
+                UnitBehaviorAddPlayer(
+                    lv_unit,
+                    "NovaGriffinTransportGroundUnits",
+                    UnitGetOwner(lv_unit),
+                    1
+                );
+            }
+        }
+        lv_index += 1;
+    }
+    Wait(
+        CMSC_PanelAbilityActivationDelay(CMSC_NOVA_ABILITY_GRIFFIN_TRANSPORT)
+            + RandomFixed(0.0, 1.0),
+        c_timeGame
+    );
+    lv_distance = DistanceBetweenPoints(lv_startPoint, lv_destination);
+    if (((lv_griffin != null) && (UnitIsAlive(lv_griffin) == true))) {
+        UnitBehaviorAddPlayer(lv_griffin, "Griffin_TeleportOut_COOP", lv_owner, 1);
+        UnitSetPosition(lv_griffin, lv_destination, false);
+    }
+    lv_count = UnitGroupCount(lv_transportUnits, c_unitCountAll);
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_transportUnits, lv_index);
+        if (((lv_unit != null) && (UnitIsAlive(lv_unit) == true))) {
+            lv_unitDestination = PointWithOffsetPolar(UnitGetPosition(lv_unit), lv_distance, lv_angle);
+            if ((PointPathingPassable(lv_unitDestination) == false)) {
+                lv_unitDestination = lv_destination;
+            }
+            UnitSetPosition(lv_unit, lv_unitDestination, false);
+            UnitSetPropertyFixed(
+                lv_unit,
+                c_unitPropLifePercent,
+                MinF(UnitGetPropertyFixed(lv_unit, c_unitPropLifePercent, c_unitPropCurrent) + 10.0, 100.0)
+            );
+            UnitBehaviorAddPlayer(lv_unit, "GhostMengskSuperCloak", lv_owner, 1);
+            UnitBehaviorRemove(
+                lv_unit,
+                "NovaGriffinTransportGroundUnits",
+                c_unitBehaviorCountAll
+            );
+            UnitBehaviorRemove(
+                lv_unit,
+                "NovaGriffinTransportAirUnits",
+                c_unitBehaviorCountAll
+            );
+        }
+        lv_index += 1;
+    }
+    Wait(0.667, c_timeGame);
+    if (((lv_griffin != null) && (UnitIsAlive(lv_griffin) == true))) {
+        UnitBehaviorAddPlayer(
+            lv_griffin,
+            "NovaGriffinTransportUnloadUnitsDespawnDelay",
+            lv_owner,
+            1
+        );
+    }
+    return true;
+}
+
+point CMSC_gf_NearestVisiblePassablePoint (int lp_player, point lp_origin) {
+    fixed lv_angle;
+    fixed lv_radius;
+    int lv_angleIndex;
+    point lv_candidate;
+    point lv_fallback;
+
+    if (((PointPathingPassable(lp_origin) == true)
+        && (VisIsVisibleForPlayer(lp_player, lp_origin) == true))) {
+        return lp_origin;
+    }
+
+    lv_radius = 1.0;
+    while ((lv_radius <= 16.0)) {
+        lv_angleIndex = 0;
+        while ((lv_angleIndex < 16)) {
+            lv_angle = IntToFixed(lv_angleIndex) * 22.5;
+            lv_candidate = PointWithOffsetPolar(lp_origin, lv_radius, lv_angle);
+            if (((PointPathingPassable(lv_candidate) == true)
+                && (VisIsVisibleForPlayer(lp_player, lv_candidate) == true))) {
+                return lv_candidate;
+            }
+            lv_angleIndex += 1;
+        }
+        lv_radius += 1.0;
+    }
+
+    lv_fallback = PlayerStartLocation(lp_player);
+    if (((lv_fallback != null)
+        && (PointPathingPassable(lv_fallback) == true)
+        && (VisIsVisibleForPlayer(lp_player, lv_fallback) == true))) {
+        return lv_fallback;
+    }
+    return lp_origin;
+}
+
+bool CMSC_gt_NovaHeroDied_Func (bool testConds, bool runActions) {
+    int lv_owner;
+    unit lv_hero;
+    point lv_deathPoint;
+    point lv_revivePoint;
+
+    if ((runActions == false)) {
+        return true;
+    }
+    lv_hero = EventUnit();
+    if (((CMSC_gf_StukovIsActive() == true)
+        && (lv_hero != null)
+        && (lv_hero == CMSC_gv_StukovApocalisk))) {
+        CMSC_gv_StukovApocaliskLastDeathPoint = UnitGetPosition(lv_hero);
+    }
+    if (((CMSC_gf_StukovIsActive() == true)
+        && (lv_hero != null)
+        && (lv_hero == CMSC_gv_StukovAleksander))) {
+        CMSC_gv_StukovAleksanderLastDeathPoint = UnitGetPosition(lv_hero);
+    }
+    if ((CMSC_gf_NovaIsActive() == false)) {
+        return true;
+    }
+
+    lv_owner = CMSC_CommanderOwner();
+    if (((lv_hero == null)
+        || (lv_hero != CMSC_gv_HeroUnit)
+        || (UnitGetOwner(lv_hero) != lv_owner))) {
+        return true;
+    }
+    lv_deathPoint = UnitGetPosition(lv_hero);
+    if ((CMSC_PanelAbilityConsume(lv_owner, CMSC_NOVA_ABILITY_RAPID_RECOVERY) == false)) {
+        return true;
+    }
+
+    CMSC_gv_RapidRecoveryPending = true;
+    lv_revivePoint = CMSC_gf_NearestVisiblePassablePoint(lv_owner, lv_deathPoint);
+    if ((UnitIsAlive(lv_hero) == false)) {
+        CMSC_gf_PanelAbilityPlayUseVoice(CMSC_NOVA_ABILITY_RAPID_RECOVERY);
+        SoundPlayAtPoint(
+            SoundLink("NovaAC_Instant_Revive", c_soundIndexAny),
+            PlayerGroupAll(),
+            lv_revivePoint,
+            0.0,
+            100.0,
+            0.0
+        );
+        SoundPlayAtPoint(
+            SoundLink("NovaAC_Instant_Revive_High", c_soundIndexAny),
+            PlayerGroupAll(),
+            lv_revivePoint,
+            0.0,
+            100.0,
+            0.0
+        );
+        SoundPlayAtPoint(
+            SoundLink("NovaAC_Instant_Revive_Low", c_soundIndexAny),
+            PlayerGroupAll(),
+            lv_revivePoint,
+            0.0,
+            100.0,
+            0.0
+        );
+        SoundPlayAtPoint(
+            SoundLink("NovaAC_Instant_Revive_Rear", c_soundIndexAny),
+            PlayerGroupAll(),
+            lv_revivePoint,
+            0.0,
+            100.0,
+            0.0
+        );
+        UnitBehaviorAdd(lv_hero, "TargetedRevive", CMSC_PanelCaster(), 1);
+        CMSC_gf_ReviveHero(lv_owner, lv_revivePoint, false);
+        AIRemoveUnitFromAnyWaves(lv_hero);
+        AISetUnitScriptControlled(lv_hero, false);
+        AISetUnitSuicide(lv_hero, true);
+    }
+    CMSC_gv_RapidRecoveryPending = false;
+    return true;
+}
+
+bool CMSC_AttackWaveAddHero (
+    int lp_attackingPlayer,
+    unitgroup lp_attackForce,
+    point lp_spawnPoint,
+    int lp_attackTargetType
+) {
+    int lv_player;
+    point lv_spawnPoint;
+    unit lv_hero;
+
+    lv_player = CMSC_CommanderOwner();
+    if ((lv_player == 0)) {
+        return false;
+    }
+    if ((PlayerGroupHasPlayer(
+        PlayerGroupAlliance(c_playerGroupAlly, lv_player),
+        lp_attackingPlayer
+    ) == false)) {
+        return false;
+    }
+    if ((lp_attackTargetType == libCOMI_ge_CM_CoopAI_WaveAttackTargetType_Special)) {
+        return false;
+    }
+    if ((lp_attackForce == null)) {
+        return false;
+    }
+
+    lv_spawnPoint = lp_spawnPoint;
+    if (((lv_spawnPoint == null)
+        && (UnitGroupCount(lp_attackForce, c_unitCountAlive) > 0))) {
+        lv_spawnPoint = UnitGetPosition(UnitGroupUnit(lp_attackForce, 1));
+    }
+    if ((lv_spawnPoint == null)) {
+        lv_spawnPoint = PlayerStartLocation(lv_player);
+    }
+    lv_hero = CMSC_gf_HeroForAttackWave(lv_player, lv_spawnPoint);
+    if ((lv_hero == null)) {
+        return false;
+    }
+
+    AISetUnitScriptControlled(lv_hero, false);
+    UnitGroupAdd(lp_attackForce, lv_hero);
+    return true;
+}
+
+bool CMSC_gt_AttackWave_Func (bool testConds, bool runActions) {
+    int lv_player;
+    unitgroup lv_attackForce;
+    point lv_spawnLocation;
+    int lv_attackTargetType;
+
+    if ((runActions == false)) {
+        return true;
+    }
+
+    lv_player = libCOMU_gf_CM_AttackWaveHookAttackForce2();
+    lv_attackForce = libCOMU_gf_CM_AttackWaveHookAttackForce();
+    lv_spawnLocation = libCOMU_gf_CM_AttackWaveHookSpawnLocation();
+    lv_attackTargetType = libCOMU_gf_CM_AttackWaveHookAttackTargetType();
+    CMSC_AttackWaveAddHero(
+        lv_player,
+        lv_attackForce,
+        lv_spawnLocation,
+        lv_attackTargetType
+    );
+    return true;
+}
+
+void CMSC_Init () {
+    CMSC_gf_ApplyStukovCreep();
+    if ((CMSC_gt_AttackWave != null)) {
+        return;
+    }
+    CMSC_gt_AttackWave = TriggerCreate("CMSC_gt_AttackWave_Func");
+    libCOMU_gf_CM_AttackWaveHook(CMSC_gt_AttackWave);
+    CMSC_gt_UnitDamaged = TriggerCreate("CMSC_gt_UnitDamaged_Func");
+    TriggerAddEventUnitDamaged(
+        CMSC_gt_UnitDamaged,
+        null,
+        c_unitDamageTypeAny,
+        c_unitDamageEither,
+        null
+    );
+    CMSC_gt_NovaHeroDied = TriggerCreate("CMSC_gt_NovaHeroDied_Func");
+    TriggerAddEventUnitDied(CMSC_gt_NovaHeroDied, null);
+    CMSC_gt_ArtanisSolarBombardment = TriggerCreate(
+        "CMSC_gt_ArtanisSolarBombardment_Func"
+    );
+    CMSC_gt_PanelAbilityMonitor = TriggerCreate(
+        "CMSC_gt_PanelAbilityMonitor_Func"
+    );
+    TriggerAddEventTimePeriodic(
+        CMSC_gt_PanelAbilityMonitor,
+        1.0,
+        c_timeGame
+    );
+    CMSC_gt_StukovSpreadPlaguePulse = TriggerCreate(
+        "CMSC_gt_StukovSpreadPlaguePulse_Func"
+    );
+    TriggerAddEventPlayerEffectUsed(
+        CMSC_gt_StukovSpreadPlaguePulse,
+        c_playerAny,
+        "CMStukovSpreadPlaguePulse"
+    );
+    CMSC_gt_StukovBunkerSpawn = TriggerCreate(
+        "CMSC_gt_StukovBunkerSpawn_Func"
+    );
+    TriggerAddEventPlayerEffectUsed(
+        CMSC_gt_StukovBunkerSpawn,
+        c_playerAny,
+        "SIInfestedBunkerAutoSpawnerDummyMU"
+    );
+    CMSC_gt_PanelUIUpdate = TriggerCreate("CMSC_gt_PanelUIUpdate_Func");
+    TriggerAddEventTimePeriodic(CMSC_gt_PanelUIUpdate, 0.25, c_timeGame);
+}

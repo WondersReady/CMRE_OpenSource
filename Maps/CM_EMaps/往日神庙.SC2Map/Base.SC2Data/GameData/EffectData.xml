@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="KaiserWormScourgeMissileDamage">
+        <Amount value="2"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="KaiserWormScourgeMissilePersistent">
+        <PeriodicPeriodArray index="0" value="0.4"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ZenithStonePsiStormDamage">
+        <Amount value="8"/>
+    </CEffectDamage>
+    <CEffectDamage id="ZenithStonePsiStormDamageInitial">
+        <Amount value="4"/>
+    </CEffectDamage>
+    <CEffectDamage id="ZenithStonePsionicShockDamage">
+        <Amount value="25"/>
+    </CEffectDamage>
+</Catalog>

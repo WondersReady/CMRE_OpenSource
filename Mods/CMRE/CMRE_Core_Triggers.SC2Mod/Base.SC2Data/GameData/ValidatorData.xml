@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CValidatorCombine id="IsNydusCombine">
+        <ResultFailed value="Error,Error/NydusNetworkUnloadKerrigan"/>
+    </CValidatorCombine>
+    <CValidatorPlayerRequirement id="HaveAutoCreepUpgrade">
+        <Find value="1"/>
+        <Value value="AutoCreepEnabled"/>
+    </CValidatorPlayerRequirement>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsKarass">
+        <Value value="ZeratulSummonKarass"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsZealot">
+        <Value value="ZeratulSummonZealot"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsHighTemplar">
+        <Value value="HighTemplar"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsMohandar">
+        <Value value="Mohandar"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsVoidRay">
+        <Value value="ZeratulSummonVoidRay"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsHeroDarkArchon">
+        <Value value="ZeratulHeroDarkArchon"/>
+    </CValidatorUnitType>
+    <CValidatorUnitType id="CMREZeratulTopBarWarpingOutIsDarkArchon">
+        <Value value="ZeratulDarkArchon"/>
+    </CValidatorUnitType>
+    <CValidatorCombine id="CMREZeratulTopBarWarpingOutTelbrus">
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsKarass"/>
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsZealot"/>
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsHighTemplar"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="CMREZeratulTopBarWarpingOutZoraya">
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsMohandar"/>
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsVoidRay"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="CMREZeratulTopBarWarpingOutSerdath">
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsHeroDarkArchon"/>
+        <CombineArray value="CMREZeratulTopBarWarpingOutIsDarkArchon"/>
+    </CValidatorCombine>
+</Catalog>

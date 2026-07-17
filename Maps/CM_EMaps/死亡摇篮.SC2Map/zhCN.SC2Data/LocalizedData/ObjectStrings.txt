@@ -1,0 +1,7 @@
+﻿Actor/Name/PayloadDeath=Payload Death
+Actor/Name/PayloadDeathExplode=Payload Death Explode
+Effect/EditorSuffix/NuclearPayload=(Damage)
+Footprint/EditorSuffix/Footprint3x3Contour2=(Contour)
+Footprint/Name/Footprint3x3Contour2=Footprint 3x5
+Light/Name/EditorTestLight=default
+Model/Name/PayloadDeathImpact=Payload Death Impact

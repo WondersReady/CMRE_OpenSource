@@ -1,0 +1,21 @@
+# Match StarCraft II generated Triggers line endings in this repository.
+* text=auto eol=crlf
+
+# Binary assets must not be line-ending normalized.
+*.dds binary
+*.tga binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.wav binary
+*.ogg binary
+*.mp3 binary
+*.m3 binary
+*.m3a binary
+*.mp4 binary
+*.webm binary
+*.exe binary
+*.dll binary
+*.zip binary
+*.7z binary

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DocInfo>
+    <Icon>
+        <Value>bnet_don.png</Value>
+    </Icon>
+    <Dependencies>
+        <Value>bnet:CM_Core_Extra/0.0/243340,file:Mods\CM\CM_Core_Extra.SC2Mod</Value>
+    </Dependencies>
+</DocInfo>

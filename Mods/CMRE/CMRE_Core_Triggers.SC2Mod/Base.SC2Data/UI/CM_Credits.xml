@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CreditEntryList>
+	<CreditEntry templatename="CreditsEntryBlankTemplate" offset="100" />
+	<CreditEntry type="FadingFrame" text="@UI/CreditText/Nova/THANKYOU" templatename="CreditsEntryLargeHeadingTemplate_Nova" fadetime="20000"/>
+	<CreditEntry type="FadingFrame" text="@UI/CreditText/Nova/OPENING" templatename="CreditsEntryLargeHeadingTemplate_Nova" fadetime="3000"/>
+    <CreditEntry type="FadingFrame" text="@UI/CreditText/Nova/GAMEDESIGN" templatename="CreditsEntryLargeHeadingTemplate_Nova" fadetime="3000"/>
+	<CreditEntry text="@UI/CREDITS/GROUP_1744" templatename="CreditsEntryLargeHeadingTemplate_Nova" />
+	<CreditEntry text="@UI/CREDITS/ROLE_12147" templatename="CreditsEntrySmallHeadingTemplate_Nova" />
+	<CreditEntry text="骄阳想要求导导" templatename="CreditsEntryDefaultTemplate_Nova" offset="40" />
+	<CreditEntry templatename="CreditsEntryBlankTemplate" />
+</CreditEntryList>

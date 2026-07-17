@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="InfestedClawsDamage">
+        <ArmorReduction value="2"/>
+        <Amount value="6"/>
+    </CEffectDamage>
+    <CEffectDamage id="InfestedTerranCampaign">
+        <ArmorReduction value="2"/>
+    </CEffectDamage>
+</Catalog>

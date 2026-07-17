@@ -1,0 +1,32 @@
+include "TriggerLibs/natives"
+
+//--------------------------------------------------------------------------------------------------
+// Library: Features (CM)
+//--------------------------------------------------------------------------------------------------
+// Function Declarations
+void libCMFE_gf_CMCT_RegisterAndEnableCommanderFeatureTrigger (string lp_feature, trigger lp_trigger, int lp_player);
+bool libCMFE_gf_CMCT_CommanderFeatureCanRun (string lp_feature, int lp_player);
+void libCMFE_gf_CMCT_SetCommanderFeatureForPlayer (string lp_feature, int lp_player, bool lp_enabled);
+void libCMFE_gf_CMCT_EnableCommanderFeatureForPlayer (string lp_feature, int lp_player);
+void libCMFE_gf_CMCT_DisableCommanderFeatureForPlayer (string lp_feature, int lp_player);
+void libCMFE_gf_CMCT_RegisterCommanderFeatureTrigger (string lp_feature, trigger lp_trigger);
+void libCMFE_gf_CMCT_DisableCommanderFeatureForPlayerTrigger (trigger lp_trigger, int lp_player);
+void libCMFE_gf_CMCT_RegisterCommanderFeatureTriggerAt (string lp_feature, int lp_slot, trigger lp_trigger);
+void libCMFE_gf_CMVO_ClearPlayer (int lp_player);
+void libCMFE_gf_CMVO_RegisterLegacyConversationLineData (string lp_lineID, string lp_legacyLine, string lp_soundId, string lp_textKey, string lp_speakerCharacter, string lp_portraitActor, int lp_weight, int lp_sourcePolicy, string lp_conditionProfile);
+void libCMFE_gf_CMVO_RegisterVoiceLineForPlayer (int lp_player, string lp_eventType, int lp_phase, string lp_lineId);
+bool libCMFE_gf_CMVO_TryRunMissionTransmission (string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone);
+bool libCMFE_gf_CMVO_TryRunMissionResponse (string lp_eventType, int lp_sourcePlayer, bool lp_waitUntilDone);
+bool libCMFE_gf_CMUIX_StartupApplySavedConfiguration ();
+void libCMFE_gf_CMUIX_LaunchProfileSaveForTransitionAll ();
+void libCMFE_gf_CMUIX_GameHistoryAutosaveProgressAll ();
+void libCMFE_gf_CMUIX_PlayerProfileSaveAllFromUserData (int lp_player);
+void libCMFE_gf_CMUIX_CoopProgressSaveForPlayer (int lp_player);
+void libCMFE_gf_CMUIX_OnRetryButtonClicked ();
+void libCMFE_gf_CMUIX_GameHistoryRecordVictory ();
+void libCMFE_gf_CMUIX_GameHistoryRecordDefeat ();
+string libCMFE_gf_CMUIX_VoicePackEffectiveForPlayerCommander (int lp_player, string lp_commander);
+bool libCMFE_gf_CMUIX_OptimizationEnabled (int lp_player, string lp_commander, string lp_optimization);
+void libCMFE_gf_CMUIX_OptimizationApplyStartupEntry ();
+string libCMFE_gf_CMUIX_CurrentStartupPath ();
+

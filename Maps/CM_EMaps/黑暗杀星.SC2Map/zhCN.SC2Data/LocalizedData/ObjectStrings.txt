@@ -1,0 +1,8 @@
+﻿Actor/Name/ASound_AmonTemple_AmbEmitter=ASound_AmonTemple_AmbEmitter ///Auto - Copied from enUS Locale
+Light/Name/EditorTestLight=default ///Auto - Copied from enUS Locale
+Light/Name/PsionicWaveUp=PsionicWaveUp ///Auto - Copied from enUS Locale
+Sound/Name/Aiur05_Amon_CenterLoop_Emitter=Aiur05_Amon_CenterLoop_Emitter ///Auto - Copied from enUS Locale
+Sound/Name/Aiur05_Amon_CenterVx_Emitter=Aiur05_Amon_CenterVx_Emitter ///Auto - Copied from enUS Locale
+Sound/Name/VoidShade_Hybrid_Amon_Roar=VoidShade_Hybrid_Amon_Roar ///Auto - Copied from enUS Locale
+Validator/Name/Aiur05NotSoA=Aiur05 Not SoA ///Auto - Copied from enUS Locale
+Weapon/EditorPrefix/PsionicShockwave2=Archon - ///Auto - Copied from enUS Locale

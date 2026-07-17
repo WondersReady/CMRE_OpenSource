@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CConsoleSkin id="ConsoleTerran_Imperial">
+        <!-- <ProductId value="48752"/> -->
+    </CConsoleSkin>
+    <CConsoleSkin id="ConsoleTerran_Nova"/>
+    <CConsoleSkin id="ConsoleZerg_Abathur"/>
+    <CConsoleSkin id="ConsoleZerg_Mecha"/>
+    <CConsoleSkin id="ConsoleZerg_Zagara"/>
+</Catalog>

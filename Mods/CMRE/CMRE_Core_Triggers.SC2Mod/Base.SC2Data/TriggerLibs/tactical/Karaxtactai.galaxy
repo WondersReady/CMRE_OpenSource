@@ -1,0 +1,128 @@
+//--------------------------------------------------------------------------------------------------
+//  Karax tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMKarax_AB_ShadowCannon = "ImmortalShakurasShadowCannon";
+const string c_CMKarax_BE_ShadowCannon = "ImmortalShakurasShadowCannon";
+
+//--------------------------------------------------------------------------------------------------
+bool CMKaraxImmortalBusy (unit aiUnit) {
+    if (UnitOrderHasAbil(aiUnit, c_CMKarax_AB_ShadowCannon) == true) {
+        return true;
+    }
+
+    if (UnitHasBehavior2(aiUnit, c_CMKarax_BE_ShadowCannon) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMKaraxShadowCannonTargetScore (unit targetUnit) {
+    if (targetUnit == null) {
+        return 0.0;
+    }
+
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    return UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKaraxShadowCannonBestOrder (int player, unit aiUnit, unitgroup targetGroup, bool airOnly) {
+    fixed targetScore;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    order testOrder;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+    bestOrder = null;
+
+    if (targetGroup == null) {
+        return null;
+    }
+
+    if (UnitAbilityExists(aiUnit, c_CMKarax_AB_ShadowCannon) == false) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, c_CMKarax_AB_ShadowCannon, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+
+        if ((airOnly == false) || (UnitTestPlane(targetUnit, c_planeAir) == true)) {
+            OrderSetTargetUnit(testOrder, targetUnit);
+            if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+                targetScore = CMKaraxShadowCannonTargetScore(targetUnit);
+                if (targetScore > bestScore) {
+                    bestScore = targetScore;
+                    bestTarget = targetUnit;
+                }
+            }
+        }
+    }
+
+    if (bestTarget == null) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, c_CMKarax_AB_ShadowCannon, 0);
+    OrderSetTargetUnit(bestOrder, bestTarget);
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKaraxShadowCannon (int player, unit aiUnit, unitgroup scanGroup) {
+    unitgroup enemyGroup;
+    order ord;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    enemyGroup = UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+    ord = CMKaraxShadowCannonBestOrder(player, aiUnit, enemyGroup, true);
+    if (ord != null) {
+        return ord;
+    }
+
+    return CMKaraxShadowCannonBestOrder(player, aiUnit, enemyGroup, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkKaraxImmortal (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (CMKaraxImmortalBusy(aiUnit) == true) {
+        return;
+    }
+
+    ord = CMKaraxShadowCannon(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    if (AIEvalTacticalData(aiUnit, null) == true) {
+        return;
+    }
+
+    ord = ImmortalBarrier(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+}

@@ -1,0 +1,535 @@
+//--------------------------------------------------------------------------------------------------
+//  Kerrigan tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMKerrigan_TR_AssimilationAura = "CommanderPrestigeKerriganAssimilationAura";
+const string c_CMKerrigan_AB_PrimalSlash = "PrimalSlash";
+const string c_CMKerrigan_AB_PsiStrikeWalk = "PsiStrikeWalk";
+const string c_CMKerrigan_AB_CrushingGripWave = "KerriganVoidCoopCrushingGripWave";
+const string c_CMKerrigan_AB_MindBolt = "MindBolt";
+const string c_CMKerrigan_AB_PsionicLift = "PsionicLift";
+const string c_CMKerrigan_EF_PrimalSlashDamage = "PrimalSlash";
+const string c_CMKerrigan_EF_PsiStrikeDamage = "PsiStrikeDamage";
+const string c_CMKerrigan_EF_PsiStrikeTargetSearch = "PsiStrikeTargetSearch";
+const string c_CMKerrigan_EF_MindBoltDamage = "MindBoltDamage";
+const string c_CMKerrigan_EF_PsionicLiftDoT = "PsionicLiftDoT";
+const string c_CMKerrigan_EF_PsionicLiftPeriodicDamage = "PsionicLiftPeriodicDamage";
+const string c_CMKerrigan_EF_PsionicLiftRaiseSearch = "PsionicLiftRaiseSearch";
+const string c_CMKerrigan_EF_CrushingGripWaveDamage = "PsionicLiftDamage";
+const string c_CMKerrigan_EF_CrushingGripWaveSearch = "KerriganVoidCoopCrushingGripWaveSearch";
+const string c_CMKerrigan_BE_PsiStrikeWalkSpeed = "PsiStrikeWalkSpeed";
+const string c_CMKerrigan_BE_PsionicLiftDoT = "PsionicLiftDoT";
+const string c_CMKerrigan_MV_PrimalSlashUpgraded = "PrimalSlashUpgradedMover";
+const string c_CMKerrigan_FieldDuration = "Duration";
+const string c_CMKerrigan_FieldPeriod = "Period";
+const fixed c_CMKerrigan_MinSkillScore = 40.0;
+const fixed c_CMKerrigan_PsiStrikeTravelDistance = 8.0;
+const fixed c_CMKerrigan_PsiStrikeMaxRange = 12.0;
+const fixed c_CMKerrigan_CrushingGripDangerVitality = 35.0;
+const fixed c_CMKerrigan_CrushingGripSearchMinRadius = 5.0;
+const int c_CMKerrigan_CrushingGripMinNearbyEnemies = 4;
+const fixed c_CMKerrigan_CrushingGripMinScore = 300.0;
+
+fixed g_CMKerriganLastScore = 0.0;
+int g_CMKerriganLastHitCount = 0;
+
+//--------------------------------------------------------------------------------------------------
+bool CMKerriganPrestigeAbilitySet (int player) {
+    if (AITechCount(player, c_CMKerrigan_TR_AssimilationAura, c_techCountCompleteOnly) >= 1) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMKerriganBusy (unit aiUnit) {
+    if ((UnitOrderHasAbil(aiUnit, c_CMKerrigan_AB_PrimalSlash) == true) || (UnitOrderHasAbil(aiUnit, c_CMKerrigan_AB_PsiStrikeWalk) == true) || (UnitOrderHasAbil(aiUnit, c_CMKerrigan_AB_CrushingGripWave) == true) || (UnitOrderHasAbil(aiUnit, c_CMKerrigan_AB_MindBolt) == true) || (UnitOrderHasAbil(aiUnit, c_CMKerrigan_AB_PsionicLift) == true)) {
+        return true;
+    }
+
+    if ((UnitHasBehavior2(aiUnit, c_CMKerrigan_BE_PsiStrikeWalkSpeed) == true) || (UnitMoverExists(aiUnit, c_CMKerrigan_MV_PrimalSlashUpgraded) == true)) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMKerriganAbilityTargetFilters (int player, string abilityLink) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMKerriganFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    unitgroup targetGroup;
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    return targetGroup;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMKerriganEffectiveDamage (unit targetUnit, fixed damage) {
+    fixed vitality;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+    if (damage <= 0.0) {
+        return 0.0;
+    }
+
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if (vitality <= 0.0) {
+        return 0.0;
+    }
+    if (damage > vitality) {
+        return vitality;
+    }
+
+    return damage;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMKerriganDamageOrDefault (fixed damage, fixed defaultDamage) {
+    if (damage <= 0.0) {
+        return defaultDamage;
+    }
+
+    return damage;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMKerriganAreaScore (unitgroup targetGroup, point targetPoint, fixed radius, fixed damage) {
+    unitgroup hitGroup;
+    unit hitUnit;
+    int hitCount;
+    fixed score;
+
+    g_CMKerriganLastHitCount = 0;
+    score = 0.0;
+
+    if ((targetGroup == null) || (targetPoint == null)) {
+        return 0.0;
+    }
+
+    hitGroup = UnitGroupFilterRegion(targetGroup, RegionCircle(targetPoint, radius), 0);
+    hitCount = UnitGroupCount(hitGroup, c_unitCountAlive);
+    g_CMKerriganLastHitCount = hitCount;
+
+    while (hitCount > 0) {
+        hitUnit = UnitGroupUnit(hitGroup, hitCount);
+        hitCount = hitCount - 1;
+        score = score + CMKerriganEffectiveDamage(hitUnit, damage);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKerriganBestUnitDamageOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed damage) {
+    string filters;
+    fixed range;
+    fixed targetScore;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+    order bestOrder;
+
+    g_CMKerriganLastScore = 0.0;
+    bestScore = 0.0;
+    bestTarget = null;
+    bestOrder = null;
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = 8.0;
+    }
+
+    filters = CMKerriganAbilityTargetFilters(player, abilityLink);
+    targetGroup = CMKerriganFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        testOrder = AICreateOrder(player, abilityLink, 0);
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            targetScore = CMKerriganEffectiveDamage(targetUnit, damage);
+            if (targetScore > bestScore) {
+                bestScore = targetScore;
+                bestTarget = targetUnit;
+            }
+        }
+    }
+
+    if ((bestTarget == null) || (bestScore < c_CMKerrigan_MinSkillScore)) {
+        return null;
+    }
+
+    bestOrder = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(bestOrder, bestTarget);
+    if (UnitOrderIsValid(aiUnit, bestOrder) == false) {
+        return null;
+    }
+
+    g_CMKerriganLastScore = bestScore;
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMKerriganPsionicLiftDamage (int player) {
+    fixed duration;
+    fixed period;
+    fixed periodicDamage;
+    fixed damage;
+
+    duration = AIEffectFixed(player, c_CMKerrigan_EF_PsionicLiftDoT, c_CMKerrigan_FieldDuration);
+    period = AIBehaviorFixed(player, c_CMKerrigan_BE_PsionicLiftDoT, c_CMKerrigan_FieldPeriod);
+    periodicDamage = AIEffectFixed(player, c_CMKerrigan_EF_PsionicLiftPeriodicDamage, c_fieldAmount);
+    if (duration <= 0.0) {
+        duration = 5.0;
+    }
+    if (period <= 0.0) {
+        period = 0.5;
+    }
+    if (periodicDamage <= 0.0) {
+        periodicDamage = 2.5;
+    }
+
+    damage = (duration / period) * periodicDamage;
+    return damage;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKerriganBestPointDamageOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed damage, int minHits) {
+    string filters;
+    fixed radius;
+    fixed range;
+    fixed score;
+    int damageBase;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    g_CMKerriganLastScore = 0.0;
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (radius <= 0.0) {
+        radius = 1.5;
+    }
+    if (range <= 0.0) {
+        range = 7.0;
+    }
+
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    targetGroup = CMKerriganFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    damageBase = FixedToInt(damage);
+    if (damageBase < 1) {
+        damageBase = 1;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, damageBase, 1.0, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    score = CMKerriganAreaScore(targetGroup, targetPoint, radius, damage);
+    if (score < c_CMKerrigan_MinSkillScore) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    g_CMKerriganLastScore = score;
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMKerriganPsiStrikePathScore (unit aiUnit, unitgroup targetGroup, point targetPoint, fixed radius, fixed damage) {
+    point startPoint;
+    point unitPoint;
+    unit targetUnit;
+    fixed lineLength;
+    fixed dirX;
+    fixed dirY;
+    fixed unitX;
+    fixed unitY;
+    fixed projection;
+    fixed perpX;
+    fixed perpY;
+    fixed radiusSq;
+    fixed score;
+    int targetCount;
+
+    score = 0.0;
+    if ((targetGroup == null) || (targetPoint == null)) {
+        return 0.0;
+    }
+
+    startPoint = UnitGetPosition(aiUnit);
+    lineLength = DistanceBetweenPoints(startPoint, targetPoint);
+    if (lineLength <= 0.25) {
+        return 0.0;
+    }
+
+    dirX = (PointGetX(targetPoint) - PointGetX(startPoint)) / lineLength;
+    dirY = (PointGetY(targetPoint) - PointGetY(startPoint)) / lineLength;
+    radiusSq = radius * radius;
+
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        unitPoint = UnitGetPosition(targetUnit);
+        unitX = PointGetX(unitPoint) - PointGetX(startPoint);
+        unitY = PointGetY(unitPoint) - PointGetY(startPoint);
+        projection = (unitX * dirX) + (unitY * dirY);
+        if ((projection >= 0.0) && (projection <= c_CMKerrigan_PsiStrikeTravelDistance)) {
+            perpX = unitX - (dirX * projection);
+            perpY = unitY - (dirY * projection);
+            if (((perpX * perpX) + (perpY * perpY)) <= radiusSq) {
+                score = score + CMKerriganEffectiveDamage(targetUnit, damage);
+            }
+        }
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKerriganPsiStrikeWalkOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+    fixed range;
+    fixed radius;
+    fixed damage;
+    fixed score;
+    fixed bestScore;
+    int targetCount;
+    unit targetUnit;
+    point targetPoint;
+    point bestPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    g_CMKerriganLastScore = 0.0;
+    bestScore = 0.0;
+    bestPoint = null;
+    range = AIAbilityFixed(player, c_CMKerrigan_AB_PsiStrikeWalk, c_fieldRange0);
+    radius = AIEffectFixed(player, c_CMKerrigan_EF_PsiStrikeTargetSearch, c_fieldAreaRadius0);
+    damage = AIEffectFixed(player, c_CMKerrigan_EF_PsiStrikeDamage, c_fieldAmount);
+    if (range <= 0.0) {
+        range = c_CMKerrigan_PsiStrikeTravelDistance;
+    }
+    if (range > c_CMKerrigan_PsiStrikeMaxRange) {
+        range = c_CMKerrigan_PsiStrikeMaxRange;
+    }
+    if (radius <= 0.0) {
+        radius = 1.0;
+    }
+    if (damage <= 0.0) {
+        damage = 50.0;
+    }
+
+    filters = AIEffectStr(player, c_CMKerrigan_EF_PsiStrikeTargetSearch, c_fieldFilters);
+    targetGroup = CMKerriganFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        targetPoint = UnitGetPosition(targetUnit);
+        score = CMKerriganPsiStrikePathScore(aiUnit, targetGroup, targetPoint, radius, damage);
+        if (score > bestScore) {
+            bestScore = score;
+            bestPoint = targetPoint;
+        }
+    }
+
+    if ((bestPoint == null) || (bestScore < c_CMKerrigan_MinSkillScore)) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, c_CMKerrigan_AB_PsiStrikeWalk, 0);
+    OrderSetTargetPoint(ord, bestPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    g_CMKerriganLastScore = bestScore;
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKerriganCrushingGripWaveOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+    fixed radius;
+    fixed damage;
+    fixed score;
+    fixed vitalityPercent;
+    unitgroup targetGroup;
+    order ord;
+
+    g_CMKerriganLastScore = 0.0;
+    ord = AICreateOrder(player, c_CMKerrigan_AB_CrushingGripWave, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    radius = AIEffectFixed(player, c_CMKerrigan_EF_CrushingGripWaveSearch, c_fieldAreaRadius0);
+    radius = radius + AIEffectFixed(player, c_CMKerrigan_EF_CrushingGripWaveSearch, c_fieldRadiusBonus0);
+    if (radius < c_CMKerrigan_CrushingGripSearchMinRadius) {
+        radius = c_CMKerrigan_CrushingGripSearchMinRadius;
+    }
+
+    damage = AIEffectFixed(player, c_CMKerrigan_EF_CrushingGripWaveDamage, c_fieldAmount);
+    if (damage <= 0.0) {
+        damage = 100.0;
+    }
+
+    filters = AIEffectStr(player, c_CMKerrigan_EF_CrushingGripWaveSearch, c_fieldFilters);
+    targetGroup = CMKerriganFilteredEnemyGroup(player, aiUnit, scanGroup, filters, radius + 1.0);
+    score = CMKerriganAreaScore(targetGroup, UnitGetPosition(aiUnit), radius, damage);
+    vitalityPercent = UnitGetPropertyFixed(aiUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+
+    if ((vitalityPercent <= c_CMKerrigan_CrushingGripDangerVitality) && (g_CMKerriganLastHitCount >= 1)) {
+        g_CMKerriganLastScore = score;
+        return ord;
+    }
+    if (g_CMKerriganLastHitCount >= c_CMKerrigan_CrushingGripMinNearbyEnemies) {
+        g_CMKerriganLastScore = score;
+        return ord;
+    }
+    if (score >= c_CMKerrigan_CrushingGripMinScore) {
+        g_CMKerriganLastScore = score;
+        return ord;
+    }
+
+    return null;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKerriganBestNormalSkillOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed score;
+    fixed bestScore;
+    order ord;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestOrder = null;
+
+    ord = CMKerriganBestUnitDamageOrder(player, aiUnit, scanGroup, c_CMKerrigan_AB_PrimalSlash, CMKerriganDamageOrDefault(AIEffectFixed(player, c_CMKerrigan_EF_PrimalSlashDamage, c_fieldAmount), 150.0));
+    score = g_CMKerriganLastScore;
+    if ((ord != null) && (score > bestScore)) {
+        bestScore = score;
+        bestOrder = ord;
+    }
+
+    ord = CMKerriganPsiStrikeWalkOrder(player, aiUnit, scanGroup);
+    score = g_CMKerriganLastScore;
+    if ((ord != null) && (score > bestScore)) {
+        bestScore = score;
+        bestOrder = ord;
+    }
+
+    g_CMKerriganLastScore = bestScore;
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMKerriganBestPrestigeSkillOrder (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed score;
+    fixed bestScore;
+    order ord;
+    order bestOrder;
+
+    bestScore = 0.0;
+    bestOrder = null;
+
+    ord = CMKerriganBestUnitDamageOrder(player, aiUnit, scanGroup, c_CMKerrigan_AB_MindBolt, CMKerriganDamageOrDefault(AIEffectFixed(player, c_CMKerrigan_EF_MindBoltDamage, c_fieldAmount), 150.0));
+    score = g_CMKerriganLastScore;
+    if ((ord != null) && (score > bestScore)) {
+        bestScore = score;
+        bestOrder = ord;
+    }
+
+    ord = CMKerriganBestPointDamageOrder(player, aiUnit, scanGroup, c_CMKerrigan_AB_PsionicLift, c_CMKerrigan_EF_PsionicLiftRaiseSearch, CMKerriganPsionicLiftDamage(player), 2);
+    score = g_CMKerriganLastScore;
+    if ((ord != null) && (score > bestScore)) {
+        bestScore = score;
+        bestOrder = ord;
+    }
+
+    g_CMKerriganLastScore = bestScore;
+    return bestOrder;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkK5Kerrigan (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+
+    if (CMKerriganBusy(aiUnit) == true) {
+        return;
+    }
+
+    ord = CMKerriganCrushingGripWaveOrder(player, aiUnit, scanGroup);
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+        return;
+    }
+
+    if (CMKerriganPrestigeAbilitySet(player) == true) {
+        ord = CMKerriganBestPrestigeSkillOrder(player, aiUnit, scanGroup);
+    }
+    else {
+        ord = CMKerriganBestNormalSkillOrder(player, aiUnit, scanGroup);
+    }
+
+    if (ord != null) {
+        AICast(aiUnit, ord, c_noMarker, c_castHold);
+    }
+}

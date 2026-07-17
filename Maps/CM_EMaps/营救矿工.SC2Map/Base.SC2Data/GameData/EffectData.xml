@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CEffectDamage id="NovaEradicatorMissileDamage">
+        <Amount value="45"/>
+    </CEffectDamage>
+    <CEffectDamage id="NovaEradicatorRailgunDamage">
+        <Amount value="75"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="NovaEradicatorRailgunSearch">
+        <AreaArray index="0">
+            <MaxCount value="3"/>
+            <RectangleWidth value="2"/>
+            <RectangleHeight value="30"/>
+            <Effect value="NovaEradicatorRailgunDamage"/>
+        </AreaArray>
+    </CEffectEnumArea>
+</Catalog>

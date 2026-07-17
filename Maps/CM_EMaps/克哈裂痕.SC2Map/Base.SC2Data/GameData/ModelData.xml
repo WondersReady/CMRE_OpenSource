@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CModel id="BeamCaster2AttackBeam">
+        <Model value="Assets\Effects\Terran\ArcadeTerraTronBeam\ArcadeTerraTronBeam.m3"/>
+    </CModel>
+    <CModel id="NukePack">
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+</Catalog>

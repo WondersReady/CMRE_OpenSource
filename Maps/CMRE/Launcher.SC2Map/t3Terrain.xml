@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<terrain version="115">
+    <heightMap tileSet="AiurTempleJungle" uvtiling="3.000000 3.000000 -3.000000 0.000000 " dim="33 33 " offset="0.000000 0.000000 0.000000 " scale="1.000000e+00 1.000000e+00 1.000000e+00 ">
+        <cliffSetList num="1">
+            <cliffSet i="0" name="EndionCliff0"/>
+        </cliffSetList>
+        <vertData quantizeBias="1.000000e+00" quantizeScale="1.519393e-04" standardHeight="8.000000e+00" name="t3HeightMap"/>
+        <masks name="t3TextureMasks"/>
+        <textureSetList num="8">
+            <textureSet i="0" name="AiurTempleJungle"/>
+            <textureSet i="1" name=""/>
+            <textureSet i="2" name=""/>
+            <textureSet i="3" name=""/>
+            <textureSet i="4" name=""/>
+            <textureSet i="5" name=""/>
+            <textureSet i="6" name=""/>
+            <textureSet i="7" name=""/>
+        </textureSetList>
+        <textureList num="64">
+            <texture i="0" name="AiurTempleJungle1"/>
+            <texture i="1" name="AiurTempleJungle2"/>
+            <texture i="2" name="AiurTempleJungle3"/>
+            <texture i="3" name="AiurTempleJungle4"/>
+            <texture i="4" name="Endion1"/>
+            <texture i="5" name="AiurTempleJungle6"/>
+            <texture i="6" name="Endion7"/>
+            <texture i="7" name="AiurTemple5"/>
+            <texture i="8" name=""/>
+            <texture i="9" name=""/>
+            <texture i="10" name=""/>
+            <texture i="11" name=""/>
+            <texture i="12" name=""/>
+            <texture i="13" name=""/>
+            <texture i="14" name=""/>
+            <texture i="15" name=""/>
+            <texture i="16" name=""/>
+            <texture i="17" name=""/>
+            <texture i="18" name=""/>
+            <texture i="19" name=""/>
+            <texture i="20" name=""/>
+            <texture i="21" name=""/>
+            <texture i="22" name=""/>
+            <texture i="23" name=""/>
+            <texture i="24" name=""/>
+            <texture i="25" name=""/>
+            <texture i="26" name=""/>
+            <texture i="27" name=""/>
+            <texture i="28" name=""/>
+            <texture i="29" name=""/>
+            <texture i="30" name=""/>
+            <texture i="31" name=""/>
+            <texture i="32" name=""/>
+            <texture i="33" name=""/>
+            <texture i="34" name=""/>
+            <texture i="35" name=""/>
+            <texture i="36" name=""/>
+            <texture i="37" name=""/>
+            <texture i="38" name=""/>
+            <texture i="39" name=""/>
+            <texture i="40" name=""/>
+            <texture i="41" name=""/>
+            <texture i="42" name=""/>
+            <texture i="43" name=""/>
+            <texture i="44" name=""/>
+            <texture i="45" name=""/>
+            <texture i="46" name=""/>
+            <texture i="47" name=""/>
+            <texture i="48" name=""/>
+            <texture i="49" name=""/>
+            <texture i="50" name=""/>
+            <texture i="51" name=""/>
+            <texture i="52" name=""/>
+            <texture i="53" name=""/>
+            <texture i="54" name=""/>
+            <texture i="55" name=""/>
+            <texture i="56" name=""/>
+            <texture i="57" name=""/>
+            <texture i="58" name=""/>
+            <texture i="59" name=""/>
+            <texture i="60" name=""/>
+            <texture i="61" name=""/>
+            <texture i="62" name=""/>
+            <texture i="63" name=""/>
+        </textureList>
+        <blockTextureSetList num="16">
+            <blockTextureSet i="0" tileSet="0"/>
+            <blockTextureSet i="1" tileSet="0"/>
+            <blockTextureSet i="2" tileSet="0"/>
+            <blockTextureSet i="3" tileSet="0"/>
+            <blockTextureSet i="4" tileSet="0"/>
+            <blockTextureSet i="5" tileSet="0"/>
+            <blockTextureSet i="6" tileSet="0"/>
+            <blockTextureSet i="7" tileSet="0"/>
+            <blockTextureSet i="8" tileSet="0"/>
+            <blockTextureSet i="9" tileSet="0"/>
+            <blockTextureSet i="10" tileSet="0"/>
+            <blockTextureSet i="11" tileSet="0"/>
+            <blockTextureSet i="12" tileSet="0"/>
+            <blockTextureSet i="13" tileSet="0"/>
+            <blockTextureSet i="14" tileSet="0"/>
+            <blockTextureSet i="15" tileSet="0"/>
+        </blockTextureSetList>
+        <cliffCellList num="256" numOccupied="0"/>
+    </heightMap>
+</terrain>

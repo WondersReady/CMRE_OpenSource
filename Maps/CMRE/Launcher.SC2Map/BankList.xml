@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BankList>
+    <Bank Name="COCampaign" Player="1"/>
+    <Bank Name="CMCoopGameHistory" Player="2"/>
+    <Bank Name="COCampaign" Player="2"/>
+    <Bank Name="CMCoopLaunchProfile" Player="2"/>
+    <Bank Name="CMCoopLaunchProfile" Player="1"/>
+    <Bank Name="CMCoopGameHistory" Player="1"/>
+    <Bank Name="ReplayUILayouts" Player="1"/>
+</BankList>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    
+    <Frame type="Frame" name="EnemyBriefTemplate">
+        <Width val="64"/>
+        <Height val="0"/>
+        <CollapseLayout val="true"/>
+        <Visible val="False"/>
+        <AcceptsMouseTooltip val="true"/>
+        
+        <Frame type="Image" name="RaceIcon">
+            <Anchor side="Top" relative="$parent/BorderImage" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="64"/>
+            <Height val="64"/>
+        </Frame>
+        
+        <Frame type="Image" name="BorderImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="64"/>
+            <Height val="64"/>
+            <TextureType val="Normal"/>
+        </Frame>
+        
+        <StateGroup name="RaceState">
+            <DefaultState val="Rand"/>
+            
+            <State name="Prot">
+                <When type="AnimationState" RaceState="Prot"/>
+                <Action type="SetProperty" frame="RaceIcon" texture="assets/textures/ui_coop_ingame_attackwaves_protoss.dds"/>
+            </State>
+            
+            <State name="Zerg">
+                <When type="AnimationState" RaceState="Zerg"/>
+                <Action type="SetProperty" frame="RaceIcon" texture="assets/textures/ui_coop_ingame_attackwaves_zerg.dds"/>
+            </State>
+            
+            <State name="Terr">
+                <When type="AnimationState" RaceState="Terr"/>
+                <Action type="SetProperty" frame="RaceIcon" texture="assets/textures/ui_coop_ingame_attackwaves_terran.dds"/>
+            </State>
+
+            <State name="Rand">
+                <Action type="SetProperty" frame="RaceIcon" texture="assets/textures/ui_coop_ingame_attackwaves_random.dds"/>
+            </State>
+        </StateGroup>
+        
+        <StateGroup name="DifficultyState">
+            <DefaultState val="Brutal"/>
+            
+            <State name="Casual">
+                <When type="AnimationState" DifficultyState="Casual"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_multiplayerload_avatarborder_bronze.dds"/>
+            </State>
+            
+            <State name="Normal">
+                <When type="AnimationState" DifficultyState="Normal"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_multiplayerload_avatarborder_silver.dds"/>
+            </State>
+            
+            <State name="Hard">
+                <When type="AnimationState" DifficultyState="Hard"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_multiplayerload_avatarborder_gold.dds"/>
+            </State>
+            
+            <State name="Brutal">
+                <When type="AnimationState" DifficultyState="Brutal"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_multiplayerload_avatarborder_diamond.dds"/>
+            </State>
+            
+            <State name="Extreme">
+                <When type="AnimationState" DifficultyState="Extreme"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_multiplayerload_avatarborder_master.dds"/>
+            </State>
+            
+            <State name="Unlikely">
+                <When type="AnimationState" DifficultyState="Unlikely"/>
+                <Action type="SetProperty" frame="BorderImage" texture="assets/textures/ui_multiplayerload_avatarborder_grandmaster.dds"/>
+            </State>
+        </StateGroup>
+        
+        <Animation name="Show">
+            <Event event="OnShown" action="Reset,Play"/>
+             
+            <Controller type="Anchor" end="Pause" side="Top" relative="true">
+                <Key type="Curve" time="0" value="0" inout="Fast"/>
+                <Key type="Curve" time=".25" value="-73" inout="Linear"/>
+            </Controller>
+            
+            <Controller type="Fade" end="Pause">
+                <Key type="Curve" time="0" value="0" inout="Fast"/>
+                <Key type="Curve" time=".5" value="255" inout="Slow"/>
+            </Controller>
+        </Animation>
+    </Frame>
+</Desc>

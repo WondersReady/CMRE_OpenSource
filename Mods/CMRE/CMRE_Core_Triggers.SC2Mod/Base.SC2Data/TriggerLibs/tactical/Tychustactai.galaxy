@@ -1,0 +1,748 @@
+//--------------------------------------------------------------------------------------------------
+//  Tychus tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMTychus_AB_Grenade = "TychusShredderGrenade";
+const string c_CMTychus_AB_SamBomb = "TychusReaperBomb";
+const string c_CMTychus_AB_BlazeOilBomb = "TychusFirebatOilBomb";
+const string c_CMTychus_AB_NuxPulse = "TychusSpectreUltrasonicPulse";
+const string c_CMTychus_AB_NikaraBurst = "TychusMedicAoE";
+const string c_CMTychus_AB_RattlesnakeWard = "TychusMarauderBuildHealingWard";
+const string c_CMTychus_AB_SiriusTurret = "TychusWarhoundBuildAutoTurret";
+const string c_CMTychus_AB_CannonballGrapple = "TychusHercGrapple";
+const string c_CMTychus_AB_VegaDominate = "TychusGhostDominate";
+const string c_CMTychus_EF_GrenadeSearch = "TychusShredderGrenadeSearch";
+const string c_CMTychus_EF_GrenadeDamage = "TychusShredderGrenadeDamage";
+const string c_CMTychus_EF_BlazeOilSearch = "TychusFirebatOilBombSearch";
+const string c_CMTychus_EF_NuxPulseSearch = "TychusSpectreUltrasonicSearchLv1";
+const string c_CMTychus_EF_NuxPulseDamage = "TychusSpectreUltrasonicDamageLv1";
+const string c_CMTychus_EF_CannonballSearch = "TychusHercGrappleLaunchCasterImpactSearch";
+const string c_CMTychus_EF_CannonballDamage = "TychusHercGrappleLaunchCasterImpactDamage";
+const string c_CMTychus_TU_HealingWard = "TychusMarauderHealingWard";
+const string c_CMTychus_TU_WarhoundTurret = "TychusWarhoundAutoTurret";
+const string c_CMTychus_BE_ReaperBomb = "TychusReaperBomb";
+const string c_CMTychus_BE_ReaperBombMarker = "TychusReaperBombMarker";
+const fixed c_CMTychus_CloseRange = 5.0;
+const fixed c_CMTychus_GrenadeRadius = 4.0;
+const fixed c_CMTychus_OilBombRadius = 2.5;
+const fixed c_CMTychus_NuxPulseRadius = 2.0;
+const fixed c_CMTychus_CannonballRadius = 2.0;
+const fixed c_CMTychus_NikaraHealRange = 7.0;
+const fixed c_CMTychus_RattlesnakeWardRadius = 6.0;
+const fixed c_CMTychus_RattlesnakeDuplicateRange = 7.0;
+const fixed c_CMTychus_SiriusDuplicateRange = 4.0;
+const fixed c_CMTychus_TurretPlaceOffset = 2.0;
+const fixed c_CMTychus_SamBombMinScore = 240.0;
+const fixed c_CMTychus_VegaDominateMinScore = 180.0;
+const fixed c_CMTychus_NikaraBurstMinScore = 140.0;
+const fixed c_CMTychus_RattlesnakeWardMinScore = 180.0;
+const int c_CMTychus_GrenadeDamage = 75;
+const int c_CMTychus_OilBombDamage = 50;
+const int c_CMTychus_NuxPulseDamage = 100;
+const int c_CMTychus_CannonballDamage = 40;
+const int c_CMTychus_GrenadeMinHits = 3;
+const int c_CMTychus_OilBombMinHits = 3;
+const int c_CMTychus_NuxPulseMinHits = 3;
+const int c_CMTychus_CannonballMinHits = 2;
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusAbilityExists (unit aiUnit, string abilityLink) {
+    if (UnitAbilityExists(aiUnit, abilityLink) == false) {
+        return false;
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusAbilityRange (int player, string abilityLink, fixed defaultRange) {
+    fixed range;
+
+    range = AIAbilityFixed(player, abilityLink, c_fieldRange0);
+    if (range <= 0.0) {
+        range = AIAbilityFixed(player, abilityLink, c_fieldRange);
+    }
+    if (range <= 0.0) {
+        range = defaultRange;
+    }
+
+    return range;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusEffectRadius (int player, string effectLink, fixed defaultRadius) {
+    fixed radius;
+
+    radius = AIEffectFixed(player, effectLink, c_fieldAreaRadius0);
+    if (radius <= 0.0) {
+        radius = defaultRadius;
+    }
+
+    return radius;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMTychusAbilityTargetFilters (int player, string abilityLink) {
+    string filters;
+
+    filters = AIAbilityStr(player, abilityLink, c_fieldTargetFiltersAB);
+    if (StringEqual(filters, "", true) == true) {
+        filters = AIAbilityStr(player, abilityLink, c_fieldTargetFilters);
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+string CMTychusEffectFilters (int player, string effectLink, string fallbackFilters) {
+    string filters;
+
+    filters = AIEffectStr(player, effectLink, c_fieldFilters);
+    if (StringEqual(filters, "", true) == true) {
+        filters = fallbackFilters;
+    }
+
+    return filters;
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMTychusFilteredEnemyGroup (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    aifilter filter;
+
+    if (scanGroup == null) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    if (StringEqual(filters, "", true) == false) {
+        AISetFilterBits(filter, UnitFilterStr(filters));
+    }
+    if (range > 0.0) {
+        AISetFilterRange(filter, aiUnit, range);
+    }
+
+    return AIGetFilterGroup(filter, scanGroup);
+}
+
+//--------------------------------------------------------------------------------------------------
+unitgroup CMTychusEnemyGroup (int player, unitgroup scanGroup) {
+    if (scanGroup == null) {
+        return null;
+    }
+
+    return UnitGroupFilterAlliance(scanGroup, player, c_unitAllianceEnemy, 0);
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusDamageValue (unit targetUnit, fixed damageCap) {
+    fixed vitality;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    if ((damageCap > 0.0) && (vitality > damageCap)) {
+        return damageCap;
+    }
+
+    return vitality;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusStrategicTargetScore (unit targetUnit, fixed damageCap, bool preferAir, bool preferStructure, bool preferMechanical) {
+    fixed score;
+    fixed vitality;
+    string unitType;
+
+    if (targetUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(targetUnit) == false) {
+        return 0.0;
+    }
+
+    unitType = UnitGetType(targetUnit);
+    vitality = UnitGetPropertyFixed(targetUnit, c_unitPropVitality, c_unitPropCurrent);
+    score = CMTychusDamageValue(targetUnit, damageCap);
+    if (damageCap <= 0.0) {
+        score = vitality;
+    }
+    else {
+        score = score + (vitality * 0.12);
+    }
+
+    if ((preferAir == true) && (UnitTestPlane(targetUnit, c_planeAir) == true)) {
+        score = score + 250.0;
+    }
+    if ((preferStructure == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeStructure) == true)) {
+        score = score + 260.0;
+    }
+    if ((preferMechanical == true) && (UnitTypeTestAttribute(unitType, c_unitAttributeMechanical) == true)) {
+        score = score + 180.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeHeroic) == true) {
+        score = score + 240.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeMassive) == true) {
+        score = score + 180.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributePsionic) == true) {
+        score = score + 120.0;
+    }
+    if (UnitTypeTestAttribute(unitType, c_unitAttributeArmored) == true) {
+        score = score + 80.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusClusterScore (unitgroup enemyGroup, point targetPoint, fixed radius, fixed damageCap) {
+    fixed score;
+    int count;
+    unit targetUnit;
+    unitgroup clusterGroup;
+
+    score = 0.0;
+    if ((enemyGroup == null) || (targetPoint == null)) {
+        return 0.0;
+    }
+
+    clusterGroup = UnitGroupFilterRegion(enemyGroup, RegionCircle(targetPoint, radius), 0);
+    count = UnitGroupCount(clusterGroup, c_unitCountAlive);
+    while (count > 0) {
+        targetUnit = UnitGroupUnit(clusterGroup, count);
+        count = count - 1;
+        score = score + CMTychusDamageValue(targetUnit, damageCap);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMTychusPointOrderAt (int player, unit aiUnit, string abilityLink, point targetPoint) {
+    order ord;
+
+    if ((targetPoint == null) || (CMTychusAbilityExists(aiUnit, abilityLink) == false)) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMTychusInstantOrder (int player, unit aiUnit, string abilityLink) {
+    order ord;
+
+    if (CMTychusAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMTychusAreaOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed defaultRange, fixed defaultRadius, int minHits, int damageBase, fixed minScore, string fallbackFilters) {
+    fixed range;
+    fixed radius;
+    string filters;
+    point targetPoint;
+    unitgroup targetGroup;
+    order ord;
+
+    if (CMTychusAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMTychusAbilityRange(player, abilityLink, defaultRange);
+    radius = CMTychusEffectRadius(player, effectLink, defaultRadius);
+    filters = CMTychusEffectFilters(player, effectLink, fallbackFilters);
+    targetGroup = CMTychusFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + radius + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    targetPoint = AIBestTargetPoint(targetGroup, minHits, damageBase, minScore, radius, UnitGetPosition(aiUnit), range, c_unitAttributeNone);
+    if (targetPoint == null) {
+        return null;
+    }
+
+    ord = CMTychusPointOrderAt(player, aiUnit, abilityLink, targetPoint);
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMTychusBestUnitTarget (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed defaultRange, fixed damageCap, fixed minScore, bool preferAir, bool preferStructure, bool preferMechanical, bool avoidBombed) {
+    fixed range;
+    fixed targetScore;
+    fixed bestScore;
+    string filters;
+    int targetCount;
+    unit targetUnit;
+    unit bestTarget;
+    unitgroup targetGroup;
+    order testOrder;
+
+    bestScore = 0.0;
+    bestTarget = null;
+    if (CMTychusAbilityExists(aiUnit, abilityLink) == false) {
+        return null;
+    }
+
+    range = CMTychusAbilityRange(player, abilityLink, defaultRange);
+    filters = CMTychusAbilityTargetFilters(player, abilityLink);
+    targetGroup = CMTychusFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range + 1.0);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    testOrder = AICreateOrder(player, abilityLink, 0);
+    targetCount = UnitGroupCount(targetGroup, c_unitCountAlive);
+    while (targetCount > 0) {
+        targetUnit = UnitGroupUnit(targetGroup, targetCount);
+        targetCount = targetCount - 1;
+        OrderSetTargetUnit(testOrder, targetUnit);
+        if (UnitOrderIsValid(aiUnit, testOrder) == true) {
+            if ((avoidBombed == false) || ((UnitHasBehavior2(targetUnit, c_CMTychus_BE_ReaperBomb) == false) && (UnitHasBehavior2(targetUnit, c_CMTychus_BE_ReaperBombMarker) == false))) {
+                targetScore = CMTychusStrategicTargetScore(targetUnit, damageCap, preferAir, preferStructure, preferMechanical);
+                if (targetScore > bestScore) {
+                    bestScore = targetScore;
+                    bestTarget = targetUnit;
+                }
+            }
+        }
+    }
+
+    if (bestScore < minScore) {
+        return null;
+    }
+
+    return bestTarget;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMTychusBestUnitOrder (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed defaultRange, fixed damageCap, fixed minScore, bool preferAir, bool preferStructure, bool preferMechanical, bool avoidBombed) {
+    unit targetUnit;
+    order ord;
+
+    targetUnit = CMTychusBestUnitTarget(player, aiUnit, scanGroup, abilityLink, defaultRange, damageCap, minScore, preferAir, preferStructure, preferMechanical, avoidBombed);
+    if (targetUnit == null) {
+        return null;
+    }
+
+    ord = AICreateOrder(player, abilityLink, 0);
+    OrderSetTargetUnit(ord, targetUnit);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusCastArea (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, string effectLink, fixed defaultRange, fixed defaultRadius, int minHits, int damageBase, fixed minScore, string fallbackFilters) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, abilityLink) == true) {
+        return true;
+    }
+
+    ord = CMTychusAreaOrder(player, aiUnit, scanGroup, abilityLink, effectLink, defaultRange, defaultRadius, minHits, damageBase, minScore, fallbackFilters);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusCastUnit (int player, unit aiUnit, unitgroup scanGroup, string abilityLink, fixed defaultRange, fixed damageCap, fixed minScore, bool preferAir, bool preferStructure, bool preferMechanical, bool avoidBombed) {
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, abilityLink) == true) {
+        return true;
+    }
+
+    ord = CMTychusBestUnitOrder(player, aiUnit, scanGroup, abilityLink, defaultRange, damageCap, minScore, preferAir, preferStructure, preferMechanical, avoidBombed);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusAllyWoundScore (unit allyUnit) {
+    fixed vitality;
+    fixed vitalityMax;
+    fixed vitalityLost;
+    fixed vitalityPercent;
+    fixed score;
+
+    if (allyUnit == null) {
+        return 0.0;
+    }
+    if (UnitIsAlive(allyUnit) == false) {
+        return 0.0;
+    }
+    if (UnitTypeTestAttribute(UnitGetType(allyUnit), c_unitAttributeStructure) == true) {
+        return 0.0;
+    }
+
+    vitality = UnitGetPropertyFixed(allyUnit, c_unitPropVitality, c_unitPropCurrent);
+    vitalityMax = UnitGetPropertyFixed(allyUnit, c_unitPropVitalityMax, c_unitPropCurrent);
+    vitalityPercent = UnitGetPropertyFixed(allyUnit, c_unitPropVitalityPercent, c_unitPropCurrent);
+    vitalityLost = vitalityMax - vitality;
+    if (vitalityLost <= 0.0) {
+        return 0.0;
+    }
+
+    score = vitalityLost;
+    if (score > 160.0) {
+        score = 160.0;
+    }
+    if (vitalityPercent <= 35.0) {
+        score = score + 200.0;
+    }
+    else {
+        if (vitalityPercent <= 60.0) {
+            score = score + 90.0;
+        }
+    }
+    if (UnitTypeTestAttribute(UnitGetType(allyUnit), c_unitAttributeHeroic) == true) {
+        score = score + 60.0;
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+fixed CMTychusNearbyAllyWoundScore (int player, unit aiUnit, fixed range) {
+    fixed score;
+    int allyCount;
+    unit allyUnit;
+    unitgroup allyGroup;
+
+    score = 0.0;
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), range), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        score = score + CMTychusAllyWoundScore(allyUnit);
+    }
+
+    return score;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMTychusBestWoundedAlly (int player, unit aiUnit, fixed range, fixed minScore) {
+    fixed score;
+    fixed bestScore;
+    int allyCount;
+    unit allyUnit;
+    unit bestAlly;
+    unitgroup allyGroup;
+
+    bestScore = 0.0;
+    bestAlly = null;
+    allyGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(UnitGetPosition(aiUnit), range), null, c_noMaxCount);
+    allyCount = UnitGroupCount(allyGroup, c_unitCountAlive);
+    while (allyCount > 0) {
+        allyUnit = UnitGroupUnit(allyGroup, allyCount);
+        allyCount = allyCount - 1;
+        score = CMTychusAllyWoundScore(allyUnit);
+        if (score > bestScore) {
+            bestScore = score;
+            bestAlly = allyUnit;
+        }
+    }
+
+    if (bestScore < minScore) {
+        return null;
+    }
+
+    return bestAlly;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusUnitTypeNearPoint (int player, point centerPoint, fixed range, string unitType) {
+    int unitCount;
+    unit checkUnit;
+    unitgroup unitGroup;
+
+    if (centerPoint == null) {
+        return false;
+    }
+
+    unitGroup = UnitGroupAlliance(player, c_unitAllianceAlly, RegionCircle(centerPoint, range), null, c_noMaxCount);
+    unitCount = UnitGroupCount(unitGroup, c_unitCountAlive);
+    while (unitCount > 0) {
+        checkUnit = UnitGroupUnit(unitGroup, unitCount);
+        unitCount = unitCount - 1;
+        if (UnitGetType(checkUnit) == unitType) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusNikaraCastBurst (int player, unit aiUnit) {
+    fixed woundScore;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMTychus_AB_NikaraBurst) == true) {
+        return true;
+    }
+
+    woundScore = CMTychusNearbyAllyWoundScore(player, aiUnit, c_CMTychus_NikaraHealRange);
+    if (woundScore < c_CMTychus_NikaraBurstMinScore) {
+        return false;
+    }
+
+    ord = CMTychusInstantOrder(player, aiUnit, c_CMTychus_AB_NikaraBurst);
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusRattlesnakeCastWard (int player, unit aiUnit) {
+    fixed range;
+    unit allyUnit;
+    point targetPoint;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMTychus_AB_RattlesnakeWard) == true) {
+        return true;
+    }
+    if (CMTychusAbilityExists(aiUnit, c_CMTychus_AB_RattlesnakeWard) == false) {
+        return false;
+    }
+
+    range = CMTychusAbilityRange(player, c_CMTychus_AB_RattlesnakeWard, 8.0);
+    allyUnit = CMTychusBestWoundedAlly(player, aiUnit, range + c_CMTychus_RattlesnakeWardRadius, c_CMTychus_RattlesnakeWardMinScore);
+    if (allyUnit == null) {
+        return false;
+    }
+
+    targetPoint = UnitGetPosition(allyUnit);
+    if (CMTychusUnitTypeNearPoint(player, targetPoint, c_CMTychus_RattlesnakeDuplicateRange, c_CMTychus_TU_HealingWard) == true) {
+        return false;
+    }
+
+    ord = CMTychusPointOrderAt(player, aiUnit, c_CMTychus_AB_RattlesnakeWard, targetPoint);
+    if (ord == null) {
+        ord = CMTychusPointOrderAt(player, aiUnit, c_CMTychus_AB_RattlesnakeWard, UnitGetPosition(aiUnit));
+    }
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+unit CMTychusClosestEnemy (int player, unit aiUnit, unitgroup scanGroup, string filters, fixed range) {
+    fixed distance;
+    fixed bestDistance;
+    int count;
+    unit enemyUnit;
+    unit bestUnit;
+    unitgroup enemyGroup;
+
+    bestDistance = 99999.0;
+    bestUnit = null;
+    enemyGroup = CMTychusFilteredEnemyGroup(player, aiUnit, scanGroup, filters, range);
+    if (enemyGroup == null) {
+        return null;
+    }
+
+    count = UnitGroupCount(enemyGroup, c_unitCountAlive);
+    while (count > 0) {
+        enemyUnit = UnitGroupUnit(enemyGroup, count);
+        count = count - 1;
+        distance = DistanceBetweenPoints(UnitGetPosition(aiUnit), UnitGetPosition(enemyUnit));
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestUnit = enemyUnit;
+        }
+    }
+
+    return bestUnit;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusSiriusCastTurret (int player, unit aiUnit, unitgroup scanGroup) {
+    fixed range;
+    fixed angle;
+    point targetPoint;
+    point turretPoint;
+    unit targetUnit;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_CMTychus_AB_SiriusTurret) == true) {
+        return true;
+    }
+    if (CMTychusAbilityExists(aiUnit, c_CMTychus_AB_SiriusTurret) == false) {
+        return false;
+    }
+
+    range = CMTychusAbilityRange(player, c_CMTychus_AB_SiriusTurret, 8.0);
+    targetUnit = CMTychusClosestEnemy(player, aiUnit, scanGroup, "", range + 6.0);
+    if (targetUnit == null) {
+        return false;
+    }
+
+    targetPoint = UnitGetPosition(targetUnit);
+    if (CMTychusUnitTypeNearPoint(player, targetPoint, c_CMTychus_SiriusDuplicateRange, c_CMTychus_TU_WarhoundTurret) == true) {
+        return false;
+    }
+
+    angle = AngleBetweenPoints(UnitGetPosition(aiUnit), targetPoint);
+    turretPoint = PointWithOffsetPolar(UnitGetPosition(aiUnit), c_CMTychus_TurretPlaceOffset, angle);
+    ord = CMTychusPointOrderAt(player, aiUnit, c_CMTychus_AB_SiriusTurret, turretPoint);
+    if (ord == null) {
+        ord = CMTychusPointOrderAt(player, aiUnit, c_CMTychus_AB_SiriusTurret, targetPoint);
+    }
+    if (ord == null) {
+        return false;
+    }
+
+    AICast(aiUnit, ord, c_noMarker, c_castHold);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+bool CMTychusCannonballCastGrapple (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+
+    filters = CMTychusEffectFilters(player, c_CMTychus_EF_CannonballSearch, "Ground;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable");
+    if (CMTychusCastArea(player, aiUnit, scanGroup, c_CMTychus_AB_CannonballGrapple, c_CMTychus_EF_CannonballSearch, 10.0, c_CMTychus_CannonballRadius, c_CMTychus_CannonballMinHits, c_CMTychus_CannonballDamage, 60.0, filters) == true) {
+        return true;
+    }
+
+    if (CMTychusCastArea(player, aiUnit, scanGroup, c_CMTychus_AB_CannonballGrapple, c_CMTychus_EF_CannonballSearch, 10.0, c_CMTychus_CannonballRadius, 1, c_CMTychus_CannonballDamage, 260.0, filters) == true) {
+        return true;
+    }
+
+    return false;
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusCoop (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+
+    filters = CMTychusEffectFilters(player, c_CMTychus_EF_GrenadeSearch, "-;Self,Player,Ally,Missile,Item,Stasis,Dead,Hidden,Invulnerable");
+    if (CMTychusCastArea(player, aiUnit, scanGroup, c_CMTychus_AB_Grenade, c_CMTychus_EF_GrenadeSearch, 7.0, c_CMTychus_GrenadeRadius, c_CMTychus_GrenadeMinHits, c_CMTychus_GrenadeDamage, 160.0, filters) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusReaper (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMTychusCastUnit(player, aiUnit, scanGroup, c_CMTychus_AB_SamBomb, 9.0, 500.0, c_CMTychus_SamBombMinScore, false, true, false, true) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusFirebat (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+
+    filters = CMTychusEffectFilters(player, c_CMTychus_EF_BlazeOilSearch, "Ground;Self,Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable");
+    if (CMTychusCastArea(player, aiUnit, scanGroup, c_CMTychus_AB_BlazeOilBomb, c_CMTychus_EF_BlazeOilSearch, 6.0, c_CMTychus_OilBombRadius, c_CMTychus_OilBombMinHits, c_CMTychus_OilBombDamage, 110.0, filters) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusSpectre (int player, unit aiUnit, unitgroup scanGroup) {
+    string filters;
+
+    filters = CMTychusEffectFilters(player, c_CMTychus_EF_NuxPulseSearch, "-;Player,Ally,Structure,Missile,Stasis,Hidden,Invulnerable");
+    if (CMTychusCastArea(player, aiUnit, scanGroup, c_CMTychus_AB_NuxPulse, c_CMTychus_EF_NuxPulseSearch, 10.0, c_CMTychus_NuxPulseRadius, c_CMTychus_NuxPulseMinHits, c_CMTychus_NuxPulseDamage, 180.0, filters) == true) {
+        return;
+    }
+
+    if (CMTychusCastArea(player, aiUnit, scanGroup, c_CMTychus_AB_NuxPulse, c_CMTychus_EF_NuxPulseSearch, 10.0, c_CMTychus_NuxPulseRadius, 1, c_CMTychus_NuxPulseDamage, 320.0, filters) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusMedic (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMTychusNikaraCastBurst(player, aiUnit) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusMarauder (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMTychusRattlesnakeCastWard(player, aiUnit) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusWarhound (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMTychusSiriusCastTurret(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusHERC (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMTychusCannonballCastGrapple(player, aiUnit, scanGroup) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkTychusGhost (int player, unit aiUnit, unitgroup scanGroup) {
+    if (CMTychusCastUnit(player, aiUnit, scanGroup, c_CMTychus_AB_VegaDominate, 10.0, 0.0, c_CMTychus_VegaDominateMinScore, true, false, true, false) == true) {
+        return;
+    }
+
+    AIEvalTacticalData(aiUnit, null);
+}

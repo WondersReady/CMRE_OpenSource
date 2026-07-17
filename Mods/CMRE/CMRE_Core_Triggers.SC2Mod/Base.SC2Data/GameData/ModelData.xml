@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CModel id="CivilianTosh">
+        <RequiredAnims value="Assets\Portraits\Terran\ToshPortrait_RequiredAnims\ToshPortrait_RequiredAnims.m3a"/>
+        <RequiredAnims value="Assets\StoryModeCharacters\Terran\SM_BountyHunter_FacialAnims\SM_BountyHunter_FacialAnims.m3a"/>
+    </CModel>
+    <CModel id="GlueMultiplayerMenuVoidZealotSP" parent="SMCHARACTER">
+        <Model value="Assets\StoryModeCharacters\Protoss\SMX2_ZealotUpgraded\SMX2_ZealotUpgraded.m3"/>
+    </CModel>
+    <CModel id="ZeratulTopBarWarpingOut" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Terran\ToshTeleportIn\ToshTeleportIn.m3"/>
+    </CModel>
+    <CModel id="CMREZeratulConstructEssenceBirthModel" parent="OneShotSpellFX">
+        <Model value="Assets\COOP\Zeratul\Effects\Effect_Eyeser_Zeratul_Essence_Birth.m3"/>
+    </CModel>
+    <CModel id="CMREZeratulConstructFormBirthModel" parent="OneShotSpellFX">
+        <Model value="Assets\COOP\Zeratul\Effects\Effect_Eyeser_Zeratul_Form_Birth.m3"/>
+    </CModel>
+    <CModel id="CMREZeratulConstructEssenceFilledAnim" parent="ZeratulXelNagaConstruct">
+        <Model value="Assets\COOP\Zeratul\Units\Unit_Eyeser_Zeratul_ConstructEssence_FilledAnim.m3"/>
+    </CModel>
+    <CModel id="CMREZeratulConstructFormFilledAnim" parent="ZeratulXelNagaConstructCyan">
+        <Model value="Assets\COOP\Zeratul\Units\Unit_Eyeser_Zeratul_ConstructForm_FilledAnim.m3"/>
+    </CModel>
+</Catalog>

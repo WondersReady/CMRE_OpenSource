@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSound id="InfestedCivilian_Moan">
+        <DupeDestroyCount value="1"/>
+        <DupeWait value="2,2"/>
+    </CSound>
+    <CSound id="Nova_ColonistShip_TakeOff_Alert_Trigg" parent="Other">
+        <EditorCategories value="Race:Neutral"/>
+        <AssetArray File="Assets\Sounds\UI_alarm_BattlecruiserHangar_stereo.ogg" FacialGroup=""/>
+        <Pitch value="-4.000000,-4.000000"/>
+        <Volume value="-8.000000,-8.000000"/>
+    </CSound>
+</Catalog>

@@ -1,0 +1,1 @@
+﻿Light/Name/EditorTestLight=Default ///Auto - Copied from enUS Locale

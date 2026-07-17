@@ -1,0 +1,65 @@
+﻿DOCSTR_0000=Insert Text
+DocInfo/Author=Blizzard Entertainment
+DocInfo/DescLong=Moebius Corps is using this massive battle station to target Dominion colonies. Help Stone deliver xel'naga artifacts to key target sites in order to destroy the station and save innocent lives.<n/><n/>Rock the Cabinet 2017 Finalist<n/>Concept by: TheSkunk<n/><n/>
+DocInfo/Name=[CM] Cradle of Death
+LoadingScreen/Tip= 
+LoadingScreen/TipRestart= 
+MapInfo/Player00/Name=
+MapInfo/Player01/Name=Player 1
+MapInfo/Player02/Name=Player 2
+MapInfo/Player03/Name=Amon's Forces
+MapInfo/Player04/Name=Amon's Forces
+MapInfo/Player05/Name=Special Amon's Forces
+MapInfo/Player06/Name=Special Amon's Forces
+MapInfo/Player07/Name=Player 8
+MapInfo/Player08/Name=Player 8
+MapInfo/Player09/Name=Player 9
+MapInfo/Player10/Name=Player 10
+P1Target=<s val="AAAAToolTip">Player 1</s> Payload Deploy Target
+Param/Expression/16392BB4=This debug can only be used at the commander select screen
+Param/Expression/2144AFBF=<s val="WorldTooltip">Select this<n/>~PayloadUnit~</s>
+Param/Expression/21D1ABB3=<s val="WorldTooltip">Move ~TruckUnit~ Here</s>
+Param/Expression/234D280C=Bring ~UnitName~ Here
+Param/Expression/289BEFE3=<s val="@@ObjectivePanelProgress">(~Time~ remaining)</s>
+Param/Expression/41080356=<s val="WorldTooltip">Order it to<n/>the marked Objective</s>
+Param/Expression/4EEA9C96=<s val="@@ObjectivePanelProgress">(~Time~ remaining)</s>
+Param/Expression/666D16B1=<s val="@@ObjectivePanelProgress">(~coloredTime~ remaining)</s>
+Param/Expression/73E12E5D=<s val="@@ObjectivePanelProgress">(~Time~ remaining)</s>
+Param/Expression/74E8B959=~ObjectiveText~
+Param/Expression/75383A19=~ObjectiveText~
+Param/Expression/8A3EC7BB=Destroy ~UnitName~
+Param/Expression/8C05AE78=<s val="@@ObjectivePanelProgress">(~coloredTime~ remaining)</s>
+Param/Expression/9081F4B8=Commander Select Screen Debug Cheats:<n/>- SetBranch One|Two Left|Right<n/>----> One|Two chooses base to set. One is for bases 2 and 3. Two is the final enemy base.<n/>----> Left|Right determines which branch is chosen.<n/><n/>In Game Cheats:<n/>- PauseTimer|UnpauseTimer<n/>----> Controls the countdown to fail timer.
+Param/Expression/A2F68F40=<s val="WorldTooltip">Move ~TruckUnit~ Here</s>
+Param/Expression/A75BD0F7=<s val="@@ObjectivePanelProgress">(~coloredTime~ remaining)</s>
+Param/Expression/C297B335=Destroy ~UnitName~
+Param/Expression/D70B02F6=Final:~PlayerScore~<n/>~OriginalText~
+Param/Expression/D9858E44=Destroy ~UnitName~
+Param/Expression/DCBB75DA=Ally's ~PayloadUnit~
+Param/Expression/DFBF0F03=Bring ~UnitName~ Here
+Param/Expression/E9B43D35=<c val="FF8000">Bonus:<n/> ~B~<n/>Obj Life:<n/> ~C~</n>Obj Time:</n>~D~</c>
+Param/Expression/E9D1A568=<s val="~Style~">~A~</s>
+Param/Expression/ED143356=This debug can only be used at the commander select screen
+Param/Value/01D497B5=Error: Unknown Payload in Bomb Planted function
+Param/Value/32DE194F=Void Shard
+Param/Value/34C0C616=All of your ally's structures have been destroyed.
+Param/Value/476D2390=
+Param/Value/55308C48=Colonies Destroyed in
+Param/Value/716DC1F5=Lowerering Wave Size
+Param/Value/7CF37F24=All of your structures have been destroyed.
+Param/Value/93AD7D90=Pirate Ship
+Param/Value/BC98FE04=<s val="WorldTooltip">Clear both target sites</s>
+Param/Value/C3CE73A5=All of your structures have been destroyed.
+Param/Value/D1A7B207=Moebius battle station demolished.
+Param/Value/D1C95563=Debug: Main Timer Paused
+Param/Value/D64B931D=All of your ally's structures have been destroyed.
+Param/Value/DFCA726B=defeat sequence
+Param/Value/E251DD9F=<s val="BombWarning">Warning! Clear the blast radius!</s>
+Param/Value/E498ABC8=Debug: Main Timer Unpaused
+Param/Value/E7433337=Attack Wave Waypoint returning "No Point"!
+Param/Value/F554B7BF=Moebius battle station firing on Dominion colonies.
+PayloadContructor=Produces Payloads for players.
+PayloadTarget2=<s val="WorldTooltip">Deliver Payload Here</s>
+Player2PLTg=<s val="AAAAToolTip">Player 2</s> Payload Deploy Target
+Variant001/ModeDesc=Please manually select the player difficulty as needed.
+Variant001/ModeName=Co-op

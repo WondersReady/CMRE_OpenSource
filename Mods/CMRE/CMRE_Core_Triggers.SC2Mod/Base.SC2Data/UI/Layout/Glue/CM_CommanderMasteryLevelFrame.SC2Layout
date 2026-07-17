@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+
+    <!-- <Frame type="CommanderMasteryLevelFrame" name="CommanderMasteryLevelFrameTemplate"> -->
+    <Frame type="Frame" name="CommanderMasteryLevelFrameTemplate">
+        <Width val="84"/>
+        <Height val="84"/>
+        <!-- <TierCount val="10"/> -->
+        
+        <Frame type="Image" name="IconImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_PrestigeBadge_Max"/>
+        </Frame>
+
+        <Frame type="Label" name="LevelLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="29"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="1"/>
+            <Style val="@Coop_CommanderMasteryLevel"/>
+            <Text val=""/>
+            <Visible val="false"/>
+        </Frame>
+
+
+        <!-- Static max badge presentation; CMUI scripts own actual mastery values. -->
+    </Frame>
+</Desc>

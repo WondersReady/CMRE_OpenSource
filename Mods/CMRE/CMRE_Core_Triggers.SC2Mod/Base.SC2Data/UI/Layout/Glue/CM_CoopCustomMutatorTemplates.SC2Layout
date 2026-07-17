@@ -1,0 +1,1097 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Constant name="CustomMutatorMenu_ItemGap_Horizontal" val="8"/>
+    <Constant name="CustomMutatorMenu_ItemGap_Vertical" val="8"/>
+
+    <Frame type="Image" name="ScrollBarBackgroundImage">
+        <Texture val="Assets/Textures/UI_Battlenet_Glue_ChatPanelScrollBarLine.dds"/>
+        <TextureType val="Nineslice"/>
+        <Tiled val="true"/>
+        <Alpha val="0"/>
+        <DescFlags val="Internal"/>
+    </Frame>
+
+    <Frame type="Button" name="ScrollBarButtonTemplate">
+        <NormalImage val="NormalImage"/>
+        <HoverImage val="HoverImage"/>
+        <DescFlags val="Internal"/>
+
+        <Frame type="Image" name="NormalImage">
+            <Texture val="@UI/ChatPanelScrollBarGrabber_Normal"/>
+            <TextureType val="Nineslice"/>
+            <Tiled val="true"/>
+            <DescFlags val="Internal"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Texture val="@UI/ChatPanelScrollBarGrabber_Hover"/>
+            <TextureType val="Nineslice"/>
+            <Tiled val="true"/>
+            <DescFlags val="Internal"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="ScrollBar" name="TileListScrollBarTemplate">
+        <Image val="$root/CM_CoopCustomMutatorTemplates/ScrollBarBackgroundImage"/>
+        <Button val="$root/CM_CoopCustomMutatorTemplates/ScrollBarButtonTemplate"/>
+        <Orientation val="Vertical"/>
+        <Width val="16"/>
+        <CollapseLayout val="true"/>
+    </Frame>
+
+    <!--
+    =========================================
+    StandardFakeDialogTemplate
+    =========================================
+    -->
+    <Frame type="Frame" name="StandardFakeDialogTemplate">
+        <Anchor relative="$parent"/>
+
+        <Frame type="Image" name="FullscreenBlackoutImage">
+            <Anchor relative="$parent"/>
+            <Color val="0,0,0"/>
+            <Alpha val="180"/>
+            <RenderPriority val="1"/>
+            <AcceptsMouse val="true"/>
+        </Frame>
+
+        <Frame type="Frame" name="BackgroundFrame" template="StandardBattlenetTemplates/StandardSmallPanelTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="400"/>
+            <Anchor side="Bottom" relative="$parent\Button" pos="Max" offset="45"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="860"/>
+
+            <Frame type="Image" name="TopHexPattern">
+                <Visible val="true"/>
+            </Frame>
+
+            <Frame type="Image" name="BottomHexPattern">
+                <Visible val="true"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Label" name="TitleLabel">
+            <Anchor side="Top" relative="$parent/BackgroundFrame/BorderImage" pos="Min" offset="45"/>
+            <Anchor side="Left" relative="$parent/BackgroundFrame/BorderImage" pos="Min" offset="60"/>
+            <Anchor side="Right" relative="$parent/BackgroundFrame/BorderImage" pos="Max" offset="-60"/>
+            <Style val="StandardDialogTitle"/>
+        </Frame>
+
+        <Frame type="Label" name="MessageLabel">
+            <Anchor side="Top" relative="$parent/TitleLabel" pos="Max" offset="10"/>
+            <Anchor side="Left" relative="$parent/BackgroundFrame/BorderImage" pos="Min" offset="60"/>
+            <Anchor side="Right" relative="$parent/BackgroundFrame/BorderImage" pos="Max" offset="-60"/>
+            <Style val="StandardDialogMessage"/>
+            <Options val=""/>
+        </Frame>
+
+        <Frame type="Button" name="Button" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Anchor side="Top" relative="$parent/MessageLabel" pos="Max" offset="30"/>
+            <Anchor side="Right" relative="$parent/BackgroundFrame/BorderImage" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/BackgroundFrame/BorderImage" pos="Mid" offset="0"/>
+            <Text val="@CMUI/StandardDialog_Ok_Control"/>
+        </Frame>
+    </Frame>
+
+    <!-- 
+    =========================================
+    CountdownNumberContainerTemplate
+    =========================================
+    -->
+    <!--Frame type="Frame" name="CountdownNumberContainerTemplate">
+        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+        <Width val="600"/>
+        <Height val="600"/>
+        <Visible val="False"/>
+        
+        <Frame type="Image" name="Glare">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_Countdown_flare2"/>
+            <TextureType val="Normal"/>
+            <Height val="280"/>
+            <Width val="564"/>
+            
+            <Animation name="ShowGlareAnim">
+                <Event event="OnShown" action="Reset" frame="$parent"/>
+                <Event event="OnShown" action="Play" frame="$parent"/>
+                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="255" in="Auto"/>
+                    <Key type="Curve" time="0.4" value="255" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="0" in="linear" out="linear"/>
+                </Controller>
+
+                <Controller type="Dimension" dimension="Width" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="23" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="23" out="Auto"/>
+                    <Key type="Curve" time="0.4" value="69" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="100" in="linear" out="linear"/>
+                </Controller>
+                
+                <Controller type="Dimension" dimension="Height" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="31" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="31" out="Auto"/>
+                    <Key type="Curve" time="0.4" value="60" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="195" in="linear" out="linear"/>
+                </Controller>               
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="LensFlare">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="245"/>
+            <Texture val="@UI/SC2_UI_Coop_Countdown_flare1"/>
+            <TextureType val="Normal"/>
+            <Height val="4"/>
+            <Width val="508"/>
+            <BlendMode val="Add"/>
+            
+            <Animation name="ShowNumberAnim">
+                <Event event="OnShown" action="Reset" frame="$parent"/>
+                <Event event="OnShown" action="Play" frame="$parent"/>
+                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="178" in="Auto"/>
+                    <Key type="Curve" time="0.9" value="155" in="Auto"/>
+                    <Key type="Curve" time="1.0" value="0" in="Auto"/>
+                </Controller>
+
+                <Controller type="Dimension" dimension="Width" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="45" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="45" out="Auto"/>
+                    <Key type="Curve" time="0.4" value="69" in="linear" out="linear"/>
+                    <Key type="Curve" time="1.3" value="120" in="linear" out="linear"/>
+                </Controller>
+            </Animation>
+        </Frame>
+        
+        <Frame type="Image" name="Number">
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_Countdown_5"/>
+            <TextureType val="Normal"/>
+            <Height val="161"/>
+            <Width val="177"/>
+            
+            <Animation name="ShowNumberAnim">
+                <Event event="OnShown" action="Reset" frame="$parent"/>
+                <Event event="OnShown" action="Play" frame="$parent"/>
+                
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="1.0" value="255" out="Auto"/>
+                    <Key type="Curve" time="1.01" value="0" out="Auto"/>
+                </Controller>
+                
+                <Controller type="Dimension" dimension="Width" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="172" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="80" in="linear" out="linear"/>
+                    <Key type="Curve" time="0.9" value="64" in="linear" out="linear"/>
+                </Controller>
+                
+                <Controller type="Dimension" dimension="Height" relative="False" percentage="True" end="Pause">
+                    <Key type="Curve" time="0.0" value="172" out="Auto"/>
+                    <Key type="Curve" time="0.2" value="80" in="linear" out="linear"/>
+                    <Key type="Curve" time="0.9" value="64" in="linear" out="linear"/>
+                </Controller>
+            </Animation>
+        </Frame>
+    </Frame-->
+    <!-- 
+    =========================================
+    PlayerCardTemplate
+    =========================================
+    -->
+    <!-- For this we probably want to have states for mastery/nomastery and leader/notleader -->
+    <!--Frame type="Frame" name="PlayerCardTemplate">
+        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+        <Height val="94"/>
+        
+        <Frame type="Image" name="Background">
+            <Anchor relative="$parent"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Normal"/>
+        </Frame>
+        
+        <Frame type="Image" name="CommanderImage">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Width val="348"/>
+            <Height val="94"/>
+            <Alpha val="200"/>
+            <ImageMaskTexture val="@UI/SC2_UI_Coop_CustomMutators_PlayerCard_Commander_Mask"/>
+        </Frame>
+        
+        <Frame type="Label" name="LevelLabel">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="20"/>
+            <CollapseLayout val="True"/>
+            <Style val="@Coop_CustomMutator_CommanderLevel_Self"/>
+        </Frame>
+        
+        <Frame type="Label" name="MasteryLevelLabel">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="1"/>
+            <Anchor side="Left" relative="$parent/LevelLabel" pos="Max" offset="0"/>
+            <CollapseLayout val="True"/>
+            <Style val="@Coop_CustomMutator_CommanderLevel_Mastery"/>
+            <Visible val="False"/>
+        </Frame>
+        
+        <Frame type="Label" name="CommanderLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="26"/>
+            <Anchor side="Left" relative="$parent/MasteryLevelLabel" pos="Max" offset="10"/>
+            <Style val="@Coop_CustomMutator_CommanderTitle"/>
+        </Frame>
+        
+        <Frame type="Label" name="PlayerLabel">
+            <Anchor side="Top" relative="$parent/CommanderLabel" pos="Max" offset="-5"/>
+            <Anchor side="Left" relative="$parent/CommanderLabel" pos="Min" offset="0"/>
+            <Style val="@Coop_CustomMutator_PlayerTitle_Self"/>
+        </Frame>
+        
+        <Frame type="Image" name="PartyLeaderIcon">
+            <Anchor side="Top" relative="$parent/CommanderLabel" pos="Mid" offset="-2"/>
+            <Anchor side="Bottom" relative="$parent/CommanderLabel" pos="Mid" offset="-2"/>
+            <Anchor side="Left" relative="$parent/CommanderLabel" pos="Max" offset="2"/>
+            <Width val="17"/>
+            <Height val="15"/>
+            <Visible val="False"/>
+            <Texture val="@UI/Glues_Icons_PartyLeader"/>
+        </Frame>
+        
+        <StateGroup name="PlayerState">
+        
+            <State name="Self">
+                <When type="AnimationState" PlayerState="Self"/>
+                <Action type="SetProperty" frame="LevelLabel" style="Coop_CustomMutator_CommanderLevel_Self"/>
+                <Action type="SetProperty" frame="PlayerLabel" style="Coop_CustomMutator_PlayerTitle_Self"/>
+            </State>
+            
+            <State name="Ally">
+                <When type="AnimationState" PlayerState="Ally"/>
+                <Action type="SetProperty" frame="LevelLabel" style="Coop_CustomMutator_CommanderLevel_Ally"/>
+                <Action type="SetProperty" frame="PlayerLabel" style="Coop_CustomMutator_PlayerTitle_Ally"/>
+            </State>
+        </StateGroup>
+        
+        <StateGroup name="LeaderState">
+        
+            <State name="Leader">
+                <When type="AnimationState" LeaderState="Leader"/>
+                <Action type="SetProperty" frame="PartyLeaderIcon" visible="True"/>
+            </State>
+            
+            <State name="NotLeader">
+                <When type="AnimationState" LeaderState="NotLeader"/>
+                <Action type="SetProperty" frame="PartyLeaderIcon" visible="False"/>
+            </State>
+        </StateGroup>
+        
+        <StateGroup name="MasteryState">
+        
+            <State name="Mastery">
+                <When type="AnimationState" MasteryState="Mastery"/>
+                <Action type="SetProperty" frame="LevelLabel" visible="False"/>
+                <Action type="SetProperty" frame="MasteryLevelLabel" visible="True"/>
+            </State>
+            
+            <State name="NoMastery">
+                <When type="AnimationState" MasteryState="NoMastery"/>
+                <Action type="SetProperty" frame="LevelLabel" visible="True"/>
+                <Action type="SetProperty" frame="MasteryLevelLabel" visible="False"/>
+            </State>
+        </StateGroup>
+    </Frame-->
+    <!-- 
+    =========================================
+    SelectionItemTemplate 
+    =========================================
+    -->
+    <!-- This template is used for the actual mutator items displayed in the list of available mutators.  -->
+    <Frame type="Button" name="SelectionItemTemplate">
+        <Width val="312"/>
+        <Height val="86"/>
+        <Tooltip val="@CMUI/CustomMutators/MutatorDescriptionTooltip"/>
+        <TooltipFrame val="BattleNetTooltip"/>
+        <TooltipAnchorPosition val="BottomToTop | LeftToRight"/>
+        <DisplayType val="ImageLayer"/>
+
+        <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate">
+        </Frame>
+
+        <StateGroup name="SelectionState">
+            <DefaultState val="Clean"/>
+
+            <State name="Clean">
+                <Action type="SetProperty" frame="NormalImage" Alpha="255"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="255"/>
+                <Action type="SetProperty" frame="Icon" Visible="True"/>
+                <Action type="SetProperty" frame="IconBorder" Visible="True"/>
+                <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                <Action type="SetProperty" frame="ChaosIcon" Visible="False"/>
+                <Action type="SetProperty" frame="Label" Visible="True"/>
+                <Action type="SetProperty" frame="SettingsButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Toggled="False"/>
+                <Action type="SetProperty" frame="ToggledImage" Alpha="0"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="Label" Style="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="False"/>
+            </State>
+
+            <State name="Normal">
+                <When type="AnimationState" SelectionState="Normal"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="255"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="255"/>
+                <Action type="SetProperty" frame="Icon" Visible="True"/>
+                <Action type="SetProperty" frame="IconBorder" Visible="True"/>
+                <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                <Action type="SetProperty" frame="ChaosIcon" Visible="False"/>
+                <Action type="SetProperty" frame="Label" Visible="True"/>
+                <Action type="SetProperty" frame="SettingsButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Visible="False"/>
+                <Action type="SetProperty" frame="ToggledImage" Alpha="0"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="Label" Style="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="False"/>
+            </State>
+            <State name="Random">
+                <When type="AnimationState" SelectionState="Random"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="255"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="255"/>
+                <Action type="SetProperty" frame="Icon" Visible="False"/>
+                <Action type="SetProperty" frame="IconBorder" Visible="False"/>
+                <Action type="SetProperty" frame="RandomIcon" Visible="True"/>
+                <Action type="SetProperty" frame="ChaosIcon" Visible="False"/>
+                <Action type="SetProperty" frame="Label" Visible="True"/>
+                <Action type="SetProperty" frame="SettingsButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Toggled="False"/>
+                <Action type="SetProperty" frame="ToggledImage" Alpha="0"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="Label" Style="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="False"/>
+            </State>
+            <State name="Chaos">
+                <When type="AnimationState" SelectionState="Chaos"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="255"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="255"/>
+                <Action type="SetProperty" frame="Icon" Visible="False"/>
+                <Action type="SetProperty" frame="IconBorder" Visible="False"/>
+                <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                <Action type="SetProperty" frame="ChaosIcon" Visible="True"/>
+                <Action type="SetProperty" frame="Label" Visible="True"/>
+                <Action type="SetProperty" frame="SettingsButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Toggled="False"/>
+                <Action type="SetProperty" frame="ToggledImage" Alpha="0"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="Label" Style="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="False"/>
+            </State>
+            <State name="Toggled">
+                <When type="AnimationState" SelectionState="Toggled"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="255"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="255"/>
+                <Action type="SetProperty" frame="Icon" Visible="True"/>
+                <Action type="SetProperty" frame="IconBorder" Visible="True"/>
+                <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                <Action type="SetProperty" frame="ChaosIcon" Visible="False"/>
+                <Action type="SetProperty" frame="Label" Visible="True"/>
+                <Action type="SetProperty" frame="SettingsButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Visible="False"/>
+                <Action type="SetProperty" frame="ToggledImage" Alpha="255"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="Label" Style="@Coop_CustomMutator_MutatorSelectionButtonTitle_Highlight"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="False"/>
+            </State>
+            <State name="Empty">
+                <When type="AnimationState" SelectionState="Empty"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="0"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="0"/>
+                <Action type="SetProperty" frame="Icon" Visible="False"/>
+                <Action type="SetProperty" frame="IconBorder" Visible="False"/>
+                <Action type="SetProperty" frame="RandomIcon" Visible="False"/>
+                <Action type="SetProperty" frame="ChaosIcon" Visible="False"/>
+                <Action type="SetProperty" frame="Label" Visible="False"/>
+                <Action type="SetProperty" frame="SettingsButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Visible="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Toggled="False"/>
+                <Action type="SetProperty" frame="ToggledImage" Alpha="0"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="Label" Style="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="True"/>
+            </State>
+        </StateGroup>
+
+        <StateGroup name="EnabledState">
+            <State name="Empty">
+                <When type="AnimationState" SelectionState="Empty"/>
+                <Action type="SetProperty" frame="$this" Enabled="False"/>
+            </State>
+            <State name="Disabled">
+                <When type="AnimationState" EnabledState="Disabled"/>
+                <Action type="SetProperty" frame="$this" Enabled="False"/>
+                <Action type="SetProperty" frame="SettingsButton" Enabled="False"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Enabled="False"/>
+            </State>
+            <State name="Enabled">
+                <When type="AnimationState" EnabledState="Normal"/>
+                <Action type="SetProperty" frame="$this" Enabled="True"/>
+                <Action type="SetProperty" frame="SettingsButton" Enabled="True"/>
+                <Action type="SetProperty" frame="EnhanceBadgeButton" Enabled="True"/>
+            </State>
+        </StateGroup>
+
+        <Frame type="Image" name="EmptyImage">
+            <Anchor relative="$parent"/>
+            <DesaturateOnDisable val="false"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Empty"/>
+        </Frame>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <DesaturateOnDisable val="false"/>
+            <LayerCount val="4"/>
+            <TextureType val="NineSlice"/>
+            <TextureType val="NineSlice" Layer="1"/>
+            <TextureType val="NineSlice" Layer="2"/>
+            <TextureType val="NineSlice" Layer="3"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Normal"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Hover" Layer="1"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Toggled" Layer="2"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Disabled" Layer="3"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <DesaturateOnDisable val="false"/>
+            <LayerCount val="4"/>
+            <TextureType val="NineSlice"/>
+            <TextureType val="NineSlice" Layer="1"/>
+            <TextureType val="NineSlice" Layer="2"/>
+            <TextureType val="NineSlice" Layer="3"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Hover"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Hover" Layer="1"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Toggled" Layer="2"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Disabled" Layer="3"/>
+        </Frame>
+
+        <Frame type="Image" name="ToggledImage">
+            <Anchor relative="$parent"/>
+            <DesaturateOnDisable val="false"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Toggled"/>
+            <Alpha val="0"/>
+            <AcceptsMouse val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="Icon">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Width val="72"/>
+            <Height val="72"/>
+            <DesaturateOnDisable val="true"/>
+            <OnDisableDesaturationColor val="44,61,72"/>
+            <ImageMaskTexture val="@UI/SC2_UI_Coop_AbilityFrame_Mask"/>
+        </Frame>
+
+        <Frame type="Image" name="IconBorder">
+            <Anchor side="Top" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Width val="72"/>
+            <Height val="72"/>
+            <DesaturateOnDisable val="false"/>
+            <Texture val="@UI/SC2_UI_Coop_AbilityFrame"/>
+
+            <Animation name="Hover">
+                <Event event="OnMouseEnter" action="Reset,Play" frame="$parent"/>
+                <Event event="OnMouseExit" action="Reset" frame="$parent"/>
+
+                <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                    <Key type="Image" time="0" image="@UI/SC2_UI_Coop_AbilityFrame_Hover"/>
+                </Controller>
+            </Animation>
+
+            <Animation name="Disabled">
+                <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                    <Key type="Image" time="0" image="@UI/SC2_UI_Coop_AbilityFrame_Disabled"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Image" name="RandomIcon">
+            <Anchor side="Top" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Icon_Random"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Image" name="ChaosIcon">
+            <Anchor side="Top" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent/Icon" pos="Mid" offset="0"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Icon_Chaos"/>
+            <Visible val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/Icon" pos="Max" offset="11"/>
+            <Anchor side="Right" relative="$parent/SettingsButton" pos="Min" offset="-8"/>
+            <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+
+            <Animation name="Hover">
+                <Event event="Toggled" action="Reset,Play" frame="$parent"/>
+                <Event event="Normal" action="Reset" frame="$parent"/>
+                <Event event="OnDisabled" action="Reset" frame="$parent"/>
+
+                <Controller name="Style_0" type="Style" end="Pause" style1="Coop_CustomMutator_MutatorSelectionButtonTitle_Highlight" style2="Coop_CustomMutator_MutatorSelectionButtonTitle_Highlight" frame="$this">
+                    <Key type="CurveReal" time="0" inout="Linear" value="1"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Image" name="ToggledMask">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_CustomMutator_EvilMask_312x86.dds"/>
+            <Alpha val="0"/>
+            <AcceptsMouse val="false"/>
+        </Frame>
+
+        <Frame type="Button" name="SettingsButton" template="StandardBattlenetTemplates/OptionsButton">
+            <Anchor side="Bottom" relative="$parent/EnhanceBadgeButton" pos="Min" offset="-3"/>
+            <Anchor side="Right" relative="$parent/EnhanceBadgeButton" pos="Max" offset="0"/>
+            <Tooltip val="@CMUI/Options"/>
+            <TooltipFrame val="BattleNetTooltip"/>
+
+            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate">
+            </Frame>
+
+            <Animation name="OpenSettingsPopup">
+                <Event event="OnClick" action="Reset,Play" frame="$this"/>
+                <Controller type="Event" end="Stop" frame="$parent/$parent/$parent/$parent/$parent/CM_CustomMutatorSettingsPopup">
+                    <Key type="Event" time="0" event="Show"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Button" name="EnhanceBadgeButton">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-8"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-9"/>
+            <Width val="34"/>
+            <Height val="34"/>
+            <Toggleable val="true"/>
+            <Toggled val="false"/>
+            <Tooltip val="@CMUI/CustomMutators/EnhanceTooltip"/>
+            <TooltipFrame val="BattleNetTooltip"/>
+
+            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate">
+            </Frame>
+
+            <Frame type="Image" name="Icon">
+                <Anchor relative="$parent"/>
+                <Texture val="Assets/Textures/CM_CustomMutator_DevilBadge_34x34.dds"/>
+                <Alpha val="220"/>
+            </Frame>
+
+            <StateGroup name="BadgeToggledState">
+                <DefaultState val="NotToggled"/>
+
+                <State name="Toggled">
+                    <When type="Property" frame="$this" Toggled="true"/>
+                    <Action type="SetProperty" frame="$parent/ToggledMask" Alpha="255"/>
+                    <Action type="SetProperty" frame="Icon" Alpha="255"/>
+                </State>
+
+                <State name="NotToggled">
+                    <When type="Property" frame="$this" Toggled="false"/>
+                    <Action type="SetProperty" frame="$parent/ToggledMask" Alpha="0"/>
+                    <Action type="SetProperty" frame="Icon" Alpha="220"/>
+                </State>
+            </StateGroup>
+        </Frame>
+    </Frame>
+
+    <!-- 
+    =========================================
+    SelectedItemTemplate 
+    =========================================
+    -->
+    <!-- This template is used for the selected mutator items displayed in the selected items list  -->
+    <Frame type="Button" name="SelectedItemTemplate">
+        <Anchor side="Left" relative="$parent" pos="Min" offset="8"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="-8"/>
+        <Height val="42"/>
+        <Tooltip val="@CMUI/CustomMutators/MutatorDescriptionTooltip"/>
+        <TooltipFrame val="BattleNetTooltip"/>
+        <TooltipAnchorPosition val="BottomToTop | LeftToRight"/>
+
+        <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate">
+        </Frame>
+
+        <StateGroup name="SelectedState">
+            <State name="Active">
+                <When type="AnimationState" SelectedState="Active"/>
+                <Action type="SetProperty" frame="$this" Enabled="True"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="255"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="255"/>
+                <Action type="SetProperty" frame="CloseIcon" Visible="True"/>
+                <Action type="SetProperty" frame="Label" Visible="True"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="EmptyLabel" Visible="False"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="False"/>
+            </State>
+            <State name="Empty">
+                <When type="AnimationState" SelectedState="Empty"/>
+                <Action type="SetProperty" frame="$this" Enabled="False"/>
+                <Action type="SetProperty" frame="NormalImage" Alpha="0"/>
+                <Action type="SetProperty" frame="HoverImage" Alpha="0"/>
+                <Action type="SetProperty" frame="CloseIcon" Visible="False"/>
+                <Action type="SetProperty" frame="Label" Visible="False"/>
+                <Action type="SetProperty" frame="ToggledMask" Alpha="0"/>
+                <Action type="SetProperty" frame="EmptyLabel" Visible="True"/>
+                <Action type="SetProperty" frame="EmptyImage" Visible="True"/>
+            </State>
+        </StateGroup>
+
+        <Frame type="Image" name="EmptyImage">
+            <Anchor relative="$parent"/>
+            <DesaturateOnDisable val="false"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Empty"/>
+        </Frame>
+
+        <Frame type="Image" name="NormalImage">
+            <Anchor relative="$parent"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Normal"/>
+        </Frame>
+
+        <Frame type="Image" name="HoverImage">
+            <Anchor relative="$parent"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectionItem_Border_Hover"/>
+        </Frame>
+
+        <Frame type="Image" name="CloseIcon">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="5"/>
+            <Width val="32"/>
+            <Height val="32"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_SelectedItem_Remove_Normal"/>
+            <Color val="255,255,255"/>
+
+            <Animation name="Hover">
+                <Event event="OnMouseEnter" action="Reset,Play" frame="$parent"/>
+                <Event event="OnMouseExit" action="Reset" frame="$parent"/>
+
+                <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                    <Key type="Image" time="0" image="@UI/SC2_UI_Coop_CustomMutators_SelectedItem_Remove_Highlight"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
+        <Frame type="Label" name="Label">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent/CloseIcon" pos="Max" offset="20"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Normal"/>
+        </Frame>
+
+        <Frame type="Image" name="ToggledMask">
+            <Anchor relative="$parent"/>
+            <Texture val="Assets/Textures/CM_CustomMutator_EvilMask_312x86.dds"/>
+            <Alpha val="0"/>
+            <AcceptsMouse val="false"/>
+        </Frame>
+
+        <Frame type="Label" name="EmptyLabel">
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="12"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
+            <Style val="@Coop_CustomMutator_MutatorSelectionButtonTitle_Empty"/>
+            <Text val="@CMUI/CustomMutators/Empty"/>
+            <Visible val="false"/>
+        </Frame>
+    </Frame>
+
+    <!-- 
+    =========================================
+    SelectionContainerTemplate 
+    =========================================
+    -->
+    <Frame type="Frame" name="SelectionContainerTemplate">
+        <Width val="976"/>
+        <Height val="540"/>
+
+        <Frame type="Image" name="SelectionContainerBG">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+        </Frame>
+
+        <Frame type="Frame" name="HeaderContainer">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="52"/>
+
+            <Frame type="Image" name="HeaderBG">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <TextureType val="NineSlice"/>
+                <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_02"/>
+            </Frame>
+
+            <Frame type="Label" name="HeaderLabel">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Style val="@Coop_CustomMutator_MutatorSectionTitle"/>
+                <Text val="@CMUI/CustomMutators/AvailableMutators"/>
+            </Frame>
+
+            <Frame type="Label" name="PageCount">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="2"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="2"/>
+                <Anchor side="Right" relative="$parent/PageDownButton" pos="Min" offset="-4"/>
+                <Style val="@Coop_CustomMutator_PageNumber"/>
+            </Frame>
+
+            <Frame type="Button" name="PageDownButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent/PageUpButton" pos="Min" offset="-2"/>
+                <ClickSound val="@AC_CM_UI_NextPageButtonClick"/>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+                    <DesaturateOnDisable val="false"/>
+                    <Texture val="@UI/Glues_Icons_SingleArrow"/>
+
+                    <Animation name="Disabled">
+                        <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                        <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                        <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                            <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrowDisabled"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="PageUpButton" template="StandardBattlenetTemplates/BattlenetSquareIconButtonTemplate">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="-4"/>
+                <ClickSound val="@AC_CM_UI_NextPageButtonClick"/>
+
+                <Frame type="Image" name="Icon">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
+                    <Anchor side="Right" relative="$parent" pos="Mid" offset="1"/>
+                    <DesaturateOnDisable val="false"/>
+                    <Texture val="@UI/Glues_Icons_SingleArrow"/>
+                    <TextureCoords top="0" left="1" bottom="1" right="0"/>
+
+                    <Animation name="Disabled">
+                        <Event event="OnDisabled" action="Reset,Play" frame="$parent"/>
+                        <Event event="OnEnabled" action="Reset" frame="$parent"/>
+
+                        <Controller name="Texture_0" type="Texture" end="Pause" layer="0" frame="$this">
+                            <Key type="Image" time="0" image="@UI/Glues_Icons_SingleArrowDisabled"/>
+                        </Controller>
+                    </Animation>
+                </Frame>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="ItemsContainer">
+            <Anchor side="Top" relative="$parent/HeaderContainer" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+
+            <Frame type="Button" name="Item1" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="12"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="12"/>
+            </Frame>
+
+            <Frame type="Button" name="Item2" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item1" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item3" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item2" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item4" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item3" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item5" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item4" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item6" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item1" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item1" pos="Max" offset="#CustomMutatorMenu_ItemGap_Horizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Item7" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item8" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item7" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item9" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item8" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item10" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item9" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item11" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item6" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Item6" pos="Max" offset="#CustomMutatorMenu_ItemGap_Horizontal"/>
+            </Frame>
+
+            <Frame type="Button" name="Item12" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item11" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item13" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item12" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item14" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item13" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item13" pos="Min" offset="0"/>
+            </Frame>
+
+            <Frame type="Button" name="Item15" template="CM_CoopCustomMutatorTemplates/SelectionItemTemplate">
+                <Anchor side="Top" relative="$parent/Item14" pos="Max" offset="#CustomMutatorMenu_ItemGap_Vertical"/>
+                <Anchor side="Left" relative="$parent/Item14" pos="Min" offset="0"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <!-- 
+    =========================================
+    SelectedContainerTemplate 
+    =========================================
+    -->
+    <Frame type="Frame" name="SelectedContainerTemplate">
+        <Width val="448"/>
+        <Height val="540"/>
+
+        <Frame type="Image" name="SelectedContainerBG">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <TextureType val="NineSlice"/>
+            <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_01"/>
+        </Frame>
+
+        <Frame type="Frame" name="HeaderContainer">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="52"/>
+
+            <Frame type="Image" name="HeaderBG">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <TextureType val="NineSlice"/>
+                <Texture val="@UI/SC2_UI_Coop_CustomMutators_InnerPanel_02"/>
+            </Frame>
+
+            <Frame type="Label" name="HeaderLabel">
+                <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="16"/>
+                <Style val="@Coop_CustomMutator_MutatorSectionTitle"/>
+                <Text val="@CMUI/CustomMutators/SelectedMutators"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="ScrollableFrame" name="ItemsContainer">
+            <Anchor side="Top" relative="$parent/HeaderContainer" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <AcceptsMouse val="true"/>
+
+            <Frame type="Frame" name="ContainerFrame">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$this/Item20" pos="Max" offset="0"/>
+
+                <Frame type="Button" name="Item1" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="11"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item2" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item1" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item3" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item2" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item4" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item3" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item5" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item4" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item6" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item5" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item7" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item6" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item8" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item7" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item9" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item8" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item10" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item9" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item11" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item10" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item12" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item11" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item13" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item12" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item14" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item13" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item15" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item14" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item16" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item15" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item17" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item16" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item18" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item17" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item19" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item18" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+
+                <Frame type="Button" name="Item20" template="CM_CoopCustomMutatorTemplates/SelectedItemTemplate">
+                    <Anchor side="Top" relative="$parent/Item19" pos="Max" offset="5"/>
+                    <CollapseLayout val="true"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="ScrollBar" name="ScrollBar" template="CM_CoopCustomMutatorTemplates/TileListScrollBarTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="-4"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
+                <StepValue val="47"/>
+                <Continuous val="false"/>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

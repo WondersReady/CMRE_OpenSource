@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<Catalog>
+    <CSound id="VictoryDoorOpenStoneSound" parent="Other">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\Uni\Doodads\Doodad_ArtifactShrine_Activate.wav" FacialGroup=""/>
+        <Volume value="-2.000000,-2.000000"/>
+    </CSound>
+    <CSound id="VictoryDoorOpenStoneSound2" parent="Other">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\Uni\Doodads\Doodad_ArtifactShrine_Activate.wav" Pitch="-4.000000,-4.000000" FacialGroup=""/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="VictoryMusic" parent="MUSIC">
+        <AssetArray File="Assets\Music\ZSwarm_Music_CutsceneMoment2.ogg">
+            <SyncPoints value="0"/>
+        </AssetArray>
+        <Category value="Other"/>
+        <Volume value="0.000000,0.000000"/>
+    </CSound>
+    <CSound id="VictoryDoorOpen" parent="Other">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\Doodad_TerrainObjectExpeditionGateDoodad_StandWorkEnd_PowerUp_00.wav" FacialGroup=""/>
+    </CSound>
+    <CSound id="IntroMusic" parent="MUSIC">
+        <AssetArray File="Assets\Music\ZSwarm_Music_CutsceneMoment1.ogg">
+            <SyncPoints value="0"/>
+            <SyncPoints value="651184"/>
+        </AssetArray>
+        <Category value="Other"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="IntroStinger" parent="MUSIC">
+        <AssetArray File="Assets\Music\UI_Stinger_Complete05.ogg">
+            <SyncPoints value="0"/>
+            <SyncPoints value="651184"/>
+        </AssetArray>
+        <Category value="Other"/>
+        <Volume value="0.000000,0.000000"/>
+    </CSound>
+    <CSound id="VictoryDoorOpenStinger" parent="Other">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\Doodad_TerrainObjectExpeditionGateDoodad_StandWorkEnd_Loop.wav" LoopCount="5" FacialGroup=""/>
+    </CSound>
+    <CSound id="VictoryDoorOpenWhoosh" parent="Other">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\ProtossFrigateBirth.wav" FacialGroup=""/>
+    </CSound>
+</Catalog>

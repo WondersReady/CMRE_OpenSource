@@ -1,0 +1,859 @@
+// CM pointer event registry.
+// Stores cross-library function references for commander and enemy-AI lifecycle dispatch.
+
+include "scripts/cm_pointer_events_h"
+
+const int CMPE_SLOT_MAX = 128;
+const int CMPE_PLAYER_EVENT_MAX = 32;
+const int CMPE_COMPONENT_MAX = 6;
+
+const int CMPE_COMPONENT_COMMANDER = 1;
+const int CMPE_COMPONENT_AI_COMMANDER = 2;
+const int CMPE_COMPONENT_HERO = 3;
+const int CMPE_COMPONENT_HERO_STRUCTURE = 4;
+const int CMPE_COMPONENT_GLOBAL_POWER = 5;
+const int CMPE_COMPONENT_PRESTIGE = 6;
+
+const int CMPE_PLAYER_EVENT_COMMANDER_TECH_BEFORE = 1;
+const int CMPE_PLAYER_EVENT_COMMANDER_TECH = 2;
+const int CMPE_PLAYER_EVENT_COMMANDER_TECH_AFTER = 3;
+const int CMPE_PLAYER_EVENT_CTI_BEFORE = 4;
+const int CMPE_PLAYER_EVENT_CTI = 5;
+const int CMPE_PLAYER_EVENT_CTI_AFTER = 6;
+const int CMPE_PLAYER_EVENT_CTP_BEFORE = 7;
+const int CMPE_PLAYER_EVENT_CTP = 8;
+const int CMPE_PLAYER_EVENT_CTP_AFTER = 9;
+const int CMPE_PLAYER_EVENT_GPTUI_BEFORE = 10;
+const int CMPE_PLAYER_EVENT_GPTUI = 11;
+const int CMPE_PLAYER_EVENT_GPTUI_AFTER = 12;
+const int CMPE_PLAYER_EVENT_AITI_BEFORE = 13;
+const int CMPE_PLAYER_EVENT_AITI = 14;
+const int CMPE_PLAYER_EVENT_AITI_AFTER = 15;
+const int CMPE_PLAYER_EVENT_COMMANDER_MASTERY_BEFORE = 16;
+const int CMPE_PLAYER_EVENT_COMMANDER_MASTERY = 17;
+const int CMPE_PLAYER_EVENT_COMMANDER_MASTERY_AFTER = 18;
+const int CMPE_PLAYER_EVENT_HTAS_BEFORE = 19;
+const int CMPE_PLAYER_EVENT_HTAS = 20;
+const int CMPE_PLAYER_EVENT_HTAS_AFTER = 21;
+const int CMPE_PLAYER_EVENT_HTAD = 22;
+const int CMPE_PLAYER_EVENT_HERO_DEATH_AFTER = 23;
+const int CMPE_PLAYER_EVENT_HERO_FIRST_BORN_AFTER = 24;
+const int CMPE_PLAYER_EVENT_HSTAS_BEFORE = 25;
+const int CMPE_PLAYER_EVENT_HSTAS = 26;
+const int CMPE_PLAYER_EVENT_HSTAS_AFTER = 27;
+const int CMPE_PLAYER_EVENT_HERO_STRUCTURE_FIRST_BORN_AFTER = 28;
+const int CMPE_PLAYER_EVENT_GPTAS_BEFORE = 29;
+const int CMPE_PLAYER_EVENT_GPTAS = 30;
+const int CMPE_PLAYER_EVENT_GPTAS_AFTER = 31;
+const int CMPE_PLAYER_EVENT_HERO_REVIVE_AFTER = 32;
+
+bool CMPE_Initialized = false;
+CMPE_PlayerEventFunc[7][33][129] CMPE_EventSlots;
+bool[7][33][129] CMPE_EventSlotHasHandler;
+bool CMPE_EventRegistryHasHandler = false;
+
+void CMPE_PlayerEvent_Empty(int lp_player) {
+}
+
+int CMPE_ValidSlot(int lp_slot) {
+    if ((lp_slot < 1)) {
+        return 0;
+    }
+
+    if ((lp_slot > CMPE_SLOT_MAX)) {
+        return 0;
+    }
+
+    return lp_slot;
+}
+
+int CMPE_ValidComponent(int lp_component) {
+    if ((lp_component < 1)) {
+        return 0;
+    }
+
+    if ((lp_component > CMPE_COMPONENT_MAX)) {
+        return 0;
+    }
+
+    return lp_component;
+}
+
+int CMPE_ValidPlayerEventType(int lp_eventType) {
+    if ((lp_eventType < 1)) {
+        return 0;
+    }
+
+    if ((lp_eventType > CMPE_PLAYER_EVENT_MAX)) {
+        return 0;
+    }
+
+    return lp_eventType;
+}
+
+void CMPE_Reset() {
+    int lv_component;
+    int lv_eventType;
+    int lv_slot;
+
+    lv_component = 0;
+    while ((lv_component <= CMPE_COMPONENT_MAX)) {
+        lv_eventType = 0;
+        while ((lv_eventType <= CMPE_PLAYER_EVENT_MAX)) {
+            lv_slot = 0;
+            while ((lv_slot <= CMPE_SLOT_MAX)) {
+                CMPE_EventSlots[lv_component][lv_eventType][lv_slot] = CMPE_PlayerEvent_Empty;
+                CMPE_EventSlotHasHandler[lv_component][lv_eventType][lv_slot] = false;
+                lv_slot = lv_slot + 1;
+            }
+
+            lv_eventType = lv_eventType + 1;
+        }
+
+        lv_component = lv_component + 1;
+    }
+
+    CMPE_EventRegistryHasHandler = false;
+    CMPE_Initialized = true;
+}
+
+void CMPE_Init() {
+    if ((CMPE_Initialized == true)) {
+        return;
+    }
+
+    CMPE_Reset();
+}
+
+CMPE_PlayerEventFunc CMPE_NormalizePlayerFunc(CMPE_PlayerEventFunc lp_func) {
+    if ((lp_func == null)) {
+        return CMPE_PlayerEvent_Empty;
+    }
+
+    return lp_func;
+}
+
+void CMPE_RegisterEventSlot(int lp_component, int lp_eventType, int lp_slot, CMPE_PlayerEventFunc lp_func) {
+    int lv_component;
+    int lv_eventType;
+    int lv_slot;
+
+    CMPE_Init();
+    lv_component = CMPE_ValidComponent(lp_component);
+    lv_eventType = CMPE_ValidPlayerEventType(lp_eventType);
+    lv_slot = CMPE_ValidSlot(lp_slot);
+    if ((lv_component == 0) || (lv_eventType == 0) || (lv_slot == 0)) {
+        return;
+    }
+
+    CMPE_EventSlots[lv_component][lv_eventType][lv_slot] = CMPE_NormalizePlayerFunc(lp_func);
+    if ((lp_func == null)) {
+        CMPE_EventSlotHasHandler[lv_component][lv_eventType][lv_slot] = false;
+        return;
+    }
+
+    CMPE_EventSlotHasHandler[lv_component][lv_eventType][lv_slot] = true;
+    CMPE_EventRegistryHasHandler = true;
+}
+
+void CMPE_RunEventSlot(int lp_component, int lp_eventType, int lp_slot, int lp_player) {
+    int lv_component;
+    int lv_eventType;
+    int lv_slot;
+    CMPE_PlayerEventFunc lv_func;
+
+    CMPE_Init();
+    lv_component = CMPE_ValidComponent(lp_component);
+    lv_eventType = CMPE_ValidPlayerEventType(lp_eventType);
+    lv_slot = CMPE_ValidSlot(lp_slot);
+    if ((lv_component == 0) || (lv_eventType == 0) || (lv_slot == 0)) {
+        CMPE_PlayerEvent_Empty(lp_player);
+        return;
+    }
+
+    lv_func = CMPE_EventSlots[lv_component][lv_eventType][lv_slot];
+    lv_func(lp_player);
+}
+
+void CMPE_RegisterPlayerEventSlot(int lp_eventType, int lp_slot, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterEventSlot(CMPE_COMPONENT_COMMANDER, lp_eventType, lp_slot, lp_func);
+}
+
+void CMPE_RunPlayerEventSlot(int lp_eventType, int lp_slot, int lp_player) {
+    CMPE_RunEventSlot(CMPE_COMPONENT_COMMANDER, lp_eventType, lp_slot, lp_player);
+}
+
+string CMPE_EventCommanderTechBefore() {
+    return "Commander.Tech.Before";
+}
+
+string CMPE_EventCommanderTech() {
+    return "Commander.Tech";
+}
+
+string CMPE_EventCommanderTechAfter() {
+    return "Commander.Tech.After";
+}
+
+string CMPE_EventCommanderInitialBefore() {
+    return "Commander.Initial.Before";
+}
+
+string CMPE_EventCommanderInitial() {
+    return "Commander.Initial";
+}
+
+string CMPE_EventCommanderInitialAfter() {
+    return "Commander.Initial.After";
+}
+
+string CMPE_EventCommanderPrestigeBefore() {
+    return "Commander.Prestige.Before";
+}
+
+string CMPE_EventCommanderPrestige() {
+    return "Commander.Prestige";
+}
+
+string CMPE_EventCommanderPrestigeAfter() {
+    return "Commander.Prestige.After";
+}
+
+string CMPE_EventCommanderGlobalPowerUIBefore() {
+    return "GlobalPower.UI.Before";
+}
+
+string CMPE_EventCommanderGlobalPowerUI() {
+    return "GlobalPower.UI";
+}
+
+string CMPE_EventCommanderGlobalPowerUIAfter() {
+    return "GlobalPower.UI.After";
+}
+
+string CMPE_EventAIInitialBefore() {
+    return "AI.Initial.Before";
+}
+
+string CMPE_EventAIInitial() {
+    return "AI.Initial";
+}
+
+string CMPE_EventAIInitialAfter() {
+    return "AI.Initial.After";
+}
+
+string CMPE_EventCommanderMasteryBefore() {
+    return "Commander.Mastery.Before";
+}
+
+string CMPE_EventCommanderMastery() {
+    return "Commander.Mastery";
+}
+
+string CMPE_EventCommanderMasteryAfter() {
+    return "Commander.Mastery.After";
+}
+
+string CMPE_EventCommanderHeroSpawnBefore() {
+    return "Hero.Spawn.Before";
+}
+
+string CMPE_EventCommanderHeroAfterSpawn() {
+    return "Hero.Spawn.Created";
+}
+
+string CMPE_EventCommanderHeroSpawnAfter() {
+    return "Hero.Spawn.After";
+}
+
+string CMPE_EventCommanderHeroDeathToggle() {
+    return "Hero.Death";
+}
+
+string CMPE_EventCommanderHeroDeathAfter() {
+    return "Hero.Death.After";
+}
+
+string CMPE_EventCommanderHeroReviveAfter() {
+    return "Hero.Revive.After";
+}
+
+string CMPE_EventCommanderHeroFirstBornAfter() {
+    return "Hero.FirstSpawn.After";
+}
+
+string CMPE_EventCommanderHeroStructureSpawnBefore() {
+    return "HeroStructure.Spawn.Before";
+}
+
+string CMPE_EventCommanderHeroStructureAfterSpawn() {
+    return "HeroStructure.Spawn.Created";
+}
+
+string CMPE_EventCommanderHeroStructureSpawnAfter() {
+    return "HeroStructure.Spawn.After";
+}
+
+string CMPE_EventCommanderHeroStructureFirstBornAfter() {
+    return "HeroStructure.FirstSpawn.After";
+}
+
+string CMPE_EventCommanderGlobalCasterSpawnBefore() {
+    return "GlobalPower.Caster.Before";
+}
+
+string CMPE_EventCommanderGlobalPowerAfterSpawn() {
+    return "GlobalPower.Caster.Created";
+}
+
+string CMPE_EventCommanderGlobalCasterSpawnAfter() {
+    return "GlobalPower.Caster.After";
+}
+
+int CMPE_PlayerEventType(string lp_eventType) {
+    if ((lp_eventType == null)) {
+        return 0;
+    }
+
+    if ((lp_eventType == "")) {
+        return 0;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderTechBefore()) || (lp_eventType == "CommanderTechBefore") || (lp_eventType == "CommanderTech.Before")) {
+        return CMPE_PLAYER_EVENT_COMMANDER_TECH_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderTech()) || (lp_eventType == "CommanderTech") || (lp_eventType == "CommanderTech.Main")) {
+        return CMPE_PLAYER_EVENT_COMMANDER_TECH;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderTechAfter()) || (lp_eventType == "CommanderTechAfter") || (lp_eventType == "CommanderTech.After")) {
+        return CMPE_PLAYER_EVENT_COMMANDER_TECH_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderInitialBefore()) || (lp_eventType == "CommanderInitialBefore") || (lp_eventType == "Event_CTI_Before") || (lp_eventType == "CTI.Before")) {
+        return CMPE_PLAYER_EVENT_CTI_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderInitial()) || (lp_eventType == "CommanderInitial") || (lp_eventType == "Event_CTI") || (lp_eventType == "CTI")) {
+        return CMPE_PLAYER_EVENT_CTI;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderInitialAfter()) || (lp_eventType == "CommanderInitialAfter") || (lp_eventType == "Event_CTI_After") || (lp_eventType == "CTI.After")) {
+        return CMPE_PLAYER_EVENT_CTI_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderPrestigeBefore()) || (lp_eventType == "CommanderPrestigeBefore") || (lp_eventType == "Event_CTP_Before") || (lp_eventType == "CTP.Before")) {
+        return CMPE_PLAYER_EVENT_CTP_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderPrestige()) || (lp_eventType == "CommanderPrestige") || (lp_eventType == "Event_CTP") || (lp_eventType == "CTP")) {
+        return CMPE_PLAYER_EVENT_CTP;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderPrestigeAfter()) || (lp_eventType == "CommanderPrestigeAfter") || (lp_eventType == "Event_CTP_After") || (lp_eventType == "CTP.After")) {
+        return CMPE_PLAYER_EVENT_CTP_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderGlobalPowerUIBefore()) || (lp_eventType == "CommanderGlobalPowerUIBefore") || (lp_eventType == "GlobalPowerUIBefore") || (lp_eventType == "Event_GPTUI_Before") || (lp_eventType == "GPTUI.Before")) {
+        return CMPE_PLAYER_EVENT_GPTUI_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderGlobalPowerUI()) || (lp_eventType == "CommanderGlobalPowerUI") || (lp_eventType == "GlobalPowerUI") || (lp_eventType == "Event_GPTUI") || (lp_eventType == "GPTUI")) {
+        return CMPE_PLAYER_EVENT_GPTUI;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderGlobalPowerUIAfter()) || (lp_eventType == "CommanderGlobalPowerUIAfter") || (lp_eventType == "GlobalPowerUIAfter") || (lp_eventType == "Event_GPTUI_After") || (lp_eventType == "GPTUI.After")) {
+        return CMPE_PLAYER_EVENT_GPTUI_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventAIInitialBefore()) || (lp_eventType == "AIInitialBefore") || (lp_eventType == "Event_AITI_Before") || (lp_eventType == "AITI.Before")) {
+        return CMPE_PLAYER_EVENT_AITI_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventAIInitial()) || (lp_eventType == "AIInitial") || (lp_eventType == "Event_AITI") || (lp_eventType == "AITI")) {
+        return CMPE_PLAYER_EVENT_AITI;
+    }
+
+    if ((lp_eventType == CMPE_EventAIInitialAfter()) || (lp_eventType == "AIInitialAfter") || (lp_eventType == "Event_AITI_After") || (lp_eventType == "AITI.After")) {
+        return CMPE_PLAYER_EVENT_AITI_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderMasteryBefore()) || (lp_eventType == "CommanderMasteryBefore") || (lp_eventType == "CommanderMastery.Before") || (lp_eventType == "Mastery.Before")) {
+        return CMPE_PLAYER_EVENT_COMMANDER_MASTERY_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderMastery()) || (lp_eventType == "CommanderMastery") || (lp_eventType == "CommanderMastery.Main") || (lp_eventType == "Mastery")) {
+        return CMPE_PLAYER_EVENT_COMMANDER_MASTERY;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderMasteryAfter()) || (lp_eventType == "CommanderMasteryAfter") || (lp_eventType == "CommanderMastery.After") || (lp_eventType == "Mastery.After")) {
+        return CMPE_PLAYER_EVENT_COMMANDER_MASTERY_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroSpawnBefore()) || (lp_eventType == "CommanderHeroSpawnBefore") || (lp_eventType == "HeroSpawnBefore") || (lp_eventType == "Event_HTAS_Before") || (lp_eventType == "HTAS.Before")) {
+        return CMPE_PLAYER_EVENT_HTAS_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroAfterSpawn()) || (lp_eventType == "CommanderHeroAfterSpawn") || (lp_eventType == "HeroAfterSpawn") || (lp_eventType == "Hero.Spawn.AfterCreate") || (lp_eventType == "Event_HTAS") || (lp_eventType == "HTAS")) {
+        return CMPE_PLAYER_EVENT_HTAS;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroSpawnAfter()) || (lp_eventType == "CommanderHeroSpawnAfter") || (lp_eventType == "HeroSpawnAfter") || (lp_eventType == "Event_HTAS_After") || (lp_eventType == "HTAS.After")) {
+        return CMPE_PLAYER_EVENT_HTAS_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroDeathToggle()) || (lp_eventType == "CommanderHeroDeathToggle") || (lp_eventType == "HeroDeathToggle") || (lp_eventType == "Event_HTAD") || (lp_eventType == "HTAD")) {
+        return CMPE_PLAYER_EVENT_HTAD;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroDeathAfter()) || (lp_eventType == "CommanderHeroDeathAfter") || (lp_eventType == "HeroDeathAfter") || (lp_eventType == "Event_HTAD_After") || (lp_eventType == "HTAD.After")) {
+        return CMPE_PLAYER_EVENT_HERO_DEATH_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroReviveAfter()) || (lp_eventType == "CommanderHeroReviveAfter") || (lp_eventType == "HeroReviveAfter") || (lp_eventType == "Hero.Revive.After")) {
+        return CMPE_PLAYER_EVENT_HERO_REVIVE_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroFirstBornAfter()) || (lp_eventType == "CommanderHeroFirstBornAfter") || (lp_eventType == "HeroFirstBornAfter") || (lp_eventType == "HeroFirstReviveAfter") || (lp_eventType == "FirstBorn.After")) {
+        return CMPE_PLAYER_EVENT_HERO_FIRST_BORN_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroStructureSpawnBefore()) || (lp_eventType == "CommanderHeroStructureSpawnBefore") || (lp_eventType == "HeroStructureSpawnBefore") || (lp_eventType == "Event_HSTAS_Before") || (lp_eventType == "HSTAS.Before")) {
+        return CMPE_PLAYER_EVENT_HSTAS_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroStructureAfterSpawn()) || (lp_eventType == "CommanderHeroStructureAfterSpawn") || (lp_eventType == "HeroStructureAfterSpawn") || (lp_eventType == "HeroStructure.Spawn.AfterCreate") || (lp_eventType == "Event_HSTAS") || (lp_eventType == "HSTAS")) {
+        return CMPE_PLAYER_EVENT_HSTAS;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroStructureSpawnAfter()) || (lp_eventType == "CommanderHeroStructureSpawnAfter") || (lp_eventType == "HeroStructureSpawnAfter") || (lp_eventType == "Event_HSTAS_After") || (lp_eventType == "HSTAS.After")) {
+        return CMPE_PLAYER_EVENT_HSTAS_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderHeroStructureFirstBornAfter()) || (lp_eventType == "CommanderHeroStructureFirstBornAfter") || (lp_eventType == "HeroStructureFirstBornAfter") || (lp_eventType == "HeroStructureFirstReviveAfter") || (lp_eventType == "HSFirstBorn.After")) {
+        return CMPE_PLAYER_EVENT_HERO_STRUCTURE_FIRST_BORN_AFTER;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderGlobalCasterSpawnBefore()) || (lp_eventType == "CommanderGlobalCasterSpawnBefore") || (lp_eventType == "GlobalCasterSpawnBefore") || (lp_eventType == "Event_GPTAS_Before") || (lp_eventType == "GPTAS.Before")) {
+        return CMPE_PLAYER_EVENT_GPTAS_BEFORE;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderGlobalPowerAfterSpawn()) || (lp_eventType == "CommanderGlobalPowerAfterSpawn") || (lp_eventType == "GlobalPowerAfterSpawn") || (lp_eventType == "GlobalPower.Caster.AfterCreate") || (lp_eventType == "Event_GPTAS") || (lp_eventType == "GPTAS")) {
+        return CMPE_PLAYER_EVENT_GPTAS;
+    }
+
+    if ((lp_eventType == CMPE_EventCommanderGlobalCasterSpawnAfter()) || (lp_eventType == "CommanderGlobalCasterSpawnAfter") || (lp_eventType == "GlobalCasterSpawnAfter") || (lp_eventType == "Event_GPTAS_After") || (lp_eventType == "GPTAS.After")) {
+        return CMPE_PLAYER_EVENT_GPTAS_AFTER;
+    }
+
+    return 0;
+}
+
+int CMPE_PlayerCommanderSlot(string lp_commander) {
+    int lv_index;
+    int lv_slot;
+    int lv_instanceCount;
+    string lv_instance;
+
+    if ((lp_commander == null)) {
+        return 0;
+    }
+
+    if ((lp_commander == "")) {
+        return 0;
+    }
+
+    lv_index = 1;
+    lv_slot = 0;
+    lv_instanceCount = UserDataInstanceCount("PlayerCommanders") + 1;
+    while ((lv_index < lv_instanceCount)) {
+        lv_instance = UserDataInstance("PlayerCommanders", lv_index);
+        if ((lv_instance != "[Default]") && (lv_instance != "None")) {
+            lv_slot = lv_slot + 1;
+            if ((lv_instance == lp_commander)) {
+                return CMPE_ValidSlot(lv_slot);
+            }
+        }
+
+        lv_index = lv_index + 1;
+    }
+
+    return 0;
+}
+
+int CMPE_AICommanderSlot(string lp_commander) {
+    if ((lp_commander == null)) {
+        return 0;
+    }
+
+    if ((lp_commander == "")) {
+        return 0;
+    }
+
+    return CMPE_ValidSlot(UserDataGetInt("CoopAICommanders", lp_commander, "UniqueIndex", 1));
+}
+
+int CMPE_UserDataSlot(string lp_userType, string lp_instance) {
+    int lv_index;
+    int lv_slot;
+    int lv_instanceCount;
+    string lv_instance;
+
+    if ((lp_userType == null) || (lp_userType == "")) {
+        return 0;
+    }
+
+    if ((lp_instance == null) || (lp_instance == "")) {
+        return 0;
+    }
+
+    lv_index = 1;
+    lv_slot = 0;
+    lv_instanceCount = UserDataInstanceCount(lp_userType) + 1;
+    while ((lv_index < lv_instanceCount)) {
+        lv_instance = UserDataInstance(lp_userType, lv_index);
+        if ((lv_instance != "[Default]") && (lv_instance != "None")) {
+            lv_slot = lv_slot + 1;
+            if ((lv_instance == lp_instance)) {
+                return CMPE_ValidSlot(lv_slot);
+            }
+        }
+
+        lv_index = lv_index + 1;
+    }
+
+    return 0;
+}
+
+int CMPE_HeroSlot(string lp_hero) {
+    return CMPE_UserDataSlot("PlayerHeros", lp_hero);
+}
+
+int CMPE_HeroStructureSlot(string lp_heroStructure) {
+    return CMPE_UserDataSlot("PlayerHeroStructures", lp_heroStructure);
+}
+
+int CMPE_GlobalPowerSlot(string lp_globalPower) {
+    return CMPE_UserDataSlot("PlayerGlobalPowers", lp_globalPower);
+}
+
+int CMPE_PrestigeSlot(string lp_prestige) {
+    return CMPE_UserDataSlot("PlayerPrestige", lp_prestige);
+}
+
+int CMPE_ComponentSlot(int lp_component, string lp_instance) {
+    int lv_component;
+
+    lv_component = CMPE_ValidComponent(lp_component);
+    if ((lv_component == CMPE_COMPONENT_COMMANDER)) {
+        return CMPE_PlayerCommanderSlot(lp_instance);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_AI_COMMANDER)) {
+        return CMPE_AICommanderSlot(lp_instance);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_HERO)) {
+        return CMPE_HeroSlot(lp_instance);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_HERO_STRUCTURE)) {
+        return CMPE_HeroStructureSlot(lp_instance);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_GLOBAL_POWER)) {
+        return CMPE_GlobalPowerSlot(lp_instance);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_PRESTIGE)) {
+        return CMPE_PrestigeSlot(lp_instance);
+    }
+
+    return 0;
+}
+
+string CMPE_ComponentInstanceForPlayer(int lp_component, int lp_player) {
+    int lv_component;
+
+    lv_component = CMPE_ValidComponent(lp_component);
+    if ((lv_component == CMPE_COMPONENT_COMMANDER)) {
+        return libCOOC_gf_ActiveCommanderForPlayer(lp_player);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_HERO)) {
+        return libCOOC_gf_CC_PlayerHeroLinks(lp_player);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_HERO_STRUCTURE)) {
+        return libCOOC_gf_CC_PlayerHeroStructureLinks(lp_player);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_GLOBAL_POWER)) {
+        return libCOOC_gf_CC_PlayerGlobalPowerLinks(lp_player);
+    }
+
+    if ((lv_component == CMPE_COMPONENT_PRESTIGE)) {
+        return libCOOC_gf_CC_PlayerActivePrestigeInstance(lp_player);
+    }
+
+    return null;
+}
+
+void CMPE_RegisterComponentEvent(int lp_component, string lp_eventType, string lp_instance, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterEventSlot(lp_component, CMPE_PlayerEventType(lp_eventType), CMPE_ComponentSlot(lp_component, lp_instance), lp_func);
+}
+
+void CMPE_InvokeComponentEvent(int lp_component, string lp_eventType, string lp_instance, int lp_player) {
+    CMPE_RunEventSlot(lp_component, CMPE_PlayerEventType(lp_eventType), CMPE_ComponentSlot(lp_component, lp_instance), lp_player);
+}
+
+void CMPE_InvokePlayerComponentEvent(int lp_component, string lp_eventType, int lp_player) {
+    CMPE_InvokeComponentEvent(lp_component, lp_eventType, CMPE_ComponentInstanceForPlayer(lp_component, lp_player), lp_player);
+}
+
+bool CMPE_EventRegistryHasAnyHandler() {
+    CMPE_Init();
+    return CMPE_EventRegistryHasHandler;
+}
+
+bool CMPE_ComponentEventHasHandler(int lp_component, string lp_eventType, string lp_instance) {
+    int lv_component;
+    int lv_eventType;
+    int lv_slot;
+
+    CMPE_Init();
+    lv_component = CMPE_ValidComponent(lp_component);
+    lv_eventType = CMPE_PlayerEventType(lp_eventType);
+    lv_slot = CMPE_ComponentSlot(lp_component, lp_instance);
+    if ((lv_component == 0) || (lv_eventType == 0) || (lv_slot == 0)) {
+        return false;
+    }
+
+    return CMPE_EventSlotHasHandler[lv_component][lv_eventType][lv_slot];
+}
+
+bool CMPE_CommanderEventHasHandler(string lp_commander, string lp_eventType) {
+    return CMPE_ComponentEventHasHandler(CMPE_COMPONENT_COMMANDER, lp_eventType, lp_commander);
+}
+
+void CMPE_RegisterPlayerEvent(string lp_eventType, string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterComponentEvent(CMPE_COMPONENT_COMMANDER, lp_eventType, lp_commander, lp_func);
+}
+
+void CMPE_RegisterAIEvent(string lp_eventType, string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterComponentEvent(CMPE_COMPONENT_AI_COMMANDER, lp_eventType, lp_commander, lp_func);
+}
+
+void CMPE_RegisterPrestigeEvent(string lp_eventType, string lp_prestige, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterComponentEvent(CMPE_COMPONENT_PRESTIGE, lp_eventType, lp_prestige, lp_func);
+}
+
+void CMPE_InvokePlayerEvent(string lp_eventType, string lp_commander, int lp_player) {
+    CMPE_InvokeComponentEvent(CMPE_COMPONENT_COMMANDER, lp_eventType, lp_commander, lp_player);
+}
+
+void CMPE_InvokeAIEvent(string lp_eventType, string lp_commander, int lp_player) {
+    CMPE_InvokeComponentEvent(CMPE_COMPONENT_AI_COMMANDER, lp_eventType, lp_commander, lp_player);
+}
+
+void CMPE_InvokePrestigeEvent(string lp_eventType, string lp_prestige, int lp_player) {
+    CMPE_InvokeComponentEvent(CMPE_COMPONENT_PRESTIGE, lp_eventType, lp_prestige, lp_player);
+}
+
+void CMPE_SetCommanderEvent(string lp_commander, string lp_eventType, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(lp_eventType, lp_commander, lp_func);
+}
+
+void CMPE_SetAIEvent(string lp_commander, string lp_eventType, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterAIEvent(lp_eventType, lp_commander, lp_func);
+}
+
+void CMPE_SetPrestigeEvent(string lp_prestige, string lp_eventType, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPrestigeEvent(lp_eventType, lp_prestige, lp_func);
+}
+
+void CMPE_SetHeroEvent(string lp_hero, string lp_eventType, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterComponentEvent(CMPE_COMPONENT_HERO, lp_eventType, lp_hero, lp_func);
+}
+
+void CMPE_SetHeroStructureEvent(string lp_heroStructure, string lp_eventType, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterComponentEvent(CMPE_COMPONENT_HERO_STRUCTURE, lp_eventType, lp_heroStructure, lp_func);
+}
+
+void CMPE_SetGlobalPowerEvent(string lp_globalPower, string lp_eventType, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterComponentEvent(CMPE_COMPONENT_GLOBAL_POWER, lp_eventType, lp_globalPower, lp_func);
+}
+
+void CMPE_RunCommanderEvent(string lp_commander, string lp_eventType, int lp_player) {
+    CMPE_InvokePlayerEvent(lp_eventType, lp_commander, lp_player);
+}
+
+void CMPE_RunAIEvent(string lp_commander, string lp_eventType, int lp_player) {
+    CMPE_InvokeAIEvent(lp_eventType, lp_commander, lp_player);
+}
+
+void CMPE_RunPrestigeEvent(string lp_prestige, string lp_eventType, int lp_player) {
+    CMPE_InvokePrestigeEvent(lp_eventType, lp_prestige, lp_player);
+}
+
+void CMPE_RunHeroEvent(string lp_hero, string lp_eventType, int lp_player) {
+    CMPE_InvokeComponentEvent(CMPE_COMPONENT_HERO, lp_eventType, lp_hero, lp_player);
+}
+
+void CMPE_RunHeroStructureEvent(string lp_heroStructure, string lp_eventType, int lp_player) {
+    CMPE_InvokeComponentEvent(CMPE_COMPONENT_HERO_STRUCTURE, lp_eventType, lp_heroStructure, lp_player);
+}
+
+void CMPE_RunGlobalPowerEvent(string lp_globalPower, string lp_eventType, int lp_player) {
+    CMPE_InvokeComponentEvent(CMPE_COMPONENT_GLOBAL_POWER, lp_eventType, lp_globalPower, lp_player);
+}
+
+void CMPE_RunCommanderEventForPlayer(string lp_eventType, int lp_player) {
+    CMPE_InvokePlayerComponentEvent(CMPE_COMPONENT_COMMANDER, lp_eventType, lp_player);
+}
+
+void CMPE_RunPrestigeEventForPlayer(string lp_eventType, int lp_player) {
+    CMPE_InvokePlayerComponentEvent(CMPE_COMPONENT_PRESTIGE, lp_eventType, lp_player);
+}
+
+void CMPE_RunHeroEventForPlayer(string lp_eventType, int lp_player) {
+    CMPE_InvokePlayerComponentEvent(CMPE_COMPONENT_HERO, lp_eventType, lp_player);
+}
+
+void CMPE_RunHeroStructureEventForPlayer(string lp_eventType, int lp_player) {
+    CMPE_InvokePlayerComponentEvent(CMPE_COMPONENT_HERO_STRUCTURE, lp_eventType, lp_player);
+}
+
+void CMPE_RunGlobalPowerEventForPlayer(string lp_eventType, int lp_player) {
+    CMPE_InvokePlayerComponentEvent(CMPE_COMPONENT_GLOBAL_POWER, lp_eventType, lp_player);
+}
+
+void CMPE_SetCommanderInitial(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderInitial(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderPrestige(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderPrestige(), lp_commander, lp_func);
+}
+
+void CMPE_SetPrestigeBefore(string lp_prestige, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPrestigeEvent(CMPE_EventCommanderPrestigeBefore(), lp_prestige, lp_func);
+}
+
+void CMPE_SetPrestige(string lp_prestige, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPrestigeEvent(CMPE_EventCommanderPrestige(), lp_prestige, lp_func);
+}
+
+void CMPE_SetPrestigeAfter(string lp_prestige, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPrestigeEvent(CMPE_EventCommanderPrestigeAfter(), lp_prestige, lp_func);
+}
+
+void CMPE_SetCommanderMastery(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderMastery(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderGlobalPowerUI(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderGlobalPowerUI(), lp_commander, lp_func);
+}
+
+void CMPE_SetAIInitial(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterAIEvent(CMPE_EventAIInitial(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroAfterSpawn(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroAfterSpawn(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroDeathToggle(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroDeathToggle(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroDeathAfter(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroDeathAfter(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroReviveAfter(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroReviveAfter(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroFirstBornAfter(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroFirstBornAfter(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroStructureAfterSpawn(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroStructureAfterSpawn(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderHeroStructureFirstBornAfter(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderHeroStructureFirstBornAfter(), lp_commander, lp_func);
+}
+
+void CMPE_SetCommanderGlobalPowerAfterSpawn(string lp_commander, CMPE_PlayerEventFunc lp_func) {
+    CMPE_RegisterPlayerEvent(CMPE_EventCommanderGlobalPowerAfterSpawn(), lp_commander, lp_func);
+}
+
+void CMPE_RunCommanderInitial(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderInitial(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderPrestige(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderPrestige(), lp_commander, lp_player);
+}
+
+void CMPE_RunPrestigeBefore(string lp_prestige, int lp_player) {
+    CMPE_InvokePrestigeEvent(CMPE_EventCommanderPrestigeBefore(), lp_prestige, lp_player);
+}
+
+void CMPE_RunPrestige(string lp_prestige, int lp_player) {
+    CMPE_InvokePrestigeEvent(CMPE_EventCommanderPrestige(), lp_prestige, lp_player);
+}
+
+void CMPE_RunPrestigeAfter(string lp_prestige, int lp_player) {
+    CMPE_InvokePrestigeEvent(CMPE_EventCommanderPrestigeAfter(), lp_prestige, lp_player);
+}
+
+void CMPE_RunCommanderMastery(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderMastery(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderGlobalPowerUI(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderGlobalPowerUI(), lp_commander, lp_player);
+}
+
+void CMPE_RunAIInitial(string lp_commander, int lp_player) {
+    CMPE_InvokeAIEvent(CMPE_EventAIInitial(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroAfterSpawn(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroAfterSpawn(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroDeathToggle(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroDeathToggle(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroDeathAfter(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroDeathAfter(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroReviveAfter(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroReviveAfter(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroFirstBornAfter(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroFirstBornAfter(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroStructureAfterSpawn(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroStructureAfterSpawn(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderHeroStructureFirstBornAfter(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderHeroStructureFirstBornAfter(), lp_commander, lp_player);
+}
+
+void CMPE_RunCommanderGlobalPowerAfterSpawn(string lp_commander, int lp_player) {
+    CMPE_InvokePlayerEvent(CMPE_EventCommanderGlobalPowerAfterSpawn(), lp_commander, lp_player);
+}

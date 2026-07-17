@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Regions>
+    <region id="21">
+        <name value="Cracking Ice 01"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="20.5295,81.48"/>
+            <radius value="3.2968"/>
+        </shape>
+    </region>
+    <region id="23">
+        <name value="Ice Cliff Collapse 01"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="51.301,104.4038"/>
+            <radius value="3.447"/>
+        </shape>
+        <shape type="circle">
+            <center value="48.0515,101.2395"/>
+            <radius value="5.5666"/>
+        </shape>
+    </region>
+    <region id="24">
+        <name value="Ice Cliff Collapse 02"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="109.3557,90.2946"/>
+            <radius value="5.4526"/>
+        </shape>
+    </region>
+    <region id="25">
+        <name value="Ice Cliff Collapse 03"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="134.912,97.8591"/>
+            <radius value="3.447"/>
+        </shape>
+        <shape type="circle">
+            <center value="131.6625,94.6948"/>
+            <radius value="4.2875"/>
+        </shape>
+    </region>
+    <region id="26">
+        <name value="Ice Cliff Collapse 04"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="100.0217,78.9816"/>
+            <radius value="5.6315"/>
+        </shape>
+    </region>
+    <region id="27">
+        <name value="Ice Cliff Collapse 05"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="15.165,134.0561"/>
+            <radius value="4.7077"/>
+        </shape>
+    </region>
+    <region id="28">
+        <name value="Ice Cliff Collapse 06"/>
+        <color value="255,0,0,0"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="52.828,112.9821"/>
+            <radius value="4.548"/>
+        </shape>
+    </region>
+    <region id="14">
+        <name value="Bonus Objective - Sentry FF"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="123.422,91.7"/>
+            <radius value="5.3884"/>
+        </shape>
+        <shape type="circle">
+            <center value="128.2045,88.9624"/>
+            <radius value="5.3884"/>
+        </shape>
+    </region>
+    <region id="3">
+        <name value="Reveal_Players Base"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="45.8437,22.2705"/>
+            <radius value="22.2373"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.848,19.9023"/>
+            <radius value="21.938"/>
+        </shape>
+        <shape type="circle">
+            <center value="96.0305,25.0275"/>
+            <radius value="21.2023"/>
+        </shape>
+    </region>
+    <region id="8">
+        <name value="WarpConduit - Left Defense Region"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="23.307,67.2412"/>
+            <radius value="16.4196"/>
+        </shape>
+    </region>
+    <region id="9">
+        <name value="WarpConduit - Right Defense Region"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="128.8205,65.0666"/>
+            <radius value="16.4196"/>
+        </shape>
+    </region>
+    <region id="11">
+        <name value="Player Expansion - Left"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="20.1113,31.4484"/>
+            <radius value="18.0476"/>
+        </shape>
+    </region>
+    <region id="4">
+        <name value="Player Expansion - Right"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="130.0524,27.685"/>
+            <radius value="19.0046"/>
+        </shape>
+    </region>
+    <region id="1">
+        <name value="Reveal_WarpConduit"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="71.8774,49.8625"/>
+            <radius value="14.3356"/>
+        </shape>
+    </region>
+    <region id="2">
+        <name value="Expansion Bullies - Left"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="21.3496,42.9082"/>
+            <radius value="13.6127"/>
+        </shape>
+    </region>
+    <region id="5">
+        <name value="Expansion Bullies - Right"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="121.5874,41.8276"/>
+            <radius value="13.6127"/>
+        </shape>
+    </region>
+    <region id="6">
+        <name value="Reveal Expansion"/>
+        <invisible/>
+        <shape type="circle">
+            <center value="15.1865,44.7675"/>
+            <radius value="1.424"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.9814,43.051"/>
+            <radius value="1.424"/>
+        </shape>
+        <shape type="circle">
+            <center value="13.8342,41.586"/>
+            <radius value="1.424"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.9394,40.0747"/>
+            <radius value="1.424"/>
+        </shape>
+        <shape type="circle">
+            <center value="13.6713,38.5327"/>
+            <radius value="1.424"/>
+        </shape>
+        <shape type="circle">
+            <center value="14.8283,37.7153"/>
+            <radius value="1.424"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.0036,42.7204"/>
+            <radius value="1.2312"/>
+        </shape>
+        <shape type="circle">
+            <center value="128.8652,40.8076"/>
+            <radius value="1.2312"/>
+        </shape>
+        <shape type="circle">
+            <center value="130.1291,39.6826"/>
+            <radius value="1.2312"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.082,37.5817"/>
+            <radius value="1.2312"/>
+        </shape>
+        <shape type="circle">
+            <center value="130.148,36.5083"/>
+            <radius value="1.2312"/>
+        </shape>
+        <shape type="circle">
+            <center value="129.1198,35.5593"/>
+            <radius value="1.2312"/>
+        </shape>
+    </region>
+    <region id="7">
+        <name value="Performance Sleep Area"/>
+        <invisible/>
+        <shape type="rect">
+            <quad value="0.1372,113.5942,150.3076,191.7683"/>
+        </shape>
+        <shape type="circle">
+            <center value="125.98,96.8298"/>
+            <radius value="12.7932"/>
+        </shape>
+        <shape type="circle">
+            <center value="103.397,109.6071"/>
+            <radius value="10.8886"/>
+        </shape>
+    </region>
+    <region id="10">
+        <name value="MutatorSafetyZone"/>
+        <color value="255,255,255,128"/>
+        <shape type="circle">
+            <center value="45.7353,22.8598"/>
+            <radius value="22.2373"/>
+        </shape>
+        <shape type="circle">
+            <center value="68.7395,20.49"/>
+            <radius value="21.938"/>
+        </shape>
+        <shape type="circle">
+            <center value="95.922,25.6098"/>
+            <radius value="21.2023"/>
+        </shape>
+        <shape type="circle">
+            <center value="20.384,39.8767"/>
+            <radius value="15"/>
+        </shape>
+        <shape type="circle">
+            <center value="122.8098,37.5"/>
+            <radius value="15"/>
+        </shape>
+    </region>
+</Regions>

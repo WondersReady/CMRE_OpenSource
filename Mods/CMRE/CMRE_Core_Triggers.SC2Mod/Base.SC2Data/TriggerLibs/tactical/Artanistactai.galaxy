@@ -1,0 +1,121 @@
+//--------------------------------------------------------------------------------------------------
+//  Artanis tactical AI
+//--------------------------------------------------------------------------------------------------
+
+const string c_CMArtanis_AB_FeedbackArchon = "FeedbackArchon";
+const string c_CMArtanis_AB_PsiStormArchon = "PsiStormArchon";
+const string c_CMArtanis_MK_FeedbackArchon = "Abil/FeedbackArchon/AI";
+const int c_CMArtanisArchonFeedbackMinEnergy = 51;
+const int c_CMArtanisArchonPsiStormMinHits = 2;
+const int c_CMArtanisArchonPsiStormDamageBase = 40;
+const fixed c_CMArtanisArchonPsiStormMinScore = 3.0;
+
+//--------------------------------------------------------------------------------------------------
+order CMArtanisArchonPsiStorm (int player, unit aiUnit, unitgroup scanGroup) {
+    order ord;
+    point targetPoint;
+    fixed stormRadius;
+    fixed stormRange;
+
+    ord = AICreateOrder(player, c_CMArtanis_AB_PsiStormArchon, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    stormRadius = AIEffectFixed(player, c_EF_PsiStormArea, c_fieldAreaRadius0);
+    stormRange = AIAbilityFixed(player, c_CMArtanis_AB_PsiStormArchon, c_fieldRange0);
+    targetPoint = AIBestTargetPoint(
+        AIEffectGroup(player, c_EF_PsiStormArea, scanGroup),
+        c_CMArtanisArchonPsiStormMinHits,
+        c_CMArtanisArchonPsiStormDamageBase,
+        c_CMArtanisArchonPsiStormMinScore,
+        stormRadius,
+        UnitGetPosition(aiUnit),
+        stormRange,
+        c_unitAttributeNone
+    );
+
+    if (targetPoint == null) {
+        return null;
+    }
+
+    OrderSetTargetPoint(ord, targetPoint);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    return ord;
+}
+
+//--------------------------------------------------------------------------------------------------
+order CMArtanisArchonFeedback (int player, unit aiUnit, unitgroup scanGroup, marker mark) {
+    order ord;
+    aifilter filter;
+    unitgroup targetGroup;
+
+    ord = AICreateOrder(player, c_CMArtanis_AB_FeedbackArchon, 0);
+    if (UnitOrderIsValid(aiUnit, ord) == false) {
+        return null;
+    }
+
+    filter = AIFilter(player);
+    AISetFilterAlliance(filter, c_playerGroupEnemy);
+    AISetFilterBits(filter, UnitFilterStr(AIAbilityStr(player, c_CMArtanis_AB_FeedbackArchon, c_fieldTargetFiltersAB)));
+    AISetFilterRange(filter, aiUnit, AIAbilityFixed(player, c_CMArtanis_AB_FeedbackArchon, c_fieldRange0) + 1.0);
+    AISetFilterMarker(filter, c_noMarkersMin, c_noMarkersMax, mark);
+    AISetFilterEnergy(filter, c_CMArtanisArchonFeedbackMinEnergy, c_noMax);
+
+    targetGroup = AIGetFilterGroup(filter, scanGroup);
+    if (targetGroup == null) {
+        return null;
+    }
+
+    return AIUnitGroupGetValidOrder(targetGroup, ord, aiUnit, c_forwards);
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkArtanisArchon (int player, unit aiUnit, unitgroup scanGroup) {
+    marker mark;
+    order ord;
+
+    if ((UnitOrderHasAbil(aiUnit, c_CMArtanis_AB_PsiStormArchon) == true) || (UnitOrderHasAbil(aiUnit, c_CMArtanis_AB_FeedbackArchon) == true)) {
+        return;
+    }
+
+    mark = AIMarker(aiUnit, c_CMArtanis_MK_FeedbackArchon);
+    ord = CMArtanisArchonFeedback(player, aiUnit, scanGroup, mark);
+    if (ord != null) {
+        AICast(aiUnit, ord, mark, c_castHold);
+        return;
+    }
+
+    if (AIPlayerDifficulty(player) >= c_campAdvanced) {
+        if (AITactCooldownAllow(aiUnit, c_psiStormCooldown) == true) {
+            ord = CMArtanisArchonPsiStorm(player, aiUnit, scanGroup);
+            if (ord != null) {
+                AICast(aiUnit, ord, c_noMarker, c_castHold);
+                if (AIPlayerDifficulty(player) < c_campExpert) {
+                    AISetCooldown(aiUnit, c_psiStormCooldown, 5.0);
+                }
+                return;
+            }
+        }
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+void AIThinkArtanisTempest (int player, unit aiUnit, unitgroup scanGroup) {
+    marker mark;
+    order ord;
+
+    if (UnitOrderHasAbil(aiUnit, c_AB_Disintegration) == true) {
+        return;
+    }
+
+    mark = AIMarker(aiUnit, c_MK_Disintegration);
+    ord = Disintegration(player, aiUnit, scanGroup, mark);
+    if (ord != null) {
+        AICast(aiUnit, ord, mark, c_castHold);
+        return;
+    }
+}

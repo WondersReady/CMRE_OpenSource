@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <!--Eyeser-->
+    <Frame type="Frame" name="Eyeser" template="CM_URLFrame/URL">
+        <Anchor relative="$parent" />
+        <Frame type="LaunchURLButton" name="WebsiteButton">
+            <Text val="" />
+            <Tooltip val="喵头嘤Ey的个人空间" />
+            <URL val="https://space.bilibili.com/10048871" />
+        </Frame>
+    </Frame>
+    <!--Seal-->
+    <Frame type="Frame" name="Seal" template="CM_URLFrame/URL">
+        <Anchor relative="$parent" />
+        <Frame type="LaunchURLButton" name="WebsiteButton">
+            <Text val="" />
+            <Tooltip val="萌萌哒的海豹桑的个人空间" />
+            <URL val="https://space.bilibili.com/26179338" />
+        </Frame>
+    </Frame>
+</Desc>
