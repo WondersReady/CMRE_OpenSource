@@ -11,8 +11,6 @@ include "TriggerLibs/SwarmLib"
 include "LibCOOC"
 include "LibCOMI"
 include "LibCOUI"
-include "ai3E812353"
-include "aiBDA87FA6"
 
 //--------------------------------------------------------------------------------------------------
 // Library Initialization
@@ -162,7 +160,7 @@ void InitGlobals () {
 //--------------------------------------------------------------------------------------------------
 // Global Function Declarations
 //--------------------------------------------------------------------------------------------------
-void gf_UntitledAction001 (bool lp_lastSpawnerForWave);
+void gf_RunAttackWaveatMissionTime (trigger lp_attackWave, fixed lp_time);
 void gf_CreateObjectivePing (bool lp_objectiveType, point lp_position, text lp_tooltip);
 void gf_ObjectiveMarker (unit lp_unit);
 void gf_ShuttleCreateWave (int lp_shuttleWave, string lp_shuttleType, int lp_shuttleCount, int lp_dockingBay, int lp_shuttleDestination, int lp_shuttleWaveBehavior, int lp_resourceSize, int lp_techLevel, bool lp_lastSpawnerForWave);
@@ -192,6 +190,7 @@ trigger gt_CreateOptionsDialog;
 trigger gt_OpenOptions;
 trigger gt_CloseOptions;
 trigger gt_StartAI;
+trigger gt_AIAttackWaves;
 trigger gt_Init01LoadData;
 trigger gt_Init02Players;
 trigger gt_Init03LoadingComplete;
@@ -278,164 +277,22 @@ trigger gt_BonusObjectiveEscortResearchersUpdate;
 trigger gt_BonusObjectiveEscortResearchersFailed;
 
 //--------------------------------------------------------------------------------------------------
-// Custom AI Functions
-//--------------------------------------------------------------------------------------------------
-string[17] cai_playerAI;
-
-//--------------------------------------------------------------------------------------------------
-void InitCustomAI () {
-    int init_i;
-
-    for (init_i = 0; init_i <= 16; init_i += 1) {
-        cai_playerAI[init_i] = null;
-    }
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_start (string ai, int p) {
-    if (p < 0 || p >= 16) {
-        return;
-    }
-    cai_playerAI[p] = ai;
-
-    if (cai_playerAI[p] == "ai3E812353") { ai3E812353_start(p); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { aiBDA87FA6_start(p); }
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_setDefGather (int p, point val) {
-    if (p < 0 || p >= 16) {
-        return;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { ai3E812353_setDefGather(p, val); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { aiBDA87FA6_setDefGather(p, val); }
-}
-
-//--------------------------------------------------------------------------------------------------
-string cai_getCustomData (int p) {
-    if (p < 0 || p >= 16) {
-        return null;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { return ai3E812353_getCustomData(p); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { return aiBDA87FA6_getCustomData(p); }
-    return null;
-}
-
-//--------------------------------------------------------------------------------------------------
-wave cai_getLastWave (int p) {
-    if (p < 0 || p >= 16) {
-        return null;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { return ai3E812353_getLastWave(p); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { return aiBDA87FA6_getLastWave(p); }
-    return null;
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_waves_run (int p, playergroup target) {
-    if (p < 0 || p >= 16) {
-        return;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { ai3E812353_waves_run(p, target); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { aiBDA87FA6_waves_run(p, target); }
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_waves_enable (int p, bool val) {
-    if (p < 0 || p >= 16) {
-        return;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { ai3E812353_waves_enable(p, val); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { aiBDA87FA6_waves_enable(p, val); }
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_waves_stop (string ai) {
-    if (ai == "ai3E812353") { ai3E812353_waves_stop(); }
-    if (ai == "aiBDA87FA6") { aiBDA87FA6_waves_stop(); }
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_wave_run (int w, int p, playergroup target, bool wait) {
-    if (p < 0 || p >= 16) {
-        return;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { ai3E812353_wave_run(w, p, target, wait); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { aiBDA87FA6_wave_run(w, p, target, wait); }
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_wave_enable (int w, int p, bool val) {
-    if (p < 0 || p >= 16) {
-        return;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { ai3E812353_wave_enable(w, p, val); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { aiBDA87FA6_wave_enable(w, p, val); }
-}
-
-//--------------------------------------------------------------------------------------------------
-bool cai_wave_isEnabled (int w, int p) {
-    if (p < 0 || p >= 16) {
-        return false;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { return ai3E812353_wave_isEnabled(w, p); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { return aiBDA87FA6_wave_isEnabled(w, p); }
-    return false;
-}
-
-//--------------------------------------------------------------------------------------------------
-unitgroup cai_wave_createdUnits (int w, int p) {
-    if (p < 0 || p >= 16) {
-        return null;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { return ai3E812353_wave_createdUnits(w, p); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { return aiBDA87FA6_wave_createdUnits(w, p); }
-    return null;
-}
-
-//--------------------------------------------------------------------------------------------------
-wave cai_wave_createdWave (int w, int p) {
-    if (p < 0 || p >= 16) {
-        return null;
-    }
-    if (cai_playerAI[p] == "ai3E812353") { return ai3E812353_wave_createdWave(w, p); }
-    if (cai_playerAI[p] == "aiBDA87FA6") { return aiBDA87FA6_wave_createdWave(w, p); }
-    return null;
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_startall () {
-    cai_start("ai3E812353", 5);
-    cai_start("aiBDA87FA6", 7);
-    AICampaignStart(3);
-    AICampaignStart(4);
-    AICampaignStart(6);
-}
-
-//--------------------------------------------------------------------------------------------------
-void cai_runall () {
-    playergroup target = PlayerGroupEmpty();
-
-    PlayerGroupClear(target);
-    PlayerGroupAdd(target, 1);
-    PlayerGroupAdd(target, 2);
-    cai_waves_run(5, target);
-
-    PlayerGroupClear(target);
-    PlayerGroupAdd(target, 1);
-    PlayerGroupAdd(target, 2);
-    cai_waves_run(7, target);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Global Presets
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
 // Global Functions
 //--------------------------------------------------------------------------------------------------
-void gf_UntitledAction001 (bool lp_lastSpawnerForWave) {
+void gf_RunAttackWaveatMissionTime (trigger lp_attackWave, fixed lp_time) {
     // Automatic Variable Declarations
+    // Implementation
+    while (!((lp_time <= GameGetMissionTime()))) {
+        Wait(0.3, c_timeAI);
+    }
+    if ((libCOMI_gf_GameIsOver() == false)) {
+        TriggerExecute(lp_attackWave, true, false);
+    }
+
 }
 
 void gf_CreateObjectivePing (bool lp_objectiveType, point lp_position, text lp_tooltip) {
@@ -1732,8 +1589,6 @@ bool gt_StartAI_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    cai_start("aiBDA87FA6", gv_pLAYER_07_BONUS_OBJECTIVE);
-    cai_waves_run(gv_pLAYER_07_BONUS_OBJECTIVE, PlayerGroupAll());
     libCOMI_gf_StartCoopAI(gv_pLAYER_03_ENEMY, gv_pLAYER_02_USER);
     libCOMI_gf_SetCoopAIGatherPoint(gv_pLAYER_03_ENEMY, PointFromId(233));
     libCOMI_gf_StartCoopAI(gv_pLAYER_04_ENEMY, gv_pLAYER_01_USER);
@@ -1779,6 +1634,44 @@ bool gt_StartAI_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void gt_StartAI_Init () {
     gt_StartAI = TriggerCreate("gt_StartAI_Func");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AI Attack Waves
+//--------------------------------------------------------------------------------------------------
+bool gt_AIAttackWaves_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    gf_RunAttackWaveatMissionTime(gt_AttackWave01, 180.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave02, 300.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave01, 375.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave03, 450.0);
+    gf_RunAttackWaveatMissionTime(gt_StartBonusObjective01, 495.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave02, 540.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave04, 600.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave05, 660.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave03, 750.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave06, 840.0);
+    gf_RunAttackWaveatMissionTime(gt_StartBonusObjective02, 885.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave04, 930.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave07, 1005.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave05, 1080.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave08, 1155.0);
+    gf_RunAttackWaveatMissionTime(gt_StartBonusObjective03, 1185.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave06, 1230.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave09, 1305.0);
+    gf_RunAttackWaveatMissionTime(gt_ShuttleSendWave07, 1380.0);
+    gf_RunAttackWaveatMissionTime(gt_AttackWave10, 1455.0);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_AIAttackWaves_Init () {
+    gt_AIAttackWaves = TriggerCreate("gt_AIAttackWaves_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3932,9 +3825,8 @@ bool gt_MissionMechanicAI_Func (bool testConds, bool runActions) {
         lv_aIBuild = "Exp02 Mechanic Terran";
     }
     libCOMI_gf_StartCoopMissionMechanicAI(gv_pLAYER_05_SHUTTLE, lv_aIBuild);
-    cai_start("ai3E812353", gv_pLAYER_05_SHUTTLE);
-    cai_waves_run(gv_pLAYER_05_SHUTTLE, libCOOC_gf_HumanPlayers());
     libCOMI_gf_EnableDisableCoopAIPlayerAttackPings(PlayerGroupSingle(gv_pLAYER_05_SHUTTLE), false);
+    TriggerExecute(gt_AIAttackWaves, true, false);
     return true;
 }
 
@@ -5289,6 +5181,7 @@ void InitTriggers () {
     gt_OpenOptions_Init();
     gt_CloseOptions_Init();
     gt_StartAI_Init();
+    gt_AIAttackWaves_Init();
     gt_Init01LoadData_Init();
     gt_Init02Players_Init();
     gt_Init03LoadingComplete_Init();
@@ -5381,6 +5274,5 @@ void InitTriggers () {
 void InitMap () {
     InitLibs();
     InitGlobals();
-    InitCustomAI();
     InitTriggers();
 }
