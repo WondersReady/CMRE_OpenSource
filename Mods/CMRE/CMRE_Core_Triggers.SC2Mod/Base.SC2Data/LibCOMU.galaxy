@@ -1274,12 +1274,14 @@ bool auto_libCOMU_gf_CT_GiftEnemyBonus_TriggerFunc (bool testConds, bool runActi
     autoC35EF233_val = lp_bonusType;
     if (autoC35EF233_val == 1) {
         lv_bonusMutator = libCOMU_gf_CT_GiftRandomMutator();
+        libCOMU_gf_CT_SetTemporaryMutatorLifetime(lv_bonusMutator, 180.0);
         libCOMU_gf_EnableDisableMutator(true, lv_bonusMutator);
         libCOUI_gf_CU_MutatorListShowNotification(StringExternal("Param/Value/lib_COMU_2FCD81E7"));
         TriggerExecute(libCOMU_gf_CT_MutatorInitTrigger(lv_bonusMutator), true, false);
         libCOUI_gf_CU_MutatorListInit();
         Wait(180.0, c_timeGame);
         libCOMU_gf_EnableDisableMutator(false, lv_bonusMutator);
+        libCOMU_gf_CT_ClearTemporaryMutatorLifetime(lv_bonusMutator);
         libCOUI_gf_CU_MutatorListInit();
     }
     else if (autoC35EF233_val == 2) {
@@ -6044,6 +6046,88 @@ void libCOMU_gf_EnableDisableMutator (bool lp_enableDisable, string lp_mutator) 
     UserDataSetInt("Mutators", lp_mutator, "Auto - Selected By Player", 1, lv_intState);
 }
 
+string libCOMU_gf_CT_TemporaryMutatorStartKey (string lp_mutator) {
+    // Automatic Variable Declarations
+    // Implementation
+    return "CMRE.TempMutator." + lp_mutator + ".Start";
+}
+
+string libCOMU_gf_CT_TemporaryMutatorEndKey (string lp_mutator) {
+    // Automatic Variable Declarations
+    // Implementation
+    return "CMRE.TempMutator." + lp_mutator + ".End";
+}
+
+bool libCOMU_gf_CT_TemporaryMutatorHasLifetime (string lp_mutator) {
+    // Automatic Variable Declarations
+    // Implementation
+    return (DataTableValueExists(true,libCOMU_gf_CT_TemporaryMutatorStartKey(lp_mutator)) == true)&&(DataTableValueExists(true,libCOMU_gf_CT_TemporaryMutatorEndKey(lp_mutator)) == true);
+}
+
+void libCOMU_gf_CT_SetTemporaryMutatorLifetime (string lp_mutator, fixed lp_duration) {
+    // Variable Declarations
+    fixed lv_startTime;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_startTime = GameGetMissionTime();
+    DataTableSetFixed(true, libCOMU_gf_CT_TemporaryMutatorStartKey(lp_mutator), lv_startTime);
+    DataTableSetFixed(true, libCOMU_gf_CT_TemporaryMutatorEndKey(lp_mutator), lv_startTime + MaxF(lp_duration, 0.0));
+}
+
+void libCOMU_gf_CT_ClearTemporaryMutatorLifetime (string lp_mutator) {
+    // Automatic Variable Declarations
+    // Implementation
+    DataTableValueRemove(true, libCOMU_gf_CT_TemporaryMutatorStartKey(lp_mutator));
+    DataTableValueRemove(true, libCOMU_gf_CT_TemporaryMutatorEndKey(lp_mutator));
+}
+
+fixed libCOMU_gf_CT_TemporaryMutatorEndTime (string lp_mutator) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libCOMU_gf_CT_TemporaryMutatorHasLifetime(lp_mutator) == false)) {
+        return 0.0;
+    }
+
+    return DataTableGetFixed(true, libCOMU_gf_CT_TemporaryMutatorEndKey(lp_mutator));
+}
+
+fixed libCOMU_gf_CT_TemporaryMutatorRemaining (string lp_mutator) {
+    // Automatic Variable Declarations
+    // Implementation
+    if ((libCOMU_gf_CT_TemporaryMutatorHasLifetime(lp_mutator) == false)) {
+        return 0.0;
+    }
+
+    return MaxF((libCOMU_gf_CT_TemporaryMutatorEndTime(lp_mutator) - GameGetMissionTime()), 0.0);
+}
+
+fixed libCOMU_gf_CT_TemporaryMutatorProgress (string lp_mutator) {
+    // Variable Declarations
+    fixed lv_startTime;
+    fixed lv_endTime;
+    fixed lv_duration;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((libCOMU_gf_CT_TemporaryMutatorHasLifetime(lp_mutator) == false)) {
+        return -1.0;
+    }
+
+    lv_startTime = DataTableGetFixed(true, libCOMU_gf_CT_TemporaryMutatorStartKey(lp_mutator));
+    lv_endTime = DataTableGetFixed(true, libCOMU_gf_CT_TemporaryMutatorEndKey(lp_mutator));
+    lv_duration = (lv_endTime - lv_startTime);
+    if ((lv_duration <= 0.0)) {
+        return 1.0;
+    }
+
+    return MinF(MaxF((GameGetMissionTime() - lv_startTime) / lv_duration, 0.0), 1.0);
+}
+
 void libCOMU_gf_CT_EnableMutatorVariant (string lp_mutator, bool lp_enhanced) {
     // Automatic Variable Declarations
     // Implementation
@@ -7973,7 +8057,7 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
     unit lv_indexUnit;
     fixed lv_healAmount;
     fixed lv_healTotal;
-    fixed lv_ufstwwglnkqbbcey;
+    fixed lv_mvjmkuexguywejyg;
 
     // Automatic Variable Declarations
     unitgroup autoE434077F_g;
@@ -7987,9 +8071,9 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
     }
 
     while (true) {
-        lv_ufstwwglnkqbbcey = GameGetMissionTime();
+        lv_mvjmkuexguywejyg = GameGetMissionTime();
         Wait(0.1, c_timeGame);
-        lv_ufstwwglnkqbbcey = (GameGetMissionTime() - lv_ufstwwglnkqbbcey);
+        lv_mvjmkuexguywejyg = (GameGetMissionTime() - lv_mvjmkuexguywejyg);
         autoE434077F_g = libCOMU_gv_cT_TempDamageReflectUnits;
         autoE434077F_u = UnitGroupCount(autoE434077F_g, c_unitCountAll);
         for (;; autoE434077F_u -= 1) {
@@ -8000,7 +8084,7 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
                 continue;
             }
 
-            lv_healRemaining = (10.0 * lv_ufstwwglnkqbbcey);
+            lv_healRemaining = (10.0 * lv_mvjmkuexguywejyg);
             lv_healTotal = lv_healRemaining;
             lv_healRemaining = MinF(lv_healRemaining, UnitGetCustomValue(lv_indexUnit, libCOMU_gv_cTC_TempDamageCustomIndex));
             lv_healAmount = MinF((UnitGetPropertyFixed(lv_indexUnit, c_unitPropLifeMax, c_unitPropCurrent) - UnitGetPropertyFixed(lv_indexUnit, c_unitPropLife, c_unitPropCurrent)), lv_healRemaining);

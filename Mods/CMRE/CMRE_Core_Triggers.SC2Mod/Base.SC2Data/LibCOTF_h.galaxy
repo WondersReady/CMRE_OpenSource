@@ -236,6 +236,8 @@ int libCOTF_gv_player;
 
 // Function Declarations
 void libCOTF_gf_RT_InitRandomMutators (int lp_randomCount, int lp_chaosCount);
+void libCOTF_gf_RT_RegisterInitialChaosLifetimes (int lp_chaosCount);
+fixed libCOTF_gf_RT_NewChaosMutatorLifetime (int lp_chaosCount);
 void libCOTF_gf_RT_CycleRandom (int lp_chaosCount);
 string libCOTF_gf_RT_UnusedRandomChaosMutator ();
 void libCOTF_gf_RealmofTrialsTestTestEnd ();

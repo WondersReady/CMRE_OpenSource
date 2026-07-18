@@ -24,4 +24,7 @@
     <CRequirement id="KerriganNydusTopbar">
         <NodeArray index="Show" Link="AndCountUpgradeKerriganCommanderCompleteOnlyGT8CountUpgradeCommanderLevelCompleteOnlyNot1087874511CountBehaviorUnderConstructionCompleteOnlyAtUnitNotCountUpgradeCommanderPrestigeKerriganCreepCompleteOnly"/>
     </CRequirement>
+    <CRequirement id="KerriganNydusTopBarDummyTimer">
+        <NodeArray index="Show" Link="GTCountBehaviorKerriganNydusTopBarDummyTimerCompleteOnlyAtUnit0"/>
+    </CRequirement>
 </Catalog>

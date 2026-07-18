@@ -3305,7 +3305,6 @@ void libCOMI_gf_CM_StartCoopMissionMechanic (int lp_player, string lp_aICommande
     libCOMI_gv_cM_CoopAIPlayer_Commander[lp_player] = lp_aICommander;
     lv_aIPlayerRace = libCOOC_gf_CC_AIPersonalityRace(lp_aICommander);
     PlayerSetRace(lp_player, lv_aIPlayerRace);
-    PlayerSetDifficulty(lp_player, libCOMI_gf_GetMissionDifficulty());
     PlayerGroupAdd(libCOMI_gv_cM_CoopAI_Players, lp_player);
     libCOMI_gv_cM_CoopAIPlayer_InstantAttackGroupSpawn[lp_player] = PlayerStartLocation(lp_player);
     TriggerEnable(libCOMI_gt_CM_CoopAI_AIManager, true);

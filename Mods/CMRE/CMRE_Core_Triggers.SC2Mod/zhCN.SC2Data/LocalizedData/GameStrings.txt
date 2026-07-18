@@ -16,6 +16,7 @@ Button/Name/CMUIXQuickLoadWarpPrism=装载附近单位
 Button/Name/CMUIXQuickLoadWarpPrismTaldarim=装载附近单位
 Button/Name/CMUIXQuickLoadZeratulWarpPrism=装载附近单位
 Button/Name/KerriganTopBarLocked=坑道虫快捷能力
+Button/Name/KerriganNydusTopBarDummy=召唤坑道虫欧米茄
 Button/Name/NydusNetworkUnloadKerrigan=释放凯瑞甘
 Button/Name/TurnOffAutoCreep=蛰伏收敛
 Button/Name/TurnOnAutoCreep=肆虐扩散
@@ -35,9 +36,11 @@ Button/Tooltip/CMUIXQuickLoadOverlordStetmann=快速将附近单位装载到机�
 Button/Tooltip/CMUIXQuickLoadWarpPrism=快速将附近单位装载到折跃棱镜。
 Button/Tooltip/CMUIXQuickLoadWarpPrismTaldarim=快速将附近单位装载到战争棱镜。
 Button/Tooltip/CMUIXQuickLoadZeratulWarpPrism=快速将附近单位装载到萨尔纳加虚空阵列船。
+Button/Tooltip/KerriganNydusTopBarDummy=所有虫道网络都在冷却中。
 Button/Tooltip/NydusNetworkUnloadKerrigan=命令凯瑞甘从选定的虫道网络离开。
 Button/Tooltip/TurnOffAutoCreep=菌毯肿瘤不再尝试自主扩散。
 Button/Tooltip/TurnOnAutoCreep=菌毯肿瘤会自发性尝试对外扩散。
+Button/ChargeText/KerriganNydusTopBarDummy=0
 CM/StormCommanderAbility/ChargeStatus=<n/>充能：
 CM/StormCommanderAbility/CooldownSoonClose=技能即将冷却完毕】
 CM/StormCommanderAbility/StatusCooling=冷却倒计时：
@@ -49,6 +52,7 @@ CM/StormCommanderAbility/StukovInfestedTideFaster=感染之潮的蔓延速度加
 CM/StormCommanderAbility/StukovInfestedTideStarted=感染之潮开始行动了
 CM/StormCommanderAbility/UnlockSoonClose=技能即将解锁】
 CM/StormCommanderAbility/WarningOpen=【
+CMUI/Auth/Share/Received=队友已将其运行时权限临时分享给你，仅本局有效。
 CMUI/ChatDebugMenu/ActivationCodeLabel=激活码
 CMUI/ChatDebugMenu/AdvancedTitle=玩家调试
 CMUI/ChatDebugMenu/ApplyCode=应用
@@ -504,7 +508,6 @@ CMUI/Console/Command/154/Description=重建启动器界面 UI。只能在启动�
 CMUI/Console/Command/154/Result=已重建启动器界面 UI。
 CMUI/Console/Command/155/Description=将自己当前的运行时权限层级临时分享给人类队友，仅本局有效且只能在非启动器地图使用。成功分享后，本局将永久停用 UI 重建功能。
 CMUI/Console/Command/155/Result=已将本局运行时权限分享给队友，UI 重建功能现已停用。
-CMUI/Auth/Share/Received=队友已将其运行时权限临时分享给你，仅本局有效。
 CMUI/Console/CopyPasteDisabled=复制/粘贴快捷键已取消，请使用标题栏按钮。
 CMUI/Console/CopySuccess=已复制单位：
 CMUI/Console/DescriptionUnavailable=暂无命令说明。
@@ -919,6 +922,8 @@ Effect/Name/ZeratulTopBarWarpingOutExpireAB=ZeratulTopBarWarpingOutExpireAB
 Effect/Name/ZeratulTopBarWarpingOutTimedLifeFate=ZeratulTopBarWarpingOutTimedLifeFate
 Error/NydusNetworkUnloadKerrigan=请选择载有凯瑞甘的虫道网络。
 Map/Name/Launcher=启动器
+Param/Expression/CMRE_MutatorListTimedTooltip=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s><n/><s val="@@StandardTooltip">剩余时间：~TIME~</s>
+Param/Expression/CMRE_MutatorListTooltip=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/CMUIX_DifficultyPlusName=~A~+~B~
 Param/Expression/lib_CMUI_AF2CEF05=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/lib_COMI_08BB63F6=<s val="@@UnitInfoSubTipDetail">~A~</s>
@@ -1172,8 +1177,6 @@ Param/Expression/lib_COTF_F9CD803D=~A~ –<c val="FF8000"> ~B~</c>
 Param/Expression/lib_COTF_FB1737FB=Harvest ~A~
 Param/Expression/lib_COTF_FB62DE2D=Depth of Field: ~B~ (default: ~A~)
 Param/Expression/lib_COUI_149BB4AA=<s val="@@StandardTooltipHeaderSub">~A~：未知敌人</s><n/><s val="@@StandardTooltipHeader">无信息</s><s val="StandardTooltipHalfSize"><n/><n/></s><s val="@@StandardTooltip">我们需要接近敌人来获得敌方情报。</s>
-Param/Expression/lib_COUI_20D6626F=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
-Param/Expression/lib_COUI_28E6DEB5=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s><n/>距离轮换剩余：~Count~轮
 Param/Expression/lib_COUI_2A83CC17=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起始能量值和最大能量值提高<c val="FFFF8A">~ENERGY~</c>点。
 Param/Expression/lib_COUI_2C92FDA7=~CurrentEnergy~/~MaxEnergy~
 Param/Expression/lib_COUI_4A080472=<s val="Coop_Prestige_Tooltip_Title">~A~</s><n/><s val="Coop_Prestige_Tooltip_Subtitle">~B~</s><n/><n/><s val="@@@StandardTooltip">~C~</s>
@@ -1182,12 +1185,10 @@ Param/Expression/lib_COUI_61B59936=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起
 Param/Expression/lib_COUI_77C208E4=Set Wave Timer Window Icon Tooltip: Invalid slot ~A~ selected
 Param/Expression/lib_COUI_79F25936=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/lib_COUI_7B1D8CC9=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
-Param/Expression/lib_COUI_7DD2960C=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s><n/>距离轮换剩余：~Count~轮
 Param/Expression/lib_COUI_88844052=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起始能量值和最大能量值提高<c val="FFFF8A">~ENERGY~</c>点。
 Param/Expression/lib_COUI_8EF0FE86=~CurrentLife~/~MaxLife~
 Param/Expression/lib_COUI_A27EDFDB=~A~ ~B~
 Param/Expression/lib_COUI_ACA490BE=Set Wave Timer Window Icon: Invalid slot ~A~ selected
-Param/Expression/lib_COUI_B3769E68=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/lib_COUI_B73F5C5A=~CurrentLife~/~MaxLife~
 Param/Expression/lib_COUI_C12498C0=~A~ (~C~) | ~B~
 Param/Expression/lib_COUI_CAB7F347=<s val="@@StandardTooltipHeaderSub">~D~：~A~</s><n/><s val="@@StandardTooltipHeader">~B~</s><s val="StandardTooltipHalfSize"><n/><n/></s><s val="@@StandardTooltip">~C~</s>
@@ -1195,8 +1196,6 @@ Param/Expression/lib_COUI_D3B61365=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起
 Param/Expression/lib_COUI_DCE5D10D=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起始能量值和最大能量值提高<c val="FFFF8A">~ENERGY~</c>点。
 Param/Expression/lib_COUI_DE0DBB08=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起始能量值和最大能量值提高<c val="FFFF8A">~ENERGY~</c>点。
 Param/Expression/lib_COUI_E4294C10=~STDTOOLTIP~<c val="FFFF8A">精通：</c> 起始能量值和最大能量值提高<c val="FFFF8A">~ENERGY~</c>点。
-Param/Expression/lib_COUI_E53147DD=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
-Param/Expression/lib_COUI_EA0D2598=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/lib_COUI_F1AB8C8A=~A~
 Param/Value/lib_CMUI_9EDA9CBF=NYI
 Param/Value/lib_CMUI_BD1EF8C0=正在尝试驱动非法指挥官设置

@@ -8,6 +8,10 @@
         <Duration value="60"/>
         <ExpireEffect value="KerriganNydusNetworkReadyDummy"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="KerriganNydusTopBarDummyTimer">
+        <InfoFlags index="Hidden" value="1"/>
+        <Duration value="60"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="AutoCreepTumorSpread">
         <InfoFlags index="Hidden" value="1"/>
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>

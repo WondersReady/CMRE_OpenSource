@@ -21,6 +21,17 @@
             <Anchor side="Right" relative="$parent" pos="Max" offset="-10"/>
         </Frame>
         
+        <Frame type="Image" name="CooldownMask">
+            <Anchor relative="$parent/MutatorIcon"/>
+            <TextureCoords top="0.0" left="0.0" bottom="0.125" right="0.0625"/>
+            <Texture val="@UI/ButtonCooldown"/>
+            <AnimColumns val="16"/>
+            <AnimCount val="128"/>
+            <Animating val="true"/>
+            <ManagedAnim val="false"/>
+            <Visible val="false"/>
+        </Frame>
+
         <Frame type="Image" name="BorderImage">
             <Anchor relative="$parent"/>
             
@@ -71,6 +82,17 @@
             <Anchor side="Right" relative="$parent" pos="Max" offset="-6"/>
         </Frame>
         
+        <Frame type="Image" name="CooldownMask">
+            <Anchor relative="$parent/MutatorIcon"/>
+            <TextureCoords top="0.0" left="0.0" bottom="0.125" right="0.0625"/>
+            <Texture val="@UI/ButtonCooldown"/>
+            <AnimColumns val="16"/>
+            <AnimCount val="128"/>
+            <Animating val="true"/>
+            <ManagedAnim val="false"/>
+            <Visible val="false"/>
+        </Frame>
+
         <Frame type="Image" name="BorderImage">
             <Anchor relative="$parent"/>
             <Texture val="Assets\Textures\ui_coop_ingame_mutatorFrame.dds"/>

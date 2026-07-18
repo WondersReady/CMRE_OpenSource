@@ -151,6 +151,7 @@ const string CMUIX_LAUNCH_PROFILE_SECTION = "CMUI|LaunchProfile";
 const string CMUIX_HISTORY_BANK = "CMCoopGameHistory";
 const string CMUIX_HISTORY_SECTION = "CMUI|History";
 const string CMUIX_PROFILE_TEMPLATE_SECTION = "CMUI|ProfileTemplates";
+const int CMUIX_HISTORY_VERSION = 2;
 const int CMUIX_HISTORY_ROW_MAX = 10;
 const int CMUIX_HISTORY_DETAIL_MUTATOR_MAX = 20;
 const string CMUIX_PROFILE_COMMAND_CANONICAL = "-Profile";
@@ -299,6 +300,7 @@ bool CMUIX_OptimizationAbathurBiomassCountEnabled;
 trigger CMUIX_OptimizationWarpButtonWatchTrigger;
 trigger CMUIX_OptimizationAutoCreepTumorTrigger;
 trigger CMUIX_KerriganNydusNetworkBirthTrigger;
+trigger CMUIX_KerriganNydusNetworkConstructionTrigger;
 trigger CMUIX_KerriganNydusNetworkDeathTrigger;
 trigger CMUIX_KerriganNydusTopbarTargetTrigger;
 trigger CMUIX_KerriganNydusNetworkBuildStartTrigger;
@@ -686,6 +688,7 @@ void CMUIX_SpecialDifficultyRefreshPopup(int lp_player);
 void CMUIX_SpecialDifficultyRefreshButton();
 bool CMUIX_SpecialDifficultyHandleClick(int lp_player, int lp_control);
 void CMUIX_MapSelectionHookup();
+string CMUIX_MapSelectionCurrentMapInstance();
 bool CMUIX_MapSelectionCurrentMapIsLauncher();
 void CMUIX_MapSelectionRefreshAll();
 void CMUIX_MapSelectionResetReadyStatus();
@@ -702,6 +705,8 @@ void CMUIX_MutatorChallengeRefreshAll();
 void CMUIX_MutatorChallengeInitializeType(string lp_type);
 void CMUIX_MutatorChallengeInitializeAllTypes();
 int CMUIX_MutatorChallengeTypeIndex(string lp_type);
+string CMUIX_MutatorChallengeCurrentSelected();
+string CMUIX_MutatorChallengeMapInstance(string lp_type, string lp_challenge);
 int CMUIX_MutatorChallengeAllowedAICount(string lp_type, string lp_challenge);
 string CMUIX_MutatorChallengeAIAt(string lp_type, string lp_challenge, int lp_index);
 string CMUIX_MutatorChallengeLockedAI(string lp_type, string lp_challenge);
@@ -1042,6 +1047,7 @@ bool CMUIX_KerriganNydusTopbarPlayerEnabled(int lp_player);
 void CMUIX_KerriganNydusTopbarRefresh(int lp_player);
 void CMUIX_KerriganNydusTopbarRefreshAfterDelay(int lp_player);
 bool CMUIX_KerriganNydusNetworkBirthHandler(bool testConds, bool runActions);
+bool CMUIX_KerriganNydusNetworkConstructionHandler(bool testConds, bool runActions);
 bool CMUIX_KerriganNydusNetworkDeathHandler(bool testConds, bool runActions);
 bool CMUIX_KerriganNydusTopbarTargetHandler(bool testConds, bool runActions);
 bool CMUIX_KerriganNydusNetworkBuildStartHandler(bool testConds, bool runActions);
@@ -1388,6 +1394,7 @@ void CMUIX_CoreInitVariables() {
     CMUIX_OptimizationWarpButtonWatchTrigger = null;
     CMUIX_OptimizationAutoCreepTumorTrigger = null;
     CMUIX_KerriganNydusNetworkBirthTrigger = null;
+    CMUIX_KerriganNydusNetworkConstructionTrigger = null;
     CMUIX_KerriganNydusNetworkDeathTrigger = null;
     CMUIX_KerriganNydusTopbarTargetTrigger = null;
     CMUIX_KerriganNydusNetworkBuildStartTrigger = null;
@@ -2075,7 +2082,27 @@ string CMUIX_DifficultyBaseKey(int lp_base) {
 }
 
 bool CMUIX_DifficultyBaseShouldShow(int lp_base) {
-    if ((CMUIX_DifficultyBaseKey(lp_base) == "Brutal")) {
+    string lv_mapInstance;
+
+    lv_mapInstance = "";
+    if ((CMUIX_MapSelectionCurrentMapIsLauncher() == true)) {
+        if ((CMUIX_CurrentMode == CMUIX_MODE_MUTATOR)) {
+            lv_mapInstance = CMUIX_MutatorChallengeMapInstance(CMUIX_MutatorChallengeCurrentType, CMUIX_MutatorChallengeCurrentSelected());
+        }
+
+        if ((lv_mapInstance == "") || (lv_mapInstance == null)) {
+            lv_mapInstance = CMUIX_MapSelectionSelected;
+        }
+    }
+    else {
+        lv_mapInstance = CMUIX_MapSelectionCurrentMapInstance();
+    }
+
+    if ((lv_mapInstance == "") || (lv_mapInstance == null) || (lv_mapInstance == CMUIX_MapSelection_Random)) {
+        lv_mapInstance = "[Default]";
+    }
+
+    if ((UserDataGetInt("CoopMaps", lv_mapInstance, "MA - Difficulty Allowed", CMUIX_DifficultyClampBase(lp_base)) == 1)) {
         return true;
     }
 
@@ -3609,6 +3636,11 @@ void CMUIX_MapSelectionAccept(int lp_player) {
     }
 
     CMUIX_MapSelectionDraft = CMUIX_MapSelectionSelected;
+    CMUIX_DifficultyRefreshAll();
+    if ((CMUIX_CurrentMode == CMUIX_MODE_STANDARD)) {
+        CMUIX_StandardBrutalPlusApplyRuntime();
+    }
+
     CMUIX_MapSelectionRefreshButton();
     CMUIX_MapSelectionResetReadyStatus();
     CMUIX_MutatorInfoRefreshAll();
@@ -3621,6 +3653,7 @@ void CMUIX_MapSelectionCancel() {
 
 void CMUIX_MapSelectionRefreshAll() {
     CMUIX_MapSelectionEnsureSelection();
+    CMUIX_DifficultyRefreshAll();
     CMUIX_MapSelectionRefreshButton();
     CMUIX_EnemySelectionRefreshSelectedLabel();
 }
@@ -5662,6 +5695,7 @@ void CMUIX_MutatorChallengeAccept(int lp_player) {
         CMUIX_EnemySelectionDraft = CMUIX_MutatorChallengeNormalizeEnemyForChallenge(lv_type, lv_challenge, CMUIX_EnemySelectionDraft);
     }
 
+    CMUIX_DifficultyRefreshAll();
     CMUIX_MutatorChallengeRefreshButton();
     CMUIX_MutatorChallengeRefreshListSelection(lp_player);
     CMUIX_MapSelectionResetReadyStatus();
@@ -9299,6 +9333,10 @@ void CMUIX_KerriganNydusTopbarSetTriggersEnabled(bool lp_enabled) {
         TriggerEnable(CMUIX_KerriganNydusNetworkBirthTrigger, lp_enabled);
     }
 
+    if ((CMUIX_KerriganNydusNetworkConstructionTrigger != null)) {
+        TriggerEnable(CMUIX_KerriganNydusNetworkConstructionTrigger, lp_enabled);
+    }
+
     if ((CMUIX_KerriganNydusNetworkDeathTrigger != null)) {
         TriggerEnable(CMUIX_KerriganNydusNetworkDeathTrigger, lp_enabled);
     }
@@ -9385,7 +9423,7 @@ void CMUIX_KerriganNydusTopbarRefresh(int lp_player) {
     lv_caster = null;
     lv_unit = null;
     lv_scanGroup = UnitGroupEmpty();
-    lv_filter = UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
+    lv_filter = UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterUnderConstruction - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)));
     lv_index = 0;
     lv_readyCount = 0;
     lv_totalCount = 0;
@@ -9435,6 +9473,14 @@ void CMUIX_KerriganNydusTopbarRefresh(int lp_player) {
     if ((lv_readyCount <= 0) && (lv_cooldownCount > 0) && (lv_smallestCooldown > 0.0)) {
         UnitAbilityAddCooldown(lv_caster, "KerriganNydusTopBar", "Abil/KerriganNydusTopBarCooldown", CMUIX_KERRIGAN_NYDUS_TOPBAR_COOLDOWN_MAX);
         UnitAbilityAddCooldown(lv_caster, "KerriganNydusTopBar", "Abil/KerriganNydusTopBarCooldown", (-1.0 * (CMUIX_KERRIGAN_NYDUS_TOPBAR_COOLDOWN_MAX - lv_smallestCooldown)));
+        UnitAbilityReset(lv_caster, AbilityCommand("KerriganNydusTopBarDummyTimer", 0), c_spendLocationAbility);
+        UnitAbilityAddCooldown(lv_caster, "KerriganNydusTopBarDummyTimer", "Abil/KerriganNydusTopBarDummyTimer", CMUIX_KERRIGAN_NYDUS_TOPBAR_COOLDOWN_MAX);
+        UnitAbilityAddCooldown(lv_caster, "KerriganNydusTopBarDummyTimer", "Abil/KerriganNydusTopBarDummyTimer", (-1.0 * (CMUIX_KERRIGAN_NYDUS_TOPBAR_COOLDOWN_MAX - lv_smallestCooldown)));
+        UnitBehaviorAdd(lv_caster, "KerriganNydusTopBarDummyTimer", lv_caster, 1);
+        UnitBehaviorSetDurationRemaining(lv_caster, "KerriganNydusTopBarDummyTimer", lv_smallestCooldown);
+    }
+    else {
+        UnitBehaviorRemove(lv_caster, "KerriganNydusTopBarDummyTimer", 1);
     }
 
     CMUIX_KerriganNydusTopbarForceChargeCount(lp_player, lv_readyCount);
@@ -9450,6 +9496,30 @@ bool CMUIX_KerriganNydusNetworkBirthHandler(bool testConds, bool runActions) {
     int lv_player;
 
     lv_network = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_player = UnitGetOwner(lv_network);
+    if ((testConds == true)) {
+        if ((CMUIX_KerriganNydusTopbarPlayerEnabled(lv_player) == false)) {
+            return false;
+        }
+
+        if ((CMUIX_KerriganNydusTopbarUnitIsNetwork(lv_network) == false)) {
+            return false;
+        }
+    }
+
+    if ((runActions == false)) {
+        return true;
+    }
+
+    CMUIX_KerriganNydusTopbarRefreshAfterDelay(lv_player);
+    return true;
+}
+
+bool CMUIX_KerriganNydusNetworkConstructionHandler(bool testConds, bool runActions) {
+    unit lv_network;
+    int lv_player;
+
+    lv_network = EventUnit();
     lv_player = UnitGetOwner(lv_network);
     if ((testConds == true)) {
         if ((CMUIX_KerriganNydusTopbarPlayerEnabled(lv_player) == false)) {
@@ -9645,6 +9715,12 @@ void CMUIX_KerriganNydusTopbarCreateTriggers() {
         CMUIX_KerriganNydusNetworkBirthTrigger = TriggerCreate("CMUIX_KerriganNydusNetworkBirthHandler");
         TriggerAddEventPlayerEffectUsed(CMUIX_KerriganNydusNetworkBirthTrigger, c_playerAny, "NydusNetworkBirth");
         TriggerEnable(CMUIX_KerriganNydusNetworkBirthTrigger, false);
+    }
+
+    if ((CMUIX_KerriganNydusNetworkConstructionTrigger == null)) {
+        CMUIX_KerriganNydusNetworkConstructionTrigger = TriggerCreate("CMUIX_KerriganNydusNetworkConstructionHandler");
+        TriggerAddEventUnitConstructProgress(CMUIX_KerriganNydusNetworkConstructionTrigger, null, c_unitProgressStageComplete);
+        TriggerEnable(CMUIX_KerriganNydusNetworkConstructionTrigger, false);
     }
 
     if ((CMUIX_KerriganNydusNetworkDeathTrigger == null)) {
@@ -11535,8 +11611,10 @@ void CMUIX_LaunchAttemptNormalize() {
 
 bank CMUIX_GameHistoryOpenBank(int lp_player) {
     bank lv_bank;
+    int lv_version;
 
     lv_bank = null;
+    lv_version = 0;
     if ((lp_player < 1) || (lp_player > libCOOC_gv_cCC_MAXPLAYERS)) {
         return null;
     }
@@ -11549,6 +11627,14 @@ bank CMUIX_GameHistoryOpenBank(int lp_player) {
     lv_bank = BankLastCreated();
     if ((lv_bank != null)) {
         BankWait(lv_bank);
+        lv_version = CMUIX_PlayerProfileGetInt(lv_bank, CMUIX_HISTORY_SECTION, "Version", 0);
+        if ((lv_version != CMUIX_HISTORY_VERSION)) {
+            BankSectionRemove(lv_bank, CMUIX_HISTORY_SECTION);
+            BankValueSetFromInt(lv_bank, CMUIX_HISTORY_SECTION, "Version", CMUIX_HISTORY_VERSION);
+            BankValueSetFromInt(lv_bank, CMUIX_HISTORY_SECTION, "NextIndex", 1);
+            BankSave(lv_bank);
+        }
+
         CMUIX_GameHistoryBank[lp_player] = lv_bank;
     }
 
@@ -11777,65 +11863,6 @@ int CMUIX_HistoryObjectiveStateValue(string lp_objective) {
     return libCOOC_ge_MissionObjectiveState_Undiscovered;
 }
 
-string CMUIX_HistoryObjectiveSanitizeDisplayText(string lp_value) {
-    int lv_index;
-    int lv_length;
-    string lv_char;
-    string lv_result;
-
-    lv_index = 1;
-    lv_length = StringLength(lp_value);
-    lv_char = "";
-    lv_result = "";
-    if ((lp_value == "") || (lp_value == null)) {
-        return "";
-    }
-
-    while ((lv_index <= lv_length)) {
-        lv_char = StringSub(lp_value, lv_index, lv_index);
-        if ((lv_char == ";")) {
-            lv_result += ",";
-        }
-        else {
-            if ((lv_char == "|")) {
-                lv_result += "/";
-            }
-            else {
-                lv_result += lv_char;
-            }
-        }
-
-        lv_index += 1;
-    }
-
-    return lv_result;
-}
-
-string CMUIX_HistoryObjectiveDisplayTextValue(string lp_objective) {
-    int lv_objectiveId;
-    text lv_name;
-    string lv_result;
-
-    lv_objectiveId = c_invalidObjectiveId;
-    lv_name = StringToText("");
-    lv_result = "";
-    if ((lp_objective == "") || (lp_objective == null)) {
-        return "";
-    }
-
-    lv_objectiveId = libCOOC_gf_CS_GetObjectiveForData(lp_objective);
-    if ((lv_objectiveId != c_invalidObjectiveId)) {
-        lv_result = TextToString(ObjectiveGetName(lv_objectiveId));
-        if ((lv_result != "")) {
-            return CMUIX_HistoryObjectiveSanitizeDisplayText(lv_result);
-        }
-    }
-
-    lv_name = libCOOC_gf_CoopMissionObjectiveName(lp_objective);
-    lv_result = TextToString(lv_name);
-    return CMUIX_HistoryObjectiveSanitizeDisplayText(lv_result);
-}
-
 string CMUIX_HistoryObjectiveSnapshotEntry(string lp_objective) {
     int lv_progress;
     int lv_required;
@@ -11883,7 +11910,6 @@ string CMUIX_HistoryObjectiveSnapshotFragment() {
             if ((lv_entry != "")) {
                 lv_count += 1;
                 lv_entries += (";objective" + IntToString(lv_count) + "=" + lv_entry);
-                lv_entries += (";objectiveText" + IntToString(lv_count) + "=" + CMUIX_HistoryObjectiveDisplayTextValue(lv_objective));
             }
         }
 
@@ -13023,6 +13049,9 @@ void CMUIX_StartupLoadPersistentProfiles() {
 
 bool CMUIX_StartupApplySavedConfiguration() {
     bool lv_loadedTransition;
+    int lv_difficulty;
+    int lv_player;
+    playergroup lv_players;
 
     lv_loadedTransition = false;
     if ((CMUIX_CoreReady == false)) {
@@ -13036,6 +13065,19 @@ bool CMUIX_StartupApplySavedConfiguration() {
         CMUIX_StartupPathState = CMUIX_STARTUP_PATH_TRANSITION;
         CMUIX_StartupInvalidateAllCachedData();
         CMUIX_ApplyOptimizationStateForAllPlayers();
+
+        lv_difficulty = CMUIX_DifficultyBaseIndexValue(CMUIX_DifficultySelectedBase);
+        lv_player = -1;
+        lv_players = PlayerGroupAll();
+        while ((true == true)) {
+            lv_player = PlayerGroupNextPlayer(lv_players, lv_player);
+            if ((lv_player < 0)) {
+                break;
+            }
+
+            PlayerSetDifficulty(lv_player, lv_difficulty);
+        }
+
         return true;
     }
 
@@ -19015,6 +19057,8 @@ bool CMUIX_NavigationHandleClick(int lp_player, int lp_control) {
             CMUIX_MapSelectionResetReadyStatus();
         }
 
+        CMUIX_DifficultyRefreshAll();
+        CMUIX_StandardBrutalPlusApplyRuntime();
         CMUIX_MutatorPoolRefreshOpenButtons();
         CMUIX_ProfileRefreshModeVisuals();
         CMUIX_MutatorInfoRefreshAll();
@@ -19031,6 +19075,7 @@ bool CMUIX_NavigationHandleClick(int lp_player, int lp_control) {
             CMUIX_MapSelectionResetReadyStatus();
         }
 
+        CMUIX_DifficultyRefreshAll();
         CMUIX_MutatorPoolRefreshOpenButtons();
         CMUIX_ProfileRefreshModeVisuals();
         CMUIX_MutatorInfoRefreshAll();
@@ -19047,6 +19092,7 @@ bool CMUIX_NavigationHandleClick(int lp_player, int lp_control) {
             CMUIX_MapSelectionResetReadyStatus();
         }
 
+        CMUIX_DifficultyRefreshAll();
         CMUIX_MutatorPoolRefreshOpenButtons();
         CMUIX_ProfileRefreshModeVisuals();
         CMUIX_MutatorInfoRefreshAll();
@@ -19060,6 +19106,7 @@ bool CMUIX_NavigationHandleClick(int lp_player, int lp_control) {
             CMUIX_MapSelectionResetReadyStatus();
         }
 
+        CMUIX_DifficultyRefreshAll();
         CMUIX_MutatorPoolRefreshOpenButtons();
         CMUIX_ProfileRefreshModeVisuals();
         CMUIX_MutatorInfoRefreshAll();
@@ -20932,11 +20979,6 @@ string CMUIX_ProfileCompactBody(string lp_body) {
                 lv_result = CMUIX_ProfileAppendConfig(lv_result, ("j" + IntToString(lv_index)), lv_value);
             }
 
-            lv_value = CMUIX_ProfileConfigValue(lp_body, ("objectiveText" + IntToString(lv_index)));
-            if ((lv_value != "")) {
-                lv_result = CMUIX_ProfileAppendConfig(lv_result, ("jt" + IntToString(lv_index)), lv_value);
-            }
-
             lv_index += 1;
         }
     }
@@ -21279,11 +21321,6 @@ string CMUIX_ProfileCompactExpandBody(string lp_compactBody) {
             lv_value = CMUIX_ProfileConfigValue(lv_compact, ("j" + IntToString(lv_index)));
             if ((lv_value != "")) {
                 lv_result = CMUIX_ProfileAppendConfig(lv_result, ("objective" + IntToString(lv_index)), lv_value);
-            }
-
-            lv_value = CMUIX_ProfileConfigValue(lv_compact, ("jt" + IntToString(lv_index)));
-            if ((lv_value != "")) {
-                lv_result = CMUIX_ProfileAppendConfig(lv_result, ("objectiveText" + IntToString(lv_index)), lv_value);
             }
 
             lv_index += 1;
@@ -22035,6 +22072,10 @@ bool CMUIX_ProfileApplyPayloadWithSource(int lp_player, string lp_payload, int l
     CMUIX_ProfileSetModeUI(lv_mode);
     CMUIX_ProfileApplyDifficultyAndMastery(lv_body);
     CMUIX_ProfileApplyMapAndEnemy(lv_body);
+    if ((lv_mode != CMUIX_MODE_MUTATOR)) {
+        CMUIX_DifficultyEnsureSelection();
+    }
+
     if ((lv_mode == CMUIX_MODE_STANDARD)) {
         CMUIX_ProfileApplyMutatorList("");
         if ((CMUIX_DifficultySelectedPlus > 0) && (lv_mutators != "")) {
@@ -22051,6 +22092,7 @@ bool CMUIX_ProfileApplyPayloadWithSource(int lp_player, string lp_payload, int l
         if ((lv_mode == CMUIX_MODE_MUTATOR)) {
             CMUIX_ProfileApplyMutatorList("");
             CMUIX_ProfileApplyMutatorChallengeSettings(lp_player, lv_body);
+            CMUIX_DifficultyEnsureSelection();
             lv_added = 0;
         }
         else {
@@ -23283,14 +23325,6 @@ text CMUIX_HistoryObjectiveNameText(string lp_objective) {
     return StringToText(lp_objective);
 }
 
-text CMUIX_HistoryObjectiveDisplayText(string lp_objective, string lp_displayText) {
-    if ((lp_displayText != "") && (lp_displayText != null)) {
-        return StringToText(lp_displayText);
-    }
-
-    return CMUIX_HistoryObjectiveNameText(lp_objective);
-}
-
 text CMUIX_HistoryObjectiveTypeText(string lp_primary) {
     if ((StringEqual(lp_primary, "1", c_stringNoCase) == true)) {
         return StringExternal("CMUI/ScreenHistory/Objective/Primary");
@@ -23315,7 +23349,7 @@ text CMUIX_HistoryObjectiveStateText(int lp_state) {
     return StringExternal("CMUI/ScreenHistory/Objective/InProgress");
 }
 
-text CMUIX_HistoryObjectiveSnapshotLineText(string lp_entry, string lp_displayText) {
+text CMUIX_HistoryObjectiveSnapshotLineText(string lp_entry) {
     string lv_objective;
     string lv_progress;
     string lv_required;
@@ -23333,8 +23367,8 @@ text CMUIX_HistoryObjectiveSnapshotLineText(string lp_entry, string lp_displayTe
         return lv_result;
     }
 
-    lv_result = CMUIX_HistoryObjectiveTypeText(lv_primary) + StringToText(": ") + CMUIX_HistoryObjectiveDisplayText(lv_objective, lp_displayText);
-    if (((lp_displayText == "") || (lp_displayText == null)) && (StringToInt(lv_required) > 0)) {
+    lv_result = CMUIX_HistoryObjectiveTypeText(lv_primary) + StringToText(": ") + CMUIX_HistoryObjectiveNameText(lv_objective);
+    if ((StringToInt(lv_required) > 0)) {
         lv_result = lv_result + StringToText(" ") + StringToText(lv_progress + "/" + lv_required);
     }
 
@@ -23346,7 +23380,6 @@ text CMUIX_HistoryObjectiveSnapshotTextFromBody(string lp_body) {
     int lv_index;
     int lv_count;
     string lv_entry;
-    string lv_displayText;
     text lv_line;
     text lv_result;
     bool lv_hasLine;
@@ -23354,7 +23387,6 @@ text CMUIX_HistoryObjectiveSnapshotTextFromBody(string lp_body) {
     lv_index = 1;
     lv_count = StringToInt(CMUIX_ProfileConfigValue(lp_body, "objectiveCount"));
     lv_entry = "";
-    lv_displayText = "";
     lv_line = StringToText("");
     lv_result = StringToText("");
     lv_hasLine = false;
@@ -23364,8 +23396,7 @@ text CMUIX_HistoryObjectiveSnapshotTextFromBody(string lp_body) {
 
     while ((lv_index <= lv_count) && (lv_index <= libCOOC_gv_cCC_OBJECTIVESMAX)) {
         lv_entry = CMUIX_ProfileConfigValue(lp_body, ("objective" + IntToString(lv_index)));
-        lv_displayText = CMUIX_ProfileConfigValue(lp_body, ("objectiveText" + IntToString(lv_index)));
-        lv_line = CMUIX_HistoryObjectiveSnapshotLineText(lv_entry, lv_displayText);
+        lv_line = CMUIX_HistoryObjectiveSnapshotLineText(lv_entry);
         if ((TextToString(lv_line) != "")) {
             if ((lv_hasLine == false)) {
                 lv_result = StringExternal("CMUI/ScreenHistory/Details/Objectives") + StringToText("<n/>") + lv_line;

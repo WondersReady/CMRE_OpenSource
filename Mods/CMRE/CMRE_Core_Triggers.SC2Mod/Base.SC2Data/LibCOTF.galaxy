@@ -199,8 +199,6 @@ void libCOTF_gf_RT_InitRandomMutators (int lp_randomCount, int lp_chaosCount) {
     // Automatic Variable Declarations
     int auto4E04C094_ae;
     const int auto4E04C094_ai = 1;
-    const int auto175B7F8D_ae = 1;
-    const int auto175B7F8D_ai = -1;
     int autoFAEA2985_ae;
     const int autoFAEA2985_ai = 1;
 
@@ -223,11 +221,7 @@ void libCOTF_gf_RT_InitRandomMutators (int lp_randomCount, int lp_chaosCount) {
             libCOMU_gf_EnableDisableMutator(true, libCOTF_gv_rT_ChaosMutators[lv_chaosIndex]);
         }
         Wait(0.0625, c_timeGame);
-        libCOUI_gf_CU_MutatorListSetItem(1, "Chaos");
-        lv_chaosIndex = lp_chaosCount;
-        for ( ; ( (auto175B7F8D_ai >= 0 && lv_chaosIndex <= auto175B7F8D_ae) || (auto175B7F8D_ai < 0 && lv_chaosIndex >= auto175B7F8D_ae) ) ; lv_chaosIndex += auto175B7F8D_ai ) {
-            libCOUI_gf_CU_MutatorListSetItem((lv_chaosIndex + 1), libCOTF_gv_rT_ChaosMutators[lv_chaosIndex]);
-        }
+        libCOUI_gf_CU_MutatorListRefresh(lp_chaosCount);
     }
 
     if ((lp_randomCount > 0)) {
@@ -238,6 +232,38 @@ void libCOTF_gf_RT_InitRandomMutators (int lp_randomCount, int lp_chaosCount) {
         }
     }
 
+}
+
+void libCOTF_gf_RT_RegisterInitialChaosLifetimes (int lp_chaosCount) {
+    // Variable Declarations
+    int lv_chaosIndex;
+    fixed lv_duration;
+
+    // Automatic Variable Declarations
+    int autoDF44FD51_ae;
+    const int autoDF44FD51_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    autoDF44FD51_ae = lp_chaosCount;
+    lv_chaosIndex = 1;
+    for ( ; ( (autoDF44FD51_ai >= 0 && lv_chaosIndex <= autoDF44FD51_ae) || (autoDF44FD51_ai < 0 && lv_chaosIndex >= autoDF44FD51_ae) ) ; lv_chaosIndex += autoDF44FD51_ai ) {
+        lv_duration = libCOTF_gv_rT_ChaosCycleTimerInit+ IntToFixed(lp_chaosCount - lv_chaosIndex)* (libCOTF_gv_rT_ChaosCycleTimerNormal+ 14.75);
+        libCOMU_gf_CT_SetTemporaryMutatorLifetime(libCOTF_gv_rT_ChaosMutators[lv_chaosIndex], lv_duration);
+    }
+}
+
+fixed libCOTF_gf_RT_NewChaosMutatorLifetime (int lp_chaosCount) {
+    // Variable Declarations
+    int lv_chaosIndex;
+    fixed lv_duration;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    return libCOTF_gv_rT_ChaosCycleTimerNormal + IntToFixed(MaxI(lp_chaosCount - 1, 0))* ( libCOTF_gv_rT_ChaosCycleTimerNormal + 14.75);
 }
 
 trigger auto_libCOTF_gf_RT_CycleRandom_Trigger = null;
@@ -7046,12 +7072,15 @@ bool libCOTF_gt_RT_CycleRandom_Func (bool testConds, bool runActions) {
     }
 
     if ((libCOTF_gv_rT_ChaosCycleCount > 0)) {
+        libCOTF_gf_RT_RegisterInitialChaosLifetimes(libCOTF_gv_rT_ChaosCycleCount);
+        libCOUI_gf_CU_MutatorListRefresh(libCOTF_gv_rT_ChaosCycleCount);
         TimerStart(libCOTF_gv_rT_ChaosCycleTimer, libCOTF_gv_rT_ChaosCycleTimerInit, false, c_timeAI);
         libNtve_gf_WaitForTimer(libCOTF_gv_rT_ChaosCycleTimer, 0.0, false);
         while (true) {
             if ((libCOTF_gv_rT_ChaosCycleCount > 0)) {
                 lv_newMutator = libCOMU_gf_CT_UnusedRandomChaosMutator();
                 libCOMU_gf_EnableDisableMutator(false, libCOTF_gv_rT_ChaosMutators[libCOTF_gv_rT_ChaosCycleCount]);
+                libCOMU_gf_CT_ClearTemporaryMutatorLifetime(libCOTF_gv_rT_ChaosMutators[libCOTF_gv_rT_ChaosCycleCount]);
                 libCOUI_gf_CU_MutatorListRefresh(libCOTF_gv_rT_ChaosCycleCount);
                 SoundPlayForPlayer(SoundLink("MutatorRemoval", -1), c_maxPlayers, PlayerGroupAll(), 100.0, 0.0);
                 Wait(11.5, c_timeGame);
@@ -7062,6 +7091,7 @@ bool libCOTF_gt_RT_CycleRandom_Func (bool testConds, bool runActions) {
                     libCOTF_gv_rT_ChaosMutators[lv_chaosIndex] = libCOTF_gv_rT_ChaosMutators[(lv_chaosIndex - 1)];
                 }
                 libCOTF_gv_rT_ChaosMutators[1] = lv_newMutator;
+                libCOMU_gf_CT_SetTemporaryMutatorLifetime(lv_newMutator, libCOTF_gf_RT_NewChaosMutatorLifetime(libCOTF_gv_rT_ChaosCycleCount));
                 libCOMU_gf_EnableDisableMutator(true, lv_newMutator);
                 libCOUI_gf_CU_MutatorListRefresh(libCOTF_gv_rT_ChaosCycleCount);
                 TextExpressionSetToken("Param/Expression/lib_COTF_3AD29934", "A", libCOMU_gf_CT_MutatorName(lv_newMutator));

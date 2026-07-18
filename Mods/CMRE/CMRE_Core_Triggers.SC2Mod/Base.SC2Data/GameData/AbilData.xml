@@ -22,6 +22,22 @@
             <Button DefaultButtonFace="SummonGreaterNydusWorm" Requirements="HaveNydusNetwork"/>
         </InfoArray>
     </CAbilBuild>
+    <CAbilEffectTarget id="KerriganNydusTopBarDummyTimer">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Effect index="0" value="KerriganNydusNetworkReadyDummy"/>
+        <Flags index="RequireTargetVision" value="0"/>
+        <Flags index="Transient" value="1"/>
+        <TargetFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="KerriganNydusTopBarDummy" Requirements="KerriganNydusTopBarDummyTimer">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Cost>
+            <Cooldown TimeUse="60"/>
+        </Cost>
+        <IgnoreFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Invulnerable"/>
+    </CAbilEffectTarget>
     <CAbilEffectInstant id="AutoCreepOn">
         <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -40,16 +56,10 @@
     <CAbilMorph id="SiegeTank_BlackOpsUnsiege">
         <AbilSetId value=""/>
     </CAbilMorph>
-    <CAbilMorph id="StukovInfestedSiegeTankRoot">
-        <AbilSetId value=""/>
-    </CAbilMorph>
-    <CAbilMorph id="StukovInfestedSiegeTankUproot">
-        <AbilSetId value=""/>
-    </CAbilMorph>
     <CAbilArmMagazine id="StukovInfestedSiegeTankDisplayAmmoMagazine">
         <EditorCategories value="Race:InfestedTerran,AbilityorEffectType:Units"/>
         <Flags index="Transient" value="1"/>
-        <InfoArray index="Ammo1" Time="0.0625" CountStart="0" Unit="StukovInfestedSiegeTankDisplayAmmo"/>
+        <InfoArray index="Ammo1" Time="0.0625" Unit="StukovInfestedSiegeTankDisplayAmmo"/>
         <MaxCount value="4"/>
         <Alert value="NoAlert"/>
     </CAbilArmMagazine>

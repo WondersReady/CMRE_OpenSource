@@ -281,9 +281,11 @@
     </CUnit>
     <CUnit id="CoopCasterKerrigan">
         <AbilArray Link="KerriganNydusTopBar"/>
+        <AbilArray Link="KerriganNydusTopBarDummyTimer"/>
         <AbilArray Link="NydusNetworkUnloadKerrigan"/>
         <CardLayouts>
             <LayoutButtons Face="KerriganTopBarLocked" Type="Passive" Requirements="KerriganLevel08" Row="0" Column="0"/>
+            <LayoutButtons Face="KerriganNydusTopBarDummy" Type="AbilCmd" AbilCmd="KerriganNydusTopBarDummyTimer,Execute" Row="0" Column="0"/>
             <LayoutButtons Face="SummonGreaterNydusWorm" Type="AbilCmd" AbilCmd="KerriganNydusTopBar,Build1" Row="0" Column="0"/>
             <LayoutButtons Face="KerriganTopBarLocked" Type="Passive" Requirements="KerriganLevel08" Row="0" Column="1"/>
             <LayoutButtons Face="NydusNetworkUnloadKerrigan" Type="AbilCmd" AbilCmd="NydusNetworkUnloadKerrigan,Execute" Row="0" Column="1"/>

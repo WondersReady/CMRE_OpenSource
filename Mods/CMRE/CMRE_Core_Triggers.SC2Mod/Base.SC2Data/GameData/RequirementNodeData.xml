@@ -21,4 +21,12 @@
         <Tooltip value="RequirementNode/Tooltip/##id##"/>
         <OperandArray index="0" value="CountUpgradeCommanderPrestigeKerriganCreepCompleteOnly"/>
     </CRequirementNot>
+    <CRequirementCountBehavior id="CountBehaviorKerriganNydusTopBarDummyTimerCompleteOnlyAtUnit">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="KerriganNydusTopBarDummyTimer" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+    <CRequirementGT id="GTCountBehaviorKerriganNydusTopBarDummyTimerCompleteOnlyAtUnit0">
+        <OperandArray index="0" value="CountBehaviorKerriganNydusTopBarDummyTimerCompleteOnlyAtUnit"/>
+        <OperandArray index="1" value="0"/>
+    </CRequirementGT>
 </Catalog>

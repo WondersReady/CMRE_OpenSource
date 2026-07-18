@@ -33721,6 +33721,7 @@
         <Fields Id="MA - Map File Locale" Type="String" EditorColumn="2"/>
         <Fields Id="MA - Map File Online" Type="Int" EditorColumn="3"/>
         <Fields Id="MA - Score Statistic" Type="GameLink" GameLinkType="ScoreValue"/>
+        <Fields Id="MA - Difficulty Allowed" Type="Int" Count="6" EditorColumn="7"/>
         <Fields Id="User - Random Allowed" Type="Int">
             <Flags index="Modifiable" value="1"/>
         </Fields>
@@ -33738,6 +33739,24 @@
             </Int>
             <Int Int="1">
                 <Field Id="User - Random Allowed"/>
+            </Int>
+            <Int>
+                <Field Id="MA - Difficulty Allowed"/>
+            </Int>
+            <Int>
+                <Field Id="MA - Difficulty Allowed" Index="1"/>
+            </Int>
+            <Int>
+                <Field Id="MA - Difficulty Allowed" Index="2"/>
+            </Int>
+            <Int Int="1">
+                <Field Id="MA - Difficulty Allowed" Index="3"/>
+            </Int>
+            <Int>
+                <Field Id="MA - Difficulty Allowed" Index="4"/>
+            </Int>
+            <Int>
+                <Field Id="MA - Difficulty Allowed" Index="5"/>
             </Int>
         </Instances>
         <Instances Id="Placeholder Map">

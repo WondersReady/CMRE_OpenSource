@@ -14,6 +14,7 @@ Button/Name/CMUIXQuickLoadWarpPrism=Load Nearby Units
 Button/Name/CMUIXQuickLoadWarpPrismTaldarim=Load Nearby Units
 Button/Name/CMUIXQuickLoadZeratulWarpPrism=Load Nearby Units
 Button/Name/KerriganTopBarLocked=Nydus Worm Quick Ability
+Button/Name/KerriganNydusTopBarDummy=Summon Omega Worm
 Button/Name/NydusNetworkUnloadKerrigan=Unload Kerrigan
 Button/Name/TurnOffAutoCreep=Dormant Retraction
 Button/Name/TurnOnAutoCreep=Rampant Spread
@@ -33,9 +34,11 @@ Button/Tooltip/CMUIXQuickLoadOverlordStetmann=Quickly load nearby units into the
 Button/Tooltip/CMUIXQuickLoadWarpPrism=Quickly load nearby units into the Warp Prism.
 Button/Tooltip/CMUIXQuickLoadWarpPrismTaldarim=Quickly load nearby units into the War Prism.
 Button/Tooltip/CMUIXQuickLoadZeratulWarpPrism=Quickly load nearby units into the Xel'Naga Void Array.
+Button/Tooltip/KerriganNydusTopBarDummy=All Omega Worm networks are cooling down.
 Button/Tooltip/NydusNetworkUnloadKerrigan=Order Kerrigan to exit from the selected Nydus Network.
 Button/Tooltip/TurnOffAutoCreep=Creep tumors will no longer attempt to spread automatically.
 Button/Tooltip/TurnOnAutoCreep=Creep tumors will attempt to spread automatically.
+Button/ChargeText/KerriganNydusTopBarDummy=0
 CM/StormCommanderAbility/ChargeStatus=<n/>Charges:
 CM/StormCommanderAbility/CooldownSoonClose= ability will finish cooling down soon]
 CM/StormCommanderAbility/StatusCooling=Cooldown:
@@ -917,6 +920,8 @@ Effect/Name/ZeratulTopBarWarpingOutExpireAB=ZeratulTopBarWarpingOutExpireAB
 Effect/Name/ZeratulTopBarWarpingOutTimedLifeFate=ZeratulTopBarWarpingOutTimedLifeFate
 Error/NydusNetworkUnloadKerrigan=Select a Nydus Network containing Kerrigan.
 Map/Name/Launcher=Launcher
+Param/Expression/CMRE_MutatorListTimedTooltip=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s><n/><s val="@@StandardTooltip">Remaining: ~TIME~</s>
+Param/Expression/CMRE_MutatorListTooltip=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/CMUIX_DifficultyPlusName=~A~+~B~
 Param/Expression/lib_CMUI_AF2CEF05=<s val="@@StandardTooltipHeader">~NAME~</s><n/><s val="@@StandardTooltip">~DESCRIPTION~</s>
 Param/Expression/lib_COMI_08BB63F6=<s val="@@UnitInfoSubTipDetail">~A~</s>

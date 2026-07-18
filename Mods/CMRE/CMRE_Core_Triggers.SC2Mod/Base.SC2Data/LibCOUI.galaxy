@@ -41,6 +41,9 @@ void libCOUI_InitVariables () {
         libCOUI_gv_cU_MutatorListSmallIcon[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL; init_i += 1) {
+        libCOUI_gv_cU_MutatorListSmallCooldownMask[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL; init_i += 1) {
         libCOUI_gv_cU_MutatorListSmallCycleCount[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL; init_i += 1) {
@@ -48,6 +51,9 @@ void libCOUI_InitVariables () {
     }
     for (init_i = 0; init_i <= libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE; init_i += 1) {
         libCOUI_gv_cU_MutatorListLargeIcon[init_i] = c_invalidDialogControlId;
+    }
+    for (init_i = 0; init_i <= libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE; init_i += 1) {
+        libCOUI_gv_cU_MutatorListLargeCooldownMask[init_i] = c_invalidDialogControlId;
     }
     for (init_i = 0; init_i <= libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE; init_i += 1) {
         libCOUI_gv_cU_MutatorListLargeCycleCount[init_i] = c_invalidDialogControlId;
@@ -427,6 +433,9 @@ void libCOUI_gf_CU_MutatorListCreate () {
         libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex] = DialogControlLastCreated();
         DialogControlHookup(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], c_triggerControlTypeImage, "MutatorIcon");
         libCOUI_gv_cU_MutatorListSmallIcon[lv_mutatorIndex] = DialogControlLastCreated();
+        DialogControlHookup(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], c_triggerControlTypeImage, "CooldownMask");
+        libCOUI_gv_cU_MutatorListSmallCooldownMask[lv_mutatorIndex] = DialogControlLastCreated();
+        libNtve_gf_SetDialogItemAnimationDuration(libCOUI_gv_cU_MutatorListSmallCooldownMask[lv_mutatorIndex], 1.0, PlayerGroupAll());
         DialogControlHookup(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], c_triggerControlTypeLabel, "CycleCount");
         libCOUI_gv_cU_MutatorListSmallCycleCount[lv_mutatorIndex] = DialogControlLastCreated();
     }
@@ -438,6 +447,9 @@ void libCOUI_gf_CU_MutatorListCreate () {
         libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex] = DialogControlLastCreated();
         DialogControlHookup(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], c_triggerControlTypeImage, "MutatorIcon");
         libCOUI_gv_cU_MutatorListLargeIcon[lv_mutatorIndex] = DialogControlLastCreated();
+        DialogControlHookup(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], c_triggerControlTypeImage, "CooldownMask");
+        libCOUI_gv_cU_MutatorListLargeCooldownMask[lv_mutatorIndex] = DialogControlLastCreated();
+        libNtve_gf_SetDialogItemAnimationDuration(libCOUI_gv_cU_MutatorListLargeCooldownMask[lv_mutatorIndex], 1.0, PlayerGroupAll());
         DialogControlHookup(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], c_triggerControlTypeLabel, "CycleCount");
         libCOUI_gv_cU_MutatorListLargeCycleCount[lv_mutatorIndex] = DialogControlLastCreated();
     }
@@ -469,150 +481,21 @@ void libCOUI_gf_CU_MutatorListRefresh (int lp_chaosCount) {
 }
 
 void libCOUI_gf_CU_MutatorListRefreshSmall (int lp_chaosCount) {
-    // Variable Declarations
-    string lv_indexMutator;
-    int lv_mutatorIndex;
-    int lv_chaosIndex;
-    int lv_cycleLeft;
-
     // Automatic Variable Declarations
-    int autoF72209CB_ai;
-    int autoF72209CB_ae;
-    int auto1B3BA2CA_ae;
-    const int auto1B3BA2CA_ai = 1;
-    const int auto49F5FEB1_ae = libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL;
-    const int auto49F5FEB1_ai = 1;
-
-    // Variable Initialization
-
     // Implementation
+    libCOUI_gf_CU_MutatorListBuildDisplayOrder();
     DialogControlSetVisible(libCOUI_gv_cU_MutatorListSmallPanel, PlayerGroupAll(), true);
     DialogControlSetVisible(libCOUI_gv_cU_MutatorListLargePanel, PlayerGroupAll(), false);
-    autoF72209CB_ai = 1;
-    autoF72209CB_ae = UserDataInstanceCount("Mutators")+1;
-    while (autoF72209CB_ai < autoF72209CB_ae) {
-        lv_indexMutator = UserDataInstance("Mutators", autoF72209CB_ai);
-        autoF72209CB_ai = autoF72209CB_ai+1;
-        if ((libCOMU_gf_MutatorIsActived(lv_indexMutator) == true)) {
-            lv_mutatorIndex += 1;
-            if ((lv_mutatorIndex > libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL)) {
-                return ;
-            }
-
-            libNtve_gf_SetDialogItemImage(libCOUI_gv_cU_MutatorListSmallIcon[lv_mutatorIndex], libCOMU_gf_CT_MutatorIcon(lv_indexMutator), PlayerGroupAll());
-            if ((libCOMU_gf_MutatorIsEnhanced(lv_indexMutator) == true)) {
-                TextExpressionSetToken("Param/Expression/lib_COUI_20D6626F", "NAME", libCOMU_gf_CT_MutatorName(lv_indexMutator));
-                TextExpressionSetToken("Param/Expression/lib_COUI_20D6626F", "DESCRIPTION", libCOMU_gf_CT_MutatorEnhanceDescription(lv_indexMutator));
-                libNtve_gf_SetDialogItemTooltip(libCOUI_gv_cU_MutatorListSmallIcon[lv_mutatorIndex], TextExpressionAssemble("Param/Expression/lib_COUI_20D6626F"), PlayerGroupAll());
-                DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], PlayerGroupAll(), "SourceState", "Plus");
-            }
-            else {
-                TextExpressionSetToken("Param/Expression/lib_COUI_B3769E68", "NAME", libCOMU_gf_CT_MutatorName(lv_indexMutator));
-                TextExpressionSetToken("Param/Expression/lib_COUI_B3769E68", "DESCRIPTION", libCOMU_gf_CT_MutatorDescription(lv_indexMutator));
-                libNtve_gf_SetDialogItemTooltip(libCOUI_gv_cU_MutatorListSmallIcon[lv_mutatorIndex], TextExpressionAssemble("Param/Expression/lib_COUI_B3769E68"), PlayerGroupAll());
-                DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], PlayerGroupAll(), "SourceState", UserDataGetString("MutatorType", UserDataGetUserInstance("Mutators", lv_indexMutator, "MA - Type", 1), "UIStateString", 1));
-            }
-            DialogControlSetVisible(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], PlayerGroupAll(), true);
-            auto1B3BA2CA_ae = lp_chaosCount;
-            lv_chaosIndex = 1;
-            for ( ; ( (auto1B3BA2CA_ai >= 0 && lv_chaosIndex <= auto1B3BA2CA_ae) || (auto1B3BA2CA_ai < 0 && lv_chaosIndex >= auto1B3BA2CA_ae) ) ; lv_chaosIndex += auto1B3BA2CA_ai ) {
-                if ((lv_indexMutator == libCOTF_gv_rT_ChaosMutators[lv_chaosIndex])) {
-                    lv_cycleLeft = (lp_chaosCount-lv_chaosIndex+1);
-                    DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], PlayerGroupAll(), "MutatorState", "Chaos");
-                    TextExpressionSetToken("Param/Expression/lib_COUI_7DD2960C", "NAME", libCOMU_gf_CT_MutatorName(lv_indexMutator));
-                    TextExpressionSetToken("Param/Expression/lib_COUI_7DD2960C", "DESCRIPTION", libCOMU_gf_CT_MutatorDescription(lv_indexMutator));
-                    TextExpressionSetToken("Param/Expression/lib_COUI_7DD2960C", "Count", IntToText(lv_cycleLeft));
-                    libNtve_gf_SetDialogItemTooltip(libCOUI_gv_cU_MutatorListSmallIcon[lv_mutatorIndex], TextExpressionAssemble("Param/Expression/lib_COUI_7DD2960C"), PlayerGroupAll());
-                    libNtve_gf_SetDialogItemText(libCOUI_gv_cU_MutatorListSmallCycleCount[lv_mutatorIndex], IntToText(lv_cycleLeft), PlayerGroupAll());
-                }
-                else {
-                    DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], PlayerGroupAll(), "MutatorState", "Normal");
-                }
-            }
-        }
-
-    }
-    lv_mutatorIndex = (lv_mutatorIndex+1);
-    for ( ; ( (auto49F5FEB1_ai >= 0 && lv_mutatorIndex <= auto49F5FEB1_ae) || (auto49F5FEB1_ai < 0 && lv_mutatorIndex >= auto49F5FEB1_ae) ) ; lv_mutatorIndex += auto49F5FEB1_ai ) {
-        DialogControlSetVisible(libCOUI_gv_cU_MutatorListSmallItems[lv_mutatorIndex], PlayerGroupAll(), false);
-    }
+    libCOUI_gf_CU_MutatorListRender(false);
 }
 
 void libCOUI_gf_CU_MutatorListRefreshLarge (int lp_chaosCount) {
-    // Variable Declarations
-    string lv_indexMutator;
-    int lv_mutatorIndex;
-    int lv_chaosIndex;
-    int lv_cycleLeft;
-    int lv_isCycle;
-
     // Automatic Variable Declarations
-    int auto8A590EBB_ai;
-    int auto8A590EBB_ae;
-    int auto19E7CC98_ae;
-    const int auto19E7CC98_ai = 1;
-    const int autoD29486CB_ae = libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE;
-    const int autoD29486CB_ai = 1;
-
-    // Variable Initialization
-
     // Implementation
+    libCOUI_gf_CU_MutatorListBuildDisplayOrder();
     DialogControlSetVisible(libCOUI_gv_cU_MutatorListSmallPanel, PlayerGroupAll(), false);
     DialogControlSetVisible(libCOUI_gv_cU_MutatorListLargePanel, PlayerGroupAll(), true);
-    auto8A590EBB_ai = 1;
-    auto8A590EBB_ae = UserDataInstanceCount("Mutators")+1;
-    while (auto8A590EBB_ai < auto8A590EBB_ae) {
-        lv_indexMutator = UserDataInstance("Mutators", auto8A590EBB_ai);
-        auto8A590EBB_ai = auto8A590EBB_ai+1;
-        if ((libCOMU_gf_MutatorIsActived(lv_indexMutator) == true)) {
-            lv_mutatorIndex += 1;
-            if ((lv_mutatorIndex > libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE)) {
-                return ;
-            }
-
-            libNtve_gf_SetDialogItemImage(libCOUI_gv_cU_MutatorListLargeIcon[lv_mutatorIndex], libCOMU_gf_CT_MutatorIcon(lv_indexMutator), PlayerGroupAll());
-            if ((libCOMU_gf_MutatorIsEnhanced(lv_indexMutator) == true)) {
-                TextExpressionSetToken("Param/Expression/lib_COUI_E53147DD", "NAME", libCOMU_gf_CT_MutatorName(lv_indexMutator));
-                TextExpressionSetToken("Param/Expression/lib_COUI_E53147DD", "DESCRIPTION", libCOMU_gf_CT_MutatorEnhanceDescription(lv_indexMutator));
-                libNtve_gf_SetDialogItemTooltip(libCOUI_gv_cU_MutatorListLargeIcon[lv_mutatorIndex], TextExpressionAssemble("Param/Expression/lib_COUI_E53147DD"), PlayerGroupAll());
-                DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), "SourceState", "Plus");
-            }
-            else {
-                TextExpressionSetToken("Param/Expression/lib_COUI_EA0D2598", "NAME", libCOMU_gf_CT_MutatorName(lv_indexMutator));
-                TextExpressionSetToken("Param/Expression/lib_COUI_EA0D2598", "DESCRIPTION", libCOMU_gf_CT_MutatorDescription(lv_indexMutator));
-                libNtve_gf_SetDialogItemTooltip(libCOUI_gv_cU_MutatorListLargeIcon[lv_mutatorIndex], TextExpressionAssemble("Param/Expression/lib_COUI_EA0D2598"), PlayerGroupAll());
-                DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), "SourceState", UserDataGetString("MutatorType", UserDataGetUserInstance("Mutators", lv_indexMutator, "MA - Type", 1), "UIStateString", 1));
-            }
-            DialogControlSetVisible(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), true);
-            auto19E7CC98_ae = lp_chaosCount;
-            lv_chaosIndex = 1;
-            for ( ; ( (auto19E7CC98_ai >= 0 && lv_chaosIndex <= auto19E7CC98_ae) || (auto19E7CC98_ai < 0 && lv_chaosIndex >= auto19E7CC98_ae) ) ; lv_chaosIndex += auto19E7CC98_ai ) {
-                lv_isCycle = 1;
-                if ((lv_indexMutator == libCOTF_gv_rT_ChaosMutators[lv_chaosIndex])) {
-                    lv_cycleLeft = (lp_chaosCount-lv_chaosIndex+1);
-                    lv_isCycle = 1;
-                    DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), "MutatorState", "Chaos");
-                    TextExpressionSetToken("Param/Expression/lib_COUI_28E6DEB5", "NAME", libCOMU_gf_CT_MutatorName(lv_indexMutator));
-                    TextExpressionSetToken("Param/Expression/lib_COUI_28E6DEB5", "DESCRIPTION", libCOMU_gf_CT_MutatorDescription(lv_indexMutator));
-                    TextExpressionSetToken("Param/Expression/lib_COUI_28E6DEB5", "Count", IntToText(lv_cycleLeft));
-                    libNtve_gf_SetDialogItemTooltip(libCOUI_gv_cU_MutatorListLargeIcon[lv_mutatorIndex], TextExpressionAssemble("Param/Expression/lib_COUI_28E6DEB5"), PlayerGroupAll());
-                    libNtve_gf_SetDialogItemText(libCOUI_gv_cU_MutatorListLargeCycleCount[lv_mutatorIndex], IntToText(lv_cycleLeft), PlayerGroupAll());
-                }
-                else {
-                    DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), "MutatorState", "Normal");
-                }
-                if ((lv_isCycle == 0)) {
-                    DialogControlSetAnimationState(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), "MutatorState", "Normal");
-                }
-
-            }
-        }
-
-    }
-    lv_mutatorIndex = (lv_mutatorIndex+1);
-    for ( ; ( (autoD29486CB_ai >= 0 && lv_mutatorIndex <= autoD29486CB_ae) || (autoD29486CB_ai < 0 && lv_mutatorIndex >= autoD29486CB_ae) ) ; lv_mutatorIndex += autoD29486CB_ai ) {
-        DialogControlSetVisible(libCOUI_gv_cU_MutatorListLargeItems[lv_mutatorIndex], PlayerGroupAll(), false);
-    }
+    libCOUI_gf_CU_MutatorListRender(true);
 }
 
 void libCOUI_gf_CU_MutatorListSetItem (int lp_index, string lp_mutator) {
@@ -662,6 +545,205 @@ void libCOUI_gf_CU_MutatorListShowNotificationToPlayer (text lp_message, int lp_
     DialogControlSendAnimationEvent(libCOUI_gv_cU_MutatorListNotificationLabel, PlayerGroupSingle(lp_player), "Show");
     TimerStart(libCOUI_gv_cU_MutatorListNotificationTimer, 5.0, false, c_timeReal);
     TriggerEnable(libCOUI_gt_CU_MutatorListNotificationExpired, true);
+}
+
+bool libCOUI_gf_CU_MutatorListIsChaosMutator (string lp_mutator) {
+    // Variable Declarations
+    int lv_index;
+
+    // Automatic Variable Declarations
+    int auto646B7CA9_ae;
+    const int auto646B7CA9_ai = 1;
+
+    // Variable Initialization
+
+    // Implementation
+    auto646B7CA9_ae = libCOTF_gv_rT_ChaosCycleCount;
+    lv_index = 1;
+    for ( ; ( (auto646B7CA9_ai >= 0 && lv_index <= auto646B7CA9_ae) || (auto646B7CA9_ai < 0 && lv_index >= auto646B7CA9_ae) ) ; lv_index += auto646B7CA9_ai ) {
+        if ((libCOTF_gv_rT_ChaosMutators[lv_index] == lp_mutator)) {
+            return true;
+        }
+
+    }
+    return false;
+}
+
+text libCOUI_gf_CU_MutatorListTooltip (string lp_mutator) {
+    // Variable Declarations
+    text lv_description;
+    text lv_time;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if ((libCOMU_gf_MutatorIsEnhanced(lp_mutator) == true)) {
+        lv_description = libCOMU_gf_CT_MutatorEnhanceDescription(lp_mutator);
+    }
+    else {
+        lv_description = libCOMU_gf_CT_MutatorDescription(lp_mutator);
+    }
+    if ((libCOMU_gf_CT_TemporaryMutatorHasLifetime(lp_mutator) == true)) {
+        lv_time = TextTimeFormat(StringToText("<mintotal/>:<sec2/>"), FixedToInt(Ceiling(libCOMU_gf_CT_TemporaryMutatorRemaining(lp_mutator))));
+        TextExpressionSetToken("Param/Expression/CMRE_MutatorListTimedTooltip", "NAME", libCOMU_gf_CT_MutatorName(lp_mutator));
+        TextExpressionSetToken("Param/Expression/CMRE_MutatorListTimedTooltip", "DESCRIPTION", lv_description);
+        TextExpressionSetToken("Param/Expression/CMRE_MutatorListTimedTooltip", "TIME", lv_time);
+        return TextExpressionAssemble("Param/Expression/CMRE_MutatorListTimedTooltip");
+    }
+
+    TextExpressionSetToken("Param/Expression/CMRE_MutatorListTooltip", "NAME", libCOMU_gf_CT_MutatorName(lp_mutator));
+    TextExpressionSetToken("Param/Expression/CMRE_MutatorListTooltip", "DESCRIPTION", lv_description);
+    return TextExpressionAssemble("Param/Expression/CMRE_MutatorListTooltip");
+}
+
+void libCOUI_gf_CU_MutatorListUpdateTimedItem (bool lp_large, int lp_slot, string lp_mutator) {
+    // Variable Declarations
+    int lv_icon;
+    int lv_mask;
+    fixed lv_progress;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_icon = c_invalidDialogControlId;
+    lv_mask = c_invalidDialogControlId;
+
+    // Implementation
+    if ((lp_large == true)) {
+        lv_icon = libCOUI_gv_cU_MutatorListLargeIcon[lp_slot];
+        lv_mask = libCOUI_gv_cU_MutatorListLargeCooldownMask[lp_slot];
+    }
+    else {
+        lv_icon = libCOUI_gv_cU_MutatorListSmallIcon[lp_slot];
+        lv_mask = libCOUI_gv_cU_MutatorListSmallCooldownMask[lp_slot];
+    }
+    lv_progress = libCOMU_gf_CT_TemporaryMutatorProgress(lp_mutator);
+    if ((lv_progress < 0.0)) {
+        DialogControlSetVisible(lv_mask, PlayerGroupAll(), false);
+        return ;
+    }
+
+    DialogControlSetVisible(lv_mask, PlayerGroupAll(), true);
+    libNtve_gf_SetDialogItemAnimationTime(lv_mask, lv_progress, PlayerGroupAll());
+    libNtve_gf_SetDialogItemTooltip(lv_icon, libCOUI_gf_CU_MutatorListTooltip(lp_mutator), PlayerGroupAll());
+}
+
+void libCOUI_gf_CU_MutatorListRender (bool lp_large) {
+    // Variable Declarations
+    int lv_slot;
+    int lv_max;
+    int lv_item;
+    int lv_icon;
+    int lv_mask;
+    string lv_mutator;
+
+    // Automatic Variable Declarations
+    int autoCC43C788_ae;
+    const int autoCC43C788_ai = 1;
+
+    // Variable Initialization
+    lv_item = c_invalidDialogControlId;
+    lv_icon = c_invalidDialogControlId;
+    lv_mask = c_invalidDialogControlId;
+
+    // Implementation
+    if ((lp_large == true)) {
+        lv_max = libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE;
+    }
+    else {
+        lv_max = libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL;
+    }
+    autoCC43C788_ae = lv_max;
+    lv_slot = 1;
+    for ( ; ( (autoCC43C788_ai >= 0 && lv_slot <= autoCC43C788_ae) || (autoCC43C788_ai < 0 && lv_slot >= autoCC43C788_ae) ) ; lv_slot += autoCC43C788_ai ) {
+        if ((lp_large == true)) {
+            lv_item = libCOUI_gv_cU_MutatorListLargeItems[lv_slot];
+            lv_icon = libCOUI_gv_cU_MutatorListLargeIcon[lv_slot];
+            lv_mask = libCOUI_gv_cU_MutatorListLargeCooldownMask[lv_slot];
+        }
+        else {
+            lv_item = libCOUI_gv_cU_MutatorListSmallItems[lv_slot];
+            lv_icon = libCOUI_gv_cU_MutatorListSmallIcon[lv_slot];
+            lv_mask = libCOUI_gv_cU_MutatorListSmallCooldownMask[lv_slot];
+        }
+        if ((lv_slot <= libCOUI_gv_cU_MutatorListDisplayCount)) {
+            lv_mutator = libCOUI_gv_cU_MutatorListDisplayMutator[lv_slot];
+            libNtve_gf_SetDialogItemImage(lv_icon, libCOMU_gf_CT_MutatorIcon(lv_mutator), PlayerGroupAll());
+            libNtve_gf_SetDialogItemTooltip(lv_icon, libCOUI_gf_CU_MutatorListTooltip(lv_mutator), PlayerGroupAll());
+            if ((libCOMU_gf_MutatorIsEnhanced(lv_mutator) == true)) {
+                DialogControlSetAnimationState(lv_item, PlayerGroupAll(), "SourceState", "Plus");
+            }
+            else {
+                DialogControlSetAnimationState(lv_item, PlayerGroupAll(), "SourceState", UserDataGetString("MutatorType", UserDataGetUserInstance("Mutators", lv_mutator, "MA - Type", 1), "UIStateString", 1));
+            }
+            if ((libCOUI_gf_CU_MutatorListIsChaosMutator(lv_mutator) == true)) {
+                DialogControlSetAnimationState(lv_item, PlayerGroupAll(), "MutatorState", "Chaos");
+            }
+            else {
+                DialogControlSetAnimationState(lv_item, PlayerGroupAll(), "MutatorState", "Normal");
+            }
+            DialogControlSetVisible(lv_item, PlayerGroupAll(), true);
+            libCOUI_gf_CU_MutatorListUpdateTimedItem(lp_large, lv_slot, lv_mutator);
+        }
+        else {
+            DialogControlSetVisible(lv_mask, PlayerGroupAll(), false);
+            DialogControlSetVisible(lv_item, PlayerGroupAll(), false);
+        }
+    }
+}
+
+void libCOUI_gf_CU_MutatorListBuildDisplayOrder () {
+    // Variable Declarations
+    int lv_insertIndex;
+    int lv_timedStart;
+    string lv_mutator;
+    fixed lv_endTime;
+    fixed lv_previousEndTime;
+
+    // Automatic Variable Declarations
+    int auto3CAC905A_ai;
+    int auto3CAC905A_ae;
+    int autoB5DD9F65_ai;
+    int autoB5DD9F65_ae;
+
+    // Variable Initialization
+
+    // Implementation
+    libCOUI_gv_cU_MutatorListDisplayCount = 0;
+    auto3CAC905A_ai = 1;
+    auto3CAC905A_ae = UserDataInstanceCount("Mutators")+1;
+    while (auto3CAC905A_ai < auto3CAC905A_ae) {
+        lv_mutator = UserDataInstance("Mutators", auto3CAC905A_ai);
+        auto3CAC905A_ai = auto3CAC905A_ai+1;
+        if ((libCOMU_gf_MutatorIsActived(lv_mutator) == true) && (libCOMU_gf_CT_TemporaryMutatorHasLifetime(lv_mutator) == false) && (libCOUI_gv_cU_MutatorListDisplayCount < libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE)) {
+            libCOUI_gv_cU_MutatorListDisplayCount += 1;
+            libCOUI_gv_cU_MutatorListDisplayMutator[libCOUI_gv_cU_MutatorListDisplayCount] = lv_mutator;
+        }
+
+    }
+    lv_timedStart = (libCOUI_gv_cU_MutatorListDisplayCount + 1);
+    autoB5DD9F65_ai = 1;
+    autoB5DD9F65_ae = UserDataInstanceCount("Mutators")+1;
+    while (autoB5DD9F65_ai < autoB5DD9F65_ae) {
+        lv_mutator = UserDataInstance("Mutators", autoB5DD9F65_ai);
+        autoB5DD9F65_ai = autoB5DD9F65_ai+1;
+        if ((libCOMU_gf_MutatorIsActived(lv_mutator) == true) && (libCOMU_gf_CT_TemporaryMutatorHasLifetime(lv_mutator) == true) && (libCOUI_gv_cU_MutatorListDisplayCount < libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE)) {
+            lv_endTime = libCOMU_gf_CT_TemporaryMutatorEndTime(lv_mutator);
+            lv_insertIndex = (libCOUI_gv_cU_MutatorListDisplayCount + 1);
+            while ((lv_insertIndex > lv_timedStart)) {
+                lv_previousEndTime = libCOMU_gf_CT_TemporaryMutatorEndTime(libCOUI_gv_cU_MutatorListDisplayMutator[(lv_insertIndex - 1)]);
+                if ((lv_previousEndTime <= lv_endTime)) {
+                    break;
+                }
+
+                libCOUI_gv_cU_MutatorListDisplayMutator[lv_insertIndex] = libCOUI_gv_cU_MutatorListDisplayMutator[(lv_insertIndex - 1)];
+                lv_insertIndex -= 1;
+            }
+            libCOUI_gv_cU_MutatorListDisplayMutator[lv_insertIndex] = lv_mutator;
+            libCOUI_gv_cU_MutatorListDisplayCount += 1;
+        }
+
+    }
 }
 
 text libCOUI_gf_CC_DifficultyToText (int lp_difficulty) {
@@ -4692,6 +4774,61 @@ void libCOUI_gt_CU_MutatorListNotificationExpired_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: CU_MutatorListCooldownUpdate
+//--------------------------------------------------------------------------------------------------
+bool libCOUI_gt_CU_MutatorListCooldownUpdate_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    bool lv_large;
+    int lv_slot;
+    int lv_max;
+    string lv_mutator;
+
+    // Automatic Variable Declarations
+    int auto163B012B_ae;
+    const int auto163B012B_ai = 1;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((libCOUI_gv_cU_MutatorListSmallPanel == c_invalidDialogControlId)) {
+        return true;
+    }
+
+    if ((libCOMU_gf_CT_MutatorEnabledCount() > libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL)) {
+        lv_large = true;
+    }
+    else {
+        lv_large = false;
+    }
+    if ((lv_large == true)) {
+        lv_max = MinI(libCOUI_gv_cU_MutatorListDisplayCount, libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_LARGE);
+    }
+    else {
+        lv_max = MinI(libCOUI_gv_cU_MutatorListDisplayCount, libCOUI_gv_cUC_MUTATOR_MAX_DISPLAY_SMALL);
+    }
+    auto163B012B_ae = lv_max;
+    lv_slot = 1;
+    for ( ; ( (auto163B012B_ai >= 0 && lv_slot <= auto163B012B_ae) || (auto163B012B_ai < 0 && lv_slot >= auto163B012B_ae) ) ; lv_slot += auto163B012B_ai ) {
+        lv_mutator = libCOUI_gv_cU_MutatorListDisplayMutator[lv_slot];
+        if ((libCOMU_gf_CT_TemporaryMutatorHasLifetime(lv_mutator) == true)) {
+            libCOUI_gf_CU_MutatorListUpdateTimedItem(lv_large, lv_slot, lv_mutator);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libCOUI_gt_CU_MutatorListCooldownUpdate_Init () {
+    libCOUI_gt_CU_MutatorListCooldownUpdate = TriggerCreate("libCOUI_gt_CU_MutatorListCooldownUpdate_Func");
+    TriggerAddEventTimePeriodic(libCOUI_gt_CU_MutatorListCooldownUpdate, 0.25, c_timeGame);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: CU_FlashArmyButtonHelpTip
 //--------------------------------------------------------------------------------------------------
 bool libCOUI_gt_CU_FlashArmyButtonHelpTip_Func (bool testConds, bool runActions) {
@@ -7066,6 +7203,7 @@ void libCOUI_InitTriggers () {
     libCOUI_gt_CU_DebugMovieCaptureModeSuppressCC_Init();
     libCOUI_gt_CU_DebugMovieCaptureModeSupressUnits_Init();
     libCOUI_gt_CU_MutatorListNotificationExpired_Init();
+    libCOUI_gt_CU_MutatorListCooldownUpdate_Init();
     libCOUI_gt_CU_FlashArmyButtonHelpTip_Init();
     libCOUI_gt_CU_ArmyButtonUsed_Init();
     libCOUI_gt_CS_ArmyButtonMissionInit_Init();
