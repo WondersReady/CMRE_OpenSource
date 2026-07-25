@@ -1501,7 +1501,11 @@ unitgroup CMSC_gf_ArtanisArmyGroupAt (
     lv_index = UnitGroupCount(lv_units, c_unitCountAll);
     while ((lv_index >= 1)) {
         lv_unit = UnitGroupUnit(lv_units, lv_index);
+        // [修复 2026-07-25] 地图目标物（MapBoss 属性 + 硬编码目标名单，含危机四伏火车
+        //   TarsonisEngine/FreightCar）不得进入 AI 大军编组：ArtanisPowerField 会把编组内
+        //   单位 UnitSetPosition 传送到交战点，火车被收进组即被"折跃走"导致任务目标丢失。
         if (((CMSC_gf_ArtanisUnitBelongsToEnemyAI(lv_unit) == false)
+            || (libCOMU_gf_CT_MutatorUnitIsMapObjective(lv_unit) == true)
             || ((lp_requireShields == true)
                 && (UnitGetPropertyFixed(
                     lv_unit,
