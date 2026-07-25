@@ -60250,7 +60250,7 @@
             <Flags index="Modifiable" value="1"/>
         </Fields>
         <Instances Id="[Default]">
-            <Int Int="1">
+            <Int Int="0">
                 <Field Id="Default Enabled"/>
             </Int>
             <String String="Global">
