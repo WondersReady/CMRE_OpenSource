@@ -1376,22 +1376,26 @@
                         <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
                         <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
                         <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="0"/>
-                        <Anchor side="Right" relative="$parent/$parent/RandomSeedRefreshButton" pos="Min" offset="-8"/>
+                        <Anchor side="Right" relative="$parent/$parent/RandomSeedRefreshButton/AnchorFrame" pos="Min" offset="-8"/>
                     </Frame>
                 </Frame>
 
-                <Frame type="Button" name="RandomSeedRefreshButton" template="StandardBattlenetTemplates/CloseButton">
-                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
-                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
-                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                    <Width val="36"/>
-                    <Height val="36"/>
-                    <ClickSound val="@UI_ActionButtonSelect"/>
+                <Frame type="Button" name="RandomSeedRefreshButton" template="StandardSmallButtonTemplates/StandardSmallIconButtonTemplate">
                     <Tooltip val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/RandomSeedRefreshTooltip"/>
 
+                    <Frame type="Frame" name="AnchorFrame">
+                        <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent/$parent" pos="Max" offset="0"/>
+                        <Width val="36"/>
+                    </Frame>
+
                     <Frame type="Image" name="Icon">
+                        <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
                         <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
-                        <TextureCoords top="1" bottom="0" left="0" right="1"/>
 
                         <StateGroup name="DisplayState">
                             <DefaultState val="Normal"/>

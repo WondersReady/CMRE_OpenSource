@@ -351,7 +351,7 @@
     <Frame type="Frame" name="CoopCampaignMutatorInfoPanelTemplate">
         <!-- <RemainingTimeUnitThreshold val="1"/> -->
         <HookupAlias original="TitleLabel" alias="InfoContainer/SummaryTitleLabel"/>
-        <HookupAlias original="MapLabel" alias="InfoContainer/SummaryBodyLabel"/>
+        <HookupAlias original="MapLabel" alias="InfoContainer/SummaryBodyScrollFrame/ContainerFrame/SummaryBodyLabel"/>
         <HookupAlias original="RemainingTimeLabel" alias="InfoContainer/SummaryStatusLabel"/>
         <HookupAlias original="SelectedMutatorIconGroup" alias="InfoContainer/MutatorIconGroup"/>
         <HookupAlias original="MutatorPageSelector" alias="InfoContainer/MutatorIconPageSelector"/>
@@ -399,7 +399,8 @@
                     <When type="AnimationState" frame="$parent" InfoPanelMapState="Loading"/>
                     <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
                     <Action type="SetProperty" frame="SummaryTitleLabel" visible="False"/>
-                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="False"/>
+                    <Action type="SetProperty" frame="SummaryBodyScrollFrame" visible="False"/>
+                    <Action type="SetProperty" frame="RandomSeedLabel" visible="False"/>
                     <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="False"/>
                     <Action type="SetProperty" frame="Loading" visible="True"/>
                 </State>
@@ -409,7 +410,8 @@
                     <When type="AnimationState" frame="$parent" InfoPanelMapState="Loading"/>
                     <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
                     <Action type="SetProperty" frame="SummaryTitleLabel" visible="False"/>
-                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="False"/>
+                    <Action type="SetProperty" frame="SummaryBodyScrollFrame" visible="False"/>
+                    <Action type="SetProperty" frame="RandomSeedLabel" visible="False"/>
                     <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="False"/>
                     <Action type="SetProperty" frame="Loading" visible="True"/>
                 </State>
@@ -419,7 +421,8 @@
                     <When type="AnimationState" frame="$parent" InfoPanelMapState="Loaded"/>
                     <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
                     <Action type="SetProperty" frame="SummaryTitleLabel" visible="False"/>
-                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="False"/>
+                    <Action type="SetProperty" frame="SummaryBodyScrollFrame" visible="False"/>
+                    <Action type="SetProperty" frame="RandomSeedLabel" visible="False"/>
                     <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="False"/>
                     <Action type="SetProperty" frame="Loading" visible="True"/>
                 </State>
@@ -429,7 +432,8 @@
                     <When type="AnimationState" frame="$parent" InfoPanelMapState="Loaded"/>
                     <When type="AnimationState" frame="$parent" InfoPanelState="Active"/>
                     <Action type="SetProperty" frame="SummaryTitleLabel" visible="True"/>
-                    <Action type="SetProperty" frame="SummaryBodyLabel" visible="True"/>
+                    <Action type="SetProperty" frame="SummaryBodyScrollFrame" visible="True"/>
+                    <Action type="SetProperty" frame="RandomSeedLabel" visible="True"/>
                     <Action type="SetProperty" frame="DifficultyBadgeContainer" visible="True"/>
                     <Action type="SetProperty" frame="Loading" visible="False"/>
                 </State>
@@ -537,7 +541,7 @@
             <Frame type="Label" name="SummaryTitleLabel">
                 <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="23"/>
                 <Anchor side="Left" relative="$parent/VerticalDivider" pos="Max" offset="23"/>
-                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-52"/>
+                <Anchor side="Right" relative="$parent/RandomSeedLabel" pos="Min" offset="-12"/>
                 <AutoSizeClamps maxHeight="72"/>
                 <AcceptsMouseTooltip val="True"/>
                 <Options val="Ellipsis | TooltipIfTruncated"/>
@@ -547,17 +551,49 @@
                 <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
             </Frame>
 
-            <Frame type="Label" name="SummaryBodyLabel">
+            <Frame type="Label" name="RandomSeedLabel">
+                <Anchor side="Top" relative="$parent/BackgroundContainer" pos="Min" offset="23"/>
+                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-52"/>
+                <Width val="220"/>
+                <Height val="24"/>
+                <Style val="PatchStyle"/>
+                <Options val="NoWrapping | ScaleToPreventTruncation"/>
+            </Frame>
+
+            <Frame type="ScrollableFrame" name="SummaryBodyScrollFrame">
                 <Anchor side="Top" relative="$parent/SummaryTitleLabel" pos="Max" offset="-2"/>
                 <Anchor side="Left" relative="$parent/SummaryTitleLabel" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent/BackgroundContainer" pos="Max" offset="-52"/>
-                <Height val="64"/>
-                <AcceptsMouseTooltip val="True"/>
-                <Options val="Ellipsis | TooltipIfTruncated"/>
-                <Style val="@Coop_CommanderMutatorMapTitle"/>
-                <TooltipFrame val="BattleNetTooltip"/>
+                <Anchor side="Right" relative="$parent/HorizontalTopDivider" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/HorizontalTopDivider" pos="Min" offset="-2"/>
+                <AcceptsMouse val="True"/>
 
-                <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+                <Frame type="Frame" name="ContainerFrame">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="-6"/>
+                    <Anchor side="Bottom" relative="$this/SummaryBodyLabel" pos="Max" offset="0"/>
+
+                    <Frame type="Label" name="SummaryBodyLabel">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <AutoSizeClamps minHeight="64"/>
+                        <Options val=""/>
+                        <Style val="@Coop_CommanderMutatorMapTitle"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="ScrollBar" name="ScrollBar">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Image val="$root/StandardBattlenetTemplates/GluesSocialScrollBarBackgroundImage"/>
+                    <Button val="$root/StandardBattlenetTemplates/GluesSocialScrollBarButtonTemplate"/>
+                    <Orientation val="Vertical"/>
+                    <Width val="16"/>
+                    <StepValue val="24"/>
+                    <Continuous val="True"/>
+                </Frame>
             </Frame>
 
             <Frame type="Label" name="HiddenDescriptionLabel">

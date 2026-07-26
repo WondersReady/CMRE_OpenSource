@@ -416,7 +416,6 @@ trigger libCOTF_gt_EffectUsed;
 trigger libCOTF_gt_BehaviorChanged;
 trigger libCOTF_gt_UpgradeChanged;
 trigger libCOTF_gt_EffectDealingDamage;
-trigger libCOTF_gt_UT_RandomSeedRefresh;
 trigger libCOTF_gt_UT_Init;
 trigger libCOTF_gt_UT_AfterStart;
 trigger libCOTF_gt_UT_FixAIVision;

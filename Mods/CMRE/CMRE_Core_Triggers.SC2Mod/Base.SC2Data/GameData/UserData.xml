@@ -1662,6 +1662,20 @@
             <Count value="10"/>
             <EditorColumn value="5"/>
         </Fields>
+        <Fields>
+            <Id value="Disabled Commanders"/>
+            <Type value="User"/>
+            <UserType value="PlayerCommanders"/>
+            <Count value="50"/>
+            <EditorColumn value="7"/>
+        </Fields>
+        <Fields>
+            <Id value="Disabled Prestiges"/>
+            <Type value="User"/>
+            <UserType value="PlayerPrestige"/>
+            <Count value="100"/>
+            <EditorColumn value="8"/>
+        </Fields>
         <Instances Id="[Default]"/>
     </CUser>
     <!--Cycle Period采用的计时方法为小时-->
@@ -17179,6 +17193,14 @@
         <Fields Id="AllowInDifficulty" Type="Int" Count="6"/>
         <Fields Id="Auto - Locking" Type="Int">
             <Flags index="Modifiable" value="1"/>
+        </Fields>
+        <Fields Id="Auto - Locked" Type="Int">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
+        </Fields>
+        <Fields Id="Auto - Unlocked" Type="Int" Count="16">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
         </Fields>
         <Fields Id="Dev - Developing" Type="Int"/>
         <Fields Id="Show In UI" Type="Int"/>
@@ -41833,6 +41855,20 @@
             <Count value="10"/>
             <EditorColumn value="5"/>
         </Fields>
+        <Fields>
+            <Id value="Disabled Commanders"/>
+            <Type value="User"/>
+            <UserType value="PlayerCommanders"/>
+            <Count value="50"/>
+            <EditorColumn value="7"/>
+        </Fields>
+        <Fields>
+            <Id value="Disabled Prestiges"/>
+            <Type value="User"/>
+            <UserType value="PlayerPrestige"/>
+            <Count value="100"/>
+            <EditorColumn value="8"/>
+        </Fields>
         <Fields Id="Description" Type="Text" EditorColumn="4"/>
         <Instances Id="[Default]"/>
         <Instances Id="TrainOfTheDead">
@@ -50327,7 +50363,7 @@
         </Fields>
         <Fields Id="CA - Standard Voice" Type="Sound" Count="12"/>
         <Fields Id="CA - Voice Pack" Type="GameLink" GameLinkType="VoicePack"/>
-        <Fields Id="CS - Ability Commands" Type="AbilCmd" Count="10"/>
+        <Fields Id="CS - Ability Commands" Type="AbilCmd" Count="26"/>
         <Fields Id="CS - Global Power Links" Type="User" UserType="PlayerGlobalPowers"/>
         <Fields Id="CS - Hero Links" Type="User" UserType="PlayerHeros"/>
         <Fields Id="CS - Hero Structure Links" Type="User" UserType="PlayerHeroStructures"/>
@@ -50372,6 +50408,14 @@
             <Flags index="Modifiable" value="1"/>
         </Fields>
         <Fields Id="State - Developing" Type="Int"/>
+        <Fields Id="Auto - Locked" Type="Int">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
+        </Fields>
+        <Fields Id="Auto - Unlocked" Type="Int" Count="16">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
+        </Fields>
         <Fields Id="Auto - Useable" Type="Int">
             <Flags index="Modifiable" value="1"/>
         </Fields>
@@ -55548,6 +55592,14 @@
         <Fields Id="State - Developing" Type="Int">
             <Flags index="Modifiable" value="1"/>
         </Fields>
+        <Fields Id="Auto - Locked" Type="Int">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
+        </Fields>
+        <Fields Id="Auto - Unlocked" Type="Int" Count="16">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
+        </Fields>
         <Fields Id="Auto - Useable" Type="Int">
             <Flags index="Modifiable" value="1"/>
         </Fields>
@@ -60228,6 +60280,29 @@
             <User Type="TheHornersFactions" Instance="Matt">
                 <Field Id="Faction"/>
             </User>
+        </Instances>
+    </CUser>
+    <!-- Project-level defaults intended for downstream mod overrides. -->
+    <CUser id="CMUIDefaults">
+        <Fields Id="Default Mastery Points" Type="Int" EditorColumn="1">
+            <Flags index="Modifiable" value="1"/>
+        </Fields>
+        <Fields Id="Default Mastery Cap" Type="Int" EditorColumn="2">
+            <Flags index="Modifiable" value="1"/>
+        </Fields>
+        <Fields Id="Default Optimization Master Enabled" Type="Int" EditorColumn="3">
+            <Flags index="Modifiable" value="1"/>
+        </Fields>
+        <Instances Id="[Default]">
+            <Int Int="180">
+                <Field Id="Default Mastery Points"/>
+            </Int>
+            <Int Int="180">
+                <Field Id="Default Mastery Cap"/>
+            </Int>
+            <Int Int="1">
+                <Field Id="Default Optimization Master Enabled"/>
+            </Int>
         </Instances>
     </CUser>
     <CUser id="CMUIOptimizations">

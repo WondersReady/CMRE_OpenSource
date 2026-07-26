@@ -7846,31 +7846,6 @@ void libCOTF_gt_EffectDealingDamage_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: UT_RandomSeedRefresh
-//--------------------------------------------------------------------------------------------------
-bool libCOTF_gt_UT_RandomSeedRefresh_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    GameSetSeed(StringToInt((PlayerHandle(1) + PlayerHandle(2))));
-    GameSetSeed(StringToInt(DateTimeToString(CurrentDateTimeGet())));
-    while (true) {
-        GameSetSeed(RandomInt(0, 65535));
-        Wait(RandomFixed(0.25, 1.0), c_timeGame);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libCOTF_gt_UT_RandomSeedRefresh_Init () {
-    libCOTF_gt_UT_RandomSeedRefresh = TriggerCreate("libCOTF_gt_UT_RandomSeedRefresh_Func");
-    TriggerAddEventMapInit(libCOTF_gt_UT_RandomSeedRefresh);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: UT_Init
 //--------------------------------------------------------------------------------------------------
 bool libCOTF_gt_UT_Init_Func (bool testConds, bool runActions) {
@@ -7977,7 +7952,6 @@ bool libCOTF_gt_UT_AfterStart_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TriggerStop(libCOTF_gt_UT_RandomSeedRefresh);
     TriggerDebugOutputEnable(true);
     libCOTF_gf_UT_FixAISupply(2);
     libCOTF_gf_UT_Dehaka_DevourCooldownScoreCheck();
@@ -11695,7 +11669,6 @@ void libCOTF_InitTriggers () {
     libCOTF_gt_BehaviorChanged_Init();
     libCOTF_gt_UpgradeChanged_Init();
     libCOTF_gt_EffectDealingDamage_Init();
-    libCOTF_gt_UT_RandomSeedRefresh_Init();
     libCOTF_gt_UT_Init_Init();
     libCOTF_gt_UT_AfterStart_Init();
     libCOTF_gt_UT_FixAIVision_Init();
