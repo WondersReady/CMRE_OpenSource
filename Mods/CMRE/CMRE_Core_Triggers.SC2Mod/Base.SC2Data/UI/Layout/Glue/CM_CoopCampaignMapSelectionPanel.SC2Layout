@@ -1349,9 +1349,78 @@
 
             <Frame type="Label" name="EnemyDescriptionLabel">
                 <Anchor side="Top" relative="$parent/MapDescriptionLabel" pos="Max" offset="20"/>
+                <Anchor side="Bottom" relative="$parent/RandomSeedContainer" pos="Min" offset="-10"/>
                 <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Min" offset="15"/>
                 <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Max" offset="-15"/>
                 <Style val="Tournament_MapVetoDetails"/>
+            </Frame>
+
+            <Frame type="Frame" name="RandomSeedContainer">
+                <Anchor side="Bottom" relative="$parent/MapDescriptionBg" pos="Max" offset="-10"/>
+                <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Min" offset="15"/>
+                <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Max" offset="-15"/>
+                <Height val="36"/>
+
+                <Frame type="EditBox" name="RandomSeedEditBox" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
+                    <MaxCharacters val="16"/>
+                    <Tooltip val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/RandomSeedTooltip"/>
+                    <TooltipFrame val="BattleNetTooltip"/>
+
+                    <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+
+                    <Frame type="Label" name="SearchTextLabel">
+                        <Text val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/RandomSeedLabel"/>
+                    </Frame>
+
+                    <Frame type="Frame" name="AnchorFrame">
+                        <Anchor side="Top" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Bottom" relative="$parent/$parent" pos="Mid" offset="0"/>
+                        <Anchor side="Left" relative="$parent/$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent/$parent/RandomSeedRefreshButton" pos="Min" offset="-8"/>
+                    </Frame>
+                </Frame>
+
+                <Frame type="Button" name="RandomSeedRefreshButton" template="StandardBattlenetTemplates/CloseButton">
+                    <Anchor side="Top" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Mid" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Width val="36"/>
+                    <Height val="36"/>
+                    <ClickSound val="@UI_ActionButtonSelect"/>
+                    <Tooltip val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/RandomSeedRefreshTooltip"/>
+
+                    <Frame type="Image" name="Icon">
+                        <Texture val="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                        <TextureCoords top="1" bottom="0" left="0" right="1"/>
+
+                        <StateGroup name="DisplayState">
+                            <DefaultState val="Normal"/>
+
+                            <State name="Disabled">
+                                <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
+                                <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                                <Action type="SetProperty" frame="$this" Color="64,95,113"/>
+                            </State>
+
+                            <State name="Pressed">
+                                <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
+                                <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Pressed"/>
+                                <Action type="SetProperty" frame="$this" Color="255,255,255"/>
+                            </State>
+
+                            <State name="Hover">
+                                <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
+                                <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                                <Action type="SetProperty" frame="$this" Color="204,231,255"/>
+                            </State>
+
+                            <State name="Normal">
+                                <Action type="SetProperty" frame="$this" Texture="@UI/Glues_Battlenet_StandardButtons_Small_Icon_Refresh_Normal"/>
+                                <Action type="SetProperty" frame="$this" Color="141,191,234"/>
+                            </State>
+                        </StateGroup>
+                    </Frame>
+                </Frame>
             </Frame>
 
             <Frame type="Button" name="AcceptButton" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
