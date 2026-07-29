@@ -1,0 +1,21 @@
+// Public declarations for red-point attack-wave handlers.
+
+void CMRPW_Handler_Proto(
+    int lp_attackingPlayer,
+    unitgroup lp_attackForce,
+    point lp_spawnPoint,
+    int lp_attackTargetType
+);
+typedef funcref<CMRPW_Handler_Proto> CMRPW_HandlerFunc;
+
+void CMRPW_Init();
+int CMRPW_Register(string lp_key, CMRPW_HandlerFunc lp_func);
+bool CMRPW_Unregister(string lp_key);
+bool CMRPW_IsRegistered(string lp_key);
+int CMRPW_Count();
+void CMRPW_Run(
+    int lp_attackingPlayer,
+    unitgroup lp_attackForce,
+    point lp_spawnPoint,
+    int lp_attackTargetType
+);

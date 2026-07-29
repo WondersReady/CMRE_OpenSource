@@ -107,6 +107,7 @@ void libCOMU_InitVariables () {
 //--------------------------------------------------------------------------------------------------
 // Custom Script: Initial
 //--------------------------------------------------------------------------------------------------
+include "scripts/cm_red_point_wave_registry"
 include "scripts/cm_storm_commander"
 
 void libCOMU_InitCustomScript () {
@@ -6492,14 +6493,7 @@ void libCOMU_gf_CT_Mutator_AttackWaveHook_WaveSent (int lp_attackingPlayer, unit
     // Automatic Variable Declarations
     // Implementation
     if ((lp_attackTargetType != libCOMI_ge_CM_CoopAI_WaveAttackTargetType_Special)) {
-        if ((libCOMU_gv_cT_MutatorEnabledQuickList[(libCOMU_ge_CT_MutatorQuickList_CT_QuickHeroesFromTheStorm)] == true)) {
-            libCOMU_gf_CT_AmonHero_AddToWave(lp_attackingPlayer, lp_attackingUnitGroup, lp_attackOrigin, lp_attackTargetType);
-        }
-
-        if ((libCOMU_gv_cT_MutatorEnabledQuickList[(libCOMU_ge_CT_MutatorQuickList_CT_QuickTheUsualSuspects)] == true)) {
-            libCOMU_gf_CT_TUS_AddToWave(lp_attackingPlayer, lp_attackingUnitGroup, lp_attackOrigin, lp_attackTargetType);
-        }
-
+        CMRPW_Run(lp_attackingPlayer,lp_attackingUnitGroup,lp_attackOrigin,lp_attackTargetType);
         CMSC_AttackWaveAddHero(lp_attackingPlayer,lp_attackingUnitGroup,lp_attackOrigin,lp_attackTargetType);
     }
 
@@ -8057,7 +8051,7 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
     unit lv_indexUnit;
     fixed lv_healAmount;
     fixed lv_healTotal;
-    fixed lv_fqtmsxmgqdjftjxn;
+    fixed lv_qiabpaqkhvngqkft;
 
     // Automatic Variable Declarations
     unitgroup autoE434077F_g;
@@ -8071,9 +8065,9 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
     }
 
     while (true) {
-        lv_fqtmsxmgqdjftjxn = GameGetMissionTime();
+        lv_qiabpaqkhvngqkft = GameGetMissionTime();
         Wait(0.1, c_timeGame);
-        lv_fqtmsxmgqdjftjxn = (GameGetMissionTime() - lv_fqtmsxmgqdjftjxn);
+        lv_qiabpaqkhvngqkft = (GameGetMissionTime() - lv_qiabpaqkhvngqkft);
         autoE434077F_g = libCOMU_gv_cT_TempDamageReflectUnits;
         autoE434077F_u = UnitGroupCount(autoE434077F_g, c_unitCountAll);
         for (;; autoE434077F_u -= 1) {
@@ -8084,7 +8078,7 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
                 continue;
             }
 
-            lv_healRemaining = (10.0 * lv_fqtmsxmgqdjftjxn);
+            lv_healRemaining = (10.0 * lv_qiabpaqkhvngqkft);
             lv_healTotal = lv_healRemaining;
             lv_healRemaining = MinF(lv_healRemaining, UnitGetCustomValue(lv_indexUnit, libCOMU_gv_cTC_TempDamageCustomIndex));
             lv_healAmount = MinF((UnitGetPropertyFixed(lv_indexUnit, c_unitPropLifeMax, c_unitPropCurrent) - UnitGetPropertyFixed(lv_indexUnit, c_unitPropLife, c_unitPropCurrent)), lv_healRemaining);
@@ -14492,6 +14486,7 @@ bool libCOMU_gt_CT_InitializeHeroesFromTheStorm_Func (bool testConds, bool runAc
 
     }
     TriggerExecute(libCOMU_gt_CT_AmonHeroPool_Tracker, true, false);
+    CMRPW_Register("HeroesFromTheStorm", libCOMU_gf_CT_AmonHero_AddToWave);
     return true;
 }
 
@@ -14555,6 +14550,7 @@ bool libCOMU_gt_CT_ShutdownHeroesFromTheStorm_Func (bool testConds, bool runActi
     }
 
     libCOMU_gv_cT_MutatorEnabledQuickList[(libCOMU_ge_CT_MutatorQuickList_CT_QuickHeroesFromTheStorm)] = false;
+    CMRPW_Unregister("HeroesFromTheStorm");
     return true;
 }
 
@@ -14766,6 +14762,7 @@ bool libCOMU_gt_CT_TUS_InitializeTheUsualSuspects_Func (bool testConds, bool run
     TriggerEnable(libCOMU_gt_CT_TUS_FenixBroodQueen, true);
     TriggerEnable(libCOMU_gt_CT_TUS_GaryPowerFieldUsed, true);
     TriggerExecute(libCOMU_gt_CT_TUS_Tracker, true, false);
+    CMRPW_Register("TheUsualSuspects", libCOMU_gf_CT_TUS_AddToWave);
     return true;
 }
 
@@ -15065,6 +15062,7 @@ bool libCOMU_gt_CT_TUS_ShutdownTheUsualSuspects_Func (bool testConds, bool runAc
     TriggerEnable(libCOMU_gt_CT_TUS_AmonHeroDies, false);
     TriggerEnable(libCOMU_gt_CT_TUS_FenixBroodQueen, false);
     TriggerStop(libCOMU_gt_CT_TUS_Tracker);
+    CMRPW_Unregister("TheUsualSuspects");
     return true;
 }
 

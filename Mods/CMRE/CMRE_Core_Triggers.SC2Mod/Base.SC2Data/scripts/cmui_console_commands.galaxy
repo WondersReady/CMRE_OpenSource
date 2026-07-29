@@ -1513,7 +1513,7 @@ bool CMUIX_Console_libCOTF_gt_UT_AttackWaveAttack_Func(int lp_player, string lp_
             AIAttackWaveSetGatherPoint(lv_vPlayer, UnitGroupCenterOfGroup(lv_vUG));
             AIAttackWaveSetTargetPoint(lv_vPlayer, PlayerStartLocation(lp_player));
             AIAttackWaveSend(lv_vPlayer, 0, false);
-            libCOMU_gf_CT_Mutator_AttackWaveHook_Shared(lv_vPlayer, libCOTF_gv_uT_LastAttackWave, UnitGroupCenterOfGroup(libCOTF_gv_uT_LastAttackWave), libCOMI_ge_CM_CoopAI_WaveAttackTargetType_PlayerBase);
+            libCOMU_gf_CT_Mutator_AttackWaveHook_WaveSent(lv_vPlayer, libCOTF_gv_uT_LastAttackWave, UnitGroupCenterOfGroup(libCOTF_gv_uT_LastAttackWave), libCOMI_ge_CM_CoopAI_WaveAttackTargetType_PlayerBase);
         }
     }
     return true;

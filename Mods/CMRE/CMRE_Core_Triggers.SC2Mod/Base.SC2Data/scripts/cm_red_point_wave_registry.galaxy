@@ -1,0 +1,131 @@
+// Dynamic registry for mutators that add units to red-point attack waves.
+
+include "scripts/cm_red_point_wave_registry_h"
+
+const int CMRPW_HANDLER_MAX = 64;
+
+bool CMRPW_gv_Initialized = false;
+int CMRPW_gv_HandlerCount = 0;
+string[65] CMRPW_gv_HandlerKeys;
+CMRPW_HandlerFunc[65] CMRPW_gv_Handlers;
+
+void CMRPW_Handler_Empty(
+    int lp_attackingPlayer,
+    unitgroup lp_attackForce,
+    point lp_spawnPoint,
+    int lp_attackTargetType
+) {
+}
+
+void CMRPW_Init() {
+    int lv_index;
+
+    if ((CMRPW_gv_Initialized == true)) {
+        return;
+    }
+
+    lv_index = 0;
+    while ((lv_index <= CMRPW_HANDLER_MAX)) {
+        CMRPW_gv_HandlerKeys[lv_index] = "";
+        CMRPW_gv_Handlers[lv_index] = CMRPW_Handler_Empty;
+        lv_index = lv_index + 1;
+    }
+    CMRPW_gv_HandlerCount = 0;
+    CMRPW_gv_Initialized = true;
+}
+
+int CMRPW_gf_Find(string lp_key) {
+    int lv_index;
+
+    if (((lp_key == null) || (lp_key == ""))) {
+        return 0;
+    }
+
+    lv_index = 1;
+    while ((lv_index <= CMRPW_gv_HandlerCount)) {
+        if ((CMRPW_gv_HandlerKeys[lv_index] == lp_key)) {
+            return lv_index;
+        }
+        lv_index = lv_index + 1;
+    }
+    return 0;
+}
+
+int CMRPW_Register(string lp_key, CMRPW_HandlerFunc lp_func) {
+    int lv_index;
+
+    CMRPW_Init();
+    if (((lp_key == null) || (lp_key == "") || (lp_func == null))) {
+        return 0;
+    }
+
+    lv_index = CMRPW_gf_Find(lp_key);
+    if ((lv_index != 0)) {
+        CMRPW_gv_Handlers[lv_index] = lp_func;
+        return lv_index;
+    }
+    if ((CMRPW_gv_HandlerCount >= CMRPW_HANDLER_MAX)) {
+        return 0;
+    }
+
+    CMRPW_gv_HandlerCount = CMRPW_gv_HandlerCount + 1;
+    lv_index = CMRPW_gv_HandlerCount;
+    CMRPW_gv_HandlerKeys[lv_index] = lp_key;
+    CMRPW_gv_Handlers[lv_index] = lp_func;
+    return lv_index;
+}
+
+bool CMRPW_Unregister(string lp_key) {
+    int lv_index;
+
+    CMRPW_Init();
+    lv_index = CMRPW_gf_Find(lp_key);
+    if ((lv_index == 0)) {
+        return false;
+    }
+
+    while ((lv_index < CMRPW_gv_HandlerCount)) {
+        CMRPW_gv_HandlerKeys[lv_index] = CMRPW_gv_HandlerKeys[lv_index + 1];
+        CMRPW_gv_Handlers[lv_index] = CMRPW_gv_Handlers[lv_index + 1];
+        lv_index = lv_index + 1;
+    }
+    CMRPW_gv_HandlerKeys[CMRPW_gv_HandlerCount] = "";
+    CMRPW_gv_Handlers[CMRPW_gv_HandlerCount] = CMRPW_Handler_Empty;
+    CMRPW_gv_HandlerCount = CMRPW_gv_HandlerCount - 1;
+    return true;
+}
+
+bool CMRPW_IsRegistered(string lp_key) {
+    CMRPW_Init();
+    return (CMRPW_gf_Find(lp_key) != 0);
+}
+
+int CMRPW_Count() {
+    CMRPW_Init();
+    return CMRPW_gv_HandlerCount;
+}
+
+void CMRPW_Run(
+    int lp_attackingPlayer,
+    unitgroup lp_attackForce,
+    point lp_spawnPoint,
+    int lp_attackTargetType
+) {
+    int lv_index;
+    int lv_handlerCount;
+    CMRPW_HandlerFunc lv_handler;
+
+    CMRPW_Init();
+    lv_handlerCount = CMRPW_gv_HandlerCount;
+    lv_index = 1;
+    while ((lv_index <= lv_handlerCount)) {
+        lv_handler = CMRPW_gv_Handlers[lv_index];
+        lv_handler(
+            lp_attackingPlayer,
+            lp_attackForce,
+            lp_spawnPoint,
+            lp_attackTargetType
+        );
+        lv_index = lv_index + 1;
+    }
+}

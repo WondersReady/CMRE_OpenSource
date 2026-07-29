@@ -1703,7 +1703,7 @@
             <Int Int="168">
                 <Field Id="MC - Cycle Period"/>
             </Int>
-            <String String="2024:05:27:01:00:00">
+            <String String="2024:05:28:01:00:00">
                 <Field Id="MC - Cycle Start Time"/>
             </String>
             <Text Text="UserData/MutatorChallengesType/Official_MC - Type Name">
@@ -1717,7 +1717,7 @@
             <Int Int="336">
                 <Field Id="MC - Cycle Period"/>
             </Int>
-            <String String="2026:05:18:00:01:00">
+            <String String="2026:07:13:00:00:00">
                 <Field Id="MC - Cycle Start Time"/>
             </String>
             <Text Text="UserData/MutatorChallengesType/CM_MC - Type Name">
@@ -33743,7 +33743,12 @@
         <Fields Id="MA - Map File Locale" Type="String" EditorColumn="2"/>
         <Fields Id="MA - Map File Online" Type="Int" EditorColumn="3"/>
         <Fields Id="MA - Score Statistic" Type="GameLink" GameLinkType="ScoreValue"/>
-        <Fields Id="MA - Difficulty Allowed" Type="Int" Count="6" EditorColumn="7"/>
+        <Fields>
+            <Id value="MA - Difficulty Allowed"/>
+            <Type value="Int"/>
+            <Count value="6"/>
+            <EditorColumn value="7"/>
+        </Fields>
         <Fields Id="User - Random Allowed" Type="Int">
             <Flags index="Modifiable" value="1"/>
         </Fields>

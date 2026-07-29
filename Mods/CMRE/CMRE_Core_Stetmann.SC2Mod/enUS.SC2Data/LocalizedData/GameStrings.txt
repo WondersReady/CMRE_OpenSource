@@ -105,7 +105,7 @@ Abil/Name/UpgradeToLairStetmann=Morph Building (HatcheryStetmann -> LairStetmann
 Abil/Name/UpgradeToLurkerDenStetmann=Morph Building (Hydralisk Den Stetmann -> Lurker Den Stetmann)
 Abil/Name/ZergBuildStetmann=Morph Unit (Drone -> Stetmann Buildings)
 Abil/Name/ZerglingStetmannRespawn=Zergling Respawn
-Behavior/Name/BanelingMovementSpeedStetmann=[PH] [NU] Mecha Centrifigal Hooks
+Behavior/Name/BanelingMovementSpeedStetmann=Mecha Centrifugal Hooks
 Behavior/Name/CommanderPrestigeStetmannCombatBuff=The Best Oil
 Behavior/Name/FASTOverloadStetmann=F.A.S.T. Overload
 Behavior/Name/GaryStetmannOrbDamage=Gary Orb Target Search
@@ -495,7 +495,7 @@ Button/Tooltip/RoachStetmann=Assault unit. Regenerates life quickly when burrowe
 Button/Tooltip/RoachStetmannBurrowed=Assault unit. Regenerates life quickly when burrowed.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/RoachStetmannEgg=Hatches into a Mecha Roach after a short period.
 Button/Tooltip/RoachStetmannRapidRegeneration=The Mecha Roach regenerates life very quickly while burrowed.
-Button/Tooltip/RoachWarrenStetmann=[PH] [NU] <c val="ffff8a">Enables:</c><n/>- Roaches from Larvae
+Button/Tooltip/RoachWarrenStetmann=<c val="ffff8a">Enables:</c><n/>- Roaches from Larvae
 Button/Tooltip/SpawningPoolStetmann=<c val="ffff8a">Enables:</c><n/>- Mecha Zerglings from Mecha Larvae<n/>- Mecha Spine Crawlers from Mecha Drones<n/>- Mecha Spore Crawlers from Mecha Drones
 Button/Tooltip/SpineCrawlerRootStetmann=Roots the Mecha Spine Crawler. A rooted Spine Crawler has the ability to attack ground units but is unable to move.
 Button/Tooltip/SpineCrawlerStetmann=Anti-ground defensive structure. <n/><n/><c val="ffff8a">Can attack ground units.</c>

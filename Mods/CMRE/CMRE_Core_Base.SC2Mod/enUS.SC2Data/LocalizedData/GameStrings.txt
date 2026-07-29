@@ -249,15 +249,15 @@ Behavior/Name/OnDeathVorazunRecallOnDeathRecentlyRecalled=On Death Vorazun Recal
 Behavior/Name/OracleStasisTrapStunTarget=Stasis
 Behavior/Name/PayloadRepairMechanic=Self-Repair
 Behavior/Name/PayloadUpgrade0Aura=PayloadUpgrade 0 Aura
-Behavior/Name/PayloadUpgrade0Buff=[ph]Prototype Shield Array
+Behavior/Name/PayloadUpgrade0Buff=Prototype Shield Array
 Behavior/Name/PayloadUpgrade1aAura=PayloadUpgrade 1a Aura
-Behavior/Name/PayloadUpgrade1aBuff=[ph] Thorns
+Behavior/Name/PayloadUpgrade1aBuff=Thorns
 Behavior/Name/PayloadUpgrade1bAura=PayloadUpgrade 1b Aura
-Behavior/Name/PayloadUpgrade1bBuff=[ph] Life Leech
+Behavior/Name/PayloadUpgrade1bBuff=Life Leech
 Behavior/Name/PayloadUpgrade2aAura=PayloadUpgrade 2a Aura
-Behavior/Name/PayloadUpgrade2aBuff=[ph] Energy Regen/Weapon Range
+Behavior/Name/PayloadUpgrade2aBuff=Energy Regeneration/Weapon Range
 Behavior/Name/PayloadUpgrade2bAura=PayloadUpgrade 2b Aura
-Behavior/Name/PayloadUpgrade2bBuff=[ph] Movement Speed/Life Regen
+Behavior/Name/PayloadUpgrade2bBuff=Movement Speed/Life Regeneration
 Behavior/Name/PhaseBlinkDamage=Phase Blink
 Behavior/Name/Phasing=Phasing
 Behavior/Name/PitAlarakLifeRegen=Pit Alarak Life RegenBehavior/Name/PrimalSlashStun=Primal Slash Stun
@@ -299,7 +299,7 @@ Behavior/Name/SOAPassiveOrbitalStrike=SOA Passive Orbital Strike
 Behavior/Name/SOARecallOnDeathRecentlyRecalled=Recently Recalled
 Behavior/Name/SOASolarLanceFireBeam=Burning
 Behavior/Name/SOASummonFenixDragoonBattleShoutTarget=SOASummon Fenix Dragoon BattleShout Target
-Behavior/Name/ScaredDriver=[ph] Fortify Payload
+Behavior/Name/ScaredDriver=Fortify Payload
 Behavior/Name/SentryReclamation=Reclamation
 Behavior/Name/ShadowGuardDetectionDisableTarget=Void Shroud
 Behavior/Name/ShadowTerror=ShadowTerror
@@ -427,7 +427,7 @@ Behavior/Name/ZeratulXelNagaConstructEvolveCaster=Evolution Aura
 Behavior/Name/ZeratulXelNagaConstructPsiStorm=Psionic Gale
 Behavior/Name/ZerglingArmorShredTarget=Armor Negated
 Behavior/Tooltip/ACPirateLightningStormStun=This unit is disabled.
-Behavior/Tooltip/AC_CradleOfDeath_Snare=[PH] The Darkness slows your units.
+Behavior/Tooltip/AC_CradleOfDeath_Snare=The Darkness slows your units.
 Behavior/Tooltip/AbathurCocoonReviveWeakness=This unit cannot be affected by Cocoon Revive.
 Behavior/Tooltip/AbathurMendPeriodicHeal=This unit is regenerating health.
 Behavior/Tooltip/AberrationArmorAuraTarget=An Aberration is granting this unit <d ref="Behavior,AberrationArmorAuraTarget,DamageResponse.ModifyFraction*100"/>% damage reduction.
@@ -446,7 +446,7 @@ Behavior/Tooltip/AscendantSacrificeSelfBuff=This unit has increased shields and 
 Behavior/Tooltip/BansheeBlackOpsPermanentCloak=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/BansheeCloak_Raynor=This unit is cloaked and will only be revealed by detectors or effects. Its weapon range is also increased by 2.
 Behavior/Tooltip/BansheeCloak_Stukov=This unit is cloaked and will only be revealed by detectors or effects. Its weapon range is also increased by 2.
-Behavior/Tooltip/BiomassTargetMark=[ph] This unit will collect Biomass, other units without this mark will no longer collect Biomass
+Behavior/Tooltip/BiomassTargetMark=This unit will collect Biomass. Units without this mark cannot collect Biomass while a marked unit exists.
 Behavior/Tooltip/CODFlatbedTruckSpeed=Got no patience for sittin' around! The path to the target is clear.
 Behavior/Tooltip/Charging=This unit is charging, allowing it to quickly close the distance with its target.
 Behavior/Tooltip/Choked=This unit is stunned and is taking damage.
@@ -504,7 +504,7 @@ Behavior/Tooltip/DropPodHaste=Increases attack speed, movement speed, cooldown r
 Behavior/Tooltip/DroppingMarine=The unit is dropping and can be hit by anti-air weapons.
 Behavior/Tooltip/DuskWingBansheeCloak=This unit is cloaked and will only be revealed by detectors or effects.
 Behavior/Tooltip/Endurance=Units and structures have increased life
-Behavior/Tooltip/EnduranceTrain=Trains take reduced damage with Endurance mutator active.
+Behavior/Tooltip/EnduranceTrain=Trains take two-thirds less damage while the Endurance mutator is active.
 Behavior/Tooltip/FenixArbiterCloakingFieldTarget=This unit is cloaked.
 Behavior/Tooltip/FenixArbiterStasisField=This unit cannot move, attack, or be damaged.
 Behavior/Tooltip/FenixChampionSwapBoost=Moving and Attacking faster.
@@ -622,7 +622,7 @@ Behavior/Tooltip/SOAMapWideChronoPassiveTargetNew=This structure's production sp
 Behavior/Tooltip/SOARecallOnDeathRecentlyRecalled=This unit has recently escaped death and cannot be recalled again.
 Behavior/Tooltip/SOASolarLanceFireBeam=This unit is taking damage over time.
 Behavior/Tooltip/SOASummonFenixDragoonBattleShoutTarget=Attack speed increased.
-Behavior/Tooltip/ScaredDriver=[ph]The Payload is under attack, it cannot move.
+Behavior/Tooltip/ScaredDriver=The Payload is under attack and cannot move.
 Behavior/Tooltip/SentryReclamation=This unit is temporarily under Karax's control. It will self-destruct once this effect expires.
 Behavior/Tooltip/ShadowGuardDetectionDisableTarget=This unit or structure's detection is disabled.
 Behavior/Tooltip/ShapeshifterArmor=Shapeshifter takes -50% reduced damage
@@ -638,7 +638,7 @@ Behavior/Tooltip/StukovInfestedDiamondSlimePuddleDamageDebuff=This unit is takin
 Behavior/Tooltip/StukovInfestedDiamondbackSnare=This unit is grounded.
 Behavior/Tooltip/StukovInfestedWildMutationAbsorb=Mutalisk gains maximum life and increased attack speed.
 Behavior/Tooltip/SuperStim=This unit moves and attacks more quickly and is being healed over time while under the effects of Super Stimpack.
-Behavior/Tooltip/SupremeCommander=Massive units have increased life and size.<n/>Non-massive units have decreased life and size.<n/>Ranged weapons have increased range.
+Behavior/Tooltip/SupremeCommander=Heavy and heroic units gain 25% life and size, while other units lose 25% life and size.<n/>All units gain +2 weapon range.
 Behavior/Tooltip/SwannCommanderMechWreckageBurning=This unit is on fire and is taking damage over time.
 Behavior/Tooltip/SymbioteCarapace=Absorbs <d ref="Behavior,SymbioteCarapace,Modification.VitalMaxArray[Shields]"/> damage.
 Behavior/Tooltip/TimeStopHaste=Increase attack speed, movement speed, cooldown reduction and energy regeneration by <d ref="Effect,MasteryVorazunTimeStopHasteDisplayDummy,Amount*100"/>%.
@@ -658,7 +658,7 @@ Behavior/Tooltip/TychusGhostPsychicSnare=This unit is grounded.
 Behavior/Tooltip/TychusHERCShield=This unit is immune to damage.
 Behavior/Tooltip/TychusHercGrappleImpactSlow=Attack and movement speeds are slowed.
 Behavior/Tooltip/TychusHercGrappleImpactStun=This unit is currently stunned and unable to use any abilities.
-Behavior/Tooltip/TychusHercRageBuff=[PH] Attack speed increased.
+Behavior/Tooltip/TychusHercRageBuff=Attack speed increased.
 Behavior/Tooltip/TychusHercRageDamageBuff=The unit has increased attack speed and damage.
 Behavior/Tooltip/TychusMarauderHealingWardTarget=This unit is under the effects of a Revitalizer and will heal over time while in its area of effect.
 Behavior/Tooltip/TychusMarauderHealingWardTargetUpgrade=This unit is under the effects of a Revitalizer and will heal over time while in its area of effect. It also has increased attack speed.
@@ -1352,7 +1352,7 @@ Button/Name/HHMercStarportHangarPassive=Drone Hangar
 Button/Name/HHMultiLock=Multi-Threaded Sensors
 Button/Name/HHNomadTargetLock=Analyze Weakness
 Button/Name/HHRaven=Build Theia Raven
-Button/Name/HHRavenHealPod=[ph] Healing Pod
+Button/Name/HHRavenHealPod=Healing Pod
 Button/Name/HHReaper=Train Reaper
 Button/Name/HHReaperClusterBombs=LE9 Cluster Charges
 Button/Name/HHReaperFlight=Jet Pack Overdrive
@@ -1371,7 +1371,7 @@ Button/Name/HHVehicleAndShipPlatingLevel3=Upgrade Armor Level 3
 Button/Name/HHVehicleAndShipWeaponsLevel1=Upgrade Weapons Level 1
 Button/Name/HHVehicleAndShipWeaponsLevel2=Upgrade Weapons Level 2
 Button/Name/HHVehicleAndShipWeaponsLevel3=Upgrade Weapons Level 3
-Button/Name/HHVikingArmor=[ph]Reinforced Enhanced Supported Neosteel Plating
+Button/Name/HHVikingArmor=Reinforced Neosteel Plating
 Button/Name/HHVikingFighter=Build Deimos Viking
 Button/Name/HHVikingPiercingAttacks=Shredder Rounds
 Button/Name/HHVikingRockets=W.I.L.D. Missiles
@@ -1620,15 +1620,15 @@ Button/Name/PassiveInfernalPreIgniter=Infernal Pre-Igniter
 Button/Name/PassiveMaelstromRounds=Maelstrom Rounds
 Button/Name/PassiveOrbitalStrikeLocked=Passive Orbital Strike
 Button/Name/PassiveReaverIncreasedScarabSplashRadius=Solarite Payload
-Button/Name/PayloadUpgrade0=[ph]Prototype Shield Array
-Button/Name/PayloadUpgrade1a=[ph]T.H.O.R.N.S. Retaliation System
-Button/Name/PayloadUpgrade1b=[ph] Life Leech
-Button/Name/PayloadUpgrade2a=[ph] Energy Regen/Weapon Range
-Button/Name/PayloadUpgrade2b=[ph] Movement Speed/Life Regen Aura
-Button/Name/PayloadUpgrade3a=[ph]Payload Upgrade 3a
-Button/Name/PayloadUpgrade3b=[ph]Payload Upgrade 3b
-Button/Name/PayloadUpgrade4a=[ph]Payload Upgrade 4a
-Button/Name/PayloadUpgrade4b=[ph]Payload Upgrade 4b
+Button/Name/PayloadUpgrade0=Prototype Shield Array
+Button/Name/PayloadUpgrade1a=T.H.O.R.N.S. Retaliation System
+Button/Name/PayloadUpgrade1b=Life Leech
+Button/Name/PayloadUpgrade2a=Energy Regeneration/Weapon Range
+Button/Name/PayloadUpgrade2b=Movement Speed/Life Regeneration Aura
+Button/Name/PayloadUpgrade3a=Payload Upgrade 3A
+Button/Name/PayloadUpgrade3b=Payload Upgrade 3B
+Button/Name/PayloadUpgrade4a=Payload Upgrade 4A
+Button/Name/PayloadUpgrade4b=Payload Upgrade 4B
 Button/Name/PerditionTurretPassive=Perdition Turret
 Button/Name/PerditionTurretPassiveUpgraded=Flaming Betty
 Button/Name/PermanentlyCloakedCorsair=Permanently Cloaked
@@ -1852,7 +1852,7 @@ Button/Name/ResearchHHMultiLock=Research Multi-Threaded Sensors
 Button/Name/ResearchHHReaperClusterBombs=Research LE9 Cluster Charges
 Button/Name/ResearchHHReaperFlight=Research Jet Pack Overdrive
 Button/Name/ResearchHHTacticalJumpCharges=Research Tactical Jump
-Button/Name/ResearchHHVikingArmor=[ph]Research Reinforced Enhanced Supported Neosteel Plating
+Button/Name/ResearchHHVikingArmor=Research Reinforced Neosteel Plating
 Button/Name/ResearchHHVikingPiercingAttacks=Research Shredder Rounds
 Button/Name/ResearchHHVikingRockets=Research W.I.L.D. Missiles
 Button/Name/ResearchHHWidowMineDeathBlossom=Research Executioner Missiles
@@ -2249,7 +2249,7 @@ Button/Name/TrainGoliathNova=Deploy Strike Goliaths
 Button/Name/TrainHHBomber=Build Strike Fighter
 Button/Name/TrainHHBomberPassive=Strike Fighter
 Button/Name/TrainHellbatNova=Deploy Hellbat Rangers
-Button/Name/TrainHornerReaper=[ph] Recruit Mercenaries
+Button/Name/TrainHornerReaper=Recruit Mercenaries
 Button/Name/TrainKelMorianWorkers=Train Kel-Morian Worker
 Button/Name/TrainLiberatorNova=Deploy Raid Liberators
 Button/Name/TrainMarauderNova=Deploy Marauder Commandos
@@ -2783,7 +2783,7 @@ Button/Tooltip/AlarakColossusAerialTracking=Allows the Wrathwalker to attack air
 Button/Tooltip/AlarakColossusChargedBlastChargeTime=Reduces the charging time and weapon speed of the Wrathwalker's Charged Blast.
 Button/Tooltip/AlarakCoop=Highlord of the Tal'darim. Powerful psionic warrior.
 Button/Tooltip/AlarakDeadlyChargeLightningStrikes=<n/><n/><c val="FFFF8A">Lightning Surge:</c> Deals <d ref="Effect,AlarakLightningStrikesDamage,Amount"/> damage to <d ref="Effect,AlarakLightningStrikesSearch,AreaArray[0].MaxCount"/> enemy units near the primary target.
-Button/Tooltip/AlarakDeadlyChargeNoUpgrade=Alarak intercepts target enemy unit and strikes it for <d ref="Effect,AlarakACDeadlyChargeDamage,Amount"/></c> damage.
+Button/Tooltip/AlarakDeadlyChargeNoUpgrade=Alarak intercepts the target enemy unit and strikes it for <d ref="Effect,AlarakACDeadlyChargeDamage,Amount"/> damage.
 Button/Tooltip/AlarakDeadlyChargeUpgrade=Alarak intercepts target enemy unit and strikes it for <d ref="Effect,AlarakACDeadlyChargeDamage,Amount"/> + <c val="ffff8a"><d ref="(Behavior,AlarakEmpowerDisplay,Modification.DamageDealtFraction[Spell])*Effect,AlarakACDeadlyChargeDamage,Amount"/></c> damage.
 Button/Tooltip/AlarakDestructionWaveDistance=Increases Destruction Wave's knockback distance by 100%.
 Button/Tooltip/AlarakEmpower=Alarak gains increased attack and ability damage for each nearby friendly unit. Alarak's Mechanical units grant him double the power. This effect lasts for <d ref="Behavior,AlarakEmpowerCaster,Duration" precision="1"/> seconds.<n/><n/><c val="ffff8a">Activation resets Alarak's cooldowns.</c>
@@ -2855,7 +2855,7 @@ Button/Tooltip/BiomassPassiveEnergy=Units gain <d ref="Behavior,BiomassBuff100,M
 Button/Tooltip/BiomassPassiveEnergyUpgraded=Units gain <d ref="Behavior,BiomassBuff100,Modification.VitalMaxAdditiveMultiplierArray[Life]*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% life, <d ref="Behavior,BiomassBuff100,Modification.AdditiveAttackSpeedFactor*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% attack speed, <d ref="Behavior,BiomassBuff100,Modification.VitalRegenMultiplier[Energy]*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% energy regeneration, and <d ref="Behavior,BiomassBuff100,Modification.VitalDamageLeechArray[Life].KindArray[Melee]*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% Biotic Leech.
 Button/Tooltip/BiomassPassiveText=<s val="Kicker_Energy"><c val="0A9441">+3</c></c></c></c></c></c></s><img path="Assets\Textures\ui_research_frame_dna_frame_highlighted.dds" height="28" width="28"/>
 Button/Tooltip/BiomassPassiveUpgraded=Unit gains <d ref="Behavior,BiomassBuff100,Modification.VitalMaxAdditiveMultiplierArray[Life]*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% life <d ref="Behavior,BiomassBuff100,Modification.AdditiveAttackSpeedFactor*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% attack speed, and <d ref="Behavior,BiomassBuff100,Modification.VitalDamageLeechArray[Life].KindArray[Melee]*(($BehaviorStackCount:BiomassBuff100$*100)+($BehaviorStackCount:BiomassBuff10$*10)+$BehaviorStackCount:BiomassBuff1$)"/>% Biotic Leech.
-Button/Tooltip/BiomassTargetMark=[ph] Target and un-target specific units that will pickup Biomass.  While any unit is targeted no other unit will be able to collect Biomass.
+Button/Tooltip/BiomassTargetMark=Marks or unmarks specific units for Biomass collection. While at least one unit is marked, unmarked units cannot collect Biomass.
 Button/Tooltip/BlinkAlarak=Teleports the Slayer to a nearby target location. The Slayer's next attack within 5 seconds will deal twice the damage. This ability can only be used once every <d ref="Abil,Blink,Cost[0].Cooldown.TimeUse"/> seconds. 
 Button/Tooltip/BlinkNova=Teleports Nova to a nearby target location. Nova gains a temporary shield that absorbs up to <d ref="Behavior,NovaBlinkAbsorb,Modification.VitalMaxArray[Shields]"/> damage for <d ref="Behavior,NovaBlinkAbsorb,Duration"/> seconds.<n/><n/>Ability regains a charge every <d ref="Abil,NovaBlink,Cost[0].Charge.TimeUse"/> seconds. Can store a maximum of 3 charges.
 Button/Tooltip/BlinkSlayer=Teleports the Slayer to a nearby target location. Ability can only be used once every <d ref="Abil,Blink,Cost[0].Cooldown.TimeUse"/> seconds. After using Phase Blink, the Slayer's next attack within <d ref="Behavior,PhaseBlinkDamage,Duration"/> seconds will deal double damage.
@@ -2869,7 +2869,7 @@ Button/Tooltip/BuildDrakkenLaserDrill=Finishes construction of the Drakken Laser
 Button/Tooltip/BuildHHBomberPlatform=Precision strike platform.  Can launch a Strike Fighter to perform an airstrike against a targeted enemy or location.
 Button/Tooltip/BuildHHMercStarport=Han's production facility. A flying fortress that can be upgraded further with Assault Drones.<n/><n/><c val="ffff8a">Enables:</c><n/>- Reapers<n/>- Widowmines<n/>- Hellions<n/>- Hellbats<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/BuildHHTechLabStarport=Enables additional research options for Horner's units.
-Button/Tooltip/BuildHercules=Massive transport ship. Deploys loaded troops almost instantly. Can load and unload Siege Tanks in Siege mode.</c><n/><n/><c val="ffff8a">Units are not lost if the Hercules is destroyed.</c>
+Button/Tooltip/BuildHercules=Massive transport ship. Deploys loaded troops almost instantly. Can load and unload Siege Tanks in Siege Mode.<n/><n/><c val="ffff8a">Loaded units survive if the Hercules is destroyed.</c>
 Button/Tooltip/BuildKelMorianMissileTurret=Anti-air defensive structure.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c><n/><c val="FFE303">Detector</c>
 Button/Tooltip/BuildKelMorianRocketTurret=Deals bonus damage to armored units. Attacks slow enemies.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/BuildLaserTurret=Automated defensive turret. Damages all enemy ground units in a straight line. <n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
@@ -3240,7 +3240,7 @@ Button/Tooltip/EvolveKerriganHeroicFortitude=<c val="ffff8a">Kerrigan</c> gains 
 Button/Tooltip/EvolveKerriganViciousGlaive=The <c val="ffff8a">Mutalisk's</c> attack bounces three additional times, hitting up to six targets. Bounces also travel farther.
 Button/Tooltip/EvolveMedusaBlades=<c val="ffff8a">Zagara's</c> attacks deal area damage, splashing to enemy units near her primary target.
 Button/Tooltip/EvolveMonarchBlades=Splash damage of <c val="ffff8a">Ultralisk</c> attacks increased to <d ref="Effect,HotSUltraliskKaiserBladesSecondaryUpgradeDamage,Amount"/>.
-Button/Tooltip/EvolveMuscularAugments=Improves <c val="ffff8a">Hydralisk</c> movement speed and increases attack range by +1.
+Button/Tooltip/EvolveMuscularAugments=Increases <c val="ffff8a">Hydralisk</c> movement speed off creep by 25% and attack range by 1.
 Button/Tooltip/EvolveMutaliskRapidRegeneration=<c val="ffff8a">Mutalisks</c> regenerate life quickly while out of combat.
 Button/Tooltip/EvolvePlaguedMunitions=<c val="ffff8a">Infested Marines</c> and <c val = "ffff8a">Infested Troopers</c> deal an additional <d ref="Behavior,SIInfestedTrooperMarinePlaguedMunitions,Duration/Behavior,SIInfestedTrooperMarinePlaguedMunitions,Period/Effect,SIInfestedTrooperMarinePlaguedMunitionsDamage,Amount"/> damage over <d ref="Behavior,SIInfestedTrooperMarinePlaguedMunitions,Duration"/> seconds to units they attack.
 Button/Tooltip/EvolveSIDiamondbackImprovedEnsnare=Reduces the cooldown of the <c val="ffff8a">Infested Diamondback's</c> Fungal Snare by 15 seconds.
@@ -3388,7 +3388,7 @@ Button/Tooltip/HHArmory=Contains weapon and armor upgrades for Horner's and Han'
 Button/Tooltip/HHArmyOOCRegen=This unit regenerates <c val="FFFF8A"><d ref="Behavior,HHArmyOOCRegenSpeed,Modification.VitalRegenArray[Life]" precision="2"/></c> life per second while out of combat.
 Button/Tooltip/HHBattlecruiser=Powerful warship. Can use Tactical Jump.
 Button/Tooltip/HHBattlecruiserShots=Use the Battlecruiser's standard ATX Laser Battery.
-Button/Tooltip/HHBomber=[ph] Strike Fighter description, very strikey
+Button/Tooltip/HHBomber=Strike Fighter. Launches from a Strike Fighter Platform to perform Precision Strikes against ground targets.
 Button/Tooltip/HHBomberAreaBomb=Cooldown: <d ref="Behavior,HHBomberDockCooldown,Duration"/><n/><n/>Launches the Strike Fighter to the target location, where it deals <d ref="Effect,HHBomberAreaBombDamage,Amount"/> (+<d ref="Effect,HHBomberAreaBombDamage,AttributeBonus[Structure]"/> to non-Heroic structures) damage to enemy ground units in the target area.
 Button/Tooltip/HHBomberAreaBombTopBar=Cooldown: <d ref="Behavior,HHBomberDockCooldown,Duration"/><n/><n/>Sends a Strike Fighter to the target location, where it deals <d ref="Effect,HHBomberAreaBombDamage,Amount"/> (+<d ref="Effect,HHBomberAreaBombDamage,AttributeBonus[Structure]"/> to non-Heroic structures) damage to enemy ground units in the target area.
 Button/Tooltip/HHBomberAreaBombTopBarDummy=Sends a Strike Fighter to the target location, where it deals <d ref="Effect,HHBomberAreaBombDamage,Amount"/> (+<d ref="Effect,HHBomberAreaBombDamage,AttributeBonus[Structure]"/> to non-Heroic structures) damage to enemy ground units in the target area.
@@ -3396,7 +3396,7 @@ Button/Tooltip/HHBomberNapalm=Precision Strikes ignite the target location with 
 Button/Tooltip/HHBomberPlatform=Precision strike platform.  Can launch a Strike Fighter to perform an airstrike against a targeted enemy or location.
 Button/Tooltip/HHCommandCenter=Primary structure. Used to receive gathered resources. Can use the Lift Off ability.<n/><n/><c val="ffff8a">Enables:</c><n/>- SCVs
 Button/Tooltip/HHFusionCore=Contains Battlecruiser and Strike Fighter Platform upgrades.<n/><n/><c val="ffff8a">Enables:</c><n/>- Battlecruisers<n/>- Drone Hangar for Assault Galleon
-Button/Tooltip/HHGriffon=[PH] Builds a Griffon anti-air attack drone.  
+Button/Tooltip/HHGriffon=Builds a Griffon anti-air attack drone.
 Button/Tooltip/HHHellion=Fast scout. Has a grenade attack that slows enemy units. Can transform into a close range combat unit.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/HHHellionAttackDoT=Attacks cause enemies to burn for an additional <d ref="Effect,HHHellionDoTDamage,Amount * Behavior,HHHellionDoT,Period * Behavior,HHHellionDoT,Duration"/> damage over <d ref="Behavior,HHHellionDoT,Duration"/> seconds.
 Button/Tooltip/HHHellionBomb=Launches a tar bomb that deals <d ref="Effect,HHHellionBombDamage,Amount"/> damage to the target unit. Nearby enemies have their movement speed reduced by <d ref="(1 - Behavior,HHHellionBombSlow,Modification.MoveSpeedMultiplier) *100"/>% and attack ranged reduced by <d ref="-(Behavior,HHHellionBombSlow,Modification.WeaponRange)"/> for <d ref="Behavior,HHHellionBombSlow,Duration"/> seconds.
@@ -3406,16 +3406,16 @@ Button/Tooltip/HHHellionTank=Close range combat unit. Deals damage in a small fr
 Button/Tooltip/HHKD8Charge=Explodes after a short delay, doing <d ref="Effect,HHD8ChargeExplodeDamage,Amount"/> area damage and knocking back nearby units.
 Button/Tooltip/HHMSOAttackSpeed=Horner's combat units are increasing the attack speed of Han's units by <d ref="Effect,HornerMSOAttackSpeedDisplayDummy,Amount" precision="2"/>%.
 Button/Tooltip/HHMSOHealth=Han's combat units are Increasing the health of Horner's units by <d ref="Effect,HornerMSOHealthDisplayDummy,Amount" precision="2"/>%.
-Button/Tooltip/HHMagneticMine=[ph] Travels in a straight line and deals area damage to nearby units on impact.<n/><n/><c val="ffff8a">Can attack air units.</c>
+Button/Tooltip/HHMagneticMine=Travels in a straight line and deals area damage to nearby units on impact.<n/><n/><c val="ffff8a">Can attack air units.</c>
 Button/Tooltip/HHMagneticMines=Deploy <d ref="Effect,HHMagneticMineSpawnerPersistent,PeriodCount"/> Mag Mines to the target location. Mag Mines are triggered by enemy motion and deal <d ref="Effect,HHMagneticMineWeaponSearchDamage,Amount"/> area damage.
 Button/Tooltip/HHMercCompound=Contains upgrades for Han's units.<n/><n/><c val="ffff8a">Enables:</c><n/>- Missile Turrets from SCVs
 Button/Tooltip/HHMercStarportHangarPassive=Automatically builds and deploys Assault Drones.
 Button/Tooltip/HHMercStarportUpgraded=Han's production facility. A flying fortress that can be upgraded further with Assault Drones.<n/><n/><c val="ffff8a">Enables:</c><n/>- Reapers<n/>- Widowmines<n/>- Hellions<n/>- Hellbats<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/HHMercenarySpaceStation=[ph] Han's space station description
+Button/Tooltip/HHMercenarySpaceStation=Mira Han's space station. Deploys mercenary escorts and remains on the battlefield for a limited time.
 Button/Tooltip/HHMultiLock=Can target up to 4 targets with Target Lock.
 Button/Tooltip/HHNomadTargetLock=All Melee and Ranged attacks against Analyzed units do 3 bonus damage. Effect lasts as long as the Raven remains locked onto the target.
 Button/Tooltip/HHRaven=Aerial support unit. Can use Analyze Weakness and has a radar sensor.<n/><n/><c val="FFE303">Detector</c>
-Button/Tooltip/HHRavenHealPod=[ph] Launches a healing pod at target mechanical unit, healing it for <d ref="Behavior,HHRavenHealPodTarget,Duration*Effect,HHRavenHealPodTargetHeal,RechargeVitalRate"/> life over <d ref="Behavior,HHRavenHealPodTarget,Duration"/> seconds.
+Button/Tooltip/HHRavenHealPod=Launches a healing pod at the target mechanical unit, restoring <d ref="Behavior,HHRavenHealPodTarget,Duration*Effect,HHRavenHealPodTargetHeal,RechargeVitalRate"/> life over <d ref="Behavior,HHRavenHealPodTarget,Duration"/> seconds.
 Button/Tooltip/HHReaper=Raider. Capable of throwing knockback grenades and jumping up and down cliffs. <n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/HHReaperClusterBombs=Reduces the cooldown of KD8 Charge by <d time="10"/>. When killed, the Reaper will throw multiple grenades towards the killing unit.
 Button/Tooltip/HHReaperFlight=Allows the Reaper to fly for <d ref="Behavior,HHReaperFlyingDuration,Duration"/> seconds. While flying, the Reaper can attack air units.
@@ -3427,9 +3427,9 @@ Button/Tooltip/HHStarportTechLab=Enables additional research options for Horner'
 Button/Tooltip/HHSummonSpaceStation=Space Station deals <d ref="Effect,HHMercenarySpaceStationSpawnImpactDamage,Amount"/> damage to Heroic targets it contacts, everything else is instantly destroyed. Assault Drones will attack nearby targets. Lasts <d time="10"/>.
 Button/Tooltip/HHSummonSpaceStationNuke=Space Station deals <d ref="Effect,HHMercenarySpaceStationSpawnImpactDamage,Amount"/> damage to Heroic targets it contacts, everything else is instantly destroyed. Assault Drones will attack nearby targets. Lasts <d time="10"/>. On death, the station explodes with a nuclear blast dealing <d ref="Effect,HHMercenarySpaceStationNukeDamage,Amount"/> damage (+<d ref="Effect,HHMercenarySpaceStationNukeDamage,AttributeBonus[Structure]"/> vs structures).
 Button/Tooltip/HHSuperRadar=Reveals the locations of enemy units at long range.
-Button/Tooltip/HHTacticalJumpCharges=[ph]Battlecruisers Tactical Jump along with other surrounding air units.
+Button/Tooltip/HHTacticalJumpCharges=Battlecruisers use Tactical Jump together with nearby air units.
 Button/Tooltip/HHTechLabStarport=Enables additional research options for Horner's units.
-Button/Tooltip/HHTornadoMissile=[ph]Launches electrically charged missiles at its target, dealing <d ref="Effect,HHTornadoMissileDamage,Amount"/> damage per volley. Will expend all charge on death.<n/><c val="#ColorAttackInfo">Can attack ground and air units.</c> 
+Button/Tooltip/HHTornadoMissile=Launches electrically charged missiles at its target, dealing <d ref="Effect,HHTornadoMissileDamage,Amount"/> damage per volley. Expends all remaining charges on death.<n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/HHVehicleAndShipPlatingLevel1=Upgrades the armor of Horner and Han's units.
 Button/Tooltip/HHVehicleAndShipPlatingLevel2=Further upgrades the armor of Horner and Han's units.
 Button/Tooltip/HHVehicleAndShipPlatingLevel3=Maximizes the armor of Horner and Han's units.
@@ -3479,7 +3479,7 @@ Button/Tooltip/HaveZeratulImmortalRange=Allows this unit's anti-air weapon to kn
 Button/Tooltip/Haveoverlordspeed=Increases the movement speed of Overlords and Overseers.
 Button/Tooltip/HavocPermanentCloak=Permanently cloaks the Havoc.
 Button/Tooltip/Headbutt=Deals massive damage to structures.
-Button/Tooltip/HealAttackChampion=[PH] Orders selected units to move to the target point, healing nearby enemies along the way. Targeting a unit with the Heal command orders that it be healed until full life.
+Button/Tooltip/HealAttackChampion=Orders selected units to move to the target point, healing nearby units along the way. Targeting a unit with the Heal command orders it to be healed until it reaches full life.
 Button/Tooltip/HealingDrone=Heals nearby biological and mechanical units. Lasts for <d ref="Behavior,HealingDroneTimedLife,Duration"/> seconds.
 Button/Tooltip/HealingPsionicStorm=Psionic Storm's radius is increased by 50%, range increased by 2, and restores <d ref="((Effect,HighArchonPsiStormPersistent,PeriodCount+1)*(Effect,HighArchonPsiStormHeal,RechargeVitalRate))/2"/> shields to friendly units in the target area.<c/>
 Button/Tooltip/HellArmor=Increases Hellbat and Hellion armor by 2.
@@ -3493,7 +3493,7 @@ Button/Tooltip/HighTemplarTaldarim=Potent psionic master. Can use Psionic Orb, M
 Button/Tooltip/Hive=Further evolved version of the Hatchery that allows additional upgrades and structures to be produced. Also spawns all Zerg units and receives gathered resources.
 Button/Tooltip/HoloDecoyCooldownMonitor=Deploys a holographic duplicate of Nova that automatically attacks enemy units. The holo decoy lasts for <d ref="Behavior,NovaCoopDecoyTimedLife,Duration"/> seconds.<n/><n/><c val="#ColorAttackInfo">Can only be used in Assault Mode.</c>
 Button/Tooltip/HornerAirFleet=Calls in close planetary support from Horner's Armada. The Armada does massive damage to random enemy units in the target area.
-Button/Tooltip/HornerBarracks=[ph]Horner's basic production structure is the Starport, not the Barracks.<n/><n/><c val="ffff8a">The Starport is available in the SCV's Advanced Construction menu.</c>
+Button/Tooltip/HornerBarracks=Horner's basic production structure is the Starport, not the Barracks.<n/><n/><c val="ffff8a">The Starport is available in the SCV's Advanced Construction menu.</c>
 Button/Tooltip/HotSHunterMissile=Suicide unit. Deals damage over a small area upon death. Launches toward enemy at range 6.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/HotSLeviathan=Massive flying monstrosity that dominates the skies.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/HotSRaptorACKerrigan=Fast melee unit. Leaps over obstacles and onto targets from range. Deals increased damage.<n/><n/><c val="FFFF8A">Can attack ground units.</c>
@@ -3567,8 +3567,8 @@ Button/Tooltip/KerriganVoidCoopEconDrop2Text=<s val="KMinerals">+<d ref="Effect,
 Button/Tooltip/KerriganVoidCoopEconDrop3Text=<s val="KMinerals">+<d ref="Effect,KR3,Resources[Minerals]" player="current"/> </s><IMG path="@KRM" height="28" width="28"/><n/><s val="KGas">+<d ref="Effect,KR3,Resources[Vespene]" player="current"/> </s><IMG path="@KRG" height="28" width="28"/>
 Button/Tooltip/KerriganVoidCoopEconDrop4Text=<s val="KMinerals">+<d ref="Effect,KR4,Resources[Minerals]" player="current"/> </s><IMG path="@KRM" height="28" width="28"/><n/><s val="KGas">+<d ref="Effect,KR4,Resources[Vespene]" player="current"/> </s><IMG path="@KRG" height="28" width="28"/>
 Button/Tooltip/KerriganVoidCoopEconDrop5Text=<s val="KMinerals">+<d ref="Effect,KR5,Resources[Minerals]" player="current"/> </s><IMG path="@KRM" height="28" width="28"/><n/><s val="KGas">+<d ref="Effect,KR5,Resources[Vespene]" player="current"/> </s><IMG path="@KRG" height="28" width="28"/>
-Button/Tooltip/KerriganVoidCoopEconDropLT1Text=<s val="KMinerals">+<d ref="Effect,KR0,Resources[Minerals]" player="current"/> <IMG path="@KRM" height="28" width="28"/>
-Button/Tooltip/KhaydarinMonolith=Extremely powerful defensive structure. Has superior range and damage, but is very expensive and attacks slowly.<n/><n/><c val="ffff8a">Can attack ground and air units.
+Button/Tooltip/KerriganVoidCoopEconDropLT1Text=<s val="KMinerals">+<d ref="Effect,KR0,Resources[Minerals]" player="current"/> <IMG path="@KRM" height="28" width="28"/></s>
+Button/Tooltip/KhaydarinMonolith=Extremely powerful defensive structure. Has superior range and damage, but is very expensive and attacks slowly.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
 Button/Tooltip/LairZagara=Evolved version of the Hatchery that allows additional upgrades and structures to be produced. Also spawns all Zerg units and receives gathered resources.<n/><n/><c val="ffff8a">Enables:</c><n/>- Overseers from Overlords<n/>- Aberrations from Larvae
 Button/Tooltip/LeapAttack=The Hunterling leaps onto an enemy, stunning it and dealing damage over time.
 Button/Tooltip/LearnDehakaArmorUpgrade=Increases <c val ="ffff8a">Dehaka's</c> armor by <d ref="Behavior,DehakaArmorUpgrade1,Modification.LifeArmorBonus"/>.
@@ -3698,7 +3698,7 @@ Button/Tooltip/MasteryStukovInfestStructureCDRAppend=<n/><n/><c val="FFFF8A">Mas
 Button/Tooltip/MasteryStukovUnitRegenSpeedAppend=<c val="FFFF8A">Mastery:</c> Units spawned from this structure regenerate <c val="FFFF8A"><d ref="Effect,MasteryStukovUnitRegenSpeedDisplayDummy,Amount" precision="1"/></c> life per second.
 Button/Tooltip/MasteryStukovVolatileChanceAppend=<n/><n/><c val="FFFF8A">Mastery:</c> Infested Civilians have a <c val="FFFF8A"><d ref="Effect,MasteryStukovVolatileChanceDisplayDummy,Amount" precision="1"/></c>% chance to spawn as Volatile Infested.
 Button/Tooltip/MasterySwannBuildingHealthAppended=<n/><n/><c val="FFFF8A">Mastery:</c> Increases structures’ maximum life by <c val="FFFF8A"><d ref="Effect,MasterySwannBuildingHealthDisplayDummy,Amount"/></c>%.
-Button/Tooltip/MasterySwannCombatDropDurationandLifeAppend=<n/><n/><c val="FFFF8A">Mastery:</c> Increases life by <c val="FFFF8A"><d ref="Effect,MasterySwannCombatDropLifeDisplayDummy,Amount" player="Current"/></c> and duration by <c val="FFFF8A"><d ref="Effect,MasterySwannCombatDropDurationDisplayDummy,Amount" player="Current"/></c></c> seconds.
+Button/Tooltip/MasterySwannCombatDropDurationandLifeAppend=<n/><n/><c val="FFFF8A">Mastery:</c> Increases life by <c val="FFFF8A"><d ref="Effect,MasterySwannCombatDropLifeDisplayDummy,Amount" player="Current"/></c> and duration by <c val="FFFF8A"><d ref="Effect,MasterySwannCombatDropDurationDisplayDummy,Amount" player="Current"/></c> seconds.
 Button/Tooltip/MasterySwannConcentratedBeamDamageandAreaAppend=<n/><n/><c val="FFFF8A">Mastery:</c> Increases range width by <c val="FFFF8A"><d ref="Effect,MasterySwannConcentratedBeamWidthDisplayDummy,Amount" player="Current"/></c>% and damage by <c val="FFFF8A"><d ref="Effect,MasterySwannConcentratedBeamDamageDisplayDummy,Amount" player="Current"/></c>.
 Button/Tooltip/MasterySwannImmortalityProtocolBaseAppend=<n/><n/><c val="FFFF8A">Mastery:</c> Reduces resource cost and production time by <c val="FFFF8A"><d ref="Effect,MasterySwannImmortalityProtocolPercentDisplayDummy,Amount"/></c>%.
 Button/Tooltip/MasterySwannImmortalityProtocolSiegeTankAppend=<n/><n/><c val="FFFF8A">Mastery:</c> Reduces resource cost by <c val="FFFF8A"><d ref="Effect,MasterySwannImmortalityProtocolSiegeTankCostDisplayDummy,Amount"/></c> and production time by <c val="FFFF8A"><d ref="Effect,MasterySwannImmortalityProtocolSiegeTankDurationDisplayDummy,Amount" precision="1"/></c> seconds.
@@ -3762,7 +3762,7 @@ Button/Tooltip/MuscularAugmentsCoop=Improves Hydralisk movement speed and increa
 Button/Tooltip/MutatorAmonKarax=Templar phase-smith. Uses a pair of Servitors to perform ranged attacks.
 Button/Tooltip/MutatorAmonNova=Dominion covert operative. Can equip and use a variety of weapons and gear.<n/><n/><c val="#ColorAttackInfo">Can attack different enemy units based on weaponry.</c>
 Button/Tooltip/MutatorAmonNovaNuke=Calls down a Nuclear Strike at a target location. Nukes take <d ref="Effect,MutatorAmonNovaNukePersistent,InitialDelay+Effect,MutatorAmonNovaNukePersistent,ExpireDelay"/> seconds to land, but they deal up to <d ref="Effect,MutatorAmonNovaNukeDamage,Amount"/> damage to enemies in a large radius.
-Button/Tooltip/MutatorAmonNovaWeaponImprovedCanisterRifleSnipe=Deals <d ref="Effect,MutatorAmonNovaWeaponImprovedCanisterRifleSnipe,Amount"/> damage to target enemy ground or air unit from long range.<n/></n><c val = "#ColorAttackInfo">Can target biological and mechanical units.
+Button/Tooltip/MutatorAmonNovaWeaponImprovedCanisterRifleSnipe=Deals <d ref="Effect,MutatorAmonNovaWeaponImprovedCanisterRifleSnipe,Amount"/> damage to the target enemy ground or air unit from long range.<n/><n/><c val="#ColorAttackInfo">Can target biological and mechanical units.</c>
 Button/Tooltip/MutatorAmonPhaseCannon=Phases in a Photon Cannon that lasts for <d ref="Behavior,PhaseCannonTimedLife,Duration"/> seconds before leaving the battlefield.<n/><n/>The Photon Cannon must be placed within a power field.
 Button/Tooltip/MutatorAmonProdigalEngineer=Karax generates a power field similar to a Pylon. Structures within the power field gain <d ref="(Behavior,ProdigalEngineerAttackTarget,Modification.AttackSpeedMultiplier*100)-100"/>% attack speed and <d ref="(Behavior,ProdigalEngineerProductionTarget,Modification.TimeScale*100)-100"/>% production speed.
 Button/Tooltip/MutatorAmonPrologueVoidArmor=Grants nearby friendly units +<d ref="Behavior,MutatorAmonPrologueVoidArmor,Modification.VitalMaxArray[Shields]"/> shields for <d ref="Behavior,MutatorAmonPrologueVoidArmor,Duration"/> seconds.
@@ -3807,7 +3807,7 @@ Button/Tooltip/NovaReviveInstantBuyback=Instantly revives Nova at the target loc
 Button/Tooltip/NovaStanceDance=Reduces the cooldown of Stealth Mode and Assault Mode by 15 seconds. Nova gains maximum energy when switching modes.</n></n>Switching to Stealth Mode grants temporary invulnerability and switching to Assault Mode grants a temporary bonus to damage dealt.
 Button/Tooltip/NovaSwitchAssaultMode=Increases Nova's movement speed and allows her to use Penetrating Blast and Blink.</n></n><c val="#ColorAttackInfo">Equips Nova to attack ground units within a wide arc.</c>
 Button/Tooltip/NovaSwitchAssaultModeUpgraded=Increases Nova's movement speed and allows her to use Penetrating Blast and Blink. Nova deals <d ref="Behavior,NovaDoubleDamage,Modification.DamageDealtFraction[Ranged]*100"/>% additional damage for <d ref="Behavior,NovaDoubleDamage,Duration"/> seconds after activation.</n></n><c val="#ColorAttackInfo">Equips Nova to attack ground units within a wide arc.</c>
-Button/Tooltip/NovaSwitchStealthMode=Permanently cloaks Nova and allows her to use Snipe and Sabotage Drone.</n></n><C val="#ColorAttackInfo">Equips Nova to attack air and ground units.
+Button/Tooltip/NovaSwitchStealthMode=Permanently cloaks Nova and allows her to use Snipe and Sabotage Drone.<n/><n/><c val="#ColorAttackInfo">Equips Nova to attack air and ground units.</c>
 Button/Tooltip/NovaSwitchStealthModeUpgraded=Permanently cloaks Nova and allows her to use Snipe and Sabotage Drone. Nova is invulnerable to damage for <d ref="Behavior,NovaInvulnerability,Duration"/> seconds after activation.</n></n><c val="#ColorAttackInfo">Equips Nova to attack air and ground units. </c>
 Button/Tooltip/NovaUnitLockdown=Stuns and disables the detection of mechanical units hit by the Strike Goliath's anti-air attacks for <d ref="Behavior,NovaUnitLockdown,Duration"/> seconds. <n/><n/><c val="#ColorAttackInfo">Heroic units are immune.</c>
 Button/Tooltip/NovaUnitNuke=Calls down a Nuclear Strike at the target location, dealing <d ref="Effect,NovaCoopCasterNukeDamage,Amount"/> damage in a large radius after <d ref="Effect,NovaCoopCasterNukePersistent,InitialDelay+Effect,NovaCoopCasterNukePersistent,ExpireDelay"/> seconds.<n/><n/><c val="#ColorAttackInfo">Does not damage friendly units or structures.</c>
@@ -3815,7 +3815,7 @@ Button/Tooltip/NovaWeaponCanisterRifleSnipe=Fire a psi-charged bullet at long ra
 Button/Tooltip/NovaWeaponHellfireShotgunBlastImproved=Deals <d ref="Effect,NovaWeaponHellfireShotgunBlastDamage,Amount"/> (<d ref ="Effect,NovaWeaponHellfireShotgunBlastDamage,Amount + Effect,NovaWeaponHellfireShotgunBlastDamage,AttributeBonus[Light]"/> vs Light) damage to enemy ground units in a wider arc.</n></n><c val ="#ColorAttackInfo">Does not damage friendly units.</c>
 Button/Tooltip/NovaWeaponHellfireShotgunSwapPassive=Hellfire Shotgun currently equipped.
 Button/Tooltip/NovaWeaponImprovedCanisterRifleSnipe=Deals <d ref="Effect,NovaWeaponImprovedCanisterRifleSnipe,Amount"/> damage to target enemy ground or air unit from long range.<n/></n><c val = "#ColorAttackInfo">Can target biological and mechanical units.</c>
-Button/Tooltip/NovaWeaponImprovedCanisterRifleSnipeRefund=Deals <d ref="Effect,NovaWeaponImprovedCanisterRifleSnipe,Amount"/> damage to target enemy ground or air unit from long range. Killing a unit with this ability refunds 50% of its energy cost.<n/></n><c val = "#ColorAttackInfo">Can target biological and mechanical units.
+Button/Tooltip/NovaWeaponImprovedCanisterRifleSnipeRefund=Deals <d ref="Effect,NovaWeaponImprovedCanisterRifleSnipe,Amount"/> damage to the target enemy ground or air unit from long range. Killing a unit with this ability refunds 50% of its energy cost.<n/><n/><c val="#ColorAttackInfo">Can target biological and mechanical units.</c>
 Button/Tooltip/NovaWeaponImprovedCanisterRifleSwapPassive=Improved Canister Rifle currently equipped.
 Button/Tooltip/NovaWeaponPsiBlade=Dashes forward and deals <d ref="Effect,NovaWeaponPsiBladeDamage,Amount"/> damage to enemy ground units in a straight line.</n></n><c val ="#ColorAttackInfo">Does not damage friendly units.</c>
 Button/Tooltip/NovaWeaponPsiBladeSwapPassive=Monomolecular Blade currently equipped.
@@ -3848,11 +3848,11 @@ Button/Tooltip/PassiveBileLauncher=Spawning Pool allows you to mutate Drones int
 Button/Tooltip/PassiveInfernalPreIgniter=Hellbats deal +15 damage to light units in both modes.
 Button/Tooltip/PassiveInfernalPreIgniterNova=Hellbat Rangers deal +15 damage to light units in both modes.
 Button/Tooltip/PassiveMaelstromRounds=Siege Tanks gain +40 attack damage while in Siege Mode. Splash damage remains the same.
-Button/Tooltip/PayloadUpgrade0=[ph]Allied units in the aura have a 33% chance to ignore 2 damage from any source.
-Button/Tooltip/PayloadUpgrade1a=[ph] When a unit affected by this aura takes damage, the attacker takes N% of that damage.
-Button/Tooltip/PayloadUpgrade1b=[ph] Units affected by this aura regenerate life as they attack.
-Button/Tooltip/PayloadUpgrade2a=[ph] Units affected by this aura gain increased energy regeneration.
-Button/Tooltip/PayloadUpgrade2b=[ph] Units affected by this aura gain increased movement speed and life regeneration.
+Button/Tooltip/PayloadUpgrade0=Allied units in the aura have a 33% chance to ignore 2 damage from any source.
+Button/Tooltip/PayloadUpgrade1a=When a unit affected by this aura takes damage, the attacker takes N% of that damage.
+Button/Tooltip/PayloadUpgrade1b=Units affected by this aura restore life when they attack.
+Button/Tooltip/PayloadUpgrade2a=Units affected by this aura gain increased energy regeneration.
+Button/Tooltip/PayloadUpgrade2b=Units affected by this aura gain increased movement speed and life regeneration.
 Button/Tooltip/PerditionTurretPassive=Factory allows you to build Perdition Turrets.
 Button/Tooltip/PerditionTurretPassiveUpgraded=Factory allows you to build Flaming Bettys.
 Button/Tooltip/PermanentlyCloakedCorsair=The Corsair is permanently cloaked.
@@ -3897,7 +3897,7 @@ Button/Tooltip/ProtossAlarakWeaponsLevel1=Upgrades the damage dealt by all Proto
 Button/Tooltip/ProtossAlarakWeaponsLevel2=Further upgrades the damage dealt by all Protoss units.
 Button/Tooltip/ProtossAlarakWeaponsLevel3=Maximizes the damage dealt by all Protoss units.
 Button/Tooltip/PsiStorm=Creates a storm of psionic energy that lasts <d time="4"/>, causing up to <d ref="Effect,PsiStormDamage,Amount*(Effect,PsiStormPersistent,PeriodCount+2)"/> damage to all enemy units in the target area. Does not damage friendly units.
-Button/Tooltip/PsiStormHealing=Creates a storm of psionic energy that lasts <d time="4"/>, causing up to 80 damage to all enemy units in the target area. Does NOT damage friendly units.<n/><n/><c val="f078ff">Restores <d ref="((Effect,HighArchonPsiStormPersistent,PeriodCount+1)*(Effect,HighArchonPsiStormHeal,RechargeVitalRate))/2"/> shields to friendly units in the target area.<c/>
+Button/Tooltip/PsiStormHealing=Creates a storm of psionic energy that lasts <d time="4"/>, causing up to 80 damage to all enemy units in the target area. Does not damage friendly units.<n/><n/><c val="f078ff">Restores <d ref="((Effect,HighArchonPsiStormPersistent,PeriodCount+1)*(Effect,HighArchonPsiStormHeal,RechargeVitalRate))/2"/> shields to friendly units in the target area.</c>
 Button/Tooltip/PsiStormTelbrus=Creates a storm of psionic energy that lasts <d ref="Effect,KarassPsiStormPersistent,PeriodCount*Effect,KarassPsiStormPersistent,PeriodicPeriodArray[0]+Behavior,KarassPsiStorm,Duration"/> seconds, dealing <d ref="(Effect,KarassPsiStormPersistent,PeriodCount+2)*Effect,KarassPsiStormDamage,Amount"/> damage to all enemy units and restoring <d ref="Effect,KarassPsiStormPersistent,PeriodCount+1)*Effect,TelbrusPsiStormHeal,RechargeVitalRate*Effect,TelbrusPsiStormHeal,PeriodCount*Effect,TelbrusPsiStormHeal,PeriodicPeriod"/> shields to all friendly units in a large target area.
 Button/Tooltip/PsiStrike=Kerrigan dashes through enemies, dealing <d ref="Effect,PsiStrikeDamage,Amount"/> damage to all enemies in her path.
 Button/Tooltip/PsionicLift=Enemies in target area are stunned and take <d ref="Effect,PsionicLiftPeriodicDamage,Amount*Effect,PsionicLiftDoT,Duration/Behavior,PsionicLiftDoT,Period"/> damage over <d time="[d ref='Effect,PsionicLiftControllerShort,Duration'/]"/>.<n/><n/><c val="ffff8a">Heroic units are slowed.</c>
@@ -3906,7 +3906,7 @@ Button/Tooltip/PurityofWill=Zeratul gains additional shields, increased Shadow C
 Button/Tooltip/QueenBurstHeal=Heals a biological unit or structure for <d ref="Effect,QueenBurstHeal,VitalArray[Life].Change*(Behavior,QueenBurstHeal,Duration +.07)/Behavior,QueenBurstHeal,Period"/> life over time.
 Button/Tooltip/QueenClassicParasite=Increases a friendly unit's sight range by <d ref="Behavior,QueenClassicParasite,Modification.SightBonus"/> and grants it the ability to detect cloaked and burrowed units for <d ref="Behavior,QueenClassicParasite,Duration"/> seconds.
 Button/Tooltip/QueenCoop=Defensive unit. Can use Spawn Larvae, Spawn Creep Tumor, and Transfusion. Moves much faster on creep.<n/><n/><c val="ffff8a">Can attack ground and air units.</c>
-Button/Tooltip/QueenMPSpawnBroodlings=Kills target enemy ground or air unit and spawns <d ref="Effect,QueenMPSpawnBroodlingsCreate,SpawnCount"/> Broodlings from its corpse.<n/></n><c val="#ColorAttackInfo">Massive units and heroic units are immune.
+Button/Tooltip/QueenMPSpawnBroodlings=Kills the target enemy ground or air unit and spawns <d ref="Effect,QueenMPSpawnBroodlingsCreate,SpawnCount"/> Broodlings from its corpse.<n/><n/><c val="#ColorAttackInfo">Massive and heroic units are immune.</c>
 Button/Tooltip/QueenPassive=Spawning Pool allows you to birth Queens from Hatcheries, Lairs, and Hives.
 Button/Tooltip/QueenStukovSpawnBroodlings=Deals <d ref="Effect,QueenStukovSpawnBroodlingsDamage,Amount"/> damage to a target enemy unit. When the unit dies, it will spawn <d ref="Effect,QueenStukovSpawnBroodlingsCreateUnit,SpawnCount"/> Broodlings from its corpse.
 Button/Tooltip/RallyCasual=Sends constructed units to the designated point. Workers rallied to resources will begin gathering automatically.
@@ -3918,8 +3918,8 @@ Button/Tooltip/RapidDeploymentResearchVessel=The Research Vessel deploys loaded 
 Button/Tooltip/RavagerAbathurCorrosiveBile=Launch a missile at the target location, dealing <d ref="Effect,RavagerCorrosiveBileAoeDamage,Amount"/> damage to enemy units in the area upon impact.<n/><n/><c val="#ColorAttackInfo">Can destroy Protoss Force Fields.</c>
 Button/Tooltip/RavagerPassive=Roach Warren enables you to morph Ravagers from Roaches.
 Button/Tooltip/RavenBioMechanicalRepairDroneCloakedHealBeam=Increases the healing of the Bio-Mechanical Repair Drone by 25% and allows it to cloak units that it is currently healing.
-Button/Tooltip/RavenScramblerMissile=[ph]Disables a target unit rendering it unable to attack or use abilities for <d ref="Behavior,RavenScramblerMissile,Duration"/> seconds. Reveals Cloaked units.<n/><n/><c val="#ColorAttackInfo">Can only target mechanical units.</c>
-Button/Tooltip/RavenShredderMissile=[ph]Deploys a Shredder Missile which pursues the target unit dealing <d ref="Effect,RavenShredderMissileDamage,Amount"/> splash damage upon contact, and reduces armor of affected units by <d ref="Behavior,RavenShredderMissileArmorReduction,Modification.LifeArmorBonus*(-1)"/> for <d ref="Behavior,RavenShredderMissileArmorReduction,Duration"/> seconds.
+Button/Tooltip/RavenScramblerMissile=Disables the target unit, preventing it from attacking or using abilities for <d ref="Behavior,RavenScramblerMissile,Duration"/> seconds. Reveals cloaked units.<n/><n/><c val="#ColorAttackInfo">Can only target mechanical units.</c>
+Button/Tooltip/RavenShredderMissile=Deploys a Shredder Missile that pursues the target, deals <d ref="Effect,RavenShredderMissileDamage,Amount"/> splash damage on impact, and reduces the armor of affected units by <d ref="Behavior,RavenShredderMissileArmorReduction,Modification.LifeArmorBonus*(-1)"/> for <d ref="Behavior,RavenShredderMissileArmorReduction,Duration"/> seconds.
 Button/Tooltip/Raven_BlackOps=Prototype aerial support unit. Can use Railgun Turret, Bio-Mechanical Repair Drone, and Predator Missile.<n/><n/><c val="FFE303">Detector</c>
 Button/Tooltip/Reaper=Raider. Capable of jumping up and down cliffs. <n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/Reaver=Area-damage siege unit. Shoots Scarabs for high burst damage.<n/><n/><c val="ffff8a">Can attack ground units.</c>
@@ -3938,7 +3938,7 @@ Button/Tooltip/ResearchAbathurNetworkedCarapace=When Carapace is activated, all 
 Button/Tooltip/ResearchAbathurRoachRangeScalingUpgrade=Increases Roach Max Range by 1. Can upgrade 10 times.
 Button/Tooltip/ResearchAdeptFenixShadeSpawn=<c val="ffff8a">Adept</c> attacks summon an invulnerable Shade that will attack enemies for a short time.
 Button/Tooltip/ResearchAdeptShadeDebuff=Enemies that touched by the Adept's Shade take <d ref="Effect,AdeptPsionicTransferDamage,Amount"/> extra damage from all sources for <d ref="Behavior,AdeptPsionicTransferDamageDebuff,Duration"/> seconds.
-Button/Tooltip/ResearchAdvancedHealingAI=The <c val="ffff8a">Medivac/c> can heal two targets at once.
+Button/Tooltip/ResearchAdvancedHealingAI=Allows the <c val="ffff8a">Medivac</c> to heal two targets at once.
 Button/Tooltip/ResearchAlarakAttackStun=Allows <c val="ffff8a">Alarak's</c> attacks to stun enemy units for <d ref="Behavior,AlarakBaneBladesStun,Duration"/> seconds.</n></n><c val="ffff8a">Heroic units are slowed.</c>
 Button/Tooltip/ResearchAlarakColossusChargedBlastAirAttack=Allows <c val="ffff8a">Wrathwalkers</c> to attack air units.
 Button/Tooltip/ResearchAlarakColossusChargedBlastChargeTime=Reduces the charging time and weapon speed of the <c val="ffff8a">Wrathwalker's</c> Charged Blast.
@@ -3994,7 +3994,7 @@ Button/Tooltip/ResearchDragoonChassis=<c val="ffff8a">Dragoons</c> gain +20 life
 Button/Tooltip/ResearchDragoonRange=Increases the <c val="ffff8a">Dragoon's</c> attack range by 2.
 Button/Tooltip/ResearchDrakkenLaserDrillBFG=Enables the Concentrated Beam ability and increases the <c val="ffff8a">Drakken Laser Drill's</c> attack damage by 10.
 Button/Tooltip/ResearchDrakkenLaserDrillNuke=Enables the Pulse Cannon ability and increases the <c val="ffff8a">Drakken Laser Drill's</c> attack damage by 20.
-Button/Tooltip/ResearchDurableMaterials=Extends the timed duration of Raven <c val="ffff8a">Auto-Turrets</c> and <c val="ffff8a">Point Defense Drones<c>, as well as the Hyperion's <c val="ffff8a">Point Defense Drones</c>.
+Button/Tooltip/ResearchDurableMaterials=Extends the duration of Raven <c val="ffff8a">Auto-Turrets</c> and <c val="ffff8a">Point Defense Drones</c>, as well as the Hyperion's <c val="ffff8a">Point Defense Drones</c>.
 Button/Tooltip/ResearchEnergizerReclamation=<c val="ffff8a">Energizers</c> gain the ability to temporarily take control of enemy mechanical units. Reclaimed units self-destruct after <d ref="Behavior,SentryReclamation,Duration"/> seconds.
 Button/Tooltip/ResearchEnergizerReclamation2=<c val="ffff8a">Energizers' Reclamation</c> duration is doubled.
 Button/Tooltip/ResearchExtendedThermalLance=<c val="ffff8a">Colossi</c> gain +3 range.
@@ -4028,7 +4028,7 @@ Button/Tooltip/ResearchHHMultiLock=<c val="FFFF8A">Ravens</c> can target up to 4
 Button/Tooltip/ResearchHHReaperClusterBombs=Reduces the cooldown of <c val="FFFF8A">Reapers'</c> KD8 Charge by <d time="10"/>. When <c val="FFFF8A">Reapers</c> are killed, they throw multiple grenades towards the killing unit.
 Button/Tooltip/ResearchHHReaperFlight=Increases the movement speed of <c val="FFFF8A">Reapers</c>, and grants them the ability to fly for <d ref="Behavior,HHReaperFlyingDuration,Duration"/> seconds. <c val="FFFF8A">Reapers</c> are able to attack air units while flying.
 Button/Tooltip/ResearchHHTacticalJumpCharges=<c val="FFFF8A">Wraiths</c>, <c val="FFFF8A">Vikings</c>, and <c val="FFFF8A">Ravens</c> can use Tactical Jump, warping them to any visible location.
-Button/Tooltip/ResearchHHVikingArmor=[ph]Gives +5 armor to Warhound.
+Button/Tooltip/ResearchHHVikingArmor=Grants Warhounds +5 armor.
 Button/Tooltip/ResearchHHVikingPiercingAttacks=Attacks from <c val="FFFF8A">Vikings</c> in Assault Mode pierce, dealing damage to enemy units behind the target. <c val="FFFF8A">Viking</c> transform time reduced by 75%.
 Button/Tooltip/ResearchHHVikingRockets=<c val="FFFF8A">Vikings</c> in Fighter Mode can launch <d ref="Effect,HHVikingRocketsBurstPersistent,PeriodCount" player="current"/> rockets at an enemy. Each rocket deals <d ref="Effect,HHVikingRocketsDamage,Amount"/> (<d ref="Effect,HHVikingRocketsDamage,Amount+Effect,HHVikingRocketsDamage,AttributeBonus[Armored]"/> vs armored) damage to the target unit.
 Button/Tooltip/ResearchHHWidowMineDeathBlossom=Reduces the <c val="FFFF8A">Widow Mine's</c> Sentinel Missile cooldown by <d time="20"/>. When <c val="FFFF8A">Widow Mines</c> are killed, they launch 5 Sentinel Missiles at random nearby targets that deal <d ref="Effect,HHWidowMineBlossomExplodeSplash,Amount"/> (+<d ref="Effect,HHWidowMineBlossomExplodeSplash,ShieldBonus"/> vs. shields) area damage.
@@ -4136,7 +4136,7 @@ Button/Tooltip/ResearchSOASolarLanceUpgrade=The <c val="ffff8a">Spear of Adun's<
 Button/Tooltip/ResearchScienceVesselFreeRepair=<c val="ffff8a">Science Vessel's</c> Nano-Repair no longer costs energy.
 Button/Tooltip/ResearchSeismicSpinesAbathur=Increases the attack range of <c val="ffff8a">Impalers</c> and <c val="ffff8a">Lurkers</c> by +3.
 Button/Tooltip/ResearchShadowCannon=Allows <c val="ffff8a">Immortals</c> to use Shadow Cannon. Deals <d ref="Effect,ImmortalShakurasShadowCannonDamage,Amount*Effect,ImmortalShakurasShadowCannonCP,PeriodCount"/> damage to target unit or structure. <n/><n/><c val="#ColorAttackInfo">Can target ground and air units.</c>
-Button/Tooltip/ResearchShadowCannon2=Shadow Cannon on <c val="ffff8a">Immortals</c> can store additional charge.<n/><n/>Can target ground and air units.</c>
+Button/Tooltip/ResearchShadowCannon2=Allows <c val="ffff8a">Immortals</c> to store 1 additional charge of Shadow Cannon.<n/><n/><c val="#ColorAttackInfo">Can target ground and air units.</c>
 Button/Tooltip/ResearchShadowCharge=Allows <c val="ffff8a">Centurions</c> to intercept nearby enemies. Also increases their movement speed.
 Button/Tooltip/ResearchShadowDash=Enables <c val="ffff8a">Dark Templar</c> to teleport to nearby locations.
 Button/Tooltip/ResearchShadowFury=Allows <c val="ffff8a">Dark Templar</c> to jump from target to target, dealing <d ref="Effect,DarkTemplarShadowFuryDamage,Amount"/> (+<d ref="Effect,DarkTemplarShadowFuryDamage,AttributeBonus[Light]"/> vs. Light) damage with each jump. Hits <d ref="1+Effect,ShadowGuardShadowFuryPersistent,PeriodCount"/> times.
@@ -4436,7 +4436,7 @@ Button/Tooltip/TrainGoliathNova=Deploys <d ref="Effect,GoliathBlackOpsSpawnerCre
 Button/Tooltip/TrainHHBomber=Building a replacement Strike Fighter.
 Button/Tooltip/TrainHHBomberPassive=The platform will automatically rebuild Strike Fighters that are destroyed.
 Button/Tooltip/TrainHellbatNova=Deploys <d ref="Effect,HellbatBlackOpsSpawnerCreateUnit,SpawnCount"/> Hellbat Rangers.</n></n>Elite close-range combat unit. Deals damage in a small frontal cone. Can transform into a fast scout unit.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
-Button/Tooltip/TrainHornerReaper=[ph] Recruits a small group of Mercenaries.  The mercs have jetpacks so they can keep up with Horner's units, and can fly for a limited time.<n/><n/>Can attack Ground and Air.
+Button/Tooltip/TrainHornerReaper=Recruits a small group of mercenaries. Their jetpacks allow them to keep up with Horner's units and fly for a limited time.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
 Button/Tooltip/TrainLiberatorNova=Deploys <d ref="Effect,LiberatorBlackOpsSpawnerCreateUnit,SpawnCount"/> Raid Liberators.</n></n>Elite artillery fighter. Loaded with missiles that deal area damage to enemy air targets. Can switch into Defender Mode to provide siege support.<n/><n/><c val="#ColorAttackInfo">Can attack air units.</c>
 Button/Tooltip/TrainMarauderNova=Deploys <d ref="Effect,MarauderBlackOpsSpawnerCreateUnit,SpawnCount"/> Marauder Commandos.</n></n>Elite heavy assault infantry.<n/><n/><c val="#ColorAttackInfo">Can attack ground units.</c>
 Button/Tooltip/TrainMarineNova=Deploys <d ref="Effect,MarineBlackOpsSpawnerCreateUnit,SpawnCount"/> Elite Marines.</n></n>Elite all-purpose infantry.<n/><n/><c val="#ColorAttackInfo">Can attack ground and air units.</c>
@@ -4627,7 +4627,7 @@ Button/Tooltip/VoidSliverAC=A construct of the Void.
 Button/Tooltip/VoidStalkerDragoonArmor=Dragoons gain +20 life and their shield regeneration rate is doubled. Also allows the Dragoon to regenerate shields in combat.
 Button/Tooltip/VoidStasis=Places target unit or structure in stasis for <d ref="Behavior,DarkTemplarVoidStasis,Duration"/> seconds, disabling the unit for the duration of the effect. Units and structures in stasis cannot be attacked or affected by abilities.<n/><n/><c val="#ColorAttackInfo">Can target structures or ground units.</c>
 Button/Tooltip/VoidTemplarPassive=Void Shrine allows you to warp in Void Templar.
-Button/Tooltip/VoidZealotShadowCharge=Intercepts nearby enemies and increases the Centurion's movement speed. Ability can only be used once every <d ref="Abil,Charge,Cost.Cooldown.TimeUse"/> seconds.<n/><n/><c val="ffff8a">Briefly cloaks the Centurion and allows it to move through other units.
+Button/Tooltip/VoidZealotShadowCharge=Intercepts nearby enemies and increases the Centurion's movement speed. This ability can only be used once every <d ref="Abil,Charge,Cost.Cooldown.TimeUse"/> seconds.<n/><n/><c val="ffff8a">Briefly cloaks the Centurion and allows it to move through other units.</c>
 Button/Tooltip/VoidZealotShadowChargeStun=Stuns nearby enemy ground units for <d ref="Behavior,VoidZealotShadowChargeStun,Duration" precision="1"/> seconds. Also temporarily grants the Centurion <d ref="Behavior,VoidZealotShadowChargeSelfBuff,Modification.VitalMaxArray[Shields]"/> additional shields for <d ref="Behavior,VoidZealotShadowChargeSelfBuff,Duration" precision="1"/> seconds </n></n><c val="#ColorAttackInfo">Massive units are slowed.</c>
 Button/Tooltip/VoodooShield=Surrounds the Spectre in a shield of energy, absorbing incoming damage. Lasts <d time="10"/> or until it has absorbed 300 damage.
 Button/Tooltip/VorazunDarkTemplarRadar=Can detect enemies through the fog of war within 15 range.
@@ -4666,9 +4666,9 @@ Button/Tooltip/ZealotAiur=Powerful melee warrior. Has Charge and Whirlwind abili
 Button/Tooltip/ZealotFenix=Purifier Faction<n>Extremely powerful melee warrior. Can be upgraded to use Charge.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/ZealotPurifier=Powerful melee warrior. Can be upgraded to use Charge and Reconstruction.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/ZealotPurifierResearchReconstruction=<c val="ffff8a">Sentinels</c> are revived when killed. This effect can only occur once every <d ref="Behavior,ZealotPurifierReviveSupressed,Cost.Cooldown.TimeStart"/> seconds.
-Button/Tooltip/ZealotPurifierResearchReconstruction2=Reduce cooldown of <c val="ffff8a">Sentinels</c>' Reconstruction from 180 to 60 seconds.
-Button/Tooltip/ZealotPurifierRevive2=Revives the Sentinel when killed. This effect can only occur once every 180 seconds.
-Button/Tooltip/ZealotPurifierRevive3=Revives the Sentinel when killed. This effect can only occur once every 60 seconds.
+Button/Tooltip/ZealotPurifierResearchReconstruction2=Reduces the cooldown of <c val="ffff8a">Sentinels'</c> Reconstruction from <d time="180"/> seconds to <d time="60"/> seconds.
+Button/Tooltip/ZealotPurifierRevive2=Revives the Sentinel when killed. This effect can only occur once every <d ref="Behavior,ZealotPurifierReviveSupressed,Cost.Cooldown.TimeStart"/> seconds.
+Button/Tooltip/ZealotPurifierRevive3=Revives the Sentinel when killed. This effect can only occur once every <d ref="Behavior,ZealotPurifierReviveSupressed,Cost.Cooldown.TimeStart"/> seconds.
 Button/Tooltip/ZealotShakuras=Powerful melee warrior. Has Shadow Charge and Darkcoil abilities.<n/><n/><c val="ffff8a">Can attack ground units.</c>
 Button/Tooltip/ZeratulACArtifact=Holds Zeratul's collection of Xel'Naga Artifact Fragments.
 Button/Tooltip/ZeratulArtifactUpgradeTier0A=Call down Telbrus and his legendary legion of Zealots to aid in the battle. This legion cannot be directly controlled but can be guided via the top-bar and will fight for <d ref="Behavior,ZeratulTopBarTimedLife,Duration"/> seconds.
@@ -5489,7 +5489,7 @@ RequirementNode/Tooltip/And433302610CountUpgradeNovaNoGearDummyCompleteOnly=Rese
 RequirementNode/Tooltip/And621839826NotCountBehaviorCommanderPrestigeDehakaPackLeadersExitGameCompleteOnlyNotCountBehaviorCommanderPrestigeDehakaPackLeadersExitGameEndCompleteOnly=No Rival Pack Leader
 RequirementNode/Tooltip/And647805936CountUnitNovaReviveBeaconCompleteOnlyCountUpgradeNovaBuybackUnlockCompleteOnly=Nova recovering in stasis
 RequirementNode/Tooltip/CountBehaviorHHArmyOOCRegenSpeedCompleteOnlyAtUnit1713895594=Drone Hangar Installed
-RequirementNode/Tooltip/CountBehaviorTychusWarhoundNearyByCompleteOnlyAtUnit447399319=[PH] War Hound Jr. Near by.
+RequirementNode/Tooltip/CountBehaviorTychusWarhoundNearyByCompleteOnlyAtUnit447399319=War Hound Jr. nearby
 RequirementNode/Tooltip/CountUnitAlias_ArmoryCompleteOnly609241497TechTreeCheat=Armory
 RequirementNode/Tooltip/CountUnitAlias_BarracksCompleteOnly789532539TechTreeCheat=Barracks
 RequirementNode/Tooltip/CountUnitAlias_CommandCenterCompleteOnly1610623376TechTreeCheat=Command Center
@@ -5525,7 +5525,7 @@ RequirementNode/Tooltip/CountUnitSIBarracksCompleteOnly2729211663=Infested Barra
 RequirementNode/Tooltip/CountUnitSICivilianStructureCompleteOnlyAtUnit376386153=Must be Rooted
 RequirementNode/Tooltip/CountUnitSIEngineeringBayCompleteOnly984765102=Infested Engineering Bay
 RequirementNode/Tooltip/CountUnitSpectreNukeCompleteOnly421500357=Build Nuke at the Ghost Academy
-RequirementNode/Tooltip/CountUnitTychusOdinResearchCenterCompleteOnly2181823615TechTreeCheat=[PH]Odin Platform
+RequirementNode/Tooltip/CountUnitTychusOdinResearchCenterCompleteOnly2181823615TechTreeCheat=Requires an Odin Platform
 RequirementNode/Tooltip/CountUpgrade330mmBarrageCannonsCompleteOnly3236685859=Research 330mm Barrage Cannon at the Factory Tech Lab
 RequirementNode/Tooltip/CountUpgradeAbathurBioMechanicalTransfusionCompleteOnly3031613723=Evolve Bio-Mechanical Transfusion at the Evolution Chamber
 RequirementNode/Tooltip/CountUpgradeAbathurDeepTunnelCompleteOnly463322596TechTreeCheat=Evolve Deep Tunnel at the Infestation Pit
@@ -5820,8 +5820,8 @@ RequirementNode/Tooltip/Eq703756952CountUnitDrakkenLaserDrillCoopQueuedOrBetter0
 RequirementNode/Tooltip/Eq715480927CountUpgradeTychusOutlawArmorsLevel4CompleteOnly1=Outlaw Life and Armor Level 4
 RequirementNode/Tooltip/Eq785787933CountUpgradeHHVehicleAndShipWeaponsLevel2CompleteOnly1=Weapons Level 2
 RequirementNode/Tooltip/GTE545035185CountUnitHHBomberPlatformCompleteOnly1=Must have a Strike Fighter Platform
-RequirementNode/Tooltip/LT1204732050CountUnitAlias_MercStarportMinionQueuedOrBetterAtUnit6=[ph]Starport must have fewer than 6 escorts.
-RequirementNode/Tooltip/LT1204732050CountUnitHHRepairBotQueuedOrBetterAtUnit2=[ph]Starport must have fewer than 6 escorts.
+RequirementNode/Tooltip/LT1204732050CountUnitAlias_MercStarportMinionQueuedOrBetterAtUnit6=Starport must have fewer than 6 escorts.
+RequirementNode/Tooltip/LT1204732050CountUnitHHRepairBotQueuedOrBetterAtUnit2=Starport must have fewer than 6 escorts.
 RequirementNode/Tooltip/LT1788454840CountUnitAlias_MercStarportQueuedOrBetterCountUpgradeHHMercStarportLimitCountCompleteOnly=Limit <d ref="Effect,HHMercStarportLimitDummy,Amount" precision="0"/>
 RequirementNode/Tooltip/LT2210218377CountUnitInterceptorQueuedOrBetterAtUnit8=Carrier must have fewer than 8 Interceptors
 RequirementNode/Tooltip/LT2270681000CountUnitFenixClolarionInterceptorQueuedOrBetterAtUnit8=Clolarion must have fewer than 8 Interceptors
@@ -5842,7 +5842,7 @@ RequirementNode/Tooltip/LT3804783965CountUnitSICivilianStructureInProgressOrBett
 RequirementNode/Tooltip/LT3804783965CountUnitTychusArmoryQueuedOrBetter1=Limit 1
 RequirementNode/Tooltip/LT3804783965CountUnitTychusGhostAcademyQueuedOrBetter1=Limit 1
 RequirementNode/Tooltip/LT3804783965CountUnitTychusMercCompoundQueuedOrBetter1=Limit 1
-RequirementNode/Tooltip/LT4134791622CountUnitAlias_StarportQueuedOrBetter1=[ph]No Horner's Starport
+RequirementNode/Tooltip/LT4134791622CountUnitAlias_StarportQueuedOrBetter1=Requires no Horner Starport
 RequirementNode/Tooltip/LTE3702416715CountUnitTychusMedivacPlatformQueuedOrBetter2=Limit 3
 RequirementNode/Tooltip/Not106368890OrAndNotCountUpgradeTychusReaperOwnedCompleteOnlyEqCountBehaviorTychusHeroCountCompleteOnly5=Recruited Crooked Sam
 RequirementNode/Tooltip/Not1205745628CountBehaviorNovaGadgetBoombotsCompleteOnlyAtUnit=Currently Equipped
@@ -5854,7 +5854,7 @@ RequirementNode/Tooltip/Not1205745628CountBehaviorNovaWeaponImprovedCanisterRifl
 RequirementNode/Tooltip/Not1205745628CountBehaviorNovaWeaponPsiBladeCompleteOnlyAtUnit=Currently Equipped
 RequirementNode/Tooltip/Not1502408960CountUpgradeProphecyArtifactsDiscoveredCompleteOnly=Hidden Artifacts Remaining
 RequirementNode/Tooltip/Not2241784937OrAndNotCountUpgradeTychusHERCOwnedCompleteOnlyEqCountBehaviorTychusHeroCountCompleteOnly5=Recruited Cannoball
-RequirementNode/Tooltip/Not2271027944CountUpgradeTychusHeroCappedCompleteOnly=[PH] Build more tech building to unlock more heroes.
+RequirementNode/Tooltip/Not2271027944CountUpgradeTychusHeroCappedCompleteOnly=Build more tech structures to unlock more heroes.
 RequirementNode/Tooltip/Not2537767773CountUnitFenixAltarOfPsiStormsQueuedOrBetter=No Purifier Conclave
 RequirementNode/Tooltip/Not2600599071OrAndNotCountUpgradeTychusGhostOwnedCompleteOnlyEqCountBehaviorTychusHeroCountCompleteOnly5=Recruited Vega
 RequirementNode/Tooltip/Not2756504230OrAndNotCountUpgradeTychusFirebatOwnedCompleteOnlyEqCountBehaviorTychusHeroCountCompleteOnly5=Recruited Blaze
@@ -5884,7 +5884,7 @@ RequirementNode/Tooltip/Or993869882NotCountUpgradeCommanderPrestigeZagaraMaxSupp
 ScoreValue/Name/DamageDealtbyContaminatedStrike=Damage Dealt by Contaminated Strike
 ScoreValue/Name/Devouroffcooldown=Devour off cooldown
 Shape/Name/ZenithStone=Zenith Stone
-SimpleDisplay/HealAttack=<s val="@@SimpleCommandRow">%hotkey</c> then</s> <IMG path="Assets\Textures\tutorialmouseleftbuttondown.dds" alignment="absolutemiddle"/> <s val="@@SimpleCommandRow">ground to Auto-attack</s>
+SimpleDisplay/HealAttack=<s val="@@SimpleCommandRow">%hotkey then</s> <IMG path="Assets\Textures\tutorialmouseleftbuttondown.dds" alignment="absolutemiddle"/> <s val="@@SimpleCommandRow">the ground to auto-attack</s>
 Skin/Name/CommanderPrestigeTychusOdin=CommanderPrestigeTychusOdin
 Skin/Name/HHBomberJunker=HHBomberJunker
 Skin/Name/HHRavenJunker=HHRavenJunker
@@ -6990,3 +6990,25 @@ e_cmdMustTargetUser1=Must target Untransportable
 e_cmdNotEnoughTerrazine=Not enough zerg biomass
 e_unitAttributeHover=Den
 e_unitAttributeUser1=Untransportable
+Button/Name/ResearchDrakkenLaserDrillBFGIssueOrder=Upgrade Laser Drill Level 1
+Button/Name/ResearchDrakkenLaserDrillNukeIssueOrder=Upgrade Laser Drill Level 2
+Button/Name/ZeratulACBlink=Blink
+RequirementNode/Tooltip/CountUpgradeImmortalResearchShadowCannonCompleteOnly1652584112TechTreeCheat=Research Shadow Cannon at the Robotics Bay
+RequirementNode/Tooltip/CountUpgradeZealotResearchReconstructionCompleteOnly2615961562=Research Reconstruction at the Twilight Council
+Unit/Name/PhaseCannonDummy=Photon Cannon
+Unit/Name/PhaseMonolithDummy=Khaydarin Monolith
+Unit/Name/PhaseShieldBatteryDummy=Shield Battery
+Button/Name/TychusHeroCommonAbil6=Tychus Outlaw Common Ability 6
+Button/Name/TychusHeroCommonAbil7=Tychus Outlaw Common Ability 7
+Button/Name/TychusHeroCommonAbil8=Tychus Outlaw Common Ability 8
+Button/Name/TychusHeroCommonAbil9=Tychus Outlaw Common Ability 9
+Button/Tooltip/ResearchDrakkenLaserDrillBFGIssueOrder=Unlocks the Concentrated Beam ability and increases the <c val="ffff8a">Drakken Laser Drill</c>'s attack damage by 10.<n/> <img path="Assets\Textures\icon-mineral-nobg.dds" height="20" width="20"/><d ref="Abil,DrakkenLaserDrillResearch,InfoArray[Research1].Resource[Minerals]" player = "current"/> <img path="Assets\Textures\icon-gas-terran-nobg.dds" height="20" width="20"/><d ref="Abil,DrakkenLaserDrillResearch,InfoArray[Research1].Resource[Vespene]" player = "current"/><n/> <img path="Assets\Textures\icon-time-terran.dds" height="20" width="20"/><d ref="Abil,DrakkenLaserDrillResearch,InfoArray[Research1].Time" player = "current"/>
+Button/Tooltip/ResearchDrakkenLaserDrillNukeIssueOrder=Unlocks the Pulse Cannon ability and increases the <c val="ffff8a">Drakken Laser Drill</c>'s attack damage by 20.<n/> <img path="Assets\Textures\icon-mineral-nobg.dds" height="20" width="20"/><d ref="Abil,DrakkenLaserDrillResearch,InfoArray[Research2].Resource[Minerals]" player = "current"/> <img path="Assets\Textures\icon-gas-terran-nobg.dds" height="20" width="20"/><d ref="Abil,DrakkenLaserDrillResearch,InfoArray[Research2].Resource[Vespene]" player = "current"/><n/> <img path="Assets\Textures\icon-time-terran.dds" height="20" width="20"/><d ref="Abil,DrakkenLaserDrillResearch,InfoArray[Research2].Time" player = "current"/>
+Button/Tooltip/ZeratulACBlink=Teleports Zeratul to a nearby target location.
+ConsoleSkin/Name/ConsoleTerran_Imperial=Imperial Authority
+ConsoleSkin/Name/ConsoleTerran_Nova=Covert Ops
+Race/Name/ProZ=Ancient Protoss
+RequirementNode/Tooltip/CountUpgradeEnergizerReclamationCompleteOnly1930012799TechTreeCheat=Research Reclamation at the Twilight Council
+Unit/LifeArmorName/ZeratulArmor=Construct Armor
+Unit/LifeArmorName/ZeratulBuildingPlating=Construct Plating
+Unit/ShieldArmorName/ZeratulPlasmaShields=Construct Shields
