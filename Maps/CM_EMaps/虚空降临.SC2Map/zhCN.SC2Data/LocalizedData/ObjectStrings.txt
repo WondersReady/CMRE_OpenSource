@@ -1,8 +1,0 @@
-﻿Actor/Name/WarpPrism2=Warp Prism Copy
-Behavior/EditorPrefix/CloakField2=Arbiter -
-Effect/EditorPrefix/CloakingFieldSearch2=Arbiter -
-Effect/Name/CloakingFieldSearch2=Cloaking Field Search
-Light/Name/EditorTestLight=Default
-Validator/Name/IsProtossFrigate2=Is Terran Frigate
-Validator/Name/IsProtossFrigate22=Is Zerg Frigate
-Validator/Name/IsWarpawayTarget=Is Warpaway Target

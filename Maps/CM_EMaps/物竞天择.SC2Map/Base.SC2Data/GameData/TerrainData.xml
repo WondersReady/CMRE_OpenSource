@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="us-ascii"?>
-<Catalog>
-    <CTerrain id="Zerus">
-        <BlendTextures index="7" value="DesertWorld7"/>
-        <FogColor value="255,190,243,243"/>
-    </CTerrain>
-</Catalog>

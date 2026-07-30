@@ -1,6 +1,6 @@
 # CMRE OpenSource
 
-CMRE 的核心 Mod、启动/测试地图，以及 `CM_EMaps` 地图集合。
+CMRE 的核心 Mod、启动/测试地图，以及按敌方种族区分的 `CM_CoopMaps` 地图集合。
 
 ## 项目内容
 
@@ -16,7 +16,13 @@ CMRE 的核心 Mod、启动/测试地图，以及 `CM_EMaps` 地图集合。
 - `Launcher.SC2Map`
 - `TestMap.SC2Map`
 
-额外地图位于 `Maps/CM_EMaps`。
+额外地图和本地整合启动器位于 `Maps/CM_CoopMaps`：
+
+- `在线版Launcher.SC2Map`
+- `Rand/*.SC2Map`
+- `Prot/*.SC2Map`
+- `Terr/*.SC2Map`
+- `Zerg/*.SC2Map`
 
 ## 安装路径
 
@@ -36,8 +42,16 @@ CMRE 的核心 Mod、启动/测试地图，以及 `CM_EMaps` 地图集合。
     |-- CMRE
     |   |-- Launcher.SC2Map
     |   `-- TestMap.SC2Map
-    `-- CM_EMaps
-        `-- *.SC2Map
+    `-- CM_CoopMaps
+        |-- 在线版Launcher.SC2Map
+        |-- Rand
+        |   `-- *.SC2Map
+        |-- Prot
+        |   `-- *.SC2Map
+        |-- Terr
+        |   `-- *.SC2Map
+        `-- Zerg
+            `-- *.SC2Map
 ```
 
 `<StarCraft II>` 是游戏安装根目录，例如：
@@ -46,14 +60,14 @@ CMRE 的核心 Mod、启动/测试地图，以及 `CM_EMaps` 地图集合。
 D:\Game\StarCraft II
 ```
 
-Mod 的 `Mods\CMRE` 路径不能改名，否则本地文件依赖将无法解析。地图可以放在 `Maps` 下，但建议保持上面的 `Maps\CMRE` 和 `Maps\CM_EMaps` 结构。
+Mod 的 `Mods\CMRE` 路径不能改名，否则本地文件依赖将无法解析。额外地图必须保持 `Maps\CM_CoopMaps` 及其种族子目录结构，否则启动器的本地跳转路径无法解析。
 
 ## 外部依赖
 
 本仓库不包含以下依赖：
 
 - `Mods\CM_ArtPack\CM_ArtPack_Base.SC2Mod`：由 `CMRE_Core_Base.SC2Mod` 引用。
-- `Mods\CM\CM_Core_Extra.SC2Mod`：由 `Maps\CM_EMaps` 中的地图引用。
+- `Mods\CM\CM_Core_Extra.SC2Mod`：由 `Maps\CM_CoopMaps` 中的地图引用。
 
 编辑器能够使用对应的战网依赖时，可以直接解析；需要完全本地运行时，请另外安装这些依赖并保持上述路径。
 
