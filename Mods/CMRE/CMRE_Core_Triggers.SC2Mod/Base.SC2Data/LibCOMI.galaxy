@@ -18003,13 +18003,13 @@ void libCOMI_gf_EndCampaignMission (int lp_type) {
         }
 
         libCOOC_gf_CC_SetPlayerDefeated(lv_indexPlayer);
-        libCOUI_gf_CU_FanfareDisplay(lp_type, lv_indexPlayer);
     }
     if ((libCOOC_gf_CoopDebugModeIsOn("LogPerf", 1) == true)) {
         PerfTestStop();
         TriggerStop(libCOMI_gt_CM_CampaignMissionPerfLog);
     }
 
+    CMUIX_ResultSessionOpen(lp_type);
 }
 
 void libCOMI_gf_ZerglingRespawnSetPrimaryHatchery (unit lp_hatchery) {

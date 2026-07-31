@@ -8051,7 +8051,7 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
     unit lv_indexUnit;
     fixed lv_healAmount;
     fixed lv_healTotal;
-    fixed lv_qiabpaqkhvngqkft;
+    fixed lv_flywdveoiwkyugpq;
 
     // Automatic Variable Declarations
     unitgroup autoE434077F_g;
@@ -8065,9 +8065,9 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
     }
 
     while (true) {
-        lv_qiabpaqkhvngqkft = GameGetMissionTime();
+        lv_flywdveoiwkyugpq = GameGetMissionTime();
         Wait(0.1, c_timeGame);
-        lv_qiabpaqkhvngqkft = (GameGetMissionTime() - lv_qiabpaqkhvngqkft);
+        lv_flywdveoiwkyugpq = (GameGetMissionTime() - lv_flywdveoiwkyugpq);
         autoE434077F_g = libCOMU_gv_cT_TempDamageReflectUnits;
         autoE434077F_u = UnitGroupCount(autoE434077F_g, c_unitCountAll);
         for (;; autoE434077F_u -= 1) {
@@ -8078,7 +8078,7 @@ bool libCOMU_gt_CT_TempDamageReflectHealing_Func (bool testConds, bool runAction
                 continue;
             }
 
-            lv_healRemaining = (10.0 * lv_qiabpaqkhvngqkft);
+            lv_healRemaining = (10.0 * lv_flywdveoiwkyugpq);
             lv_healTotal = lv_healRemaining;
             lv_healRemaining = MinF(lv_healRemaining, UnitGetCustomValue(lv_indexUnit, libCOMU_gv_cTC_TempDamageCustomIndex));
             lv_healAmount = MinF((UnitGetPropertyFixed(lv_indexUnit, c_unitPropLifeMax, c_unitPropCurrent) - UnitGetPropertyFixed(lv_indexUnit, c_unitPropLife, c_unitPropCurrent)), lv_healRemaining);

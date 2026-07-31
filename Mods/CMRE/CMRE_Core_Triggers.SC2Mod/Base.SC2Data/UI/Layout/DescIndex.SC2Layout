@@ -67,6 +67,8 @@
     <Include path="UI/Layout/Glue/CM_BattleUserContextMenu.SC2Layout"/>
     <Include path="UI/Layout/Glue/CM_CoopCampaignScoreStatsPanel.SC2Layout"/>
     <Include path="UI/Layout/Glue/CM_CoopCampaignScoreSummaryPanel.SC2Layout"/>
+    <Include path="UI/Layout/Glue/CM_CoopCampaignScorePlayerPanel.SC2Layout"/>
+    <Include path="UI/Layout/Glue/CM_CoopCampaignScoreOverviewPanel.SC2Layout"/>
     <Include path="UI/Layout/Glue/CM_CoopCampaignScorePanel.SC2Layout"/>
     <Include path="UI/Layout/Glue/CM_CoopCampaignStandardInfoPanel.SC2Layout"/>
     <Include path="UI/Layout/Glue/CM_ScreenCoopCampaign.SC2Layout"/>

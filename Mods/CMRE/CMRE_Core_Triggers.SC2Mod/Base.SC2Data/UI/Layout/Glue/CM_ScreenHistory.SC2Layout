@@ -1580,6 +1580,15 @@
             <Visible val="false"/>
         </Frame>
 
+        <Frame type="Button" name="ViewStatisticsButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
+            <Handle val="CM_HistoryViewStatisticsButton"/>
+            <Anchor side="Top" relative="$parent/SaveRecordTemplateButton" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/SaveRecordTemplateButton" pos="Max" offset="6"/>
+            <Width val="315"/>
+            <Text val="@CMUI/ScreenHistory/Action/ViewStatistics"/>
+            <Visible val="false"/>
+        </Frame>
+
         <Frame type="Button" name="SuggestTemplateButton" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
             <Handle val="CM_HistorySuggestTemplateButton"/>
             <Anchor side="Top" relative="$parent/NewProfileButton" pos="Min" offset="0"/>

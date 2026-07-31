@@ -1,210 +1,39 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Desc>
-    <Constant name="ScoreOpacity" val="72"/>
-    <Constant name="ScoreOffsetRight" val="245"/>
-    <Constant name="ScoreOffsetLeft" val="-245"/>
 
-    <Frame type="Button" name="ScorePrimaryButtonTemplate" template="StandardBattlenetTemplates/BattlenetAlternateButtonTemplate">
-        <Width val="180"/>
-        <Height val="52"/>
-        <Style val="CM_ResultButton"/>
-        <ClickSound val="@UI_ActionButtonSelect"/>
-        <HoverSound val="@UI_HoverTick"/>
-    </Frame>
+    <Constant name="ScoreOpacity" val="100"/>
+    <Constant name="ScoreOffsetRight" val="400"/>
+    <Constant name="ScoreOffsetLeft" val="-400"/>
 
-    <Frame type="Button" name="ScoreSecondaryButtonTemplate" template="StandardBattlenetTemplates/BattlenetStandardButtonTemplate">
-        <Width val="280"/>
-        <Height val="52"/>
-        <Style val="CM_ResultButton"/>
-        <ClickSound val="@UI_ActionButtonSelect"/>
-        <HoverSound val="@UI_HoverTick"/>
-    </Frame>
-
-    <Frame type="Frame" name="Scorebackgrond">
-        <Anchor relative="$parent"/>
-        <RenderPriority val="1024"/>
-
-        <Frame type="Image" name="Scorebackgrond_Image">
-            <Anchor relative="$parent"/>
-            <Texture val="Assets\Textures\ui_nova_loading_novaspace01.dds"/>
-            <Alpha val="185"/>
-        </Frame>
-
-        <Frame type="Image" name="BackdropShade">
-            <Anchor relative="$parent"/>
-            <Color val="3,8,13"/>
-            <Alpha val="118"/>
-        </Frame>
-
-        <Frame type="Image" name="Scorebackgrond_PlayerImageLeft">
+        <Frame type="Frame" name="Scorebackgrond">
             <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
             <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="#ScoreOffsetLeft"/>
-            <Alpha val="#ScoreOpacity"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <RenderPriority val="1024"/>
+
+                <Frame type="Image" name="Scorebackgrond_Image">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Texture val="Assets\Textures\ui_nova_loading_novaspace01.dds"/>
+                    <Alpha val="150"/>
+                </Frame>
+
+                <Frame type="Image" name="Scorebackgrond_PlayerImageLeft">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="#ScoreOffsetLeft"/>
+                    <Alpha val="#ScoreOpacity"/>
+                </Frame>
+
+                <Frame type="Image" name="Scorebackgrond_PlayerImageRight">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="#ScoreOffsetRight"/>
+                    <Alpha val="#ScoreOpacity"/>
+                    <TextureCoords top="0.0" left="1.0" bottom="1" right="0"/>
+                </Frame>
         </Frame>
-
-        <Frame type="Image" name="Scorebackgrond_PlayerImageRight">
-            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Max" offset="#ScoreOffsetRight"/>
-            <Alpha val="#ScoreOpacity"/>
-            <TextureCoords top="0.0" left="1.0" bottom="1" right="0"/>
-        </Frame>
-
-        <Frame type="Image" name="Vignette">
-            <Anchor relative="$parent"/>
-            <Texture val="@UI/SC2_UI_Coop_Vignette"/>
-            <Alpha val="205"/>
-        </Frame>
-
-        <Frame type="Frame" name="HeaderBand">
-            <Anchor side="Top" relative="$parent" pos="Min" offset="26"/>
-            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="1460"/>
-            <Height val="170"/>
-
-            <Frame type="Image" name="Fill">
-                <Anchor relative="$parent"/>
-                <Color val="5,14,22"/>
-                <Alpha val="205"/>
-            </Frame>
-
-            <Frame type="Image" name="TopLine">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="2"/>
-                <Color val="42,151,215"/>
-                <Alpha val="210"/>
-            </Frame>
-
-            <Frame type="Image" name="BottomLine">
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="1"/>
-                <Color val="92,157,192"/>
-                <Alpha val="120"/>
-            </Frame>
-
-            <Frame type="Label" name="SectionLabel">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="14"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="32"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="-32"/>
-                <Height val="24"/>
-                <Style val="CM_ResultEyebrow"/>
-                <Text val="@UI/Coop_ScoreScreen_ScoreHeading"/>
-            </Frame>
-        </Frame>
-
-        <Frame type="Frame" name="ContentPanel">
-            <Anchor side="Top" relative="$parent" pos="Min" offset="218"/>
-            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-122"/>
-            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="1460"/>
-
-            <Frame type="Image" name="Shadow">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="-8"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="8"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="-8"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="8"/>
-                <Color val="0,0,0"/>
-                <Alpha val="105"/>
-            </Frame>
-
-            <Frame type="Image" name="Fill">
-                <Anchor relative="$parent"/>
-                <Color val="7,16,24"/>
-                <Alpha val="214"/>
-            </Frame>
-
-            <Frame type="Image" name="LeftWash">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="1"/>
-                <Anchor side="Right" relative="$parent" pos="Mid" offset="-1"/>
-                <Color val="18,48,66"/>
-                <Alpha val="38"/>
-            </Frame>
-
-            <Frame type="Image" name="RightWash">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="1"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-1"/>
-                <Anchor side="Left" relative="$parent" pos="Mid" offset="1"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="-1"/>
-                <Color val="45,27,60"/>
-                <Alpha val="28"/>
-            </Frame>
-
-            <Frame type="Image" name="TopBorder">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="1"/>
-                <Color val="102,171,206"/>
-                <Alpha val="145"/>
-            </Frame>
-
-            <Frame type="Image" name="BottomBorder">
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="1"/>
-                <Color val="47,89,112"/>
-                <Alpha val="130"/>
-            </Frame>
-
-            <Frame type="Image" name="LeftBorder">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Width val="1"/>
-                <Color val="65,123,153"/>
-                <Alpha val="130"/>
-            </Frame>
-
-            <Frame type="Image" name="RightBorder">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Width val="1"/>
-                <Color val="65,123,153"/>
-                <Alpha val="130"/>
-            </Frame>
-
-            <Frame type="Image" name="CenterDivider">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="34"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="-34"/>
-                <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
-                <Width val="1"/>
-                <Color val="78,133,160"/>
-                <Alpha val="72"/>
-            </Frame>
-        </Frame>
-
-        <Frame type="Frame" name="ActionBand">
-            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-24"/>
-            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="1460"/>
-            <Height val="72"/>
-
-            <Frame type="Image" name="Fill">
-                <Anchor relative="$parent"/>
-                <Color val="4,11,17"/>
-                <Alpha val="208"/>
-            </Frame>
-
-            <Frame type="Image" name="TopLine">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="1"/>
-                <Color val="71,133,164"/>
-                <Alpha val="140"/>
-            </Frame>
-        </Frame>
-    </Frame>
 </Desc>

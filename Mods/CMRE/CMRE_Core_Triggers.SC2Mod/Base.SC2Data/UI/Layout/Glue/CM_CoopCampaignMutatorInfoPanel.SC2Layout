@@ -5,6 +5,7 @@
         <Anchor side="Top" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Min" offset="1"/>
         <Anchor side="Bottom" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="-1"/>
         <Anchor side="Left" relative="$ancestor[@name=CommanderSelectionPanel]/DetailsContainer/DetailsBackground" pos="Max" offset="12"/>
+        <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
         <Width val="760"/>
         <AcceptsMouse val="True"/>
 

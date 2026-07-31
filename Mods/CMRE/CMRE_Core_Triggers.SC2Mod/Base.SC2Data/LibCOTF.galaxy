@@ -5,6 +5,7 @@ include "LibCOOC_h"
 include "LibCOMI_h"
 include "LibCOUI_h"
 include "LibCOMU_h"
+include "LibCMFE_h"
 
 include "LibCOTF_h"
 
@@ -7061,6 +7062,8 @@ bool libCOTF_gt_RT_CycleRandom_Func (bool testConds, bool runActions) {
     string lv_newMutator;
 
     // Automatic Variable Declarations
+    int auto5082FC82_ae;
+    const int auto5082FC82_ai = 1;
     const int auto1BDAFD61_ae = 2;
     const int auto1BDAFD61_ai = -1;
 
@@ -7073,6 +7076,11 @@ bool libCOTF_gt_RT_CycleRandom_Func (bool testConds, bool runActions) {
 
     if ((libCOTF_gv_rT_ChaosCycleCount > 0)) {
         libCOTF_gf_RT_RegisterInitialChaosLifetimes(libCOTF_gv_rT_ChaosCycleCount);
+        auto5082FC82_ae = libCOTF_gv_rT_ChaosCycleCount;
+        lv_chaosIndex = 1;
+        for ( ; ( (auto5082FC82_ai >= 0 && lv_chaosIndex <= auto5082FC82_ae) || (auto5082FC82_ai < 0 && lv_chaosIndex >= auto5082FC82_ae) ) ; lv_chaosIndex += auto5082FC82_ai ) {
+            CMUIX_ResultChaosHistoryRecord(libCOTF_gv_rT_ChaosMutators[lv_chaosIndex]);
+        }
         libCOUI_gf_CU_MutatorListRefresh(libCOTF_gv_rT_ChaosCycleCount);
         TimerStart(libCOTF_gv_rT_ChaosCycleTimer, libCOTF_gv_rT_ChaosCycleTimerInit, false, c_timeAI);
         libNtve_gf_WaitForTimer(libCOTF_gv_rT_ChaosCycleTimer, 0.0, false);
@@ -7093,6 +7101,7 @@ bool libCOTF_gt_RT_CycleRandom_Func (bool testConds, bool runActions) {
                 libCOTF_gv_rT_ChaosMutators[1] = lv_newMutator;
                 libCOMU_gf_CT_SetTemporaryMutatorLifetime(lv_newMutator, libCOTF_gf_RT_NewChaosMutatorLifetime(libCOTF_gv_rT_ChaosCycleCount));
                 libCOMU_gf_EnableDisableMutator(true, lv_newMutator);
+                CMUIX_ResultChaosHistoryRecord(lv_newMutator);
                 libCOUI_gf_CU_MutatorListRefresh(libCOTF_gv_rT_ChaosCycleCount);
                 TextExpressionSetToken("Param/Expression/lib_COTF_3AD29934", "A", libCOMU_gf_CT_MutatorName(lv_newMutator));
                 libCOUI_gf_CU_MutatorListShowNotification(TextExpressionAssemble("Param/Expression/lib_COTF_3AD29934"));
@@ -11785,4 +11794,5 @@ include "LibCOOC"
 include "LibCOMI"
 include "LibCOUI"
 include "LibCOMU"
+include "LibCMFE"
 

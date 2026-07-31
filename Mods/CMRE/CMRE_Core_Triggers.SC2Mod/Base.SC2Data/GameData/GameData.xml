@@ -7,5 +7,6 @@
         <TriggerLibs Id="COMI" IncludePath="LibCOMI"/>
         <TriggerLibs Id="COOC" IncludePath="LibCOOC"/>
         <TriggerLibs Id="CMFE"/>
+        <TriggerLibs Id="PEEP"/>
     </CGame>
 </Catalog>

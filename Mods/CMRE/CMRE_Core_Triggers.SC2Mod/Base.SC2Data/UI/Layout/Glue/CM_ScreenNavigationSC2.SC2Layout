@@ -57,6 +57,33 @@
             </Frame>
         </Frame>
 
+        <Frame type="Frame" name="ScoreOverlayPanel" template="CM_CoopCampaignScorePanel/CoopCampaignScorePanelTemplate">
+            <Handle val="CM_ScreenNavigation_ScoreOverlayPanel"/>
+            <Anchor relative="$parent"/>
+            <Visible val="false"/>
+            <Alpha val="0"/>
+            <RenderPriority val="4096"/>
+
+            <Animation name="Show">
+                <Event event="Show" action="DirectionForward"/>
+                <Event event="Show" action="Play"/>
+                <Event event="Hide" action="DirectionReverse"/>
+                <Event event="Hide" action="Play"/>
+                <Event event="Hide" action="Reset,Stop" frame="$parent"/>
+
+                <Controller type="Fade" end="Pause">
+                    <Key type="Curve" time="0" value="0" out="Slow"/>
+                    <Key type="Curve" time=".175" value="255" in="Auto"/>
+                </Controller>
+
+                <Controller type="Visibility" end="Pause">
+                    <Key type="Bool" time="0" value="false"/>
+                    <Key type="Bool" time=".001" value="true"/>
+                    <Key type="Bool" time=".175" value="true"/>
+                </Controller>
+            </Animation>
+        </Frame>
+
         <Frame type="Frame" name="NavigationContainer">
             <Anchor relative="$parent"/>
 

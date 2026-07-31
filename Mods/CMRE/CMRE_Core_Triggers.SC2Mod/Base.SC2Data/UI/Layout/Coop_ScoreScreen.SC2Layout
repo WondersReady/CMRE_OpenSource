@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Desc>
     <Include path="UI\Layout\CM_FlashFrame.SC2Layout"/>
-
     <Frame type="Frame" name="GameOverFanfareTemplate">
         <Handle val="GameOverFanfareTemplate"/>
         <Anchor relative="$parent"/>
         <AcceptsMouse val="true"/>
-
-        <Frame type="Image" name="BackdropShade">
-            <Anchor relative="$parent"/>
-            <Color val="2,7,12"/>
-            <Alpha val="108"/>
-        </Frame>
-
-        <Frame type="Image" name="BackdropVignette">
-            <Anchor relative="$parent"/>
-            <Texture val="@UI/SC2_UI_Coop_Vignette"/>
-            <Alpha val="190"/>
-        </Frame>
 
         <Frame type="Frame" name="FlashFrameProt" template="CM_FlashFrame/FlashContainer">
             <Frame type="Frame" name="Flash" template="CM_FlashFrame/FlashHack">
@@ -43,254 +30,201 @@
             </Frame>
         </Frame>
 
-        <Frame type="Frame" name="ResultPlate">
-            <Anchor side="Top" relative="$parent" pos="Mid" offset="22"/>
-            <Anchor side="Bottom" relative="$parent" pos="Mid" offset="22"/>
+        <Frame type="Label" name="WinTextLable">
             <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
             <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="820"/>
-            <Height val="306"/>
-
-            <Frame type="Image" name="Shadow">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="-8"/>
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="8"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="-8"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="8"/>
-                <Color val="0,0,0"/>
-                <Alpha val="92"/>
-            </Frame>
-
-            <Frame type="Image" name="Fill">
-                <Anchor relative="$parent"/>
-                <Color val="5,14,22"/>
-                <Alpha val="196"/>
-            </Frame>
-
-            <Frame type="Image" name="TopLine">
-                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="2"/>
-                <Color val="49,164,222"/>
-                <Alpha val="220"/>
-            </Frame>
-
-            <Frame type="Image" name="BottomLine">
-                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
-                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
-                <Height val="1"/>
-                <Color val="74,135,165"/>
-                <Alpha val="145"/>
-            </Frame>
-        </Frame>
-
-        <Frame type="Label" name="WinTextLable">
-            <Anchor side="Top" relative="$parent/ResultPlate" pos="Min" offset="38"/>
-            <Anchor side="Left" relative="$parent/ResultPlate" pos="Min" offset="40"/>
-            <Anchor side="Right" relative="$parent/ResultPlate" pos="Max" offset="-40"/>
-            <Height val="66"/>
+            <Anchor side="Bottom" relative="$parent" pos="0.26" offset="0"/>
             <Text val="胜利！"/>
             <Style val="CM_VictoryPanelLarge"/>
             <Visible val="False"/>
-            <Alpha val="235"/>
+            <Alpha val="220"/>
         </Frame>
 
         <Frame type="Label" name="PlayerNameLable">
-            <Anchor side="Top" relative="$parent/WinTextLable" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent/ResultPlate" pos="Min" offset="40"/>
-            <Anchor side="Right" relative="$parent/ResultPlate" pos="Max" offset="-40"/>
-            <Height val="38"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Top" relative="$parent" pos="0.53" offset="0"/>
             <Text val="PlayerName"/>
             <Style val="CM_VictoryPanelSmall"/>
             <Visible val="False"/>
-            <Alpha val="225"/>
+            <Alpha val="220"/>
         </Frame>
 
-        <Frame type="Button" name="QuitButton" template="AF_ScoreBackground/ScorePrimaryButtonTemplate">
-            <Anchor side="Top" relative="$parent/PlayerNameLable" pos="Max" offset="28"/>
+        <Frame type="Button" name="QuitButton" template="StandardTemplates/StandardButtonTemplate">
             <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
             <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="310"/>
+            <Anchor side="Top" relative="$parent" pos="Mid" offset="200"/>
             <Text val="@UI/GameResultDialog/ScoreScreen"/>
             <Shortcut val="@UI/GameResultDialog/ScoreScreen_Hotkey" priority="0"/>
+
+            <Frame type="Image" name="NormalImage">
+                <Texture val="@@UI/GameResultButtonNormal"/>
+            </Frame>
+
+            <Frame type="Image" name="HoverImage">
+                <Texture val="@@UI/GameResultButtonHover"/>
+            </Frame>
         </Frame>
 
-        <Frame type="Button" name="RestartButton" template="AF_ScoreBackground/ScoreSecondaryButtonTemplate">
-            <Anchor side="Top" relative="$parent/QuitButton" pos="Max" offset="10"/>
+        <Frame type="Button" name="RestartButton" template="StandardTemplates/StandardButtonTemplate">
+            <Anchor side="Top" relative="$parent/QuitButton" pos="Max" offset="0"/>
             <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
             <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="310"/>
             <Text val="@UI/PatchRequiredDialogRestart"/>
             <Visible val="False"/>
             <Shortcut val="@UI/PatchRequiredDialogRestart_Hotkey" priority="0"/>
+
+            <Frame type="Image" name="NormalImage">
+                <Texture val="@@UI/GameResultButtonNormal"/>
+            </Frame>
+
+            <Frame type="Image" name="HoverImage">
+                <Texture val="@@UI/GameResultButtonHover"/>
+            </Frame>
         </Frame>
+
     </Frame>
 
+    <!--Frame type="ConvertToReplayButton" name="ConvertToReplayButton" template="StandardTemplates/StandardButtonTemplate">
+            <Anchor side="Top" relative="$parent/QuitButton" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Text val="@UI/GameResultDialog/ConvertToReplay"/>
+            <Shortcut val="@UI/GameResultDialog/ConvertToReplay_Hotkey"/>
+
+            <Frame type="Image" name="NormalImage">
+                <Texture val="@@UI/GameResultButtonNormal"/>
+            </Frame>
+
+            <Frame type="Image" name="HoverImage">
+                <Texture val="@@UI/GameResultButtonHover"/>
+            </Frame>
+        </Frame-->
     <Frame type="Frame" name="ScoreScreenTemplate">
         <Anchor relative="$parent"/>
 
-        <Frame type="Frame" name="Background" template="AF_ScoreBackground/Scorebackgrond">
-            <Anchor relative="$parent"/>
-        </Frame>
-
         <Frame type="Label" name="Title">
-            <Anchor side="Top" relative="$parent" pos="Min" offset="76"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="80"/>
-            <Anchor side="Right" relative="$parent" pos="Max" offset="-80"/>
-            <Height val="44"/>
-            <Style val="AF_MapTitle"/>
-            <Color val="241,247,250"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="100"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="55"/>
+            <Style val="ModCenterSize52Bold"/>
+            <Color val="255,255,255"/>
         </Frame>
 
         <Frame type="Label" name="Duration">
-            <Anchor side="Top" relative="$parent/Title" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="80"/>
-            <Anchor side="Right" relative="$parent" pos="Max" offset="-80"/>
-            <Height val="32"/>
-            <Style val="AF_EnemyCompName"/>
+            <Anchor side="Top" relative="$parent/Title" pos="Max" offset="5"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="50"/>
+            <Style val="ModCenterSize40Bold"/>
         </Frame>
 
         <Frame type="Label" name="ScoreHeading">
-            <Anchor side="Top" relative="$parent" pos="Min" offset="278"/>
-            <Anchor side="Left" relative="$parent" pos="Mid" offset="-470"/>
-            <Width val="940"/>
-            <Height val="46"/>
-            <Style val="ModLeftSize32Bold"/>
+            <Anchor side="Top" relative="$parent" pos="Min" offset="320"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-50"/>
+            <Width val="600"/>
+            <Height val="70"/>
+            <Style val="ModLeftSize52Bold"/>
             <Text val="@UI/Coop_ScoreScreen_ScoreHeading"/>
-            <Color val="83,180,230"/>
-        </Frame>
-
-        <Frame type="Image" name="ScoreRow1Background">
-            <Anchor side="Top" relative="$parent/ScoreHeading" pos="Max" offset="12"/>
-            <Anchor side="Left" relative="$parent" pos="Mid" offset="-490"/>
-            <Anchor side="Right" relative="$parent" pos="Mid" offset="490"/>
-            <Height val="62"/>
-            <Color val="15,35,48"/>
-            <Alpha val="150"/>
+            <Color val="255,170,170"/>
         </Frame>
 
         <Frame type="Label" name="ScoreTitle1">
-            <Anchor side="Top" relative="$parent/ScoreRow1Background" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreRow1Background" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent/ScoreRow1Background" pos="Min" offset="24"/>
-            <Width val="650"/>
+            <Anchor side="Top" relative="$parent/ScoreHeading" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-50"/>
+            <Width val="600"/>
+            <Height val="43"/>
             <Style val="ModLeftSize32Bold"/>
             <Text val="Completion Speed"/>
             <Visible val="true"/>
-            <Color val="203,219,228"/>
+            <Color val="255,204,255"/>
         </Frame>
 
         <Frame type="Label" name="ScoreValue1">
-            <Anchor side="Top" relative="$parent/ScoreRow1Background" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreRow1Background" pos="Max" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreRow1Background" pos="Max" offset="-24"/>
-            <Width val="250"/>
+            <Anchor side="Bottom" relative="$parent/ScoreTitle1" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="50"/>
+            <Width val="300"/>
+            <Height val="43"/>
             <Style val="ModRightSize32Bold"/>
             <Text val="+100"/>
             <Visible val="true"/>
-            <Color val="104,210,255"/>
+            <Color val="255,255,221"/>
             <CollapseLayout val="true"/>
-        </Frame>
-
-        <Frame type="Image" name="ScoreRow2Background">
-            <Anchor side="Top" relative="$parent/ScoreRow1Background" pos="Max" offset="8"/>
-            <Anchor side="Left" relative="$parent/ScoreRow1Background" pos="Min" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreRow1Background" pos="Max" offset="0"/>
-            <Height val="62"/>
-            <Color val="12,29,41"/>
-            <Alpha val="150"/>
         </Frame>
 
         <Frame type="Label" name="ScoreTitle2">
-            <Anchor side="Top" relative="$parent/ScoreRow2Background" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreRow2Background" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent/ScoreRow2Background" pos="Min" offset="24"/>
-            <Width val="650"/>
+            <Anchor side="Top" relative="$parent/ScoreTitle1" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-50"/>
+            <Width val="600"/>
+            <Height val="43"/>
             <Style val="ModLeftSize32Bold"/>
             <Text val="Fortress Life Remaining"/>
-            <Color val="203,219,228"/>
+            <Color val="255,204,255"/>
         </Frame>
 
         <Frame type="Label" name="ScoreValue2">
-            <Anchor side="Top" relative="$parent/ScoreRow2Background" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreRow2Background" pos="Max" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreRow2Background" pos="Max" offset="-24"/>
-            <Width val="250"/>
+            <Anchor side="Bottom" relative="$parent/ScoreTitle2" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="50"/>
+            <Width val="300"/>
+            <Height val="43"/>
             <Style val="ModRightSize32Bold"/>
             <Text val="+1500"/>
-            <Color val="104,210,255"/>
+            <Color val="255,255,221"/>
             <CollapseLayout val="true"/>
         </Frame>
 
-        <Frame type="Image" name="ScoreRow3Background">
-            <Anchor side="Top" relative="$parent/ScoreRow2Background" pos="Max" offset="8"/>
-            <Anchor side="Left" relative="$parent/ScoreRow2Background" pos="Min" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreRow2Background" pos="Max" offset="0"/>
-            <Height val="62"/>
-            <Color val="15,35,48"/>
-            <Alpha val="150"/>
-        </Frame>
-
         <Frame type="Label" name="ScoreTitle3">
-            <Anchor side="Top" relative="$parent/ScoreRow3Background" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreRow3Background" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent/ScoreRow3Background" pos="Min" offset="24"/>
-            <Width val="650"/>
+            <Anchor side="Top" relative="$parent/ScoreTitle2" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-50"/>
+            <Width val="600"/>
+            <Height val="43"/>
             <Style val="ModLeftSize32Bold"/>
             <Text val="Bonus Speed"/>
-            <Color val="203,219,228"/>
+            <Color val="255,204,255"/>
             <CollapseLayout val="true"/>
             <Visible val="true"/>
         </Frame>
 
         <Frame type="Label" name="ScoreValue3">
-            <Anchor side="Top" relative="$parent/ScoreRow3Background" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreRow3Background" pos="Max" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreRow3Background" pos="Max" offset="-24"/>
-            <Width val="250"/>
+            <Anchor side="Bottom" relative="$parent/ScoreTitle3" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="50"/>
+            <Width val="300"/>
+            <Height val="43"/>
             <Style val="ModRightSize32Bold"/>
             <Text val="+500"/>
-            <Color val="104,210,255"/>
+            <Color val="255,255,221"/>
             <Visible val="true"/>
         </Frame>
 
-        <Frame type="Image" name="ScoreTotalBackground">
-            <Anchor side="Top" relative="$parent/ScoreRow3Background" pos="Max" offset="22"/>
-            <Anchor side="Left" relative="$parent/ScoreRow3Background" pos="Min" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreRow3Background" pos="Max" offset="0"/>
-            <Height val="86"/>
-            <Color val="18,50,68"/>
-            <Alpha val="188"/>
-        </Frame>
-
         <Frame type="Label" name="ScoreTitleTotal">
-            <Anchor side="Top" relative="$parent/ScoreTotalBackground" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreTotalBackground" pos="Max" offset="0"/>
-            <Anchor side="Left" relative="$parent/ScoreTotalBackground" pos="Min" offset="24"/>
-            <Width val="650"/>
+            <Anchor side="Top" relative="$parent/ScoreTitle3" pos="Max" offset="30"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="-50"/>
+            <Width val="600"/>
+            <Height val="70"/>
             <Style val="ModLeftSize52Bold"/>
             <Text val="Total"/>
-            <Color val="232,242,247"/>
+            <Color val="255,204,255"/>
             <CollapseLayout val="true"/>
             <PreserveAnchorOffset val="true"/>
         </Frame>
 
         <Frame type="Label" name="ScoreValueTotal">
-            <Anchor side="Top" relative="$parent/ScoreTotalBackground" pos="Min" offset="0"/>
-            <Anchor side="Bottom" relative="$parent/ScoreTotalBackground" pos="Max" offset="0"/>
-            <Anchor side="Right" relative="$parent/ScoreTotalBackground" pos="Max" offset="-24"/>
-            <Width val="320"/>
+            <Anchor side="Bottom" relative="$parent/ScoreTitleTotal" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="50"/>
+            <Width val="300"/>
+            <Height val="70"/>
             <Style val="ModRightSize52Bold"/>
             <Text val="2100"/>
-            <Color val="108,215,255"/>
+            <Color val="255,255,170"/>
         </Frame>
 
-        <Frame type="Button" name="ContinueButton" template="AF_ScoreBackground/ScorePrimaryButtonTemplate">
-            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-34"/>
+        <Frame type="Button" name="ContinueButton" template="VoidShared_GenericTemplates/StoryBigButtonTemplate">
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="-30"/>
             <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
             <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
-            <Width val="300"/>
+            <Height val="128"/>
+            <Width val="350"/>
             <Text val="CONTINUE"/>
         </Frame>
     </Frame>

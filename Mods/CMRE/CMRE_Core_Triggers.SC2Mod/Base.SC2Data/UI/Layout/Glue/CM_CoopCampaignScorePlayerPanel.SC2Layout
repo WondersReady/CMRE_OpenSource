@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Desc>
+    <Frame type="Frame" name="MasteryTitleRowTemplate">
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        <Height val="30"/>
+
+        <Frame type="Label" name="NameLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="Coop_ScoreScreen_StatSource"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+            <AcceptsMouseTooltip val="true"/>
+            <TooltipFrame val="BattleNetTooltip"/>
+
+            <Frame type="StandardTooltip" name="BattleNetTooltip" template="CM_SharedTemplates/StandardBattlenetTooltipTemplate"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="MasteryValueRowTemplate">
+        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        <Height val="30"/>
+
+        <Frame type="Label" name="ValueLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Style val="Coop_ScoreScreen_StatCommander"/>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="PlayerFrameTemplate">
+        <Width val="620"/>
+        <Height val="326"/>
+
+        <Frame type="Image" name="HeaderImage">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="64"/>
+            <Texture val="@UI/SC2_UI_Tournament_NextInfo_BG_Large"/>
+        </Frame>
+
+        <Frame type="Label" name="CommanderLabel">
+            <Anchor side="Top" relative="$parent/HeaderImage" pos="Min" offset="4"/>
+            <Anchor side="Left" relative="$parent/HeaderImage" pos="Min" offset="18"/>
+            <Anchor side="Right" relative="$parent/HeaderImage" pos="Max" offset="-18"/>
+            <Style val="Coop_ScoreScreen_StatNameCommander"/>
+            <Height val="28"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+        </Frame>
+
+        <Frame type="Label" name="PlayerNameLabel">
+            <Anchor side="Top" relative="$parent/CommanderLabel" pos="Max" offset="-1"/>
+            <Anchor side="Left" relative="$parent/HeaderImage" pos="Min" offset="18"/>
+            <Anchor side="Right" relative="$parent/HeaderImage" pos="Max" offset="-18"/>
+            <Height val="20"/>
+            <Style val="Coop_ScoreScreen_PlayerNameCommander"/>
+            <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+        </Frame>
+
+        <Frame type="Frame" name="TitlesFrame">
+            <Anchor side="Top" relative="$parent/PlayerNameLabel" pos="Max" offset="20"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="12"/>
+            <Anchor side="Bottom" relative="$this/MasteryRow6" pos="Max" offset="0"/>
+            <Width val="320"/>
+
+            <Frame type="Label" name="PrestigeTitleLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="30"/>
+                <Style val="Coop_ScoreScreen_StatSource"/>
+                <Text val="@CMUI/ScreenCoopCampaign/ScorePanel/Prestige"/>
+            </Frame>
+
+            <Frame type="Label" name="MasteryTitleLabel">
+                <Anchor side="Top" relative="$parent/PrestigeTitleLabel" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="28"/>
+                <Style val="Coop_ScoreScreen_StatNameBreakdown"/>
+                <Text val="@CMUI/ScreenCoopCampaign/ScorePanel/MasteryAllocation"/>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryRow1" template="CM_CoopCampaignScorePlayerPanel/MasteryTitleRowTemplate">
+                <Anchor side="Top" relative="$parent/MasteryTitleLabel" pos="Max" offset="2"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryRow2" template="CM_CoopCampaignScorePlayerPanel/MasteryTitleRowTemplate">
+                <Anchor side="Top" relative="$parent/MasteryRow1" pos="Max" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryRow3" template="CM_CoopCampaignScorePlayerPanel/MasteryTitleRowTemplate">
+                <Anchor side="Top" relative="$parent/MasteryRow2" pos="Max" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryRow4" template="CM_CoopCampaignScorePlayerPanel/MasteryTitleRowTemplate">
+                <Anchor side="Top" relative="$parent/MasteryRow3" pos="Max" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryRow5" template="CM_CoopCampaignScorePlayerPanel/MasteryTitleRowTemplate">
+                <Anchor side="Top" relative="$parent/MasteryRow4" pos="Max" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryRow6" template="CM_CoopCampaignScorePlayerPanel/MasteryTitleRowTemplate">
+                <Anchor side="Top" relative="$parent/MasteryRow5" pos="Max" offset="0"/>
+            </Frame>
+        </Frame>
+
+        <Frame type="Frame" name="ValuesFrame">
+            <Anchor side="Top" relative="$parent/TitlesFrame" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent/TitlesFrame" pos="Max" offset="10"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-12"/>
+            <Anchor side="Bottom" relative="$this/MasteryValueRow6" pos="Max" offset="0"/>
+
+            <Frame type="Label" name="PrestigeLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Height val="30"/>
+                <Style val="Coop_ScoreScreen_StatCommander"/>
+                <Options val="Ellipsis | TooltipIfTruncated | NoWrapping"/>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryValueRow1" template="CM_CoopCampaignScorePlayerPanel/MasteryValueRowTemplate">
+                <Anchor side="Top" relative="$parent/$parent/TitlesFrame/MasteryRow1" pos="Min" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow2" template="CM_CoopCampaignScorePlayerPanel/MasteryValueRowTemplate">
+                <Anchor side="Top" relative="$parent/$parent/TitlesFrame/MasteryRow2" pos="Min" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow3" template="CM_CoopCampaignScorePlayerPanel/MasteryValueRowTemplate">
+                <Anchor side="Top" relative="$parent/$parent/TitlesFrame/MasteryRow3" pos="Min" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow4" template="CM_CoopCampaignScorePlayerPanel/MasteryValueRowTemplate">
+                <Anchor side="Top" relative="$parent/$parent/TitlesFrame/MasteryRow4" pos="Min" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow5" template="CM_CoopCampaignScorePlayerPanel/MasteryValueRowTemplate">
+                <Anchor side="Top" relative="$parent/$parent/TitlesFrame/MasteryRow5" pos="Min" offset="0"/>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow6" template="CM_CoopCampaignScorePlayerPanel/MasteryValueRowTemplate">
+                <Anchor side="Top" relative="$parent/$parent/TitlesFrame/MasteryRow6" pos="Min" offset="0"/>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="AllyPlayerFrameTemplate" template="CM_CoopCampaignScorePlayerPanel/PlayerFrameTemplate">
+        <Frame type="Label" name="CommanderLabel">
+            <Style val="Coop_ScoreScreen_StatNameAlly"/>
+        </Frame>
+
+        <Frame type="Label" name="PlayerNameLabel">
+            <Style val="Coop_ScoreScreen_PlayerNameAlly"/>
+        </Frame>
+
+        <Frame type="Frame" name="ValuesFrame">
+            <Frame type="Label" name="PrestigeLabel">
+                <Style val="Coop_ScoreScreen_StatAlly"/>
+            </Frame>
+
+            <Frame type="Frame" name="MasteryValueRow1">
+                <Frame type="Label" name="ValueLabel"><Style val="Coop_ScoreScreen_StatAlly"/></Frame>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow2">
+                <Frame type="Label" name="ValueLabel"><Style val="Coop_ScoreScreen_StatAlly"/></Frame>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow3">
+                <Frame type="Label" name="ValueLabel"><Style val="Coop_ScoreScreen_StatAlly"/></Frame>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow4">
+                <Frame type="Label" name="ValueLabel"><Style val="Coop_ScoreScreen_StatAlly"/></Frame>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow5">
+                <Frame type="Label" name="ValueLabel"><Style val="Coop_ScoreScreen_StatAlly"/></Frame>
+            </Frame>
+            <Frame type="Frame" name="MasteryValueRow6">
+                <Frame type="Label" name="ValueLabel"><Style val="Coop_ScoreScreen_StatAlly"/></Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+
+    <Frame type="Frame" name="ChaosHistoryRowTemplate">
+        <Width val="1038"/>
+        <Height val="51"/>
+
+        <Frame type="Frame" name="Mutator1" template="Coop_MutatorList/MutatorLargeListItemTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+        </Frame>
+        <Frame type="Frame" name="Mutator2" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator1" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator1" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator3" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator2" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator2" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator4" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator3" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator3" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator5" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator4" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator4" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator6" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator5" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator5" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator7" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator6" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator6" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator8" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator7" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator7" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator9" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator8" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator8" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator10" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator9" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator9" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator11" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator10" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator10" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator12" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator11" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator11" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator13" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator12" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator12" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator14" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator13" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator13" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator15" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator14" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator14" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator16" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator15" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator15" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator17" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator16" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator16" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator18" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator17" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator17" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator19" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator18" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator18" pos="Max" offset="2"/></Frame>
+        <Frame type="Frame" name="Mutator20" template="Coop_MutatorList/MutatorLargeListItemTemplate"><Anchor side="Top" relative="$parent/Mutator19" pos="Min" offset="0"/><Anchor side="Left" relative="$parent/Mutator19" pos="Max" offset="2"/></Frame>
+    </Frame>
+
+    <Frame type="Frame" name="ScorePlayerPanelTemplate">
+        <Width val="1320"/>
+        <Height val="620"/>
+
+        <Frame type="Frame" name="PlayerFrame1" template="CM_CoopCampaignScorePlayerPanel/PlayerFrameTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="20"/>
+        </Frame>
+
+        <Frame type="Frame" name="PlayerFrame2" template="CM_CoopCampaignScorePlayerPanel/AllyPlayerFrameTemplate">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+        </Frame>
+
+        <Frame type="Frame" name="ChaosHistoryPanel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="342"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="20"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="-20"/>
+            <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+
+            <Frame type="Label" name="ChaosHistoryTitleLabel">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/ChaosActiveCountLabel" pos="Min" offset="-10"/>
+                <Height val="34"/>
+                <Style val="Coop_ScoreScreen_StatNameBreakdown"/>
+                <Text val="@CMUI/ScreenCoopCampaign/ScorePanel/ChaosHistory"/>
+            </Frame>
+
+            <Frame type="Label" name="ChaosActiveCountLabel">
+                <Anchor side="Top" relative="$parent/ChaosHistoryTitleLabel" pos="Min" offset="0"/>
+                <Anchor side="Bottom" relative="$parent/ChaosHistoryTitleLabel" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <AutoSizeClamps maxWidth="320"/>
+                <Style val="Coop_ScoreScreen_StatCommander"/>
+                <Options val="NoWrapping"/>
+            </Frame>
+
+            <Frame type="Image" name="ChaosHistoryBackground">
+                <Anchor side="Top" relative="$parent/ChaosHistoryTitleLabel" pos="Max" offset="4"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+                <TextureType val="NineSlice"/>
+            </Frame>
+
+            <Frame type="Frame" name="ChaosHistoryGrid">
+                <Anchor side="Top" relative="$parent/ChaosHistoryBackground" pos="Min" offset="6"/>
+                <Anchor side="Left" relative="$parent/ChaosHistoryBackground" pos="Min" offset="10"/>
+                <Width val="1038"/>
+                <Height val="157"/>
+
+                <Frame type="Frame" name="Row1" template="CM_CoopCampaignScorePlayerPanel/ChaosHistoryRowTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                </Frame>
+                <Frame type="Frame" name="Row2" template="CM_CoopCampaignScorePlayerPanel/ChaosHistoryRowTemplate">
+                    <Anchor side="Top" relative="$parent/Row1" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                </Frame>
+                <Frame type="Frame" name="Row3" template="CM_CoopCampaignScorePlayerPanel/ChaosHistoryRowTemplate">
+                    <Anchor side="Top" relative="$parent/Row2" pos="Max" offset="2"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                </Frame>
+            </Frame>
+        </Frame>
+    </Frame>
+</Desc>

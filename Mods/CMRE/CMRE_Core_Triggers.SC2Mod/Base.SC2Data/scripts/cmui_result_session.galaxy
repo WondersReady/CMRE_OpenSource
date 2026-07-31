@@ -1,0 +1,2478 @@
+// Mission result session rendered over a rebuilt launcher UI.
+
+const int CMUIX_RESULT_PAGE_STATS = 1;
+const int CMUIX_RESULT_PAGE_DAMAGE = 2;
+const int CMUIX_RESULT_PAGE_PLAYERS = 3;
+const int CMUIX_RESULT_PAGE_OVERVIEW = 4;
+const int CMUIX_RESULT_STAT_MAX = 8;
+const int CMUIX_RESULT_MUTATOR_MAX = 20;
+const int CMUIX_RESULT_MUTATOR_DISPLAY_MAX = 21;
+const int CMUIX_RESULT_CHAOS_HISTORY_COLUMNS = 20;
+const int CMUIX_RESULT_CHAOS_HISTORY_ROWS = 3;
+const int CMUIX_RESULT_CHAOS_HISTORY_MAX = 60;
+const int CMUIX_RESULT_TRANSMISSION_CLEAR_CHECKS = 8;
+const int CMUIX_RESULT_CHART_UNIT_MAX = 15;
+const int CMUIX_RESULT_CHART_TOP_UNITS = 14;
+const int CMUIX_RESULT_PLAYER_DISPLAY_MAX = 2;
+const fixed CMUIX_RESULT_CHART_RADIUS = 72.0;
+const int CMUIX_RESULT_CHART_ALPHA = 205;
+const int CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT = 1;
+const int CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE = 1;
+const int CMUIX_RESULT_OVERVIEW_CONTEXT_MAX = CMUIX_RESULT_PLAYER_DISPLAY_MAX + 1;
+const int CMUIX_RESULT_OVERVIEW_CHAOS_MAX = 20;
+const int CMUIX_RESULT_OVERVIEW_CHART_SEGMENTS = 180;
+const int CMUIX_RESULT_OVERVIEW_CHART_ANGLE_STEP = 2;
+const int CMUIX_RESULT_OVERVIEW_CHART_SLICE_WIDTH = 5;
+const fixed CMUIX_RESULT_OVERVIEW_CHART_RADIUS = 60.0;
+const int CMUIX_RESULT_OVERVIEW_CHART_ALPHA = 195;
+
+bool CMUIX_ResultLauncherActive;
+bool CMUIX_ResultOverlayVisible;
+bool CMUIX_ResultOpening;
+int CMUIX_ResultValue;
+string CMUIX_ResultMapInstance;
+string CMUIX_ResultEnemy;
+string CMUIX_ResultEnemyRace;
+int CMUIX_ResultDirectMutatorCount;
+string[CMUIX_RESULT_MUTATOR_MAX + 1] CMUIX_ResultDirectMutators;
+bool[CMUIX_RESULT_MUTATOR_MAX + 1] CMUIX_ResultDirectMutatorsEnhanced;
+int CMUIX_ResultChaosSlotCount;
+int CMUIX_ResultChaosHistoryCount;
+string[CMUIX_RESULT_CHAOS_HISTORY_MAX + 1] CMUIX_ResultChaosHistoryMutators;
+bool[CMUIX_RESULT_CHAOS_HISTORY_MAX + 1] CMUIX_ResultChaosHistoryEnhanced;
+bool[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerPresent;
+string[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerName;
+string[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerCommander;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerPrestige;
+string[libCOOC_gv_cCC_MASTERIES_PER_COMMANDER + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerMasteryId;
+int[libCOOC_gv_cCC_MASTERIES_PER_COMMANDER + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerMasteryValue;
+string[CMUIX_RESULT_STAT_MAX + 1] CMUIX_ResultStatKeys;
+int[CMUIX_RESULT_STAT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultStatValues;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultDamageTotal;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultDamageUnitCount;
+int[CMUIX_RESULT_CHART_TOP_UNITS + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultDamageUnitValues;
+string[CMUIX_RESULT_CHART_TOP_UNITS + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultDamageUnitTypes;
+string CMUIX_ResultStatisticsPayload;
+
+int CMUIX_ResultMainNavigationContainer;
+int CMUIX_ResultBackgroundCutscene;
+int CMUIX_ResultHistoryBackgroundCutscene;
+int CMUIX_ResultGameResultLabel;
+int CMUIX_ResultMapNameLabel;
+int CMUIX_ResultEnemyRaceIcon;
+int CMUIX_ResultEnemyNameLabel;
+int CMUIX_ResultStatsButton;
+int CMUIX_ResultDamageButton;
+int CMUIX_ResultPlayersButton;
+int CMUIX_ResultOverviewButton;
+int CMUIX_ResultCloseButton;
+int CMUIX_ResultRestartButton;
+int CMUIX_ResultExitButton;
+int CMUIX_ResultStatsPanel;
+int CMUIX_ResultDamagePanel;
+int CMUIX_ResultPlayersPanel;
+int CMUIX_ResultOverviewPanel;
+int CMUIX_ResultTabControl;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPageForPlayer;
+int[CMUIX_RESULT_MUTATOR_DISPLAY_MAX + 1] CMUIX_ResultMutatorItems;
+int[CMUIX_RESULT_MUTATOR_DISPLAY_MAX + 1] CMUIX_ResultMutatorIcons;
+int[CMUIX_RESULT_MUTATOR_DISPLAY_MAX + 1] CMUIX_ResultMutatorBadges;
+int[CMUIX_RESULT_STAT_MAX + 1] CMUIX_ResultStatTitleFrames;
+int[CMUIX_RESULT_STAT_MAX + 1] CMUIX_ResultStatTitleLabels;
+int[CMUIX_RESULT_STAT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultStatValueFrames;
+int[CMUIX_RESULT_STAT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultStatValueLabels;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultStatsPlayerFrames;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultStatsPlayerNameLabels;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultStatsCommanderLabels;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerFrames;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerNameLabels;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerCommanderLabels;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerPrestigeLabels;
+int[libCOOC_gv_cCC_MASTERIES_PER_COMMANDER + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerMasteryRows;
+int[libCOOC_gv_cCC_MASTERIES_PER_COMMANDER + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerMasteryValueRows;
+int[libCOOC_gv_cCC_MASTERIES_PER_COMMANDER + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerMasteryNameLabels;
+int[libCOOC_gv_cCC_MASTERIES_PER_COMMANDER + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultPlayerMasteryValueLabels;
+int CMUIX_ResultChaosHistoryPanel;
+int CMUIX_ResultChaosHistoryTitleLabel;
+int CMUIX_ResultChaosActiveCountLabel;
+int[CMUIX_RESULT_CHAOS_HISTORY_MAX + 1] CMUIX_ResultChaosHistoryItems;
+int[CMUIX_RESULT_CHAOS_HISTORY_MAX + 1] CMUIX_ResultChaosHistoryIcons;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultDamageChartPanels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultDamageChartCanvas;
+bool[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1] CMUIX_ResultDamageChartsBuilt;
+bool[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultHistoryViewActive;
+bool[libCOOC_gv_cCC_MAXPLAYERS + 1][CMUIX_RESULT_PLAYER_DISPLAY_MAX + 1] CMUIX_ResultHistoryPlayerPresent;
+int CMUIX_ResultDamageChartCount;
+int[CMUIX_RESULT_CHART_UNIT_MAX + 1] CMUIX_ResultDamageChartValues;
+string[CMUIX_RESULT_CHART_UNIT_MAX + 1] CMUIX_ResultDamageChartUnitTypes;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1] CMUIX_ResultOverviewPanels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewPlayerFrames;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewPlayerLabels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewPrestigeLabels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewKillsLabels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewDamageLabels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewMasteryLabels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewChartPanels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_ResultOverviewChartCanvas;
+bool[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1] CMUIX_ResultOverviewChartsBuilt;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1] CMUIX_ResultOverviewChaosSummaryLabels;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][CMUIX_RESULT_OVERVIEW_CHAOS_MAX + 1] CMUIX_ResultOverviewChaosItems;
+int[CMUIX_RESULT_OVERVIEW_CONTEXT_MAX + 1][CMUIX_RESULT_OVERVIEW_CHAOS_MAX + 1] CMUIX_ResultOverviewChaosIcons;
+trigger CMUIX_ResultOpenTrigger;
+
+void CMUIX_ResultDamageChartsSetVisible(int lp_player, bool lp_visible);
+void CMUIX_ResultDamageChartsEnsure(int lp_context);
+void CMUIX_ResultDamageChartsInvalidate(int lp_context);
+void CMUIX_ResultSelectPage(int lp_player, int lp_page);
+void CMUIX_ResultSetOverlayVisible(bool lp_visible);
+void CMUIX_ResultSetNavigationVisibleForPlayers(playergroup lp_players, bool lp_visible);
+void CMUIX_ResultSetUnderlyingLauncherVisibleForPlayers(playergroup lp_players, bool lp_visible);
+void CMUIX_ResultSetCommanderCutscenesVisibleForPlayer(int lp_player, bool lp_visible);
+void CMUIX_ResultRefreshAll();
+string CMUIX_ResultStatisticsPayloadBuild();
+bool CMUIX_ResultStatisticsPayloadLoad(string lp_payload);
+void CMUIX_ResultOverviewRefresh(int lp_context);
+void CMUIX_ResultOverviewChartsEnsure(int lp_context);
+
+bool CMUIX_ConfigurationModeActsAsLauncher() {
+    if ((CMUIX_MapSelectionCurrentMapIsLauncher() == true)) {
+        return true;
+    }
+
+    return CMUIX_ResultLauncherActive;
+}
+
+void CMUIX_ResultChaosHistoryRecord(string lp_mutator) {
+    int lv_slot;
+
+    lv_slot = 0;
+    if ((lp_mutator == "") || (lp_mutator == null) || (CMUIX_MutatorPoolIsPlaceholder(lp_mutator) == true)) {
+        return;
+    }
+
+    if ((CMUIX_ResultChaosHistoryCount >= CMUIX_RESULT_CHAOS_HISTORY_MAX)) {
+        return;
+    }
+
+    lv_slot = CMUIX_ResultChaosHistoryCount + 1;
+    CMUIX_ResultChaosHistoryCount = lv_slot;
+    CMUIX_ResultChaosHistoryMutators[lv_slot] = lp_mutator;
+    CMUIX_ResultChaosHistoryEnhanced[lv_slot] = libCOMU_gf_MutatorIsEnhanced(lp_mutator);
+}
+
+void CMUIX_ResultSnapshotClear() {
+    int lv_index;
+    int lv_player;
+    int lv_mastery;
+    int lv_damageIndex;
+
+    lv_index = 0;
+    lv_player = 0;
+    lv_mastery = 0;
+    lv_damageIndex = 0;
+    CMUIX_ResultDirectMutatorCount = 0;
+    CMUIX_ResultChaosSlotCount = 0;
+    while ((lv_index <= CMUIX_RESULT_MUTATOR_MAX)) {
+        CMUIX_ResultDirectMutators[lv_index] = "";
+        CMUIX_ResultDirectMutatorsEnhanced[lv_index] = false;
+        lv_index += 1;
+    }
+
+    lv_index = 0;
+    while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+        CMUIX_ResultStatKeys[lv_index] = "";
+        lv_player = 0;
+        while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+            CMUIX_ResultStatValues[lv_index][lv_player] = 0;
+            lv_player += 1;
+        }
+
+        lv_index += 1;
+    }
+
+    lv_player = 0;
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_ResultPlayerPresent[lv_player] = false;
+        CMUIX_ResultPlayerName[lv_player] = "";
+        CMUIX_ResultPlayerCommander[lv_player] = "";
+        CMUIX_ResultPlayerPrestige[lv_player] = 0;
+        CMUIX_ResultDamageTotal[lv_player] = 0;
+        CMUIX_ResultDamageUnitCount[lv_player] = 0;
+        lv_damageIndex = 0;
+        while ((lv_damageIndex <= CMUIX_RESULT_CHART_TOP_UNITS)) {
+            CMUIX_ResultDamageUnitValues[lv_damageIndex][lv_player] = 0;
+            CMUIX_ResultDamageUnitTypes[lv_damageIndex][lv_player] = "";
+            lv_damageIndex += 1;
+        }
+
+        lv_mastery = 0;
+        while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+            CMUIX_ResultPlayerMasteryId[lv_mastery][lv_player] = "";
+            CMUIX_ResultPlayerMasteryValue[lv_mastery][lv_player] = 0;
+            lv_mastery += 1;
+        }
+
+        lv_player += 1;
+    }
+}
+
+void CMUIX_ResultSnapshotAppendMutator(string lp_mutator, bool lp_enhanced) {
+    int lv_slot;
+
+    lv_slot = 0;
+    if ((lp_mutator == "") || (lp_mutator == null) || (CMUIX_MutatorPoolIsPlaceholder(lp_mutator) == true)) {
+        return;
+    }
+
+    if ((lp_mutator == "Chaos") || (UserDataGetInt("Mutators", lp_mutator, "Auto - Actived By Chaos", 1) >= 1) || (libCOMU_gf_CT_TemporaryMutatorHasLifetime(lp_mutator) == true)) {
+        return;
+    }
+
+    if ((CMUIX_ResultDirectMutatorCount >= CMUIX_RESULT_MUTATOR_MAX)) {
+        return;
+    }
+
+    lv_slot = CMUIX_ResultDirectMutatorCount + 1;
+    CMUIX_ResultDirectMutatorCount = lv_slot;
+    CMUIX_ResultDirectMutators[lv_slot] = lp_mutator;
+    CMUIX_ResultDirectMutatorsEnhanced[lv_slot] = lp_enhanced;
+}
+
+void CMUIX_ResultSnapshotCaptureMutators() {
+    int lv_index;
+    int lv_count;
+    string lv_mutator;
+    bool lv_enhanced;
+
+    lv_index = 1;
+    lv_count = 0;
+    lv_mutator = "";
+    lv_enhanced = false;
+    CMUIX_ResultChaosSlotCount = CMUIX_ClampInt(libCOTF_gv_rT_ChaosCycleCount, 0, CMUIX_RESULT_MUTATOR_MAX);
+    if (((CMUIX_CurrentMode == CMUIX_MODE_STANDARD) || (CMUIX_CurrentMode == CMUIX_MODE_MUTATOR)) && (libCOMU_gv_cT_MAbomination_MutatorsCount > 0)) {
+        lv_count = MinI(libCOMU_gv_cT_MAbomination_MutatorsCount, libCMUI_gv_cMUI_MutatorChallenge_Mutator_Max);
+        while ((lv_index <= lv_count)) {
+            CMUIX_ResultSnapshotAppendMutator(libCOMU_gv_cT_MAbomination_Mutators[lv_index], libCOMU_gv_cT_MAbomination_MutatorsEnhanced[lv_index]);
+            lv_index += 1;
+        }
+
+        return;
+    }
+
+    lv_count = UserDataInstanceCount("Mutators");
+    while ((lv_index <= lv_count)) {
+        lv_mutator = UserDataInstance("Mutators", lv_index);
+        if ((lv_mutator != "") && (UserDataGetInt("Mutators", lv_mutator, "Auto - Actived By Chaos", 1) == 0) && (libCOMU_gf_CT_TemporaryMutatorHasLifetime(lv_mutator) == false)) {
+            if ((UserDataGetInt("Mutators", lv_mutator, "Auto - Selected By Player", 1) >= 1) || (UserDataGetInt("Mutators", lv_mutator, "Auto - Actived By Random", 1) >= 1)) {
+                lv_enhanced = (UserDataGetInt("Mutators", lv_mutator, "Auto - Enhanced", 1) == 1);
+                CMUIX_ResultSnapshotAppendMutator(lv_mutator, lv_enhanced);
+            }
+        }
+
+        lv_index += 1;
+    }
+}
+
+string CMUIX_ResultSnapshotCommander(int lp_player) {
+    string lv_commander;
+
+    lv_commander = libCOOC_gf_ActiveCommanderForPlayer(lp_player);
+    if ((lv_commander == "") || (lv_commander == null)) {
+        lv_commander = libCOTF_gv_sELECTED_Commander[lp_player];
+    }
+
+    if ((lv_commander == "") || (lv_commander == null)) {
+        lv_commander = libCOUI_gv_cU_CommanderSelection[lp_player];
+    }
+
+    return lv_commander;
+}
+
+void CMUIX_ResultSnapshotCapturePlayers() {
+    int lv_player;
+    int lv_index;
+    int lv_count;
+    int lv_masteryIndex;
+    string lv_commander;
+    string lv_mastery;
+
+    lv_player = 1;
+    lv_index = 0;
+    lv_count = UserDataInstanceCount("MasteryUpgrades");
+    lv_masteryIndex = 0;
+    lv_commander = "";
+    lv_mastery = "";
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_ResultPlayerPresent[lv_player] = ((PlayerStatus(lv_player) == c_playerStatusActive) && (PlayerType(lv_player) == c_playerTypeUser));
+        CMUIX_ResultPlayerName[lv_player] = TextToString(PlayerName(lv_player));
+        lv_commander = CMUIX_ResultSnapshotCommander(lv_player);
+        CMUIX_ResultPlayerCommander[lv_player] = lv_commander;
+        if ((lv_commander != "") && (lv_commander != null)) {
+            CMUIX_ResultPlayerPrestige[lv_player] = CMUIX_ReadPrestigeForCommander(lv_player, lv_commander);
+            lv_index = 1;
+            while ((lv_index <= lv_count)) {
+                lv_mastery = UserDataInstance("MasteryUpgrades", lv_index);
+                if ((UserDataGetUserInstance("MasteryUpgrades", lv_mastery, "Commander", 1) == lv_commander)) {
+                    lv_masteryIndex = libCOOC_gf_CC_PlayerMasteryInternalIndex(lv_mastery);
+                    if ((lv_masteryIndex >= 1) && (lv_masteryIndex <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+                        CMUIX_ResultPlayerMasteryId[lv_masteryIndex][lv_player] = lv_mastery;
+                        CMUIX_ResultPlayerMasteryValue[lv_masteryIndex][lv_player] = libCOOC_gf_CC_PlayerMasteryUpgradeLevel(lv_player, lv_mastery);
+                    }
+                }
+
+                lv_index += 1;
+            }
+        }
+
+        lv_player += 1;
+    }
+}
+
+void CMUIX_ResultSnapshotCaptureStats() {
+    int lv_index;
+    int lv_player;
+    string lv_key;
+
+    lv_index = 1;
+    lv_player = 1;
+    lv_key = "";
+    CMUIX_ResultStatKeys[1] = "UnitsStructuresKilled";
+    CMUIX_ResultStatKeys[2] = "UnitsProduced";
+    CMUIX_ResultStatKeys[3] = "ResourcesGathered";
+    CMUIX_ResultStatKeys[4] = libCOOC_gf_CC_MapScoreStatistic(libCOOC_gf_CC_CurrentMap());
+    CMUIX_ResultStatKeys[5] = libCOOC_gf_CC_CommanderScoreCoopStatistic(CMUIX_ResultPlayerCommander[1]);
+    CMUIX_ResultStatKeys[6] = libCOOC_gf_CC_CommanderScoreSelfStatistic(CMUIX_ResultPlayerCommander[1]);
+    CMUIX_ResultStatKeys[7] = libCOOC_gf_CC_CommanderScoreCoopStatistic(CMUIX_ResultPlayerCommander[2]);
+    CMUIX_ResultStatKeys[8] = libCOOC_gf_CC_CommanderScoreSelfStatistic(CMUIX_ResultPlayerCommander[2]);
+    while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+        lv_key = CMUIX_ResultStatKeys[lv_index];
+        lv_player = 1;
+        while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+            if ((lv_key != "") && (lv_key != null)) {
+                CMUIX_ResultStatValues[lv_index][lv_player] = PlayerScoreValueGetAsInt(lv_player, lv_key);
+            }
+
+            lv_player += 1;
+        }
+
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultSnapshotInsertDamage(int lp_player, int lp_damage, string lp_unitType) {
+    int lv_position;
+    int lv_shift;
+
+    lv_position = 1;
+    lv_shift = 0;
+    if ((lp_player < 1) || (lp_player > libCOOC_gv_cCC_MAXPLAYERS) || (lp_damage <= 0) || (lp_unitType == "") || (lp_unitType == null)) {
+        return;
+    }
+
+    while ((lv_position <= CMUIX_ResultDamageUnitCount[lp_player]) && (lp_damage <= CMUIX_ResultDamageUnitValues[lv_position][lp_player])) {
+        lv_position += 1;
+    }
+
+    if ((lv_position > CMUIX_RESULT_CHART_TOP_UNITS)) {
+        return;
+    }
+
+    lv_shift = MinI(CMUIX_ResultDamageUnitCount[lp_player] + 1, CMUIX_RESULT_CHART_TOP_UNITS);
+    while ((lv_shift > lv_position)) {
+        CMUIX_ResultDamageUnitValues[lv_shift][lp_player] = CMUIX_ResultDamageUnitValues[lv_shift - 1][lp_player];
+        CMUIX_ResultDamageUnitTypes[lv_shift][lp_player] = CMUIX_ResultDamageUnitTypes[lv_shift - 1][lp_player];
+        lv_shift -= 1;
+    }
+
+    CMUIX_ResultDamageUnitValues[lv_position][lp_player] = lp_damage;
+    CMUIX_ResultDamageUnitTypes[lv_position][lp_player] = lp_unitType;
+    if ((CMUIX_ResultDamageUnitCount[lp_player] < CMUIX_RESULT_CHART_TOP_UNITS)) {
+        CMUIX_ResultDamageUnitCount[lp_player] += 1;
+    }
+}
+
+void CMUIX_ResultSnapshotCaptureDamage() {
+    int lv_player;
+    int lv_index;
+    int lv_damage;
+    string lv_unitType;
+
+    lv_player = 1;
+    lv_index = 1;
+    lv_damage = 0;
+    lv_unitType = "";
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        lv_index = 1;
+        while ((lv_index <= libCOTF_gv_uT_DL_MaxUnits)) {
+            lv_unitType = libCOTF_gv_uT_DL_Data[lv_index][0][lv_player].lv_unitType;
+            if ((lv_unitType != "") && (lv_unitType != null)) {
+                lv_damage = libCOTF_gf_UT_DL_SumHealingDamage(lv_index, 0, lv_player);
+                if ((lv_damage > 0)) {
+                    CMUIX_ResultDamageTotal[lv_player] += lv_damage;
+                    CMUIX_ResultSnapshotInsertDamage(lv_player, lv_damage, lv_unitType);
+                }
+            }
+
+            lv_index += 1;
+        }
+
+        lv_player += 1;
+    }
+}
+
+void CMUIX_ResultSnapshotCapture(int lp_result) {
+    int lv_index;
+
+    lv_index = 1;
+    CMUIX_ResultSnapshotClear();
+    CMUIX_ResultValue = lp_result;
+    CMUIX_ResultMapInstance = CMUIX_MapSelectionCurrentMapInstance();
+    CMUIX_ResultEnemy = libCOMI_gv_cM_CoopAIPlayer_CommanderShared;
+    if ((CMUIX_ResultEnemy == "") || (CMUIX_ResultEnemy == null)) {
+        CMUIX_ResultEnemy = libCOMI_gv_cM_CoopAIPlayer_Commander[3];
+    }
+
+    CMUIX_ResultEnemyRace = CMUIX_EnemySelectionRaceForEnemy(CMUIX_ResultEnemy);
+    CMUIX_ResultSnapshotCaptureMutators();
+    CMUIX_ResultSnapshotCapturePlayers();
+    CMUIX_ResultSnapshotCaptureStats();
+    CMUIX_ResultSnapshotCaptureDamage();
+    if ((CMUIX_ResultChaosHistoryCount == 0) && (CMUIX_ResultChaosSlotCount > 0)) {
+        while ((lv_index <= CMUIX_ResultChaosSlotCount)) {
+            CMUIX_ResultChaosHistoryRecord(libCOTF_gv_rT_ChaosMutators[lv_index]);
+            lv_index += 1;
+        }
+    }
+
+    CMUIX_ResultStatisticsPayload = CMUIX_ResultStatisticsPayloadBuild();
+}
+
+string CMUIX_ResultStatisticsEscape(string lp_value) {
+    string lv_value;
+
+    lv_value = lp_value;
+    if ((lv_value == null)) {
+        return "";
+    }
+
+    lv_value = StringReplaceWord(lv_value, "%", "%25", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, ";", "%3B", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "=", "%3D", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "\n", "%0A", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "\r", "%0D", c_stringReplaceAll, c_stringCase);
+    return lv_value;
+}
+
+string CMUIX_ResultStatisticsUnescape(string lp_value) {
+    string lv_value;
+
+    lv_value = lp_value;
+    if ((lv_value == null)) {
+        return "";
+    }
+
+    lv_value = StringReplaceWord(lv_value, "%0D", "\r", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "%0A", "\n", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "%3D", "=", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "%3B", ";", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "%25", "%", c_stringReplaceAll, c_stringCase);
+    return lv_value;
+}
+
+string CMUIX_ResultStatisticsPayloadBody(string lp_payload) {
+    int lv_hashPosition;
+
+    lv_hashPosition = StringFind(lp_payload, ";hash=", c_stringNoCase);
+    if ((lv_hashPosition <= 1)) {
+        return "";
+    }
+
+    return StringSub(lp_payload, 1, lv_hashPosition - 1);
+}
+
+bool CMUIX_ResultStatisticsPayloadValid(string lp_payload) {
+    string lv_body;
+    string lv_hash;
+
+    lv_body = CMUIX_ResultStatisticsPayloadBody(lp_payload);
+    lv_hash = "";
+    if ((StringLength(lv_body) < 3) || (StringSub(lv_body, 1, 3) != "RS1")) {
+        return false;
+    }
+
+    lv_hash = CMUIX_ProfileConfigValue(lp_payload, "hash");
+    if ((lv_hash == "") || (lv_hash == null)) {
+        return false;
+    }
+
+    return (StringToInt(lv_hash) == CMUIX_ProfileChecksum(lv_body));
+}
+
+string CMUIX_ResultStatisticsPayloadCurrent() {
+    return CMUIX_ResultStatisticsPayload;
+}
+
+string CMUIX_ResultStatisticsPayloadBuild() {
+    int lv_index;
+    int lv_player;
+    int lv_mastery;
+    string lv_body;
+    string lv_key;
+
+    lv_index = 1;
+    lv_player = 1;
+    lv_mastery = 1;
+    lv_body = "RS1";
+    lv_key = "";
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "rv", IntToString(CMUIX_ResultValue));
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "mp", CMUIX_ResultMapInstance);
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "ai", CMUIX_ResultEnemy);
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "ar", CMUIX_ResultEnemyRace);
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "dc", IntToString(CMUIX_ResultDirectMutatorCount));
+    while ((lv_index <= CMUIX_ResultDirectMutatorCount)) {
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("d" + IntToString(lv_index)), CMUIX_ResultDirectMutators[lv_index]);
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("e" + IntToString(lv_index)), IntToString(BoolToInt(CMUIX_ResultDirectMutatorsEnhanced[lv_index])));
+        lv_index += 1;
+    }
+
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "cs", IntToString(CMUIX_ResultChaosSlotCount));
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "hc", IntToString(CMUIX_ResultChaosHistoryCount));
+    lv_index = 1;
+    while ((lv_index <= CMUIX_ResultChaosHistoryCount)) {
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("h" + IntToString(lv_index)), CMUIX_ResultChaosHistoryMutators[lv_index]);
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("he" + IntToString(lv_index)), IntToString(BoolToInt(CMUIX_ResultChaosHistoryEnhanced[lv_index])));
+        lv_index += 1;
+    }
+
+    lv_body = CMUIX_ProfileAppendConfig(lv_body, "sc", IntToString(CMUIX_RESULT_STAT_MAX));
+    lv_index = 1;
+    while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("sk" + IntToString(lv_index)), CMUIX_ResultStatisticsEscape(CMUIX_ResultStatKeys[lv_index]));
+        lv_index += 1;
+    }
+
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("p" + IntToString(lv_player)), IntToString(BoolToInt(CMUIX_ResultPlayerPresent[lv_player])));
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("n" + IntToString(lv_player)), CMUIX_ResultStatisticsEscape(CMUIX_ResultPlayerName[lv_player]));
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("c" + IntToString(lv_player)), CMUIX_ResultPlayerCommander[lv_player]);
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("r" + IntToString(lv_player)), IntToString(CMUIX_ResultPlayerPrestige[lv_player]));
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("t" + IntToString(lv_player)), IntToString(CMUIX_ResultDamageTotal[lv_player]));
+        lv_body = CMUIX_ProfileAppendConfig(lv_body, ("dn" + IntToString(lv_player)), IntToString(CMUIX_ResultDamageUnitCount[lv_player]));
+        lv_index = 1;
+        while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+            lv_key = ("p" + IntToString(lv_player) + "s" + IntToString(lv_index));
+            lv_body = CMUIX_ProfileAppendConfig(lv_body, lv_key, IntToString(CMUIX_ResultStatValues[lv_index][lv_player]));
+            lv_index += 1;
+        }
+
+        lv_mastery = 1;
+        while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+            lv_key = ("p" + IntToString(lv_player) + "m" + IntToString(lv_mastery));
+            lv_body = CMUIX_ProfileAppendConfig(lv_body, lv_key, CMUIX_ResultPlayerMasteryId[lv_mastery][lv_player]);
+            lv_body = CMUIX_ProfileAppendConfig(lv_body, (lv_key + "v"), IntToString(CMUIX_ResultPlayerMasteryValue[lv_mastery][lv_player]));
+            lv_mastery += 1;
+        }
+
+        lv_index = 1;
+        while ((lv_index <= CMUIX_ResultDamageUnitCount[lv_player])) {
+            lv_key = ("p" + IntToString(lv_player) + "u" + IntToString(lv_index));
+            lv_body = CMUIX_ProfileAppendConfig(lv_body, lv_key, CMUIX_ResultDamageUnitTypes[lv_index][lv_player]);
+            lv_body = CMUIX_ProfileAppendConfig(lv_body, (lv_key + "v"), IntToString(CMUIX_ResultDamageUnitValues[lv_index][lv_player]));
+            lv_index += 1;
+        }
+
+        lv_player += 1;
+    }
+
+    return (lv_body + ";hash=" + IntToString(CMUIX_ProfileChecksum(lv_body)));
+}
+
+void CMUIX_ResultStatisticsClearForLoad() {
+    int lv_index;
+
+    lv_index = 0;
+    CMUIX_ResultSnapshotClear();
+    CMUIX_ResultChaosHistoryCount = 0;
+    while ((lv_index <= CMUIX_RESULT_CHAOS_HISTORY_MAX)) {
+        CMUIX_ResultChaosHistoryMutators[lv_index] = "";
+        CMUIX_ResultChaosHistoryEnhanced[lv_index] = false;
+        lv_index += 1;
+    }
+}
+
+bool CMUIX_ResultStatisticsPayloadLoad(string lp_payload) {
+    int lv_index;
+    int lv_player;
+    int lv_mastery;
+    int lv_statCount;
+    string lv_key;
+
+    lv_index = 1;
+    lv_player = 1;
+    lv_mastery = 1;
+    lv_statCount = 0;
+    lv_key = "";
+    if ((CMUIX_ResultStatisticsPayloadValid(lp_payload) == false)) {
+        return false;
+    }
+
+    CMUIX_ResultStatisticsClearForLoad();
+    CMUIX_ResultValue = StringToInt(CMUIX_ProfileConfigValue(lp_payload, "rv"));
+    CMUIX_ResultMapInstance = CMUIX_ProfileConfigValue(lp_payload, "mp");
+    CMUIX_ResultEnemy = CMUIX_ProfileConfigValue(lp_payload, "ai");
+    CMUIX_ResultEnemyRace = CMUIX_ProfileConfigValue(lp_payload, "ar");
+    if ((CMUIX_ResultEnemyRace == "") || (CMUIX_ResultEnemyRace == null)) {
+        CMUIX_ResultEnemyRace = CMUIX_EnemySelectionRaceForEnemy(CMUIX_ResultEnemy);
+    }
+
+    CMUIX_ResultDirectMutatorCount = CMUIX_ClampInt(StringToInt(CMUIX_ProfileConfigValue(lp_payload, "dc")), 0, CMUIX_RESULT_MUTATOR_MAX);
+    while ((lv_index <= CMUIX_ResultDirectMutatorCount)) {
+        CMUIX_ResultDirectMutators[lv_index] = CMUIX_ProfileConfigValue(lp_payload, ("d" + IntToString(lv_index)));
+        CMUIX_ResultDirectMutatorsEnhanced[lv_index] = (StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("e" + IntToString(lv_index)))) == 1);
+        lv_index += 1;
+    }
+
+    CMUIX_ResultChaosSlotCount = CMUIX_ClampInt(StringToInt(CMUIX_ProfileConfigValue(lp_payload, "cs")), 0, CMUIX_RESULT_MUTATOR_MAX);
+    CMUIX_ResultChaosHistoryCount = CMUIX_ClampInt(StringToInt(CMUIX_ProfileConfigValue(lp_payload, "hc")), 0, CMUIX_RESULT_CHAOS_HISTORY_MAX);
+    lv_index = 1;
+    while ((lv_index <= CMUIX_ResultChaosHistoryCount)) {
+        CMUIX_ResultChaosHistoryMutators[lv_index] = CMUIX_ProfileConfigValue(lp_payload, ("h" + IntToString(lv_index)));
+        CMUIX_ResultChaosHistoryEnhanced[lv_index] = (StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("he" + IntToString(lv_index)))) == 1);
+        lv_index += 1;
+    }
+
+    lv_statCount = CMUIX_ClampInt(StringToInt(CMUIX_ProfileConfigValue(lp_payload, "sc")), 0, CMUIX_RESULT_STAT_MAX);
+    if ((lv_statCount <= 0)) {
+        CMUIX_ResultStatKeys[1] = "UnitsStructuresKilled";
+    }
+    else {
+        lv_index = 1;
+        while ((lv_index <= lv_statCount)) {
+            CMUIX_ResultStatKeys[lv_index] = CMUIX_ResultStatisticsUnescape(CMUIX_ProfileConfigValue(lp_payload, ("sk" + IntToString(lv_index))));
+            lv_index += 1;
+        }
+    }
+
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        CMUIX_ResultPlayerPresent[lv_player] = (StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("p" + IntToString(lv_player)))) == 1);
+        CMUIX_ResultPlayerName[lv_player] = CMUIX_ResultStatisticsUnescape(CMUIX_ProfileConfigValue(lp_payload, ("n" + IntToString(lv_player))));
+        CMUIX_ResultPlayerCommander[lv_player] = CMUIX_ProfileConfigValue(lp_payload, ("c" + IntToString(lv_player)));
+        CMUIX_ResultPlayerPrestige[lv_player] = StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("r" + IntToString(lv_player))));
+        if ((lv_statCount <= 0)) {
+            CMUIX_ResultStatValues[1][lv_player] = StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("k" + IntToString(lv_player))));
+        }
+        else {
+            lv_index = 1;
+            while ((lv_index <= lv_statCount)) {
+                lv_key = ("p" + IntToString(lv_player) + "s" + IntToString(lv_index));
+                CMUIX_ResultStatValues[lv_index][lv_player] = StringToInt(CMUIX_ProfileConfigValue(lp_payload, lv_key));
+                lv_index += 1;
+            }
+        }
+
+        CMUIX_ResultDamageTotal[lv_player] = StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("t" + IntToString(lv_player))));
+        CMUIX_ResultDamageUnitCount[lv_player] = CMUIX_ClampInt(StringToInt(CMUIX_ProfileConfigValue(lp_payload, ("dn" + IntToString(lv_player)))), 0, CMUIX_RESULT_CHART_TOP_UNITS);
+        lv_mastery = 1;
+        while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+            lv_key = ("p" + IntToString(lv_player) + "m" + IntToString(lv_mastery));
+            CMUIX_ResultPlayerMasteryId[lv_mastery][lv_player] = CMUIX_ProfileConfigValue(lp_payload, lv_key);
+            CMUIX_ResultPlayerMasteryValue[lv_mastery][lv_player] = StringToInt(CMUIX_ProfileConfigValue(lp_payload, (lv_key + "v")));
+            lv_mastery += 1;
+        }
+
+        lv_index = 1;
+        while ((lv_index <= CMUIX_ResultDamageUnitCount[lv_player])) {
+            lv_key = ("p" + IntToString(lv_player) + "u" + IntToString(lv_index));
+            CMUIX_ResultDamageUnitTypes[lv_index][lv_player] = CMUIX_ProfileConfigValue(lp_payload, lv_key);
+            CMUIX_ResultDamageUnitValues[lv_index][lv_player] = StringToInt(CMUIX_ProfileConfigValue(lp_payload, (lv_key + "v")));
+            lv_index += 1;
+        }
+
+        lv_player += 1;
+    }
+
+    return true;
+}
+
+void CMUIX_ResultRecordOutcome() {
+    if ((CMUIX_ResultValue == c_gameOverVictory)) {
+        CMUIX_GameHistoryRecordVictory();
+        return;
+    }
+
+    CMUIX_GameHistoryRecordDefeat();
+}
+
+void CMUIX_ResultPrepareWorld() {
+    int lv_allySupply;
+
+    lv_allySupply = c_invalidDialogControlId;
+    libNtve_gf_HideGameUI(false, PlayerGroupAll());
+    UISetWorldVisible(PlayerGroupAll(), false);
+    libCOOC_gf_MuteUnmuteAllSoundChannelsExcept(true, c_soundCategoryUI, PlayerGroupAll());
+    GameSetMissionTimePaused(true);
+    UnitPauseAll(true);
+    UIClearMessages(PlayerGroupAll(), c_messageAreaAll);
+    TriggerEnable(libCOTF_gt_UT_Graph_Timer, false);
+    libCOTF_gf_UT_Graph_HideAllGraphsExcept(0, 1);
+    libCOTF_gf_UT_Graph_HideAllGraphsExcept(0, 2);
+    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/FullscreenUpperContainer/AllySupplyPanel");
+    lv_allySupply = DialogControlLastCreated();
+    if ((CMUIX_IsControlValid(lv_allySupply) == true)) {
+        DialogControlSetVisible(lv_allySupply, PlayerGroupAll(), false);
+    }
+}
+
+void CMUIX_ResultResetHookState() {
+    int lv_index;
+    int lv_player;
+    int lv_mastery;
+    int lv_context;
+
+    lv_index = 0;
+    lv_player = 0;
+    lv_mastery = 0;
+    lv_context = 0;
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_ResultDamageChartPanels[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultHistoryViewActive[lv_player] = false;
+        lv_index = 0;
+        while ((lv_index <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+            CMUIX_ResultHistoryPlayerPresent[lv_player][lv_index] = false;
+            lv_index += 1;
+        }
+
+        CMUIX_ResultStatsPlayerFrames[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultStatsPlayerNameLabels[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultStatsCommanderLabels[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultPlayerFrames[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultPlayerNameLabels[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultPlayerCommanderLabels[lv_player] = c_invalidDialogControlId;
+        CMUIX_ResultPlayerPrestigeLabels[lv_player] = c_invalidDialogControlId;
+        lv_mastery = 0;
+        while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+            CMUIX_ResultPlayerMasteryRows[lv_mastery][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultPlayerMasteryValueRows[lv_mastery][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultPlayerMasteryNameLabels[lv_mastery][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultPlayerMasteryValueLabels[lv_mastery][lv_player] = c_invalidDialogControlId;
+            lv_mastery += 1;
+        }
+
+        lv_player += 1;
+    }
+
+    lv_index = 0;
+    while ((lv_index <= CMUIX_RESULT_MUTATOR_DISPLAY_MAX)) {
+        CMUIX_ResultMutatorItems[lv_index] = c_invalidDialogControlId;
+        CMUIX_ResultMutatorIcons[lv_index] = c_invalidDialogControlId;
+        CMUIX_ResultMutatorBadges[lv_index] = c_invalidDialogControlId;
+        lv_index += 1;
+    }
+
+    lv_index = 0;
+    while ((lv_index <= CMUIX_RESULT_CHAOS_HISTORY_MAX)) {
+        CMUIX_ResultChaosHistoryItems[lv_index] = c_invalidDialogControlId;
+        CMUIX_ResultChaosHistoryIcons[lv_index] = c_invalidDialogControlId;
+        lv_index += 1;
+    }
+
+    lv_index = 0;
+    while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+        CMUIX_ResultStatTitleFrames[lv_index] = c_invalidDialogControlId;
+        CMUIX_ResultStatTitleLabels[lv_index] = c_invalidDialogControlId;
+        lv_player = 0;
+        while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+            CMUIX_ResultStatValueFrames[lv_index][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultStatValueLabels[lv_index][lv_player] = c_invalidDialogControlId;
+            lv_player += 1;
+        }
+
+        lv_index += 1;
+    }
+
+    while ((lv_context <= CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+        CMUIX_ResultDamageChartsBuilt[lv_context] = false;
+        CMUIX_ResultOverviewPanels[lv_context] = c_invalidDialogControlId;
+        CMUIX_ResultOverviewChaosSummaryLabels[lv_context] = c_invalidDialogControlId;
+        CMUIX_ResultOverviewChartsBuilt[lv_context] = false;
+        lv_player = 0;
+        while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+            CMUIX_ResultOverviewPlayerFrames[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewPlayerLabels[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewPrestigeLabels[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewKillsLabels[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewDamageLabels[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewMasteryLabels[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewChartPanels[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewChartCanvas[lv_context][lv_player] = c_invalidDialogControlId;
+            CMUIX_ResultDamageChartCanvas[lv_context][lv_player] = c_invalidDialogControlId;
+            lv_player += 1;
+        }
+
+        lv_index = 0;
+        while ((lv_index <= CMUIX_RESULT_OVERVIEW_CHAOS_MAX)) {
+            CMUIX_ResultOverviewChaosItems[lv_context][lv_index] = c_invalidDialogControlId;
+            CMUIX_ResultOverviewChaosIcons[lv_context][lv_index] = c_invalidDialogControlId;
+            lv_index += 1;
+        }
+
+        lv_context += 1;
+    }
+
+    CMUIX_ResultMainNavigationContainer = c_invalidDialogControlId;
+    CMUIX_ResultBackgroundCutscene = c_invalidDialogControlId;
+    CMUIX_ResultHistoryBackgroundCutscene = c_invalidDialogControlId;
+    CMUIX_ResultGameResultLabel = c_invalidDialogControlId;
+    CMUIX_ResultMapNameLabel = c_invalidDialogControlId;
+    CMUIX_ResultEnemyRaceIcon = c_invalidDialogControlId;
+    CMUIX_ResultEnemyNameLabel = c_invalidDialogControlId;
+    CMUIX_ResultStatsButton = c_invalidDialogControlId;
+    CMUIX_ResultDamageButton = c_invalidDialogControlId;
+    CMUIX_ResultPlayersButton = c_invalidDialogControlId;
+    CMUIX_ResultOverviewButton = c_invalidDialogControlId;
+    CMUIX_ResultCloseButton = c_invalidDialogControlId;
+    CMUIX_ResultRestartButton = c_invalidDialogControlId;
+    CMUIX_ResultExitButton = c_invalidDialogControlId;
+    CMUIX_ResultStatsPanel = c_invalidDialogControlId;
+    CMUIX_ResultDamagePanel = c_invalidDialogControlId;
+    CMUIX_ResultPlayersPanel = c_invalidDialogControlId;
+    CMUIX_ResultOverviewPanel = c_invalidDialogControlId;
+    CMUIX_ResultTabControl = c_invalidDialogControlId;
+    CMUIX_ResultChaosHistoryPanel = c_invalidDialogControlId;
+    CMUIX_ResultChaosHistoryTitleLabel = c_invalidDialogControlId;
+    CMUIX_ResultChaosActiveCountLabel = c_invalidDialogControlId;
+    CMUIX_ResultDamageChartCount = 0;
+}
+
+void CMUIX_ResultHookStatsPanel() {
+    int lv_index;
+    int lv_frame;
+
+    lv_index = 1;
+    lv_frame = c_invalidDialogControlId;
+    if ((CMUIX_IsControlValid(CMUIX_ResultStatsPanel) == false)) {
+        return;
+    }
+
+    DialogControlHookup(CMUIX_ResultStatsPanel, c_triggerControlTypePanel, "LocalPlayerFrame");
+    CMUIX_ResultStatsPlayerFrames[1] = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultStatsPlayerFrames[1], c_triggerControlTypeLabel, "NameLabel");
+    CMUIX_ResultStatsPlayerNameLabels[1] = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultStatsPlayerFrames[1], c_triggerControlTypeLabel, "CommanderLabel");
+    CMUIX_ResultStatsCommanderLabels[1] = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultStatsPanel, c_triggerControlTypePanel, "AllyPlayerFrame");
+    CMUIX_ResultStatsPlayerFrames[2] = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultStatsPlayerFrames[2], c_triggerControlTypeLabel, "NameLabel");
+    CMUIX_ResultStatsPlayerNameLabels[2] = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultStatsPlayerFrames[2], c_triggerControlTypeLabel, "CommanderLabel");
+    CMUIX_ResultStatsCommanderLabels[2] = DialogControlLastCreated();
+    while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+        DialogControlHookup(CMUIX_ResultStatsPanel, c_triggerControlTypePanel, ("TitlesFrame/ScoreValueNameFrame" + IntToString(lv_index - 1)));
+        CMUIX_ResultStatTitleFrames[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultStatTitleFrames[lv_index], c_triggerControlTypeLabel, "ResultLabel");
+        CMUIX_ResultStatTitleLabels[lv_index] = DialogControlLastCreated();
+
+        lv_frame = CMUIX_ResultStatsPlayerFrames[1];
+        DialogControlHookup(lv_frame, c_triggerControlTypePanel, ("ScoreValueFrame" + IntToString(lv_index - 1)));
+        CMUIX_ResultStatValueFrames[lv_index][1] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultStatValueFrames[lv_index][1], c_triggerControlTypeLabel, "ResultLabel");
+        CMUIX_ResultStatValueLabels[lv_index][1] = DialogControlLastCreated();
+
+        lv_frame = CMUIX_ResultStatsPlayerFrames[2];
+        DialogControlHookup(lv_frame, c_triggerControlTypePanel, ("ScoreValueFrame" + IntToString(lv_index - 1)));
+        CMUIX_ResultStatValueFrames[lv_index][2] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultStatValueFrames[lv_index][2], c_triggerControlTypeLabel, "ResultLabel");
+        CMUIX_ResultStatValueLabels[lv_index][2] = DialogControlLastCreated();
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultHookPlayersPanel() {
+    int lv_player;
+    int lv_mastery;
+    int lv_row;
+    int lv_column;
+    int lv_slot;
+
+    lv_player = 1;
+    lv_mastery = 1;
+    lv_row = 1;
+    lv_column = 1;
+    lv_slot = 1;
+    if ((CMUIX_IsControlValid(CMUIX_ResultPlayersPanel) == false)) {
+        return;
+    }
+
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        DialogControlHookup(CMUIX_ResultPlayersPanel, c_triggerControlTypePanel, ("PlayerFrame" + IntToString(lv_player)));
+        CMUIX_ResultPlayerFrames[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultPlayerFrames[lv_player], c_triggerControlTypeLabel, "PlayerNameLabel");
+        CMUIX_ResultPlayerNameLabels[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultPlayerFrames[lv_player], c_triggerControlTypeLabel, "CommanderLabel");
+        CMUIX_ResultPlayerCommanderLabels[lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultPlayerFrames[lv_player], c_triggerControlTypeLabel, "ValuesFrame/PrestigeLabel");
+        CMUIX_ResultPlayerPrestigeLabels[lv_player] = DialogControlLastCreated();
+        lv_mastery = 1;
+        while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+            DialogControlHookup(CMUIX_ResultPlayerFrames[lv_player], c_triggerControlTypePanel, ("TitlesFrame/MasteryRow" + IntToString(lv_mastery)));
+            CMUIX_ResultPlayerMasteryRows[lv_mastery][lv_player] = DialogControlLastCreated();
+            DialogControlHookup(CMUIX_ResultPlayerMasteryRows[lv_mastery][lv_player], c_triggerControlTypeLabel, "NameLabel");
+            CMUIX_ResultPlayerMasteryNameLabels[lv_mastery][lv_player] = DialogControlLastCreated();
+            DialogControlHookup(CMUIX_ResultPlayerFrames[lv_player], c_triggerControlTypePanel, ("ValuesFrame/MasteryValueRow" + IntToString(lv_mastery)));
+            CMUIX_ResultPlayerMasteryValueRows[lv_mastery][lv_player] = DialogControlLastCreated();
+            DialogControlHookup(CMUIX_ResultPlayerMasteryValueRows[lv_mastery][lv_player], c_triggerControlTypeLabel, "ValueLabel");
+            CMUIX_ResultPlayerMasteryValueLabels[lv_mastery][lv_player] = DialogControlLastCreated();
+            lv_mastery += 1;
+        }
+
+        lv_player += 1;
+    }
+
+    DialogControlHookup(CMUIX_ResultPlayersPanel, c_triggerControlTypePanel, "ChaosHistoryPanel");
+    CMUIX_ResultChaosHistoryPanel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultChaosHistoryPanel, c_triggerControlTypeLabel, "ChaosHistoryTitleLabel");
+    CMUIX_ResultChaosHistoryTitleLabel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultChaosHistoryPanel, c_triggerControlTypeLabel, "ChaosActiveCountLabel");
+    CMUIX_ResultChaosActiveCountLabel = DialogControlLastCreated();
+    while ((lv_row <= CMUIX_RESULT_CHAOS_HISTORY_ROWS)) {
+        lv_column = 1;
+        while ((lv_column <= CMUIX_RESULT_CHAOS_HISTORY_COLUMNS)) {
+            DialogControlHookup(CMUIX_ResultChaosHistoryPanel, c_triggerControlTypePanel, ("ChaosHistoryGrid/Row" + IntToString(lv_row) + "/Mutator" + IntToString(lv_column)));
+            CMUIX_ResultChaosHistoryItems[lv_slot] = DialogControlLastCreated();
+            DialogControlHookup(CMUIX_ResultChaosHistoryItems[lv_slot], c_triggerControlTypeImage, "MutatorIcon");
+            CMUIX_ResultChaosHistoryIcons[lv_slot] = DialogControlLastCreated();
+            lv_slot += 1;
+            lv_column += 1;
+        }
+
+        lv_row += 1;
+    }
+}
+
+void CMUIX_ResultOverviewHook(int lp_context, int lp_panel) {
+    int lv_player;
+    int lv_index;
+
+    lv_player = 1;
+    lv_index = 1;
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX) || (CMUIX_IsControlValid(lp_panel) == false)) {
+        return;
+    }
+
+    CMUIX_ResultOverviewPanels[lp_context] = lp_panel;
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        DialogControlHookup(lp_panel, c_triggerControlTypePanel, ("PlayerFrame" + IntToString(lv_player)));
+        CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], c_triggerControlTypeLabel, "PlayerLabel");
+        CMUIX_ResultOverviewPlayerLabels[lp_context][lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], c_triggerControlTypeLabel, "PrestigeLabel");
+        CMUIX_ResultOverviewPrestigeLabels[lp_context][lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], c_triggerControlTypeLabel, "TotalsFrame/KillsLabel");
+        CMUIX_ResultOverviewKillsLabels[lp_context][lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], c_triggerControlTypeLabel, "TotalsFrame/DamageLabel");
+        CMUIX_ResultOverviewDamageLabels[lp_context][lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], c_triggerControlTypeLabel, "MasteryLabel");
+        CMUIX_ResultOverviewMasteryLabels[lp_context][lv_player] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], c_triggerControlTypePanel, "ChartPanel");
+        CMUIX_ResultOverviewChartPanels[lp_context][lv_player] = DialogControlLastCreated();
+        lv_player += 1;
+    }
+
+    DialogControlHookup(lp_panel, c_triggerControlTypeLabel, "ChaosSummaryPanel/SummaryLabel");
+    CMUIX_ResultOverviewChaosSummaryLabels[lp_context] = DialogControlLastCreated();
+    while ((lv_index <= CMUIX_RESULT_OVERVIEW_CHAOS_MAX)) {
+        DialogControlHookup(lp_panel, c_triggerControlTypePanel, ("ChaosSummaryPanel/RecentMutators/Mutator" + IntToString(lv_index)));
+        CMUIX_ResultOverviewChaosItems[lp_context][lv_index] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultOverviewChaosItems[lp_context][lv_index], c_triggerControlTypeImage, "MutatorIcon");
+        CMUIX_ResultOverviewChaosIcons[lp_context][lv_index] = DialogControlLastCreated();
+        lv_index += 1;
+    }
+
+    CMUIX_ResultOverviewChartsBuilt[lp_context] = false;
+}
+
+void CMUIX_ResultHookup() {
+    int lv_index;
+    int lv_player;
+
+    lv_index = 1;
+    lv_player = 1;
+    if ((CMUIX_IsControlValid(CMUIX_ScorePanel) == false)) {
+        return;
+    }
+
+    DialogControlHookup(libCMUI_gv_screenNavigationMain, c_triggerControlTypePanel, "NavigationContainer");
+    CMUIX_ResultMainNavigationContainer = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeCutscene, "BackgroundCutscene");
+    CMUIX_ResultBackgroundCutscene = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeCutscene, "HistoryBackgroundCutscene");
+    CMUIX_ResultHistoryBackgroundCutscene = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeLabel, "ContentPanel/GameResultLabel");
+    CMUIX_ResultGameResultLabel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeLabel, "ContentPanel/MapNameLabel");
+    CMUIX_ResultMapNameLabel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeImage, "ContentPanel/EnemyRaceIcon");
+    CMUIX_ResultEnemyRaceIcon = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeLabel, "ContentPanel/EnemyNameLabel");
+    CMUIX_ResultEnemyNameLabel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/StatsButton");
+    CMUIX_ResultStatsButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/DamageButton");
+    CMUIX_ResultDamageButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/PlayersButton");
+    CMUIX_ResultPlayersButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/OverviewButton");
+    CMUIX_ResultOverviewButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/CloseButton");
+    CMUIX_ResultCloseButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/RestartButton");
+    CMUIX_ResultRestartButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypeButton, "ContentPanel/ExitButton");
+    CMUIX_ResultExitButton = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypePanel, "ContentPanel/PageContainer/StatsPanel");
+    CMUIX_ResultStatsPanel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypePanel, "ContentPanel/PageContainer/DamagePanel");
+    CMUIX_ResultDamagePanel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypePanel, "ContentPanel/PageContainer/PlayersPanel");
+    CMUIX_ResultPlayersPanel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypePanel, "ContentPanel/PageContainer/OverviewPanel");
+    CMUIX_ResultOverviewPanel = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypePanel, "ContentPanel/TabControl");
+    CMUIX_ResultTabControl = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultDamagePanel, c_triggerControlTypePanel, "PlayerChart1");
+    CMUIX_ResultDamageChartPanels[1] = DialogControlLastCreated();
+    DialogControlHookup(CMUIX_ResultDamagePanel, c_triggerControlTypePanel, "PlayerChart2");
+    CMUIX_ResultDamageChartPanels[2] = DialogControlLastCreated();
+    while ((lv_index <= CMUIX_RESULT_MUTATOR_DISPLAY_MAX)) {
+        DialogControlHookup(CMUIX_ScorePanel, c_triggerControlTypePanel, ("ContentPanel/MutatorStrip/Mutator" + IntToString(lv_index)));
+        CMUIX_ResultMutatorItems[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultMutatorItems[lv_index], c_triggerControlTypeImage, "MutatorIcon");
+        CMUIX_ResultMutatorIcons[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(CMUIX_ResultMutatorItems[lv_index], c_triggerControlTypeLabel, "CycleCount");
+        CMUIX_ResultMutatorBadges[lv_index] = DialogControlLastCreated();
+        lv_index += 1;
+    }
+
+    CMUIX_ResultHookStatsPanel();
+    CMUIX_ResultHookPlayersPanel();
+    CMUIX_ResultOverviewHook(CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT, CMUIX_ResultOverviewPanel);
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        CMUIX_ResultOverviewHook(CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE + lv_player, CMUIX_ResultOverviewPanel);
+        lv_player += 1;
+    }
+}
+
+text CMUIX_ResultOutcomeText() {
+    if ((CMUIX_ResultValue == c_gameOverVictory)) {
+        return StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ResultVictory");
+    }
+
+    if ((CMUIX_ResultValue == c_gameOverDefeat)) {
+        return StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ResultDefeat");
+    }
+
+    return StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ResultDraw");
+}
+
+color CMUIX_ResultOutcomeColor() {
+    if ((CMUIX_ResultValue == c_gameOverVictory)) {
+        return Color(38, 210, 126);
+    }
+
+    if ((CMUIX_ResultValue == c_gameOverDefeat)) {
+        return Color(235, 72, 72);
+    }
+
+    return Color(230, 190, 80);
+}
+
+text CMUIX_ResultMutatorTooltip(string lp_mutator, bool lp_enhanced) {
+    text lv_description;
+
+    lv_description = libCOMU_gf_CT_MutatorDescription(lp_mutator);
+    if ((lp_enhanced == true)) {
+        lv_description = libCOMU_gf_CT_MutatorEnhanceDescription(lp_mutator);
+    }
+
+    return (libCOMU_gf_CT_MutatorName(lp_mutator) + StringToText("<n/>") + lv_description);
+}
+
+void CMUIX_ResultRefreshHeaderForPlayers(playergroup lp_players) {
+    int lv_index;
+    string lv_mutator;
+    string lv_state;
+    playergroup lv_players;
+
+    lv_index = 1;
+    lv_mutator = "";
+    lv_state = "None";
+    lv_players = lp_players;
+    CMUIX_SetControlText(CMUIX_ResultGameResultLabel, lv_players, CMUIX_ResultOutcomeText());
+    if ((CMUIX_IsControlValid(CMUIX_ResultGameResultLabel) == true)) {
+        libNtve_gf_SetDialogItemColor(CMUIX_ResultGameResultLabel, CMUIX_ResultOutcomeColor(), lv_players);
+    }
+
+    CMUIX_SetControlText(CMUIX_ResultMapNameLabel, lv_players, CMUIX_MapSelectionDisplayName(CMUIX_ResultMapInstance));
+    CMUIX_SetControlText(CMUIX_ResultEnemyNameLabel, lv_players, CMUIX_EnemySelectionDisplayName(CMUIX_ResultEnemy));
+    if ((CMUIX_EnemySelectionRaceIsStandard(CMUIX_ResultEnemyRace) == true)) {
+        lv_state = CMUIX_ResultEnemyRace;
+    }
+
+    if ((CMUIX_IsControlValid(CMUIX_ResultEnemyRaceIcon) == true)) {
+        DialogControlSetAnimationState(CMUIX_ResultEnemyRaceIcon, lv_players, "RaceState", lv_state);
+    }
+
+    while ((lv_index <= CMUIX_RESULT_MUTATOR_DISPLAY_MAX)) {
+        if ((lv_index <= CMUIX_ResultDirectMutatorCount)) {
+            lv_mutator = CMUIX_ResultDirectMutators[lv_index];
+            if ((CMUIX_IsControlValid(CMUIX_ResultMutatorItems[lv_index]) == true)) {
+                DialogControlSetAnimationState(CMUIX_ResultMutatorItems[lv_index], lv_players, "SourceState", CMUIX_MutatorChallengeMutatorSourceState(lv_mutator, CMUIX_ResultDirectMutatorsEnhanced[lv_index]));
+                CMUIX_SetControlTooltip(CMUIX_ResultMutatorItems[lv_index], lv_players, CMUIX_ResultMutatorTooltip(lv_mutator, CMUIX_ResultDirectMutatorsEnhanced[lv_index]));
+                CMUIX_SetControlVisible(CMUIX_ResultMutatorItems[lv_index], lv_players, true);
+            }
+
+            if ((CMUIX_IsControlValid(CMUIX_ResultMutatorIcons[lv_index]) == true)) {
+                libNtve_gf_SetDialogItemImage(CMUIX_ResultMutatorIcons[lv_index], libCOMU_gf_CT_MutatorIcon(lv_mutator), lv_players);
+            }
+
+            CMUIX_SetControlVisible(CMUIX_ResultMutatorBadges[lv_index], lv_players, false);
+        }
+        else {
+            if ((lv_index == (CMUIX_ResultDirectMutatorCount + 1)) && (CMUIX_ResultChaosSlotCount > 0)) {
+                if ((CMUIX_IsControlValid(CMUIX_ResultMutatorItems[lv_index]) == true)) {
+                    DialogControlSetAnimationState(CMUIX_ResultMutatorItems[lv_index], lv_players, "SourceState", CMUIX_MutatorChallengeMutatorSourceState("Chaos", false));
+                    CMUIX_SetControlTooltip(CMUIX_ResultMutatorItems[lv_index], lv_players, CMUIX_ResultMutatorTooltip("Chaos", false));
+                    CMUIX_SetControlVisible(CMUIX_ResultMutatorItems[lv_index], lv_players, true);
+                }
+
+                if ((CMUIX_IsControlValid(CMUIX_ResultMutatorIcons[lv_index]) == true)) {
+                    libNtve_gf_SetDialogItemImage(CMUIX_ResultMutatorIcons[lv_index], libCOMU_gf_CT_MutatorIcon("Chaos"), lv_players);
+                }
+
+                CMUIX_SetControlText(CMUIX_ResultMutatorBadges[lv_index], lv_players, IntToText(CMUIX_ResultChaosSlotCount));
+                CMUIX_SetControlVisible(CMUIX_ResultMutatorBadges[lv_index], lv_players, true);
+            }
+            else {
+                CMUIX_SetControlVisible(CMUIX_ResultMutatorItems[lv_index], lv_players, false);
+            }
+        }
+
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultRefreshHeader() {
+    CMUIX_ResultRefreshHeaderForPlayers(PlayerGroupAll());
+}
+
+void CMUIX_ResultRefreshStatsForPlayers(playergroup lp_players) {
+    int lv_index;
+    int lv_player;
+    string lv_key;
+    bool lv_visible;
+    playergroup lv_players;
+
+    lv_index = 1;
+    lv_player = 1;
+    lv_key = "";
+    lv_visible = false;
+    lv_players = lp_players;
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_SetControlVisible(CMUIX_ResultStatsPlayerFrames[lv_player], lv_players, CMUIX_ResultPlayerPresent[lv_player]);
+        if ((CMUIX_ResultPlayerPresent[lv_player] == true)) {
+            CMUIX_SetControlText(CMUIX_ResultStatsPlayerNameLabels[lv_player], lv_players, StringToText(CMUIX_ResultPlayerName[lv_player]));
+            CMUIX_SetControlText(CMUIX_ResultStatsCommanderLabels[lv_player], lv_players, libCOOC_gf_CC_CommanderName(CMUIX_ResultPlayerCommander[lv_player]));
+        }
+
+        lv_player += 1;
+    }
+
+    while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
+        lv_key = CMUIX_ResultStatKeys[lv_index];
+        lv_visible = ((lv_key != "") && (lv_key != null));
+        CMUIX_SetControlVisible(CMUIX_ResultStatTitleFrames[lv_index], lv_players, lv_visible);
+        if ((lv_visible == true)) {
+            CMUIX_SetControlText(CMUIX_ResultStatTitleLabels[lv_index], lv_players, StringExternal("ScoreValue/Name/" + lv_key));
+        }
+
+        lv_player = 1;
+        while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+            CMUIX_SetControlVisible(CMUIX_ResultStatValueFrames[lv_index][lv_player], lv_players, (lv_visible == true) && (CMUIX_ResultPlayerPresent[lv_player] == true));
+            if ((lv_visible == true) && (CMUIX_ResultPlayerPresent[lv_player] == true)) {
+                CMUIX_SetControlText(CMUIX_ResultStatValueLabels[lv_index][lv_player], lv_players, IntToText(CMUIX_ResultStatValues[lv_index][lv_player]));
+            }
+
+            lv_player += 1;
+        }
+
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultRefreshStats() {
+    CMUIX_ResultRefreshStatsForPlayers(PlayerGroupAll());
+}
+
+void CMUIX_ResultRefreshPlayersForPlayers(playergroup lp_players) {
+    int lv_player;
+    int lv_mastery;
+    int lv_index;
+    string lv_commander;
+    string lv_masteryId;
+    string lv_mutator;
+    playergroup lv_players;
+
+    lv_player = 1;
+    lv_mastery = 1;
+    lv_index = 1;
+    lv_commander = "";
+    lv_masteryId = "";
+    lv_mutator = "";
+    lv_players = lp_players;
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_SetControlVisible(CMUIX_ResultPlayerFrames[lv_player], lv_players, CMUIX_ResultPlayerPresent[lv_player]);
+        if ((CMUIX_ResultPlayerPresent[lv_player] == true)) {
+            lv_commander = CMUIX_ResultPlayerCommander[lv_player];
+            CMUIX_SetControlText(CMUIX_ResultPlayerNameLabels[lv_player], lv_players, StringToText(CMUIX_ResultPlayerName[lv_player]));
+            CMUIX_SetControlText(CMUIX_ResultPlayerCommanderLabels[lv_player], lv_players, libCOOC_gf_CC_CommanderName(lv_commander));
+            CMUIX_SetControlText(CMUIX_ResultPlayerPrestigeLabels[lv_player], lv_players, CMUIX_PrestigeLabelText(lv_player, lv_commander, CMUIX_ResultPlayerPrestige[lv_player]));
+            lv_mastery = 1;
+            while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+                lv_masteryId = CMUIX_ResultPlayerMasteryId[lv_mastery][lv_player];
+                CMUIX_SetControlVisible(CMUIX_ResultPlayerMasteryRows[lv_mastery][lv_player], lv_players, (lv_masteryId != "") && (lv_masteryId != null));
+                CMUIX_SetControlVisible(CMUIX_ResultPlayerMasteryValueRows[lv_mastery][lv_player], lv_players, (lv_masteryId != "") && (lv_masteryId != null));
+                if ((lv_masteryId != "") && (lv_masteryId != null)) {
+                    CMUIX_SetControlText(CMUIX_ResultPlayerMasteryNameLabels[lv_mastery][lv_player], lv_players, libCOOC_gf_CC_PlayerMasteryName(lv_masteryId));
+                    CMUIX_SetControlText(CMUIX_ResultPlayerMasteryValueLabels[lv_mastery][lv_player], lv_players, IntToText(CMUIX_ResultPlayerMasteryValue[lv_mastery][lv_player]));
+                }
+
+                lv_mastery += 1;
+            }
+        }
+
+        lv_player += 1;
+    }
+
+    CMUIX_SetControlVisible(CMUIX_ResultChaosHistoryPanel, lv_players, (CMUIX_ResultChaosSlotCount > 0));
+    CMUIX_SetControlText(CMUIX_ResultChaosHistoryTitleLabel, lv_players, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ChaosHistory") + StringToText(" (") + IntToText(CMUIX_ResultChaosHistoryCount) + StringToText(")"));
+    CMUIX_SetControlText(CMUIX_ResultChaosActiveCountLabel, lv_players, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ChaosActiveCount") + StringToText(" ") + IntToText(CMUIX_ResultChaosSlotCount));
+    while ((lv_index <= CMUIX_RESULT_CHAOS_HISTORY_MAX)) {
+        if ((lv_index <= CMUIX_ResultChaosHistoryCount)) {
+            lv_mutator = CMUIX_ResultChaosHistoryMutators[lv_index];
+            if ((CMUIX_IsControlValid(CMUIX_ResultChaosHistoryItems[lv_index]) == true)) {
+                DialogControlSetAnimationState(CMUIX_ResultChaosHistoryItems[lv_index], lv_players, "SourceState", CMUIX_MutatorChallengeMutatorSourceState(lv_mutator, CMUIX_ResultChaosHistoryEnhanced[lv_index]));
+                CMUIX_SetControlTooltip(CMUIX_ResultChaosHistoryItems[lv_index], lv_players, CMUIX_ResultMutatorTooltip(lv_mutator, CMUIX_ResultChaosHistoryEnhanced[lv_index]));
+                CMUIX_SetControlVisible(CMUIX_ResultChaosHistoryItems[lv_index], lv_players, true);
+            }
+
+            if ((CMUIX_IsControlValid(CMUIX_ResultChaosHistoryIcons[lv_index]) == true)) {
+                libNtve_gf_SetDialogItemImage(CMUIX_ResultChaosHistoryIcons[lv_index], libCOMU_gf_CT_MutatorIcon(lv_mutator), lv_players);
+            }
+        }
+        else {
+            CMUIX_SetControlVisible(CMUIX_ResultChaosHistoryItems[lv_index], lv_players, false);
+        }
+
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultRefreshPlayers() {
+    CMUIX_ResultRefreshPlayersForPlayers(PlayerGroupAll());
+}
+
+void CMUIX_ResultRefreshAll() {
+    CMUIX_ResultRefreshHeader();
+    CMUIX_ResultRefreshStats();
+    CMUIX_ResultRefreshPlayers();
+    CMUIX_ResultOverviewRefresh(CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT);
+}
+
+void CMUIX_ResultDamageChartInsert(int lp_damage, string lp_unitType) {
+    int lv_position;
+    int lv_shift;
+
+    lv_position = 1;
+    lv_shift = 0;
+    if ((lp_damage <= 0) || (lp_unitType == "") || (lp_unitType == null)) {
+        return;
+    }
+
+    while ((lv_position <= CMUIX_ResultDamageChartCount) && (lp_damage <= CMUIX_ResultDamageChartValues[lv_position])) {
+        lv_position += 1;
+    }
+
+    if ((lv_position > CMUIX_RESULT_CHART_TOP_UNITS)) {
+        return;
+    }
+
+    lv_shift = MinI(CMUIX_ResultDamageChartCount + 1, CMUIX_RESULT_CHART_TOP_UNITS);
+    while ((lv_shift > lv_position)) {
+        CMUIX_ResultDamageChartValues[lv_shift] = CMUIX_ResultDamageChartValues[lv_shift - 1];
+        CMUIX_ResultDamageChartUnitTypes[lv_shift] = CMUIX_ResultDamageChartUnitTypes[lv_shift - 1];
+        lv_shift -= 1;
+    }
+
+    CMUIX_ResultDamageChartValues[lv_position] = lp_damage;
+    CMUIX_ResultDamageChartUnitTypes[lv_position] = lp_unitType;
+    if ((CMUIX_ResultDamageChartCount < CMUIX_RESULT_CHART_TOP_UNITS)) {
+        CMUIX_ResultDamageChartCount += 1;
+    }
+}
+
+void CMUIX_ResultDamageChartCollect(int lp_player) {
+    int lv_index;
+
+    lv_index = 0;
+    CMUIX_ResultDamageChartCount = 0;
+    while ((lv_index <= CMUIX_RESULT_CHART_UNIT_MAX)) {
+        CMUIX_ResultDamageChartValues[lv_index] = 0;
+        CMUIX_ResultDamageChartUnitTypes[lv_index] = "";
+        lv_index += 1;
+    }
+
+    lv_index = 1;
+    while ((lv_index <= CMUIX_ResultDamageUnitCount[lp_player])) {
+        CMUIX_ResultDamageChartCount += 1;
+        CMUIX_ResultDamageChartValues[lv_index] = CMUIX_ResultDamageUnitValues[lv_index][lp_player];
+        CMUIX_ResultDamageChartUnitTypes[lv_index] = CMUIX_ResultDamageUnitTypes[lv_index][lp_player];
+        lv_index += 1;
+    }
+}
+
+int CMUIX_ResultDamageChartTotal(int lp_player) {
+    return CMUIX_ResultDamageTotal[lp_player];
+}
+
+fixed CMUIX_ResultDamageChartRatio(int lp_value, int lp_total) {
+    int lv_scale;
+    int lv_scaledValue;
+    int lv_scaledTotal;
+
+    lv_scale = 1;
+    lv_scaledValue = 0;
+    lv_scaledTotal = 0;
+    if ((lp_value <= 0) || (lp_total <= 0)) {
+        return 0.0;
+    }
+
+    lv_scale = MaxI((lp_total / 100000) + 1, 1);
+    lv_scaledValue = lp_value / lv_scale;
+    lv_scaledTotal = MaxI(lp_total / lv_scale, 1);
+    return IntToFixed(lv_scaledValue) / IntToFixed(lv_scaledTotal);
+}
+
+int CMUIX_ResultDamageChartCreateControl(int lp_panel, int lp_type, int lp_width, int lp_height, int lp_anchor, int lp_x, int lp_y) {
+    int lv_control;
+
+    lv_control = c_invalidDialogControlId;
+    if ((CMUIX_IsControlValid(lp_panel) == false)) {
+        return lv_control;
+    }
+
+    DialogControlCreateInPanel(lp_panel, lp_type);
+    lv_control = DialogControlLastCreated();
+    DialogControlSetSize(lv_control, PlayerGroupAll(), lp_width, lp_height);
+    DialogControlSetPosition(lv_control, PlayerGroupAll(), lp_anchor, lp_x, lp_y);
+    return lv_control;
+}
+
+int CMUIX_ResultDamageChartCreateImage(int lp_panel, int lp_width, int lp_height, int lp_anchor, int lp_x, int lp_y, string lp_image, color lp_color, int lp_alpha) {
+    int lv_control;
+
+    lv_control = CMUIX_ResultDamageChartCreateControl(lp_panel, c_triggerControlTypeImage, lp_width, lp_height, lp_anchor, lp_x, lp_y);
+    if ((CMUIX_IsControlValid(lv_control) == false)) {
+        return lv_control;
+    }
+
+    libNtve_gf_SetDialogItemImage(lv_control, lp_image, PlayerGroupAll());
+    libNtve_gf_SetDialogItemImageType(lv_control, c_triggerImageTypeNormal, PlayerGroupAll());
+    libNtve_gf_SetDialogItemBlendMode(lv_control, c_triggerBlendModeNormal, PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(lv_control, lp_color, PlayerGroupAll());
+    DialogControlSetPropertyAsInt(lv_control, c_triggerControlPropertyAlpha, PlayerGroupAll(), lp_alpha);
+    return lv_control;
+}
+
+int CMUIX_ResultDamageChartCreateLabel(int lp_panel, int lp_width, int lp_height, int lp_anchor, int lp_x, int lp_y, text lp_text, string lp_style, color lp_color) {
+    int lv_control;
+
+    lv_control = CMUIX_ResultDamageChartCreateControl(lp_panel, c_triggerControlTypeLabel, lp_width, lp_height, lp_anchor, lp_x, lp_y);
+    if ((CMUIX_IsControlValid(lv_control) == false)) {
+        return lv_control;
+    }
+
+    libNtve_gf_SetDialogItemText(lv_control, lp_text, PlayerGroupAll());
+    libNtve_gf_SetDialogItemStyle(lv_control, lp_style, PlayerGroupAll());
+    libNtve_gf_SetDialogItemColor(lv_control, lp_color, PlayerGroupAll());
+    return lv_control;
+}
+
+void CMUIX_ResultDamageChartCreateLegend(int lp_panel, int lp_index, text lp_name, int lp_damage, int lp_total, color lp_color) {
+    int lv_y;
+    fixed lv_percent;
+
+    lv_y = 105 + ((lp_index - 1) * 29);
+    lv_percent = CMUIX_ResultDamageChartRatio(lp_damage, lp_total) * 100.0;
+    CMUIX_ResultDamageChartCreateImage(lp_panel, 16, 16, c_anchorTopLeft, 342, lv_y + 4, "Assets\\Textures\\white.dds", lp_color, 220);
+    CMUIX_ResultDamageChartCreateLabel(lp_panel, 220, 24, c_anchorTopLeft, 366, lv_y, lp_name, "AF_PieName", lp_color);
+    CMUIX_ResultDamageChartCreateLabel(lp_panel, 72, 24, c_anchorTopLeft, 572, lv_y, FixedToText(lv_percent, 1) + StringToText("%"), "AF_PiePercent", lp_color);
+}
+
+void CMUIX_ResultDamageChartDrawSlices(int lp_panel, int lp_startSlice, int lp_endSlice, color lp_color) {
+    int lv_slice;
+    int lv_angle;
+    int lv_x;
+    int lv_y;
+    int lv_control;
+
+    lv_slice = lp_startSlice;
+    lv_angle = 0;
+    lv_x = 0;
+    lv_y = 0;
+    lv_control = c_invalidDialogControlId;
+    while ((lv_slice <= lp_endSlice)) {
+        lv_angle = lv_slice;
+        lv_x = -150 + FixedToInt(CMUIX_RESULT_CHART_RADIUS * Sin(IntToFixed(lv_angle)));
+        lv_y = 30 + FixedToInt(-CMUIX_RESULT_CHART_RADIUS * Cos(IntToFixed(lv_angle)));
+        lv_control = CMUIX_ResultDamageChartCreateImage(lp_panel, 10, 144, c_anchorCenter, lv_x, lv_y, "AF_slice.dds", lp_color, CMUIX_RESULT_CHART_ALPHA);
+        if ((CMUIX_IsControlValid(lv_control) == true)) {
+            libNtve_gf_SetDialogItemRotation(lv_control, lv_angle, PlayerGroupAll());
+        }
+
+        lv_slice += 1;
+    }
+}
+
+void CMUIX_ResultDamageChartCreate(int lp_context, int lp_player, int lp_colorShift) {
+    int lv_parentPanel;
+    int lv_panel;
+    int lv_index;
+    int lv_count;
+    int lv_total;
+    int lv_topTotal;
+    int lv_chartTotal;
+    int lv_other;
+    int lv_startSlice;
+    int lv_endSlice;
+    int lv_damage;
+    int lv_cumulativeDamage;
+    text lv_name;
+    text lv_totalText;
+    color lv_color;
+
+    lv_parentPanel = CMUIX_ResultDamageChartPanels[lp_player];
+    lv_panel = c_invalidDialogControlId;
+    lv_index = 1;
+    lv_count = 0;
+    lv_total = CMUIX_ResultDamageChartTotal(lp_player);
+    lv_topTotal = 0;
+    lv_chartTotal = 0;
+    lv_other = 0;
+    lv_startSlice = 0;
+    lv_endSlice = 0;
+    lv_damage = 0;
+    lv_cumulativeDamage = 0;
+    lv_name = StringToText("");
+    lv_totalText = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/DamageTotal") + StringToText(" ") + StringToText(libCOTF_gf_UT_FormatInteger(lv_total, " "));
+    lv_color = Color(255, 255, 255);
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX) || (CMUIX_IsControlValid(lv_parentPanel) == false)) {
+        return;
+    }
+
+    DialogControlCreateInPanel(lv_parentPanel, c_triggerControlTypePanel);
+    lv_panel = DialogControlLastCreated();
+    CMUIX_ResultDamageChartCanvas[lp_context][lp_player] = lv_panel;
+    DialogControlSetSize(lv_panel, PlayerGroupAll(), 660, 550);
+    DialogControlSetPosition(lv_panel, PlayerGroupAll(), c_anchorCenter, 0, 0);
+    if ((lp_context != CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT)) {
+        DialogControlSetVisible(lv_panel, PlayerGroupAll(), false);
+        DialogControlSetVisible(lv_panel, PlayerGroupSingle(lp_context - CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE), true);
+    }
+
+    CMUIX_ResultDamageChartCreateLabel(lv_panel, 620, 42, c_anchorTop, 0, 10, StringToText(CMUIX_ResultPlayerName[lp_player]), "AF_PieTitle", libNtve_gf_ConvertPlayerColorToColor(PlayerGetColorIndex(lp_player, false)));
+    CMUIX_ResultDamageChartCreateLabel(lv_panel, 620, 32, c_anchorTop, 0, 50, lv_totalText, "AF_PieSubtitle", Color(255, 255, 255));
+    if ((lv_total <= 0)) {
+        CMUIX_ResultDamageChartCreateLabel(lv_panel, 560, 60, c_anchorCenter, 0, 0, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/DamageNoData"), "Coop_ScoreScreen_MessageLabel", Color(255, 255, 255));
+        return;
+    }
+
+    CMUIX_ResultDamageChartCollect(lp_player);
+    lv_count = CMUIX_ResultDamageChartCount;
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_topTotal += CMUIX_ResultDamageChartValues[lv_index];
+        lv_index += 1;
+    }
+
+    lv_chartTotal = MaxI(lv_total, lv_topTotal);
+    lv_other = MaxI(lv_total - lv_topTotal, 0);
+    if ((lv_other > 0) && (lv_count < CMUIX_RESULT_CHART_UNIT_MAX)) {
+        lv_count += 1;
+        CMUIX_ResultDamageChartValues[lv_count] = lv_other;
+        CMUIX_ResultDamageChartUnitTypes[lv_count] = "";
+    }
+
+    lv_index = 1;
+    while ((lv_index <= lv_count)) {
+        lv_damage = CMUIX_ResultDamageChartValues[lv_index];
+        lv_cumulativeDamage += lv_damage;
+        lv_endSlice = MinI(FixedToInt(CMUIX_ResultDamageChartRatio(lv_cumulativeDamage, lv_chartTotal) * 360.0) - 1, 359);
+        if ((lv_index == lv_count)) {
+            lv_endSlice = 359;
+        }
+
+        lv_color = libCOTF_gf_UT_NewColor(lp_colorShift + lv_index);
+        if ((lv_endSlice >= lv_startSlice)) {
+            CMUIX_ResultDamageChartDrawSlices(lv_panel, lv_startSlice, lv_endSlice, lv_color);
+        }
+
+        if ((CMUIX_ResultDamageChartUnitTypes[lv_index] == "")) {
+            lv_name = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/DamageOther");
+        }
+        else {
+            lv_name = libCOTF_gf_UT_NameOfUnitType(CMUIX_ResultDamageChartUnitTypes[lv_index]);
+        }
+
+        CMUIX_ResultDamageChartCreateLegend(lv_panel, lv_index, lv_name, lv_damage, lv_chartTotal, lv_color);
+        lv_startSlice = lv_endSlice + 1;
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultDamageChartsInvalidate(int lp_context) {
+    int lv_player;
+
+    lv_player = 1;
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+        return;
+    }
+
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        if ((CMUIX_IsControlValid(CMUIX_ResultDamageChartCanvas[lp_context][lv_player]) == true)) {
+            DialogControlDestroy(CMUIX_ResultDamageChartCanvas[lp_context][lv_player]);
+        }
+
+        CMUIX_ResultDamageChartCanvas[lp_context][lv_player] = c_invalidDialogControlId;
+        lv_player += 1;
+    }
+
+    CMUIX_ResultDamageChartsBuilt[lp_context] = false;
+}
+
+void CMUIX_ResultDamageChartsEnsure(int lp_context) {
+    bool lv_playerTwo;
+    playergroup lv_players;
+
+    lv_playerTwo = CMUIX_ResultPlayerPresent[2];
+    lv_players = PlayerGroupAll();
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX) || (CMUIX_ResultDamageChartsBuilt[lp_context] == true)) {
+        return;
+    }
+
+    if ((lp_context != CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT)) {
+        lv_players = PlayerGroupSingle(lp_context - CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE);
+    }
+
+    if ((CMUIX_IsControlValid(CMUIX_ResultDamageChartPanels[1]) == true)) {
+        DialogControlSetPosition(CMUIX_ResultDamageChartPanels[1], lv_players, c_anchorTop, (BoolToInt(lv_playerTwo) * -330), 0);
+        CMUIX_ResultDamageChartCreate(lp_context, 1, 0);
+    }
+
+    if ((lv_playerTwo == true) && (CMUIX_IsControlValid(CMUIX_ResultDamageChartPanels[2]) == true)) {
+        DialogControlSetPosition(CMUIX_ResultDamageChartPanels[2], lv_players, c_anchorTop, 330, 0);
+        CMUIX_ResultDamageChartCreate(lp_context, 2, 8);
+    }
+
+    CMUIX_ResultDamageChartsBuilt[lp_context] = true;
+}
+
+void CMUIX_ResultDamageChartsSetVisible(int lp_player, bool lp_visible) {
+    int lv_chartPlayer;
+    int lv_context;
+    int lv_visibleContext;
+    bool lv_chartPresent;
+    playergroup lv_players;
+
+    lv_chartPlayer = 1;
+    lv_context = 1;
+    lv_visibleContext = CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT;
+    lv_chartPresent = false;
+    lv_players = PlayerGroupSingle(lp_player);
+    if ((CMUIX_ResultHistoryViewActive[lp_player] == true)) {
+        lv_visibleContext = CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE + lp_player;
+    }
+
+    if ((lp_visible == true)) {
+        CMUIX_ResultDamageChartsEnsure(lv_visibleContext);
+    }
+
+    while ((lv_chartPlayer <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        lv_chartPresent = CMUIX_ResultPlayerPresent[lv_chartPlayer];
+        if ((CMUIX_ResultHistoryViewActive[lp_player] == true)) {
+            lv_chartPresent = CMUIX_ResultHistoryPlayerPresent[lp_player][lv_chartPlayer];
+        }
+
+        if ((CMUIX_IsControlValid(CMUIX_ResultDamageChartPanels[lv_chartPlayer]) == true)) {
+            CMUIX_SetControlVisible(CMUIX_ResultDamageChartPanels[lv_chartPlayer], lv_players, (lp_visible == true) && (lv_chartPresent == true));
+        }
+
+        lv_context = 1;
+        while ((lv_context <= CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+            if ((CMUIX_IsControlValid(CMUIX_ResultDamageChartCanvas[lv_context][lv_chartPlayer]) == true)) {
+                CMUIX_SetControlVisible(CMUIX_ResultDamageChartCanvas[lv_context][lv_chartPlayer], lv_players, (lp_visible == true) && (lv_context == lv_visibleContext));
+            }
+
+            lv_context += 1;
+        }
+
+        lv_chartPlayer += 1;
+    }
+}
+
+text CMUIX_ResultOverviewPlayerText(int lp_player) {
+    text lv_name;
+    text lv_commander;
+
+    lv_name = StringToText(CMUIX_ResultPlayerName[lp_player]);
+    lv_commander = libCOOC_gf_CC_CommanderName(CMUIX_ResultPlayerCommander[lp_player]);
+    if ((TextToString(lv_name) == "")) {
+        lv_name = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/PlayerFallback") + IntToText(lp_player);
+    }
+
+    if ((TextToString(lv_commander) == "")) {
+        return lv_name;
+    }
+
+    return lv_name + StringToText("  |  ") + lv_commander;
+}
+
+text CMUIX_ResultOverviewMasteryText(int lp_player) {
+    int lv_mastery;
+    int lv_inLine;
+    int lv_perLine;
+    string lv_masteryId;
+    text lv_result;
+    text lv_entry;
+
+    lv_mastery = 1;
+    lv_inLine = 0;
+    lv_perLine = 2;
+    lv_masteryId = "";
+    lv_result = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/MasteryAllocation");
+    lv_entry = StringToText("");
+    if ((CMUIX_ResultPlayerPresent[2] == false)) {
+        lv_perLine = 3;
+    }
+
+    while ((lv_mastery <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+        lv_masteryId = CMUIX_ResultPlayerMasteryId[lv_mastery][lp_player];
+        if ((lv_masteryId != "") && (lv_masteryId != null)) {
+            lv_entry = libCOOC_gf_CC_PlayerMasteryName(lv_masteryId) + StringToText(": ") + IntToText(CMUIX_ResultPlayerMasteryValue[lv_mastery][lp_player]);
+            if ((lv_inLine == 0)) {
+                lv_result = lv_result + StringToText("<n/>") + lv_entry;
+            }
+            else {
+                lv_result = lv_result + StringToText("    ") + lv_entry;
+            }
+
+            lv_inLine += 1;
+            if ((lv_inLine >= lv_perLine)) {
+                lv_inLine = 0;
+            }
+        }
+
+        lv_mastery += 1;
+    }
+
+    return lv_result;
+}
+
+void CMUIX_ResultOverviewInvalidateCharts(int lp_context) {
+    int lv_player;
+
+    lv_player = 1;
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+        return;
+    }
+
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        if ((CMUIX_IsControlValid(CMUIX_ResultOverviewChartCanvas[lp_context][lv_player]) == true)) {
+            DialogControlDestroy(CMUIX_ResultOverviewChartCanvas[lp_context][lv_player]);
+        }
+
+        CMUIX_ResultOverviewChartCanvas[lp_context][lv_player] = c_invalidDialogControlId;
+        lv_player += 1;
+    }
+
+    CMUIX_ResultOverviewChartsBuilt[lp_context] = false;
+}
+
+void CMUIX_ResultOverviewChartCreateLegend(int lp_canvas, int lp_index, text lp_name, int lp_damage, int lp_total, color lp_color, bool lp_singlePlayer) {
+    int lv_column;
+    int lv_row;
+    int lv_x;
+    int lv_y;
+    int lv_nameLabel;
+    fixed lv_percent;
+
+    if ((lp_singlePlayer == true)) {
+        lv_column = (lp_index - 1) / 5;
+        lv_row = ModI(lp_index - 1, 5);
+        lv_x = 240 + (lv_column * 240);
+    }
+    else {
+        lv_column = (lp_index - 1) / 8;
+        lv_row = ModI(lp_index - 1, 8);
+        lv_x = 178 + (lv_column * 222);
+    }
+
+    lv_y = 8 + (lv_row * 28);
+    lv_nameLabel = c_invalidDialogControlId;
+    lv_percent = CMUIX_ResultDamageChartRatio(lp_damage, lp_total) * 100.0;
+    CMUIX_ResultDamageChartCreateImage(lp_canvas, 12, 12, c_anchorTopLeft, lv_x, lv_y + 5, "Assets\\Textures\\white.dds", lp_color, 215);
+    lv_nameLabel = CMUIX_ResultDamageChartCreateLabel(lp_canvas, 80, 23, c_anchorTopLeft, lv_x + 16, lv_y, lp_name, "CM_ResultOverviewLegendName", lp_color);
+    CMUIX_SetControlTooltip(lv_nameLabel, PlayerGroupAll(), lp_name);
+    CMUIX_ResultDamageChartCreateLabel(lp_canvas, 84, 23, c_anchorTopLeft, lv_x + 96, lv_y, StringToText(libCOTF_gf_UT_FormatInteger(lp_damage, " ")), "CM_ResultOverviewLegendValue", Color(220, 220, 220));
+    CMUIX_ResultDamageChartCreateLabel(lp_canvas, 42, 23, c_anchorTopLeft, lv_x + 180, lv_y, FixedToText(lv_percent, 1) + StringToText("%"), "CM_ResultOverviewLegendValue", Color(255, 255, 255));
+}
+
+void CMUIX_ResultOverviewChartDrawSegments(int lp_canvas, int lp_startSegment, int lp_endSegment, color lp_color) {
+    int lv_segment;
+    int lv_angle;
+    int lv_x;
+    int lv_y;
+    int lv_control;
+
+    lv_segment = lp_startSegment;
+    lv_angle = 0;
+    lv_x = 0;
+    lv_y = 0;
+    lv_control = c_invalidDialogControlId;
+    while ((lv_segment <= lp_endSegment)) {
+        lv_angle = lv_segment * CMUIX_RESULT_OVERVIEW_CHART_ANGLE_STEP;
+        lv_x = 96 + FixedToInt(CMUIX_RESULT_OVERVIEW_CHART_RADIUS * Sin(IntToFixed(lv_angle)));
+        lv_y = -4 + FixedToInt(-CMUIX_RESULT_OVERVIEW_CHART_RADIUS * Cos(IntToFixed(lv_angle)));
+        lv_control = CMUIX_ResultDamageChartCreateImage(lp_canvas, CMUIX_RESULT_OVERVIEW_CHART_SLICE_WIDTH, FixedToInt(CMUIX_RESULT_OVERVIEW_CHART_RADIUS * 2.0), c_anchorLeft, lv_x, lv_y, "AF_slice.dds", lp_color, CMUIX_RESULT_OVERVIEW_CHART_ALPHA);
+        if ((CMUIX_IsControlValid(lv_control) == true)) {
+            libNtve_gf_SetDialogItemRotation(lv_control, lv_angle, PlayerGroupAll());
+        }
+
+        lv_segment += 1;
+    }
+}
+
+void CMUIX_ResultOverviewChartCreate(int lp_context, int lp_player, int lp_colorShift) {
+    int lv_panel;
+    int lv_canvas;
+    int lv_canvasWidth;
+    int lv_index;
+    int lv_count;
+    int lv_total;
+    int lv_topTotal;
+    int lv_chartTotal;
+    int lv_other;
+    int lv_displayCount;
+    int lv_damage;
+    int lv_cumulativeDamage;
+    int lv_startSegment;
+    int lv_endSegment;
+    bool lv_singlePlayer;
+    string lv_unitType;
+    text lv_name;
+    color lv_color;
+
+    lv_panel = CMUIX_ResultOverviewChartPanels[lp_context][lp_player];
+    lv_canvas = c_invalidDialogControlId;
+    lv_canvasWidth = 634;
+    lv_index = 1;
+    lv_count = CMUIX_ResultDamageUnitCount[lp_player];
+    lv_total = CMUIX_ResultDamageTotal[lp_player];
+    lv_topTotal = 0;
+    lv_chartTotal = 0;
+    lv_other = 0;
+    lv_displayCount = 0;
+    lv_damage = 0;
+    lv_cumulativeDamage = 0;
+    lv_startSegment = 0;
+    lv_endSegment = 0;
+    lv_unitType = "";
+    lv_name = StringToText("");
+    lv_color = Color(255, 255, 255);
+    lv_singlePlayer = (CMUIX_ResultPlayerPresent[2] == false);
+    if ((lv_singlePlayer == true)) {
+        lv_canvasWidth = 984;
+    }
+
+    if ((CMUIX_IsControlValid(lv_panel) == false)) {
+        return;
+    }
+
+    DialogControlCreateInPanel(lv_panel, c_triggerControlTypePanel);
+    lv_canvas = DialogControlLastCreated();
+    CMUIX_ResultOverviewChartCanvas[lp_context][lp_player] = lv_canvas;
+    DialogControlSetSize(lv_canvas, PlayerGroupAll(), lv_canvasWidth, 255);
+    DialogControlSetPosition(lv_canvas, PlayerGroupAll(), c_anchorCenter, 0, 0);
+    if ((lp_context != CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT)) {
+        DialogControlSetVisible(lv_canvas, PlayerGroupAll(), false);
+        DialogControlSetVisible(lv_canvas, PlayerGroupSingle(lp_context - CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE), true);
+    }
+
+    if ((lv_total <= 0)) {
+        CMUIX_ResultDamageChartCreateLabel(lv_canvas, 560, 48, c_anchorCenter, 0, 0, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/DamageNoData"), "Coop_ScoreScreen_MessageLabel", Color(255, 255, 255));
+        return;
+    }
+
+    while ((lv_index <= lv_count)) {
+        lv_topTotal += CMUIX_ResultDamageUnitValues[lv_index][lp_player];
+        lv_index += 1;
+    }
+
+    lv_chartTotal = MaxI(lv_total, lv_topTotal);
+    lv_other = MaxI(lv_total - lv_topTotal, 0);
+    lv_displayCount = lv_count + BoolToInt(lv_other > 0);
+    lv_index = 1;
+    while ((lv_index <= lv_displayCount)) {
+        if ((lv_index <= lv_count)) {
+            lv_damage = CMUIX_ResultDamageUnitValues[lv_index][lp_player];
+            lv_unitType = CMUIX_ResultDamageUnitTypes[lv_index][lp_player];
+            lv_name = libCOTF_gf_UT_NameOfUnitType(lv_unitType);
+        }
+        else {
+            lv_damage = lv_other;
+            lv_unitType = "";
+            lv_name = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/DamageOther");
+        }
+
+        lv_cumulativeDamage += lv_damage;
+        lv_endSegment = MinI(FixedToInt(CMUIX_ResultDamageChartRatio(lv_cumulativeDamage, lv_chartTotal) * IntToFixed(CMUIX_RESULT_OVERVIEW_CHART_SEGMENTS)) - 1, CMUIX_RESULT_OVERVIEW_CHART_SEGMENTS - 1);
+        if ((lv_index == lv_displayCount)) {
+            lv_endSegment = CMUIX_RESULT_OVERVIEW_CHART_SEGMENTS - 1;
+        }
+
+        lv_color = libCOTF_gf_UT_NewColor(lp_colorShift + lv_index);
+        if ((lv_endSegment >= lv_startSegment)) {
+            CMUIX_ResultOverviewChartDrawSegments(lv_canvas, lv_startSegment, lv_endSegment, lv_color);
+        }
+
+        CMUIX_ResultOverviewChartCreateLegend(lv_canvas, lv_index, lv_name, lv_damage, lv_chartTotal, lv_color, lv_singlePlayer);
+        lv_startSegment = lv_endSegment + 1;
+        lv_index += 1;
+    }
+}
+
+void CMUIX_ResultOverviewChartsEnsure(int lp_context) {
+    int lv_player;
+
+    lv_player = 1;
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX) || (CMUIX_ResultOverviewChartsBuilt[lp_context] == true)) {
+        return;
+    }
+
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        if ((CMUIX_ResultPlayerPresent[lv_player] == true)) {
+            CMUIX_ResultOverviewChartCreate(lp_context, lv_player, (lv_player - 1) * 8);
+        }
+
+        lv_player += 1;
+    }
+
+    CMUIX_ResultOverviewChartsBuilt[lp_context] = true;
+}
+
+void CMUIX_ResultOverviewChartsSetVisible(int lp_player, int lp_context, bool lp_visible) {
+    int lv_chartPlayer;
+    playergroup lv_players;
+
+    lv_chartPlayer = 1;
+    lv_players = PlayerGroupSingle(lp_player);
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+        return;
+    }
+
+    while ((lv_chartPlayer <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        if ((CMUIX_IsControlValid(CMUIX_ResultOverviewChartCanvas[lp_context][lv_chartPlayer]) == true)) {
+            CMUIX_SetControlVisible(CMUIX_ResultOverviewChartCanvas[lp_context][lv_chartPlayer], lv_players, lp_visible);
+        }
+
+        lv_chartPlayer += 1;
+    }
+}
+
+void CMUIX_ResultOverviewRefresh(int lp_context) {
+    int lv_player;
+    int lv_slot;
+    int lv_historyIndex;
+    int lv_historyStart;
+    int lv_playerFrameWidth;
+    string lv_mutator;
+    text lv_chaosSummary;
+    text lv_masteryText;
+    bool lv_playerTwo;
+    playergroup lv_players;
+
+    lv_player = 1;
+    lv_slot = 1;
+    lv_historyIndex = 0;
+    lv_historyStart = MaxI(CMUIX_ResultChaosHistoryCount - CMUIX_RESULT_OVERVIEW_CHAOS_MAX + 1, 1);
+    lv_playerFrameWidth = 650;
+    lv_mutator = "";
+    lv_chaosSummary = StringToText("");
+    lv_masteryText = StringToText("");
+    lv_playerTwo = CMUIX_ResultPlayerPresent[2];
+    lv_players = PlayerGroupAll();
+    if ((lp_context < 1) || (lp_context > CMUIX_RESULT_OVERVIEW_CONTEXT_MAX) || (CMUIX_IsControlValid(CMUIX_ResultOverviewPanels[lp_context]) == false)) {
+        return;
+    }
+
+    if ((lp_context != CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT)) {
+        lv_players = PlayerGroupSingle(lp_context - CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE);
+    }
+
+    if ((lv_playerTwo == false)) {
+        lv_playerFrameWidth = 1000;
+    }
+
+    if ((CMUIX_IsControlValid(CMUIX_ResultOverviewPlayerFrames[lp_context][1]) == true)) {
+        DialogControlSetSize(CMUIX_ResultOverviewPlayerFrames[lp_context][1], lv_players, lv_playerFrameWidth, 460);
+        DialogControlSetPosition(CMUIX_ResultOverviewPlayerFrames[lp_context][1], lv_players, c_anchorTop, BoolToInt(lv_playerTwo) * -330, 0);
+    }
+
+    if ((CMUIX_IsControlValid(CMUIX_ResultOverviewPlayerFrames[lp_context][2]) == true)) {
+        DialogControlSetSize(CMUIX_ResultOverviewPlayerFrames[lp_context][2], lv_players, 650, 460);
+        DialogControlSetPosition(CMUIX_ResultOverviewPlayerFrames[lp_context][2], lv_players, c_anchorTop, 330, 0);
+    }
+
+    while ((lv_player <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        CMUIX_SetControlVisible(CMUIX_ResultOverviewPlayerFrames[lp_context][lv_player], lv_players, CMUIX_ResultPlayerPresent[lv_player]);
+        if ((CMUIX_ResultPlayerPresent[lv_player] == true)) {
+            CMUIX_SetControlText(CMUIX_ResultOverviewPlayerLabels[lp_context][lv_player], lv_players, CMUIX_ResultOverviewPlayerText(lv_player));
+            CMUIX_SetControlText(CMUIX_ResultOverviewPrestigeLabels[lp_context][lv_player], lv_players, CMUIX_PrestigeLabelText(lv_player, CMUIX_ResultPlayerCommander[lv_player], CMUIX_ResultPlayerPrestige[lv_player]));
+            CMUIX_SetControlText(CMUIX_ResultOverviewKillsLabels[lp_context][lv_player], lv_players, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/Kills") + StringToText(": ") + StringToText(libCOTF_gf_UT_FormatInteger(CMUIX_ResultStatValues[1][lv_player], " ")));
+            CMUIX_SetControlText(CMUIX_ResultOverviewDamageLabels[lp_context][lv_player], lv_players, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/DamageTotal") + StringToText(": ") + StringToText(libCOTF_gf_UT_FormatInteger(CMUIX_ResultDamageTotal[lv_player], " ")));
+            lv_masteryText = CMUIX_ResultOverviewMasteryText(lv_player);
+            CMUIX_SetControlText(CMUIX_ResultOverviewMasteryLabels[lp_context][lv_player], lv_players, lv_masteryText);
+            CMUIX_SetControlTooltip(CMUIX_ResultOverviewMasteryLabels[lp_context][lv_player], lv_players, lv_masteryText);
+        }
+
+        lv_player += 1;
+    }
+
+    if ((CMUIX_ResultChaosSlotCount > 0) || (CMUIX_ResultChaosHistoryCount > 0)) {
+        lv_chaosSummary = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ChaosActiveCount") + StringToText(" ") + IntToText(CMUIX_ResultChaosSlotCount) + StringToText("    ") + StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ChaosRecordedCount") + StringToText(" ") + IntToText(CMUIX_ResultChaosHistoryCount);
+    }
+    else {
+        lv_chaosSummary = StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/ChaosHistoryEmpty");
+    }
+
+    CMUIX_SetControlText(CMUIX_ResultOverviewChaosSummaryLabels[lp_context], lv_players, lv_chaosSummary);
+    while ((lv_slot <= CMUIX_RESULT_OVERVIEW_CHAOS_MAX)) {
+        lv_historyIndex = lv_historyStart + lv_slot - 1;
+        if ((lv_historyIndex <= CMUIX_ResultChaosHistoryCount)) {
+            lv_mutator = CMUIX_ResultChaosHistoryMutators[lv_historyIndex];
+            if ((CMUIX_IsControlValid(CMUIX_ResultOverviewChaosItems[lp_context][lv_slot]) == true)) {
+                DialogControlSetAnimationState(CMUIX_ResultOverviewChaosItems[lp_context][lv_slot], lv_players, "SourceState", CMUIX_MutatorChallengeMutatorSourceState(lv_mutator, CMUIX_ResultChaosHistoryEnhanced[lv_historyIndex]));
+                CMUIX_SetControlTooltip(CMUIX_ResultOverviewChaosItems[lp_context][lv_slot], lv_players, CMUIX_ResultMutatorTooltip(lv_mutator, CMUIX_ResultChaosHistoryEnhanced[lv_historyIndex]));
+                CMUIX_SetControlVisible(CMUIX_ResultOverviewChaosItems[lp_context][lv_slot], lv_players, true);
+            }
+
+            if ((CMUIX_IsControlValid(CMUIX_ResultOverviewChaosIcons[lp_context][lv_slot]) == true)) {
+                libNtve_gf_SetDialogItemImage(CMUIX_ResultOverviewChaosIcons[lp_context][lv_slot], libCOMU_gf_CT_MutatorIcon(lv_mutator), lv_players);
+            }
+        }
+        else {
+            CMUIX_SetControlVisible(CMUIX_ResultOverviewChaosItems[lp_context][lv_slot], lv_players, false);
+        }
+
+        lv_slot += 1;
+    }
+}
+
+void CMUIX_ResultSetBackgroundContextForPlayers(playergroup lp_players, bool lp_history) {
+    CMUIX_SetControlVisible(CMUIX_ResultBackgroundCutscene, lp_players, (lp_history == false));
+    CMUIX_SetControlVisible(CMUIX_ResultHistoryBackgroundCutscene, lp_players, lp_history);
+}
+
+void CMUIX_ResultHistoryStatisticsShow(int lp_player, string lp_payload, bool lp_visible) {
+    int lv_context;
+    int lv_hideContext;
+    int lv_snapshotPlayer;
+    string lv_liveSnapshot;
+    playergroup lv_players;
+
+    lv_context = CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE + lp_player;
+    lv_hideContext = 1;
+    lv_snapshotPlayer = 1;
+    lv_liveSnapshot = "";
+    lv_players = PlayerGroupSingle(lp_player);
+    if ((lp_player < 1) || (lp_player > CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        return;
+    }
+
+    if ((CMUIX_IsControlValid(CMUIX_ScorePanel) == false)) {
+        return;
+    }
+
+    if ((lp_visible == false)) {
+        CMUIX_ResultHistoryViewActive[lp_player] = false;
+        CMUIX_ResultSetBackgroundContextForPlayers(lv_players, false);
+        CMUIX_ResultDamageChartsSetVisible(lp_player, false);
+        while ((lv_hideContext <= CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+            CMUIX_ResultOverviewChartsSetVisible(lp_player, lv_hideContext, false);
+            lv_hideContext += 1;
+        }
+
+        CMUIX_SetControlVisible(CMUIX_ScorePanel, lv_players, false);
+        CMUIX_SetControlVisible(CMUIX_ResultRestartButton, lv_players, true);
+        CMUIX_SetControlVisible(CMUIX_ResultExitButton, lv_players, true);
+        CMUIX_SetControlText(CMUIX_ResultCloseButton, lv_players, StringExternal("CMUI/ScreenCoopCampaign/ScorePanel/Close"));
+        CMUIX_ResultSetUnderlyingLauncherVisibleForPlayers(lv_players, true);
+        CMUIX_ResultSetNavigationVisibleForPlayers(lv_players, true);
+        CMUIX_ResultSetCommanderCutscenesVisibleForPlayer(lp_player, true);
+        return;
+    }
+
+    lv_liveSnapshot = CMUIX_ResultStatisticsPayloadBuild();
+    if ((CMUIX_ResultStatisticsPayloadLoad(lp_payload) == false)) {
+        return;
+    }
+
+    CMUIX_ResultHistoryViewActive[lp_player] = true;
+    while ((lv_snapshotPlayer <= CMUIX_RESULT_PLAYER_DISPLAY_MAX)) {
+        CMUIX_ResultHistoryPlayerPresent[lp_player][lv_snapshotPlayer] = CMUIX_ResultPlayerPresent[lv_snapshotPlayer];
+        lv_snapshotPlayer += 1;
+    }
+
+    CMUIX_ResultRefreshHeaderForPlayers(lv_players);
+    CMUIX_ResultRefreshStatsForPlayers(lv_players);
+    CMUIX_ResultRefreshPlayersForPlayers(lv_players);
+    CMUIX_ResultDamageChartsInvalidate(lv_context);
+    CMUIX_ResultDamageChartsEnsure(lv_context);
+    CMUIX_ResultOverviewInvalidateCharts(lv_context);
+    CMUIX_ResultOverviewRefresh(lv_context);
+    CMUIX_ResultOverviewChartsEnsure(lv_context);
+    CMUIX_SetControlVisible(CMUIX_ResultRestartButton, lv_players, false);
+    CMUIX_SetControlVisible(CMUIX_ResultExitButton, lv_players, false);
+    CMUIX_SetControlVisible(CMUIX_ResultCloseButton, lv_players, true);
+    CMUIX_SetControlEnabled(CMUIX_ResultCloseButton, lv_players, true);
+    CMUIX_SetControlText(CMUIX_ResultCloseButton, lv_players, StringExternal("CMUI/ScreenHistory/Statistics/Close"));
+    CMUIX_ResultSetUnderlyingLauncherVisibleForPlayers(lv_players, false);
+    CMUIX_ResultSetNavigationVisibleForPlayers(lv_players, false);
+    CMUIX_ResultSetCommanderCutscenesVisibleForPlayer(lp_player, false);
+    CMUIX_ResultSetBackgroundContextForPlayers(lv_players, true);
+    CMUIX_SetControlVisible(CMUIX_ScorePanel, lv_players, true);
+    DialogControlSendAnimationEvent(CMUIX_ScorePanel, lv_players, "Show");
+    CMUIX_ResultSelectPage(lp_player, CMUIX_RESULT_PAGE_OVERVIEW);
+    CMUIX_ResultStatisticsPayloadLoad(lv_liveSnapshot);
+}
+
+void CMUIX_ResultSelectPage(int lp_player, int lp_page) {
+    int lv_context;
+    int lv_hideContext;
+    bool lv_viewVisible;
+    playergroup lv_players;
+
+    lv_context = CMUIX_RESULT_OVERVIEW_CONTEXT_RESULT;
+    lv_hideContext = 1;
+    lv_viewVisible = false;
+    lv_players = PlayerGroupSingle(lp_player);
+    if ((lp_player < 1) || (lp_player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return;
+    }
+
+    if ((lp_page < CMUIX_RESULT_PAGE_STATS) || (lp_page > CMUIX_RESULT_PAGE_OVERVIEW)) {
+        lp_page = CMUIX_RESULT_PAGE_STATS;
+    }
+
+    CMUIX_ResultPageForPlayer[lp_player] = lp_page;
+    if ((CMUIX_IsControlValid(CMUIX_ResultTabControl) == true)) {
+        DialogControlSetPropertyAsInt(CMUIX_ResultTabControl, c_triggerControlPropertySelectionIndex, lv_players, lp_page - 1);
+    }
+
+    CMUIX_SetControlVisible(CMUIX_ResultStatsPanel, lv_players, (lp_page == CMUIX_RESULT_PAGE_STATS));
+    CMUIX_SetControlVisible(CMUIX_ResultDamagePanel, lv_players, (lp_page == CMUIX_RESULT_PAGE_DAMAGE));
+    CMUIX_SetControlVisible(CMUIX_ResultPlayersPanel, lv_players, (lp_page == CMUIX_RESULT_PAGE_PLAYERS));
+    CMUIX_SetControlVisible(CMUIX_ResultOverviewPanel, lv_players, (lp_page == CMUIX_RESULT_PAGE_OVERVIEW));
+    CMUIX_SetControlToggled(CMUIX_ResultStatsButton, lv_players, (lp_page == CMUIX_RESULT_PAGE_STATS));
+    CMUIX_SetControlToggled(CMUIX_ResultDamageButton, lv_players, (lp_page == CMUIX_RESULT_PAGE_DAMAGE));
+    CMUIX_SetControlToggled(CMUIX_ResultPlayersButton, lv_players, (lp_page == CMUIX_RESULT_PAGE_PLAYERS));
+    CMUIX_SetControlToggled(CMUIX_ResultOverviewButton, lv_players, (lp_page == CMUIX_RESULT_PAGE_OVERVIEW));
+    lv_viewVisible = ((CMUIX_ResultOverlayVisible == true) || (CMUIX_ResultHistoryViewActive[lp_player] == true));
+    if ((CMUIX_ResultHistoryViewActive[lp_player] == true)) {
+        lv_context = CMUIX_RESULT_OVERVIEW_CONTEXT_HISTORY_BASE + lp_player;
+    }
+
+    CMUIX_ResultDamageChartsSetVisible(lp_player, (lv_viewVisible == true) && (lp_page == CMUIX_RESULT_PAGE_DAMAGE));
+    while ((lv_hideContext <= CMUIX_RESULT_OVERVIEW_CONTEXT_MAX)) {
+        CMUIX_ResultOverviewChartsSetVisible(lp_player, lv_hideContext, false);
+        lv_hideContext += 1;
+    }
+
+    if ((lv_viewVisible == true) && (lp_page == CMUIX_RESULT_PAGE_OVERVIEW)) {
+        CMUIX_ResultOverviewChartsEnsure(lv_context);
+        CMUIX_ResultOverviewChartsSetVisible(lp_player, lv_context, true);
+    }
+}
+
+void CMUIX_ResultSetNavigationVisibleForPlayers(playergroup lp_players, bool lp_visible) {
+    CMUIX_SetControlVisible(CMUIX_ResultMainNavigationContainer, lp_players, lp_visible);
+    CMUIX_SetControlVisible(libCMUI_gv_screenCoopNavigationBar, lp_players, lp_visible);
+}
+
+void CMUIX_ResultSetNavigationVisible(bool lp_visible) {
+    CMUIX_ResultSetNavigationVisibleForPlayers(PlayerGroupAll(), lp_visible);
+}
+
+void CMUIX_ResultSetUnderlyingLauncherVisibleForPlayers(playergroup lp_players, bool lp_visible) {
+    if ((CMUIX_IsControlValid(libCMUI_gv_screenCoopCommanderSelectionPanel) == true)) {
+        if ((lp_visible == true)) {
+            DialogControlSendAnimationEvent(libCMUI_gv_screenCoopCommanderSelectionPanel, lp_players, "UISlideIn");
+        }
+        else {
+            DialogControlSendAnimationEvent(libCMUI_gv_screenCoopCommanderSelectionPanel, lp_players, "UISlideOut");
+        }
+    }
+
+    CMUIX_SetControlVisible(CMUIX_HistoryRoot, lp_players, lp_visible);
+}
+
+void CMUIX_ResultSetActionButtonsEnabled() {
+    int lv_player;
+    bool lv_enabled;
+    playergroup lv_players;
+
+    lv_player = 1;
+    lv_enabled = false;
+    lv_players = PlayerGroupEmpty();
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        lv_players = PlayerGroupSingle(lv_player);
+        lv_enabled = (lv_player == 1);
+        CMUIX_SetControlEnabled(CMUIX_ResultCloseButton, lv_players, lv_enabled);
+        CMUIX_SetControlEnabled(CMUIX_ResultRestartButton, lv_players, lv_enabled);
+        CMUIX_SetControlEnabled(CMUIX_ResultExitButton, lv_players, lv_enabled);
+        lv_player += 1;
+    }
+}
+
+void CMUIX_ResultSetCommanderCutscenesVisible(bool lp_visible) {
+    int lv_player;
+    playergroup lv_players;
+
+    lv_player = 1;
+    lv_players = PlayerGroupAll();
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        if ((CMUIX_IsControlValid(libCMUI_gv_foregroundCutscene[lv_player]) == true)) {
+            DialogControlSetVisible(libCMUI_gv_foregroundCutscene[lv_player], lv_players, false);
+            if ((lp_visible == true)) {
+                DialogControlSetVisible(libCMUI_gv_foregroundCutscene[lv_player], PlayerGroupSingle(lv_player), true);
+            }
+        }
+
+        lv_player += 1;
+    }
+}
+
+void CMUIX_ResultSetCommanderCutscenesVisibleForPlayer(int lp_player, bool lp_visible) {
+    int lv_commanderPlayer;
+    playergroup lv_players;
+
+    lv_commanderPlayer = 1;
+    lv_players = PlayerGroupSingle(lp_player);
+    while ((lv_commanderPlayer <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        if ((CMUIX_IsControlValid(libCMUI_gv_foregroundCutscene[lv_commanderPlayer]) == true)) {
+            DialogControlSetVisible(libCMUI_gv_foregroundCutscene[lv_commanderPlayer], lv_players, false);
+        }
+
+        lv_commanderPlayer += 1;
+    }
+
+    if ((lp_visible == true) && (CMUIX_IsControlValid(libCMUI_gv_foregroundCutscene[lp_player]) == true)) {
+        DialogControlSetVisible(libCMUI_gv_foregroundCutscene[lp_player], lv_players, true);
+    }
+}
+
+void CMUIX_ResultSetOverlayVisible(bool lp_visible) {
+    int lv_player;
+    int lv_page;
+    playergroup lv_players;
+
+    lv_player = 1;
+    lv_page = CMUIX_RESULT_PAGE_STATS;
+    lv_players = PlayerGroupAll();
+    CMUIX_ResultOverlayVisible = lp_visible;
+    CMUIX_ResultSetUnderlyingLauncherVisibleForPlayers(lv_players, lp_visible == false);
+    CMUIX_ResultSetNavigationVisible(lp_visible == false);
+    CMUIX_ResultSetCommanderCutscenesVisible(lp_visible == false);
+    CMUIX_ResultSetBackgroundContextForPlayers(lv_players, false);
+    if ((CMUIX_IsControlValid(CMUIX_ScorePanel) == true)) {
+        DialogControlSetVisible(CMUIX_ScorePanel, lv_players, lp_visible);
+        if ((lp_visible == true)) {
+            DialogControlSendAnimationEvent(CMUIX_ScorePanel, lv_players, "Show");
+        }
+        else {
+            DialogControlSendAnimationEvent(CMUIX_ScorePanel, lv_players, "Hide");
+        }
+    }
+
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        lv_page = CMUIX_ResultPageForPlayer[lv_player];
+        if ((lv_page < CMUIX_RESULT_PAGE_STATS) || (lv_page > CMUIX_RESULT_PAGE_OVERVIEW)) {
+            lv_page = CMUIX_RESULT_PAGE_STATS;
+        }
+
+        CMUIX_ResultSelectPage(lv_player, lv_page);
+        lv_player += 1;
+    }
+
+    CMUIX_ResultSetActionButtonsEnabled();
+}
+
+void CMUIX_ResultRefreshLauncherAfterAction() {
+    CMUIX_MapSelectionResetReadyStatus();
+    CMUIX_StartupRefreshControls();
+    CMUIX_ProfileRefreshModeVisuals();
+    CMUIX_ReadyRefreshDataControlsAll();
+    CMUIX_MutatorPoolRefreshOpenButtons();
+    CMUIX_MutatorInfoRefreshAll();
+}
+
+void CMUIX_ResultClearConfigurationForFreeEdit() {
+    int lv_player;
+    bool lv_seedResolved;
+    int lv_seed;
+
+    lv_player = 0;
+    lv_seedResolved = CMUIX_RandomSeedResolved;
+    lv_seed = CMUIX_RandomSeed;
+    CMUIX_ProfileConfigLocked = false;
+    CMUIX_ProfileModeActive = false;
+    CMUIX_ProfileOptimizationAllowed = true;
+    CMUIX_ProfileApplyRestrictionsAndSeed("", false);
+    CMUIX_ProfileRandomSeedExplicit = false;
+    CMUIX_RandomSeedResolved = lv_seedResolved;
+    CMUIX_RandomSeed = lv_seed;
+    CMUIX_RandomSeedInputResetDraft();
+    CMUIX_ProfileLaunchCounted = false;
+    CMUIX_LaunchSource = CMUIX_LAUNCH_SOURCE_MANUAL;
+    CMUIX_ProfileMasteryCapEnabled = false;
+    CMUIX_ProfileMasteryCap = CMUIX_DefaultMasteryCap();
+    CMUIX_ProfileRawConfig = "";
+    CMUIX_ProfileChallengeName = "";
+    CMUIX_ProfileChecksumValue = 0;
+    CMUIX_ProfileCertified = false;
+    CMUIX_ProfileSourceTemplateKey = "";
+    CMUIX_ProfileSourceTemplatePlayer = 0;
+    CMUIX_ProfileSourceHistoryKey = "";
+    CMUIX_ProfileCancelSnapshotPayload = "";
+    CMUIX_LaunchAttemptCount = 1;
+    CMUIX_LaunchAttemptChecksum = 0;
+    CMUIX_LaunchHistoryKey = "";
+    CMUIX_LaunchLastResult = "";
+    CMUIX_ResultStatisticsPayload = "";
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_LaunchHistoryKeys[lv_player] = "";
+        lv_player += 1;
+    }
+
+    CMUIX_LaunchProfileClearAll();
+    CMUIX_ProfileRuntimeLocksRefresh();
+}
+
+void CMUIX_ResultPrepareRetryConfiguration() {
+    CMUIX_ResultStatisticsPayload = "";
+    CMUIX_ProfileConfigLocked = true;
+    CMUIX_ProfileModeActive = false;
+    CMUIX_ProfileLaunchCounted = true;
+    CMUIX_LaunchSource = CMUIX_LAUNCH_SOURCE_HISTORY;
+    CMUIX_ProfileSourceTemplateKey = "";
+    CMUIX_ProfileSourceTemplatePlayer = 0;
+    CMUIX_ProfileSourceHistoryKey = CMUIX_LaunchHistoryKey;
+    CMUIX_ProfileCancelSnapshotPayload = "";
+    CMUIX_ProfileRuntimeLocksRefresh();
+    CMUIX_LaunchProfileRefreshRetryAll();
+}
+
+void CMUIX_ResultExitGame() {
+    int lv_player;
+    int lv_seenPlayers;
+    playergroup lv_players;
+
+    lv_player = -1;
+    lv_seenPlayers = 0;
+    lv_players = libCOOC_gf_HumanPlayers();
+    while ((true == true)) {
+        lv_player = PlayerGroupNextPlayer(lv_players, lv_player);
+        if ((lv_player < 0)) {
+            break;
+        }
+
+        lv_seenPlayers += 1;
+        GameOver(lv_player, CMUIX_ResultValue, false, false);
+    }
+
+    if ((lv_seenPlayers == 0)) {
+        GameOver(1, CMUIX_ResultValue, false, false);
+    }
+}
+
+bool CMUIX_ResultHandleClick(int lp_player, int lp_control) {
+    if ((lp_player < 1) || (lp_player > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+
+    if ((lp_control == CMUIX_ResultStatsButton)) {
+        CMUIX_ResultSelectPage(lp_player, CMUIX_RESULT_PAGE_STATS);
+        return true;
+    }
+
+    if ((lp_control == CMUIX_ResultDamageButton)) {
+        CMUIX_ResultSelectPage(lp_player, CMUIX_RESULT_PAGE_DAMAGE);
+        return true;
+    }
+
+    if ((lp_control == CMUIX_ResultPlayersButton)) {
+        CMUIX_ResultSelectPage(lp_player, CMUIX_RESULT_PAGE_PLAYERS);
+        return true;
+    }
+
+    if ((lp_control == CMUIX_ResultOverviewButton)) {
+        CMUIX_ResultSelectPage(lp_player, CMUIX_RESULT_PAGE_OVERVIEW);
+        return true;
+    }
+
+    if ((lp_control != CMUIX_ResultCloseButton) && (lp_control != CMUIX_ResultRestartButton) && (lp_control != CMUIX_ResultExitButton)) {
+        return false;
+    }
+
+    if ((CMUIX_ResultHistoryViewActive[lp_player] == true)) {
+        if ((lp_control == CMUIX_ResultCloseButton)) {
+            CMUIX_ResultHistoryStatisticsShow(lp_player, "", false);
+        }
+
+        return true;
+    }
+
+    if ((lp_player != 1)) {
+        return true;
+    }
+
+    if ((lp_control == CMUIX_ResultCloseButton)) {
+        CMUIX_ResultSetOverlayVisible(false);
+        CMUIX_ResultClearConfigurationForFreeEdit();
+        CMUIX_ResultRefreshLauncherAfterAction();
+        return true;
+    }
+
+    if ((lp_control == CMUIX_ResultRestartButton)) {
+        CMUIX_ResultSetOverlayVisible(false);
+        CMUIX_ResultPrepareRetryConfiguration();
+        CMUIX_ResultRefreshLauncherAfterAction();
+        return true;
+    }
+
+    CMUIX_ResultExitGame();
+    return true;
+}
+
+void CMUIX_ResultRebuildLauncher() {
+    CMUIX_DestroyLauncherUIInternal(false);
+    CMUIX_ResetLauncherHookStateForRebuild();
+    CMUIX_Init();
+    CMUIX_StartupRefreshControls();
+}
+
+bool CMUIX_ResultTransmissionPlaying() {
+    if ((TriggerActiveCount(libCOMI_gt_CM_TransmissionSend) > 0) || (libCOMI_gv_cM_TransmissionCurrentType != null)) {
+        return true;
+    }
+
+    if ((libCOMI_gv_cM_SendTransmissionCampaignIndex != 0)) {
+        return true;
+    }
+
+    return (libCOMI_gf_CM_PlayerHasTransmission(1) == true) || (libCOMI_gf_CM_PlayerHasTransmission(2) == true);
+}
+
+void CMUIX_ResultStopMissionActivity() {
+    int lv_index;
+    int lv_count;
+    string lv_mutator;
+
+    // Arbitrary map triggers cannot be enumerated; stop shared loops and registered mutator activity.
+    lv_index = 1;
+    lv_count = UserDataInstanceCount("Mutators");
+    lv_mutator = "";
+    if ((libCOTF_gt_RT_CycleRandom != null)) {
+        TriggerStop(libCOTF_gt_RT_CycleRandom);
+    }
+
+    if ((libCOMU_gt_CT_CycleRandomMutators != null)) {
+        TriggerStop(libCOMU_gt_CT_CycleRandomMutators);
+    }
+
+    while ((lv_index <= lv_count)) {
+        lv_mutator = UserDataInstance("Mutators", lv_index);
+        if ((lv_mutator != "") && (lv_mutator != null) && (libCOMU_gf_MutatorIsActived(lv_mutator) == true)) {
+            libCOMU_gf_EnableDisableMutator(false, lv_mutator);
+        }
+
+        lv_index += 1;
+    }
+
+    TriggerSendEvent("CMUIX_ResultSessionEntered");
+}
+
+void CMUIX_ResultSessionEnter() {
+    int lv_player;
+
+    lv_player = 1;
+    CMUIX_ResultPrepareWorld();
+    CMUIX_ResultLauncherActive = true;
+    CMUIX_ResultRebuildLauncher();
+    CMUIX_ResultRefreshAll();
+    while ((lv_player <= libCOOC_gv_cCC_MAXPLAYERS)) {
+        CMUIX_ResultPageForPlayer[lv_player] = CMUIX_RESULT_PAGE_STATS;
+        lv_player += 1;
+    }
+
+    CMUIX_ResultSetOverlayVisible(true);
+    CMUIX_ResultStopMissionActivity();
+    CMUIX_ResultOpening = false;
+}
+
+bool CMUIX_ResultOpenDeferred_Func(bool testConds, bool runActions) {
+    int lv_clearChecks;
+
+    lv_clearChecks = 0;
+    if ((runActions == false)) {
+        return true;
+    }
+
+    while ((lv_clearChecks < CMUIX_RESULT_TRANSMISSION_CLEAR_CHECKS)) {
+        if ((CMUIX_ResultTransmissionPlaying() == true)) {
+            lv_clearChecks = 0;
+        }
+        else {
+            lv_clearChecks += 1;
+        }
+
+        Wait(0.25, c_timeReal);
+    }
+
+    CMUIX_ResultSessionEnter();
+    return true;
+}
+
+void CMUIX_ResultSessionOpen(int lp_result) {
+    if ((CMUIX_ResultOpening == true) || (CMUIX_ResultOverlayVisible == true) || (CMUIX_ResultLauncherActive == true)) {
+        return;
+    }
+
+    CMUIX_ResultOpening = true;
+    CMUIX_ResultSnapshotCapture(lp_result);
+    CMUIX_ResultRecordOutcome();
+    if ((CMUIX_ResultOpenTrigger == null)) {
+        CMUIX_ResultOpenTrigger = TriggerCreate("CMUIX_ResultOpenDeferred_Func");
+    }
+
+    TriggerExecute(CMUIX_ResultOpenTrigger, false, false);
+}

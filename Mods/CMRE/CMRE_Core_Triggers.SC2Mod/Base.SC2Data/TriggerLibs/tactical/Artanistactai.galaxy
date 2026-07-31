@@ -5,6 +5,7 @@
 const string c_CMArtanis_AB_FeedbackArchon = "FeedbackArchon";
 const string c_CMArtanis_AB_PsiStormArchon = "PsiStormArchon";
 const string c_CMArtanis_MK_FeedbackArchon = "Abil/FeedbackArchon/AI";
+const string c_CMArtanis_UP_Commander = "ArtanisCommander";
 const int c_CMArtanisArchonFeedbackMinEnergy = 51;
 const int c_CMArtanisArchonPsiStormMinHits = 2;
 const int c_CMArtanisArchonPsiStormDamageBase = 40;
@@ -77,6 +78,10 @@ order CMArtanisArchonFeedback (int player, unit aiUnit, unitgroup scanGroup, mar
 void AIThinkArtanisArchon (int player, unit aiUnit, unitgroup scanGroup) {
     marker mark;
     order ord;
+
+    if (TechTreeUpgradeCount(player, c_CMArtanis_UP_Commander, c_techCountCompleteOnly) <= 0) {
+        return;
+    }
 
     if ((UnitOrderHasAbil(aiUnit, c_CMArtanis_AB_PsiStormArchon) == true) || (UnitOrderHasAbil(aiUnit, c_CMArtanis_AB_FeedbackArchon) == true)) {
         return;
