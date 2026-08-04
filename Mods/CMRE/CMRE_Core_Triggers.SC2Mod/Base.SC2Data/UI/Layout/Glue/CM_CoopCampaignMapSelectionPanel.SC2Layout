@@ -46,8 +46,9 @@
         </Frame>
         <Frame type="Pulldown" name="Pulldown" template="StandardBattlenetTemplates/BattlenetPulldownTemplate">
             <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="4"/>
-            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
-            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Mid" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Mid" offset="0"/>
+            <Width val="300"/>
         </Frame>
     </Frame>
 
