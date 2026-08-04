@@ -409,6 +409,7 @@ int libCMUI_gv_mapSelectionRandomImage;
 int libCMUI_gv_mapSelectionImageFrame;
 int libCMUI_gv_mapSelectionImage;
 int libCMUI_gv_mapSelectionDescriptionLabel;
+int libCMUI_gv_mapOptionsContainer;
 int libCMUI_gv_mapOptionsEmptyLabel;
 int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mapOptionRows;
 int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mapOptionDescriptionLabels;
@@ -446,6 +447,7 @@ int libCMUI_gv_mutatorChallengeRandomImage;
 int libCMUI_gv_mutatorChallengeImageFrame;
 int libCMUI_gv_mutatorChallengeImage;
 int libCMUI_gv_mutatorChallengeDescriptionLabel;
+int libCMUI_gv_mutatorMapOptionsContainer;
 int libCMUI_gv_mutatorMapOptionsEmptyLabel;
 int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mutatorMapOptionRows;
 int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mutatorMapOptionDescriptionLabels;
@@ -1524,6 +1526,7 @@ void CMUIX_CoreInitVariables() {
     libCMUI_gv_mapSelectionImageFrame = c_invalidDialogControlId;
     libCMUI_gv_mapSelectionImage = c_invalidDialogControlId;
     libCMUI_gv_mapSelectionDescriptionLabel = c_invalidDialogControlId;
+    libCMUI_gv_mapOptionsContainer = c_invalidDialogControlId;
     libCMUI_gv_mapOptionsEmptyLabel = c_invalidDialogControlId;
     libCMUI_gv_enemySelectionTileList = c_invalidDialogControlId;
     libCMUI_gv_enemySelectionTileListContainer = c_invalidDialogControlId;
@@ -1561,6 +1564,7 @@ void CMUIX_CoreInitVariables() {
     libCMUI_gv_mutatorChallengeImageFrame = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeImage = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeDescriptionLabel = c_invalidDialogControlId;
+    libCMUI_gv_mutatorMapOptionsContainer = c_invalidDialogControlId;
     libCMUI_gv_mutatorMapOptionsEmptyLabel = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeEnemyDescriptionLabel = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeDetailsScrollFrame = c_invalidDialogControlId;
@@ -7231,11 +7235,12 @@ void CMUIX_MapSelectionHookup() {
     CMUIX_RandomSeedRefreshButton = DialogControlLastCreated();
     CMUIX_RandomSeedInputResetDraft();
     DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypePanel, "MapOptionsScrollFrame/ContainerFrame");
-    DialogControlHookup(DialogControlLastCreated(), c_triggerControlTypeLabel, "MapOptionsEmptyLabel");
+    libCMUI_gv_mapOptionsContainer = DialogControlLastCreated();
+    DialogControlHookup(libCMUI_gv_mapOptionsContainer, c_triggerControlTypeLabel, "MapOptionsEmptyLabel");
     libCMUI_gv_mapOptionsEmptyLabel = DialogControlLastCreated();
     lv_index = 0;
     while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
-        DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypePanel, ("MapOptionsScrollFrame/ContainerFrame/Option" + IntToString(lv_index)));
+        DialogControlHookup(libCMUI_gv_mapOptionsContainer, c_triggerControlTypePanel, ("Option" + IntToString(lv_index)));
         libCMUI_gv_mapOptionRows[lv_index] = DialogControlLastCreated();
         DialogControlHookup(libCMUI_gv_mapOptionRows[lv_index], c_triggerControlTypeLabel, "DescriptionLabel");
         libCMUI_gv_mapOptionDescriptionLabels[lv_index] = DialogControlLastCreated();
@@ -7333,11 +7338,12 @@ void CMUIX_MutatorChallengeHookup() {
     CMUIX_MutatorRandomSeedRefreshButton = DialogControlLastCreated();
     CMUIX_RandomSeedInputRefresh();
     DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypePanel, "MapOptionsScrollFrame/ContainerFrame");
-    DialogControlHookup(DialogControlLastCreated(), c_triggerControlTypeLabel, "MapOptionsEmptyLabel");
+    libCMUI_gv_mutatorMapOptionsContainer = DialogControlLastCreated();
+    DialogControlHookup(libCMUI_gv_mutatorMapOptionsContainer, c_triggerControlTypeLabel, "MapOptionsEmptyLabel");
     libCMUI_gv_mutatorMapOptionsEmptyLabel = DialogControlLastCreated();
     lv_index = 0;
     while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
-        DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypePanel, ("MapOptionsScrollFrame/ContainerFrame/Option" + IntToString(lv_index)));
+        DialogControlHookup(libCMUI_gv_mutatorMapOptionsContainer, c_triggerControlTypePanel, ("Option" + IntToString(lv_index)));
         libCMUI_gv_mutatorMapOptionRows[lv_index] = DialogControlLastCreated();
         DialogControlHookup(libCMUI_gv_mutatorMapOptionRows[lv_index], c_triggerControlTypeLabel, "DescriptionLabel");
         libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index] = DialogControlLastCreated();
