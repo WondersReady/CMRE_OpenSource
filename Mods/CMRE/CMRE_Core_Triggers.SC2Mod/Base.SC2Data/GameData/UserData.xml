@@ -33725,6 +33725,148 @@
             </Int>
         </Instances>
     </CUser>
+    <CUser id="CoopMapOptions">
+        <Fields Id="Description" Type="Text" EditorColumn="1" EditorText="Name"/>
+        <Fields>
+            <Id value="Options"/>
+            <Type value="Text"/>
+            <Count value="8"/>
+            <EditorColumn value="2"/>
+        </Fields>
+        <Fields Id="Current Selection" Type="Int" EditorColumn="3">
+            <Flags index="Modifiable" value="1"/>
+            <Flags index="ConvState" value="1"/>
+        </Fields>
+        <Instances Id="[Default]">
+            <Int Int="1">
+                <Field Id="Current Selection"/>
+            </Int>
+        </Instances>
+        <Instances Id="ScytheOfAmonWave12">
+            <Text Text="UserData/CoopMapOptions/ScytheOfAmonWave12_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_WestSpawn"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_NorthSpawn"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="ScytheOfAmonWave57">
+            <Text Text="UserData/CoopMapOptions/ScytheOfAmonWave57_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_WestSpawn"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_NorthSpawn"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="ScytheOfAmonWave689">
+            <Text Text="UserData/CoopMapOptions/ScytheOfAmonWave689_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_WestSpawn"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_NorthSpawn"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="MalwarfareLock2">
+            <Text Text="UserData/CoopMapOptions/MalwarfareLock2_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Malwarfare_TopRightFirst"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Malwarfare_TopLeftFirst"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="MalwarfareLock3">
+            <Text Text="UserData/CoopMapOptions/MalwarfareLock3_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Malwarfare_LeftMiddleFirst"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Malwarfare_BottomFirst"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="MalwarfareLock4">
+            <Text Text="UserData/CoopMapOptions/MalwarfareLock4_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Malwarfare_RightBottomFirst"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Malwarfare_TopFirst"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="ChainOfAscensionFirstWave">
+            <Text Text="UserData/CoopMapOptions/ChainOfAscensionFirstWave_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Top"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Bottom"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="ChainOfAscensionMajorHybrid">
+            <Text Text="UserData/CoopMapOptions/ChainOfAscensionMajorHybrid_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Behemoth"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Dominator"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="ChainOfAscensionEnforcer1">
+            <Text Text="UserData/CoopMapOptions/ChainOfAscensionEnforcer1_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Reaver"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Destroyer"><Field Id="Options" Index="2"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Nemesis"><Field Id="Options" Index="3"/></Text>
+        </Instances>
+        <Instances Id="ChainOfAscensionEnforcer2">
+            <Text Text="UserData/CoopMapOptions/ChainOfAscensionEnforcer2_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Reaver"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Destroyer"><Field Id="Options" Index="2"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Nemesis"><Field Id="Options" Index="3"/></Text>
+        </Instances>
+        <Instances Id="TempleOfThePastWavePattern">
+            <Text Text="UserData/CoopMapOptions/TempleOfThePastWavePattern_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_PatternA"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_PatternB"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="TempleOfThePastHybridPattern">
+            <Text Text="UserData/CoopMapOptions/TempleOfThePastHybridPattern_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Temple_HybridAB"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Temple_HybridBA"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="TempleOfThePastPersistentAttacks">
+            <Text Text="UserData/CoopMapOptions/TempleOfThePastPersistentAttacks_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Off"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_On"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="VoidLaunchMajorHybrid">
+            <Text Text="UserData/CoopMapOptions/VoidLaunchMajorHybrid_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Behemoth"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Dominator"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="VoidLaunchMinorHybrid">
+            <Text Text="UserData/CoopMapOptions/VoidLaunchMinorHybrid_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Destroyer"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Hybrid_Reaver"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="VoidThrashingWavePattern">
+            <Text Text="UserData/CoopMapOptions/VoidThrashingWavePattern_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_PatternA"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_PatternB"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="MinerEvacuationFirstDisabledShip">
+            <Text Text="UserData/CoopMapOptions/MinerEvacuationFirstDisabledShip_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Miner_LeftOfExpansion"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Miner_Expansion"><Field Id="Options" Index="2"/></Text>
+            <Text Text="UserData/CoopMapOptions/Miner_RightOfExpansion"><Field Id="Options" Index="3"/></Text>
+        </Instances>
+        <Instances Id="MinerEvacuationSecondDisabledShip">
+            <Text Text="UserData/CoopMapOptions/MinerEvacuationSecondDisabledShip_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Miner_11OClockShip"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Miner_1OClockShip"><Field Id="Options" Index="2"/></Text>
+            <Text Text="UserData/CoopMapOptions/Miner_2OClockShip"><Field Id="Options" Index="3"/></Text>
+        </Instances>
+        <Instances Id="CradleOfDeathFirstBranch">
+            <Text Text="UserData/CoopMapOptions/CradleOfDeathFirstBranch_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Cradle_LeftFirst"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Cradle_RightFirst"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+        <Instances Id="CradleOfDeathSecondBranch">
+            <Text Text="UserData/CoopMapOptions/CradleOfDeathSecondBranch_Description"><Field Id="Description"/></Text>
+            <Text Text="UserData/CoopMapOptions/Common_Random"><Field Id="Options"/></Text>
+            <Text Text="UserData/CoopMapOptions/Cradle_LeftFirst"><Field Id="Options" Index="1"/></Text>
+            <Text Text="UserData/CoopMapOptions/Cradle_RightFirst"><Field Id="Options" Index="2"/></Text>
+        </Instances>
+    </CUser>
     <CUser id="CoopMaps">
         <Fields Id="Auto - Is Current" Type="Int">
             <Flags index="Modifiable" value="1"/>
@@ -33743,6 +33885,13 @@
         <Fields Id="MA - Map File Locale" Type="String" EditorColumn="2"/>
         <Fields Id="MA - Map File Online" Type="Int" EditorColumn="3"/>
         <Fields Id="MA - Score Statistic" Type="GameLink" GameLinkType="ScoreValue"/>
+        <Fields>
+            <Id value="MA - Map Options"/>
+            <Type value="User"/>
+            <UserType value="CoopMapOptions"/>
+            <Count value="8"/>
+            <EditorColumn value="8"/>
+        </Fields>
         <Fields>
             <Id value="MA - Difficulty Allowed"/>
             <Type value="Int"/>
@@ -33797,6 +33946,9 @@
             </Int>
         </Instances>
         <Instances Id="AC_CharThrasher">
+            <User Type="CoopMapOptions" Instance="VoidThrashingWavePattern">
+                <Field Id="MA - Map Options"/>
+            </User>
             <GameLink GameLink="CharThrasherLife">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -33843,6 +33995,15 @@
             </Text>
         </Instances>
         <Instances Id="AC_ShakurasTemple">
+            <User Type="CoopMapOptions" Instance="TempleOfThePastWavePattern">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="TempleOfThePastHybridPattern">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="TempleOfThePastPersistentAttacks">
+                <Field Id="MA - Map Options" Index="2"/>
+            </User>
             <GameLink GameLink="ShakurasTempleLife">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -33866,6 +34027,12 @@
             </Text>
         </Instances>
         <Instances Id="AC_KaldirShuttle">
+            <User Type="CoopMapOptions" Instance="VoidLaunchMajorHybrid">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="VoidLaunchMinorHybrid">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
             <GameLink GameLink="KaldirShuttleDamage">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -33935,6 +34102,18 @@
             </Text>
         </Instances>
         <Instances Id="AC_SlaynPayload">
+            <User Type="CoopMapOptions" Instance="ChainOfAscensionFirstWave">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="ChainOfAscensionMajorHybrid">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="ChainOfAscensionEnforcer1">
+                <Field Id="MA - Map Options" Index="2"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="ChainOfAscensionEnforcer2">
+                <Field Id="MA - Map Options" Index="3"/>
+            </User>
             <GameLink GameLink="SlaynPush">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -34004,6 +34183,12 @@
             </Text>
         </Instances>
         <Instances Id="AC_JarbanPointCapture">
+            <User Type="CoopMapOptions" Instance="MinerEvacuationFirstDisabledShip">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="MinerEvacuationSecondDisabledShip">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
             <GameLink GameLink="JarbanPointCaptureKills">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -34050,6 +34235,15 @@
             </Text>
         </Instances>
         <Instances Id="AC_CybrosEscort">
+            <User Type="CoopMapOptions" Instance="MalwarfareLock2">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="MalwarfareLock3">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="MalwarfareLock4">
+                <Field Id="MA - Map Options" Index="2"/>
+            </User>
             <GameLink GameLink="CybrosEscortGuardianHealth">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -34073,6 +34267,15 @@
             </Text>
         </Instances>
         <Instances Id="AC_AiurSiege">
+            <User Type="CoopMapOptions" Instance="ScytheOfAmonWave12">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="ScytheOfAmonWave57">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="ScytheOfAmonWave689">
+                <Field Id="MA - Map Options" Index="2"/>
+            </User>
             <GameLink GameLink="DamageDealtToVoidShards">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>
@@ -34119,6 +34322,12 @@
             </Text>
         </Instances>
         <Instances Id="AC_CradleOfDeath">
+            <User Type="CoopMapOptions" Instance="CradleOfDeathFirstBranch">
+                <Field Id="MA - Map Options"/>
+            </User>
+            <User Type="CoopMapOptions" Instance="CradleOfDeathSecondBranch">
+                <Field Id="MA - Map Options" Index="1"/>
+            </User>
             <GameLink GameLink="CradleOfDeathDamageDealttoConstructs">
                 <Field Id="MA - Score Statistic"/>
             </GameLink>

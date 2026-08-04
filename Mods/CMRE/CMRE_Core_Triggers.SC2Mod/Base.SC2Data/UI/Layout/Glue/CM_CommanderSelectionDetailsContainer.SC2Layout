@@ -801,6 +801,50 @@
                 </State>
             </StateGroup>
 
+            <Frame type="TabControl" name="PlayerTabControl">
+                <Anchor relative="$parent"/>
+                <SelectedIndex val="0"/>
+
+                <TabListItem val="$parent/Player1Button"/>
+                <TabListItem val="$parent/Player2Button"/>
+                <PanelListItem val="$parent/Player1TabPanel"/>
+                <PanelListItem val="$parent/Player2TabPanel"/>
+            </Frame>
+
+            <Frame type="Button" name="Player1Button" template="StandardSmallButtonTemplates/StandardSmallTabButtonLeftTemplate">
+                <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent" pos="Min" offset="113"/>
+                <Width val="150"/>
+                <Text val="@CMUI/ScreenCoopCampaign/StatusPlayer1"/>
+
+                <Frame type="Label" name="Label">
+                    <Options val="ScaleToPreventTruncation"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Button" name="Player2Button" template="StandardSmallButtonTemplates/StandardSmallTabButtonRightTemplate">
+                <Anchor side="Top" relative="$parent/Player1Button" pos="Min" offset="0"/>
+                <Anchor side="Left" relative="$parent/Player1Button" pos="Max" offset="-21"/>
+                <Width val="150"/>
+                <Text val="@CMUI/ScreenCoopCampaign/StatusPlayer2"/>
+
+                <Frame type="Label" name="Label">
+                    <Options val="ScaleToPreventTruncation"/>
+                </Frame>
+            </Frame>
+
+            <Frame type="Frame" name="Player1TabPanel">
+                <Width val="0"/>
+                <Height val="0"/>
+                <AcceptsMouse val="False"/>
+            </Frame>
+
+            <Frame type="Frame" name="Player2TabPanel">
+                <Width val="0"/>
+                <Height val="0"/>
+                <AcceptsMouse val="False"/>
+            </Frame>
+
             <Frame type="Frame" name="BackgroundContainer" template="CM_CommanderSelectionDetailsContainer/AllianceStateBackgroundContainerTemplate"/>
 
             <Frame type="Frame" name="DetailsBackground" template="StandardBattlenetTemplates/BattlenetStandardContentContainerTemplate">
@@ -1126,65 +1170,6 @@
             <Visible val="{$parent/Button/@Toggled}"/>
         </Frame>
 
-        <Frame type="Button" name="CommanderTargetToggleButton" template="StandardSmallButtonTemplates/StandardSmallBaseButtonTemplate">
-            <Text val="@CMUI/ScreenCoopCampaign/AllianceState/CommanderTargetSelf"/>
-            <Toggleable val="true"/>
-            <Toggled val="false"/>
-            <Visible val="{$parent/Button/@Toggled}"/>
-
-            <Frame type="Frame" name="AnchorFrame">
-                <Anchor side="Bottom" relative="$parent/$parent/Button/AnchorFrame" pos="Max" offset="0"/>
-                <Anchor side="Right" relative="$parent/$parent/Button/AnchorFrame" pos="Min" offset="-8"/>
-                <Width val="192"/>
-                <Height val="38"/>
-            </Frame>
-
-            <Frame type="Label" name="Label">
-                <Anchor side="Top" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
-                <Anchor side="Bottom" relative="$parent/AnchorFrame" pos="Mid" offset="1"/>
-                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
-                <Anchor side="Right" relative="$parent/AnchorFrame" pos="Mid" offset="0"/>
-                <Options val="ScaleToPreventTruncation"/>
-
-                <StateGroup name="StyleState">
-                    <DefaultState val="Normal"/>
-
-                    <State name="Disabled">
-                        <When type="StateGroup" frame="$parent" DisabledState="Disabled"/>
-                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Disabled"/>
-                    </State>
-
-                    <State name="Pressed">
-                        <When type="StateGroup" frame="$parent" PressedState="Pressed"/>
-                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
-                    </State>
-
-                    <State name="Selected">
-                        <When type="StateGroup" frame="$parent" ToggledState="Toggled"/>
-                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Pressed"/>
-                    </State>
-
-                    <State name="Hover">
-                        <When type="StateGroup" frame="$parent" HoveredState="Hovered"/>
-                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Hovered"/>
-                    </State>
-
-                    <State name="Normal">
-                        <Action type="SetProperty" frame="$this" Style="StandardSmallButtonExtended_Normal"/>
-                    </State>
-                </StateGroup>
-            </Frame>
-
-            <StateGroup name="PressedState">
-                <DefaultState val="Pressed"/>
-                <State name="NotPressed">
-                    <When type="Property" frame="$this" Pushed="False"/>
-                    <When type="Property" frame="$this" Toggled="False"/>
-                </State>
-                <State name="Pressed"/>
-            </StateGroup>
-        </Frame>
-
         <Frame type="Button" name="Button" template="StandardSmallButtonTemplates/StandardSmallBaseButtonTemplate">
             <Handle val="CM_AllianceStateButton"/>
             <Text val="@CMUI/ScreenCoopCampaign/AllianceStateButton"/>
@@ -1287,11 +1272,9 @@
             <TabListItem val="$parent/InfoButton"/>
             <TabListItem val="$parent/UnitsButton"/>
             <TabListItem val="$parent/UpgradesButton"/>
-            <TabListItem val="$parent/StatusButton"/>
             <PanelListItem val="$parent/InfoContainer"/>
             <PanelListItem val="$parent/UnitsContainer"/>
             <PanelListItem val="$parent/UpgradesContainer"/>
-            <PanelListItem val="$parent/StatusContainer"/>
         </Frame>
         
         <Frame type="Button" name="InfoButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonLeftTemplate">
@@ -1336,7 +1319,7 @@
             </StateGroup>
         </Frame>
 
-        <Frame type="Button" name="UpgradesButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonMiddleTemplate">
+        <Frame type="Button" name="UpgradesButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonRightTemplate">
             <Anchor side="Top" relative="$parent/UnitsButton" pos="Min" offset="0"/>
             <Anchor side="Left" relative="$parent/UnitsButton" pos="Max" offset="-21"/>
             <Anchor side="Right" relative="Label" pos="Max" offset="35"/>
@@ -1357,27 +1340,6 @@
             </StateGroup>
         </Frame>
         
-        <Frame type="Button" name="StatusButton" template="StandardSmallButtonTemplates/StandardSmallTabButtonRightTemplate">
-            <Anchor side="Top" relative="$parent/UpgradesButton" pos="Min" offset="0"/>
-            <Anchor side="Left" relative="$parent/UpgradesButton" pos="Max" offset="-21"/>
-            <Anchor side="Right" relative="Label" pos="Max" offset="35"/>
-            <Text val="@CMUI/ScreenCoopCampaign/Status"/>
-
-            <Frame type="Label" name="Label">
-                <Anchor side="Left" relative="$parent/AnchorFrame" pos="Min" offset="44"/>
-                <Anchor side="Right" relative="$this" pos="Min" offset="0"/>
-                <AutoSizeClamps maxWidth="120"/>
-                <Options val="NoWrapping|TooltipIfTruncated"/>
-            </Frame>
-
-            <StateGroup name="TooltipState">
-                <State name="Show">
-                    <When type="Property" frame="TitleLabel" IsTextTruncated="True"/>
-                    <Action type="SetProperty" Tooltip="{$this/Label/@Text}"/>
-                </State>
-            </StateGroup>
-        </Frame>
-
         <Frame type="Frame" name="DetailsBackground" template="StandardBattlenetTemplates/BattlenetStandardContentContainerTemplate">
             <Anchor side="Top" relative="$parent" pos="Min" offset="47"/>
             <Anchor side="Bottom" relative="$this" pos="Min" offset="0"/>
@@ -1741,84 +1703,6 @@
             <Anchor relative="$parent/InfoContainer"/>
         </Frame>
 
-
-        <!-- Status Detail Container -->
-
-        <Frame type="Frame" name="StatusContainer" template="CM_CommanderSelectionDetailsContainer/StatusDetailContainerTemplate">
-            <Handle val="CM_CommanderDetailsStatusContainer"/>
-            <Anchor relative="$parent/InfoContainer"/>
-
-            <Frame type="Label" name="HeaderLabel">
-                <!-- <Handle val="CM_PlayerStatusHeaderLabel"/> -->
-            </Frame>
-
-            <Frame type="Frame" name="MasteryGroup0">
-                <Frame type="Label" name="GroupLabel">
-                    <!-- <Handle val="CM_PlayerStatusMasterySet1GroupLabel"/> -->
-                </Frame>
-                <Frame type="Frame" name="Row0">
-                    <Frame type="Label" name="NameLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet1NameLabel"/> -->
-                    </Frame>
-                    <Frame type="Label" name="ValueLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet1ValueLabel"/> -->
-                    </Frame>
-                </Frame>
-                <Frame type="Frame" name="Row1">
-                    <Frame type="Label" name="NameLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet1AltNameLabel"/> -->
-                    </Frame>
-                    <Frame type="Label" name="ValueLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet1AltValueLabel"/> -->
-                    </Frame>
-                </Frame>
-            </Frame>
-
-            <Frame type="Frame" name="MasteryGroup1">
-                <Frame type="Label" name="GroupLabel">
-                    <!-- <Handle val="CM_PlayerStatusMasterySet2GroupLabel"/> -->
-                </Frame>
-                <Frame type="Frame" name="Row0">
-                    <Frame type="Label" name="NameLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet2NameLabel"/> -->
-                    </Frame>
-                    <Frame type="Label" name="ValueLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet2ValueLabel"/> -->
-                    </Frame>
-                </Frame>
-                <Frame type="Frame" name="Row1">
-                    <Frame type="Label" name="NameLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet2AltNameLabel"/> -->
-                    </Frame>
-                    <Frame type="Label" name="ValueLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet2AltValueLabel"/> -->
-                    </Frame>
-                </Frame>
-            </Frame>
-
-            <Frame type="Frame" name="MasteryGroup2">
-                <Frame type="Label" name="GroupLabel">
-                    <!-- <Handle val="CM_PlayerStatusMasterySet3GroupLabel"/> -->
-                </Frame>
-                <Frame type="Frame" name="Row0">
-                    <Frame type="Label" name="NameLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet3NameLabel"/> -->
-                    </Frame>
-                    <Frame type="Label" name="ValueLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet3ValueLabel"/> -->
-                    </Frame>
-                </Frame>
-                <Frame type="Frame" name="Row1">
-                    <Frame type="Label" name="NameLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet3AltNameLabel"/> -->
-                    </Frame>
-                    <Frame type="Label" name="ValueLabel">
-                        <!-- <Handle val="CM_PlayerStatusMasterySet3AltValueLabel"/> -->
-                    </Frame>
-                </Frame>
-            </Frame>
-        </Frame>
-            
         <Frame type="Frame" name="AbilHitArea" template="StandardTemplates/HoverableFrameTemplate">
             <Anchor relative="$parent/DetailsBackground/CommanderDetailsBackground"/>
         </Frame>
@@ -1830,14 +1714,12 @@
                 <When type="AnimationState" frame="$this" RandomState="Random"/>
                 <Action type="SetProperty" frame="UnitsButton" Enabled="False"/>
                 <Action type="SetProperty" frame="UpgradesButton" Enabled="False"/>
-                <Action type="SetProperty" frame="StatusButton" Enabled="False"/>
                 <Action type="SetProperty" frame="TabControl" SelectedIndex="0"/>
             </State>
             
             <State name="NotRandom">
                 <Action type="SetProperty" frame="UnitsButton" Enabled="True"/>
                 <Action type="SetProperty" frame="UpgradesButton" Enabled="True"/>
-                <Action type="SetProperty" frame="StatusButton" Enabled="True"/>
             </State>
         </StateGroup>
 
@@ -1850,7 +1732,6 @@
                 <Action type="SetProperty" frame="InfoButton" Visible="False"/>
                 <Action type="SetProperty" frame="UnitsButton" Visible="False"/>
                 <Action type="SetProperty" frame="UpgradesButton" Visible="False"/>
-                <Action type="SetProperty" frame="StatusButton" Visible="False"/>
             </State>
 
             <State name="Visible">
@@ -1858,7 +1739,6 @@
                 <Action type="SetProperty" frame="InfoButton" Visible="True"/>
                 <Action type="SetProperty" frame="UnitsButton" Visible="True"/>
                 <Action type="SetProperty" frame="UpgradesButton" Visible="True"/>
-                <Action type="SetProperty" frame="StatusButton" Visible="True"/>
             </State>
         </StateGroup>
     </Frame>

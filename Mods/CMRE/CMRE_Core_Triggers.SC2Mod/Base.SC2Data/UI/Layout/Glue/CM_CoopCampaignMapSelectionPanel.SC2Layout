@@ -31,6 +31,24 @@
         </Frame>
     </Frame>
 
+    <Frame type="Frame" name="MapOptionRowTemplate">
+        <Height val="88"/>
+        <Visible val="False"/>
+        <CollapseLayout val="true"/>
+        <Frame type="Label" name="DescriptionLabel">
+            <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+            <Height val="30"/>
+            <Style val="@Coop_CommanderMasteryInfoHeader"/>
+        </Frame>
+        <Frame type="Pulldown" name="Pulldown" template="StandardBattlenetTemplates/BattlenetPulldownTemplate">
+            <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="4"/>
+            <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+            <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+        </Frame>
+    </Frame>
+
     <Frame type="ScrollBar" name="TileListScrollBarTemplate">
         <Image val="$root/CM_CoopCampaignMapSelectionPanel/ScrollBarBackgroundImage"/>
         <Button val="$root/CM_CoopCampaignMapSelectionPanel/ScrollBarButtonTemplate"/>
@@ -233,7 +251,7 @@
                 <Texture val="@UI/Glues_Battlenet_DialogBox_StandardBG"/>
                 <TextureType val="NineSlice"/>
                 <Tiled val="false"/>
-                <Width val="1000"/>
+                <Width val="1500"/>
                 <Height val="900"/>
             </Frame>
 
@@ -1267,8 +1285,8 @@
             <Frame type="Image" name="MapDescriptionBg">
                 <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="20"/>
                 <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
-                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
-                <Width val="338"/>
+                <Anchor side="Left" relative="$parent/EnemyTileListBg" pos="Max" offset="20"/>
+                <Width val="430"/>
                 <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
                 <TextureType val="NineSlice"/>
             </Frame>
@@ -1277,8 +1295,8 @@
                 <Anchor side="Top" relative="$parent/MapDescriptionBg" pos="Min" offset="11"/>
                 <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Mid" offset="0"/>
                 <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Mid" offset="0"/>
-                <Width val="316"/>
-                <Height val="184"/>
+                <Width val="396"/>
+                <Height val="230"/>
                 <TextureType val="Normal"/>
                 <CollapseLayout val="true"/>
                 <Visible val="False"/>
@@ -1300,8 +1318,8 @@
                 <Anchor side="Top" relative="$parent/MapDescriptionBg" pos="Min" offset="11"/>
                 <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Mid" offset="0"/>
                 <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Mid" offset="0"/>
-                <Width val="316"/>
-                <Height val="184"/>
+                <Width val="396"/>
+                <Height val="230"/>
                 <CollapseLayout val="true"/>
 
                 <Frame type="Image" name="Image">
@@ -1334,8 +1352,8 @@
                 <Anchor side="Top" relative="$parent/MapDescriptionBg" pos="Min" offset="10"/>
                 <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Mid" offset="0"/>
                 <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Mid" offset="0"/>
-                <Width val="318"/>
-                <Height val="186"/>
+                <Width val="398"/>
+                <Height val="232"/>
                 <Texture val="@UI/SC2_UI_Battlenet_Glue_Arcade_ImageBorder"/>
                 <TextureType val="NineSlice"/>
             </Frame>
@@ -1349,16 +1367,43 @@
 
             <Frame type="Label" name="EnemyDescriptionLabel">
                 <Anchor side="Top" relative="$parent/MapDescriptionLabel" pos="Max" offset="20"/>
-                <Anchor side="Bottom" relative="$parent/RandomSeedContainer" pos="Min" offset="-10"/>
+                <Anchor side="Bottom" relative="$parent/MapDescriptionBg" pos="Max" offset="-15"/>
                 <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Min" offset="15"/>
                 <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Max" offset="-15"/>
                 <Style val="Tournament_MapVetoDetails"/>
             </Frame>
 
+            <Frame type="Image" name="MapOptionsBg">
+                <Anchor side="Top" relative="$parent/DescriptionLabel" pos="Max" offset="20"/>
+                <Anchor side="Bottom" relative="$parent/AcceptButton" pos="Min" offset="-10"/>
+                <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Max" offset="20"/>
+                <Anchor side="Right" relative="$parent/BackgroundImage" pos="Max" offset="-30"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerBorder"/>
+                <TextureType val="NineSlice"/>
+            </Frame>
+
+            <Frame type="Image" name="MapOptionsHeaderBg">
+                <Anchor side="Top" relative="$parent/RandomSeedContainer" pos="Max" offset="14"/>
+                <Anchor side="Left" relative="$parent/MapOptionsBg" pos="Min" offset="0"/>
+                <Anchor side="Right" relative="$parent/MapOptionsBg" pos="Max" offset="0"/>
+                <Height val="40"/>
+                <Texture val="@UI/Glues_Battlenet_PageAssets_ContainerHeader"/>
+                <TextureType val="NineSlice"/>
+            </Frame>
+
+            <Frame type="Label" name="MapOptionsHeader">
+                <Anchor side="Top" relative="$parent/MapOptionsHeaderBg" pos="Min" offset="3"/>
+                <Anchor side="Left" relative="$parent/MapOptionsHeaderBg" pos="Min" offset="25"/>
+                <Anchor side="Bottom" relative="$parent/MapOptionsHeaderBg" pos="Max" offset="0"/>
+                <Anchor side="Right" relative="$parent/MapOptionsHeaderBg" pos="Max" offset="-10"/>
+                <Text val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/MapOptions"/>
+                <Style val="BattlenetListHeader"/>
+            </Frame>
+
             <Frame type="Frame" name="RandomSeedContainer">
-                <Anchor side="Bottom" relative="$parent/MapDescriptionBg" pos="Max" offset="-10"/>
-                <Anchor side="Left" relative="$parent/MapDescriptionBg" pos="Min" offset="15"/>
-                <Anchor side="Right" relative="$parent/MapDescriptionBg" pos="Max" offset="-15"/>
+                <Anchor side="Top" relative="$parent/MapOptionsBg" pos="Min" offset="14"/>
+                <Anchor side="Left" relative="$parent/MapOptionsBg" pos="Min" offset="15"/>
+                <Anchor side="Right" relative="$parent/MapOptionsBg" pos="Max" offset="-15"/>
                 <Height val="36"/>
 
                 <Frame type="EditBox" name="RandomSeedEditBox" template="StandardSmallButtonTemplates/StandardSmallSearchBoxTemplate">
@@ -1424,6 +1469,44 @@
                             </State>
                         </StateGroup>
                     </Frame>
+                </Frame>
+            </Frame>
+
+            <Frame type="ScrollableFrame" name="MapOptionsScrollFrame">
+                <Anchor side="Top" relative="$parent/MapOptionsHeaderBg" pos="Max" offset="8"/>
+                <Anchor side="Left" relative="$parent/MapOptionsBg" pos="Min" offset="15"/>
+                <Anchor side="Right" relative="$parent/MapOptionsBg" pos="Max" offset="-15"/>
+                <Anchor side="Bottom" relative="$parent/MapOptionsBg" pos="Max" offset="-15"/>
+                <AcceptsMouse val="true"/>
+                <Frame type="Frame" name="ContainerFrame">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent/ScrollBar" pos="Min" offset="-6"/>
+                    <Anchor side="Bottom" relative="$this/Option7" pos="Max" offset="0"/>
+                    <Frame type="Label" name="MapOptionsEmptyLabel">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
+                        <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Text val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/MapOptionsEmpty"/>
+                        <Style val="Tournament_MapVetoDetails"/>
+                    </Frame>
+                    <Frame type="Frame" name="Option0" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate">
+                        <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    </Frame>
+                    <Frame type="Frame" name="Option1" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option0" pos="Max" offset="6"/></Frame>
+                    <Frame type="Frame" name="Option2" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option1" pos="Max" offset="6"/></Frame>
+                    <Frame type="Frame" name="Option3" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option2" pos="Max" offset="6"/></Frame>
+                    <Frame type="Frame" name="Option4" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option3" pos="Max" offset="6"/></Frame>
+                    <Frame type="Frame" name="Option5" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option4" pos="Max" offset="6"/></Frame>
+                    <Frame type="Frame" name="Option6" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option5" pos="Max" offset="6"/></Frame>
+                    <Frame type="Frame" name="Option7" template="CM_CoopCampaignMapSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option6" pos="Max" offset="6"/></Frame>
+                </Frame>
+                <Frame type="ScrollBar" name="ScrollBar" template="CM_CoopCampaignMapSelectionPanel/TileListScrollBarTemplate">
+                    <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
+                    <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                    <Anchor side="Bottom" relative="$parent" pos="Max" offset="0"/>
+                    <StepValue val="48"/>
+                    <Continuous val="true"/>
                 </Frame>
             </Frame>
 

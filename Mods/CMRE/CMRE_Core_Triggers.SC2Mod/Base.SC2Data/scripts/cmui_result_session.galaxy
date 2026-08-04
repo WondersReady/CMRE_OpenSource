@@ -2467,6 +2467,7 @@ void CMUIX_ResultSessionOpen(int lp_result) {
         return;
     }
 
+    CMUIX_GameHistoryAutosaveBlocked = true;
     CMUIX_ResultOpening = true;
     CMUIX_ResultSnapshotCapture(lp_result);
     CMUIX_ResultRecordOutcome();

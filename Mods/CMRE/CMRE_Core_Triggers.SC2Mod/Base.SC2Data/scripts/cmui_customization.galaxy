@@ -91,6 +91,7 @@ const string CMUIX_CONSOLE_COLOR_DESCRIPTION = "FFD966";
 const string CMUIX_CONSOLE_USERDATA_TYPE = "CMUIConsoleCommands";
 const string CMUIX_CONSOLE_COPY_PREFIX = "CMUIX_CopyPaste_";
 const int CMUIX_MUTATOR_INFO_ICON_MAX = 20;
+const int CMUIX_STATUS_PLAYER_TAB_COUNT = 2;
 const int CMUIX_MUTATOR_INFO_ICON_PAGE_SIZE = 20;
 const int CMUIX_MUTATOR_INFO_PAGE_BUTTON_MAX = 4;
 const int CMUIX_MUTATOR_INFO_ICON_GROUP_WIDTH = 512;
@@ -124,6 +125,8 @@ const int CMUIX_COMMANDER_MASTERY_UNLOCK_LEVEL = 15;
 const int CMUIX_COMMANDER_LEVEL_CLICK_LOW_LEVEL = 1;
 const int CMUIX_PERSONALIZATION_VOICEPACK_MAX = 400;
 const int CMUIX_PERSONALIZATION_OPTIMIZATION_MAX = 12;
+const int CMUIX_MAP_OPTIONS_MAX = 8;
+const int CMUIX_MAP_OPTION_VALUES_MAX = 8;
 const string CMUIX_OPTIMIZATION_SCOPE_GLOBAL = "Global";
 const string CMUIX_OPTIMIZATION_SCOPE_COMMANDER = "Commander";
 const string CMUIX_OPTIMIZATION_RACE_DEFAULT_TRANSMISSION = "RaceDefaultTransmission";
@@ -287,6 +290,8 @@ bool CMUIX_RandomSeedResolved;
 int CMUIX_RandomSeed;
 int CMUIX_RandomSeedEditBox;
 int CMUIX_RandomSeedRefreshButton;
+int CMUIX_MutatorRandomSeedEditBox;
+int CMUIX_MutatorRandomSeedRefreshButton;
 bool CMUIX_RandomSeedInputRefreshing;
 bool CMUIX_RandomSeedDraftExplicit;
 int CMUIX_RandomSeedDraft;
@@ -299,6 +304,7 @@ int CMUIX_LaunchAttemptChecksum;
 string CMUIX_LaunchHistoryKey;
 string[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_LaunchHistoryKeys;
 string CMUIX_LaunchLastResult;
+bool CMUIX_GameHistoryAutosaveBlocked;
 string CMUIX_ProfileSourceTemplateKey;
 int CMUIX_ProfileSourceTemplatePlayer;
 string CMUIX_ProfileSourceHistoryKey;
@@ -403,6 +409,10 @@ int libCMUI_gv_mapSelectionRandomImage;
 int libCMUI_gv_mapSelectionImageFrame;
 int libCMUI_gv_mapSelectionImage;
 int libCMUI_gv_mapSelectionDescriptionLabel;
+int libCMUI_gv_mapOptionsEmptyLabel;
+int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mapOptionRows;
+int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mapOptionDescriptionLabels;
+int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mapOptionPulldowns;
 int libCMUI_gv_enemySelectionTileList;
 int libCMUI_gv_enemySelectionTileListContainer;
 int[libCMUI_gv_cMUI_EnemySelection_Item_Max + 1] libCMUI_gv_enemySelectionItems;
@@ -417,6 +427,11 @@ string CMUIX_MapSelectionSelected;
 string CMUIX_MapSelectionDraft;
 string CMUIX_EnemySelectionSelected;
 string CMUIX_EnemySelectionDraft;
+string[CMUIX_MAP_OPTIONS_MAX] CMUIX_MapOptionDraftInstances;
+int[CMUIX_MAP_OPTIONS_MAX] CMUIX_MapOptionDraftValues;
+int CMUIX_MapOptionDraftCount;
+string CMUIX_MapOptionDraftMapInstance;
+bool CMUIX_MapOptionsRefreshing;
 int libCMUI_gv_mutatorChallengePanel;
 int libCMUI_gv_mutatorChallengeButton;
 int libCMUI_gv_mutatorChallengeButtonLabel;
@@ -431,6 +446,10 @@ int libCMUI_gv_mutatorChallengeRandomImage;
 int libCMUI_gv_mutatorChallengeImageFrame;
 int libCMUI_gv_mutatorChallengeImage;
 int libCMUI_gv_mutatorChallengeDescriptionLabel;
+int libCMUI_gv_mutatorMapOptionsEmptyLabel;
+int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mutatorMapOptionRows;
+int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mutatorMapOptionDescriptionLabels;
+int[CMUIX_MAP_OPTIONS_MAX] libCMUI_gv_mutatorMapOptionPulldowns;
 int libCMUI_gv_mutatorChallengeEnemyDescriptionLabel;
 int libCMUI_gv_mutatorChallengeDetailsScrollFrame;
 int libCMUI_gv_mutatorChallengeDetailsContainer;
@@ -722,6 +741,12 @@ string CMUIX_MapSelectionCurrentMapInstance();
 bool CMUIX_MapSelectionCurrentMapIsLauncher();
 void CMUIX_MapSelectionRefreshAll();
 void CMUIX_MapSelectionResetReadyStatus();
+void CMUIX_MapOptionsResetDraft(string lp_mapInstance);
+void CMUIX_MapOptionsRefreshForMap(int lp_player, string lp_mapInstance, bool lp_mutatorPanel);
+void CMUIX_MapOptionsAccept();
+bool CMUIX_MapOptionsHandleEvent(int lp_player, int lp_control);
+void CMUIX_MapOptionsSaveToLaunchProfile(bank lp_bank, string lp_mapInstance);
+void CMUIX_MapOptionsLoadFromLaunchProfile(bank lp_bank);
 void CMUIX_ReadyRefreshAll();
 void CMUIX_ReadyRefreshDataControlsAll();
 void CMUIX_ReadyRefreshDataControlsForPlayer(int lp_player);
@@ -836,7 +861,7 @@ int CMUIX_AllianceStateCloseButton;
 int CMUIX_AllianceDetailsBackground;
 int CMUIX_AllianceCommanderDetailsBackgroundImage;
 int CMUIX_AllianceCustomizationButton;
-int CMUIX_AllianceCommanderTargetButton;
+int[CMUIX_STATUS_PLAYER_TAB_COUNT + 1] CMUIX_StatusPlayerButtons;
 int CMUIX_MutatorInfoButton;
 int CMUIX_MutatorInfoContainer;
 int CMUIX_MutatorInfoSummaryTitleLabel;
@@ -940,6 +965,7 @@ int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_TargetPlayer;
 bool[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_TargetAllianceMode;
 bool[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_AllianceStateExpanded;
 bool[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_AllianceCommanderSelectionEnabled;
+int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_StatusSelectedPlayer;
 string[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_TargetCommander;
 bool[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_MasteryShiftPressed;
 int[libCOOC_gv_cCC_MAXPLAYERS + 1] CMUIX_MasteryLevelDraft;
@@ -967,6 +993,10 @@ void CMUIX_CustomizationRefreshInfoLabels(int lp_viewer, int lp_targetPlayer, st
 void CMUIX_CustomizationRefreshExternalFromData(int lp_viewer, int lp_targetPlayer, string lp_commander, bool lp_allianceMode);
 void CMUIX_CustomizationRefresh(int lp_operator);
 void CMUIX_CustomizationRefreshAllianceLabelForPlayer(int lp_viewer, int lp_targetPlayer);
+void CMUIX_StatusPanelRefreshForViewer(int lp_viewer);
+void CMUIX_StatusPanelSelectPlayer(int lp_viewer, int lp_targetPlayer);
+int CMUIX_StatusPanelSelectedPlayer(int lp_viewer);
+int CMUIX_StatusPlayerButtonIndex(int lp_control);
 void CMUIX_CustomizationSetAllianceStateExpanded(int lp_player, bool lp_expanded);
 void CMUIX_CustomizationSetStatusTableVisible(int lp_viewer, bool lp_allianceMode, bool lp_visible);
 void CMUIX_CustomizationSetStatusSummaryText(int lp_viewer, bool lp_allianceMode, text lp_text);
@@ -975,6 +1005,7 @@ void CMUIX_SetControlText(int lp_control, playergroup lp_players, text lp_text);
 void CMUIX_SetControlTooltip(int lp_control, playergroup lp_players, text lp_text);
 void CMUIX_SetControlVisible(int lp_control, playergroup lp_players, bool lp_visible);
 void CMUIX_SetControlEnabled(int lp_control, playergroup lp_players, bool lp_enabled);
+void CMUIX_SetControlToggled(int lp_control, playergroup lp_players, bool lp_toggled);
 void CMUIX_FinalApplyLocalLaunchConfiguration();
 void CMUIX_PrepareConsoleSkinRefreshForCommander(int lp_player, string lp_commander);
 bool CMUIX_LauncherJumpToSelectedMission();
@@ -1446,6 +1477,8 @@ void CMUIX_CoreInitVariables() {
     CMUIX_RandomSeed = 0;
     CMUIX_RandomSeedEditBox = c_invalidDialogControlId;
     CMUIX_RandomSeedRefreshButton = c_invalidDialogControlId;
+    CMUIX_MutatorRandomSeedEditBox = c_invalidDialogControlId;
+    CMUIX_MutatorRandomSeedRefreshButton = c_invalidDialogControlId;
     CMUIX_RandomSeedInputRefreshing = false;
     CMUIX_RandomSeedDraftExplicit = false;
     CMUIX_RandomSeedDraft = 0;
@@ -1457,6 +1490,7 @@ void CMUIX_CoreInitVariables() {
     CMUIX_LaunchAttemptChecksum = 0;
     CMUIX_LaunchHistoryKey = "";
     CMUIX_LaunchLastResult = "";
+    CMUIX_GameHistoryAutosaveBlocked = false;
     CMUIX_ProfileSourceTemplateKey = "";
     CMUIX_ProfileSourceTemplatePlayer = 0;
     CMUIX_ProfileSourceHistoryKey = "";
@@ -1490,6 +1524,7 @@ void CMUIX_CoreInitVariables() {
     libCMUI_gv_mapSelectionImageFrame = c_invalidDialogControlId;
     libCMUI_gv_mapSelectionImage = c_invalidDialogControlId;
     libCMUI_gv_mapSelectionDescriptionLabel = c_invalidDialogControlId;
+    libCMUI_gv_mapOptionsEmptyLabel = c_invalidDialogControlId;
     libCMUI_gv_enemySelectionTileList = c_invalidDialogControlId;
     libCMUI_gv_enemySelectionTileListContainer = c_invalidDialogControlId;
     libCMUI_gv_enemySelectionSelectedLabel = c_invalidDialogControlId;
@@ -1500,6 +1535,9 @@ void CMUIX_CoreInitVariables() {
     CMUIX_MapSelectionDraft = "";
     CMUIX_EnemySelectionSelected = "";
     CMUIX_EnemySelectionDraft = "";
+    CMUIX_MapOptionDraftCount = 0;
+    CMUIX_MapOptionDraftMapInstance = "";
+    CMUIX_MapOptionsRefreshing = false;
     libCMUI_gv_mutatorChallengePanel = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeButton = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeButtonLabel = c_invalidDialogControlId;
@@ -1511,6 +1549,7 @@ void CMUIX_CoreInitVariables() {
     libCMUI_gv_mutatorChallengeImageFrame = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeImage = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeDescriptionLabel = c_invalidDialogControlId;
+    libCMUI_gv_mutatorMapOptionsEmptyLabel = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeEnemyDescriptionLabel = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeDetailsScrollFrame = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeDetailsContainer = c_invalidDialogControlId;
@@ -3825,6 +3864,7 @@ void CMUIX_MapSelectionRefreshDetails(int lp_player, string lp_mapInstance) {
         CMUIX_MapSelectionSetVisible(libCMUI_gv_mapSelectionRandomImage, true, lv_playerGroup);
         CMUIX_MapSelectionSetVisible(libCMUI_gv_mapSelectionImageFrame, false, lv_playerGroup);
         CMUIX_MapSelectionSetText(libCMUI_gv_mapSelectionDescriptionLabel, CMUIX_MapSelectionDescription(lp_mapInstance), lv_playerGroup);
+        CMUIX_MapOptionsRefreshForMap(lp_player, lp_mapInstance, false);
         return;
     }
 
@@ -3836,6 +3876,7 @@ void CMUIX_MapSelectionRefreshDetails(int lp_player, string lp_mapInstance) {
     }
 
     CMUIX_MapSelectionSetText(libCMUI_gv_mapSelectionDescriptionLabel, CMUIX_MapSelectionDescription(lp_mapInstance), lv_playerGroup);
+    CMUIX_MapOptionsRefreshForMap(lp_player, lp_mapInstance, false);
 }
 
 void CMUIX_MapSelectionClearList(playergroup lp_players) {
@@ -4134,12 +4175,30 @@ void CMUIX_RandomSeedInputRefresh() {
         lv_value = CMUIX_RandomSeedDisplayValue(CMUIX_RandomSeedDraft);
     }
 
-    if ((CMUIX_IsControlValid(CMUIX_RandomSeedEditBox) == false)) {
+    if ((CMUIX_IsControlValid(CMUIX_RandomSeedEditBox) == false) && (CMUIX_IsControlValid(CMUIX_MutatorRandomSeedEditBox) == false)) {
         return;
     }
 
+    lv_index = 0;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        libCMUI_gv_mapOptionRows[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mapOptionPulldowns[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionRows[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionPulldowns[lv_index] = c_invalidDialogControlId;
+        CMUIX_MapOptionDraftInstances[lv_index] = "";
+        CMUIX_MapOptionDraftValues[lv_index] = 0;
+        lv_index += 1;
+    }
+
     CMUIX_RandomSeedInputRefreshing = true;
-    libNtve_gf_SetDialogItemEditorValue(CMUIX_RandomSeedEditBox, lv_value, PlayerGroupAll());
+    if ((CMUIX_IsControlValid(CMUIX_RandomSeedEditBox) == true)) {
+        libNtve_gf_SetDialogItemEditorValue(CMUIX_RandomSeedEditBox, lv_value, PlayerGroupAll());
+    }
+    if ((CMUIX_IsControlValid(CMUIX_MutatorRandomSeedEditBox) == true)) {
+        libNtve_gf_SetDialogItemEditorValue(CMUIX_MutatorRandomSeedEditBox, lv_value, PlayerGroupAll());
+    }
     CMUIX_RandomSeedInputRefreshing = false;
 }
 
@@ -4190,7 +4249,7 @@ bool CMUIX_RandomSeedInputHandleEvent(int lp_player, int lp_control) {
 
     lv_seed = 0;
     lv_value = "";
-    if ((lp_control == CMUIX_RandomSeedRefreshButton)) {
+    if ((lp_control == CMUIX_RandomSeedRefreshButton) || (lp_control == CMUIX_MutatorRandomSeedRefreshButton)) {
         if ((CMUIX_ReadyCanEditSharedData(lp_player) == false)) {
             CMUIX_RandomSeedInputRefresh();
             return true;
@@ -4204,7 +4263,7 @@ bool CMUIX_RandomSeedInputHandleEvent(int lp_player, int lp_control) {
         return true;
     }
 
-    if ((lp_control != CMUIX_RandomSeedEditBox)) {
+    if ((lp_control != CMUIX_RandomSeedEditBox) && (lp_control != CMUIX_MutatorRandomSeedEditBox)) {
         return false;
     }
 
@@ -4217,7 +4276,7 @@ bool CMUIX_RandomSeedInputHandleEvent(int lp_player, int lp_control) {
         return true;
     }
 
-    lv_value = libNtve_gf_DialogItemEditValue(CMUIX_RandomSeedEditBox, lp_player);
+    lv_value = libNtve_gf_DialogItemEditValue(lp_control, lp_player);
     if ((lv_value == "")) {
         CMUIX_RandomSeedDraftExplicit = false;
         CMUIX_RandomSeedDraft = 0;
@@ -5966,6 +6025,7 @@ void CMUIX_MutatorChallengeRefreshDetails(int lp_player, string lp_challenge) {
         CMUIX_MapSelectionSetText(libCMUI_gv_mutatorChallengeDescriptionLabel, CMUIX_MutatorChallengeRandomDescription(), lv_playerGroup);
         CMUIX_MapSelectionSetText(libCMUI_gv_mutatorChallengeEnemyDescriptionLabel, CMUIX_EnemySelectionDescription(CMUIX_EnemySelectionDraft), lv_playerGroup);
         CMUIX_MutatorChallengeClearMutatorItems(lv_playerGroup);
+        CMUIX_MapOptionsRefreshForMap(lp_player, "", true);
         return;
     }
 
@@ -5983,6 +6043,7 @@ void CMUIX_MutatorChallengeRefreshDetails(int lp_player, string lp_challenge) {
     CMUIX_MapSelectionSetText(libCMUI_gv_mutatorChallengeDescriptionLabel, CMUIX_MutatorChallengeDescription(CMUIX_MutatorChallengeCurrentType, lp_challenge), lv_playerGroup);
     CMUIX_MapSelectionSetText(libCMUI_gv_mutatorChallengeEnemyDescriptionLabel, CMUIX_EnemySelectionDescription(CMUIX_EnemySelectionDraft), lv_playerGroup);
     CMUIX_MutatorChallengeRefreshMutatorItems(lp_player, lp_challenge);
+    CMUIX_MapOptionsRefreshForMap(lp_player, CMUIX_MutatorChallengeMapInstance(CMUIX_MutatorChallengeCurrentType, lp_challenge), true);
 }
 
 void CMUIX_MutatorChallengeClearList(playergroup lp_players) {
@@ -6399,6 +6460,7 @@ bool CMUIX_MutatorChallengeHandleClick(int lp_player, int lp_control) {
 
     if ((lp_control == libCMUI_gv_mutatorChallengeButton)) {
         CMUIX_StartupRefreshControls();
+        CMUIX_RandomSeedInputResetDraft();
         CMUIX_MutatorChallengeEnsureSelection();
         lv_typeIndex = CMUIX_MutatorChallengeTypeIndex(CMUIX_MutatorChallengeCurrentType);
         CMUIX_MutatorChallengeDraft[lv_typeIndex] = CMUIX_MutatorChallengeSelected[lv_typeIndex];
@@ -6411,6 +6473,8 @@ bool CMUIX_MutatorChallengeHandleClick(int lp_player, int lp_control) {
     }
 
     if ((lp_control == libCMUI_gv_mutatorChallengeAcceptButton)) {
+        CMUIX_RandomSeedInputAccept(lp_player);
+        CMUIX_MapOptionsAccept();
         CMUIX_MutatorChallengeAccept(lp_player);
         CMUIX_EnemySelectionAccept(lp_player);
         CMUIX_MutatorChallengeEnemyRefreshList(lp_player);
@@ -6421,6 +6485,8 @@ bool CMUIX_MutatorChallengeHandleClick(int lp_player, int lp_control) {
     if ((lp_control == libCMUI_gv_mutatorChallengeCloseButton)) {
         CMUIX_MutatorChallengeCancel();
         CMUIX_EnemySelectionCancel();
+        CMUIX_RandomSeedInputCancel();
+        CMUIX_MapOptionsResetDraft(CMUIX_MutatorChallengeMapInstance(CMUIX_MutatorChallengeCurrentType, CMUIX_MutatorChallengeCurrentDraft()));
         CMUIX_MutatorChallengeRefreshListSelection(lp_player);
         CMUIX_MutatorChallengeEnemyRefreshListSelection(lp_player);
         CMUIX_SendPopupAnimationEvent(libCMUI_gv_mutatorChallengeContainer, lp_player, "CMUIXHide");
@@ -7165,6 +7231,19 @@ void CMUIX_MapSelectionHookup() {
     DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypeButton, "RandomSeedContainer/RandomSeedRefreshButton");
     CMUIX_RandomSeedRefreshButton = DialogControlLastCreated();
     CMUIX_RandomSeedInputResetDraft();
+    DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypePanel, "MapOptionsScrollFrame/ContainerFrame");
+    DialogControlHookup(DialogControlLastCreated(), c_triggerControlTypeLabel, "MapOptionsEmptyLabel");
+    libCMUI_gv_mapOptionsEmptyLabel = DialogControlLastCreated();
+    lv_index = 0;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypePanel, ("MapOptionsScrollFrame/ContainerFrame/Option" + IntToString(lv_index)));
+        libCMUI_gv_mapOptionRows[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(libCMUI_gv_mapOptionRows[lv_index], c_triggerControlTypeLabel, "DescriptionLabel");
+        libCMUI_gv_mapOptionDescriptionLabels[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(libCMUI_gv_mapOptionRows[lv_index], c_triggerControlTypePulldown, "Pulldown");
+        libCMUI_gv_mapOptionPulldowns[lv_index] = DialogControlLastCreated();
+        lv_index += 1;
+    }
     DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypeImage, "MapImageRandom");
     libCMUI_gv_mapSelectionRandomImage = DialogControlLastCreated();
     DialogControlHookup(libCMUI_gv_mapSelectionContainer, c_triggerControlTypePanel, "MapImage");
@@ -7176,6 +7255,7 @@ void CMUIX_MapSelectionHookup() {
     DialogControlHookup(libCMUI_gv_mapSelectionTileList, c_triggerControlTypePanel, "ContainerFrame");
     libCMUI_gv_mapSelectionTileListContainer = DialogControlLastCreated();
 
+    lv_index = 0;
     while ((lv_index < libCMUI_gv_cMUI_MapSelection_Item_Max)) {
         DialogControlHookup(libCMUI_gv_mapSelectionTileListContainer, c_triggerControlTypeButton, ("Item" + IntToString(lv_index)));
         libCMUI_gv_mapSelectionItems[lv_index] = DialogControlLastCreated();
@@ -7248,6 +7328,24 @@ void CMUIX_MutatorChallengeHookup() {
     libCMUI_gv_mutatorChallengeAcceptButton = DialogControlLastCreated();
     DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypeButton, "CloseButton");
     libCMUI_gv_mutatorChallengeCloseButton = DialogControlLastCreated();
+    DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypeEditBox, "RandomSeedContainer/RandomSeedEditBox");
+    CMUIX_MutatorRandomSeedEditBox = DialogControlLastCreated();
+    DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypeButton, "RandomSeedContainer/RandomSeedRefreshButton");
+    CMUIX_MutatorRandomSeedRefreshButton = DialogControlLastCreated();
+    CMUIX_RandomSeedInputRefresh();
+    DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypePanel, "MapOptionsScrollFrame/ContainerFrame");
+    DialogControlHookup(DialogControlLastCreated(), c_triggerControlTypeLabel, "MapOptionsEmptyLabel");
+    libCMUI_gv_mutatorMapOptionsEmptyLabel = DialogControlLastCreated();
+    lv_index = 0;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypePanel, ("MapOptionsScrollFrame/ContainerFrame/Option" + IntToString(lv_index)));
+        libCMUI_gv_mutatorMapOptionRows[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(libCMUI_gv_mutatorMapOptionRows[lv_index], c_triggerControlTypeLabel, "DescriptionLabel");
+        libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index] = DialogControlLastCreated();
+        DialogControlHookup(libCMUI_gv_mutatorMapOptionRows[lv_index], c_triggerControlTypePulldown, "Pulldown");
+        libCMUI_gv_mutatorMapOptionPulldowns[lv_index] = DialogControlLastCreated();
+        lv_index += 1;
+    }
 
     DialogControlHookup(libCMUI_gv_mutatorChallengeContainer, c_triggerControlTypePanel, "MutatorChallengeDetailsScrollFrame");
     libCMUI_gv_mutatorChallengeDetailsScrollFrame = DialogControlLastCreated();
@@ -7668,6 +7766,10 @@ bool libCMUI_gt_MapSelectionClicked_Func(bool testConds, bool runActions) {
         return true;
     }
 
+    if ((CMUIX_MapOptionsHandleEvent(lv_player, lv_control) == true)) {
+        return true;
+    }
+
     if ((CMUIX_DifficultyHandleClick(lv_player, lv_control) == true)) {
         return true;
     }
@@ -7711,6 +7813,7 @@ bool libCMUI_gt_MapSelectionClicked_Func(bool testConds, bool runActions) {
 
     if ((lv_control == libCMUI_gv_mapSelectionAcceptButton)) {
         CMUIX_RandomSeedInputAccept(lv_player);
+        CMUIX_MapOptionsAccept();
         if ((CMUIX_ConfigurationModeActsAsLauncher() == true)) {
             CMUIX_MapSelectionAccept(lv_player);
         }
@@ -7723,6 +7826,7 @@ bool libCMUI_gt_MapSelectionClicked_Func(bool testConds, bool runActions) {
         CMUIX_MapSelectionCancel();
         CMUIX_EnemySelectionCancel();
         CMUIX_RandomSeedInputCancel();
+        CMUIX_MapOptionsResetDraft(CMUIX_MapSelectionSelected);
         return true;
     }
 
@@ -8330,7 +8434,11 @@ void CMUIX_EnsureDefaultAIMastery(int lp_player) {
 }
 
 bool CMUIX_AllianceCustomizationButtonShouldShow(int lp_viewer, int lp_targetPlayer) {
-    if ((lp_viewer == 1) && (lp_targetPlayer == 2) && (PlayerType(2) == c_playerTypeUser)) {
+    if ((lp_targetPlayer < 1) || (lp_targetPlayer > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return false;
+    }
+
+    if ((lp_targetPlayer != lp_viewer) && (CMUIX_PlayerIsUser(lp_targetPlayer) == true)) {
         return false;
     }
 
@@ -8397,64 +8505,88 @@ int CMUIX_DefaultAllianceTarget(int lp_operator) {
     return 1;
 }
 
+int CMUIX_StatusPanelSelectedPlayer(int lp_viewer) {
+    int lv_targetPlayer;
+
+    lv_targetPlayer = 0;
+    if ((lp_viewer < 1) || (lp_viewer > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return 1;
+    }
+
+    lv_targetPlayer = CMUIX_StatusSelectedPlayer[lp_viewer];
+    if ((lv_targetPlayer < 1) || (lv_targetPlayer > CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+        lv_targetPlayer = lp_viewer;
+        if ((lv_targetPlayer < 1) || (lv_targetPlayer > CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+            lv_targetPlayer = 1;
+        }
+    }
+
+    return lv_targetPlayer;
+}
+
+int CMUIX_StatusPlayerButtonIndex(int lp_control) {
+    int lv_index;
+
+    lv_index = 1;
+    while ((lv_index <= CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+        if ((lp_control == CMUIX_StatusPlayerButtons[lv_index])) {
+            return lv_index;
+        }
+
+        lv_index += 1;
+    }
+
+    return 0;
+}
+
+void CMUIX_StatusPanelRefreshTabs(int lp_viewer) {
+    int lv_index;
+    playergroup lv_group;
+
+    lv_index = 1;
+    lv_group = PlayerGroupSingle(lp_viewer);
+    while ((lv_index <= CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+        CMUIX_SetControlToggled(CMUIX_StatusPlayerButtons[lv_index], lv_group, (CMUIX_StatusPanelSelectedPlayer(lp_viewer) == lv_index));
+        lv_index += 1;
+    }
+}
+
+void CMUIX_StatusPanelRefreshForViewer(int lp_viewer) {
+    int lv_targetPlayer;
+    string lv_commander;
+
+    if ((lp_viewer < 1) || (lp_viewer > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return;
+    }
+
+    lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_viewer);
+    lv_commander = CMUIX_CommanderForPlayer(lv_targetPlayer);
+    CMUIX_StatusPanelRefreshTabs(lp_viewer);
+    CMUIX_CustomizationRefreshExternalFromData(lp_viewer, lv_targetPlayer, lv_commander, true);
+    CMUIX_AllianceCommanderSelectionEnabled[lp_viewer] = ((lv_targetPlayer != lp_viewer) && (CMUIX_PlayerIsUser(lv_targetPlayer) == false));
+}
+
+void CMUIX_StatusPanelSelectPlayer(int lp_viewer, int lp_targetPlayer) {
+    if ((lp_viewer < 1) || (lp_viewer > libCOOC_gv_cCC_MAXPLAYERS)) {
+        return;
+    }
+
+    if ((lp_targetPlayer < 1) || (lp_targetPlayer > CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+        return;
+    }
+
+    CMUIX_StatusSelectedPlayer[lp_viewer] = lp_targetPlayer;
+    if ((CMUIX_AllianceStateExpanded[lp_viewer] == true)) {
+        CMUIX_StatusPanelRefreshForViewer(lp_viewer);
+    }
+}
+
 bool CMUIX_AllianceStateIsExpanded(int lp_viewer) {
     if ((lp_viewer < 1) || (lp_viewer > libCOOC_gv_cCC_MAXPLAYERS)) {
         return false;
     }
 
     return CMUIX_AllianceStateExpanded[lp_viewer];
-}
-
-bool CMUIX_AllianceCommanderTargetButtonShouldShow(int lp_viewer) {
-    int lv_targetPlayer;
-
-    lv_targetPlayer = 0;
-    if ((lp_viewer < 1) || (lp_viewer > libCOOC_gv_cCC_MAXPLAYERS)) {
-        return false;
-    }
-
-    if ((CMUIX_AllianceStateIsExpanded(lp_viewer) == false)) {
-        return false;
-    }
-
-    lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_viewer);
-    if ((CMUIX_PlayerIsUser(lv_targetPlayer) == true)) {
-        return false;
-    }
-
-    return true;
-}
-
-void CMUIX_CustomizationRefreshAllianceCommanderTargetButton(int lp_viewer) {
-    bool lv_enabled;
-    bool lv_visible;
-    playergroup lv_playerGroup;
-    text lv_label;
-
-    lv_enabled = false;
-    lv_visible = false;
-    lv_label = StringExternal("CMUI/ScreenCoopCampaign/AllianceState/CommanderTargetSelf");
-    if ((lp_viewer < 1) || (lp_viewer > libCOOC_gv_cCC_MAXPLAYERS)) {
-        return;
-    }
-
-    lv_visible = CMUIX_AllianceCommanderTargetButtonShouldShow(lp_viewer);
-    if ((lv_visible == false)) {
-        CMUIX_AllianceCommanderSelectionEnabled[lp_viewer] = false;
-    }
-
-    if ((CMUIX_AllianceCommanderSelectionEnabled[lp_viewer] == true)) {
-        lv_enabled = true;
-        lv_label = StringExternal("CMUI/ScreenCoopCampaign/AllianceState/CommanderTargetAlly");
-    }
-
-    lv_playerGroup = PlayerGroupSingle(lp_viewer);
-    if ((CMUIX_IsControlValid(CMUIX_AllianceCommanderTargetButton) == true)) {
-        CMUIX_SetControlVisible(CMUIX_AllianceCommanderTargetButton, lv_playerGroup, lv_visible);
-        CMUIX_SetControlEnabled(CMUIX_AllianceCommanderTargetButton, lv_playerGroup, lv_visible);
-        libNtve_gf_SetDialogItemToggled(CMUIX_AllianceCommanderTargetButton, lv_enabled, lv_playerGroup);
-        libNtve_gf_SetDialogItemText(CMUIX_AllianceCommanderTargetButton, lv_label, lv_playerGroup);
-    }
 }
 
 bool CMUIX_AllianceCommanderClickTargetsAlly(int lp_viewer) {
@@ -8473,11 +8605,7 @@ bool CMUIX_AllianceCommanderClickTargetsAlly(int lp_viewer) {
         return false;
     }
 
-    if ((lp_viewer == 1) && (PlayerType(2) != c_playerTypeUser)) {
-        return true;
-    }
-
-    lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_viewer);
+    lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_viewer);
     if ((lv_targetPlayer < 1) || (lv_targetPlayer > libCOOC_gv_cCC_MAXPLAYERS) || (lv_targetPlayer == lp_viewer)) {
         return false;
     }
@@ -8491,7 +8619,7 @@ bool CMUIX_AllianceCommanderClickTargetsAlly(int lp_viewer) {
 
 int CMUIX_CommanderClickTargetPlayer(int lp_viewer) {
     if ((CMUIX_AllianceCommanderClickTargetsAlly(lp_viewer) == true)) {
-        return CMUIX_DefaultAllianceTarget(lp_viewer);
+        return CMUIX_StatusPanelSelectedPlayer(lp_viewer);
     }
 
     return lp_viewer;
@@ -8764,6 +8892,10 @@ void CMUIX_CustomizationOnCommanderSelected(int lp_player, int lp_selection) {
     if ((CMUIX_TargetAllianceMode[lp_player] == false)) {
         CMUIX_CustomizationInitFromData(lp_player, lp_player, lv_commander, false);
     }
+
+    if ((CMUIX_AllianceStateExpanded[lp_player] == true) && (CMUIX_StatusPanelSelectedPlayer(lp_player) == lp_player)) {
+        CMUIX_StatusPanelRefreshForViewer(lp_player);
+    }
 }
 
 void CMUIX_CustomizationOnCommanderSelectedForTarget(int lp_viewer, int lp_targetPlayer, int lp_selection) {
@@ -8777,7 +8909,9 @@ void CMUIX_CustomizationOnCommanderSelectedForTarget(int lp_viewer, int lp_targe
 
     lv_commander = CMUIX_CommanderForSelection(lp_selection);
     CMUIX_CustomizationHookup();
-    CMUIX_CustomizationRefreshExternalFromData(lp_viewer, lp_targetPlayer, lv_commander, true);
+    if ((CMUIX_StatusPanelSelectedPlayer(lp_viewer) == lp_targetPlayer)) {
+        CMUIX_CustomizationRefreshExternalFromData(lp_viewer, lp_targetPlayer, lv_commander, true);
+    }
     if ((CMUIX_TargetAllianceMode[lp_viewer] == true) && (CMUIX_TargetForOperator(lp_viewer) == lp_targetPlayer)) {
         CMUIX_CustomizationInitFromData(lp_viewer, lp_targetPlayer, lv_commander, true);
     }
@@ -8791,7 +8925,7 @@ void CMUIX_CustomizationRefreshAllianceLabelForPlayer(int lp_viewer, int lp_targ
     lv_commander = "";
     CMUIX_CustomizationHookup();
     if ((lv_targetPlayer <= 0)) {
-        lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_viewer);
+        lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_viewer);
     }
 
     lv_commander = CMUIX_CommanderForPlayer(lv_targetPlayer);
@@ -8811,7 +8945,7 @@ void CMUIX_CustomizationRefreshCurrentSelectionForPlayer(int lp_player) {
     }
 
     CMUIX_CustomizationOnCommanderSelected(lp_player, lv_selection);
-    lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_player);
+    lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_player);
     if ((lv_targetPlayer >= 1) && (lv_targetPlayer <= libCOOC_gv_cCC_MAXPLAYERS) && (lv_targetPlayer != lp_player)) {
         lv_commander = CMUIX_CommanderForPlayer(lv_targetPlayer);
         CMUIX_CustomizationRefreshExternalFromData(lp_player, lv_targetPlayer, lv_commander, true);
@@ -11335,7 +11469,7 @@ bool CMUIX_CommanderLevelHandleClick(int lp_viewer, int lp_control) {
                 }
                 else {
                     if ((lp_control == CMUIX_AllianceLevelLabel) || (lp_control == CMUIX_AllianceLevelRingFrame) || (lp_control == CMUIX_AllianceMaxLevelIcon) || (lp_control == CMUIX_AllianceMasterySpentLabel)) {
-                        lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_viewer);
+                        lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_viewer);
                         if ((CMUIX_PlayerIsUser(lv_targetPlayer) == true)) {
                             return true;
                         }
@@ -13119,6 +13253,10 @@ void CMUIX_GameHistoryAutosaveProgressAll() {
     lv_seenPlayers = 0;
     lv_players = libCOOC_gf_HumanPlayers();
     lv_outcome = "InProgress";
+    if ((CMUIX_GameHistoryAutosaveBlocked == true)) {
+        return;
+    }
+
     if ((CMUIX_MapSelectionCurrentMapIsLauncher() == true)) {
         return;
     }
@@ -13259,6 +13397,7 @@ void CMUIX_LaunchProfileSaveSnapshot(int lp_player) {
     BankValueSetFromString(lv_bank, CMUIX_LAUNCH_PROFILE_SECTION, "HistoryKey", lv_historyKey);
     BankValueSetFromString(lv_bank, CMUIX_LAUNCH_PROFILE_SECTION, "SourceProfileKey", CMUIX_ProfileSourceTemplateKey);
     BankValueSetFromInt(lv_bank, CMUIX_LAUNCH_PROFILE_SECTION, "SourceProfilePlayer", CMUIX_ProfileSourceTemplatePlayer);
+    CMUIX_MapOptionsSaveToLaunchProfile(lv_bank, lv_targetMission);
     CMUIX_LaunchProfileSaveActiveMutators(lv_bank);
     CMUIX_LaunchProfileSaveChaosRuntime(lv_bank);
     CMUIX_LaunchProfileSaveCommanders(lv_bank);
@@ -13598,6 +13737,7 @@ void CMUIX_LaunchProfileApplyMapEnemyAndMode(bank lp_bank) {
     CMUIX_RandomSeedResolved = (CMUIX_PlayerProfileGetInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, "RandomSeedResolved", 0) == 1);
     CMUIX_RandomSeed = CMUIX_PlayerProfileGetInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, "RandomSeed", 0);
     CMUIX_RandomSeedInputResetDraft();
+    CMUIX_MapOptionsLoadFromLaunchProfile(lp_bank);
     CMUIX_ProfileRuntimeLocksRefresh();
     CMUIX_LaunchAttemptCount = CMUIX_PlayerProfileGetInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, "AttemptCount", 1);
     CMUIX_LaunchAttemptChecksum = CMUIX_PlayerProfileGetInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, "AttemptChecksum", 0);
@@ -18496,6 +18636,9 @@ void CMUIX_ReadyRefreshCommanderDataControlsForPlayer(int lp_player, bool lp_can
 }
 
 void CMUIX_ReadyRefreshSharedSetupDataControlsForPlayer(int lp_player, bool lp_canEditShared) {
+    int lv_index;
+
+    lv_index = 0;
     CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_screenCoopNavigationStandardButton, lp_player, lp_canEditShared);
     CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_screenCoopNavigationMutatorButton, lp_player, lp_canEditShared);
     CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_screenCoopNavigationCMMutatorButton, lp_player, lp_canEditShared);
@@ -18513,7 +18656,14 @@ void CMUIX_ReadyRefreshSharedSetupDataControlsForPlayer(int lp_player, bool lp_c
     CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_mapSelectionAcceptButton, lp_player, lp_canEditShared);
     CMUIX_ReadySetEnabledForPlayer(CMUIX_RandomSeedEditBox, lp_player, lp_canEditShared);
     CMUIX_ReadySetEnabledForPlayer(CMUIX_RandomSeedRefreshButton, lp_player, lp_canEditShared);
+    CMUIX_ReadySetEnabledForPlayer(CMUIX_MutatorRandomSeedEditBox, lp_player, lp_canEditShared);
+    CMUIX_ReadySetEnabledForPlayer(CMUIX_MutatorRandomSeedRefreshButton, lp_player, lp_canEditShared);
     CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_mutatorChallengeAcceptButton, lp_player, lp_canEditShared);
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_mapOptionPulldowns[lv_index], lp_player, lp_canEditShared);
+        CMUIX_ReadySetEnabledForPlayer(libCMUI_gv_mutatorMapOptionPulldowns[lv_index], lp_player, lp_canEditShared);
+        lv_index += 1;
+    }
 }
 
 void CMUIX_ReadyRefreshListDataControlsForPlayer(int lp_player, bool lp_canEditShared) {
@@ -18575,7 +18725,7 @@ void CMUIX_ReadyRefreshCustomizationDataControlsForPlayer(int lp_player, bool lp
 
     lv_index = 1;
     lv_slot = 1;
-    lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_player);
+    lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_player);
     lv_selfCustomizationEnabled = lp_canEdit;
     lv_allianceCustomizationEnabled = false;
     lv_optimizationMasterEnabled = CMUIX_PersonalizationOptimizationMasterDraft[lp_player];
@@ -18806,10 +18956,20 @@ bool CMUIX_ReadyControlAffectsData(int lp_player, int lp_control) {
         return lv_sharedControl;
     }
 
-    if ((lp_control == CMUIX_RandomSeedEditBox) || (lp_control == CMUIX_RandomSeedRefreshButton)) {
+    if ((lp_control == CMUIX_RandomSeedEditBox) || (lp_control == CMUIX_RandomSeedRefreshButton) || (lp_control == CMUIX_MutatorRandomSeedEditBox) || (lp_control == CMUIX_MutatorRandomSeedRefreshButton)) {
         return lv_sharedControl;
     }
 
+    lv_index = 0;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        if ((lp_control == libCMUI_gv_mapOptionPulldowns[lv_index]) || (lp_control == libCMUI_gv_mutatorMapOptionPulldowns[lv_index])) {
+            return lv_sharedControl;
+        }
+
+        lv_index += 1;
+    }
+
+    lv_index = 0;
     while ((lv_index < libCMUI_gv_cMUI_Difficulty_Base_Count)) {
         if ((lp_control == libCMUI_gv_difficultyBaseItems[lv_index]) || (lp_control == libCMUI_gv_specialDifficultyBaseItems[lv_index])) {
             return lv_sharedControl;
@@ -23284,6 +23444,252 @@ string CMUIX_HistoryRecordCheatKey(string lp_key) {
     return (lp_key + "|Cheated");
 }
 
+void CMUIX_MapOptionsClearControls(playergroup lp_players, bool lp_mutatorPanel) {
+    int lv_index;
+    int lv_row;
+
+    lv_index = 0;
+    lv_row = c_invalidDialogControlId;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        if ((lp_mutatorPanel == true)) {
+            lv_row = libCMUI_gv_mutatorMapOptionRows[lv_index];
+        }
+        else {
+            lv_row = libCMUI_gv_mapOptionRows[lv_index];
+        }
+
+        CMUIX_MapSelectionSetVisible(lv_row, false, lp_players);
+        lv_index += 1;
+    }
+}
+
+int CMUIX_MapOptionValueCount(string lp_optionInstance) {
+    int lv_index;
+
+    lv_index = 1;
+    while ((lv_index <= CMUIX_MAP_OPTION_VALUES_MAX)) {
+        if ((UserDataGetText("CoopMapOptions", lp_optionInstance, "Options", lv_index) == null)) {
+            return (lv_index - 1);
+        }
+        if ((TextToString(UserDataGetText("CoopMapOptions", lp_optionInstance, "Options", lv_index)) == "")) {
+            return (lv_index - 1);
+        }
+
+        lv_index += 1;
+    }
+
+    return CMUIX_MAP_OPTION_VALUES_MAX;
+}
+
+void CMUIX_MapOptionsResetDraft(string lp_mapInstance) {
+    int lv_index;
+    string lv_optionInstance;
+
+    lv_index = 0;
+    lv_optionInstance = "";
+    CMUIX_MapOptionDraftCount = 0;
+    CMUIX_MapOptionDraftMapInstance = lp_mapInstance;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        CMUIX_MapOptionDraftInstances[lv_index] = "";
+        CMUIX_MapOptionDraftValues[lv_index] = 0;
+        if ((lp_mapInstance != "") && (lp_mapInstance != null) && (CMUIX_MapSelectionIsRandom(lp_mapInstance) == false)) {
+            lv_optionInstance = UserDataGetUserInstance("CoopMaps", lp_mapInstance, "MA - Map Options", (lv_index + 1));
+            if ((lv_optionInstance != "") && (lv_optionInstance != null) && (lv_optionInstance != "[Default]")) {
+                CMUIX_MapOptionDraftInstances[lv_index] = lv_optionInstance;
+                CMUIX_MapOptionDraftValues[lv_index] = CMUIX_ClampInt(UserDataGetInt("CoopMapOptions", lv_optionInstance, "Current Selection", 1), 1, CMUIX_MapOptionValueCount(lv_optionInstance));
+                CMUIX_MapOptionDraftCount += 1;
+            }
+        }
+
+        lv_index += 1;
+    }
+}
+
+void CMUIX_MapOptionsRefreshControls(int lp_player, bool lp_mutatorPanel) {
+    int lv_index;
+    int lv_valueIndex;
+    int lv_row;
+    int lv_label;
+    int lv_pulldown;
+    int lv_emptyLabel;
+    string lv_optionInstance;
+    text lv_valueText;
+    playergroup lv_players;
+
+    lv_index = 0;
+    lv_valueIndex = 0;
+    lv_row = c_invalidDialogControlId;
+    lv_label = c_invalidDialogControlId;
+    lv_pulldown = c_invalidDialogControlId;
+    lv_emptyLabel = libCMUI_gv_mapOptionsEmptyLabel;
+    lv_optionInstance = "";
+    lv_valueText = StringToText("");
+    lv_players = PlayerGroupSingle(lp_player);
+    if ((lp_mutatorPanel == true)) {
+        lv_emptyLabel = libCMUI_gv_mutatorMapOptionsEmptyLabel;
+    }
+
+    CMUIX_MapOptionsClearControls(lv_players, lp_mutatorPanel);
+    CMUIX_MapOptionsRefreshing = true;
+    CMUIX_MapSelectionSetVisible(lv_emptyLabel, (CMUIX_MapOptionDraftCount == 0), lv_players);
+    while ((lv_index < CMUIX_MapOptionDraftCount) && (lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        lv_optionInstance = CMUIX_MapOptionDraftInstances[lv_index];
+        if ((lp_mutatorPanel == true)) {
+            lv_row = libCMUI_gv_mutatorMapOptionRows[lv_index];
+            lv_label = libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index];
+            lv_pulldown = libCMUI_gv_mutatorMapOptionPulldowns[lv_index];
+        }
+        else {
+            lv_row = libCMUI_gv_mapOptionRows[lv_index];
+            lv_label = libCMUI_gv_mapOptionDescriptionLabels[lv_index];
+            lv_pulldown = libCMUI_gv_mapOptionPulldowns[lv_index];
+        }
+
+        CMUIX_MapSelectionSetText(lv_label, UserDataGetText("CoopMapOptions", lv_optionInstance, "Description", 1), lv_players);
+        DialogControlRemoveAllItems(lv_pulldown, lv_players);
+        lv_valueIndex = 1;
+        while ((lv_valueIndex <= CMUIX_MapOptionValueCount(lv_optionInstance))) {
+            lv_valueText = UserDataGetText("CoopMapOptions", lv_optionInstance, "Options", lv_valueIndex);
+            DialogControlAddItem(lv_pulldown, lv_players, lv_valueText);
+            lv_valueIndex += 1;
+        }
+
+        DialogControlSelectItem(lv_pulldown, lv_players, CMUIX_MapOptionDraftValues[lv_index]);
+        CMUIX_MapSelectionSetVisible(lv_row, true, lv_players);
+        lv_index += 1;
+    }
+    CMUIX_MapOptionsRefreshing = false;
+}
+
+void CMUIX_MapOptionsRefreshForMap(int lp_player, string lp_mapInstance, bool lp_mutatorPanel) {
+    if ((CMUIX_MapOptionDraftMapInstance != lp_mapInstance)) {
+        CMUIX_MapOptionsResetDraft(lp_mapInstance);
+    }
+    CMUIX_MapOptionsRefreshControls(lp_player, lp_mutatorPanel);
+}
+
+void CMUIX_MapOptionsAccept() {
+    int lv_index;
+    string lv_optionInstance;
+
+    lv_index = 0;
+    lv_optionInstance = "";
+    while ((lv_index < CMUIX_MapOptionDraftCount) && (lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        lv_optionInstance = CMUIX_MapOptionDraftInstances[lv_index];
+        if ((lv_optionInstance != "") && (lv_optionInstance != null)) {
+            UserDataSetInt("CoopMapOptions", lv_optionInstance, "Current Selection", 1, CMUIX_MapOptionDraftValues[lv_index]);
+        }
+
+        lv_index += 1;
+    }
+}
+
+bool CMUIX_MapOptionsHandleEvent(int lp_player, int lp_control) {
+    int lv_index;
+    int lv_value;
+
+    lv_index = 0;
+    lv_value = 0;
+    if ((CMUIX_MapOptionsRefreshing == true)) {
+        return true;
+    }
+    while ((lv_index < CMUIX_MapOptionDraftCount) && (lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        if ((lp_control == libCMUI_gv_mapOptionPulldowns[lv_index]) || (lp_control == libCMUI_gv_mutatorMapOptionPulldowns[lv_index])) {
+            if ((CMUIX_ReadyCanEditSharedData(lp_player) == false)) {
+                CMUIX_MapOptionsRefreshControls(lp_player, (lp_control == libCMUI_gv_mutatorMapOptionPulldowns[lv_index]));
+                return true;
+            }
+
+            lv_value = DialogControlGetSelectedItem(lp_control, lp_player);
+            CMUIX_MapOptionDraftValues[lv_index] = CMUIX_ClampInt(lv_value, 1, CMUIX_MapOptionValueCount(CMUIX_MapOptionDraftInstances[lv_index]));
+            CMUIX_MapSelectionResetReadyStatus();
+            return true;
+        }
+
+        lv_index += 1;
+    }
+
+    return false;
+}
+
+string CMUIX_LaunchProfileMapOptionKey(int lp_slot, string lp_suffix) {
+    return ("MapOption" + IntToString(lp_slot) + lp_suffix);
+}
+
+void CMUIX_MapOptionsClearRuntimeSelections() {
+    int lv_index;
+    int lv_count;
+    string lv_optionInstance;
+
+    lv_index = 1;
+    lv_count = UserDataInstanceCount("CoopMapOptions");
+    lv_optionInstance = "";
+    while ((lv_index <= lv_count)) {
+        lv_optionInstance = UserDataInstance("CoopMapOptions", lv_index);
+        if ((lv_optionInstance != "") && (lv_optionInstance != null)) {
+            UserDataSetInt("CoopMapOptions", lv_optionInstance, "Current Selection", 1, 1);
+        }
+
+        lv_index += 1;
+    }
+}
+
+void CMUIX_MapOptionsSaveToLaunchProfile(bank lp_bank, string lp_mapInstance) {
+    int lv_slot;
+    int lv_saved;
+    string lv_optionInstance;
+
+    lv_slot = 1;
+    lv_saved = 0;
+    lv_optionInstance = "";
+    if ((lp_bank == null) || (lp_mapInstance == "") || (lp_mapInstance == null)) {
+        return;
+    }
+
+    while ((lv_slot <= CMUIX_MAP_OPTIONS_MAX)) {
+        lv_optionInstance = UserDataGetUserInstance("CoopMaps", lp_mapInstance, "MA - Map Options", lv_slot);
+        if ((lv_optionInstance != "") && (lv_optionInstance != null) && (lv_optionInstance != "[Default]")) {
+            lv_saved += 1;
+            BankValueSetFromString(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, CMUIX_LaunchProfileMapOptionKey(lv_saved, "Id"), lv_optionInstance);
+            BankValueSetFromInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, CMUIX_LaunchProfileMapOptionKey(lv_saved, "Value"), UserDataGetInt("CoopMapOptions", lv_optionInstance, "Current Selection", 1));
+        }
+
+        lv_slot += 1;
+    }
+
+    BankValueSetFromInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, "MapOptionCount", lv_saved);
+}
+
+void CMUIX_MapOptionsLoadFromLaunchProfile(bank lp_bank) {
+    int lv_slot;
+    int lv_count;
+    int lv_value;
+    string lv_optionInstance;
+
+    lv_slot = 1;
+    lv_count = 0;
+    lv_value = 1;
+    lv_optionInstance = "";
+    CMUIX_MapOptionsClearRuntimeSelections();
+    if ((lp_bank == null)) {
+        return;
+    }
+
+    lv_count = CMUIX_ClampInt(CMUIX_PlayerProfileGetInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, "MapOptionCount", 0), 0, CMUIX_MAP_OPTIONS_MAX);
+    while ((lv_slot <= lv_count)) {
+        lv_optionInstance = CMUIX_PlayerProfileGetString(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, CMUIX_LaunchProfileMapOptionKey(lv_slot, "Id"), "");
+        if ((lv_optionInstance != "") && (lv_optionInstance != null)) {
+            lv_value = CMUIX_PlayerProfileGetInt(lp_bank, CMUIX_LAUNCH_PROFILE_SECTION, CMUIX_LaunchProfileMapOptionKey(lv_slot, "Value"), 1);
+            lv_value = CMUIX_ClampInt(lv_value, 1, CMUIX_MapOptionValueCount(lv_optionInstance));
+            UserDataSetInt("CoopMapOptions", lv_optionInstance, "Current Selection", 1, lv_value);
+        }
+
+        lv_slot += 1;
+    }
+
+    CMUIX_MapOptionDraftMapInstance = "";
+}
+
 string CMUIX_HistoryRecordStatisticsKey(string lp_key) {
     return (lp_key + "|Stats");
 }
@@ -27264,7 +27670,7 @@ void CMUIX_CustomizationOpenAlliance(int lp_operator, int lp_targetPlayer) {
     lv_targetPlayer = lp_targetPlayer;
     lv_commander = "";
     if ((lv_targetPlayer <= 0)) {
-        lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_operator);
+        lv_targetPlayer = CMUIX_StatusPanelSelectedPlayer(lp_operator);
     }
 
     if ((CMUIX_AllianceCustomizationButtonShouldShow(lp_operator, lv_targetPlayer) == false)) {
@@ -27323,7 +27729,12 @@ void CMUIX_CustomizationVariablesInit() {
     CMUIX_AllianceDetailsBackground = c_invalidDialogControlId;
     CMUIX_AllianceCommanderDetailsBackgroundImage = c_invalidDialogControlId;
     CMUIX_AllianceCustomizationButton = c_invalidDialogControlId;
-    CMUIX_AllianceCommanderTargetButton = c_invalidDialogControlId;
+    lv_index = 1;
+    while ((lv_index <= CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+        CMUIX_StatusPlayerButtons[lv_index] = c_invalidDialogControlId;
+        lv_index += 1;
+    }
+    lv_index = 0;
     CMUIX_MutatorInfoButton = c_invalidDialogControlId;
     CMUIX_MutatorInfoContainer = c_invalidDialogControlId;
     CMUIX_MutatorInfoSummaryTitleLabel = c_invalidDialogControlId;
@@ -27442,6 +27853,7 @@ void CMUIX_CustomizationVariablesInit() {
         CMUIX_TargetAllianceMode[lv_player] = false;
         CMUIX_AllianceStateExpanded[lv_player] = false;
         CMUIX_AllianceCommanderSelectionEnabled[lv_player] = false;
+        CMUIX_StatusSelectedPlayer[lv_player] = 0;
         CMUIX_TargetCommander[lv_player] = "";
         CMUIX_MasteryShiftPressed[lv_player] = false;
         CMUIX_MasteryLevelDraft[lv_player] = 0;
@@ -28014,10 +28426,6 @@ void CMUIX_CustomizationHookupDetails() {
         CMUIX_DetailsMaxLevelIcon = DialogControlLastCreated();
     }
 
-    if ((CMUIX_IsControlValid(libCMUI_gv_detailsContainer) == true)) {
-        CMUIX_CustomizationHookupStatusRows(libCMUI_gv_detailsContainer, false);
-    }
-
     if ((CMUIX_IsControlValid(libCMUI_gv_screenCoopCommanderSelectionPanel) == true)) {
         DialogControlHookup(libCMUI_gv_screenCoopCommanderSelectionPanel, c_triggerControlTypePanel, "AllianceStatePanel");
         CMUIX_AllianceStatePanel = DialogControlLastCreated();
@@ -28030,6 +28438,13 @@ void CMUIX_CustomizationHookupDetails() {
         CMUIX_AllianceInfoContainer = DialogControlLastCreated();
         DialogControlHookup(CMUIX_AllianceInfoContainer, c_triggerControlTypeButton, "CloseButton");
         CMUIX_AllianceStateCloseButton = DialogControlLastCreated();
+        lv_index = 1;
+        while ((lv_index <= CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+            DialogControlHookup(CMUIX_AllianceInfoContainer, c_triggerControlTypeButton, ("Player" + IntToString(lv_index) + "Button"));
+            CMUIX_StatusPlayerButtons[lv_index] = DialogControlLastCreated();
+            lv_index += 1;
+        }
+        lv_index = 0;
         DialogControlHookup(CMUIX_AllianceInfoContainer, c_triggerControlTypePanel, "DetailsBackground");
         CMUIX_AllianceDetailsBackground = DialogControlLastCreated();
         DialogControlHookup(CMUIX_AllianceDetailsBackground, c_triggerControlTypeImage, "CommanderDetailsBackground");
@@ -28045,14 +28460,6 @@ void CMUIX_CustomizationHookupDetails() {
         DialogControlHookup(CMUIX_AllianceDetailsBackground, c_triggerControlTypeImage, "MaxLevelIcon");
         CMUIX_AllianceMaxLevelIcon = DialogControlLastCreated();
         CMUIX_CustomizationHookupStatusRows(CMUIX_AllianceInfoContainer, true);
-        DialogControlHookup(CMUIX_AllianceStatePanel, c_triggerControlTypeButton, "CommanderTargetToggleButton");
-        CMUIX_AllianceCommanderTargetButton = DialogControlLastCreated();
-        if ((CMUIX_IsControlValid(CMUIX_AllianceCommanderTargetButton) == true)) {
-            CMUIX_SetControlVisible(CMUIX_AllianceCommanderTargetButton, PlayerGroupAll(), false);
-            CMUIX_SetControlEnabled(CMUIX_AllianceCommanderTargetButton, PlayerGroupAll(), false);
-            libNtve_gf_SetDialogItemToggled(CMUIX_AllianceCommanderTargetButton, false, PlayerGroupAll());
-            libNtve_gf_SetDialogItemText(CMUIX_AllianceCommanderTargetButton, StringExternal("CMUI/ScreenCoopCampaign/AllianceState/CommanderTargetSelf"), PlayerGroupAll());
-        }
     }
 
     if ((CMUIX_IsControlValid(libCMUI_gv_screenCoopCommanderSelectionPanel) == true)) {
@@ -28140,14 +28547,17 @@ void CMUIX_CustomizationSetAllianceStateExpanded(int lp_player, bool lp_expanded
     CMUIX_AllianceStateExpanded[lp_player] = lp_expanded;
     if ((lp_expanded == false)) {
         CMUIX_AllianceCommanderSelectionEnabled[lp_player] = false;
-        CMUIX_CustomizationRefreshAllianceCommanderTargetButton(lp_player);
         return;
     }
 
     if ((lp_expanded == true)) {
-        lv_targetPlayer = CMUIX_DefaultAllianceTarget(lp_player);
-        CMUIX_CustomizationRefreshAllianceCommanderTargetButton(lp_player);
-        CMUIX_CustomizationRefreshAllianceLabelForPlayer(lp_player, lv_targetPlayer);
+        lv_targetPlayer = lp_player;
+        if ((lv_targetPlayer > CMUIX_STATUS_PLAYER_TAB_COUNT)) {
+            lv_targetPlayer = 1;
+        }
+
+        CMUIX_StatusSelectedPlayer[lp_player] = lv_targetPlayer;
+        CMUIX_StatusPanelRefreshForViewer(lp_player);
     }
 }
 
@@ -28173,6 +28583,7 @@ bool CMUIX_CustomizationClickHandler(bool testConds, bool runActions) {
     int lv_category;
     int lv_delta;
     int lv_commanderSelection;
+    int lv_statusPlayer;
     string lv_commander;
     string lv_prestige;
 
@@ -28182,6 +28593,7 @@ bool CMUIX_CustomizationClickHandler(bool testConds, bool runActions) {
     lv_category = 0;
     lv_delta = 1;
     lv_commanderSelection = 0;
+    lv_statusPlayer = 0;
     lv_commander = "";
     lv_prestige = "";
     if ((runActions == false)) {
@@ -28204,6 +28616,12 @@ bool CMUIX_CustomizationClickHandler(bool testConds, bool runActions) {
         return true;
     }
 
+    lv_statusPlayer = CMUIX_StatusPlayerButtonIndex(EventDialogControl());
+    if ((lv_statusPlayer != 0)) {
+        CMUIX_StatusPanelSelectPlayer(lv_player, lv_statusPlayer);
+        return true;
+    }
+
     if ((EventDialogControl() == CMUIX_AllianceStateButton)) {
         CMUIX_CustomizationToggleAllianceState(lv_player);
         return true;
@@ -28220,35 +28638,17 @@ bool CMUIX_CustomizationClickHandler(bool testConds, bool runActions) {
         return true;
     }
 
-    if ((EventDialogControl() == CMUIX_AllianceCommanderTargetButton)) {
-        if ((CMUIX_AllianceCommanderTargetButtonShouldShow(lv_player) == false)) {
-            CMUIX_AllianceCommanderSelectionEnabled[lv_player] = false;
-            CMUIX_CustomizationRefreshAllianceCommanderTargetButton(lv_player);
-            return true;
-        }
-
-        if ((CMUIX_AllianceCommanderSelectionEnabled[lv_player] == true)) {
-            CMUIX_AllianceCommanderSelectionEnabled[lv_player] = false;
-        }
-        else {
-            CMUIX_AllianceCommanderSelectionEnabled[lv_player] = true;
-        }
-
-        CMUIX_CustomizationRefreshAllianceCommanderTargetButton(lv_player);
-        return true;
-    }
-
     if ((EventDialogControl() == CMUIX_SelfMasteryButton)) {
         CMUIX_CustomizationOpenSelf(lv_player);
         return true;
     }
 
     if ((EventDialogControl() == CMUIX_AllianceCustomizationButton)) {
-        if ((CMUIX_AllianceCustomizationButtonShouldShow(lv_player, CMUIX_DefaultAllianceTarget(lv_player)) == false)) {
+        if ((CMUIX_AllianceCustomizationButtonShouldShow(lv_player, CMUIX_StatusPanelSelectedPlayer(lv_player)) == false)) {
             return true;
         }
 
-        CMUIX_CustomizationOpenAlliance(lv_player, 0);
+        CMUIX_CustomizationOpenAlliance(lv_player, CMUIX_StatusPanelSelectedPlayer(lv_player));
         return true;
     }
 
@@ -28382,8 +28782,10 @@ void CMUIX_SetCommanderSelectionUIActive(bool lp_enabled) {
 }
 
 void CMUIX_DestroyLauncherUIInternal(bool lp_resetConsole) {
+    int lv_index;
     int lv_player;
 
+    lv_index = 0;
     lv_player = 0;
     CMUIX_ReadyCountdownRunning = false;
     if ((libCMUI_gv_screenCoopDialog != c_invalidDialogId)) {
@@ -28429,9 +28831,23 @@ void CMUIX_DestroyLauncherUIInternal(bool lp_resetConsole) {
     CMUIX_ReadyStatusCancelButton = c_invalidDialogControlId;
     CMUIX_RandomSeedEditBox = c_invalidDialogControlId;
     CMUIX_RandomSeedRefreshButton = c_invalidDialogControlId;
+    CMUIX_MutatorRandomSeedEditBox = c_invalidDialogControlId;
+    CMUIX_MutatorRandomSeedRefreshButton = c_invalidDialogControlId;
     CMUIX_RandomSeedInputRefreshing = false;
     CMUIX_RandomSeedDraftExplicit = false;
     CMUIX_RandomSeedDraft = 0;
+    libCMUI_gv_mapOptionsEmptyLabel = c_invalidDialogControlId;
+    libCMUI_gv_mutatorMapOptionsEmptyLabel = c_invalidDialogControlId;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        libCMUI_gv_mapOptionRows[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mapOptionPulldowns[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionRows[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionPulldowns[lv_index] = c_invalidDialogControlId;
+        lv_index += 1;
+    }
+    CMUIX_MapOptionsRefreshing = false;
     CMUIX_MutatorInfoRandomSeedLabel = c_invalidDialogControlId;
     CMUIX_ScorePanel = c_invalidDialogControlId;
     CMUIX_ScoreRetryButton = c_invalidDialogControlId;
@@ -28497,6 +28913,7 @@ void CMUIX_ResetLauncherHookStateForRebuild() {
         CMUIX_TargetCommander[lv_player] = "";
         CMUIX_AllianceStateExpanded[lv_player] = false;
         CMUIX_AllianceCommanderSelectionEnabled[lv_player] = false;
+        CMUIX_StatusSelectedPlayer[lv_player] = 0;
         CMUIX_MasteryShiftPressed[lv_player] = false;
         lv_player += 1;
     }
