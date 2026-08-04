@@ -1538,6 +1538,18 @@ void CMUIX_CoreInitVariables() {
     CMUIX_MapOptionDraftCount = 0;
     CMUIX_MapOptionDraftMapInstance = "";
     CMUIX_MapOptionsRefreshing = false;
+    lv_index = 0;
+    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
+        libCMUI_gv_mapOptionRows[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mapOptionPulldowns[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionRows[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
+        libCMUI_gv_mutatorMapOptionPulldowns[lv_index] = c_invalidDialogControlId;
+        CMUIX_MapOptionDraftInstances[lv_index] = "";
+        CMUIX_MapOptionDraftValues[lv_index] = 0;
+        lv_index += 1;
+    }
     libCMUI_gv_mutatorChallengePanel = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeButton = c_invalidDialogControlId;
     libCMUI_gv_mutatorChallengeButtonLabel = c_invalidDialogControlId;
@@ -4177,19 +4189,6 @@ void CMUIX_RandomSeedInputRefresh() {
 
     if ((CMUIX_IsControlValid(CMUIX_RandomSeedEditBox) == false) && (CMUIX_IsControlValid(CMUIX_MutatorRandomSeedEditBox) == false)) {
         return;
-    }
-
-    lv_index = 0;
-    while ((lv_index < CMUIX_MAP_OPTIONS_MAX)) {
-        libCMUI_gv_mapOptionRows[lv_index] = c_invalidDialogControlId;
-        libCMUI_gv_mapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
-        libCMUI_gv_mapOptionPulldowns[lv_index] = c_invalidDialogControlId;
-        libCMUI_gv_mutatorMapOptionRows[lv_index] = c_invalidDialogControlId;
-        libCMUI_gv_mutatorMapOptionDescriptionLabels[lv_index] = c_invalidDialogControlId;
-        libCMUI_gv_mutatorMapOptionPulldowns[lv_index] = c_invalidDialogControlId;
-        CMUIX_MapOptionDraftInstances[lv_index] = "";
-        CMUIX_MapOptionDraftValues[lv_index] = 0;
-        lv_index += 1;
     }
 
     CMUIX_RandomSeedInputRefreshing = true;
