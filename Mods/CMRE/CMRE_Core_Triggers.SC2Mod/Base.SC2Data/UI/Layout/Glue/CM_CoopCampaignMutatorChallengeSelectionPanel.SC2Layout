@@ -2867,10 +2867,12 @@
                         <Anchor side="Top" relative="$parent" pos="Min" offset="0"/>
                         <Anchor side="Left" relative="$parent" pos="Min" offset="0"/>
                         <Anchor side="Right" relative="$parent" pos="Max" offset="0"/>
+                        <Height val="32"/>
+                        <CollapseLayout val="true"/>
                         <Text val="@CMUI/ScreenCoopCampaign/MapSelectionPanel/MapOptionsEmpty"/>
                         <Style val="Tournament_MapVetoDetails"/>
                     </Frame>
-                    <Frame type="Frame" name="Option0" template="CM_CoopCampaignMutatorChallengeSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent" pos="Min" offset="0"/></Frame>
+                    <Frame type="Frame" name="Option0" template="CM_CoopCampaignMutatorChallengeSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/MapOptionsEmptyLabel" pos="Max" offset="0"/></Frame>
                     <Frame type="Frame" name="Option1" template="CM_CoopCampaignMutatorChallengeSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option0" pos="Max" offset="6"/></Frame>
                     <Frame type="Frame" name="Option2" template="CM_CoopCampaignMutatorChallengeSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option1" pos="Max" offset="6"/></Frame>
                     <Frame type="Frame" name="Option3" template="CM_CoopCampaignMutatorChallengeSelectionPanel/MapOptionRowTemplate"><Anchor side="Top" relative="$parent/Option2" pos="Max" offset="6"/></Frame>
