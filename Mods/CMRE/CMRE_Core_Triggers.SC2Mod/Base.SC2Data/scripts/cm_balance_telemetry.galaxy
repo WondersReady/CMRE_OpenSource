@@ -1,0 +1,322 @@
+// CM balance telemetry.
+// Records 5-second, per-unit-type damage deltas to a dedicated local bank.
+// Disabled by default (zero overhead). Toggled per game via the "-baltrace" chat command.
+// Each capture session writes to its OWN bank ("CMCombatTelemetry_<startEpoch>") so games
+// never overwrite each other. Frames are packed into rolling chunk keys (CMBT_FRAMES_PER_CHUNK
+// frames per key, keeping the total key count bounded ~120) and the bank is saved to disk every
+// sample (5s) so a crash or forced exit loses at most the last 5 seconds.
+
+const string CMBT_BANK_PREFIX = "CMCombatTelemetry";
+const string CMBT_META_SECTION = "Meta";
+const string CMBT_UNITS_SECTION = "Units";
+const string CMBT_SAMPLES_SECTION = "Samples";
+const fixed CMBT_INTERVAL_SECONDS = 5.0;
+const int CMBT_FRAMES_PER_CHUNK = 6;
+const int CMBT_MAX_SAMPLES = 720;
+
+bool CMBT_Initialized = false;
+bool CMBT_Enabled = false;
+int CMBT_Operator = 0;
+int CMBT_SampleCount = 0;
+int CMBT_ChunkCount = 0;
+int CMBT_PendingFrameCount = 0;
+fixed CMBT_StartedMissionTime = 0.0;
+string CMBT_PendingChunk = "";
+string CMBT_BankName = "";
+bank CMBT_Bank = null;
+timer CMBT_Timer = null;
+trigger CMBT_ChatTrigger = null;
+trigger CMBT_TimerTrigger = null;
+trigger CMBT_MissionEndTrigger = null;
+int[libCOTF_gv_uT_DL_MaxUnits + 1][3] CMBT_PreviousDamage;
+
+string CMBT_UnitKey(int lp_player, int lp_slot) {
+    return ("P" + IntToString(lp_player) + "S" + IntToString(lp_slot));
+}
+
+void CMBT_Message(int lp_player, string lp_message) {
+    UIDisplayMessage(PlayerGroupSingle(lp_player), c_messageAreaSubtitle, StringToText("[Balance Telemetry] " + lp_message));
+}
+
+void CMBT_ResetStoredSession() {
+    BankSectionRemove(CMBT_Bank, CMBT_META_SECTION);
+    BankSectionRemove(CMBT_Bank, CMBT_UNITS_SECTION);
+    BankSectionRemove(CMBT_Bank, CMBT_SAMPLES_SECTION);
+}
+
+void CMBT_ResetBaseline() {
+    int lv_player;
+    int lv_slot;
+
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_slot = 1;
+        while ((lv_slot <= libCOTF_gv_uT_DL_MaxUnits)) {
+            CMBT_PreviousDamage[lv_slot][lv_player] = 0;
+            lv_slot += 1;
+        }
+        lv_player += 1;
+    }
+}
+
+string CMBT_BuildPlayerFrame(int lp_player) {
+    int lv_slot;
+    int lv_current;
+    int lv_delta;
+    string lv_unitType;
+    string lv_payload;
+
+    lv_slot = 1;
+    lv_current = 0;
+    lv_delta = 0;
+    lv_unitType = "";
+    lv_payload = "";
+    while ((lv_slot <= libCOTF_gv_uT_DL_MaxUnits)) {
+        lv_current = libCOTF_gf_UT_DL_SumHealingDamage(lv_slot, libCOTF_ge_DamageHeal_Damage, lp_player);
+        lv_delta = lv_current - CMBT_PreviousDamage[lv_slot][lp_player];
+        CMBT_PreviousDamage[lv_slot][lp_player] = lv_current;
+        lv_unitType = libCOTF_gv_uT_DL_Data[lv_slot][libCOTF_ge_DamageHeal_Damage][lp_player].lv_unitType;
+
+        if ((lv_unitType != null) && (lv_unitType != "")) {
+            if ((BankKeyExists(CMBT_Bank, CMBT_UNITS_SECTION, CMBT_UnitKey(lp_player, lv_slot)) == false)) {
+                BankValueSetFromString(CMBT_Bank, CMBT_UNITS_SECTION, CMBT_UnitKey(lp_player, lv_slot), lv_unitType);
+            }
+
+            if ((lv_delta != 0)) {
+                if ((lv_payload != "")) {
+                    lv_payload += ",";
+                }
+                lv_payload += (IntToString(lv_slot) + ":" + IntToString(lv_delta));
+            }
+        }
+
+        lv_slot += 1;
+    }
+
+    return lv_payload;
+}
+
+void CMBT_Save() {
+    if ((CMBT_Bank == null)) {
+        return;
+    }
+
+    // Write the current (possibly partial) chunk in place, so an in-progress chunk is never
+    // lost on crash yet we do not create a new key every sample. CMBT_ChunkCount is the index
+    // of the chunk currently being filled; it only advances when a chunk fills up.
+    if ((CMBT_PendingFrameCount > 0)) {
+        BankValueSetFromString(CMBT_Bank, CMBT_SAMPLES_SECTION, "C" + IntToString(CMBT_ChunkCount), CMBT_PendingChunk);
+    }
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "SampleCount", CMBT_SampleCount);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "ChunkCount", CMBT_ChunkCount);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "LastMissionTime", FixedToInt(GameGetMissionTime()));
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
+    BankSave(CMBT_Bank);
+}
+
+bool CMBT_WriteSample() {
+    string lv_frame;
+
+    if ((CMBT_Enabled == false) || (CMBT_Bank == null)) {
+        return false;
+    }
+    if ((GameGetMissionTime() <= 0.0)) {
+        return false;
+    }
+
+    if ((CMBT_SampleCount >= CMBT_MAX_SAMPLES)) {
+        CMBT_Enabled = false;
+        TimerPause(CMBT_Timer, true);
+        BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Enabled", 0);
+        BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Complete", 0);
+        BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Truncated", 1);
+        CMBT_Save();
+        CMBT_Message(CMBT_Operator, "stopped: sample limit reached");
+        return false;
+    }
+
+    // Start a fresh chunk key when the current one is empty; otherwise append to it in place.
+    if ((CMBT_PendingFrameCount == 0)) {
+        CMBT_ChunkCount += 1;
+        CMBT_PendingChunk = "";
+    } else {
+        CMBT_PendingChunk += ";";
+    }
+
+    CMBT_SampleCount += 1;
+    lv_frame = (IntToString(FixedToInt(GameGetMissionTime())) + "|" + CMBT_BuildPlayerFrame(1) + "|" + CMBT_BuildPlayerFrame(2));
+    CMBT_PendingChunk += lv_frame;
+    CMBT_PendingFrameCount += 1;
+
+    // Persist every sample (a crash loses <= 5s); roll to a new chunk key once this one is full,
+    // which keeps the Samples-section key count bounded (~120 keys for a full 720-sample game).
+    CMBT_Save();
+    if ((CMBT_PendingFrameCount >= CMBT_FRAMES_PER_CHUNK)) {
+        CMBT_PendingChunk = "";
+        CMBT_PendingFrameCount = 0;
+    }
+    return true;
+}
+
+void CMBT_Start(int lp_player) {
+    int lv_startedAt;
+
+    if ((CMBT_Enabled == true)) {
+        CMBT_Message(lp_player, "already enabled by player " + IntToString(CMBT_Operator));
+        return;
+    }
+
+    // One bank per capture session so games never overwrite each other.
+    lv_startedAt = DateTimeToInt(CurrentDateTimeGet());
+    CMBT_BankName = CMBT_BANK_PREFIX + "_" + IntToString(lv_startedAt);
+
+    BankLoad(CMBT_BankName, lp_player);
+    CMBT_Bank = BankLastCreated();
+    if ((CMBT_Bank == null)) {
+        CMBT_Message(lp_player, "failed to open telemetry bank");
+        return;
+    }
+    BankWait(CMBT_Bank);
+
+    CMBT_Operator = lp_player;
+    CMBT_SampleCount = 0;
+    CMBT_ChunkCount = 0;
+    CMBT_PendingFrameCount = 0;
+    CMBT_PendingChunk = "";
+    CMBT_StartedMissionTime = GameGetMissionTime();
+    CMBT_ResetStoredSession();
+    CMBT_ResetBaseline();
+
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Version", 2);
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "DamageScope", "AllDamage");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "TimeOrigin", "MissionStart");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "SampleEncoding", "missionTime|p1(slot:delta)|p2(slot:delta)");
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Enabled", 1);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Complete", 0);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Truncated", 0);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Operator", lp_player);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "IntervalSeconds", FixedToInt(CMBT_INTERVAL_SECONDS));
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "SaveSeconds", FixedToInt(CMBT_INTERVAL_SECONDS));
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "FramesPerChunk", CMBT_FRAMES_PER_CHUNK);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "StartedAt", lv_startedAt);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "StartMissionTime", FixedToInt(CMBT_StartedMissionTime));
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "SampleCount", 0);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "ChunkCount", 0);
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "Map", libCOOC_gf_CC_CurrentMap());
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
+    BankSave(CMBT_Bank);
+
+    CMBT_Enabled = true;
+    TimerStart(CMBT_Timer, CMBT_INTERVAL_SECONDS, true, c_timeGame);
+    CMBT_Message(lp_player, "enabled; sample=5s; save=each-sample; bank=" + CMBT_BankName + ".SC2Bank");
+}
+
+void CMBT_Stop(int lp_player) {
+    if ((CMBT_Enabled == false)) {
+        CMBT_Message(lp_player, "already disabled");
+        return;
+    }
+    if ((lp_player != CMBT_Operator)) {
+        CMBT_Message(lp_player, "only the enabling player can stop capture");
+        return;
+    }
+
+    CMBT_WriteSample();
+    // If that sample hit the cap, CMBT_WriteSample already disabled + flagged Truncated and saved.
+    // Don't overwrite Truncated with Complete in that case.
+    if ((CMBT_Enabled == false)) {
+        CMBT_Message(lp_player, "disabled; samples=" + IntToString(CMBT_SampleCount));
+        return;
+    }
+    CMBT_Enabled = false;
+    TimerPause(CMBT_Timer, true);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Enabled", 0);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Complete", 1);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "StoppedAt", DateTimeToInt(CurrentDateTimeGet()));
+    CMBT_Save();
+    CMBT_Message(lp_player, "disabled; samples=" + IntToString(CMBT_SampleCount));
+}
+
+bool CMBT_TimerHandler(bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+
+    CMBT_WriteSample();
+    return true;
+}
+
+bool CMBT_MissionEndHandler(bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+
+    if ((CMBT_Enabled == true)) {
+        CMBT_Stop(CMBT_Operator);
+    }
+    return true;
+}
+
+bool CMBT_ChatHandler(bool testConds, bool runActions) {
+    string lv_message;
+    string lv_command;
+    int lv_player;
+
+    if ((!runActions)) {
+        return true;
+    }
+
+    lv_message = EventChatMessage(false);
+    if ((StringEqual(StringWord(lv_message, 1), "-baltrace", c_stringNoCase) == false)) {
+        return true;
+    }
+
+    lv_command = StringWord(lv_message, 2);
+    lv_player = EventPlayer();
+    if ((lv_command == "") || (StringEqual(lv_command, "status", c_stringNoCase) == true)) {
+        if ((CMBT_Enabled == true)) {
+            CMBT_Message(lv_player, "enabled by player " + IntToString(CMBT_Operator) + "; samples=" + IntToString(CMBT_SampleCount));
+        }
+        else {
+            CMBT_Message(lv_player, "disabled");
+        }
+        return true;
+    }
+
+    if ((StringEqual(lv_command, "on", c_stringNoCase) == true)) {
+        CMBT_Start(lv_player);
+        return true;
+    }
+
+    if ((StringEqual(lv_command, "off", c_stringNoCase) == true)) {
+        CMBT_Stop(lv_player);
+        return true;
+    }
+
+    if ((StringEqual(lv_command, "snapshot", c_stringNoCase) == true)) {
+        if ((lv_player == CMBT_Operator) && (CMBT_WriteSample() == true)) {
+            CMBT_Message(lv_player, "snapshot saved; samples=" + IntToString(CMBT_SampleCount));
+        }
+        return true;
+    }
+
+    CMBT_Message(lv_player, "usage: -baltrace on|off|status|snapshot");
+    return true;
+}
+
+void CMBT_Init() {
+    if ((CMBT_Initialized == true)) {
+        return;
+    }
+
+    CMBT_Initialized = true;
+    CMBT_Timer = TimerCreate();
+    CMBT_TimerTrigger = TriggerCreate("CMBT_TimerHandler");
+    TriggerAddEventTimer(CMBT_TimerTrigger, CMBT_Timer);
+    CMBT_MissionEndTrigger = TriggerCreate("CMBT_MissionEndHandler");
+    TriggerAddEventGeneric(CMBT_MissionEndTrigger, "UT_MissionEnd");
+    CMBT_ChatTrigger = TriggerCreate("CMBT_ChatHandler");
+    TriggerAddEventChatMessage(CMBT_ChatTrigger, c_playerAny, "-baltrace", false);
+}

@@ -6,6 +6,7 @@ include "LibCOTF_h"
 include "LibCOMI_h"
 include "LibCOMU_h"
 include "LibCOUI_h"
+include "scripts/cm_balance_telemetry"
 
 // -----------------------------------------------------------------------------
 // Constants, Global State, And Forward Declarations
