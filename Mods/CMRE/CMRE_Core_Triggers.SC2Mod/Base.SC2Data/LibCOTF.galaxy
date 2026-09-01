@@ -185,6 +185,7 @@ include "scripts/cmui_customization"
 include "scripts/cm_pointer_events"
 include "scripts/cm_commander_feature_gate"
 include "scripts/cm_commander_voice"
+include "scripts/cm_balance_telemetry"
 
 void libCOTF_InitCustomScript () {
     CMBT_Init();
@@ -10166,7 +10167,7 @@ bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((EventUnitDamageSourceUnit() != null) || (EventUnitDamageEffect() == "NovaGriffinBombingRunDamage"))) {
+        if (!(CMBT_UT_DL_IsValidDamageSource())) {
             return false;
         }
     }
@@ -10176,12 +10177,7 @@ bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((EventUnitDamageEffect() == "NovaGriffinBombingRunDamage")) {
-        lv_sourceUnitType = "NovaGriffinBombingRunStrafer";
-    }
-    else {
-        lv_sourceUnitType = UnitGetType(EventUnitDamageSourceUnit());
-    }
+    lv_sourceUnitType = CMBT_UT_DL_GetDamageSourceUnitType();
 
     auto78DF18E7_var = 1;
     for ( ; auto78DF18E7_var <= auto78DF18E7_ae; auto78DF18E7_var += 1 ) {

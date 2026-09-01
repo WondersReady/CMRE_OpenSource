@@ -28,7 +28,29 @@ timer CMBT_Timer = null;
 trigger CMBT_ChatTrigger = null;
 trigger CMBT_TimerTrigger = null;
 trigger CMBT_MissionEndTrigger = null;
+timer CMBT_StartupTimer = null;
+trigger CMBT_StartupTrigger = null;
 int[libCOTF_gv_uT_DL_MaxUnits + 1][3] CMBT_PreviousDamage;
+
+// -----------------------------------------------------------------------------
+// UT_DL Damage Source Interception (Native-style encapsulation)
+// -----------------------------------------------------------------------------
+bool CMBT_UT_DL_IsValidDamageSource () {
+    if (EventUnitDamageSourceUnit() != null) {
+        return true;
+    }
+    if (EventUnitDamageEffect() == "NovaGriffinBombingRunDamage") {
+        return true;
+    }
+    return false;
+}
+
+string CMBT_UT_DL_GetDamageSourceUnitType () {
+    if (EventUnitDamageEffect() == "NovaGriffinBombingRunDamage") {
+        return "NovaGriffinBombingRunStrafer";
+    }
+    return UnitGetType(EventUnitDamageSourceUnit());
+}
 
 string CMBT_UnitKey(int lp_player, int lp_slot) {
     return ("P" + IntToString(lp_player) + "S" + IntToString(lp_slot));
@@ -306,6 +328,16 @@ bool CMBT_ChatHandler(bool testConds, bool runActions) {
     return true;
 }
 
+bool CMBT_StartupHandler(bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringToText("[CM] 战斗遥测未开启。如需记录本次战斗伤害数据，请输入 -baltrace on"));
+    }
+    return true;
+}
+
 void CMBT_Init() {
     if ((CMBT_Initialized == true)) {
         return;
@@ -319,4 +351,9 @@ void CMBT_Init() {
     TriggerAddEventGeneric(CMBT_MissionEndTrigger, "UT_MissionEnd");
     CMBT_ChatTrigger = TriggerCreate("CMBT_ChatHandler");
     TriggerAddEventChatMessage(CMBT_ChatTrigger, c_playerAny, "-baltrace", false);
+
+    CMBT_StartupTimer = TimerCreate();
+    CMBT_StartupTrigger = TriggerCreate("CMBT_StartupHandler");
+    TriggerAddEventTimer(CMBT_StartupTrigger, CMBT_StartupTimer);
+    TimerStart(CMBT_StartupTimer, 3.0, false, c_timeGame);
 }
