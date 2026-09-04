@@ -941,6 +941,7 @@ void CMBT_Start (int lp_player) {
     CMBT_ResetState();
 
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Version", 3);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "GrowthImplemented", 0);
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "FrameFormat", "t|p1(slot:d/n/h/o)|p2(slot:d/n/h/o)");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "DamageScope", "AllDamage");
@@ -967,6 +968,7 @@ void CMBT_Start (int lp_player) {
     CMBT_WriteEnvironmentMeta(CMBT_Bank);
 
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Version", 3);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthImplemented", 0);
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs)|p2(..); Enemy t|e:d; Growth t|g1,g2,..");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "TakenSplit", "shield=min(amount,shieldsAtEvent); life=amount-shield");
