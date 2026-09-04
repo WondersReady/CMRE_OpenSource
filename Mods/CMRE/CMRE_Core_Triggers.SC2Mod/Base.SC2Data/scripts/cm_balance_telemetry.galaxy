@@ -23,6 +23,7 @@
 // (Nova's source-less air strike credit). They are part of UT_DL, not of the telemetry
 // capture path, and are kept byte-for-byte compatible with v2.
 
+const string CMBT_SCRIPT_VERSION = "v3";
 const string CMBT_BANK_PREFIX = "CMCombatTelemetry";
 const string CMBT_BANK2_PREFIX = "CMCombatTelemetryX";
 const string CMBT_META_SECTION = "Meta";
@@ -482,6 +483,25 @@ string CMBT_BuildProbe () {
     return lv_out;
 }
 
+// Provenance written into both banks so a CSV can always be traced back to what produced it.
+//   ScriptVersion : this module's own version.
+//   GameVersion / ModVersion : the mod's declared strings (libCOMI_InitVariables,
+//     LibCOMI.galaxy:39-40). The engine exposes NO version native — the native name table in
+//     SC2_x64.exe carries GameMapName / GameMapDescription / GameMapPath / GameMapIsBlizzard
+//     but nothing version-related — so "5.0.10 (89165)" is the build the mod is maintained
+//     against, not a live read. GameVersionSource says so inside the bank too.
+//   MapName / MapPath : live natives (precedent: cmui_customization.galaxy:17004-17005, where
+//     GameMapPath() is assigned to a string and GameMapName() goes through TextToString).
+//     MapPath is the closest thing to a map version: no native exposes one.
+void CMBT_WriteEnvironmentMeta (bank lp_bank) {
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "ScriptVersion", CMBT_SCRIPT_VERSION);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "GameVersion", libCOMI_gv_cT_CurrentVersion);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "GameVersionSource", "libCOMI_gv_cT_CurrentVersion; mod-declared target build, no engine native exists");
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "ModVersion", libCOMI_gv_cT_CM_CurrentVersion);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "MapName", TextToString(GameMapName()));
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "MapPath", GameMapPath());
+}
+
 // -----------------------------------------------------------------------------
 // Session state
 // -----------------------------------------------------------------------------
@@ -921,7 +941,7 @@ void CMBT_Start (int lp_player) {
     CMBT_ResetState();
 
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Version", 3);
-    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "SampleEncoding", "v3");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "FrameFormat", "t|p1(slot:d/n/h/o)|p2(slot:d/n/h/o)");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "DamageScope", "AllDamage");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "TimeOrigin", "MissionStart");
@@ -944,9 +964,10 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "Probe", CMBT_BuildProbe());
+    CMBT_WriteEnvironmentMeta(CMBT_Bank);
 
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Version", 3);
-    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "SampleEncoding", "v3");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs)|p2(..); Enemy t|e:d; Growth t|g1,g2,..");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "TakenSplit", "shield=min(amount,shieldsAtEvent); life=amount-shield");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OverkillDefinition", "amount-(life+shields) at event time, clamped at 0");
@@ -970,6 +991,7 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "Probe", CMBT_BuildProbe());
+    CMBT_WriteEnvironmentMeta(CMBT_Bank2);
 
     lv_i = 1;
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
