@@ -14,7 +14,9 @@
 //       bank 2 "CMCombatTelemetryX<epoch>" : Meta / Units / Taken / Enemy / Growth
 //                Taken  frame = t|P1(slot:tl/ts/de/ds/hl/hs,..)|P2(..)
 //                Enemy  frame = t|e:d,..            (enemy unit type -> damage onto P1+P2)
-//                Growth frame = t|a,b,c,..          (commander-specific integer vector)
+//                Growth frame = t|g1,..,g9         (commander-specific integer vector; Malash
+//                                                    wired: attributes / obedience / cast counts,
+//                                                    empty token = not observable this frame)
 //   * Each section packs CMBT_FRAMES_PER_CHUNK frames per key "C<n>"; every section stays
 //     under CMBT_MAX_CHUNKS keys (720 samples / 6 = 120 <= 128) and the cap is asserted.
 //   * Both banks are saved every sample, so a crash loses at most the last 5 seconds.
@@ -38,7 +40,7 @@ const int CMBT_MAX_SAMPLES = 720;
 const int CMBT_MAX_CHUNKS = 128;
 const int CMBT_MAX_SLOTS = 50;
 const int CMBT_MAX_ENEMY_SLOTS = 32;
-const int CMBT_GROWTH_FIELDS = 6;
+const int CMBT_GROWTH_FIELDS = 9;
 const int CMBT_PROBE_REPEATS = 310;
 const int CMBT_ORDER_PROBE_MAX = 3;
 
@@ -67,6 +69,30 @@ const int CMBT_STREAM_COUNT = 4;
 
 const int CMBT_PACK_MAX = 6;
 
+// Growth vector (bank 2 "Growth" section). Only the Malash schema is wired so far; the vector
+// is written only when player CMBT_GROWTH_PLAYER is detected as Malash (U22, plan §9).
+//   G1..G3 hero attribute points (CBehaviorAttribute stacks on the hero unit, 0..500)
+//   G4..G6 army obedience: mean / max / unit count over the four army types (0..1000 each)
+//   G7..G9 casts this frame: purge (hunter) / blood drinking (autocast) / shackles (T5b)
+const int CMBT_GROWTH_PLAYER = 1;
+const int CMBT_G_SADISM = 1;
+const int CMBT_G_CUNNING = 2;
+const int CMBT_G_DOMINION = 3;
+const int CMBT_G_OBEDIENCE_MEAN = 4;
+const int CMBT_G_OBEDIENCE_MAX = 5;
+const int CMBT_G_ARMY_COUNT = 6;
+const int CMBT_G_CAST_PURGE = 7;
+const int CMBT_G_CAST_SACRIFICE = 8;
+const int CMBT_G_CAST_SHACKLES = 9;
+const string CMBT_MALASH_HERO = "Malash";
+const string CMBT_MALASH_ATTR_SADISM = "MalashDamage";
+const string CMBT_MALASH_ATTR_CUNNING = "MalashSpeed";
+const string CMBT_MALASH_ATTR_DOMINION = "MalashPower";
+const string CMBT_MALASH_OBEDIENCE = "MalashArmyPower";
+const string CMBT_MALASH_ABIL_PURGE = "MalashDarkTemplarRemove";
+const string CMBT_MALASH_ABIL_SACRIFICE = "MalashAscendantSacrifice";
+const string CMBT_MALASH_ABIL_SHACKLES = "MalashShackles";
+
 bool CMBT_Initialized = false;
 bool CMBT_Enabled = false;
 int CMBT_Operator = 0;
@@ -90,6 +116,13 @@ trigger CMBT_DamageTrigger = null;
 trigger CMBT_DiedTrigger = null;
 trigger CMBT_HealLifeTrigger = null;
 trigger CMBT_HealShieldTrigger = null;
+trigger CMBT_AbilPurgeTrigger = null;
+trigger CMBT_AbilSacrificeTrigger = null;
+trigger CMBT_AbilShacklesTrigger = null;
+bool CMBT_GrowthActive = false;
+int CMBT_ObedienceSum = 0;
+int CMBT_ObedienceMax = 0;
+int CMBT_ObedienceCount = 0;
 
 fixed[CMBT_MAX_SLOTS + 1][CMBT_FIXED_FIELDS][3] CMBT_Acc;
 int[CMBT_MAX_SLOTS + 1][CMBT_INT_FIELDS][3] CMBT_AccInt;
@@ -101,6 +134,8 @@ fixed[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyAcc;
 string[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyType;
 bool[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyNamed;
 int[CMBT_GROWTH_FIELDS + 1] CMBT_Growth;
+bool[CMBT_GROWTH_FIELDS + 1] CMBT_GrowthKnown;
+int[CMBT_GROWTH_FIELDS + 1] CMBT_CastCount;
 int[CMBT_PACK_MAX] CMBT_PackBuf;
 string[CMBT_STREAM_COUNT] CMBT_ChunkText;
 int[CMBT_STREAM_COUNT] CMBT_ChunkFrames;
@@ -356,20 +391,14 @@ string CMBT_BuildEnemySegment () {
     return lv_payload;
 }
 
+// Growth payload. While no supported commander is detected the segment stays empty (frame
+// "t|", exporter status "reserved"). Once active every field is written explicitly: a numeric
+// zero is an observation, an empty token means "not observable this frame" (e.g. hero dead).
 string CMBT_BuildGrowthSegment () {
     int lv_i;
-    int lv_nonZero;
     string lv_payload;
 
-    lv_nonZero = 0;
-    lv_i = 1;
-    while ((lv_i <= CMBT_GROWTH_FIELDS)) {
-        if ((CMBT_Growth[lv_i] != 0)) {
-            lv_nonZero += 1;
-        }
-        lv_i += 1;
-    }
-    if ((lv_nonZero == 0)) {
+    if ((CMBT_GrowthActive == false)) {
         return "";
     }
 
@@ -379,7 +408,9 @@ string CMBT_BuildGrowthSegment () {
         if ((lv_i > 1)) {
             lv_payload += ",";
         }
-        lv_payload += IntToString(CMBT_Growth[lv_i]);
+        if ((CMBT_GrowthKnown[lv_i] == true)) {
+            lv_payload += IntToString(CMBT_Growth[lv_i]);
+        }
         lv_i += 1;
     }
     return lv_payload;
@@ -403,11 +434,174 @@ void CMBT_UpdatePresent () {
     }
 }
 
-// T5: commander-specific growth carriers.
-// TODO(U22): Malash's three attributes / obedience and Nut's stack count are not yet wired.
-// The generic vector stays zero (and the Growth frames stay empty) until per-commander
-// readers land; the field names are declared in bank 2's Units section as G1..G6.
+// T5: commander-specific growth carriers. Malash wired (U22 settled: the three attributes and
+// army obedience are CBehaviorAttribute stacks, read with UnitBehaviorCount; precedent
+// LibCOMU.galaxy:4388). Nut's stack count is still not wired.
+string CMBT_GrowthFieldName (int lp_field) {
+    if ((lp_field == CMBT_G_SADISM)) {
+        return "Sadism";
+    }
+    if ((lp_field == CMBT_G_CUNNING)) {
+        return "Cunning";
+    }
+    if ((lp_field == CMBT_G_DOMINION)) {
+        return "Dominion";
+    }
+    if ((lp_field == CMBT_G_OBEDIENCE_MEAN)) {
+        return "ObedienceMean";
+    }
+    if ((lp_field == CMBT_G_OBEDIENCE_MAX)) {
+        return "ObedienceMax";
+    }
+    if ((lp_field == CMBT_G_ARMY_COUNT)) {
+        return "ArmyCount";
+    }
+    if ((lp_field == CMBT_G_CAST_PURGE)) {
+        return "CastPurge";
+    }
+    if ((lp_field == CMBT_G_CAST_SACRIFICE)) {
+        return "CastSacrifice";
+    }
+    if ((lp_field == CMBT_G_CAST_SHACKLES)) {
+        return "CastShackles";
+    }
+    return "reserved";
+}
+
+// Alive units of one exact type owned by one player (same filter the T6 presence count uses).
+unitgroup CMBT_OwnedUnitsOfType (int lp_player, string lp_unitType) {
+    return UnitGroup(lp_unitType, lp_player, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+}
+
+// Malash detection: the commander string (libCOOC_gv_cCX_PlayerCommander) contains "Malash",
+// or a live hero unit of type Malash is owned by the player. Either alone is enough, so a
+// non-standard commander string still activates once the hero is on the field.
+bool CMBT_IsMalashPlayer (int lp_player) {
+    string lv_commander;
+
+    lv_commander = libCOOC_gf_ActiveCommanderForPlayer(lp_player);
+    if (((lv_commander != null) && (lv_commander != ""))) {
+        if ((StringContains(lv_commander, CMBT_MALASH_HERO, c_stringAnywhere, c_stringNoCase) == true)) {
+            return true;
+        }
+    }
+    if ((UnitGroupCount(CMBT_OwnedUnitsOfType(lp_player, CMBT_MALASH_HERO), c_unitCountAlive) > 0)) {
+        return true;
+    }
+    return false;
+}
+
+unit CMBT_FindMalashHero (int lp_player) {
+    unitgroup lv_group;
+
+    lv_group = CMBT_OwnedUnitsOfType(lp_player, CMBT_MALASH_HERO);
+    if ((UnitGroupCount(lv_group, c_unitCountAlive) <= 0)) {
+        return null;
+    }
+    return UnitGroupUnit(lv_group, 1);
+}
+
+// Flips the Growth section from "reserved" to the Malash schema in both banks' Meta and in
+// bank 2's Units field names. Idempotent; called from CMBT_Start or from the first frame in
+// which Malash is detected.
+void CMBT_ActivateGrowth () {
+    int lv_i;
+
+    CMBT_GrowthActive = true;
+    if (((CMBT_Bank == null) || (CMBT_Bank2 == null))) {
+        return;
+    }
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "GrowthImplemented", 1);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthImplemented", 1);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "GrowthSchema", "Malash");
+    lv_i = 1;
+    while ((lv_i <= CMBT_GROWTH_FIELDS)) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_UNITS_SECTION, "G" + IntToString(lv_i), CMBT_GrowthFieldName(lv_i));
+        lv_i += 1;
+    }
+}
+
+// Adds every live unit of one army type into the obedience sum / max / count.
+// MalashStalkerShadow (the stalker's shadow image) carries no obedience and is not one of the
+// four types passed in, so it is excluded by construction.
+void CMBT_AccumulateObedience (int lp_player, string lp_unitType) {
+    unitgroup lv_group;
+    unit lv_unit;
+    int lv_count;
+    int lv_i;
+    int lv_value;
+
+    lv_group = CMBT_OwnedUnitsOfType(lp_player, lp_unitType);
+    lv_count = UnitGroupCount(lv_group, c_unitCountAll);
+    lv_i = 1;
+    while ((lv_i <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_group, lv_i);
+        if ((lv_unit != null)) {
+            lv_value = UnitBehaviorCount(lv_unit, CMBT_MALASH_OBEDIENCE);
+            CMBT_ObedienceSum += lv_value;
+            if ((lv_value > CMBT_ObedienceMax)) {
+                CMBT_ObedienceMax = lv_value;
+            }
+            CMBT_ObedienceCount += 1;
+        }
+        lv_i += 1;
+    }
+}
+
 void CMBT_UpdateGrowth () {
+    unit lv_hero;
+    int lv_i;
+
+    if ((CMBT_GrowthActive == false)) {
+        if ((CMBT_IsMalashPlayer(CMBT_GROWTH_PLAYER) == false)) {
+            return;
+        }
+        CMBT_ActivateGrowth();
+    }
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_GROWTH_FIELDS)) {
+        CMBT_Growth[lv_i] = 0;
+        CMBT_GrowthKnown[lv_i] = false;
+        lv_i += 1;
+    }
+
+    // G1..G3: hero attributes. Unobservable (empty token) while the hero is dead / reviving.
+    lv_hero = CMBT_FindMalashHero(CMBT_GROWTH_PLAYER);
+    if ((lv_hero != null)) {
+        CMBT_Growth[CMBT_G_SADISM] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_SADISM);
+        CMBT_Growth[CMBT_G_CUNNING] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_CUNNING);
+        CMBT_Growth[CMBT_G_DOMINION] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_DOMINION);
+        CMBT_GrowthKnown[CMBT_G_SADISM] = true;
+        CMBT_GrowthKnown[CMBT_G_CUNNING] = true;
+        CMBT_GrowthKnown[CMBT_G_DOMINION] = true;
+    }
+
+    // G4..G6: army obedience over the four army types (ValidatorData.xml TargetIsMalashArmy).
+    CMBT_ObedienceSum = 0;
+    CMBT_ObedienceMax = 0;
+    CMBT_ObedienceCount = 0;
+    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashZealot");
+    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashAdept");
+    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashStalker");
+    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashDarkTemplar");
+    if ((CMBT_ObedienceCount > 0)) {
+        CMBT_Growth[CMBT_G_OBEDIENCE_MEAN] = (CMBT_ObedienceSum / CMBT_ObedienceCount);
+    }
+    CMBT_Growth[CMBT_G_OBEDIENCE_MAX] = CMBT_ObedienceMax;
+    CMBT_Growth[CMBT_G_ARMY_COUNT] = CMBT_ObedienceCount;
+    CMBT_GrowthKnown[CMBT_G_OBEDIENCE_MEAN] = true;
+    CMBT_GrowthKnown[CMBT_G_OBEDIENCE_MAX] = true;
+    CMBT_GrowthKnown[CMBT_G_ARMY_COUNT] = true;
+
+    // G7..G9: casts since the previous frame (T5b event counters), then drained.
+    lv_i = CMBT_G_CAST_PURGE;
+    while ((lv_i <= CMBT_G_CAST_SHACKLES)) {
+        CMBT_Growth[lv_i] = CMBT_CastCount[lv_i];
+        CMBT_CastCount[lv_i] = 0;
+        CMBT_GrowthKnown[lv_i] = true;
+        lv_i += 1;
+    }
 }
 
 void CMBT_RegisterUnitKeys () {
@@ -561,8 +755,14 @@ void CMBT_ResetState () {
     lv_i = 1;
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
         CMBT_Growth[lv_i] = 0;
+        CMBT_GrowthKnown[lv_i] = false;
+        CMBT_CastCount[lv_i] = 0;
         lv_i += 1;
     }
+    CMBT_GrowthActive = false;
+    CMBT_ObedienceSum = 0;
+    CMBT_ObedienceMax = 0;
+    CMBT_ObedienceCount = 0;
 
     lv_i = 0;
     while ((lv_i < CMBT_STREAM_COUNT)) {
@@ -583,6 +783,9 @@ void CMBT_SetCapture (bool lp_on) {
     TriggerEnable(CMBT_DiedTrigger, lp_on);
     TriggerEnable(CMBT_HealLifeTrigger, lp_on);
     TriggerEnable(CMBT_HealShieldTrigger, lp_on);
+    TriggerEnable(CMBT_AbilPurgeTrigger, lp_on);
+    TriggerEnable(CMBT_AbilSacrificeTrigger, lp_on);
+    TriggerEnable(CMBT_AbilShacklesTrigger, lp_on);
 }
 
 // -----------------------------------------------------------------------------
@@ -902,6 +1105,51 @@ bool CMBT_HealShieldHandler (bool testConds, bool runActions) {
     return true;
 }
 
+// T5b: ability casts have no data-layer carrier (no charges, no counting buff), so they are
+// counted from the Unit Uses Ability event at the Execute stage (precedent: LibCOMI.galaxy:25207,
+// the Raynor banshee achievement; EventUnit() is the caster, as in the Alarak sacrifice
+// trigger LibCOMI.galaxy:26552). Casts by either of our players are counted; the abilities only
+// exist on Malash units, so in a non-Malash game the events never fire.
+void CMBT_RecordCast (int lp_field) {
+    int lv_owner;
+
+    if ((CMBT_Enabled == false)) {
+        return;
+    }
+    if ((EventUnit() == null)) {
+        return;
+    }
+    lv_owner = UnitGetOwner(EventUnit());
+    if (((lv_owner < 1) || (lv_owner > 2))) {
+        return;
+    }
+    CMBT_CastCount[lp_field] += 1;
+}
+
+bool CMBT_AbilPurgeHandler (bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+    CMBT_RecordCast(CMBT_G_CAST_PURGE);
+    return true;
+}
+
+bool CMBT_AbilSacrificeHandler (bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+    CMBT_RecordCast(CMBT_G_CAST_SACRIFICE);
+    return true;
+}
+
+bool CMBT_AbilShacklesHandler (bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+    CMBT_RecordCast(CMBT_G_CAST_SHACKLES);
+    return true;
+}
+
 // -----------------------------------------------------------------------------
 // Session control
 // -----------------------------------------------------------------------------
@@ -970,7 +1218,8 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Version", 3);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthImplemented", 0);
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
-    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs)|p2(..); Enemy t|e:d; Growth t|g1,g2,..");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs)|p2(..); Enemy t|e:d; Growth t|g1,..,g9 (empty token = not observable)");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "GrowthSchema", "none");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "TakenSplit", "shield=min(amount,shieldsAtEvent); life=amount-shield");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OverkillDefinition", "amount-(life+shields) at event time, clamped at 0");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OrderProbeFormat", "type|amount|life|lifeMax|shields|shieldsMax (x100)");
@@ -999,6 +1248,9 @@ void CMBT_Start (int lp_player) {
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
         BankValueSetFromString(CMBT_Bank2, CMBT_UNITS_SECTION, "G" + IntToString(lv_i), "reserved");
         lv_i += 1;
+    }
+    if ((CMBT_IsMalashPlayer(CMBT_GROWTH_PLAYER) == true)) {
+        CMBT_ActivateGrowth();
     }
 
     BankSave(CMBT_Bank);
@@ -1142,6 +1394,15 @@ void CMBT_Init () {
     CMBT_HealShieldTrigger = TriggerCreate("CMBT_HealShieldHandler");
     TriggerEnable(CMBT_HealShieldTrigger, false);
     TriggerAddEventUnitHealed(CMBT_HealShieldTrigger, null, c_unitVitalShields, null);
+    CMBT_AbilPurgeTrigger = TriggerCreate("CMBT_AbilPurgeHandler");
+    TriggerEnable(CMBT_AbilPurgeTrigger, false);
+    TriggerAddEventUnitAbility(CMBT_AbilPurgeTrigger, null, AbilityCommand(CMBT_MALASH_ABIL_PURGE, 0), c_unitAbilStageExecute, false);
+    CMBT_AbilSacrificeTrigger = TriggerCreate("CMBT_AbilSacrificeHandler");
+    TriggerEnable(CMBT_AbilSacrificeTrigger, false);
+    TriggerAddEventUnitAbility(CMBT_AbilSacrificeTrigger, null, AbilityCommand(CMBT_MALASH_ABIL_SACRIFICE, 0), c_unitAbilStageExecute, false);
+    CMBT_AbilShacklesTrigger = TriggerCreate("CMBT_AbilShacklesHandler");
+    TriggerEnable(CMBT_AbilShacklesTrigger, false);
+    TriggerAddEventUnitAbility(CMBT_AbilShacklesTrigger, null, AbilityCommand(CMBT_MALASH_ABIL_SHACKLES, 0), c_unitAbilStageExecute, false);
 
     CMBT_StartupTimer = TimerCreate();
     CMBT_StartupTrigger = TriggerCreate("CMBT_StartupHandler");
