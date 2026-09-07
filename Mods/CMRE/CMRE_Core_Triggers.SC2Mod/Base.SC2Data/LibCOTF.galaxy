@@ -10148,10 +10148,14 @@ void libCOTF_gt_UT_DL_PeriodicUpdate_Init () {
 // Trigger: UT_DL_Damage Logging
 //--------------------------------------------------------------------------------------------------
 bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    string lv_sourceUnitType;
+
     // Automatic Variable Declarations
     const int auto78DF18E7_ae = libCOTF_gv_uT_DL_MaxUnits;
     int auto78DF18E7_var;
-    string lv_sourceUnitType;
+
+    // Variable Initialization
 
     // Conditions
     if (testConds) {
@@ -10167,7 +10171,7 @@ bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!(CMBT_UT_DL_IsValidDamageSource())) {
+        if (!((CMBT_UT_DL_IsValidDamageSource() == true))) {
             return false;
         }
     }
@@ -10178,7 +10182,6 @@ bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
     }
 
     lv_sourceUnitType = CMBT_UT_DL_GetDamageSourceUnitType();
-
     auto78DF18E7_var = 1;
     for ( ; auto78DF18E7_var <= auto78DF18E7_ae; auto78DF18E7_var += 1 ) {
         if (((lv_sourceUnitType == libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType) || (libCOTF_gf_UT_AreMorphUnits(lv_sourceUnitType, libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType) == true))) {

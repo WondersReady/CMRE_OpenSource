@@ -1,4 +1,4 @@
-// CM balance telemetry (v3).
+// CM balance telemetry (v3; capture schema 3.1a).
 // Records 5-second, per-unit-type combat telemetry to two dedicated local banks.
 // Disabled by default (zero overhead): the capture triggers are registered but disabled, and
 // nothing samples until a player types "-baltrace on".
@@ -10,7 +10,7 @@
 //     reuses UT_DL's "linear search by unit type, merge morph pairs" idea.
 //   * Two banks (same epoch suffix, same frame numbers):
 //       bank 1 "CMCombatTelemetry<epoch>"  : Meta / Units / Samples
-//                Samples frame = t|P1(slot:d/n/h/o,..)|P2(..)
+//                Samples frame = t|P1(slot:d/n/h/o/dn,..)|P2(..)
 //       bank 2 "CMCombatTelemetryX<epoch>" : Meta / Units / Taken / Enemy / Growth
 //                Taken  frame = t|P1(slot:tl/ts/de/ds/hl/hs,..)|P2(..)
 //                Enemy  frame = t|e:d,..            (enemy unit type -> damage onto P1+P2)
@@ -26,6 +26,12 @@
 // capture path, and are kept byte-for-byte compatible with v2.
 
 const string CMBT_SCRIPT_VERSION = "v3";
+// Measurement semantics version. Bumped when what a column *counts* changes, even if the
+// encoding does not. 3.1 = T0/T7/T8 count only damage whose victim is hostile to the source.
+const string CMBT_MEASURE_VERSION = "3.1";
+// Capture 3.1a observes unknown alliances; neutral classification remains pending.
+// d/hits/overkill retain their hostile-victim meaning; dn is reserved and stays zero.
+const string CMBT_CAPTURE_SCHEMA = "3.1a";
 const string CMBT_BANK_PREFIX = "CMCombatTelemetry";
 const string CMBT_BANK2_PREFIX = "CMCombatTelemetryX";
 const string CMBT_META_SECTION = "Meta";
@@ -34,6 +40,7 @@ const string CMBT_SAMPLES_SECTION = "Samples";
 const string CMBT_TAKEN_SECTION = "Taken";
 const string CMBT_ENEMY_SECTION = "Enemy";
 const string CMBT_GROWTH_SECTION = "Growth";
+const string CMBT_DIAG_SECTION = "Diag";
 const fixed CMBT_INTERVAL_SECONDS = 5.0;
 const int CMBT_FRAMES_PER_CHUNK = 6;
 const int CMBT_MAX_SAMPLES = 720;
@@ -43,6 +50,7 @@ const int CMBT_MAX_ENEMY_SLOTS = 32;
 const int CMBT_GROWTH_FIELDS = 9;
 const int CMBT_PROBE_REPEATS = 310;
 const int CMBT_ORDER_PROBE_MAX = 3;
+const int CMBT_ALLIANCE_PROBE_MAX = 8;
 
 // Accumulator fields carrying damage-like quantities (fixed; the fractional part is kept
 // across frames so no damage is lost to per-frame truncation).
@@ -52,7 +60,8 @@ const int CMBT_F_TAKENLIFE = 2;
 const int CMBT_F_TAKENSHIELD = 3;
 const int CMBT_F_HEALLIFE = 4;
 const int CMBT_F_HEALSHIELD = 5;
-const int CMBT_FIXED_FIELDS = 6;
+const int CMBT_F_DEALTNEUTRAL = 6;
+const int CMBT_FIXED_FIELDS = 7;
 
 // Accumulator fields carrying counts.
 const int CMBT_I_HITS = 0;
@@ -101,6 +110,15 @@ int CMBT_SlotOverflow = 0;
 int CMBT_EnemyOverflow = 0;
 int CMBT_EnemyCount = 0;
 int CMBT_OrderProbeCount = 0;
+int CMBT_AllianceProbeCount = 0;
+int CMBT_NeutralHits = 0;
+int CMBT_FriendlyHits = 0;
+int CMBT_UnclassifiedHits = 0;
+int CMBT_FilteredNullVictim = 0;
+fixed CMBT_NeutralDamage = 0.0;
+fixed CMBT_FriendlyDamage = 0.0;
+fixed CMBT_UnclassifiedDamage = 0.0;
+fixed CMBT_FilteredNullVictimDamage = 0.0;
 fixed CMBT_StartedMissionTime = 0.0;
 string CMBT_BankName = "";
 string CMBT_Bank2Name = "";
@@ -137,6 +155,7 @@ int[CMBT_GROWTH_FIELDS + 1] CMBT_Growth;
 bool[CMBT_GROWTH_FIELDS + 1] CMBT_GrowthKnown;
 int[CMBT_GROWTH_FIELDS + 1] CMBT_CastCount;
 int[CMBT_PACK_MAX] CMBT_PackBuf;
+string[CMBT_ALLIANCE_PROBE_MAX] CMBT_AllianceProbeKey;
 string[CMBT_STREAM_COUNT] CMBT_ChunkText;
 int[CMBT_STREAM_COUNT] CMBT_ChunkFrames;
 int[CMBT_STREAM_COUNT] CMBT_ChunkIndex;
@@ -328,9 +347,10 @@ string CMBT_BuildSampleSegment (int lp_player) {
         CMBT_PackBuf[1] = CMBT_Present[lv_slot][lp_player];
         CMBT_PackBuf[2] = CMBT_AccInt[lv_slot][CMBT_I_HITS][lp_player];
         CMBT_PackBuf[3] = CMBT_TakeFixed(lv_slot, CMBT_F_OVERKILL, lp_player);
+        CMBT_PackBuf[4] = CMBT_TakeFixed(lv_slot, CMBT_F_DEALTNEUTRAL, lp_player);
         CMBT_AccInt[lv_slot][CMBT_I_HITS][lp_player] = 0;
 
-        lv_record = CMBT_PackRecord(lv_slot, 4);
+        lv_record = CMBT_PackRecord(lv_slot, 5);
         if ((lv_record != "")) {
             if ((lv_payload != "")) {
                 lv_payload += ",";
@@ -416,19 +436,36 @@ string CMBT_BuildGrowthSegment () {
     return lv_payload;
 }
 
-// T6: units of each tracked type alive at the end of the frame.
-// Note: a morph pair shares one slot but only the type recorded in the slot is counted here,
-// so a fully sieged tank line reads 0 until it unsieges. Documented in the change log.
+// T6 / B-22: enumerate living, visible, non-missile P1/P2 units before serializing.
+// Register types even if they have never produced a combat event. Morph pairs use the
+// same slot lookup as damage, so both forms contribute to that slot's present count.
 void CMBT_UpdatePresent () {
     int lv_player;
     int lv_slot;
+    int lv_count;
+    int lv_i;
+    unitgroup lv_group;
+    unit lv_unit;
 
     lv_player = 1;
     while ((lv_player <= 2)) {
         lv_slot = 1;
-        while ((lv_slot <= CMBT_SlotCount[lv_player])) {
-            CMBT_Present[lv_slot][lv_player] = UnitGroupCount(UnitGroup(CMBT_SlotType[lv_slot][lv_player], lv_player, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive);
+        while ((lv_slot <= CMBT_MAX_SLOTS)) {
+            CMBT_Present[lv_slot][lv_player] = 0;
             lv_slot += 1;
+        }
+        lv_group = UnitGroup(null, lv_player, null, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        lv_count = UnitGroupCount(lv_group, c_unitCountAll);
+        lv_i = 1;
+        while ((lv_i <= lv_count)) {
+            lv_unit = UnitGroupUnit(lv_group, lv_i);
+            if ((lv_unit != null)) {
+                lv_slot = CMBT_FindSlot(lv_player, UnitGetType(lv_unit), true);
+                if ((lv_slot > 0)) {
+                    CMBT_Present[lv_slot][lv_player] += 1;
+                }
+            }
+            lv_i += 1;
         }
         lv_player += 1;
     }
@@ -664,6 +701,70 @@ void CMBT_RecordOrderProbe (unit lp_unit, fixed lp_amount) {
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OrderProbe" + IntToString(CMBT_OrderProbeCount), lv_value);
 }
 
+// First eight distinct (victim player, raw alliance flags) observations from P1/P2.
+// These booleans do not yet establish a positive neutral classification. Preserve the
+// first source player for each combination; later sources with the same flags dedupe.
+void CMBT_RecordAllianceProbe (int lp_sourcePlayer, int lp_victimPlayer) {
+    int lv_i;
+    string lv_flags;
+    string lv_key;
+
+    if (((CMBT_Bank2 == null) || (CMBT_AllianceProbeCount >= CMBT_ALLIANCE_PROBE_MAX))) {
+        return;
+    }
+    if (((lp_sourcePlayer != 1) && (lp_sourcePlayer != 2))) {
+        return;
+    }
+    lv_flags = "";
+    if ((PlayerGetAlliance(lp_sourcePlayer, c_allianceIdVision, lp_victimPlayer) == true)) {
+        lv_flags += "V1";
+    }
+    else {
+        lv_flags += "V0";
+    }
+    if ((PlayerGetAlliance(lp_sourcePlayer, c_allianceIdControl, lp_victimPlayer) == true)) {
+        lv_flags += "C1";
+    }
+    else {
+        lv_flags += "C0";
+    }
+    if ((PlayerGetAlliance(lp_sourcePlayer, c_allianceIdPassive, lp_victimPlayer) == true)) {
+        lv_flags += "Pa1";
+    }
+    else {
+        lv_flags += "Pa0";
+    }
+    if ((PlayerGetAlliance(lp_sourcePlayer, c_allianceIdPushable, lp_victimPlayer) == true)) {
+        lv_flags += "Pu1";
+    }
+    else {
+        lv_flags += "Pu0";
+    }
+    if ((PlayerGetAlliance(lp_sourcePlayer, c_allianceIdSpend, lp_victimPlayer) == true)) {
+        lv_flags += "Sp1";
+    }
+    else {
+        lv_flags += "Sp0";
+    }
+    if ((PlayerGetAlliance(lp_sourcePlayer, c_allianceIdDefeat, lp_victimPlayer) == true)) {
+        lv_flags += "De1";
+    }
+    else {
+        lv_flags += "De0";
+    }
+    lv_key = IntToString(lp_victimPlayer) + "|" + lv_flags;
+    lv_i = 0;
+    while ((lv_i < CMBT_AllianceProbeCount)) {
+        if ((CMBT_AllianceProbeKey[lv_i] == lv_key)) {
+            return;
+        }
+        lv_i += 1;
+    }
+    CMBT_AllianceProbeKey[CMBT_AllianceProbeCount] = lv_key;
+    CMBT_AllianceProbeCount += 1;
+    BankValueSetFromString(CMBT_Bank2, CMBT_DIAG_SECTION, "AllianceProbe" + IntToString(CMBT_AllianceProbeCount), IntToString(lp_sourcePlayer) + "|" + lv_key);
+}
+
 string CMBT_BuildProbe () {
     int lv_i;
     string lv_out;
@@ -711,6 +812,7 @@ void CMBT_ResetStoredSession () {
         BankSectionRemove(CMBT_Bank2, CMBT_TAKEN_SECTION);
         BankSectionRemove(CMBT_Bank2, CMBT_ENEMY_SECTION);
         BankSectionRemove(CMBT_Bank2, CMBT_GROWTH_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_DIAG_SECTION);
     }
 }
 
@@ -776,6 +878,20 @@ void CMBT_ResetState () {
     CMBT_SlotOverflow = 0;
     CMBT_EnemyOverflow = 0;
     CMBT_OrderProbeCount = 0;
+    CMBT_AllianceProbeCount = 0;
+    lv_i = 0;
+    while ((lv_i < CMBT_ALLIANCE_PROBE_MAX)) {
+        CMBT_AllianceProbeKey[lv_i] = "";
+        lv_i += 1;
+    }
+    CMBT_NeutralHits = 0;
+    CMBT_FriendlyHits = 0;
+    CMBT_UnclassifiedHits = 0;
+    CMBT_FilteredNullVictim = 0;
+    CMBT_NeutralDamage = 0.0;
+    CMBT_FriendlyDamage = 0.0;
+    CMBT_UnclassifiedDamage = 0.0;
+    CMBT_FilteredNullVictimDamage = 0.0;
 }
 
 void CMBT_SetCapture (bool lp_on) {
@@ -831,6 +947,20 @@ void CMBT_RollChunks () {
     }
 }
 
+// Global P1+P2 source-side counters, mirrored to both banks (not per-player totals).
+// All keys are written even before the first sample; absence never means measured zero.
+// Neutral stays zero in 3.1a. Unknown alliances remain separate until engine observation.
+void CMBT_WriteVictimMeta (bank lp_bank) {
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "NeutralHits", CMBT_NeutralHits);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "NeutralDamage", FixedToInt(CMBT_NeutralDamage));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyHits", CMBT_FriendlyHits);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyDamage", FixedToInt(CMBT_FriendlyDamage));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "UnclassifiedVictimHits", CMBT_UnclassifiedHits);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "UnclassifiedVictimDamage", FixedToInt(CMBT_UnclassifiedDamage));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FilteredNullVictimHits", CMBT_FilteredNullVictim);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FilteredNullVictimDamage", FixedToInt(CMBT_FilteredNullVictimDamage));
+}
+
 void CMBT_Save () {
     int lv_i;
 
@@ -869,6 +999,12 @@ void CMBT_Save () {
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SlotOverflow", CMBT_SlotOverflow);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EnemyOverflow", CMBT_EnemyOverflow);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EnemySlotCount", CMBT_EnemyCount);
+    // B-20: bank 2 identity keys were written once in CMBT_Start and never refreshed, so a
+    // stale commander lookup at trace-start froze into the file. Refresh in step with bank 1.
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
+    CMBT_WriteVictimMeta(CMBT_Bank);
+    CMBT_WriteVictimMeta(CMBT_Bank2);
 
     BankSave(CMBT_Bank);
     BankSave(CMBT_Bank2);
@@ -881,6 +1017,12 @@ void CMBT_MarkStopped (int lp_complete, int lp_truncated) {
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Enabled", 0);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Complete", lp_complete);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Truncated", lp_truncated);
+    // B-20 belt-and-braces: a run stopping before the first periodic save would otherwise keep
+    // the trace-start commander snapshot in both banks.
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
 }
 
 bool CMBT_WriteSample () {
@@ -937,6 +1079,7 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
     fixed lv_shields;
     fixed lv_split;
     string lv_type;
+    int lv_victimClass;
 
     if ((!runActions)) {
         return true;
@@ -957,14 +1100,44 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
 
     lv_sourcePlayer = EventUnitDamageSourcePlayer();
     lv_victimPlayer = 0;
+    // 0=unclassified, 1=enemy, 2=friendly; 3=neutral is reserved, never assigned in 3.1a.
+    lv_victimClass = 0;
     if ((lv_victim != null)) {
         lv_victimPlayer = UnitGetOwner(lv_victim);
+        if ((libNtve_gf_PlayerIsEnemy(lv_sourcePlayer, lv_victimPlayer, libNtve_ge_PlayerRelation_Enemy) == true)) {
+            lv_victimClass = 1;
+        }
+        if ((lv_victimClass == 0)) {
+            if (((lv_victimPlayer == lv_sourcePlayer) || (libNtve_gf_PlayerIsEnemy(lv_sourcePlayer, lv_victimPlayer, libNtve_ge_PlayerRelation_Ally) == true))) {
+                lv_victimClass = 2;
+            }
+        }
+        if ((lv_victimClass == 0)) {
+            CMBT_RecordAllianceProbe(lv_sourcePlayer, lv_victimPlayer);
+        }
     }
 
     // Source side: our own unit types only (Nova's source-less air strike included).
+    // B-23 / MeasureVersion 3.1: only a positively hostile victim counts toward T0/T7/T8.
+    // 3.1a separates friendly from unknown victims without guessing neutral/objective owners.
     if (((lv_sourcePlayer == 1) || (lv_sourcePlayer == 2))) {
         if ((CMBT_UT_DL_IsValidDamageSource() == true)) {
-            lv_slot = CMBT_FindSlot(lv_sourcePlayer, CMBT_UT_DL_GetDamageSourceUnitType(), true);
+            if ((lv_victim == null)) {
+                CMBT_FilteredNullVictim += 1;
+                CMBT_FilteredNullVictimDamage += lv_amount;
+            }
+            if ((lv_victimClass == 2)) {
+                CMBT_FriendlyHits += 1;
+                CMBT_FriendlyDamage += lv_amount;
+            }
+            if (((lv_victim != null) && (lv_victimClass == 0))) {
+                CMBT_UnclassifiedHits += 1;
+                CMBT_UnclassifiedDamage += lv_amount;
+            }
+            lv_slot = 0;
+            if ((lv_victimClass == 1)) {
+                lv_slot = CMBT_FindSlot(lv_sourcePlayer, CMBT_UT_DL_GetDamageSourceUnitType(), true);
+            }
             if ((lv_slot > 0)) {
                 CMBT_Acc[lv_slot][CMBT_F_DEALT][lv_sourcePlayer] += lv_amount;
                 CMBT_AccInt[lv_slot][CMBT_I_HITS][lv_sourcePlayer] += 1;
@@ -997,7 +1170,7 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
             CMBT_RecordOrderProbe(lv_victim, lv_amount);
         }
 
-        if ((libNtve_gf_PlayerIsEnemy(lv_sourcePlayer, lv_victimPlayer, libNtve_ge_PlayerRelation_Enemy) == true)) {
+        if ((lv_victimClass == 1)) {
             lv_type = "_Sourceless";
             if ((EventUnitDamageSourceUnit() != null)) {
                 lv_type = UnitGetType(EventUnitDamageSourceUnit());
@@ -1191,8 +1364,11 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Version", 3);
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "GrowthImplemented", 0);
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
-    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "FrameFormat", "t|p1(slot:d/n/h/o)|p2(slot:d/n/h/o)");
-    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "DamageScope", "AllDamage");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "FrameFormat", "t|p1(slot:d/n/h/o/dn)|p2(slot:d/n/h/o/dn)");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "DamageScope", "EnemyVictimOnly");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "MeasureVersion", CMBT_MEASURE_VERSION);
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CaptureSchema", CMBT_CAPTURE_SCHEMA);
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "PrimaryScope", "EnemyOnly+NeutralPending");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "TimeOrigin", "MissionStart");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "Bank2", CMBT_Bank2Name);
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Enabled", 1);
@@ -1214,6 +1390,7 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "Probe", CMBT_BuildProbe());
     CMBT_WriteEnvironmentMeta(CMBT_Bank);
+    CMBT_WriteVictimMeta(CMBT_Bank);
 
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Version", 3);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthImplemented", 0);
@@ -1221,6 +1398,10 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs)|p2(..); Enemy t|e:d; Growth t|g1,..,g9 (empty token = not observable)");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "GrowthSchema", "none");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "TakenSplit", "shield=min(amount,shieldsAtEvent); life=amount-shield");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "MeasureVersion", CMBT_MEASURE_VERSION);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CaptureSchema", CMBT_CAPTURE_SCHEMA);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "PrimaryScope", "EnemyOnly+NeutralPending");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "DamageScope", "EnemyVictimOnly");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OverkillDefinition", "amount-(life+shields) at event time, clamped at 0");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OrderProbeFormat", "type|amount|life|lifeMax|shields|shieldsMax (x100)");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "Bank1", CMBT_BankName);
@@ -1243,6 +1424,7 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "Probe", CMBT_BuildProbe());
     CMBT_WriteEnvironmentMeta(CMBT_Bank2);
+    CMBT_WriteVictimMeta(CMBT_Bank2);
 
     lv_i = 1;
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
