@@ -4,7 +4,7 @@ const int CMUIX_RESULT_PAGE_STATS = 1;
 const int CMUIX_RESULT_PAGE_DAMAGE = 2;
 const int CMUIX_RESULT_PAGE_PLAYERS = 3;
 const int CMUIX_RESULT_PAGE_OVERVIEW = 4;
-const int CMUIX_RESULT_STAT_MAX = 8;
+const int CMUIX_RESULT_STAT_MAX = 9;
 const int CMUIX_RESULT_MUTATOR_MAX = 20;
 const int CMUIX_RESULT_MUTATOR_DISPLAY_MAX = 21;
 const int CMUIX_RESULT_CHAOS_HISTORY_COLUMNS = 20;
@@ -344,6 +344,7 @@ void CMUIX_ResultSnapshotCaptureStats() {
     CMUIX_ResultStatKeys[6] = libCOOC_gf_CC_CommanderScoreSelfStatistic(CMUIX_ResultPlayerCommander[1]);
     CMUIX_ResultStatKeys[7] = libCOOC_gf_CC_CommanderScoreCoopStatistic(CMUIX_ResultPlayerCommander[2]);
     CMUIX_ResultStatKeys[8] = libCOOC_gf_CC_CommanderScoreSelfStatistic(CMUIX_ResultPlayerCommander[2]);
+    CMUIX_ResultStatKeys[9] = "UnitsLostCount";
     while ((lv_index <= CMUIX_RESULT_STAT_MAX)) {
         lv_key = CMUIX_ResultStatKeys[lv_index];
         lv_player = 1;

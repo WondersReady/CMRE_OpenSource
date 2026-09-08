@@ -138,6 +138,10 @@
             <Anchor side="Top" relative="$parent/ScoreValueNameFrame6" pos="Max" offset="#StatItemVerticalSpacing"/>
             <!-- <ScoreValueLink val="#ScoreValue7"/> -->
         </Frame>
+
+        <Frame type="Frame" name="ScoreValueNameFrame8" template="CM_CoopCampaignScoreStatsPanel/ScoreValueUniqueTagNameFrameTemplate">
+            <Anchor side="Top" relative="$parent/ScoreValueNameFrame7" pos="Max" offset="#StatItemVerticalSpacing"/>
+        </Frame>
     </Frame>
 
     <!-- <Frame type="CoopCampaignPlayerScoreResultFrame" name="PlayerScoreResultFrameTemplate"> -->
@@ -263,8 +267,12 @@
                 <Anchor side="Top" relative="$parent/ScoreValueFrame6" pos="Max" offset="#StatItemVerticalSpacing"/>
                 <!-- <ScoreValueLink val="#ScoreValue7"/> -->
             </Frame>
+
+            <Frame type="Frame" name="ScoreValueFrame8" template="CM_CoopCampaignScoreStatsPanel/ScoreValueUniqueTagFrameTemplate">
+                <Anchor side="Top" relative="$parent/ScoreValueFrame7" pos="Max" offset="#StatItemVerticalSpacing"/>
+            </Frame>
         </Frame>
-        
+
         <!-- <Frame type="CoopCampaignPlayerScoreResultFrame" name="AllyPlayerFrame" template="CM_CoopCampaignScoreStatsPanel/PlayerScoreResultFrameTemplate"> -->
         <Frame type="Frame" name="AllyPlayerFrame" template="CM_CoopCampaignScoreStatsPanel/PlayerScoreResultFrameTemplate">
             <Anchor side="Top" relative="$parent/LocalPlayerFrame" pos="Min" offset="0"/>
@@ -325,6 +333,10 @@
             <Frame type="Frame" name="ScoreValueFrame7" template="CM_CoopCampaignScoreStatsPanel/AllyScoreValueUniqueTagFrameTemplate">
                 <Anchor side="Top" relative="$parent/ScoreValueFrame6" pos="Max" offset="#StatItemVerticalSpacing"/>
                 <!-- <ScoreValueLink val="#ScoreValue7"/> -->
+            </Frame>
+
+            <Frame type="Frame" name="ScoreValueFrame8" template="CM_CoopCampaignScoreStatsPanel/AllyScoreValueUniqueTagFrameTemplate">
+                <Anchor side="Top" relative="$parent/ScoreValueFrame7" pos="Max" offset="#StatItemVerticalSpacing"/>
             </Frame>
         </Frame>
     </Frame>

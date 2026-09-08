@@ -185,8 +185,10 @@ include "scripts/cmui_customization"
 include "scripts/cm_pointer_events"
 include "scripts/cm_commander_feature_gate"
 include "scripts/cm_commander_voice"
+include "scripts/cm_balance_telemetry"
 
 void libCOTF_InitCustomScript () {
+    CMBT_Init();
 }
 
 // Presets
@@ -10146,9 +10148,14 @@ void libCOTF_gt_UT_DL_PeriodicUpdate_Init () {
 // Trigger: UT_DL_Damage Logging
 //--------------------------------------------------------------------------------------------------
 bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    string lv_sourceUnitType;
+
     // Automatic Variable Declarations
     const int auto78DF18E7_ae = libCOTF_gv_uT_DL_MaxUnits;
     int auto78DF18E7_var;
+
+    // Variable Initialization
 
     // Conditions
     if (testConds) {
@@ -10164,7 +10171,7 @@ bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
             return false;
         }
 
-        if (!((EventUnitDamageSourceUnit() != null))) {
+        if (!((CMBT_UT_DL_IsValidDamageSource() == true))) {
             return false;
         }
     }
@@ -10174,15 +10181,16 @@ bool libCOTF_gt_UT_DL_DamageLogging_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    lv_sourceUnitType = CMBT_UT_DL_GetDamageSourceUnitType();
     auto78DF18E7_var = 1;
     for ( ; auto78DF18E7_var <= auto78DF18E7_ae; auto78DF18E7_var += 1 ) {
-        if (((UnitGetType(EventUnitDamageSourceUnit()) == libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType) || (libCOTF_gf_UT_AreMorphUnits(UnitGetType(EventUnitDamageSourceUnit()), libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType) == true))) {
+        if (((lv_sourceUnitType == libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType) || (libCOTF_gf_UT_AreMorphUnits(lv_sourceUnitType, libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType) == true))) {
             libCOTF_gf_UT_DL_AddHealingDamage(auto78DF18E7_var, 0, EventUnitDamageSourcePlayer(), EventUnitDamageAmount());
             break;
         }
         else {
             if ((libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType == null)) {
-                libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType = UnitGetType(EventUnitDamageSourceUnit());
+                libCOTF_gv_uT_DL_Data[auto78DF18E7_var][0][EventUnitDamageSourcePlayer()].lv_unitType = lv_sourceUnitType;
                 libCOTF_gf_UT_DL_AddHealingDamage(auto78DF18E7_var, 0, EventUnitDamageSourcePlayer(), EventUnitDamageAmount());
                 break;
             }
