@@ -1,5 +1,8 @@
 // Mission result session rendered over a rebuilt launcher UI.
 
+// Defined in scripts/cm_balance_telemetry, which LibCOTF includes after this file.
+void CMBT_FinalizeResult (int lp_result);
+
 const int CMUIX_RESULT_PAGE_STATS = 1;
 const int CMUIX_RESULT_PAGE_DAMAGE = 2;
 const int CMUIX_RESULT_PAGE_PLAYERS = 3;
@@ -2471,6 +2474,7 @@ void CMUIX_ResultSessionOpen(int lp_result) {
     CMUIX_GameHistoryAutosaveBlocked = true;
     CMUIX_ResultOpening = true;
     CMUIX_ResultSnapshotCapture(lp_result);
+    CMBT_FinalizeResult(lp_result);
     CMUIX_ResultRecordOutcome();
     if ((CMUIX_ResultOpenTrigger == null)) {
         CMUIX_ResultOpenTrigger = TriggerCreate("CMUIX_ResultOpenDeferred_Func");
