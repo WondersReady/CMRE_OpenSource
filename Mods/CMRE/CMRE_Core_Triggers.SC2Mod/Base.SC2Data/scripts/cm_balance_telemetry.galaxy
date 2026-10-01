@@ -321,12 +321,26 @@ string CMBT_AsciiAlnumPrefix (string lp_value, int lp_max) {
     return lv_out;
 }
 
+// Commander ids carry a race prefix (ProtossMalash, TerranMengsk); drop it so the 6-char bank tag names the commander.
+string CMBT_StripRacePrefix (string lp_id) {
+    if (((StringLength(lp_id) > 7) && (StringSub(lp_id, 1, 7) == "Protoss"))) {
+        return StringSub(lp_id, 8, StringLength(lp_id));
+    }
+    if (((StringLength(lp_id) > 6) && (StringSub(lp_id, 1, 6) == "Terran"))) {
+        return StringSub(lp_id, 7, StringLength(lp_id));
+    }
+    if (((StringLength(lp_id) > 4) && (StringSub(lp_id, 1, 4) == "Zerg"))) {
+        return StringSub(lp_id, 5, StringLength(lp_id));
+    }
+    return lp_id;
+}
+
 string CMBT_BuildBankBaseName (int lp_startedAt, int lp_player) {
     datetime lv_time;
     string lv_commander;
 
     lv_time = IntToDateTime(lp_startedAt);
-    lv_commander = CMBT_AsciiAlnumPrefix(libCOOC_gf_ActiveCommanderForPlayer(lp_player), CMBT_COMMANDER_NAME_CHARS);
+    lv_commander = CMBT_AsciiAlnumPrefix(CMBT_StripRacePrefix(libCOOC_gf_ActiveCommanderForPlayer(lp_player)), CMBT_COMMANDER_NAME_CHARS);
     return (CMBT_BANK_PREFIX + IntToString(GetDateTimeYear(lv_time)) + CMBT_TwoDigit(GetDateTimeMonth(lv_time)) + CMBT_TwoDigit(GetDateTimeDay(lv_time)) + "T" + CMBT_TwoDigit(GetDateTimeHour(lv_time)) + CMBT_TwoDigit(GetDateTimeMinute(lv_time)) + CMBT_TwoDigit(GetDateTimeSecond(lv_time)) + lv_commander);
 }
 
