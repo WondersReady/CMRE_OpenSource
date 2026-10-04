@@ -366,7 +366,7 @@ string CMBT_UnitKey (int lp_player, int lp_slot) {
 }
 
 void CMBT_Message (int lp_player, string lp_message) {
-    UIDisplayMessage(PlayerGroupSingle(lp_player), c_messageAreaSubtitle, StringToText("[Balance Telemetry] " + lp_message));
+    CMUIX_ConsoleDisplayColoredLine(PlayerGroupSingle(lp_player), StringToText("[Balance Telemetry] " + lp_message), CMUIX_CONSOLE_COLOR_DESCRIPTION);
 }
 
 string CMBT_TwoDigit (int lp_value) {
@@ -3453,7 +3453,7 @@ bool CMBT_StartupHandler (bool testConds, bool runActions) {
     // Deterministic ascending player id; both preferences remain intact.
     if (((lv_autoPlayer > 0) && (CMBT_Enabled == false) && (CMBT_SuppressAutoThisMatch == false))) { CMBT_Start(lv_autoPlayer, true); }
     if ((CMBT_Enabled == false)) {
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringToText("[CM] 战斗遥测未开启；-baltrace on 记录本局，-baltrace auto 保存自动开启设置，-baltrace manual 取消自动开启。"));
+        CMUIX_ConsoleDisplayColoredLine(PlayerGroupAll(), StringToText("[CM] 战斗遥测未开启；-baltrace on 记录本局，-baltrace auto 保存自动开启设置，-baltrace manual 取消自动开启。"), CMUIX_CONSOLE_COLOR_DESCRIPTION);
     }
     return true;
 }
