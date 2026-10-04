@@ -25619,7 +25619,7 @@ bool libCOMI_gt_CM_CommanderFuncInitial_Func (bool testConds, bool runActions) {
     CMPE_SetCommanderEvent("TerranNova", "Commander.Mastery.After", libCOMI_gf_CM_Nova_Commander_Mastery_After);
     CMPE_SetCommanderEvent("ProtossFenix", "Commander.Mastery.After", libCOMI_gf_CM_Fenix_Commander_Mastery_After);
     CMPE_SetCommanderEvent("ZergStetmann", "Commander.Mastery.After", libCOMI_gf_CM_Stetmann_Commander_Mastery_After);
-    CMPE_SetCommanderEvent("TerranMengsk", "Commander.Mastery.After", libCOMI_gf_CM_Mengsk_Commander_Mastery_After);
+    CMPE_SetCommanderEvent("TerranMengsk", "Commander.Tech.After", libCOMI_gf_CM_Mengsk_Commander_Mastery_After);
     CMPE_SetHeroEvent("ZergDehaka", "Hero.Spawn.After", libCOMI_gf_CM_Dehaka_Hero_Spawn_After);
     CMPE_SetHeroEvent("TerranNova", "Hero.Death", libCOMI_gf_CM_Nova_Hero_Death);
     CMPE_SetHeroEvent("TerranNova", "Hero.Revive.After", libCOMI_gf_CM_Nova_Hero_Revive_After);

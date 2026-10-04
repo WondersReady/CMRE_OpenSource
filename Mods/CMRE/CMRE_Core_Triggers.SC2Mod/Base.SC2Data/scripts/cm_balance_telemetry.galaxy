@@ -1,7 +1,19 @@
-// CM balance telemetry (v3; capture schema 3.1a).
+// Capture 3.4 review candidate: auto settings, readback gate, death ledgers, E33, per-player friendly and GrowthP2.
+// CM balance telemetry (v3 encoding; capture schema 3.4).
 // Records 5-second, per-unit-type combat telemetry to two dedicated local banks.
-// Disabled by default (zero overhead): the capture triggers are registered but disabled, and
+// Recording is opt-in (manual command or saved auto preference). Capture triggers remain disabled, except match-local birth/revive evidence;
 // nothing samples until a player types "-baltrace on".
+//
+// v3.2 vs 3.1a (purely additive; MeasureVersion stays 3.1 — no existing column changes what
+// it counts):
+//   * Growth vector widened 9 -> 11: G10 = MalashBreak casts (hero ultimate "tear reality"),
+//     G11 = MalashImmortalOrder casts (walker "immortal order" mark).
+//   * Samples slots carry a 6th field "a" = attack instances that reached the damage handler,
+//     counted BEFORE the amount gate, so fully-absorbed hits still count. Splash onto several
+//     targets in one attack is deduplicated per slot by (source unit, effect, mission time).
+//   * bank 2 gains a 5th stream "Field": t|hu,hs,nu,ns = hostile-to-P1 on-field life+shields
+//     (int-truncated), split non-structure / structure, with matching unit counts. One
+//     full-map enumeration per sample.
 //
 // v3 vs v2
 //   * Own accumulators (CMBT_Acc / CMBT_AccInt / CMBT_EnemyAcc) instead of reading UT_DL.
@@ -10,13 +22,15 @@
 //     reuses UT_DL's "linear search by unit type, merge morph pairs" idea.
 //   * Two banks (same epoch suffix, same frame numbers):
 //       bank 1 "CMCombatTelemetry<epoch>"  : Meta / Units / Samples
-//                Samples frame = t|P1(slot:d/n/h/o/dn,..)|P2(..)
-//       bank 2 "CMCombatTelemetryX<epoch>" : Meta / Units / Taken / Enemy / Growth
+//                Samples frame = t|P1(slot:d/n/h/o/dn/a,..)|P2(..)
+//       bank 2 "CMCombatTelemetryX<epoch>" : Meta / Units / Taken / Enemy / Growth / Field
 //                Taken  frame = t|P1(slot:tl/ts/de/ds/hl/hs,..)|P2(..)
 //                Enemy  frame = t|e:d,..            (enemy unit type -> damage onto P1+P2)
-//                Growth frame = t|g1,..,g9         (commander-specific integer vector; Malash
+//                Growth frame = t|g1,..,g11         (commander-specific integer vector; Malash
 //                                                    wired: attributes / obedience / cast counts,
 //                                                    empty token = not observable this frame)
+//                Field  frame = t|hu,hs,nu,ns       (hostile-to-P1 on-field life+shields and
+//                                                    unit counts, non-structure / structure)
 //   * Each section packs CMBT_FRAMES_PER_CHUNK frames per key "C<n>"; every section stays
 //     under CMBT_MAX_CHUNKS keys (720 samples / 6 = 120 <= 128) and the cap is asserted.
 //   * Both banks are saved every sample, so a crash loses at most the last 5 seconds.
@@ -31,26 +45,71 @@ const string CMBT_SCRIPT_VERSION = "v3";
 const string CMBT_MEASURE_VERSION = "3.1";
 // Capture 3.1a observes unknown alliances; neutral classification remains pending.
 // d/hits/overkill retain their hostile-victim meaning; dn is reserved and stays zero.
-const string CMBT_CAPTURE_SCHEMA = "3.1a";
-const string CMBT_BANK_PREFIX = "CMCombatTelemetry";
-const string CMBT_BANK2_PREFIX = "CMCombatTelemetryX";
+// 3.2 adds columns only: G10/G11 cast counts, the Samples "a" attack-instance field and the
+// bank 2 "Field" stream. No existing column changes what it counts.
+const string CMBT_CAPTURE_SCHEMA = "3.4";
+const string CMBT_BANK_PREFIX = "CMTele";
+const string CMBT_INDEX_BANK_NAME = "CMTeleIndex";
 const string CMBT_META_SECTION = "Meta";
-const string CMBT_UNITS_SECTION = "Units";
+const string CMBT_OUR_UNITS_SECTION = "OurUnits";
+const string CMBT_ENEMY_SOURCES_SECTION = "EnemySources";
+const string CMBT_VICTIM_UNITS_SECTION = "VictimUnits";
+const string CMBT_GROWTH_FIELDS_SECTION = "GrowthFields";
+const string CMBT_HERO_UNITS_SECTION = "HeroUnits";
+const string CMBT_MUTBUFFS_SECTION = "MutBuffs";
+const string CMBT_SKILL_P1_SECTION = "SkillP1";
+const string CMBT_SKILL_P2_SECTION = "SkillP2";
+const string CMBT_MUTATOR_UNITS_SECTION = "MutatorUnits";
+const string CMBT_MUTATOR_EFFECTS_SECTION = "MutatorEffects";
+const string CMBT_PLAYERS_SECTION = "Players";
+const string CMBT_MUTATORS_SECTION = "Mutators";
+const string CMBT_OBJECTIVES_SECTION = "Objectives";
+const string CMBT_SCORE_STATS_SECTION = "ScoreStats";
 const string CMBT_SAMPLES_SECTION = "Samples";
 const string CMBT_TAKEN_SECTION = "Taken";
 const string CMBT_ENEMY_SECTION = "Enemy";
 const string CMBT_GROWTH_SECTION = "Growth";
+const string CMBT_FIELD_SECTION = "Field";
+const string CMBT_VICTIM_SECTION = "Victim";
+const string CMBT_ECON_SECTION = "Econ";
+const string CMBT_HERO_SECTION = "Hero";
+const string CMBT_MUTBUFF_SECTION = "MutBuff";
+const string CMBT_SKILL_SECTION = "Skill";
+const string CMBT_COMMANDS_SECTION = "Commands";
+const string CMBT_EVENTS_SECTION = "Events";
 const string CMBT_DIAG_SECTION = "Diag";
+const string CMBT_INDEX_META_SECTION = "Meta";
+const string CMBT_INDEX_RUNS_SECTION = "Runs";
 const fixed CMBT_INTERVAL_SECONDS = 5.0;
 const int CMBT_FRAMES_PER_CHUNK = 6;
 const int CMBT_MAX_SAMPLES = 720;
 const int CMBT_MAX_CHUNKS = 128;
 const int CMBT_MAX_SLOTS = 50;
-const int CMBT_MAX_ENEMY_SLOTS = 32;
-const int CMBT_GROWTH_FIELDS = 9;
+const int CMBT_MAX_ENEMY_SLOTS = 33;
+const int CMBT_ENEMY_OTHER_SLOT = 33;
+const int CMBT_BIRTH_MAX = 512;
+const fixed CMBT_HERO_PLACEHOLDER_SECONDS = 3.0;
+const string CMBT_SETTINGS_BANK_NAME = "CMTeleSettings";
+const string CMBT_SETTINGS_SECTION = "Meta";
+const string CMBT_GROWTH_P2_SECTION = "GrowthP2";
+const int CMBT_MAX_VICTIM_SLOTS = 48;
+const int CMBT_MAX_MUTBUFF_SLOTS = 16;
+const int CMBT_MAX_SKILL_SLOTS = 64;
+const int CMBT_MUTATOR_UNIT_MAX = 48;
+const int CMBT_MUTATOR_EFFECT_MAX = 16;
+const int CMBT_GROWTH_FIELDS = 11;
 const int CMBT_PROBE_REPEATS = 310;
 const int CMBT_ORDER_PROBE_MAX = 3;
 const int CMBT_ALLIANCE_PROBE_MAX = 8;
+const int CMBT_EVENT_MAX = 1000;
+const int CMBT_EVENTS_PER_CHUNK = 8;
+const int CMBT_EVENT_MAX_CHARS = 300;
+const int CMBT_EVENT_CHUNK_MAX_CHARS = 2800;
+const int CMBT_INDEX_MAX = 64;
+const int CMBT_COMMANDER_NAME_CHARS = 6;
+const int CMBT_OBJECTIVE_MAX = 20;
+const int CMBT_DIRECT_MUTATOR_MAX = 20;
+const int CMBT_CHAOS_HISTORY_MAX = 60;
 
 // Accumulator fields carrying damage-like quantities (fixed; the fractional part is kept
 // across frames so no damage is lost to per-frame truncation).
@@ -67,23 +126,48 @@ const int CMBT_FIXED_FIELDS = 7;
 const int CMBT_I_HITS = 0;
 const int CMBT_I_DIEDENEMY = 1;
 const int CMBT_I_DIEDSELF = 2;
-const int CMBT_INT_FIELDS = 3;
+const int CMBT_I_DISAPPEARED = 3;
+const int CMBT_I_CONSUMED = 4;
+const int CMBT_INT_FIELDS = 5;
 
-// Chunk streams. Stream 0 lives in bank 1, streams 1..3 in bank 2.
+const int CMBT_VF_DAMAGE = 0;
+const int CMBT_VF_OVERKILL = 1;
+const int CMBT_VI_HITS = 0;
+const int CMBT_VI_KILLS = 1;
+
+// Periodic chunk streams. Stream 0 lives in bank 1, streams 1..11 in bank 2.
 const int CMBT_STREAM_SAMPLES = 0;
 const int CMBT_STREAM_TAKEN = 1;
 const int CMBT_STREAM_ENEMY = 2;
 const int CMBT_STREAM_GROWTH = 3;
-const int CMBT_STREAM_COUNT = 4;
+const int CMBT_STREAM_FIELD = 4;
+const int CMBT_STREAM_VICTIM = 5;
+const int CMBT_STREAM_ECON = 6;
+const int CMBT_STREAM_HERO = 7;
+const int CMBT_STREAM_MUTBUFF = 8;
+const int CMBT_STREAM_SKILL = 9;
+const int CMBT_STREAM_COMMANDS = 10;
+const int CMBT_STREAM_GROWTH_P2 = 11;
+const int CMBT_STREAM_COUNT = 12;
 
-const int CMBT_PACK_MAX = 6;
+const int CMBT_MUTBUFF_ENEMY_TO_OUR = 0;
+const int CMBT_MUTBUFF_OUR_TO_ENEMY = 1;
+const int CMBT_COMMAND_MOVE = 0;
+const int CMBT_COMMAND_ATTACK = 1;
+const int CMBT_COMMAND_ABILITY = 2;
+const int CMBT_COMMAND_OTHER = 3;
+const int CMBT_COMMAND_FIELDS = 4;
 
-// Growth vector (bank 2 "Growth" section). Only the Malash schema is wired so far; the vector
-// is written only when player CMBT_GROWTH_PLAYER is detected as Malash (U22, plan §9).
+const int CMBT_PACK_MAX = 8;
+
+// Per-player Malash vectors: bank 2 Growth for P1 and GrowthP2 for P2.
+// Each vector is populated only when that player is detected as Malash.
 //   G1..G3 hero attribute points (CBehaviorAttribute stacks on the hero unit, 0..500)
 //   G4..G6 army obedience: mean / max / unit count over the four army types (0..1000 each)
-//   G7..G9 casts this frame: purge (hunter) / blood drinking (autocast) / shackles (T5b)
+//   G7..G11 casts this frame: purge (hunter) / blood drinking (autocast) / shackles (T5b) /
+//     break (hero ultimate MalashBreak) / immortal order (walker mark MalashImmortalOrder)
 const int CMBT_GROWTH_PLAYER = 1;
+const int CMBT_FIELD_PLAYER = 1;
 const int CMBT_G_SADISM = 1;
 const int CMBT_G_CUNNING = 2;
 const int CMBT_G_DOMINION = 3;
@@ -93,6 +177,8 @@ const int CMBT_G_ARMY_COUNT = 6;
 const int CMBT_G_CAST_PURGE = 7;
 const int CMBT_G_CAST_SACRIFICE = 8;
 const int CMBT_G_CAST_SHACKLES = 9;
+const int CMBT_G_CAST_BREAK = 10;
+const int CMBT_G_CAST_ORDER = 11;
 const string CMBT_MALASH_HERO = "Malash";
 const string CMBT_MALASH_ATTR_SADISM = "MalashDamage";
 const string CMBT_MALASH_ATTR_CUNNING = "MalashSpeed";
@@ -101,14 +187,28 @@ const string CMBT_MALASH_OBEDIENCE = "MalashArmyPower";
 const string CMBT_MALASH_ABIL_PURGE = "MalashDarkTemplarRemove";
 const string CMBT_MALASH_ABIL_SACRIFICE = "MalashAscendantSacrifice";
 const string CMBT_MALASH_ABIL_SHACKLES = "MalashShackles";
+const string CMBT_MALASH_ABIL_BREAK = "MalashBreak";
+const string CMBT_MALASH_ABIL_ORDER = "MalashImmortalOrder";
 
 bool CMBT_Initialized = false;
 bool CMBT_Enabled = false;
+bool CMBT_Truncated = false;
 int CMBT_Operator = 0;
+bool CMBT_StartupDone = false;
+bool CMBT_SuppressAutoThisMatch = false;
+bool CMBT_StartPending = false;
+int[3] CMBT_FriendlyPlayerHits;
+fixed[3] CMBT_FriendlyPlayerDamage;
+string[CMBT_BIRTH_MAX + 1][3] CMBT_BirthType;
+int[3] CMBT_BirthCount;
+int[3] CMBT_BirthOverflow;
+bool[3] CMBT_HeroRevived;
 int CMBT_SampleCount = 0;
 int CMBT_SlotOverflow = 0;
 int CMBT_EnemyOverflow = 0;
 int CMBT_EnemyCount = 0;
+int CMBT_VictimCount = 0;
+int CMBT_VictimOverflow = 0;
 int CMBT_OrderProbeCount = 0;
 int CMBT_AllianceProbeCount = 0;
 int CMBT_NeutralHits = 0;
@@ -124,6 +224,9 @@ string CMBT_BankName = "";
 string CMBT_Bank2Name = "";
 bank CMBT_Bank = null;
 bank CMBT_Bank2 = null;
+bank CMBT_IndexBank = null;
+int CMBT_IndexSlot = 0;
+int CMBT_IndexOverflow = 0;
 timer CMBT_Timer = null;
 trigger CMBT_ChatTrigger = null;
 trigger CMBT_TimerTrigger = null;
@@ -137,10 +240,35 @@ trigger CMBT_HealShieldTrigger = null;
 trigger CMBT_AbilPurgeTrigger = null;
 trigger CMBT_AbilSacrificeTrigger = null;
 trigger CMBT_AbilShacklesTrigger = null;
-bool CMBT_GrowthActive = false;
+trigger CMBT_AbilBreakTrigger = null;
+trigger CMBT_AbilOrderTrigger = null;
+trigger CMBT_ResearchTrigger = null;
+trigger CMBT_UpgradeTrigger = null;
+trigger CMBT_PlayerLeftTrigger = null;
+trigger CMBT_HeroReviveTrigger = null;
+trigger CMBT_UnitCreatedTrigger = null;
+trigger CMBT_MutBehaviorTrigger = null;
+trigger CMBT_MutEffectTrigger = null;
+trigger CMBT_CommandTrigger = null;
+bool[3] CMBT_GrowthActive;
 int CMBT_ObedienceSum = 0;
 int CMBT_ObedienceMax = 0;
 int CMBT_ObedienceCount = 0;
+
+// 3.2 attack instances: per-slot counts plus the previous event's dedupe triple, so one
+// attack splashing onto several targets within the same mission-time tick counts once.
+// The unit part is compared by handle (not unit type), so same-type units firing in the
+// same tick each still count.
+int[CMBT_MAX_SLOTS + 1][3] CMBT_AtkCount;
+int[CMBT_MAX_SLOTS + 1][3] CMBT_AtkLastTag;
+string[CMBT_MAX_SLOTS + 1][3] CMBT_AtkLastEffect;
+fixed[CMBT_MAX_SLOTS + 1][3] CMBT_AtkLastTime;
+
+// 3.2 hostile-to-P1 on-field vitals, refreshed once per sample by CMBT_UpdateEnemyField.
+fixed CMBT_FieldHpUnits = 0.0;
+fixed CMBT_FieldHpStructures = 0.0;
+int CMBT_FieldNUnits = 0;
+int CMBT_FieldNStructures = 0;
 
 fixed[CMBT_MAX_SLOTS + 1][CMBT_FIXED_FIELDS][3] CMBT_Acc;
 int[CMBT_MAX_SLOTS + 1][CMBT_INT_FIELDS][3] CMBT_AccInt;
@@ -150,15 +278,65 @@ bool[CMBT_MAX_SLOTS + 1][3] CMBT_SlotNamed;
 int[3] CMBT_SlotCount;
 fixed[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyAcc;
 string[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyType;
+string[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyEffect;
 bool[CMBT_MAX_ENEMY_SLOTS + 1] CMBT_EnemyNamed;
-int[CMBT_GROWTH_FIELDS + 1] CMBT_Growth;
-bool[CMBT_GROWTH_FIELDS + 1] CMBT_GrowthKnown;
-int[CMBT_GROWTH_FIELDS + 1] CMBT_CastCount;
+fixed[CMBT_MAX_VICTIM_SLOTS + 1][2][3] CMBT_VictimAcc;
+int[CMBT_MAX_VICTIM_SLOTS + 1][2][3] CMBT_VictimAccInt;
+string[CMBT_MAX_VICTIM_SLOTS + 1] CMBT_VictimType;
+bool[CMBT_MAX_VICTIM_SLOTS + 1] CMBT_VictimNamed;
+fixed[CMBT_MAX_SKILL_SLOTS + 1][2][3] CMBT_SkillAcc;
+int[CMBT_MAX_SKILL_SLOTS + 1][3] CMBT_SkillHits;
+string[CMBT_MAX_SKILL_SLOTS + 1][3] CMBT_SkillType;
+string[CMBT_MAX_SKILL_SLOTS + 1][3] CMBT_SkillEffect;
+bool[CMBT_MAX_SKILL_SLOTS + 1][3] CMBT_SkillNamed;
+int[3] CMBT_SkillCount;
+int[3] CMBT_SkillOverflow;
+int CMBT_MutBuffCount = 0;
+string[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffFactor;
+string[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffBehavior;
+string[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffDirection;
+string[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffValueSource;
+string[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffCatalogField;
+bool[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffTrackOutput;
+bool[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBuffTrackDefense;
+fixed[CMBT_MAX_MUTBUFF_SLOTS + 1][2] CMBT_MutBuffDamage;
+fixed[CMBT_MAX_MUTBUFF_SLOTS + 1][2] CMBT_MutBuffMitigation;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1][2] CMBT_MutBuffHits;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1][2] CMBT_MutBuffStackSum;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBehaviorAdd;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBehaviorRemove;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBehaviorRefresh;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBehaviorLastStack;
+int[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBehaviorLastOwner;
+string[CMBT_MAX_MUTBUFF_SLOTS + 1] CMBT_MutBehaviorLastUnit;
+int CMBT_MutBuffOverflow = 0;
+int CMBT_MutatorUnitCount = 0;
+string[CMBT_MUTATOR_UNIT_MAX + 1] CMBT_MutatorUnitFactor;
+string[CMBT_MUTATOR_UNIT_MAX + 1] CMBT_MutatorUnitType;
+int CMBT_MutatorEffectCount = 0;
+string[CMBT_MUTATOR_EFFECT_MAX + 1] CMBT_MutatorEffectFactor;
+string[CMBT_MUTATOR_EFFECT_MAX + 1] CMBT_MutatorEffectId;
+int[CMBT_MUTATOR_EFFECT_MAX + 1] CMBT_MutEffectUseCount;
+int[CMBT_MUTATOR_EFFECT_MAX + 1] CMBT_MutEffectLastOwner;
+string[CMBT_MUTATOR_EFFECT_MAX + 1] CMBT_MutEffectLastUnit;
+int CMBT_ChaosHistoryLogged = 0;
+int[3][CMBT_COMMAND_FIELDS] CMBT_CommandCount;
+int[CMBT_GROWTH_FIELDS + 1][3] CMBT_Growth;
+bool[CMBT_GROWTH_FIELDS + 1][3] CMBT_GrowthKnown;
+int[CMBT_GROWTH_FIELDS + 1][3] CMBT_CastCount;
 int[CMBT_PACK_MAX] CMBT_PackBuf;
 string[CMBT_ALLIANCE_PROBE_MAX] CMBT_AllianceProbeKey;
 string[CMBT_STREAM_COUNT] CMBT_ChunkText;
 int[CMBT_STREAM_COUNT] CMBT_ChunkFrames;
 int[CMBT_STREAM_COUNT] CMBT_ChunkIndex;
+string CMBT_EventChunkText = "";
+int CMBT_EventChunkEntries = 0;
+int CMBT_EventChunkIndex = 0;
+int CMBT_EventCount = 0;
+int CMBT_EventOverflow = 0;
+int CMBT_DirectMutatorCount = 0;
+int CMBT_MutatorOverflow = 0;
+string[CMBT_OBJECTIVE_MAX + 1] CMBT_ObjectiveLast;
 
 // -----------------------------------------------------------------------------
 // UT_DL Damage Source Interception (Native-style encapsulation)
@@ -188,7 +366,262 @@ string CMBT_UnitKey (int lp_player, int lp_slot) {
 }
 
 void CMBT_Message (int lp_player, string lp_message) {
-    UIDisplayMessage(PlayerGroupSingle(lp_player), c_messageAreaSubtitle, StringToText("[Balance Telemetry] " + lp_message));
+    CMUIX_ConsoleDisplayColoredLine(PlayerGroupSingle(lp_player), StringToText("[Balance Telemetry] " + lp_message), CMUIX_CONSOLE_COLOR_DESCRIPTION);
+}
+
+string CMBT_TwoDigit (int lp_value) {
+    if ((lp_value < 10)) {
+        return ("0" + IntToString(lp_value));
+    }
+    return IntToString(lp_value);
+}
+
+string CMBT_WallText (int lp_timestamp) {
+    datetime lv_time;
+
+    lv_time = IntToDateTime(lp_timestamp);
+    return (IntToString(GetDateTimeYear(lv_time)) + "/" + CMBT_TwoDigit(GetDateTimeMonth(lv_time)) + "/" + CMBT_TwoDigit(GetDateTimeDay(lv_time)) + " " + CMBT_TwoDigit(GetDateTimeHour(lv_time)) + ":" + CMBT_TwoDigit(GetDateTimeMinute(lv_time)) + ":" + CMBT_TwoDigit(GetDateTimeSecond(lv_time)));
+}
+
+string CMBT_AsciiAlnumPrefix (string lp_value, int lp_max) {
+    int lv_i;
+    string lv_char;
+    string lv_out;
+
+    lv_i = 1;
+    lv_char = "";
+    lv_out = "";
+    while (((lv_i <= StringLength(lp_value)) && (StringLength(lv_out) < lp_max))) {
+        lv_char = StringSub(lp_value, lv_i, lv_i);
+        if ((StringContains("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", lv_char, c_stringAnywhere, c_stringCase) == true)) {
+            lv_out += lv_char;
+        }
+        lv_i += 1;
+    }
+    if ((lv_out == "")) {
+        return "CM";
+    }
+    return lv_out;
+}
+
+// Commander ids carry a race prefix (ProtossMalash, TerranMengsk); drop it so the 6-char bank tag names the commander.
+string CMBT_StripRacePrefix (string lp_id) {
+    if (((StringLength(lp_id) > 7) && (StringSub(lp_id, 1, 7) == "Protoss"))) {
+        return StringSub(lp_id, 8, StringLength(lp_id));
+    }
+    if (((StringLength(lp_id) > 6) && (StringSub(lp_id, 1, 6) == "Terran"))) {
+        return StringSub(lp_id, 7, StringLength(lp_id));
+    }
+    if (((StringLength(lp_id) > 4) && (StringSub(lp_id, 1, 4) == "Zerg"))) {
+        return StringSub(lp_id, 5, StringLength(lp_id));
+    }
+    return lp_id;
+}
+
+string CMBT_BuildBankBaseName (int lp_startedAt, int lp_player) {
+    datetime lv_time;
+    string lv_commander;
+
+    lv_time = IntToDateTime(lp_startedAt);
+    lv_commander = CMBT_AsciiAlnumPrefix(CMBT_StripRacePrefix(libCOOC_gf_ActiveCommanderForPlayer(lp_player)), CMBT_COMMANDER_NAME_CHARS);
+    return (CMBT_BANK_PREFIX + IntToString(GetDateTimeYear(lv_time)) + CMBT_TwoDigit(GetDateTimeMonth(lv_time)) + CMBT_TwoDigit(GetDateTimeDay(lv_time)) + "T" + CMBT_TwoDigit(GetDateTimeHour(lv_time)) + CMBT_TwoDigit(GetDateTimeMinute(lv_time)) + CMBT_TwoDigit(GetDateTimeSecond(lv_time)) + lv_commander);
+}
+
+void CMBT_SetMutBuffDefinition (int lp_slot, string lp_factor, string lp_behavior, string lp_direction, string lp_valueSource, string lp_catalogField, bool lp_trackOutput, bool lp_trackDefense) {
+    CMBT_MutBuffFactor[lp_slot] = lp_factor;
+    CMBT_MutBuffBehavior[lp_slot] = lp_behavior;
+    CMBT_MutBuffDirection[lp_slot] = lp_direction;
+    CMBT_MutBuffValueSource[lp_slot] = lp_valueSource;
+    CMBT_MutBuffCatalogField[lp_slot] = lp_catalogField;
+    CMBT_MutBuffTrackOutput[lp_slot] = lp_trackOutput;
+    CMBT_MutBuffTrackDefense[lp_slot] = lp_trackDefense;
+}
+
+void CMBT_SetMutatorUnitDefinition (int lp_slot, string lp_factor, string lp_unitType) {
+    CMBT_MutatorUnitFactor[lp_slot] = lp_factor;
+    CMBT_MutatorUnitType[lp_slot] = lp_unitType;
+}
+
+void CMBT_SetMutatorEffectDefinition (int lp_slot, string lp_factor, string lp_effect) {
+    CMBT_MutatorEffectFactor[lp_slot] = lp_factor;
+    CMBT_MutatorEffectId[lp_slot] = lp_effect;
+}
+
+void CMBT_InitMutatorWhitelist () {
+    CMBT_MutBuffCount = 16;
+    CMBT_SetMutBuffDefinition(1, "Avenger", "MutatorAvenger", "both", "BehaviorData.xml MutatorAvenger modification fields", "Modification.AttackSpeedMultiplier", true, true);
+    CMBT_SetMutBuffDefinition(2, "JustDie", "MutatorJustDie", "event_only", "BehaviorData.xml MutatorJustDie Duration", "Duration", false, false);
+    CMBT_SetMutBuffDefinition(3, "HybridDisaster", "HybridUnitDummy", "event_only", "BehaviorData.xml HybridUnitDummy Permanent", "BehaviorFlags[Permanent]", false, false);
+    CMBT_SetMutBuffDefinition(4, "HeroesFromTheStorm", "HeroesBalanceCooldowns", "enemy_output", "BehaviorData.xml HeroesBalanceCooldowns Charge rate", "Modification.RateMultiplierArray[Charge]", true, false);
+    CMBT_SetMutBuffDefinition(5, "HeroesFromTheStorm", "ReduceWeaponDamage10", "enemy_output", "BehaviorData.xml ReduceWeaponDamage10 Melee", "Modification.DamageTotalMultiplier[Melee]", true, false);
+    CMBT_SetMutBuffDefinition(6, "HeroesFromTheStorm", "ReduceAbilityDamage10", "enemy_output", "BehaviorData.xml ReduceAbilityDamage10 Spell", "Modification.DamageTotalMultiplier[Spell]", true, false);
+    CMBT_SetMutBuffDefinition(7, "Propagate", "MutatorPropagateDestroy", "event_only", "BehaviorData.xml MutatorPropagateDestroy Duration", "Duration", false, false);
+    CMBT_SetMutBuffDefinition(8, "Barrier", "MutatorBarrier", "enemy_mitigation", "BehaviorData.xml MutatorBarrier limit", "DamageResponse.ModifyLimit", false, true);
+    CMBT_SetMutBuffDefinition(9, "Barrier", "BarrierEXT", "enemy_mitigation", "MutatorsPack BehaviorData.xml BarrierEXT limit", "DamageResponse.ModifyLimit", false, true);
+    CMBT_SetMutBuffDefinition(10, "Inspiration", "MutatorInspiration", "both", "BehaviorData.xml MutatorInspiration attack speed", "Modification.AttackSpeedMultiplier", true, true);
+    CMBT_SetMutBuffDefinition(11, "Inspiration", "EXTMutatorInspiration", "both", "MutatorsPack BehaviorData.xml EXTMutatorInspiration attack speed", "Modification.AttackSpeedMultiplier", true, true);
+    CMBT_SetMutBuffDefinition(12, "HardenedWill", "MutatorHardenedWill", "enemy_mitigation", "BehaviorData.xml MutatorHardenedWill clamp", "DamageResponse.ClampMaximum", false, true);
+    CMBT_SetMutBuffDefinition(13, "WrathUnquenchable", "MutatorsWrathUnquenchable", "both", "MutatorsPack WrathUnquenchable.xml dealt/taken fractions", "Modification.UnifiedDamageDealtFraction[Spell]", true, true);
+    CMBT_SetMutBuffDefinition(14, "HybridDisaster", "MutatorEnergetic", "event_only", "MutatorsPack HybridDisaster.xml life regeneration", "Modification.VitalRegenArray[Life]", false, false);
+    CMBT_SetMutBuffDefinition(15, "Bloodlust", "Bloodlust3", "both", "BehaviorData.xml Bloodlust3 attack speed/taken fraction", "Modification.AttackSpeedMultiplier", true, true);
+    CMBT_SetMutBuffDefinition(16, "Endurance", "Endurance", "event_only", "BehaviorData.xml Endurance max life", "Modification.VitalMaxAdditiveMultiplierArray[Life]", false, false);
+
+    CMBT_MutatorUnitCount = 37;
+    CMBT_SetMutatorUnitDefinition(1, "HybridDisaster", "HybridLarva");
+    CMBT_SetMutatorUnitDefinition(2, "HybridDisaster", "HybridMayfly");
+    CMBT_SetMutatorUnitDefinition(3, "HybridDisaster", "HybridReaver");
+    CMBT_SetMutatorUnitDefinition(4, "HybridDisaster", "HybridDestroyer");
+    CMBT_SetMutatorUnitDefinition(5, "HybridDisaster", "HybridNemesis");
+    CMBT_SetMutatorUnitDefinition(6, "HybridDisaster", "HybridBehemoth");
+    CMBT_SetMutatorUnitDefinition(7, "HybridDisaster", "HybridDominatorVoid");
+    CMBT_SetMutatorUnitDefinition(8, "HeroesFromTheStorm", "MutatorAmonArtanis");
+    CMBT_SetMutatorUnitDefinition(9, "HeroesFromTheStorm", "MutatorAmonDehaka");
+    CMBT_SetMutatorUnitDefinition(10, "HeroesFromTheStorm", "MutatorAmonKarax");
+    CMBT_SetMutatorUnitDefinition(11, "HeroesFromTheStorm", "MutatorAmonKerrigan");
+    CMBT_SetMutatorUnitDefinition(12, "HeroesFromTheStorm", "MutatorAmonNova");
+    CMBT_SetMutatorUnitDefinition(13, "HeroesFromTheStorm", "MutatorAmonRaynor");
+    CMBT_SetMutatorUnitDefinition(14, "HeroesFromTheStorm", "MutatorAmonTychus");
+    CMBT_SetMutatorUnitDefinition(15, "HeroesFromTheStorm", "MutatorAmonZagara");
+    CMBT_SetMutatorUnitDefinition(16, "HeroesFromTheStorm", "MutatorAmonZeratul");
+    CMBT_SetMutatorUnitDefinition(17, "VoidRifts", "MutatorVoidRift");
+    CMBT_SetMutatorUnitDefinition(18, "Propagate", "MutatorPropagator");
+    CMBT_SetMutatorUnitDefinition(19, "Reanimators", "MutatorVoidReanimator");
+    CMBT_SetMutatorUnitDefinition(20, "PurifierBeam", "MutatorPurifierBeam");
+    CMBT_SetMutatorUnitDefinition(21, "KillBots", "MutatorKillBot");
+    CMBT_SetMutatorUnitDefinition(22, "BoomBots", "MutatorBoomBot");
+    CMBT_SetMutatorUnitDefinition(23, "UnresolvedLegacy", "MutatorDeathBot");
+    CMBT_SetMutatorUnitDefinition(24, "UnresolvedLegacy", "MutatorMurderBot");
+    CMBT_SetMutatorUnitDefinition(25, "LaserDrill", "MutatorLaserDrill");
+    CMBT_SetMutatorUnitDefinition(26, "Tornadoes", "MutatorTornado");
+    CMBT_SetMutatorUnitDefinition(27, "FoodHunt", "MutatorTurkey");
+    CMBT_SetMutatorUnitDefinition(28, "FoodHunt", "MutatorTurking");
+    CMBT_SetMutatorUnitDefinition(29, "UnresolvedLegacy", "MutatorMineralCrystal");
+    CMBT_SetMutatorUnitDefinition(30, "GiftFight", "MutatorGift");
+    CMBT_SetMutatorUnitDefinition(31, "SpiderMines", "MutatorCloakedMine");
+    CMBT_SetMutatorUnitDefinition(32, "SpiderMines", "MutatorSpiderMine");
+    CMBT_SetMutatorUnitDefinition(33, "Nukes", "MutatorMissileNuke");
+    CMBT_SetMutatorUnitDefinition(34, "OrbitalStrike", "MutatorOrbitalStrike");
+    CMBT_SetMutatorUnitDefinition(35, "PhotonOverload", "MutatorPhotonOvercharge");
+    CMBT_SetMutatorUnitDefinition(36, "StoneZealots", "MutatorStoneZealot");
+    CMBT_SetMutatorUnitDefinition(37, "UnresolvedLegacy", "MutatorDancingOracle");
+
+    CMBT_MutatorEffectCount = 16;
+    CMBT_SetMutatorEffectDefinition(1, "JustDie", "MutatorJustDieAB");
+    CMBT_SetMutatorEffectDefinition(2, "VoidRifts", "MutatorVoidRiftSpawnLM");
+    CMBT_SetMutatorEffectDefinition(3, "Propagate", "MutatorPropagateAB");
+    CMBT_SetMutatorEffectDefinition(4, "Propagate", "MutatorPropagateModifyClone");
+    CMBT_SetMutatorEffectDefinition(5, "Propagate", "MutatorPropagateCU");
+    CMBT_SetMutatorEffectDefinition(6, "Propagate", "MutatorPropagateDamageSwitch");
+    CMBT_SetMutatorEffectDefinition(7, "Inspiration", "MutatorInspirationAB");
+    CMBT_SetMutatorEffectDefinition(8, "HardenedWill", "MutatorHardenedWillAB");
+    CMBT_SetMutatorEffectDefinition(9, "WrathUnquenchable", "MutatorsWrathUnquenchableAB01");
+    CMBT_SetMutatorEffectDefinition(10, "WrathUnquenchable", "MutatorsWrathUnquenchableAB04");
+    CMBT_SetMutatorEffectDefinition(11, "WrathUnquenchable", "MutatorsWrathUnquenchableAB08");
+    CMBT_SetMutatorEffectDefinition(12, "WrathUnquenchable", "MutatorsWrathUnquenchableAB12");
+    CMBT_SetMutatorEffectDefinition(13, "HybridDisaster", "MutatorEnergeticPeriodRegenSet");
+    CMBT_SetMutatorEffectDefinition(14, "HybridDisaster", "MutatorEnergeticPeriodShieldRegen");
+    CMBT_SetMutatorEffectDefinition(15, "HybridDisaster", "MutatorEnergeticPeriodLifeRegen");
+    CMBT_SetMutatorEffectDefinition(16, "Propagate", "MutatorPropagateKillRemove");
+}
+
+string CMBT_MutBuffCatalogValue (int lp_slot) {
+    string lv_behavior;
+
+    lv_behavior = CMBT_MutBuffBehavior[lp_slot];
+    if ((CatalogEntryIsValid(c_gameCatalogBehavior, lv_behavior) == false)) {
+        return "unavailable";
+    }
+    if ((lp_slot == 1)) {
+        return ("attack_speed=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.AttackSpeedMultiplier", c_playerAny) + ";life_armor=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.LifeArmorBonus", c_playerAny) + ";life_max=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.VitalMaxAdditiveMultiplierArray[Life]", c_playerAny) + ";shield_max=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.VitalMaxAdditiveMultiplierArray[Shields]", c_playerAny));
+    }
+    if ((lp_slot == 13)) {
+        return ("dealt=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.UnifiedDamageDealtFraction[Spell]", c_playerAny) + ";taken=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.UnifiedDamageTakenFraction[Spell]", c_playerAny));
+    }
+    if ((lp_slot == 15)) {
+        return ("attack_speed=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.AttackSpeedMultiplier", c_playerAny) + ";taken=" + CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, "Modification.DamageTakenFraction[Spell]", c_playerAny));
+    }
+    return CatalogFieldValueGet(c_gameCatalogBehavior, lv_behavior, CMBT_MutBuffCatalogField[lp_slot], c_playerAny);
+}
+
+void CMBT_WriteMutatorWhitelistMeta () {
+    int lv_i;
+    string lv_key;
+
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTBUFFS_SECTION, "Count", CMBT_MutBuffCount);
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutBuffCount)) {
+        lv_key = "B" + IntToString(lv_i);
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTBUFFS_SECTION, lv_key + "Factor", CMBT_MutBuffFactor[lv_i]);
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTBUFFS_SECTION, lv_key + "Behavior", CMBT_MutBuffBehavior[lv_i]);
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTBUFFS_SECTION, lv_key + "Direction", CMBT_MutBuffDirection[lv_i]);
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTBUFFS_SECTION, lv_key + "ValueSource", CMBT_MutBuffValueSource[lv_i]);
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTBUFFS_SECTION, lv_key + "Value", CMBT_MutBuffCatalogValue(lv_i));
+        lv_i += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATOR_UNITS_SECTION, "Count", CMBT_MutatorUnitCount);
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutatorUnitCount)) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTATOR_UNITS_SECTION, "U" + IntToString(lv_i), CMBT_MutatorUnitFactor[lv_i] + "~" + CMBT_MutatorUnitType[lv_i]);
+        lv_i += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATOR_EFFECTS_SECTION, "Count", CMBT_MutatorEffectCount);
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutatorEffectCount)) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTATOR_EFFECTS_SECTION, "X" + IntToString(lv_i), CMBT_MutatorEffectFactor[lv_i] + "~" + CMBT_MutatorEffectId[lv_i]);
+        lv_i += 1;
+    }
+}
+
+string CMBT_MutatorFactorForUnitType (string lp_type) {
+    int lv_i;
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutatorUnitCount)) {
+        if ((lp_type == CMBT_MutatorUnitType[lv_i])) {
+            return CMBT_MutatorUnitFactor[lv_i];
+        }
+        lv_i += 1;
+    }
+    return "";
+}
+
+int CMBT_MutBuffSlotForBehavior (string lp_behavior) {
+    int lv_i;
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutBuffCount)) {
+        if ((lp_behavior == CMBT_MutBuffBehavior[lv_i])) {
+            return lv_i;
+        }
+        lv_i += 1;
+    }
+    return 0;
+}
+
+int CMBT_MutatorEffectSlot (string lp_effect) {
+    int lv_i;
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutatorEffectCount)) {
+        if ((lp_effect == CMBT_MutatorEffectId[lv_i])) {
+            return lv_i;
+        }
+        lv_i += 1;
+    }
+    return 0;
+}
+
+string CMBT_BankPathHint (int lp_player, string lp_bankName) {
+    if ((GameIsOnline() == false)) {
+        return "Documents/StarCraft II/Banks/" + lp_bankName + ".SC2Bank";
+    }
+    return "Documents/StarCraft II/Accounts/<account-number>/" + PlayerHandle(lp_player) + "/Banks/<map-author-handle>/" + lp_bankName + ".SC2Bank";
+}
+
+void CMBT_WritePathMeta (bank lp_bank, int lp_player, string lp_bankName) {
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "IsOnline", BoolToInt(GameIsOnline()));
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "PlayerHandle", PlayerHandle(lp_player));
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "BankPathHint", CMBT_BankPathHint(lp_player, lp_bankName));
 }
 
 string CMBT_StreamSection (int lp_stream) {
@@ -201,7 +634,31 @@ string CMBT_StreamSection (int lp_stream) {
     if ((lp_stream == CMBT_STREAM_ENEMY)) {
         return CMBT_ENEMY_SECTION;
     }
-    return CMBT_GROWTH_SECTION;
+    if ((lp_stream == CMBT_STREAM_GROWTH)) {
+        return CMBT_GROWTH_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_FIELD)) {
+        return CMBT_FIELD_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_VICTIM)) {
+        return CMBT_VICTIM_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_ECON)) {
+        return CMBT_ECON_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_HERO)) {
+        return CMBT_HERO_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_MUTBUFF)) {
+        return CMBT_MUTBUFF_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_SKILL)) {
+        return CMBT_SKILL_SECTION;
+    }
+    if ((lp_stream == CMBT_STREAM_GROWTH_P2)) {
+        return CMBT_GROWTH_P2_SECTION;
+    }
+    return CMBT_COMMANDS_SECTION;
 }
 
 // Linear search over this module's own slot table, creating a slot on demand.
@@ -250,7 +707,7 @@ int CMBT_FindSlot (int lp_player, string lp_unitType, bool lp_create) {
     return CMBT_SlotCount[lp_player];
 }
 
-int CMBT_FindEnemySlot (string lp_unitType) {
+int CMBT_FindEnemySlot (string lp_unitType, string lp_effect) {
     int lv_slot;
 
     if (((lp_unitType == null) || (lp_unitType == ""))) {
@@ -259,7 +716,7 @@ int CMBT_FindEnemySlot (string lp_unitType) {
 
     lv_slot = 1;
     while ((lv_slot <= CMBT_EnemyCount)) {
-        if ((lp_unitType == CMBT_EnemyType[lv_slot])) {
+        if (((lp_unitType == CMBT_EnemyType[lv_slot]) && (lp_effect == CMBT_EnemyEffect[lv_slot]))) {
             return lv_slot;
         }
         lv_slot += 1;
@@ -267,20 +724,80 @@ int CMBT_FindEnemySlot (string lp_unitType) {
 
     lv_slot = 1;
     while ((lv_slot <= CMBT_EnemyCount)) {
-        if ((libCOTF_gf_UT_AreMorphUnits(lp_unitType, CMBT_EnemyType[lv_slot]) == true)) {
+        if (((lp_effect == CMBT_EnemyEffect[lv_slot]) && (libCOTF_gf_UT_AreMorphUnits(lp_unitType, CMBT_EnemyType[lv_slot]) == true))) {
             return lv_slot;
         }
         lv_slot += 1;
     }
 
-    if ((CMBT_EnemyCount >= CMBT_MAX_ENEMY_SLOTS)) {
+    if ((CMBT_EnemyCount >= (CMBT_ENEMY_OTHER_SLOT - 1))) {
         CMBT_EnemyOverflow += 1;
-        return 0;
+        CMBT_EnemyCount = CMBT_ENEMY_OTHER_SLOT;
+        CMBT_EnemyType[CMBT_ENEMY_OTHER_SLOT] = "_Other";
+        CMBT_EnemyEffect[CMBT_ENEMY_OTHER_SLOT] = "_Other";
+        return CMBT_ENEMY_OTHER_SLOT;
     }
 
     CMBT_EnemyCount += 1;
     CMBT_EnemyType[CMBT_EnemyCount] = lp_unitType;
+    CMBT_EnemyEffect[CMBT_EnemyCount] = lp_effect;
     return CMBT_EnemyCount;
+}
+
+int CMBT_FindSkillSlot (int lp_player, string lp_unitType, string lp_effect) {
+    int lv_slot;
+
+    if (((lp_player < 1) || (lp_player > 2) || (lp_unitType == null) || (lp_unitType == "") || (lp_effect == null) || (lp_effect == ""))) {
+        return 0;
+    }
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_SkillCount[lp_player])) {
+        if (((lp_unitType == CMBT_SkillType[lv_slot][lp_player]) && (lp_effect == CMBT_SkillEffect[lv_slot][lp_player]))) {
+            return lv_slot;
+        }
+        lv_slot += 1;
+    }
+    if ((CMBT_SkillCount[lp_player] >= CMBT_MAX_SKILL_SLOTS)) {
+        CMBT_SkillOverflow[lp_player] += 1;
+        return 0;
+    }
+    CMBT_SkillCount[lp_player] += 1;
+    CMBT_SkillType[CMBT_SkillCount[lp_player]][lp_player] = lp_unitType;
+    CMBT_SkillEffect[CMBT_SkillCount[lp_player]][lp_player] = lp_effect;
+    return CMBT_SkillCount[lp_player];
+}
+
+int CMBT_FindVictimSlot (string lp_unitType) {
+    int lv_slot;
+
+    if (((lp_unitType == null) || (lp_unitType == ""))) {
+        return 0;
+    }
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_VictimCount)) {
+        if ((lp_unitType == CMBT_VictimType[lv_slot])) {
+            return lv_slot;
+        }
+        lv_slot += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank, CMBT_OUR_UNITS_SECTION, "Count", CMBT_SlotCount[1] + CMBT_SlotCount[2]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_OUR_UNITS_SECTION, "Count", CMBT_SlotCount[1] + CMBT_SlotCount[2]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_ENEMY_SOURCES_SECTION, "Count", CMBT_EnemyCount);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_VICTIM_UNITS_SECTION, "Count", CMBT_VictimCount);
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_VictimCount)) {
+        if ((libCOTF_gf_UT_AreMorphUnits(lp_unitType, CMBT_VictimType[lv_slot]) == true)) {
+            return lv_slot;
+        }
+        lv_slot += 1;
+    }
+    if ((CMBT_VictimCount >= CMBT_MAX_VICTIM_SLOTS)) {
+        CMBT_VictimOverflow += 1;
+        return 0;
+    }
+    CMBT_VictimCount += 1;
+    CMBT_VictimType[CMBT_VictimCount] = lp_unitType;
+    return CMBT_VictimCount;
 }
 
 // Drains the whole-number part of an accumulator, leaving the remainder for the next frame.
@@ -298,6 +815,62 @@ int CMBT_TakeEnemyFixed (int lp_slot) {
     lv_out = FixedToInt(CMBT_EnemyAcc[lp_slot]);
     CMBT_EnemyAcc[lp_slot] -= IntToFixed(lv_out);
     return lv_out;
+}
+
+int CMBT_TakeVictimFixed (int lp_slot, int lp_field, int lp_player) {
+    int lv_out;
+
+    lv_out = FixedToInt(CMBT_VictimAcc[lp_slot][lp_field][lp_player]);
+    CMBT_VictimAcc[lp_slot][lp_field][lp_player] -= IntToFixed(lv_out);
+    return lv_out;
+}
+
+int CMBT_TakeSkillFixed (int lp_slot, int lp_field, int lp_player) {
+    int lv_out;
+
+    lv_out = FixedToInt(CMBT_SkillAcc[lp_slot][lp_field][lp_player]);
+    CMBT_SkillAcc[lp_slot][lp_field][lp_player] -= IntToFixed(lv_out);
+    return lv_out;
+}
+
+int CMBT_TakeMutBuffFixed (int lp_slot, int lp_field, int lp_direction) {
+    int lv_out;
+
+    if ((lp_field == 0)) {
+        lv_out = FixedToInt(CMBT_MutBuffDamage[lp_slot][lp_direction]);
+        CMBT_MutBuffDamage[lp_slot][lp_direction] -= IntToFixed(lv_out);
+        return lv_out;
+    }
+    lv_out = FixedToInt(CMBT_MutBuffMitigation[lp_slot][lp_direction]);
+    CMBT_MutBuffMitigation[lp_slot][lp_direction] -= IntToFixed(lv_out);
+    return lv_out;
+}
+
+void CMBT_RecordMutBuffDamage (unit lp_unit, int lp_direction, fixed lp_amount, fixed lp_attempted) {
+    int lv_slot;
+    int lv_stacks;
+    fixed lv_mitigation;
+
+    if (((lp_unit == null) || (UnitIsValid(lp_unit) == false))) {
+        return;
+    }
+    lv_mitigation = lp_attempted - lp_amount;
+    if ((lv_mitigation < 0.0)) {
+        lv_mitigation = 0.0;
+    }
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_MutBuffCount)) {
+        if ((((lp_direction == CMBT_MUTBUFF_ENEMY_TO_OUR) && (CMBT_MutBuffTrackOutput[lv_slot] == true)) || ((lp_direction == CMBT_MUTBUFF_OUR_TO_ENEMY) && (CMBT_MutBuffTrackDefense[lv_slot] == true)))) {
+            lv_stacks = UnitBehaviorCount(lp_unit, CMBT_MutBuffBehavior[lv_slot]);
+            if ((lv_stacks > 0)) {
+                CMBT_MutBuffDamage[lv_slot][lp_direction] += lp_amount;
+                CMBT_MutBuffMitigation[lv_slot][lp_direction] += lv_mitigation;
+                CMBT_MutBuffHits[lv_slot][lp_direction] += 1;
+                CMBT_MutBuffStackSum[lv_slot][lp_direction] += lv_stacks;
+            }
+        }
+        lv_slot += 1;
+    }
 }
 
 // Encodes CMBT_PackBuf[0 .. lp_count-1] as "slot:v0/v1/..", dropping trailing zero fields.
@@ -348,9 +921,11 @@ string CMBT_BuildSampleSegment (int lp_player) {
         CMBT_PackBuf[2] = CMBT_AccInt[lv_slot][CMBT_I_HITS][lp_player];
         CMBT_PackBuf[3] = CMBT_TakeFixed(lv_slot, CMBT_F_OVERKILL, lp_player);
         CMBT_PackBuf[4] = CMBT_TakeFixed(lv_slot, CMBT_F_DEALTNEUTRAL, lp_player);
+        CMBT_PackBuf[5] = CMBT_AtkCount[lv_slot][lp_player];
         CMBT_AccInt[lv_slot][CMBT_I_HITS][lp_player] = 0;
+        CMBT_AtkCount[lv_slot][lp_player] = 0;
 
-        lv_record = CMBT_PackRecord(lv_slot, 5);
+        lv_record = CMBT_PackRecord(lv_slot, 6);
         if ((lv_record != "")) {
             if ((lv_payload != "")) {
                 lv_payload += ",";
@@ -376,10 +951,14 @@ string CMBT_BuildTakenSegment (int lp_player) {
         CMBT_PackBuf[3] = CMBT_AccInt[lv_slot][CMBT_I_DIEDSELF][lp_player];
         CMBT_PackBuf[4] = CMBT_TakeFixed(lv_slot, CMBT_F_HEALLIFE, lp_player);
         CMBT_PackBuf[5] = CMBT_TakeFixed(lv_slot, CMBT_F_HEALSHIELD, lp_player);
+        CMBT_PackBuf[6] = CMBT_AccInt[lv_slot][CMBT_I_DISAPPEARED][lp_player];
+        CMBT_PackBuf[7] = CMBT_AccInt[lv_slot][CMBT_I_CONSUMED][lp_player];
+        CMBT_AccInt[lv_slot][CMBT_I_DISAPPEARED][lp_player] = 0;
+        CMBT_AccInt[lv_slot][CMBT_I_CONSUMED][lp_player] = 0;
         CMBT_AccInt[lv_slot][CMBT_I_DIEDENEMY][lp_player] = 0;
         CMBT_AccInt[lv_slot][CMBT_I_DIEDSELF][lp_player] = 0;
 
-        lv_record = CMBT_PackRecord(lv_slot, 6);
+        lv_record = CMBT_PackRecord(lv_slot, 8);
         if ((lv_record != "")) {
             if ((lv_payload != "")) {
                 lv_payload += ",";
@@ -411,14 +990,137 @@ string CMBT_BuildEnemySegment () {
     return lv_payload;
 }
 
+string CMBT_BuildVictimSegment (int lp_player) {
+    int lv_slot;
+    string lv_payload;
+    string lv_record;
+
+    lv_payload = "";
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_VictimCount)) {
+        CMBT_PackBuf[0] = CMBT_TakeVictimFixed(lv_slot, CMBT_VF_DAMAGE, lp_player);
+        CMBT_PackBuf[1] = CMBT_VictimAccInt[lv_slot][CMBT_VI_HITS][lp_player];
+        CMBT_PackBuf[2] = CMBT_TakeVictimFixed(lv_slot, CMBT_VF_OVERKILL, lp_player);
+        CMBT_PackBuf[3] = CMBT_VictimAccInt[lv_slot][CMBT_VI_KILLS][lp_player];
+        CMBT_VictimAccInt[lv_slot][CMBT_VI_HITS][lp_player] = 0;
+        CMBT_VictimAccInt[lv_slot][CMBT_VI_KILLS][lp_player] = 0;
+        lv_record = CMBT_PackRecord(lv_slot, 4);
+        if ((lv_record != "")) {
+            if ((lv_payload != "")) {
+                lv_payload += ",";
+            }
+            lv_payload += lv_record;
+        }
+        lv_slot += 1;
+    }
+    return lv_payload;
+}
+
+string CMBT_BuildMutBuffSegment (int lp_direction) {
+    int lv_slot;
+    int lv_hits;
+    int lv_stackAverage;
+    string lv_payload;
+    string lv_record;
+
+    lv_payload = "";
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_MutBuffCount)) {
+        lv_hits = CMBT_MutBuffHits[lv_slot][lp_direction];
+        lv_stackAverage = 0;
+        if ((lv_hits > 0)) {
+            lv_stackAverage = FixedToInt((IntToFixed(CMBT_MutBuffStackSum[lv_slot][lp_direction]) * 100.0) / IntToFixed(lv_hits));
+        }
+        CMBT_PackBuf[0] = CMBT_TakeMutBuffFixed(lv_slot, 0, lp_direction);
+        CMBT_PackBuf[1] = lv_hits;
+        CMBT_PackBuf[2] = CMBT_TakeMutBuffFixed(lv_slot, 1, lp_direction);
+        CMBT_PackBuf[3] = lv_stackAverage;
+        CMBT_MutBuffHits[lv_slot][lp_direction] = 0;
+        CMBT_MutBuffStackSum[lv_slot][lp_direction] = 0;
+        lv_record = CMBT_PackRecord(lv_slot, 4);
+        if ((lv_record != "")) {
+            if ((lv_payload != "")) {
+                lv_payload += ",";
+            }
+            lv_payload += lv_record;
+        }
+        lv_slot += 1;
+    }
+    return lv_payload;
+}
+
+string CMBT_BuildSkillSegment (int lp_player) {
+    int lv_slot;
+    string lv_payload;
+    string lv_record;
+
+    lv_payload = "";
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_SkillCount[lp_player])) {
+        CMBT_PackBuf[0] = CMBT_TakeSkillFixed(lv_slot, 0, lp_player);
+        CMBT_PackBuf[1] = CMBT_SkillHits[lv_slot][lp_player];
+        CMBT_PackBuf[2] = CMBT_TakeSkillFixed(lv_slot, 1, lp_player);
+        CMBT_SkillHits[lv_slot][lp_player] = 0;
+        lv_record = CMBT_PackRecord(lv_slot, 3);
+        if ((lv_record != "")) {
+            if ((lv_payload != "")) {
+                lv_payload += ",";
+            }
+            lv_payload += lv_record;
+        }
+        lv_slot += 1;
+    }
+    return lv_payload;
+}
+
+string CMBT_BuildCommandSegment (int lp_player) {
+    string lv_payload;
+
+    lv_payload = IntToString(CMBT_CommandCount[lp_player][CMBT_COMMAND_MOVE]) + "/" + IntToString(CMBT_CommandCount[lp_player][CMBT_COMMAND_ATTACK]) + "/" + IntToString(CMBT_CommandCount[lp_player][CMBT_COMMAND_ABILITY]) + "/" + IntToString(CMBT_CommandCount[lp_player][CMBT_COMMAND_OTHER]);
+    CMBT_CommandCount[lp_player][CMBT_COMMAND_MOVE] = 0;
+    CMBT_CommandCount[lp_player][CMBT_COMMAND_ATTACK] = 0;
+    CMBT_CommandCount[lp_player][CMBT_COMMAND_ABILITY] = 0;
+    CMBT_CommandCount[lp_player][CMBT_COMMAND_OTHER] = 0;
+    return lv_payload;
+}
+
+string CMBT_BuildEconSegment (int lp_player) {
+    return (IntToString(PlayerGetPropertyInt(lp_player, c_playerPropMinerals)) + "/" + IntToString(PlayerGetPropertyInt(lp_player, c_playerPropVespene)) + "/" + IntToString(PlayerScoreValueGetAsInt(lp_player, "MineralsCollected")) + "/" + IntToString(PlayerScoreValueGetAsInt(lp_player, "VespeneCollected")) + "/" + IntToString(FixedToInt(PlayerGetPropertyFixed(lp_player, c_playerPropSuppliesUsed) * 100.0)) + "/" + IntToString(PlayerGetPropertyInt(lp_player, c_playerPropSuppliesLimit) * 100));
+}
+
+string CMBT_BuildHeroSegment (int lp_player) {
+    unit lv_hero;
+    int lv_deaths;
+
+    lv_hero = libCOMI_gv_cM_HeroUnit[lp_player];
+    lv_deaths = libCOMI_gv_cM_HeroDeathCount[lp_player];
+    if (((lv_hero == null) || (UnitIsValid(lv_hero) == false))) {
+        return "";
+    }
+    if ((lv_deaths < 0)) {
+        lv_deaths = 0;
+    }
+    return ("1/" + IntToString(BoolToInt(UnitIsAlive(lv_hero))) + "/" + IntToString(FixedToInt(UnitGetPropertyFixed(lv_hero, c_unitPropLife, c_unitPropCurrent) * 100.0)) + "/" + IntToString(FixedToInt(UnitGetPropertyFixed(lv_hero, c_unitPropShields, c_unitPropCurrent) * 100.0)) + "/" + IntToString(FixedToInt(UnitGetPropertyFixed(lv_hero, c_unitPropEnergy, c_unitPropCurrent) * 100.0)) + "/" + IntToString(lv_deaths));
+}
+
 // Growth payload. While no supported commander is detected the segment stays empty (frame
 // "t|", exporter status "reserved"). Once active every field is written explicitly: a numeric
 // zero is an observation, an empty token means "not observable this frame" (e.g. hero dead).
-string CMBT_BuildGrowthSegment () {
+string CMBT_GrowthImplementedKey (int lp_player) {
+    if ((lp_player == 2)) { return "GrowthP2Implemented"; }
+    return "GrowthImplemented";
+}
+
+string CMBT_GrowthSchemaKey (int lp_player) {
+    if ((lp_player == 2)) { return "GrowthP2Schema"; }
+    return "GrowthSchema";
+}
+
+string CMBT_BuildGrowthSegment (int lp_player) {
     int lv_i;
     string lv_payload;
 
-    if ((CMBT_GrowthActive == false)) {
+    if ((CMBT_GrowthActive[lp_player] == false)) {
         return "";
     }
 
@@ -428,12 +1130,64 @@ string CMBT_BuildGrowthSegment () {
         if ((lv_i > 1)) {
             lv_payload += ",";
         }
-        if ((CMBT_GrowthKnown[lv_i] == true)) {
-            lv_payload += IntToString(CMBT_Growth[lv_i]);
+        if ((CMBT_GrowthKnown[lv_i][lp_player] == true)) {
+            lv_payload += IntToString(CMBT_Growth[lv_i][lp_player]);
         }
         lv_i += 1;
     }
     return lv_payload;
+}
+
+// 3.2: hostile-to-P1 on-field vitals, one full-map enumeration per sample. Non-structure and
+// structure totals are two UnitGroupAlliance passes (precedent LibCOMU.galaxy:4420 / :5540:
+// alliance group plus a UnitFilter whose require/exclude halves split the low and high
+// target-filter bits). Destructibles such as rocks are neither Structure nor Missile and
+// therefore land on the non-structure side (noted in the changelog).
+void CMBT_UpdateEnemyField () {
+    int lv_i;
+    int lv_count;
+    fixed lv_hp;
+    unitgroup lv_group;
+    unit lv_unit;
+
+    CMBT_FieldHpUnits = 0.0;
+    CMBT_FieldHpStructures = 0.0;
+    CMBT_FieldNUnits = 0;
+    CMBT_FieldNStructures = 0;
+
+    lv_group = UnitGroupAlliance(CMBT_FIELD_PLAYER, c_unitAllianceEnemy, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    lv_count = UnitGroupCount(lv_group, c_unitCountAll);
+    lv_i = 1;
+    while ((lv_i <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_group, lv_i);
+        if ((lv_unit != null)) {
+            lv_hp = UnitGetPropertyFixed(lv_unit, c_unitPropLife, c_unitPropCurrent);
+            lv_hp += UnitGetPropertyFixed(lv_unit, c_unitPropShields, c_unitPropCurrent);
+            CMBT_FieldHpUnits += lv_hp;
+            CMBT_FieldNUnits += 1;
+        }
+        lv_i += 1;
+    }
+
+    lv_group = UnitGroupAlliance(CMBT_FIELD_PLAYER, c_unitAllianceEnemy, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    lv_count = UnitGroupCount(lv_group, c_unitCountAll);
+    lv_i = 1;
+    while ((lv_i <= lv_count)) {
+        lv_unit = UnitGroupUnit(lv_group, lv_i);
+        if ((lv_unit != null)) {
+            lv_hp = UnitGetPropertyFixed(lv_unit, c_unitPropLife, c_unitPropCurrent);
+            lv_hp += UnitGetPropertyFixed(lv_unit, c_unitPropShields, c_unitPropCurrent);
+            CMBT_FieldHpStructures += lv_hp;
+            CMBT_FieldNStructures += 1;
+        }
+        lv_i += 1;
+    }
+}
+
+// 3.2: Field frame body "hu,hs,nu,ns" — every value explicit (measured zeros included). The
+// fixed sums restart each sample, so per-frame truncation cannot drift across frames.
+string CMBT_BuildFieldSegment () {
+    return (IntToString(FixedToInt(CMBT_FieldHpUnits)) + "," + IntToString(FixedToInt(CMBT_FieldHpStructures)) + "," + IntToString(CMBT_FieldNUnits) + "," + IntToString(CMBT_FieldNStructures));
 }
 
 // T6 / B-22: enumerate living, visible, non-missile P1/P2 units before serializing.
@@ -502,6 +1256,12 @@ string CMBT_GrowthFieldName (int lp_field) {
     if ((lp_field == CMBT_G_CAST_SHACKLES)) {
         return "CastShackles";
     }
+    if ((lp_field == CMBT_G_CAST_BREAK)) {
+        return "CastBreak";
+    }
+    if ((lp_field == CMBT_G_CAST_ORDER)) {
+        return "CastOrder";
+    }
     return "reserved";
 }
 
@@ -541,19 +1301,20 @@ unit CMBT_FindMalashHero (int lp_player) {
 // Flips the Growth section from "reserved" to the Malash schema in both banks' Meta and in
 // bank 2's Units field names. Idempotent; called from CMBT_Start or from the first frame in
 // which Malash is detected.
-void CMBT_ActivateGrowth () {
+void CMBT_ActivateGrowth (int lp_player) {
     int lv_i;
 
-    CMBT_GrowthActive = true;
+    CMBT_GrowthActive[lp_player] = true;
     if (((CMBT_Bank == null) || (CMBT_Bank2 == null))) {
         return;
     }
-    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "GrowthImplemented", 1);
-    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthImplemented", 1);
-    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "GrowthSchema", "Malash");
+
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, CMBT_GrowthImplementedKey(lp_player), 1);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, CMBT_GrowthImplementedKey(lp_player), 1);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, CMBT_GrowthSchemaKey(lp_player), "Malash");
     lv_i = 1;
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
-        BankValueSetFromString(CMBT_Bank2, CMBT_UNITS_SECTION, "G" + IntToString(lv_i), CMBT_GrowthFieldName(lv_i));
+        BankValueSetFromString(CMBT_Bank2, CMBT_GROWTH_FIELDS_SECTION, "G" + IntToString(lv_i), CMBT_GrowthFieldName(lv_i));
         lv_i += 1;
     }
 }
@@ -585,58 +1346,58 @@ void CMBT_AccumulateObedience (int lp_player, string lp_unitType) {
     }
 }
 
-void CMBT_UpdateGrowth () {
+void CMBT_UpdateGrowth (int lp_player) {
     unit lv_hero;
     int lv_i;
 
-    if ((CMBT_GrowthActive == false)) {
-        if ((CMBT_IsMalashPlayer(CMBT_GROWTH_PLAYER) == false)) {
+    if ((CMBT_GrowthActive[lp_player] == false)) {
+        if ((CMBT_IsMalashPlayer(lp_player) == false)) {
             return;
         }
-        CMBT_ActivateGrowth();
+        CMBT_ActivateGrowth(lp_player);
     }
 
     lv_i = 1;
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
-        CMBT_Growth[lv_i] = 0;
-        CMBT_GrowthKnown[lv_i] = false;
+        CMBT_Growth[lv_i][lp_player] = 0;
+        CMBT_GrowthKnown[lv_i][lp_player] = false;
         lv_i += 1;
     }
 
     // G1..G3: hero attributes. Unobservable (empty token) while the hero is dead / reviving.
-    lv_hero = CMBT_FindMalashHero(CMBT_GROWTH_PLAYER);
+    lv_hero = CMBT_FindMalashHero(lp_player);
     if ((lv_hero != null)) {
-        CMBT_Growth[CMBT_G_SADISM] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_SADISM);
-        CMBT_Growth[CMBT_G_CUNNING] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_CUNNING);
-        CMBT_Growth[CMBT_G_DOMINION] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_DOMINION);
-        CMBT_GrowthKnown[CMBT_G_SADISM] = true;
-        CMBT_GrowthKnown[CMBT_G_CUNNING] = true;
-        CMBT_GrowthKnown[CMBT_G_DOMINION] = true;
+        CMBT_Growth[CMBT_G_SADISM][lp_player] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_SADISM);
+        CMBT_Growth[CMBT_G_CUNNING][lp_player] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_CUNNING);
+        CMBT_Growth[CMBT_G_DOMINION][lp_player] = UnitBehaviorCount(lv_hero, CMBT_MALASH_ATTR_DOMINION);
+        CMBT_GrowthKnown[CMBT_G_SADISM][lp_player] = true;
+        CMBT_GrowthKnown[CMBT_G_CUNNING][lp_player] = true;
+        CMBT_GrowthKnown[CMBT_G_DOMINION][lp_player] = true;
     }
 
     // G4..G6: army obedience over the four army types (ValidatorData.xml TargetIsMalashArmy).
     CMBT_ObedienceSum = 0;
     CMBT_ObedienceMax = 0;
     CMBT_ObedienceCount = 0;
-    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashZealot");
-    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashAdept");
-    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashStalker");
-    CMBT_AccumulateObedience(CMBT_GROWTH_PLAYER, "MalashDarkTemplar");
+    CMBT_AccumulateObedience(lp_player, "MalashZealot");
+    CMBT_AccumulateObedience(lp_player, "MalashAdept");
+    CMBT_AccumulateObedience(lp_player, "MalashStalker");
+    CMBT_AccumulateObedience(lp_player, "MalashDarkTemplar");
     if ((CMBT_ObedienceCount > 0)) {
-        CMBT_Growth[CMBT_G_OBEDIENCE_MEAN] = (CMBT_ObedienceSum / CMBT_ObedienceCount);
+        CMBT_Growth[CMBT_G_OBEDIENCE_MEAN][lp_player] = (CMBT_ObedienceSum / CMBT_ObedienceCount);
     }
-    CMBT_Growth[CMBT_G_OBEDIENCE_MAX] = CMBT_ObedienceMax;
-    CMBT_Growth[CMBT_G_ARMY_COUNT] = CMBT_ObedienceCount;
-    CMBT_GrowthKnown[CMBT_G_OBEDIENCE_MEAN] = true;
-    CMBT_GrowthKnown[CMBT_G_OBEDIENCE_MAX] = true;
-    CMBT_GrowthKnown[CMBT_G_ARMY_COUNT] = true;
+    CMBT_Growth[CMBT_G_OBEDIENCE_MAX][lp_player] = CMBT_ObedienceMax;
+    CMBT_Growth[CMBT_G_ARMY_COUNT][lp_player] = CMBT_ObedienceCount;
+    CMBT_GrowthKnown[CMBT_G_OBEDIENCE_MEAN][lp_player] = true;
+    CMBT_GrowthKnown[CMBT_G_OBEDIENCE_MAX][lp_player] = true;
+    CMBT_GrowthKnown[CMBT_G_ARMY_COUNT][lp_player] = true;
 
-    // G7..G9: casts since the previous frame (T5b event counters), then drained.
+    // G7..G11: casts since the previous frame (T5b event counters), then drained.
     lv_i = CMBT_G_CAST_PURGE;
-    while ((lv_i <= CMBT_G_CAST_SHACKLES)) {
-        CMBT_Growth[lv_i] = CMBT_CastCount[lv_i];
-        CMBT_CastCount[lv_i] = 0;
-        CMBT_GrowthKnown[lv_i] = true;
+    while ((lv_i <= CMBT_G_CAST_ORDER)) {
+        CMBT_Growth[lv_i][lp_player] = CMBT_CastCount[lv_i][lp_player];
+        CMBT_CastCount[lv_i][lp_player] = 0;
+        CMBT_GrowthKnown[lv_i][lp_player] = true;
         lv_i += 1;
     }
 }
@@ -656,8 +1417,8 @@ void CMBT_RegisterUnitKeys () {
         while ((lv_slot <= CMBT_SlotCount[lv_player])) {
             if ((CMBT_SlotNamed[lv_slot][lv_player] == false)) {
                 lv_key = CMBT_UnitKey(lv_player, lv_slot);
-                BankValueSetFromString(CMBT_Bank, CMBT_UNITS_SECTION, lv_key, CMBT_SlotType[lv_slot][lv_player]);
-                BankValueSetFromString(CMBT_Bank2, CMBT_UNITS_SECTION, lv_key, CMBT_SlotType[lv_slot][lv_player]);
+                BankValueSetFromString(CMBT_Bank, CMBT_OUR_UNITS_SECTION, lv_key, CMBT_SlotType[lv_slot][lv_player]);
+                BankValueSetFromString(CMBT_Bank2, CMBT_OUR_UNITS_SECTION, lv_key, CMBT_SlotType[lv_slot][lv_player]);
                 CMBT_SlotNamed[lv_slot][lv_player] = true;
             }
             lv_slot += 1;
@@ -668,10 +1429,47 @@ void CMBT_RegisterUnitKeys () {
     lv_slot = 1;
     while ((lv_slot <= CMBT_EnemyCount)) {
         if ((CMBT_EnemyNamed[lv_slot] == false)) {
-            BankValueSetFromString(CMBT_Bank2, CMBT_UNITS_SECTION, "E" + IntToString(lv_slot), CMBT_EnemyType[lv_slot]);
+            BankValueSetFromString(CMBT_Bank2, CMBT_ENEMY_SOURCES_SECTION, "E" + IntToString(lv_slot), CMBT_EnemyType[lv_slot] + "~" + CMBT_EnemyEffect[lv_slot]);
             CMBT_EnemyNamed[lv_slot] = true;
         }
         lv_slot += 1;
+    }
+
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_slot = 1;
+        while ((lv_slot <= CMBT_SkillCount[lv_player])) {
+            if ((CMBT_SkillNamed[lv_slot][lv_player] == false)) {
+                if ((lv_player == 1)) {
+                    BankValueSetFromString(CMBT_Bank2, CMBT_SKILL_P1_SECTION, "S" + IntToString(lv_slot), CMBT_SkillType[lv_slot][lv_player] + "~" + CMBT_SkillEffect[lv_slot][lv_player]);
+                }
+                else {
+                    BankValueSetFromString(CMBT_Bank2, CMBT_SKILL_P2_SECTION, "S" + IntToString(lv_slot), CMBT_SkillType[lv_slot][lv_player] + "~" + CMBT_SkillEffect[lv_slot][lv_player]);
+                }
+                CMBT_SkillNamed[lv_slot][lv_player] = true;
+            }
+            lv_slot += 1;
+        }
+        lv_player += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank2, CMBT_SKILL_P1_SECTION, "Count", CMBT_SkillCount[1]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_SKILL_P2_SECTION, "Count", CMBT_SkillCount[2]);
+
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_VictimCount)) {
+        if ((CMBT_VictimNamed[lv_slot] == false)) {
+            BankValueSetFromString(CMBT_Bank2, CMBT_VICTIM_UNITS_SECTION, "V" + IntToString(lv_slot), CMBT_VictimType[lv_slot]);
+            CMBT_VictimNamed[lv_slot] = true;
+        }
+        lv_slot += 1;
+    }
+
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        if (((libCOMI_gv_cM_HeroUnit[lv_player] != null) && (UnitIsValid(libCOMI_gv_cM_HeroUnit[lv_player]) == true))) {
+            BankValueSetFromString(CMBT_Bank2, CMBT_HERO_UNITS_SECTION, "P" + IntToString(lv_player), UnitGetType(libCOMI_gv_cM_HeroUnit[lv_player]));
+        }
+        lv_player += 1;
     }
 }
 
@@ -778,6 +1576,377 @@ string CMBT_BuildProbe () {
     return lv_out;
 }
 
+string CMBT_EventField (string lp_value) {
+    string lv_value;
+
+    lv_value = lp_value;
+    if ((lv_value == null)) {
+        return "";
+    }
+    lv_value = StringReplaceWord(lv_value, "|", "_", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, ";", "_", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "\n", "_", c_stringReplaceAll, c_stringCase);
+    lv_value = StringReplaceWord(lv_value, "\r", "_", c_stringReplaceAll, c_stringCase);
+    return lv_value;
+}
+
+void CMBT_AppendEvent (string lp_type, int lp_player, string lp_subject, string lp_value, string lp_source, string lp_precision) {
+    int lv_sequence;
+    string lv_event;
+    string lv_candidate;
+
+    if ((CMBT_Bank2 == null)) {
+        return;
+    }
+    if ((CMBT_EventCount >= CMBT_EVENT_MAX)) {
+        CMBT_EventOverflow += 1;
+        return;
+    }
+    lv_sequence = CMBT_EventCount + 1;
+    lv_event = IntToString(lv_sequence) + "|" + IntToString(FixedToInt(GameGetMissionTime())) + "|" + CMBT_EventField(lp_type) + "|" + IntToString(lp_player) + "|" + CMBT_EventField(lp_subject) + "|" + CMBT_EventField(lp_value) + "|" + CMBT_EventField(lp_source) + "|" + CMBT_EventField(lp_precision);
+    if ((StringLength(lv_event) > CMBT_EVENT_MAX_CHARS)) {
+        CMBT_EventOverflow += 1;
+        return;
+    }
+    if ((CMBT_EventChunkEntries >= CMBT_EVENTS_PER_CHUNK)) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_EVENTS_SECTION, "C" + IntToString(CMBT_EventChunkIndex), CMBT_EventChunkText);
+        CMBT_EventChunkText = "";
+        CMBT_EventChunkEntries = 0;
+    }
+    if ((CMBT_EventChunkEntries == 0)) {
+        if ((CMBT_EventChunkIndex >= CMBT_MAX_CHUNKS)) {
+            CMBT_EventOverflow += 1;
+            return;
+        }
+        CMBT_EventChunkIndex += 1;
+    }
+    lv_candidate = CMBT_EventChunkText;
+    if ((CMBT_EventChunkEntries > 0)) {
+        lv_candidate += ";";
+    }
+    lv_candidate += lv_event;
+    if ((StringLength(lv_candidate) > CMBT_EVENT_CHUNK_MAX_CHARS)) {
+        CMBT_EventOverflow += 1;
+        return;
+    }
+    CMBT_EventChunkText = lv_candidate;
+    CMBT_EventChunkEntries += 1;
+    CMBT_EventCount = lv_sequence;
+}
+
+bool CMBT_IsTrackedMutatorUnitType (string lp_type) {
+    return (CMBT_MutatorFactorForUnitType(lp_type) != "");
+}
+
+void CMBT_FlushMutatorEvents () {
+    int lv_i;
+    string lv_value;
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutBuffCount)) {
+        if (((CMBT_MutBehaviorAdd[lv_i] + CMBT_MutBehaviorRemove[lv_i] + CMBT_MutBehaviorRefresh[lv_i]) > 0)) {
+            lv_value = CMBT_MutBehaviorLastUnit[lv_i] + ",add=" + IntToString(CMBT_MutBehaviorAdd[lv_i]) + ",remove=" + IntToString(CMBT_MutBehaviorRemove[lv_i]) + ",refresh=" + IntToString(CMBT_MutBehaviorRefresh[lv_i]) + ",last=" + IntToString(CMBT_MutBehaviorLastStack[lv_i]);
+            CMBT_AppendEvent("MutatorBehavior5s", CMBT_MutBehaviorLastOwner[lv_i], CMBT_MutBuffBehavior[lv_i], lv_value, CMBT_MutBuffFactor[lv_i], "5s_aggregate");
+            CMBT_MutBehaviorAdd[lv_i] = 0;
+            CMBT_MutBehaviorRemove[lv_i] = 0;
+            CMBT_MutBehaviorRefresh[lv_i] = 0;
+        }
+        lv_i += 1;
+    }
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutatorEffectCount)) {
+        if ((CMBT_MutEffectUseCount[lv_i] > 0)) {
+            lv_value = CMBT_MutEffectLastUnit[lv_i] + ",count=" + IntToString(CMBT_MutEffectUseCount[lv_i]);
+            CMBT_AppendEvent("MutatorEffect5s", CMBT_MutEffectLastOwner[lv_i], CMBT_MutatorEffectId[lv_i], lv_value, CMBT_MutatorEffectFactor[lv_i], "5s_aggregate");
+            CMBT_MutEffectUseCount[lv_i] = 0;
+        }
+        lv_i += 1;
+    }
+}
+
+void CMBT_UpdateChaosEvents () {
+    while (((CMBT_ChaosHistoryLogged < CMUIX_ResultChaosHistoryCount) && (CMBT_ChaosHistoryLogged < CMBT_CHAOS_HISTORY_MAX))) {
+        CMBT_ChaosHistoryLogged += 1;
+        CMBT_AppendEvent("ChaosRotated", 0, CMUIX_ResultChaosHistoryMutators[CMBT_ChaosHistoryLogged], IntToString(BoolToInt(CMUIX_ResultChaosHistoryEnhanced[CMBT_ChaosHistoryLogged])), "ChaosHistory", "5s_bucket_end");
+    }
+}
+
+void CMBT_PrimeObjectives () {
+    int lv_i;
+    string lv_objective;
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_OBJECTIVE_MAX)) {
+        lv_objective = libCOOC_gv_cC_ObjectivesCreated[lv_i];
+        CMBT_ObjectiveLast[lv_i] = CMUIX_HistoryObjectiveSnapshotEntry(lv_objective);
+        lv_i += 1;
+    }
+}
+
+void CMBT_UpdateObjectives () {
+    int lv_i;
+    string lv_objective;
+    string lv_entry;
+
+    lv_i = 1;
+    while ((lv_i <= CMBT_OBJECTIVE_MAX)) {
+        lv_objective = libCOOC_gv_cC_ObjectivesCreated[lv_i];
+        lv_entry = CMUIX_HistoryObjectiveSnapshotEntry(lv_objective);
+        if ((lv_entry != CMBT_ObjectiveLast[lv_i])) {
+            CMBT_AppendEvent("ObjectiveChanged", 0, lv_objective, lv_entry, "ObjectivePoll", "5s_bucket_end");
+            CMBT_ObjectiveLast[lv_i] = lv_entry;
+        }
+        lv_i += 1;
+    }
+}
+
+void CMBT_WriteIdentityMeta (bank lp_bank, int lp_startedAt, string lp_bankName, string lp_otherBankName) {
+    string lv_enemy;
+
+    lv_enemy = libCOMI_gv_cM_CoopAIPlayer_CommanderShared;
+    if (((lv_enemy == null) || (lv_enemy == ""))) {
+        lv_enemy = libCOMI_gv_cM_CoopAIPlayer_Commander[3];
+    }
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "StartedAt", lp_startedAt);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "LegacyEpoch", lp_startedAt);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "LegacyBank1", "CMCombatTelemetry" + IntToString(lp_startedAt));
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "LegacyBank2", "CMCombatTelemetryX" + IntToString(lp_startedAt));
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "BankName", lp_bankName);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "WallStartInt", lp_startedAt);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "WallStartText", CMBT_WallText(lp_startedAt));
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "WallClockSource", "CurrentDateTimeGet");
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "WallClockTimezone", "Unspecified");
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "MapInstance", CMUIX_MapSelectionCurrentMapInstance());
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "EnemyAI", lv_enemy);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "EnemyRace", CMUIX_EnemySelectionRaceForEnemy(lv_enemy));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "DifficultyBase", CMUIX_DifficultySelectedBase);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "DifficultyPlus", CMUIX_DifficultySelectedPlus);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "DifficultyP1", libCOMI_gf_DifficultyLevelForPlayerCoop(1));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "DifficultyP2", libCOMI_gf_DifficultyLevelForPlayerCoop(2));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "MissionDifficulty", libCOMI_gf_GetMissionDifficulty());
+    if ((lp_bankName == CMBT_BankName)) {
+        BankValueSetFromString(lp_bank, CMBT_META_SECTION, "Bank2", lp_otherBankName);
+        BankValueSetFromString(lp_bank, CMBT_META_SECTION, "Bank2Name", lp_otherBankName);
+    }
+    else {
+        BankValueSetFromString(lp_bank, CMBT_META_SECTION, "Bank1", lp_otherBankName);
+        BankValueSetFromString(lp_bank, CMBT_META_SECTION, "Bank1Name", lp_otherBankName);
+    }
+}
+
+void CMBT_AppendDirectMutator (string lp_mutator, bool lp_enhanced) {
+    if (((lp_mutator == "") || (lp_mutator == null) || (CMUIX_MutatorPoolIsPlaceholder(lp_mutator) == true))) {
+        return;
+    }
+    if ((lp_mutator == "Chaos") || (UserDataGetInt("Mutators", lp_mutator, "Auto - Actived By Chaos", 1) >= 1) || (libCOMU_gf_CT_TemporaryMutatorHasLifetime(lp_mutator) == true)) {
+        return;
+    }
+    if ((CMBT_DirectMutatorCount >= CMBT_DIRECT_MUTATOR_MAX)) {
+        CMBT_MutatorOverflow += 1;
+        return;
+    }
+    CMBT_DirectMutatorCount += 1;
+    BankValueSetFromString(CMBT_Bank2, CMBT_MUTATORS_SECTION, "D" + IntToString(CMBT_DirectMutatorCount), lp_mutator + "|" + IntToString(BoolToInt(lp_enhanced)));
+}
+
+void CMBT_CaptureMutators () {
+    int lv_i;
+    int lv_count;
+    int lv_chaosCount;
+    string lv_mutator;
+    bool lv_enhanced;
+
+    if ((CMBT_Bank2 == null)) {
+        return;
+    }
+    BankSectionRemove(CMBT_Bank2, CMBT_MUTATORS_SECTION);
+    CMBT_DirectMutatorCount = 0;
+    CMBT_MutatorOverflow = 0;
+    CMBT_IndexSlot = 0;
+    CMBT_IndexOverflow = 0;
+    lv_i = 1;
+    lv_count = 0;
+    lv_chaosCount = 0;
+    lv_mutator = "";
+    lv_enhanced = false;
+    if ((((CMUIX_CurrentMode == CMUIX_MODE_STANDARD) || (CMUIX_CurrentMode == CMUIX_MODE_MUTATOR)) && (libCOMU_gv_cT_MAbomination_MutatorsCount > 0))) {
+        lv_count = MinI(libCOMU_gv_cT_MAbomination_MutatorsCount, libCMUI_gv_cMUI_MutatorChallenge_Mutator_Max);
+        while ((lv_i <= lv_count)) {
+            CMBT_AppendDirectMutator(libCOMU_gv_cT_MAbomination_Mutators[lv_i], libCOMU_gv_cT_MAbomination_MutatorsEnhanced[lv_i]);
+            lv_i += 1;
+        }
+    }
+    else {
+        lv_count = UserDataInstanceCount("Mutators");
+        while ((lv_i <= lv_count)) {
+            lv_mutator = UserDataInstance("Mutators", lv_i);
+            if ((lv_mutator != "") && (UserDataGetInt("Mutators", lv_mutator, "Auto - Actived By Chaos", 1) == 0) && (libCOMU_gf_CT_TemporaryMutatorHasLifetime(lv_mutator) == false)) {
+                if ((UserDataGetInt("Mutators", lv_mutator, "Auto - Selected By Player", 1) >= 1) || (UserDataGetInt("Mutators", lv_mutator, "Auto - Actived By Random", 1) >= 1)) {
+                    lv_enhanced = (UserDataGetInt("Mutators", lv_mutator, "Auto - Enhanced", 1) == 1);
+                    CMBT_AppendDirectMutator(lv_mutator, lv_enhanced);
+                }
+            }
+            lv_i += 1;
+        }
+    }
+    lv_chaosCount = MinI(libCOTF_gv_rT_ChaosCycleCount, CMBT_DIRECT_MUTATOR_MAX);
+    lv_i = 1;
+    while ((lv_i <= lv_chaosCount)) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTATORS_SECTION, "A" + IntToString(lv_i), libCOTF_gv_rT_ChaosMutators[lv_i] + "|" + IntToString(BoolToInt(libCOMU_gf_MutatorIsEnhanced(libCOTF_gv_rT_ChaosMutators[lv_i]))));
+        lv_i += 1;
+    }
+    if ((libCOTF_gv_rT_ChaosCycleCount > CMBT_DIRECT_MUTATOR_MAX)) {
+        CMBT_MutatorOverflow += (libCOTF_gv_rT_ChaosCycleCount - CMBT_DIRECT_MUTATOR_MAX);
+    }
+    lv_i = 1;
+    while (((lv_i <= CMUIX_ResultChaosHistoryCount) && (lv_i <= CMBT_CHAOS_HISTORY_MAX))) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_MUTATORS_SECTION, "C" + IntToString(lv_i), CMUIX_ResultChaosHistoryMutators[lv_i] + "|" + IntToString(BoolToInt(CMUIX_ResultChaosHistoryEnhanced[lv_i])));
+        lv_i += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATORS_SECTION, "DirectCount", CMBT_DirectMutatorCount);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATORS_SECTION, "ChaosSlotCount", lv_chaosCount);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATORS_SECTION, "ChaosHistoryCount", MinI(CMUIX_ResultChaosHistoryCount, CMBT_CHAOS_HISTORY_MAX));
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATORS_SECTION, "Overflow", CMBT_MutatorOverflow);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_MUTATORS_SECTION, "Truncated", BoolToInt((CMBT_MutatorOverflow > 0) || (CMUIX_ResultChaosHistoryCount >= CMBT_CHAOS_HISTORY_MAX)));
+}
+
+void CMBT_CapturePlayers () {
+    int lv_player;
+    int lv_i;
+    int lv_count;
+    int lv_masteryIndex;
+    int lv_prestige;
+    int lv_level;
+    string lv_commander;
+    string lv_mastery;
+
+    if ((CMBT_Bank2 == null)) {
+        return;
+    }
+    BankSectionRemove(CMBT_Bank2, CMBT_PLAYERS_SECTION);
+    lv_player = 1;
+    lv_i = 0;
+    lv_count = UserDataInstanceCount("MasteryUpgrades");
+    lv_masteryIndex = 0;
+    lv_prestige = 0;
+    lv_level = 0;
+    lv_commander = "";
+    lv_mastery = "";
+    while ((lv_player <= 2)) {
+        lv_commander = CMUIX_ResultSnapshotCommander(lv_player);
+        lv_prestige = 0;
+        lv_level = 0;
+        if (((lv_commander != "") && (lv_commander != null))) {
+            lv_prestige = CMUIX_ReadPrestigeForCommander(lv_player, lv_commander);
+            lv_level = libCOOC_gf_CC_CommanderLevel(lv_player, lv_commander);
+        }
+        BankValueSetFromInt(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "Present", BoolToInt((PlayerStatus(lv_player) == c_playerStatusActive) && (PlayerType(lv_player) == c_playerTypeUser)));
+        BankValueSetFromString(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "Name", TextToString(PlayerName(lv_player)));
+        BankValueSetFromString(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "Commander", lv_commander);
+        BankValueSetFromInt(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "Prestige", lv_prestige);
+        BankValueSetFromInt(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "Level", lv_level);
+        lv_masteryIndex = 1;
+        while ((lv_masteryIndex <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER)) {
+            BankValueSetFromString(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "M" + IntToString(lv_masteryIndex), "|0");
+            lv_masteryIndex += 1;
+        }
+        lv_i = 1;
+        while ((lv_i <= lv_count)) {
+            lv_mastery = UserDataInstance("MasteryUpgrades", lv_i);
+            if ((UserDataGetUserInstance("MasteryUpgrades", lv_mastery, "Commander", 1) == lv_commander)) {
+                lv_masteryIndex = libCOOC_gf_CC_PlayerMasteryInternalIndex(lv_mastery);
+                if (((lv_masteryIndex >= 1) && (lv_masteryIndex <= libCOOC_gv_cCC_MASTERIES_PER_COMMANDER))) {
+                    BankValueSetFromString(CMBT_Bank2, CMBT_PLAYERS_SECTION, "P" + IntToString(lv_player) + "M" + IntToString(lv_masteryIndex), lv_mastery + "|" + IntToString(libCOOC_gf_CC_PlayerMasteryUpgradeLevel(lv_player, lv_mastery)));
+                }
+            }
+            lv_i += 1;
+        }
+        lv_player += 1;
+    }
+}
+
+string CMBT_ScoreKey (int lp_index) {
+    if ((lp_index == 1)) { return "UnitsStructuresKilled"; }
+    if ((lp_index == 2)) { return "UnitsProduced"; }
+    if ((lp_index == 3)) { return "ResourcesGathered"; }
+    if ((lp_index == 4)) { return libCOOC_gf_CC_MapScoreStatistic(libCOOC_gf_CC_CurrentMap()); }
+    if ((lp_index == 5)) { return libCOOC_gf_CC_CommanderScoreCoopStatistic(CMUIX_ResultSnapshotCommander(1)); }
+    if ((lp_index == 6)) { return libCOOC_gf_CC_CommanderScoreSelfStatistic(CMUIX_ResultSnapshotCommander(1)); }
+    if ((lp_index == 7)) { return libCOOC_gf_CC_CommanderScoreCoopStatistic(CMUIX_ResultSnapshotCommander(2)); }
+    if ((lp_index == 8)) { return libCOOC_gf_CC_CommanderScoreSelfStatistic(CMUIX_ResultSnapshotCommander(2)); }
+    return "UnitsLostCount";
+}
+
+void CMBT_CaptureOutcomeData () {
+    int lv_i;
+    int lv_count;
+    string lv_objective;
+    string lv_entry;
+    string lv_key;
+
+    if ((CMBT_Bank2 == null)) {
+        return;
+    }
+    BankSectionRemove(CMBT_Bank2, CMBT_OBJECTIVES_SECTION);
+    BankSectionRemove(CMBT_Bank2, CMBT_SCORE_STATS_SECTION);
+    lv_i = 1;
+    lv_count = 0;
+    lv_objective = "";
+    lv_entry = "";
+    lv_key = "";
+    while ((lv_i <= CMBT_OBJECTIVE_MAX)) {
+        lv_objective = libCOOC_gv_cC_ObjectivesCreated[lv_i];
+        lv_entry = CMUIX_HistoryObjectiveSnapshotEntry(lv_objective);
+        if ((lv_entry != "")) {
+            lv_count += 1;
+            BankValueSetFromString(CMBT_Bank2, CMBT_OBJECTIVES_SECTION, "O" + IntToString(lv_count), lv_entry);
+        }
+        lv_i += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank2, CMBT_OBJECTIVES_SECTION, "Count", lv_count);
+    lv_i = 1;
+    while ((lv_i <= 9)) {
+        lv_key = CMBT_ScoreKey(lv_i);
+        BankValueSetFromString(CMBT_Bank2, CMBT_SCORE_STATS_SECTION, "S" + IntToString(lv_i), lv_key + "|" + IntToString(PlayerScoreValueGetAsInt(1, lv_key)) + "|" + IntToString(PlayerScoreValueGetAsInt(2, lv_key)));
+        lv_i += 1;
+    }
+    BankValueSetFromInt(CMBT_Bank2, CMBT_SCORE_STATS_SECTION, "Count", 9);
+}
+
+void CMBT_UpdateIndex (int lp_complete, int lp_truncated, int lp_result) {
+    int lv_next;
+    string lv_key;
+    string lv_value;
+
+    if ((CMBT_IndexBank == null)) {
+        return;
+    }
+    if ((CMBT_IndexSlot <= 0)) {
+        lv_next = 1;
+        if ((BankKeyExists(CMBT_IndexBank, CMBT_INDEX_META_SECTION, "NextSlot") == true)) {
+            lv_next = BankValueGetAsInt(CMBT_IndexBank, CMBT_INDEX_META_SECTION, "NextSlot");
+        }
+        if (((lv_next < 1) || (lv_next > CMBT_INDEX_MAX))) {
+            lv_next = 1;
+        }
+        CMBT_IndexSlot = lv_next;
+        lv_key = "R" + IntToString(CMBT_IndexSlot);
+        if ((BankKeyExists(CMBT_IndexBank, CMBT_INDEX_RUNS_SECTION, lv_key) == true)) {
+            CMBT_IndexOverflow += 1;
+        }
+        lv_next = CMBT_IndexSlot + 1;
+        if ((lv_next > CMBT_INDEX_MAX)) {
+            lv_next = 1;
+        }
+        BankValueSetFromInt(CMBT_IndexBank, CMBT_INDEX_META_SECTION, "NextSlot", lv_next);
+    }
+    lv_key = "R" + IntToString(CMBT_IndexSlot);
+    lv_value = CMBT_BankName + "|" + CMBT_Bank2Name + "|" + IntToString(lp_complete) + "|" + IntToString(lp_truncated) + "|" + IntToString(lp_result) + "|" + IntToString(FixedToInt(GameGetMissionTime()));
+    BankValueSetFromString(CMBT_IndexBank, CMBT_INDEX_RUNS_SECTION, lv_key, lv_value);
+    BankValueSetFromInt(CMBT_IndexBank, CMBT_INDEX_META_SECTION, "IndexOverflow", CMBT_IndexOverflow);
+    BankSave(CMBT_IndexBank);
+}
+
 // Provenance written into both banks so a CSV can always be traced back to what produced it.
 //   ScriptVersion : this module's own version.
 //   GameVersion / ModVersion : the mod's declared strings (libCOMI_InitVariables,
@@ -803,15 +1972,37 @@ void CMBT_WriteEnvironmentMeta (bank lp_bank) {
 void CMBT_ResetStoredSession () {
     if ((CMBT_Bank != null)) {
         BankSectionRemove(CMBT_Bank, CMBT_META_SECTION);
-        BankSectionRemove(CMBT_Bank, CMBT_UNITS_SECTION);
+        BankSectionRemove(CMBT_Bank, CMBT_OUR_UNITS_SECTION);
         BankSectionRemove(CMBT_Bank, CMBT_SAMPLES_SECTION);
     }
     if ((CMBT_Bank2 != null)) {
         BankSectionRemove(CMBT_Bank2, CMBT_META_SECTION);
-        BankSectionRemove(CMBT_Bank2, CMBT_UNITS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_OUR_UNITS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_ENEMY_SOURCES_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_VICTIM_UNITS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_GROWTH_FIELDS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_HERO_UNITS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_MUTBUFFS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_SKILL_P1_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_SKILL_P2_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_MUTATOR_UNITS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_MUTATOR_EFFECTS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_PLAYERS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_MUTATORS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_OBJECTIVES_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_SCORE_STATS_SECTION);
         BankSectionRemove(CMBT_Bank2, CMBT_TAKEN_SECTION);
         BankSectionRemove(CMBT_Bank2, CMBT_ENEMY_SECTION);
         BankSectionRemove(CMBT_Bank2, CMBT_GROWTH_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_GROWTH_P2_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_FIELD_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_VICTIM_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_ECON_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_HERO_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_MUTBUFF_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_SKILL_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_COMMANDS_SECTION);
+        BankSectionRemove(CMBT_Bank2, CMBT_EVENTS_SECTION);
         BankSectionRemove(CMBT_Bank2, CMBT_DIAG_SECTION);
     }
 }
@@ -842,6 +2033,23 @@ void CMBT_ResetState () {
             }
             lv_slot += 1;
         }
+        CMBT_SkillCount[lv_player] = 0;
+        CMBT_SkillOverflow[lv_player] = 0;
+        lv_slot = 1;
+        while ((lv_slot <= CMBT_MAX_SKILL_SLOTS)) {
+            CMBT_SkillType[lv_slot][lv_player] = "";
+            CMBT_SkillEffect[lv_slot][lv_player] = "";
+            CMBT_SkillNamed[lv_slot][lv_player] = false;
+            CMBT_SkillAcc[lv_slot][0][lv_player] = 0.0;
+            CMBT_SkillAcc[lv_slot][1][lv_player] = 0.0;
+            CMBT_SkillHits[lv_slot][lv_player] = 0;
+            lv_slot += 1;
+        }
+        lv_field = 0;
+        while ((lv_field < CMBT_COMMAND_FIELDS)) {
+            CMBT_CommandCount[lv_player][lv_field] = 0;
+            lv_field += 1;
+        }
         lv_player += 1;
     }
 
@@ -849,22 +2057,91 @@ void CMBT_ResetState () {
     lv_slot = 1;
     while ((lv_slot <= CMBT_MAX_ENEMY_SLOTS)) {
         CMBT_EnemyType[lv_slot] = "";
+        CMBT_EnemyEffect[lv_slot] = "";
         CMBT_EnemyNamed[lv_slot] = false;
         CMBT_EnemyAcc[lv_slot] = 0.0;
         lv_slot += 1;
     }
 
-    lv_i = 1;
-    while ((lv_i <= CMBT_GROWTH_FIELDS)) {
-        CMBT_Growth[lv_i] = 0;
-        CMBT_GrowthKnown[lv_i] = false;
-        CMBT_CastCount[lv_i] = 0;
-        lv_i += 1;
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_MutBuffCount)) {
+        lv_field = 0;
+        while ((lv_field < 2)) {
+            CMBT_MutBuffDamage[lv_slot][lv_field] = 0.0;
+            CMBT_MutBuffMitigation[lv_slot][lv_field] = 0.0;
+            CMBT_MutBuffHits[lv_slot][lv_field] = 0;
+            CMBT_MutBuffStackSum[lv_slot][lv_field] = 0;
+            lv_field += 1;
+        }
+        CMBT_MutBehaviorAdd[lv_slot] = 0;
+        CMBT_MutBehaviorRemove[lv_slot] = 0;
+        CMBT_MutBehaviorRefresh[lv_slot] = 0;
+        CMBT_MutBehaviorLastStack[lv_slot] = 0;
+        CMBT_MutBehaviorLastOwner[lv_slot] = 0;
+        CMBT_MutBehaviorLastUnit[lv_slot] = "";
+        lv_slot += 1;
     }
-    CMBT_GrowthActive = false;
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_MutatorEffectCount)) {
+        CMBT_MutEffectUseCount[lv_slot] = 0;
+        CMBT_MutEffectLastOwner[lv_slot] = 0;
+        CMBT_MutEffectLastUnit[lv_slot] = "";
+        lv_slot += 1;
+    }
+
+    CMBT_VictimCount = 0;
+    CMBT_VictimOverflow = 0;
+    lv_slot = 1;
+    while ((lv_slot <= CMBT_MAX_VICTIM_SLOTS)) {
+        CMBT_VictimType[lv_slot] = "";
+        CMBT_VictimNamed[lv_slot] = false;
+        lv_player = 1;
+        while ((lv_player <= 2)) {
+            lv_field = 0;
+            while ((lv_field < 2)) {
+                CMBT_VictimAcc[lv_slot][lv_field][lv_player] = 0.0;
+                CMBT_VictimAccInt[lv_slot][lv_field][lv_player] = 0;
+                lv_field += 1;
+            }
+            lv_player += 1;
+        }
+        lv_slot += 1;
+    }
+
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_i = 1;
+        while ((lv_i <= CMBT_GROWTH_FIELDS)) {
+            CMBT_Growth[lv_i][lv_player] = 0;
+            CMBT_GrowthKnown[lv_i][lv_player] = false;
+            CMBT_CastCount[lv_i][lv_player] = 0;
+            lv_i += 1;
+        }
+        CMBT_GrowthActive[lv_player] = false;
+        CMBT_FriendlyPlayerHits[lv_player] = 0;
+        CMBT_FriendlyPlayerDamage[lv_player] = 0.0;
+        lv_player += 1;
+    }
     CMBT_ObedienceSum = 0;
     CMBT_ObedienceMax = 0;
     CMBT_ObedienceCount = 0;
+
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_slot = 1;
+        while ((lv_slot <= CMBT_MAX_SLOTS)) {
+            CMBT_AtkCount[lv_slot][lv_player] = 0;
+            CMBT_AtkLastTag[lv_slot][lv_player] = 0;
+            CMBT_AtkLastEffect[lv_slot][lv_player] = "";
+            CMBT_AtkLastTime[lv_slot][lv_player] = 0.0;
+            lv_slot += 1;
+        }
+        lv_player += 1;
+    }
+    CMBT_FieldHpUnits = 0.0;
+    CMBT_FieldHpStructures = 0.0;
+    CMBT_FieldNUnits = 0;
+    CMBT_FieldNStructures = 0;
 
     lv_i = 0;
     while ((lv_i < CMBT_STREAM_COUNT)) {
@@ -892,6 +2169,21 @@ void CMBT_ResetState () {
     CMBT_FriendlyDamage = 0.0;
     CMBT_UnclassifiedDamage = 0.0;
     CMBT_FilteredNullVictimDamage = 0.0;
+    CMBT_Truncated = false;
+    CMBT_EventChunkText = "";
+    CMBT_EventChunkEntries = 0;
+    CMBT_EventChunkIndex = 0;
+    CMBT_EventCount = 0;
+    CMBT_EventOverflow = 0;
+    CMBT_MutBuffOverflow = 0;
+    CMBT_ChaosHistoryLogged = 0;
+    CMBT_DirectMutatorCount = 0;
+    CMBT_MutatorOverflow = 0;
+    lv_i = 1;
+    while ((lv_i <= CMBT_OBJECTIVE_MAX)) {
+        CMBT_ObjectiveLast[lv_i] = "";
+        lv_i += 1;
+    }
 }
 
 void CMBT_SetCapture (bool lp_on) {
@@ -902,6 +2194,16 @@ void CMBT_SetCapture (bool lp_on) {
     TriggerEnable(CMBT_AbilPurgeTrigger, lp_on);
     TriggerEnable(CMBT_AbilSacrificeTrigger, lp_on);
     TriggerEnable(CMBT_AbilShacklesTrigger, lp_on);
+    TriggerEnable(CMBT_AbilBreakTrigger, lp_on);
+    TriggerEnable(CMBT_AbilOrderTrigger, lp_on);
+    TriggerEnable(CMBT_ResearchTrigger, lp_on);
+    TriggerEnable(CMBT_UpgradeTrigger, lp_on);
+    TriggerEnable(CMBT_PlayerLeftTrigger, lp_on);
+    // Revive evidence stays enabled for the match, independently of capture.
+    // Birth evidence stays enabled for the match, independently of capture.
+    TriggerEnable(CMBT_MutBehaviorTrigger, lp_on);
+    TriggerEnable(CMBT_MutEffectTrigger, lp_on);
+    TriggerEnable(CMBT_CommandTrigger, lp_on);
 }
 
 // -----------------------------------------------------------------------------
@@ -947,10 +2249,17 @@ void CMBT_RollChunks () {
     }
 }
 
-// Global P1+P2 source-side counters, mirrored to both banks (not per-player totals).
+// Whole-session source-side counters mirrored to both banks; friendly damage also splits P1/P2.
 // All keys are written even before the first sample; absence never means measured zero.
 // Neutral stays zero in 3.1a. Unknown alliances remain separate until engine observation.
 void CMBT_WriteVictimMeta (bank lp_bank) {
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyP1Hits", CMBT_FriendlyPlayerHits[1]);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyP2Hits", CMBT_FriendlyPlayerHits[2]);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyP1Damage", FixedToInt(CMBT_FriendlyPlayerDamage[1]));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyP2Damage", FixedToInt(CMBT_FriendlyPlayerDamage[2]));
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "BirthP1Overflow", CMBT_BirthOverflow[1]);
+    BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "BirthP2Overflow", CMBT_BirthOverflow[2]);
+    BankValueSetFromString(lp_bank, CMBT_META_SECTION, "DeathLedger", "de=real_enemy; ds=real_other; nc=noncombat; bc=construction");
     BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "NeutralHits", CMBT_NeutralHits);
     BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "NeutralDamage", FixedToInt(CMBT_NeutralDamage));
     BankValueSetFromInt(lp_bank, CMBT_META_SECTION, "FriendlyHits", CMBT_FriendlyHits);
@@ -966,6 +2275,10 @@ void CMBT_Save () {
 
     if (((CMBT_Bank == null) || (CMBT_Bank2 == null))) {
         return;
+    }
+
+    if ((CMBT_EventChunkEntries > 0)) {
+        BankValueSetFromString(CMBT_Bank2, CMBT_EVENTS_SECTION, "C" + IntToString(CMBT_EventChunkIndex), CMBT_EventChunkText);
     }
 
     // Write each section's current (possibly partial) chunk in place, so an in-progress
@@ -995,10 +2308,27 @@ void CMBT_Save () {
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "TakenChunkCount", CMBT_ChunkIndex[CMBT_STREAM_TAKEN]);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EnemyChunkCount", CMBT_ChunkIndex[CMBT_STREAM_ENEMY]);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthChunkCount", CMBT_ChunkIndex[CMBT_STREAM_GROWTH]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthP2ChunkCount", CMBT_ChunkIndex[CMBT_STREAM_GROWTH_P2]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "FieldChunkCount", CMBT_ChunkIndex[CMBT_STREAM_FIELD]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "VictimChunkCount", CMBT_ChunkIndex[CMBT_STREAM_VICTIM]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EconChunkCount", CMBT_ChunkIndex[CMBT_STREAM_ECON]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "HeroChunkCount", CMBT_ChunkIndex[CMBT_STREAM_HERO]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MutBuffChunkCount", CMBT_ChunkIndex[CMBT_STREAM_MUTBUFF]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SkillChunkCount", CMBT_ChunkIndex[CMBT_STREAM_SKILL]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "CommandsChunkCount", CMBT_ChunkIndex[CMBT_STREAM_COMMANDS]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventCount", CMBT_EventCount);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventChunkCount", CMBT_EventChunkIndex);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventOverflow", CMBT_EventOverflow);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "LastMissionTime", FixedToInt(GameGetMissionTime()));
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SlotOverflow", CMBT_SlotOverflow);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EnemyOverflow", CMBT_EnemyOverflow);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "EnemyOverflowMeaning", "events_aggregated_into_E33_Other");
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EnemySlotCount", CMBT_EnemyCount);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "VictimOverflow", CMBT_VictimOverflow);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "VictimSlotCount", CMBT_VictimCount);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MutBuffOverflow", CMBT_MutBuffOverflow);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SkillP1Overflow", CMBT_SkillOverflow[1]);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SkillP2Overflow", CMBT_SkillOverflow[2]);
     // B-20: bank 2 identity keys were written once in CMBT_Start and never refreshed, so a
     // stale commander lookup at trace-start froze into the file. Refresh in step with bank 1.
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP1", libCOOC_gf_ActiveCommanderForPlayer(1));
@@ -1035,18 +2365,26 @@ bool CMBT_WriteSample () {
         return false;
     }
 
+    CMBT_FlushMutatorEvents();
+    CMBT_UpdateChaosEvents();
+
     if (((CMBT_SampleCount >= CMBT_MAX_SAMPLES) || (CMBT_CapacityOK() == false))) {
         CMBT_Enabled = false;
+        CMBT_Truncated = true;
         CMBT_SetCapture(false);
         TimerPause(CMBT_Timer, true);
         CMBT_MarkStopped(0, 1);
         CMBT_Save();
+        CMBT_UpdateIndex(0, 1, -1);
         CMBT_Message(CMBT_Operator, "stopped: sample or chunk limit reached");
         return false;
     }
 
     CMBT_UpdatePresent();
-    CMBT_UpdateGrowth();
+    CMBT_UpdateGrowth(1);
+    CMBT_UpdateGrowth(2);
+    CMBT_UpdateEnemyField();
+    CMBT_UpdateObjectives();
     CMBT_RegisterUnitKeys();
 
     CMBT_SampleCount += 1;
@@ -1054,7 +2392,15 @@ bool CMBT_WriteSample () {
     CMBT_StreamAppend(CMBT_STREAM_SAMPLES, lv_time + "|" + CMBT_BuildSampleSegment(1) + "|" + CMBT_BuildSampleSegment(2));
     CMBT_StreamAppend(CMBT_STREAM_TAKEN, lv_time + "|" + CMBT_BuildTakenSegment(1) + "|" + CMBT_BuildTakenSegment(2));
     CMBT_StreamAppend(CMBT_STREAM_ENEMY, lv_time + "|" + CMBT_BuildEnemySegment());
-    CMBT_StreamAppend(CMBT_STREAM_GROWTH, lv_time + "|" + CMBT_BuildGrowthSegment());
+    CMBT_StreamAppend(CMBT_STREAM_GROWTH, lv_time + "|" + CMBT_BuildGrowthSegment(1));
+    CMBT_StreamAppend(CMBT_STREAM_GROWTH_P2, lv_time + "|" + CMBT_BuildGrowthSegment(2));
+    CMBT_StreamAppend(CMBT_STREAM_FIELD, lv_time + "|" + CMBT_BuildFieldSegment());
+    CMBT_StreamAppend(CMBT_STREAM_VICTIM, lv_time + "|" + CMBT_BuildVictimSegment(1) + "|" + CMBT_BuildVictimSegment(2));
+    CMBT_StreamAppend(CMBT_STREAM_ECON, lv_time + "|" + CMBT_BuildEconSegment(1) + "|" + CMBT_BuildEconSegment(2));
+    CMBT_StreamAppend(CMBT_STREAM_HERO, lv_time + "|" + CMBT_BuildHeroSegment(1) + "|" + CMBT_BuildHeroSegment(2));
+    CMBT_StreamAppend(CMBT_STREAM_MUTBUFF, lv_time + "|" + CMBT_BuildMutBuffSegment(CMBT_MUTBUFF_ENEMY_TO_OUR) + "|" + CMBT_BuildMutBuffSegment(CMBT_MUTBUFF_OUR_TO_ENEMY));
+    CMBT_StreamAppend(CMBT_STREAM_SKILL, lv_time + "|" + CMBT_BuildSkillSegment(1) + "|" + CMBT_BuildSkillSegment(2));
+    CMBT_StreamAppend(CMBT_STREAM_COMMANDS, lv_time + "|" + CMBT_BuildCommandSegment(1) + "|" + CMBT_BuildCommandSegment(2));
 
     // Persist every sample (a crash loses <= 5s); roll to fresh chunk keys once they are full,
     // which keeps every section's key count bounded (~120 keys for a full 720-sample game).
@@ -1071,14 +2417,22 @@ bool CMBT_WriteSample () {
 // unit-type table (T4) on the victim side.
 bool CMBT_DamageHandler (bool testConds, bool runActions) {
     unit lv_victim;
+    unit lv_sourceUnit;
     int lv_sourcePlayer;
     int lv_victimPlayer;
     int lv_slot;
+    int lv_atkSlot;
+    int lv_victimSlot;
+    int lv_skillSlot;
+    int lv_atkTag;
     fixed lv_amount;
     fixed lv_life;
     fixed lv_shields;
     fixed lv_split;
+    fixed lv_atkTime;
+    fixed lv_attempted;
     string lv_type;
+    string lv_atkEffect;
     int lv_victimClass;
 
     if ((!runActions)) {
@@ -1088,7 +2442,54 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
         return true;
     }
 
+    lv_atkSlot = 0;
+    lv_victimSlot = 0;
+
+    // 3.2 attack instances: counted BEFORE the amount gate so fully-absorbed hits count.
+    // Aligned with the d column: only a positively hostile victim counts (hub rescope
+    // 2026-09-10: blood drinking hits the caster's own fanatics and would inflate Malash's
+    // atk otherwise; d/a must share numerator scope). Same source-validity and slot rules as
+    // d/n/h below. One attack splashing onto several targets fires several events with the
+    // same (source tag, effect, mission time) key; only the first increments the slot. Two
+    // genuine attacks by the same unit with the same effect inside one mission-time read also
+    // merge (known limitation, changelog). Nova's source-less strike keys on tag 0 + the
+    // effect name; its victim must still be hostile, same as here.
+    lv_victim = EventUnit();
+    lv_sourceUnit = EventUnitDamageSourceUnit();
+    if (((lv_sourceUnit != lv_victim) && (lv_victim != null))) {
+        lv_sourcePlayer = EventUnitDamageSourcePlayer();
+        if (((lv_sourcePlayer == 1) || (lv_sourcePlayer == 2))) {
+            if ((libNtve_gf_PlayerIsEnemy(lv_sourcePlayer, UnitGetOwner(lv_victim), libNtve_ge_PlayerRelation_Enemy) == true)) {
+                if ((CMBT_UT_DL_IsValidDamageSource() == true)) {
+                    lv_atkSlot = CMBT_FindSlot(lv_sourcePlayer, CMBT_UT_DL_GetDamageSourceUnitType(), true);
+                    if ((lv_atkSlot > 0)) {
+                        lv_atkTag = 0;
+                        if ((lv_sourceUnit != null)) {
+                            lv_atkTag = UnitGetTag(lv_sourceUnit);
+                        }
+                        lv_atkEffect = EventUnitDamageEffect();
+                        lv_atkTime = GameGetMissionTime();
+                        if (((CMBT_AtkLastTag[lv_atkSlot][lv_sourcePlayer] != lv_atkTag) || (CMBT_AtkLastEffect[lv_atkSlot][lv_sourcePlayer] != lv_atkEffect) || (CMBT_AtkLastTime[lv_atkSlot][lv_sourcePlayer] != lv_atkTime))) {
+                            CMBT_AtkLastTag[lv_atkSlot][lv_sourcePlayer] = lv_atkTag;
+                            CMBT_AtkLastEffect[lv_atkSlot][lv_sourcePlayer] = lv_atkEffect;
+                            CMBT_AtkLastTime[lv_atkSlot][lv_sourcePlayer] = lv_atkTime;
+                            CMBT_AtkCount[lv_atkSlot][lv_sourcePlayer] += 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     lv_amount = EventUnitDamageAmount();
+    lv_attempted = EventUnitDamageAttempted();
+    lv_atkEffect = EventUnitDamageEffect();
+    if ((lv_atkEffect == "")) {
+        lv_atkEffect = "_UnknownEffect";
+    }
+    if ((lv_attempted < lv_amount)) {
+        lv_attempted = lv_amount;
+    }
     if ((lv_amount < 0.1)) {
         return true;
     }
@@ -1129,6 +2530,8 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
             if ((lv_victimClass == 2)) {
                 CMBT_FriendlyHits += 1;
                 CMBT_FriendlyDamage += lv_amount;
+                CMBT_FriendlyPlayerHits[lv_sourcePlayer] += 1;
+                CMBT_FriendlyPlayerDamage[lv_sourcePlayer] += lv_amount;
             }
             if (((lv_victim != null) && (lv_victimClass == 0))) {
                 CMBT_UnclassifiedHits += 1;
@@ -1136,17 +2539,33 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
             }
             lv_slot = 0;
             if ((lv_victimClass == 1)) {
-                lv_slot = CMBT_FindSlot(lv_sourcePlayer, CMBT_UT_DL_GetDamageSourceUnitType(), true);
-            }
-            if ((lv_slot > 0)) {
-                CMBT_Acc[lv_slot][CMBT_F_DEALT][lv_sourcePlayer] += lv_amount;
-                CMBT_AccInt[lv_slot][CMBT_I_HITS][lv_sourcePlayer] += 1;
-                if ((lv_victim != null)) {
-                    lv_life = UnitGetPropertyFixed(lv_victim, c_unitPropLife, c_unitPropCurrent);
-                    lv_shields = UnitGetPropertyFixed(lv_victim, c_unitPropShields, c_unitPropCurrent);
-                    lv_split = lv_amount - (lv_life + lv_shields);
+                lv_slot = lv_atkSlot;
+                lv_type = CMBT_UT_DL_GetDamageSourceUnitType();
+                lv_life = UnitGetPropertyFixed(lv_victim, c_unitPropLife, c_unitPropCurrent);
+                lv_shields = UnitGetPropertyFixed(lv_victim, c_unitPropShields, c_unitPropCurrent);
+                lv_split = lv_amount - (lv_life + lv_shields);
+                if ((lv_slot > 0)) {
+                    CMBT_Acc[lv_slot][CMBT_F_DEALT][lv_sourcePlayer] += lv_amount;
+                    CMBT_AccInt[lv_slot][CMBT_I_HITS][lv_sourcePlayer] += 1;
                     if ((lv_split > 0.0)) {
                         CMBT_Acc[lv_slot][CMBT_F_OVERKILL][lv_sourcePlayer] += lv_split;
+                    }
+                }
+                lv_skillSlot = CMBT_FindSkillSlot(lv_sourcePlayer, lv_type, lv_atkEffect);
+                if ((lv_skillSlot > 0)) {
+                    CMBT_SkillAcc[lv_skillSlot][0][lv_sourcePlayer] += lv_amount;
+                    CMBT_SkillHits[lv_skillSlot][lv_sourcePlayer] += 1;
+                    if ((lv_split > 0.0)) {
+                        CMBT_SkillAcc[lv_skillSlot][1][lv_sourcePlayer] += lv_split;
+                    }
+                }
+                CMBT_RecordMutBuffDamage(lv_victim, CMBT_MUTBUFF_OUR_TO_ENEMY, lv_amount, lv_attempted);
+                lv_victimSlot = CMBT_FindVictimSlot(UnitGetType(lv_victim));
+                if ((lv_victimSlot > 0)) {
+                    CMBT_VictimAcc[lv_victimSlot][CMBT_VF_DAMAGE][lv_sourcePlayer] += lv_amount;
+                    CMBT_VictimAccInt[lv_victimSlot][CMBT_VI_HITS][lv_sourcePlayer] += 1;
+                    if ((lv_split > 0.0)) {
+                        CMBT_VictimAcc[lv_victimSlot][CMBT_VF_OVERKILL][lv_sourcePlayer] += lv_split;
                     }
                 }
             }
@@ -1175,24 +2594,67 @@ bool CMBT_DamageHandler (bool testConds, bool runActions) {
             if ((EventUnitDamageSourceUnit() != null)) {
                 lv_type = UnitGetType(EventUnitDamageSourceUnit());
             }
-            lv_slot = CMBT_FindEnemySlot(lv_type);
+            lv_slot = CMBT_FindEnemySlot(lv_type, lv_atkEffect);
             if ((lv_slot > 0)) {
                 CMBT_EnemyAcc[lv_slot] += lv_amount;
             }
+            CMBT_RecordMutBuffDamage(EventUnitDamageSourceUnit(), CMBT_MUTBUFF_ENEMY_TO_OUR, lv_amount, lv_attempted);
         }
     }
 
     return true;
 }
 
-// T2: our losses, split by whether an enemy player got the kill. Anything else (our own
-// sacrifice abilities, allies, neutral, expiring summons, no killer at all) counts as a
-// self-side loss, so de + ds is always the total number of units lost.
+// 3.4 birth evidence: no banks and no periodic work before opt-in. Presence at
+// startup seeds preplaced units; subsequent UnitCreated/UnitRevive provide evidence.
+// Inference, not an engine proof: Birth=0 precursors are expected not to be born.
+bool CMBT_HasBirth (int lp_player, string lp_type) {
+    int lv_i;
+    lv_i = 1;
+    while ((lv_i <= CMBT_BirthCount[lp_player])) {
+        if (((lp_type == CMBT_BirthType[lv_i][lp_player]) || (libCOTF_gf_UT_AreMorphUnits(lp_type, CMBT_BirthType[lv_i][lp_player]) == true))) { return true; }
+        lv_i += 1;
+    }
+    // A full table cannot prove absence: conservatively treat the type as born.
+    return (CMBT_BirthOverflow[lp_player] > 0);
+}
+
+void CMBT_RecordBirth (unit lp_unit) {
+    int lv_owner;
+    string lv_type;
+    if ((lp_unit == null)) { return; }
+    lv_owner = UnitGetOwner(lp_unit);
+    if (((lv_owner < 1) || (lv_owner > 2))) { return; }
+    if ((UnitFilterMatch(lp_unit, lv_owner, UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterHidden - 32)))) == false)) { return; }
+    lv_type = UnitGetType(lp_unit);
+    if ((CMBT_HasBirth(lv_owner, lv_type) == true)) { return; }
+    if ((CMBT_BirthCount[lv_owner] >= CMBT_BIRTH_MAX)) {
+        CMBT_BirthOverflow[lv_owner] += 1;
+        return;
+    }
+    CMBT_BirthCount[lv_owner] += 1;
+    CMBT_BirthType[CMBT_BirthCount[lv_owner]][lv_owner] = lv_type;
+}
+
+bool CMBT_IsConstructionWorker (string lp_type) {
+    // PeonKillFinish is demonstrated for Valerian, not for every worker type.
+    // Conservative whitelist avoids labelling sacrificed probes/SCVs as construction.
+    return (lp_type == "SCVValerian");
+}
+
+// Accounts: real enemy + real other, noncombat disappearance, construction consumption.
+// Missile is always noncombat. Hero initial placeholder is a bounded inference;
+// an enemy kill or a death after initial revive remains a real hero death.
+// T2 3.4: de + ds are real deaths (enemy / other); nc is inferred noncombat
+// disappearance, bc is inferred construction consumption. Do not equate their
+// total with replay tracker deaths without engine validation.
 bool CMBT_DiedHandler (bool testConds, bool runActions) {
     unit lv_victim;
     int lv_owner;
     int lv_killer;
     int lv_slot;
+    int lv_victimSlot;
+    string lv_type;
 
     if ((!runActions)) {
         return true;
@@ -1207,22 +2669,50 @@ bool CMBT_DiedHandler (bool testConds, bool runActions) {
     }
 
     lv_owner = UnitGetOwner(lv_victim);
+    lv_killer = libNtve_gf_KillingPlayer();
+    lv_type = UnitGetType(lv_victim);
+    if (((lv_owner >= 1) && (lv_owner <= 2) && (lv_victim == libCOMI_gv_cM_HeroUnit[lv_owner]))) {
+        CMBT_AppendEvent("HeroDied", lv_owner, lv_type, "", "UnitDied", "exact");
+    }
+    if ((CMBT_IsTrackedMutatorUnitType(lv_type) == true)) {
+        CMBT_AppendEvent("MutatorUnitDied", lv_owner, lv_type, "", CMBT_MutatorFactorForUnitType(lv_type), "exact");
+    }
+    if (((lv_killer == 1) || (lv_killer == 2))) {
+        if ((libNtve_gf_PlayerIsEnemy(lv_killer, lv_owner, libNtve_ge_PlayerRelation_Enemy) == true)) {
+            lv_victimSlot = CMBT_FindVictimSlot(lv_type);
+            if ((lv_victimSlot > 0)) {
+                CMBT_VictimAccInt[lv_victimSlot][CMBT_VI_KILLS][lv_killer] += 1;
+            }
+        }
+    }
     if (((lv_owner < 1) || (lv_owner > 2))) {
         return true;
     }
 
-    lv_slot = CMBT_FindSlot(lv_owner, UnitGetType(lv_victim), true);
+    lv_slot = CMBT_FindSlot(lv_owner, lv_type, true);
     if ((lv_slot == 0)) {
         return true;
     }
 
-    lv_killer = libNtve_gf_KillingPlayer();
-    if (((lv_killer != c_playerAny) && (lv_killer != lv_owner) && (libNtve_gf_PlayerIsEnemy(lv_killer, lv_owner, libNtve_ge_PlayerRelation_Enemy) == true))) {
+    if ((UnitFilterMatch(lv_victim, lv_owner, UnitFilter((1 << c_targetFilterMissile), 0, 0, 0)) == true)) {
+        CMBT_AccInt[lv_slot][CMBT_I_DISAPPEARED][lv_owner] += 1;
+    }
+    else if (((lv_killer != c_playerAny) && (lv_killer != lv_owner) && (libNtve_gf_PlayerIsEnemy(lv_killer, lv_owner, libNtve_ge_PlayerRelation_Enemy) == true))) {
         CMBT_AccInt[lv_slot][CMBT_I_DIEDENEMY][lv_owner] += 1;
     }
-    else {
-        CMBT_AccInt[lv_slot][CMBT_I_DIEDSELF][lv_owner] += 1;
+    else if (((lv_killer == c_playerAny) && (CMBT_IsConstructionWorker(lv_type) == true))) {
+        CMBT_AccInt[lv_slot][CMBT_I_CONSUMED][lv_owner] += 1;
     }
+    else if ((lv_victim == libCOMI_gv_cM_HeroUnit[lv_owner])) {
+        if (((CMBT_HeroRevived[lv_owner] == false) && (GameGetMissionTime() <= CMBT_HERO_PLACEHOLDER_SECONDS))) {
+            CMBT_AccInt[lv_slot][CMBT_I_DISAPPEARED][lv_owner] += 1;
+        }
+        else { CMBT_AccInt[lv_slot][CMBT_I_DIEDSELF][lv_owner] += 1; }
+    }
+    else if ((CMBT_HasBirth(lv_owner, lv_type) == false)) {
+        CMBT_AccInt[lv_slot][CMBT_I_DISAPPEARED][lv_owner] += 1;
+    }
+    else { CMBT_AccInt[lv_slot][CMBT_I_DIEDSELF][lv_owner] += 1; }
     return true;
 }
 
@@ -1296,7 +2786,7 @@ void CMBT_RecordCast (int lp_field) {
     if (((lv_owner < 1) || (lv_owner > 2))) {
         return;
     }
-    CMBT_CastCount[lp_field] += 1;
+    CMBT_CastCount[lp_field][lv_owner] += 1;
 }
 
 bool CMBT_AbilPurgeHandler (bool testConds, bool runActions) {
@@ -1323,25 +2813,305 @@ bool CMBT_AbilShacklesHandler (bool testConds, bool runActions) {
     return true;
 }
 
+// 3.2 G10: MalashBreak (hero ultimate "tear reality"). Same Execute-stage event shape.
+bool CMBT_AbilBreakHandler (bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+    CMBT_RecordCast(CMBT_G_CAST_BREAK);
+    return true;
+}
+
+// 3.2 G11: MalashImmortalOrder (walker "immortal order" mark ability).
+bool CMBT_AbilOrderHandler (bool testConds, bool runActions) {
+    if ((!runActions)) {
+        return true;
+    }
+    CMBT_RecordCast(CMBT_G_CAST_ORDER);
+    return true;
+}
+
+bool CMBT_ResearchHandler (bool testConds, bool runActions) {
+    int lv_player;
+    string lv_upgrade;
+
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        return true;
+    }
+    lv_player = EventPlayer();
+    lv_upgrade = libNtve_gf_TriggeringProgressUpgrade();
+    CMBT_AppendEvent("ResearchComplete", lv_player, lv_upgrade, IntToString(TechTreeUpgradeCount(lv_player, lv_upgrade, c_techCountCompleteOnly)), "UnitResearchProgress", "exact");
+    return true;
+}
+
+bool CMBT_UpgradeHandler (bool testConds, bool runActions) {
+    int lv_player;
+    string lv_upgrade;
+
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        return true;
+    }
+    lv_player = EventPlayer();
+    lv_upgrade = EventUpgradeName();
+    CMBT_AppendEvent("UpgradeLevelChanged", lv_player, lv_upgrade, IntToString(TechTreeUpgradeCount(lv_player, lv_upgrade, c_techCountCompleteOnly)), "UpgradeLevelChanged", "exact");
+    return true;
+}
+
+bool CMBT_PlayerLeftHandler (bool testConds, bool runActions) {
+    int lv_player;
+
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        return true;
+    }
+    lv_player = EventPlayer();
+    CMBT_AppendEvent("PlayerLeft", lv_player, "", "", "PlayerLeft", "exact");
+    CMBT_Save();
+    return true;
+}
+
+bool CMBT_HeroReviveHandler (bool testConds, bool runActions) {
+    unit lv_unit;
+    int lv_player;
+
+    if ((!runActions)) {
+        return true;
+    }
+    lv_unit = EventUnit();
+    if ((lv_unit == null)) {
+        return true;
+    }
+    lv_player = UnitGetOwner(lv_unit);
+    if (((lv_player >= 1) && (lv_player <= 2) && (lv_unit == libCOMI_gv_cM_HeroUnit[lv_player]))) {
+        CMBT_HeroRevived[lv_player] = true;
+        CMBT_RecordBirth(lv_unit);
+        if ((CMBT_Enabled == false)) { return true; }
+        CMBT_AppendEvent("HeroRevived", lv_player, UnitGetType(lv_unit), "", "UnitRevive", "exact");
+    }
+    return true;
+}
+
+bool CMBT_UnitCreatedHandler (bool testConds, bool runActions) {
+    unit lv_unit;
+    string lv_type;
+
+    if ((!runActions)) {
+        return true;
+    }
+    lv_unit = EventUnit();
+    if ((lv_unit == null)) {
+        return true;
+    }
+    CMBT_RecordBirth(lv_unit);
+    if ((CMBT_Enabled == false)) { return true; }
+    lv_type = UnitGetType(lv_unit);
+    if ((CMBT_IsTrackedMutatorUnitType(lv_type) == true)) {
+        CMBT_AppendEvent("MutatorUnitBorn", UnitGetOwner(lv_unit), lv_type, "", CMBT_MutatorFactorForUnitType(lv_type), "exact");
+    }
+    return true;
+}
+
+bool CMBT_MutBehaviorHandler (bool testConds, bool runActions) {
+    unit lv_unit;
+    string lv_behavior;
+    string lv_unitType;
+    int lv_slot;
+    int lv_change;
+    int lv_owner;
+    int lv_total;
+
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        return true;
+    }
+    lv_unit = EventUnit();
+    lv_behavior = EventUnitBehavior();
+    lv_slot = CMBT_MutBuffSlotForBehavior(lv_behavior);
+    if (((lv_unit == null) || (lv_slot == 0))) {
+        return true;
+    }
+    lv_unitType = UnitGetType(lv_unit);
+    lv_owner = UnitGetOwner(lv_unit);
+    lv_total = CMBT_MutBehaviorAdd[lv_slot] + CMBT_MutBehaviorRemove[lv_slot] + CMBT_MutBehaviorRefresh[lv_slot];
+    if ((lv_total == 0)) {
+        CMBT_MutBehaviorLastOwner[lv_slot] = lv_owner;
+        CMBT_MutBehaviorLastUnit[lv_slot] = lv_unitType;
+    }
+    else {
+        if ((CMBT_MutBehaviorLastOwner[lv_slot] != lv_owner)) {
+            CMBT_MutBehaviorLastOwner[lv_slot] = 0;
+        }
+        if ((CMBT_MutBehaviorLastUnit[lv_slot] != lv_unitType)) {
+            CMBT_MutBehaviorLastUnit[lv_slot] = "_Mixed";
+        }
+    }
+    lv_change = EventUnitBehaviorChange();
+    if (((lv_change == c_unitBehaviorChangeCreate) || (lv_change == c_unitBehaviorChangeIncrease) || (lv_change == c_unitBehaviorChangeActivate))) {
+        CMBT_MutBehaviorAdd[lv_slot] += 1;
+    }
+    else if (((lv_change == c_unitBehaviorChangeDestroy) || (lv_change == c_unitBehaviorChangeDecrease) || (lv_change == c_unitBehaviorChangeDeactivate))) {
+        CMBT_MutBehaviorRemove[lv_slot] += 1;
+    }
+    else {
+        CMBT_MutBehaviorRefresh[lv_slot] += 1;
+    }
+    CMBT_MutBehaviorLastStack[lv_slot] = UnitBehaviorCount(lv_unit, lv_behavior);
+    return true;
+}
+
+bool CMBT_MutEffectHandler (bool testConds, bool runActions) {
+    string lv_effect;
+    string lv_unitType;
+    int lv_slot;
+    int lv_owner;
+
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        return true;
+    }
+    lv_effect = EventPlayerEffectUsed();
+    lv_slot = CMBT_MutatorEffectSlot(lv_effect);
+    if ((lv_slot == 0)) {
+        return true;
+    }
+    lv_unitType = EventPlayerEffectUsedUnitType(c_effectUnitCaster);
+    if ((lv_unitType == "")) {
+        lv_unitType = EventPlayerEffectUsedUnitType(c_effectUnitTarget);
+    }
+    lv_owner = EventPlayerEffectUsedUnitOwner(c_effectPlayerCaster);
+    if ((CMBT_MutEffectUseCount[lv_slot] == 0)) {
+        CMBT_MutEffectLastOwner[lv_slot] = lv_owner;
+        CMBT_MutEffectLastUnit[lv_slot] = lv_unitType;
+    }
+    else {
+        if ((CMBT_MutEffectLastOwner[lv_slot] != lv_owner)) {
+            CMBT_MutEffectLastOwner[lv_slot] = 0;
+        }
+        if ((CMBT_MutEffectLastUnit[lv_slot] != lv_unitType)) {
+            CMBT_MutEffectLastUnit[lv_slot] = "_Mixed";
+        }
+    }
+    CMBT_MutEffectUseCount[lv_slot] += 1;
+    return true;
+}
+
+bool CMBT_CommandHandler (bool testConds, bool runActions) {
+    int lv_player;
+    string lv_ability;
+    order lv_order;
+
+    if ((!runActions)) {
+        return true;
+    }
+    if ((CMBT_Enabled == false)) {
+        return true;
+    }
+    lv_order = EventUnitOrder();
+    lv_player = EventPlayer();
+    if (((lv_player < 1) || (lv_player > 2) || (PlayerType(lv_player) != c_playerTypeUser))) {
+        return true;
+    }
+    lv_ability = AbilityCommandGetAbility(OrderGetAbilityCommand(lv_order));
+    if (((StringEqual(lv_ability, "move", c_stringNoCase) == true) || (StringEqual(lv_ability, "patrol", c_stringNoCase) == true))) {
+        CMBT_CommandCount[lv_player][CMBT_COMMAND_MOVE] += 1;
+    }
+    else if ((StringEqual(lv_ability, "attack", c_stringNoCase) == true)) {
+        CMBT_CommandCount[lv_player][CMBT_COMMAND_ATTACK] += 1;
+    }
+    else if (((lv_ability == "") || (StringEqual(lv_ability, "smart", c_stringNoCase) == true) || (StringEqual(lv_ability, "stop", c_stringNoCase) == true) || (StringEqual(lv_ability, "holdposition", c_stringNoCase) == true))) {
+        CMBT_CommandCount[lv_player][CMBT_COMMAND_OTHER] += 1;
+    }
+    else {
+        CMBT_CommandCount[lv_player][CMBT_COMMAND_ABILITY] += 1;
+    }
+    return true;
+}
+
 // -----------------------------------------------------------------------------
 // Session control
 // -----------------------------------------------------------------------------
-void CMBT_Start (int lp_player) {
+// COCampaign three-stage bank precedent: cmui_customization.galaxy:9356-9397.
+bank CMBT_SettingsOpen (int lp_player) {
+    bank lv_bank;
+    if (((lp_player < 1) || (lp_player > 2) || (PlayerType(lp_player) != c_playerTypeUser))) { return null; }
+    BankLoad(CMBT_SETTINGS_BANK_NAME, lp_player);
+    lv_bank = BankLastCreated();
+    if ((lv_bank != null)) { BankWait(lv_bank); }
+    return lv_bank;
+}
+
+bool CMBT_SettingsAuto (int lp_player) {
+    bank lv_bank;
+    lv_bank = CMBT_SettingsOpen(lp_player);
+    if ((lv_bank == null)) { return false; }
+    if ((BankKeyExists(lv_bank, CMBT_SETTINGS_SECTION, "Auto") == false)) { return false; }
+    return (BankValueGetAsInt(lv_bank, CMBT_SETTINGS_SECTION, "Auto") == 1);
+}
+
+bool CMBT_SettingsSet (int lp_player, bool lp_auto) {
+    bank lv_bank;
+    lv_bank = CMBT_SettingsOpen(lp_player);
+    if ((lv_bank == null)) {
+        CMBT_Message(lp_player, "failed: cannot open settings bank");
+        return false;
+    }
+    BankValueSetFromInt(lv_bank, CMBT_SETTINGS_SECTION, "Auto", BoolToInt(lp_auto));
+    BankSave(lv_bank);
+    lv_bank = CMBT_SettingsOpen(lp_player);
+    if ((lv_bank == null)) { CMBT_Message(lp_player, "failed: settings readback open"); return false; }
+    if ((BankKeyExists(lv_bank, CMBT_SETTINGS_SECTION, "Auto") == false)) { CMBT_Message(lp_player, "failed: settings readback missing Auto"); return false; }
+    if ((BankValueGetAsInt(lv_bank, CMBT_SETTINGS_SECTION, "Auto") != BoolToInt(lp_auto))) { CMBT_Message(lp_player, "failed: settings readback mismatch"); return false; }
+    CMBT_Message(lp_player, "saved local preference: auto=" + IntToString(BoolToInt(lp_auto)));
+    return true;
+}
+
+// No repository precedent for save/reopen verification. BankLoad may cache its
+// handle: this validates the engine bank state, NOT proven physical-disk flush.
+bool CMBT_VerifyStart (bank lp_bank, int lp_epoch, string lp_peerKey, string lp_peer) {
+    if ((lp_bank == null)) { return false; }
+    if ((BankKeyExists(lp_bank, CMBT_META_SECTION, "StartedAt") == false)) { return false; }
+    if ((BankKeyExists(lp_bank, CMBT_META_SECTION, "Enabled") == false)) { return false; }
+    if ((BankKeyExists(lp_bank, CMBT_META_SECTION, lp_peerKey) == false)) { return false; }
+    if ((BankKeyExists(lp_bank, CMBT_META_SECTION, "CaptureSchema") == false)) { return false; }
+    return ((BankValueGetAsInt(lp_bank, CMBT_META_SECTION, "StartedAt") == lp_epoch) && (BankValueGetAsInt(lp_bank, CMBT_META_SECTION, "Enabled") == 1) && (BankValueGetAsString(lp_bank, CMBT_META_SECTION, lp_peerKey) == lp_peer) && (BankValueGetAsString(lp_bank, CMBT_META_SECTION, "CaptureSchema") == CMBT_CAPTURE_SCHEMA));
+}
+
+void CMBT_Start (int lp_player, bool lp_auto) {
     int lv_startedAt;
     int lv_i;
+    string lv_origin;
 
+    if ((CMBT_StartPending == true)) { CMBT_Message(lp_player, "start is pending"); return; }
     if ((CMBT_Enabled == true)) {
         CMBT_Message(lp_player, "already enabled by player " + IntToString(CMBT_Operator));
         return;
     }
 
-    // One bank pair per capture session so games never overwrite each other. The engine
-    // strips "_" from bank names when it creates the file (observed: an in-game name of
-    // "CMCombatTelemetry_1788243897" produced CMCombatTelemetry1788243897.SC2Bank), so the
-    // names are built without one and the in-game name matches the file name exactly.
+    if (((lp_player < 1) || (lp_player > 2) || (PlayerType(lp_player) != c_playerTypeUser))) { return; }
+    CMBT_StartPending = true;
+    // N1': pure ASCII alphanumeric, readable date/time + truncated internal commander id.
+    // Primary length <= 27 and companion adds one trailing X, so both stay <= 28.
     lv_startedAt = DateTimeToInt(CurrentDateTimeGet());
-    CMBT_BankName = CMBT_BANK_PREFIX + IntToString(lv_startedAt);
-    CMBT_Bank2Name = CMBT_BANK2_PREFIX + IntToString(lv_startedAt);
+    CMBT_Operator = lp_player;
+    CMBT_BankName = CMBT_BuildBankBaseName(lv_startedAt, lp_player);
+    CMBT_Bank2Name = CMBT_BankName + "X";
+    if (((StringLength(CMBT_BankName) > 28) || (StringLength(CMBT_Bank2Name) > 28))) {
+        CMBT_StartPending = false;
+        CMBT_Message(lp_player, "failed: generated bank name exceeds 28 characters");
+        return;
+    }
 
     BankLoad(CMBT_BankName, lp_player);
     CMBT_Bank = BankLastCreated();
@@ -1350,24 +3120,34 @@ void CMBT_Start (int lp_player) {
     if (((CMBT_Bank == null) || (CMBT_Bank2 == null))) {
         CMBT_Bank = null;
         CMBT_Bank2 = null;
+        CMBT_StartPending = false;
         CMBT_Message(lp_player, "failed to open telemetry banks");
         return;
     }
     BankWait(CMBT_Bank);
     BankWait(CMBT_Bank2);
+    BankLoad(CMBT_INDEX_BANK_NAME, lp_player);
+    CMBT_IndexBank = BankLastCreated();
+    if ((CMBT_IndexBank != null)) {
+        BankWait(CMBT_IndexBank);
+    }
 
-    CMBT_Operator = lp_player;
     CMBT_StartedMissionTime = GameGetMissionTime();
     CMBT_ResetStoredSession();
     CMBT_ResetState();
+    if (((CMBT_IndexBank != null) && (BankKeyExists(CMBT_IndexBank, CMBT_INDEX_META_SECTION, "IndexOverflow") == true))) {
+        CMBT_IndexOverflow = BankValueGetAsInt(CMBT_IndexBank, CMBT_INDEX_META_SECTION, "IndexOverflow");
+    }
 
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Version", 3);
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "GrowthImplemented", 0);
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
-    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "FrameFormat", "t|p1(slot:d/n/h/o/dn)|p2(slot:d/n/h/o/dn)");
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "FrameFormat", "t|p1(slot:d/n/h/o/dn/a)|p2(slot:d/n/h/o/dn/a)");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "DamageScope", "EnemyVictimOnly");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "MeasureVersion", CMBT_MEASURE_VERSION);
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CaptureSchema", CMBT_CAPTURE_SCHEMA);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "MutatorAddendum", 1);
+    BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "PreMitigation", "EventUnitDamageAttempted");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "PrimaryScope", "EnemyOnly+NeutralPending");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "TimeOrigin", "MissionStart");
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "Bank2", CMBT_Bank2Name);
@@ -1390,16 +3170,23 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
     BankValueSetFromString(CMBT_Bank, CMBT_META_SECTION, "Probe", CMBT_BuildProbe());
     CMBT_WriteEnvironmentMeta(CMBT_Bank);
+    CMBT_WriteIdentityMeta(CMBT_Bank, lv_startedAt, CMBT_BankName, CMBT_Bank2Name);
+    CMBT_WritePathMeta(CMBT_Bank, lp_player, CMBT_BankName);
     CMBT_WriteVictimMeta(CMBT_Bank);
 
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Version", 3);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthImplemented", 0);
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "SampleEncoding", CMBT_SCRIPT_VERSION);
-    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs)|p2(..); Enemy t|e:d; Growth t|g1,..,g9 (empty token = not observable)");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "FrameFormat", "Taken t|p1(slot:tl/ts/de/ds/hl/hs/nc/bc)|p2; Enemy t|e:d; Growth/GrowthP2 t|g1,..,g11; Field t|hu,hs,nu,ns; Victim t|p1(slot:d/h/o/k)|p2; Econ t|p1(m/g/cm/cg/su/sl)|p2; Hero t|p1(present/alive/life/shield/energy/deaths)|p2; MutBuff t|enemy_to_our(slot:d/h/m/s100)|our_to_enemy; Skill t|p1(slot:d/h/o)|p2; Commands t|p1(move/attack/ability/other)|p2");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "GrowthSchema", "none");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "TakenSplit", "shield=min(amount,shieldsAtEvent); life=amount-shield");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "MeasureVersion", CMBT_MEASURE_VERSION);
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CaptureSchema", CMBT_CAPTURE_SCHEMA);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MutatorAddendum", 1);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "PreMitigation", "EventUnitDamageAttempted");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "EnemySourceKeyFormat", "unit_type~effect_id");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommandScope", "EventPlayer 1/2 with PlayerTypeUser");
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommandDefinition", "move=move/patrol; attack=attack; ability=other nonbasic ability; other=empty/smart/stop/holdposition");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "PrimaryScope", "EnemyOnly+NeutralPending");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "DamageScope", "EnemyVictimOnly");
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "OverkillDefinition", "amount-(life+shields) at event time, clamped at 0");
@@ -1413,8 +3200,20 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "FramesPerChunk", CMBT_FRAMES_PER_CHUNK);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MaxChunks", CMBT_MAX_CHUNKS);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MaxEnemySlots", CMBT_MAX_ENEMY_SLOTS);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MaxVictimSlots", CMBT_MAX_VICTIM_SLOTS);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MaxMutBuffSlots", CMBT_MAX_MUTBUFF_SLOTS);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MaxSkillSlots", CMBT_MAX_SKILL_SLOTS);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventMax", CMBT_EVENT_MAX);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventsPerChunk", CMBT_EVENTS_PER_CHUNK);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventMaxChars", CMBT_EVENT_MAX_CHARS);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventChunkMaxChars", CMBT_EVENT_CHUNK_MAX_CHARS);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SlotOverflow", 0);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EnemyOverflow", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "VictimOverflow", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EventOverflow", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "MutBuffOverflow", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SkillP1Overflow", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SkillP2Overflow", 0);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "StartedAt", lv_startedAt);
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "StartMissionTime", FixedToInt(CMBT_StartedMissionTime));
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "SampleCount", 0);
@@ -1424,27 +3223,76 @@ void CMBT_Start (int lp_player) {
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "CommanderP2", libCOOC_gf_ActiveCommanderForPlayer(2));
     BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "Probe", CMBT_BuildProbe());
     CMBT_WriteEnvironmentMeta(CMBT_Bank2);
+    CMBT_WriteIdentityMeta(CMBT_Bank2, lv_startedAt, CMBT_Bank2Name, CMBT_BankName);
+    CMBT_WritePathMeta(CMBT_Bank2, lp_player, CMBT_Bank2Name);
     CMBT_WriteVictimMeta(CMBT_Bank2);
 
     lv_i = 1;
     while ((lv_i <= CMBT_GROWTH_FIELDS)) {
-        BankValueSetFromString(CMBT_Bank2, CMBT_UNITS_SECTION, "G" + IntToString(lv_i), "reserved");
+        BankValueSetFromString(CMBT_Bank2, CMBT_GROWTH_FIELDS_SECTION, "G" + IntToString(lv_i), "reserved");
         lv_i += 1;
     }
     if ((CMBT_IsMalashPlayer(CMBT_GROWTH_PLAYER) == true)) {
-        CMBT_ActivateGrowth();
+        CMBT_ActivateGrowth(1);
     }
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "GrowthP2Implemented", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "GrowthP2Implemented", 0);
+    BankValueSetFromString(CMBT_Bank2, CMBT_META_SECTION, "GrowthP2Schema", "none");
+    if ((CMBT_IsMalashPlayer(2) == true)) { CMBT_ActivateGrowth(2); }
 
-    BankSave(CMBT_Bank);
-    BankSave(CMBT_Bank2);
+    BankValueSetFromInt(CMBT_Bank, CMBT_OUR_UNITS_SECTION, "Count", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_OUR_UNITS_SECTION, "Count", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_ENEMY_SOURCES_SECTION, "Count", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_VICTIM_UNITS_SECTION, "Count", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_SKILL_P1_SECTION, "Count", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_SKILL_P2_SECTION, "Count", 0);
+    BankValueSetFromString(CMBT_Bank2, CMBT_HERO_UNITS_SECTION, "P1", "absent");
+    BankValueSetFromString(CMBT_Bank2, CMBT_HERO_UNITS_SECTION, "P2", "absent");
+    BankValueSetFromInt(CMBT_Bank2, CMBT_OBJECTIVES_SECTION, "Count", 0);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_SCORE_STATS_SECTION, "Count", 0);
+    CMBT_WriteMutatorWhitelistMeta();
+    CMBT_CapturePlayers();
+    CMBT_CaptureMutators();
+    CMBT_PrimeObjectives();
+    lv_origin = "Chat";
+    if ((lp_auto == true)) { lv_origin = "Auto"; }
+    CMBT_AppendEvent("TraceOn", lp_player, CMBT_BankName, CMBT_Bank2Name, lv_origin, "exact");
 
+    CMBT_Save();
+    // Save first, reopen both, check identity and enabled state before success.
+    BankLoad(CMBT_BankName, lp_player);
+    CMBT_Bank = BankLastCreated();
+    BankLoad(CMBT_Bank2Name, lp_player);
+    CMBT_Bank2 = BankLastCreated();
+    if (((CMBT_Bank == null) || (CMBT_Bank2 == null))) {
+        CMBT_StartPending = false;
+        CMBT_Bank = null;
+        CMBT_Bank2 = null;
+        CMBT_Message(lp_player, "failed: readback cannot open telemetry banks");
+        return;
+    }
+    BankWait(CMBT_Bank);
+    BankWait(CMBT_Bank2);
+    if (((CMBT_VerifyStart(CMBT_Bank, lv_startedAt, "Bank2", CMBT_Bank2Name) == false) || (CMBT_VerifyStart(CMBT_Bank2, lv_startedAt, "Bank1", CMBT_BankName) == false))) {
+        BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Enabled", 0);
+        BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Enabled", 0);
+        CMBT_Save();
+        CMBT_Bank = null;
+        CMBT_Bank2 = null;
+        CMBT_StartPending = false;
+        CMBT_Message(lp_player, "failed: telemetry readback mismatch or missing key");
+        return;
+    }
+    CMBT_UpdateIndex(0, 0, -1);
+    CMBT_StartPending = false;
     CMBT_Enabled = true;
     CMBT_SetCapture(true);
     TimerStart(CMBT_Timer, CMBT_INTERVAL_SECONDS, true, c_timeGame);
-    CMBT_Message(lp_player, "enabled; sample=5s; save=each-sample; banks=" + CMBT_BankName + ".SC2Bank + " + CMBT_Bank2Name + ".SC2Bank");
+    CMBT_Message(lp_player, "enabled; bank1=" + CMBT_BankPathHint(lp_player, CMBT_BankName) + "; bank2=" + CMBT_BankPathHint(lp_player, CMBT_Bank2Name));
 }
 
 void CMBT_Stop (int lp_player) {
+    CMBT_SuppressAutoThisMatch = true;
     if ((CMBT_Enabled == false)) {
         CMBT_Message(lp_player, "already disabled");
         return;
@@ -1454,11 +3302,12 @@ void CMBT_Stop (int lp_player) {
         return;
     }
 
+    CMBT_AppendEvent("TraceOff", lp_player, "", "", "Chat", "exact");
     CMBT_WriteSample();
     // If that sample hit a cap, CMBT_WriteSample already disabled + flagged Truncated and
     // saved. Don't overwrite Truncated with Complete in that case.
     if ((CMBT_Enabled == false)) {
-        CMBT_Message(lp_player, "disabled; samples=" + IntToString(CMBT_SampleCount));
+        CMBT_Message(lp_player, "disabled; samples=" + IntToString(CMBT_SampleCount) + "; bank1=" + CMBT_BankPathHint(lp_player, CMBT_BankName) + "; bank2=" + CMBT_BankPathHint(lp_player, CMBT_Bank2Name));
         return;
     }
     CMBT_Enabled = false;
@@ -1468,7 +3317,38 @@ void CMBT_Stop (int lp_player) {
     BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "StoppedAt", DateTimeToInt(CurrentDateTimeGet()));
     BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "StoppedAt", DateTimeToInt(CurrentDateTimeGet()));
     CMBT_Save();
-    CMBT_Message(lp_player, "disabled; samples=" + IntToString(CMBT_SampleCount));
+    CMBT_UpdateIndex(1, 0, -1);
+    CMBT_Message(lp_player, "disabled; samples=" + IntToString(CMBT_SampleCount) + "; bank1=" + CMBT_BankPathHint(lp_player, CMBT_BankName) + "; bank2=" + CMBT_BankPathHint(lp_player, CMBT_Bank2Name));
+}
+
+void CMBT_FinalizeResult (int lp_result) {
+    int lv_complete;
+    int lv_stoppedAt;
+
+    if (((CMBT_Bank == null) || (CMBT_Bank2 == null))) {
+        return;
+    }
+    CMBT_Enabled = false;
+    CMBT_SetCapture(false);
+    TimerPause(CMBT_Timer, true);
+    CMBT_AppendEvent("Result", 0, "", IntToString(lp_result), "ResultSessionOpen", "exact");
+    CMBT_CapturePlayers();
+    CMBT_CaptureMutators();
+    CMBT_CaptureOutcomeData();
+    lv_complete = 1;
+    if ((CMBT_Truncated == true)) {
+        lv_complete = 0;
+    }
+    lv_stoppedAt = DateTimeToInt(CurrentDateTimeGet());
+    CMBT_MarkStopped(lv_complete, BoolToInt(CMBT_Truncated));
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "Result", lp_result);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "Result", lp_result);
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "EndMissionTime", FixedToInt(GameGetMissionTime()));
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "EndMissionTime", FixedToInt(GameGetMissionTime()));
+    BankValueSetFromInt(CMBT_Bank, CMBT_META_SECTION, "StoppedAt", lv_stoppedAt);
+    BankValueSetFromInt(CMBT_Bank2, CMBT_META_SECTION, "StoppedAt", lv_stoppedAt);
+    CMBT_Save();
+    CMBT_UpdateIndex(lv_complete, BoolToInt(CMBT_Truncated), lp_result);
 }
 
 bool CMBT_TimerHandler (bool testConds, bool runActions) {
@@ -1486,7 +3366,7 @@ bool CMBT_MissionEndHandler (bool testConds, bool runActions) {
     }
 
     if ((CMBT_Enabled == true)) {
-        CMBT_Stop(CMBT_Operator);
+        CMBT_WriteSample();
     }
     return true;
 }
@@ -1517,8 +3397,16 @@ bool CMBT_ChatHandler (bool testConds, bool runActions) {
         return true;
     }
 
+    if ((StringEqual(lv_command, "auto", c_stringNoCase) == true)) {
+        if ((CMBT_SettingsSet(lv_player, true) == true)) { CMBT_Start(lv_player, false); }
+        return true;
+    }
+    if ((StringEqual(lv_command, "manual", c_stringNoCase) == true)) {
+        CMBT_SettingsSet(lv_player, false);
+        return true;
+    }
     if ((StringEqual(lv_command, "on", c_stringNoCase) == true)) {
-        CMBT_Start(lv_player);
+        CMBT_Start(lv_player, false);
         return true;
     }
 
@@ -1534,26 +3422,51 @@ bool CMBT_ChatHandler (bool testConds, bool runActions) {
         return true;
     }
 
-    CMBT_Message(lv_player, "usage: -baltrace on|off|status|snapshot");
+    CMBT_Message(lv_player, "usage: -baltrace auto|manual|on|off|status|snapshot");
     return true;
 }
 
 bool CMBT_StartupHandler (bool testConds, bool runActions) {
-    if ((!runActions)) {
-        return true;
+    int lv_player;
+    int lv_autoPlayer;
+    int lv_i;
+    unitgroup lv_group;
+    if ((!runActions)) { return true; }
+    if ((CMBT_StartupDone == true)) { return true; }
+    CMBT_StartupDone = true;
+    lv_autoPlayer = 0;
+    lv_player = 1;
+    while ((lv_player <= 2)) {
+        lv_group = UnitGroup(null, lv_player, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        lv_i = 1;
+        while ((lv_i <= UnitGroupCount(lv_group, c_unitCountAll))) {
+            CMBT_RecordBirth(UnitGroupUnit(lv_group, lv_i));
+            lv_i += 1;
+        }
+        if ((PlayerType(lv_player) == c_playerTypeUser)) {
+            if ((CMBT_SettingsAuto(lv_player) == true)) {
+                if ((lv_autoPlayer == 0)) { lv_autoPlayer = lv_player; }
+            }
+        }
+        lv_player += 1;
     }
+    // Deterministic ascending player id; both preferences remain intact.
+    if (((lv_autoPlayer > 0) && (CMBT_Enabled == false) && (CMBT_SuppressAutoThisMatch == false))) { CMBT_Start(lv_autoPlayer, true); }
     if ((CMBT_Enabled == false)) {
-        UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringToText("[CM] 战斗遥测未开启。如需记录本次战斗伤害数据，请输入 -baltrace on"));
+        CMUIX_ConsoleDisplayColoredLine(PlayerGroupAll(), StringToText("[CM] 战斗遥测未开启；-baltrace on 记录本局，-baltrace auto 保存自动开启设置，-baltrace manual 取消自动开启。"), CMUIX_CONSOLE_COLOR_DESCRIPTION);
     }
     return true;
 }
 
 void CMBT_Init () {
+    int lv_i;
+
     if ((CMBT_Initialized == true)) {
         return;
     }
 
     CMBT_Initialized = true;
+    CMBT_InitMutatorWhitelist();
     CMBT_Timer = TimerCreate();
     CMBT_TimerTrigger = TriggerCreate("CMBT_TimerHandler");
     TriggerAddEventTimer(CMBT_TimerTrigger, CMBT_Timer);
@@ -1585,6 +3498,44 @@ void CMBT_Init () {
     CMBT_AbilShacklesTrigger = TriggerCreate("CMBT_AbilShacklesHandler");
     TriggerEnable(CMBT_AbilShacklesTrigger, false);
     TriggerAddEventUnitAbility(CMBT_AbilShacklesTrigger, null, AbilityCommand(CMBT_MALASH_ABIL_SHACKLES, 0), c_unitAbilStageExecute, false);
+    CMBT_AbilBreakTrigger = TriggerCreate("CMBT_AbilBreakHandler");
+    TriggerEnable(CMBT_AbilBreakTrigger, false);
+    TriggerAddEventUnitAbility(CMBT_AbilBreakTrigger, null, AbilityCommand(CMBT_MALASH_ABIL_BREAK, 0), c_unitAbilStageExecute, false);
+    CMBT_AbilOrderTrigger = TriggerCreate("CMBT_AbilOrderHandler");
+    TriggerEnable(CMBT_AbilOrderTrigger, false);
+    TriggerAddEventUnitAbility(CMBT_AbilOrderTrigger, null, AbilityCommand(CMBT_MALASH_ABIL_ORDER, 0), c_unitAbilStageExecute, false);
+    CMBT_ResearchTrigger = TriggerCreate("CMBT_ResearchHandler");
+    TriggerEnable(CMBT_ResearchTrigger, false);
+    TriggerAddEventUnitResearchProgress(CMBT_ResearchTrigger, null, c_unitProgressStageComplete);
+    CMBT_UpgradeTrigger = TriggerCreate("CMBT_UpgradeHandler");
+    TriggerEnable(CMBT_UpgradeTrigger, false);
+    TriggerAddEventUpgradeLevelChanged(CMBT_UpgradeTrigger, c_playerAny);
+    CMBT_PlayerLeftTrigger = TriggerCreate("CMBT_PlayerLeftHandler");
+    TriggerEnable(CMBT_PlayerLeftTrigger, false);
+    TriggerAddEventPlayerLeft(CMBT_PlayerLeftTrigger, c_playerAny, c_gameResultUndecided);
+    CMBT_HeroReviveTrigger = TriggerCreate("CMBT_HeroReviveHandler");
+    TriggerEnable(CMBT_HeroReviveTrigger, true);
+    TriggerAddEventUnitRevive(CMBT_HeroReviveTrigger, null);
+    CMBT_UnitCreatedTrigger = TriggerCreate("CMBT_UnitCreatedHandler");
+    TriggerEnable(CMBT_UnitCreatedTrigger, true);
+    TriggerAddEventUnitCreated(CMBT_UnitCreatedTrigger, null, null, null);
+    CMBT_MutBehaviorTrigger = TriggerCreate("CMBT_MutBehaviorHandler");
+    TriggerEnable(CMBT_MutBehaviorTrigger, false);
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutBuffCount)) {
+        TriggerAddEventUnitBehaviorChange(CMBT_MutBehaviorTrigger, null, CMBT_MutBuffBehavior[lv_i], c_unitBehaviorChangeAny);
+        lv_i += 1;
+    }
+    CMBT_MutEffectTrigger = TriggerCreate("CMBT_MutEffectHandler");
+    TriggerEnable(CMBT_MutEffectTrigger, false);
+    lv_i = 1;
+    while ((lv_i <= CMBT_MutatorEffectCount)) {
+        TriggerAddEventPlayerEffectUsed(CMBT_MutEffectTrigger, c_playerAny, CMBT_MutatorEffectId[lv_i]);
+        lv_i += 1;
+    }
+    CMBT_CommandTrigger = TriggerCreate("CMBT_CommandHandler");
+    TriggerEnable(CMBT_CommandTrigger, false);
+    TriggerAddEventUnitOrder(CMBT_CommandTrigger, null, null);
 
     CMBT_StartupTimer = TimerCreate();
     CMBT_StartupTrigger = TriggerCreate("CMBT_StartupHandler");
